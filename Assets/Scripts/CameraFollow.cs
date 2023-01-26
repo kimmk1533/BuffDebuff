@@ -56,7 +56,7 @@ public class CameraFollow : MonoBehaviour
 		focusPosition += Vector2.right * m_CurrentLookAheadX;
 		transform.position = (Vector3)focusPosition + Vector3.forward * -10;
 	}
-	private void OnDrawGizmosSelected()
+	private void OnDrawGizmos()
 	{
 		Gizmos.color = new Color(1, 0, 0, 0.5f);
 		Gizmos.DrawCube(m_FocusArea.center, m_FocusAreaSize);
