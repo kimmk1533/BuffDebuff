@@ -8,28 +8,42 @@ public class Controller2D : RaycastController
 	float m_MaxDescendAngle = 75;
 
 	CollisionInfo m_Collisions;
+	Vector2 m_PlayerInput;
+
 	public CollisionInfo collisions => m_Collisions;
+	public Vector2 playerInput => m_PlayerInput;
 
 	protected override void Start()
 	{
 		base.Start();
+
+		m_Collisions.faceDir = 1;
 	}
 
-	public void Move(Vector3 velocity, bool standingOnPlatform = false)
+	public void Move(Vector3 velocity, bool standingOnPlatform)
+	{
+		Move(velocity, Vector2.zero, standingOnPlatform);
+	}
+
+	public void Move(Vector3 velocity, Vector2 input, bool standingOnPlatform = false)
 	{
 		UpdateRaycastOrigins();
 
 		m_Collisions.Reset();
 		m_Collisions.velocityOld = velocity;
+		m_PlayerInput = input;
+
+		if (velocity.x != 0)
+		{
+			m_Collisions.faceDir = (int)Mathf.Sign(velocity.x);
+		}
 
 		if (velocity.y < 0)
 		{
 			DescendSlope(ref velocity);
 		}
-		if (velocity.x != 0)
-		{
-			HorizontalCollisions(ref velocity);
-		}
+
+		HorizontalCollisions(ref velocity);
 		if (velocity.y != 0)
 		{
 			VerticalCollisions(ref velocity);
@@ -44,8 +58,13 @@ public class Controller2D : RaycastController
 	}
 	void HorizontalCollisions(ref Vector3 velocity)
 	{
-		float directionX = Mathf.Sign(velocity.x);
+		float directionX = m_Collisions.faceDir;
 		float rayLength = Mathf.Abs(velocity.x) + skinWidth;
+
+		if (Mathf.Abs(velocity.x) < skinWidth)
+		{
+			rayLength = 2 * skinWidth;
+		}
 
 		for (int i = 0; i < m_HorizontalRayCount; ++i)
 		{
@@ -115,6 +134,24 @@ public class Controller2D : RaycastController
 
 			if (hit)
 			{
+				if (hit.collider.CompareTag("Through"))
+				{
+					if (directionY == 1 || hit.distance == 0)
+					{
+						continue;
+					}
+					if (hit.collider == m_Collisions.fallingThroughPlatform)
+					{
+						continue;
+					}
+					if (m_PlayerInput.y == -1 && Input.GetKeyDown(KeyCode.Space))
+					{
+						m_Collisions.fallingThroughPlatform = hit.collider;
+						Invoke("ResetFallingThroughPlatform", 0.1f);
+						continue;
+					}
+				}
+
 				velocity.y = (hit.distance - skinWidth) * directionY;
 				rayLength = hit.distance;
 
@@ -193,6 +230,11 @@ public class Controller2D : RaycastController
 		}
 	}
 
+	void ResetFallingThroughPlatform()
+	{
+		m_Collisions.fallingThroughPlatform = null;
+	}
+
 	public struct CollisionInfo
 	{
 		public bool above, below;
@@ -202,6 +244,8 @@ public class Controller2D : RaycastController
 		public bool descendingSlope;
 		public float slopeAngle, slopeAngleOld;
 		public Vector3 velocityOld;
+		public int faceDir;
+		public Collider2D fallingThroughPlatform;
 
 		public void Reset()
 		{

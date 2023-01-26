@@ -19,10 +19,12 @@ public class RaycastController : MonoBehaviour
 
 	public new Collider2D collider => m_Collider;
 
-	protected virtual void Start()
+	protected virtual void Awake()
 	{
 		m_Collider = GetComponent<Collider2D>();
-
+	}
+	protected virtual void Start()
+	{
 		CalculateRaySpacing();
 	}
 

@@ -120,7 +120,7 @@ public class PlatformController : RaycastController
 				rayOrigin += Vector2.right * (m_VerticalRaySpacing * i);
 				RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, m_PassengerMask);
 
-				if (hit)
+				if (hit && hit.distance != 0)
 				{
 					if (!movedPassengers.Contains(hit.transform))
 					{
@@ -146,7 +146,7 @@ public class PlatformController : RaycastController
 				rayOrigin += Vector2.up * (m_HorizontalRaySpacing * i);
 				RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, m_PassengerMask);
 
-				if (hit)
+				if (hit && hit.distance != 0)
 				{
 					if (!movedPassengers.Contains(hit.transform))
 					{
@@ -171,7 +171,7 @@ public class PlatformController : RaycastController
 				Vector2 rayOrigin = m_RaycastOrigins.topLeft + Vector2.right * (m_VerticalRaySpacing * i);
 				RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up, rayLength, m_PassengerMask);
 
-				if (hit)
+				if (hit && hit.distance != 0)
 				{
 					if (!movedPassengers.Contains(hit.transform))
 					{
