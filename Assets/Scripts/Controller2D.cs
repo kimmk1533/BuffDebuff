@@ -2,30 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
-public class Controller2D : MonoBehaviour
+public class Controller2D : RaycastController
 {
-	public LayerMask m_CollisionMask;
-
-	const float skinWidth = 0.015f;
-	public int m_HorizontalRayCount = 4;
-	public int m_VerticalRayCount = 4;
-
 	float m_MaxClimbAngle = 80;
 	float m_MaxDescendAngle = 75;
 
-	float m_HorizontalRaySpacing;
-	float m_VerticalRaySpacing;
+	CollisionInfo m_Collisions;
+	public CollisionInfo collisions => m_Collisions;
 
-	BoxCollider2D m_Collider;
-	RaycastOrigins m_RaycastOrigins;
-	public CollisionInfo m_Collisions;
-
-	private void Start()
+	protected override void Start()
 	{
-		m_Collider = GetComponent<BoxCollider2D>();
-
-		CalculateRaySpacing();
+		base.Start();
 	}
 
 	public void Move(Vector3 velocity)
@@ -65,6 +52,11 @@ public class Controller2D : MonoBehaviour
 
 			if (hit)
 			{
+				if (hit.distance == 0)
+				{
+					continue;
+				}
+
 				float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
 
 				if (i == 0 && slopeAngle <= m_MaxClimbAngle)
@@ -194,33 +186,7 @@ public class Controller2D : MonoBehaviour
 			}
 		}
 	}
-	void UpdateRaycastOrigins()
-	{
-		Bounds bounds = m_Collider.bounds;
-		bounds.Expand(skinWidth * -2);
 
-		m_RaycastOrigins.bottomLeft = new Vector2(bounds.min.x, bounds.min.y);
-		m_RaycastOrigins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
-		m_RaycastOrigins.topLeft = new Vector2(bounds.min.x, bounds.max.y);
-		m_RaycastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);
-	}
-	void CalculateRaySpacing()
-	{
-		Bounds bounds = m_Collider.bounds;
-		bounds.Expand(skinWidth * -2);
-
-		m_HorizontalRayCount = Mathf.Clamp(m_HorizontalRayCount, 2, int.MaxValue);
-		m_VerticalRayCount = Mathf.Clamp(m_VerticalRayCount, 2, int.MaxValue);
-
-		m_HorizontalRaySpacing = bounds.size.y / (m_HorizontalRayCount - 1);
-		m_VerticalRaySpacing = bounds.size.x / (m_VerticalRayCount - 1);
-	}
-
-	struct RaycastOrigins
-	{
-		public Vector2 topLeft, topRight;
-		public Vector2 bottomLeft, bottomRight;
-	}
 	public struct CollisionInfo
 	{
 		public bool above, below;
