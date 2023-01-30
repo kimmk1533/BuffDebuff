@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D), typeof(Controller2D))]
+[RequireComponent(typeof(BoxCollider2D), typeof(PlayerController2D))]
 public class Player : MonoBehaviour
 {
 	public float m_MaxJumpHeight = 4;
@@ -19,13 +19,14 @@ public class Player : MonoBehaviour
 	Vector2 m_Velocity;
 	float m_VelocityXSmoothing;
 
-	Controller2D m_Controller;
+	PlayerController2D m_Controller;
 
 	Vector2 m_DirectionalInput;
 
 	private void Start()
 	{
 		m_Controller = GetComponent<Controller2D>();
+		m_Controller = GetComponent<PlayerController2D>();
 
 		{
 			/*

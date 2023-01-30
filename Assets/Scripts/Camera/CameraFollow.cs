@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-	public Controller2D m_Target;
+	public PlayerController2D m_Player;
 	public float m_VerticalOffset;
 	public float m_LookAheadDstX;
 	public float m_LookSmoothTimeX;
@@ -23,11 +23,11 @@ public class CameraFollow : MonoBehaviour
 
 	private void Start()
 	{
-		m_FocusArea = new FocusArea(m_Target.collider.bounds, m_FocusAreaSize);
+		m_FocusArea = new FocusArea(m_Player.collider.bounds, m_FocusAreaSize);
 	}
 	private void LateUpdate()
 	{
-		m_FocusArea.Update(m_Target.collider.bounds);
+		m_FocusArea.Update(m_Player.collider.bounds);
 
 		Vector2 focusPosition = m_FocusArea.center + Vector2.up * m_VerticalOffset;
 
@@ -35,7 +35,7 @@ public class CameraFollow : MonoBehaviour
 		{
 			m_LookAheadDirX = Mathf.Sign(m_FocusArea.velocity.x);
 
-			if (Mathf.Sign(m_Target.playerInput.x) == Mathf.Sign(m_FocusArea.velocity.x) && m_Target.playerInput.x != 0)
+			if (Mathf.Sign(m_Player.playerInput.x) == Mathf.Sign(m_FocusArea.velocity.x) && m_Player.playerInput.x != 0)
 			{
 				m_LookAheadStopped = false;
 				m_TargetLookAheadX = m_LookAheadDirX * m_LookAheadDstX;
