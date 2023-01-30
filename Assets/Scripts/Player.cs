@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Controller2D))]
+[RequireComponent(typeof(BoxCollider2D), typeof(Controller2D))]
 public class Player : MonoBehaviour
 {
 	public float m_MaxJumpHeight = 4;
@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
 	float m_Gravity;
 	float m_MaxJumpVelocity;
 	float m_MinJumpVelocity;
+	[SerializeField, ReadOnly]
 	Vector2 m_Velocity;
 	float m_VelocityXSmoothing;
 
@@ -108,6 +109,5 @@ public class Player : MonoBehaviour
 
 		m_Velocity.x = Mathf.SmoothDamp(m_Velocity.x, targetVelocityX, ref m_VelocityXSmoothing, (m_Controller.collisions.below) ? m_AccelerationTimeGrounded : m_AccelerationTimeAirborne);
 		m_Velocity.y += m_Gravity * Time.deltaTime;
-		m_Controller.Move(m_Velocity * Time.deltaTime);
 	}
 }

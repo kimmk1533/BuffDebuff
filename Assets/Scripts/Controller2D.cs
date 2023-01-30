@@ -209,8 +209,6 @@ public class Controller2D : RaycastController
 			SlideDownMaxSlope(maxSlopeHitRight, ref moveAmount);
 		}
 
-		Debug.Log(m_Collisions.slidingDownMaxSlope);
-
 		if (!m_Collisions.slidingDownMaxSlope)
 		{
 			float directionX = Mathf.Sign(moveAmount.x);
