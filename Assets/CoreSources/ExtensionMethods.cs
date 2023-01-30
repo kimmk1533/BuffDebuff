@@ -80,6 +80,12 @@ public static class Methods
     }
 
     // 0 ~ 360 도 리턴
+    public static float GetAngle(this Vector2 vStart, Vector2 vEnd)
+    {
+        // return Quaternion.FromToRotation(vStart, vEnd).eulerAngles.z;
+        Vector3 v = vEnd - vStart;
+        return Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
+    }
     public static float GetAngle(this Vector3 vStart, Vector3 vEnd)
     {
         // return Quaternion.FromToRotation(vStart, vEnd).eulerAngles.z;

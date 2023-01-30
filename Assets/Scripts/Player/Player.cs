@@ -23,9 +23,10 @@ public class Player : MonoBehaviour
 
 	Vector2 m_DirectionalInput;
 
+	protected ProjectileManager M_Project => ProjectileManager.Instance;
+
 	private void Start()
 	{
-		m_Controller = GetComponent<Controller2D>();
 		m_Controller = GetComponent<PlayerController2D>();
 
 		{
@@ -102,6 +103,17 @@ public class Player : MonoBehaviour
 	{
 		if (m_Velocity.y > m_MinJumpVelocity)
 			m_Velocity.y = m_MinJumpVelocity;
+	}
+	public void DefaultAttack()
+	{
+		Projectile projectile = M_Project.Spawn("Projectile");
+		projectile.transform.position = transform.position;
+		projectile.m_MovingType = E_MovingType.Straight;
+
+		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		float angle = transform.position.GetAngle(mousePos);
+		projectile.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+		projectile.m_MoveSpeed = 5.0f;
 	}
 
 	void CalculateVelocity()

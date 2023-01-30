@@ -26,13 +26,13 @@ public class Projectile : MonoBehaviour
 
 	#region property
 	// 스킬 이동 속도
-	protected float p_MoveSpeed => m_MoveSpeed * Time.deltaTime;
+	protected float moveSpeed => m_MoveSpeed * Time.deltaTime;
 	// 타겟 위치
-	protected Vector3 p_TargetPos => (m_Target == null ? transform.position : m_Target.transform.position);
+	protected Vector3 targetPos => (m_Target == null ? transform.position : m_Target.transform.position);
 	// 타겟까지의 방향
-	protected Vector3 p_TargetDir => (p_TargetPos - transform.position).normalized;
+	protected Vector3 targetDir => (targetPos - transform.position).normalized;
 	// 타겟까지의 거리
-	protected float p_DistanceToTarget => Vector3.Distance(transform.position, p_TargetPos);
+	protected float distanceToTarget => Vector3.Distance(transform.position, targetPos);
 	#endregion
 	#region manager
 	ProjectileManager M_Project => ProjectileManager.Instance;
@@ -129,6 +129,6 @@ public class Projectile : MonoBehaviour
 		if (m_MovingType == E_MovingType.None)
 			return;
 
-		transform.position += transform.rotation * Vector2.up * Mathf.Min(p_MoveSpeed, p_DistanceToTarget);
+		transform.position += transform.rotation * Vector2.up * ((distanceToTarget != 0) ? Mathf.Min(moveSpeed, distanceToTarget) : moveSpeed);
 	}
 }

@@ -24,5 +24,9 @@ public class PlayerInput : MonoBehaviour
 		{
 			m_Player.OnJumpInputUp();
 		}
+		if (Input.GetMouseButtonDown(0))
+		{
+			m_Player.DefaultAttack();
+		}
 	}
 }

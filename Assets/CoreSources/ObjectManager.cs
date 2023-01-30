@@ -13,20 +13,20 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 	private Dictionary<string, Origin> m_Origins = null;
 	private Dictionary<string, MemoryPool<Origin>> m_Pools = null;
 
-	protected Origin Spawn(string key)
+	public Origin Spawn(string key)
 	{
 		Origin item = m_Pools[key].Spawn();
 		item.gameObject.SetActive(true);
 		return item;
 	}
-	protected Origin Spawn(string key, Transform parent)
+	public Origin Spawn(string key, Transform parent)
 	{
 		Origin item = m_Pools[key].Spawn();
 		item.transform.SetParent(parent);
 		item.gameObject.SetActive(true);
 		return item;
 	}
-	protected Origin Spawn(string key, Vector3 position, Quaternion rotation)
+	public Origin Spawn(string key, Vector3 position, Quaternion rotation)
 	{
 		Origin item = m_Pools[key].Spawn();
 		item.transform.position = position;
@@ -34,7 +34,7 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 		item.gameObject.SetActive(true);
 		return item;
 	}
-	protected Origin Spawn(string key, Vector3 position, Quaternion rotation, Transform parent)
+	public Origin Spawn(string key, Vector3 position, Quaternion rotation, Transform parent)
 	{
 		Origin item = m_Pools[key].Spawn();
 		item.transform.SetParent(parent);
