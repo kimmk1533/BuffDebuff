@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
 	float m_VelocityXSmoothing;
 
 	PlayerController2D m_Controller;
+	PlayerRenderer m_Renderer;
 
 	Vector2 m_DirectionalInput;
 
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour
 	private void Start()
 	{
 		m_Controller = GetComponent<PlayerController2D>();
+		m_Renderer = GetComponentInChildren<PlayerRenderer>();
 
 		{
 			/*
@@ -75,11 +77,18 @@ public class Player : MonoBehaviour
 				m_Velocity.y = 0;
 			}
 		}
+
+		m_Renderer.SetVelocity(m_Velocity);
+		m_Renderer.SetIsGround(m_Controller.collisions.below);
 	}
+	//private void LateUpdate()
+	//{
+	//}
 
 	public void SetDirectionalInput(Vector2 input)
 	{
 		m_DirectionalInput = input;
+		m_Renderer.SetDirectionalInput(input);
 	}
 	public void OnJumpInputDown()
 	{
@@ -96,6 +105,7 @@ public class Player : MonoBehaviour
 			else
 			{
 				m_Velocity.y = m_MaxJumpVelocity;
+				m_Renderer.Jump();
 			}
 		}
 	}
