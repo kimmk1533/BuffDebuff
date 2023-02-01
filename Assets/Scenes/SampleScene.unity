@@ -1320,6 +1320,8 @@ MonoBehaviour:
   m_MaxJumpHeight: 4
   m_MinJumpHeight: 1
   m_TimeToJumpApex: 0.4
+  m_MoveSpeed: 6
+  m_Gravity: 0
   m_Velocity: {x: 0, y: 0}
 --- !u!114 &1720547079
 MonoBehaviour:
@@ -1779,6 +1781,8 @@ MonoBehaviour:
   m_MaxJumpHeight: 4
   m_MinJumpHeight: 1
   m_TimeToJumpApex: 0.4
+  m_MoveSpeed: 6
+  m_Gravity: 0
   m_Velocity: {x: 0, y: 0}
 --- !u!61 &2075209099
 BoxCollider2D:
