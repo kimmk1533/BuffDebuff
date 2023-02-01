@@ -14,9 +14,9 @@ public class PlayerRenderer : MonoBehaviour
 			Vector3 scale = transform.localScale;
 
 			if (value > 0)
-				scale.x = 1;
+				scale.x = Mathf.Abs(scale.x);
 			else if (value < 0)
-				scale.x = -1;
+				scale.x = -Mathf.Abs(scale.x);
 
 			transform.localScale = scale;
 		}

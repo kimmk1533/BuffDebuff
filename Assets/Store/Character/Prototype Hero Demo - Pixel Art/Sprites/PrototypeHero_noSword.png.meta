@@ -333,9 +333,9 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 48
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -354,7 +354,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -363,7 +363,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
@@ -375,7 +375,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Server
     maxTextureSize: 2048
@@ -387,7 +387,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -395,15 +395,19 @@ TextureImporter:
       name: PrototypeHero_noSword_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 25
         y: 162
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -9, y: 18}
+        - {x: -9, y: -24}
+        - {x: 9, y: -24}
+        - {x: 9, y: 18}
       tessellationDetail: 0
       bones: []
       spriteID: 39732140cd55c1142be40060794c8b6e
@@ -416,15 +420,19 @@ TextureImporter:
       name: PrototypeHero_noSword_1
       rect:
         serializedVersion: 2
-        x: 100
+        x: 125
         y: 162
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -9, y: 17}
+        - {x: -9, y: -24}
+        - {x: 9, y: -24}
+        - {x: 9, y: 17}
       tessellationDetail: 0
       bones: []
       spriteID: f988021184251024ab8750d76780c3c0
@@ -437,10 +445,10 @@ TextureImporter:
       name: PrototypeHero_noSword_2
       rect:
         serializedVersion: 2
-        x: 200
+        x: 225
         y: 162
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -458,10 +466,10 @@ TextureImporter:
       name: PrototypeHero_noSword_3
       rect:
         serializedVersion: 2
-        x: 300
+        x: 325
         y: 162
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -479,10 +487,10 @@ TextureImporter:
       name: PrototypeHero_noSword_4
       rect:
         serializedVersion: 2
-        x: 400
+        x: 425
         y: 162
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -500,10 +508,10 @@ TextureImporter:
       name: PrototypeHero_noSword_5
       rect:
         serializedVersion: 2
-        x: 500
+        x: 525
         y: 162
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -521,10 +529,10 @@ TextureImporter:
       name: PrototypeHero_noSword_6
       rect:
         serializedVersion: 2
-        x: 600
+        x: 625
         y: 162
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -542,10 +550,10 @@ TextureImporter:
       name: PrototypeHero_noSword_7
       rect:
         serializedVersion: 2
-        x: 700
+        x: 725
         y: 162
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -563,10 +571,10 @@ TextureImporter:
       name: PrototypeHero_noSword_8
       rect:
         serializedVersion: 2
-        x: 0
+        x: 25
         y: 82
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -584,10 +592,10 @@ TextureImporter:
       name: PrototypeHero_noSword_9
       rect:
         serializedVersion: 2
-        x: 100
+        x: 125
         y: 82
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -605,10 +613,10 @@ TextureImporter:
       name: PrototypeHero_noSword_10
       rect:
         serializedVersion: 2
-        x: 200
+        x: 225
         y: 82
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -626,10 +634,10 @@ TextureImporter:
       name: PrototypeHero_noSword_11
       rect:
         serializedVersion: 2
-        x: 300
+        x: 325
         y: 82
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -647,10 +655,10 @@ TextureImporter:
       name: PrototypeHero_noSword_12
       rect:
         serializedVersion: 2
-        x: 400
+        x: 425
         y: 82
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -668,10 +676,10 @@ TextureImporter:
       name: PrototypeHero_noSword_13
       rect:
         serializedVersion: 2
-        x: 500
+        x: 525
         y: 82
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -689,10 +697,10 @@ TextureImporter:
       name: PrototypeHero_noSword_14
       rect:
         serializedVersion: 2
-        x: 600
+        x: 625
         y: 82
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -710,10 +718,10 @@ TextureImporter:
       name: PrototypeHero_noSword_15
       rect:
         serializedVersion: 2
-        x: 700
+        x: 725
         y: 82
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -731,10 +739,10 @@ TextureImporter:
       name: PrototypeHero_noSword_16
       rect:
         serializedVersion: 2
-        x: 0
+        x: 25
         y: 2
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -752,10 +760,10 @@ TextureImporter:
       name: PrototypeHero_noSword_17
       rect:
         serializedVersion: 2
-        x: 100
+        x: 125
         y: 2
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -773,10 +781,10 @@ TextureImporter:
       name: PrototypeHero_noSword_18
       rect:
         serializedVersion: 2
-        x: 200
+        x: 225
         y: 2
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -794,10 +802,10 @@ TextureImporter:
       name: PrototypeHero_noSword_19
       rect:
         serializedVersion: 2
-        x: 300
+        x: 325
         y: 2
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -815,10 +823,10 @@ TextureImporter:
       name: PrototypeHero_noSword_20
       rect:
         serializedVersion: 2
-        x: 400
+        x: 425
         y: 2
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -836,10 +844,10 @@ TextureImporter:
       name: PrototypeHero_noSword_21
       rect:
         serializedVersion: 2
-        x: 500
+        x: 525
         y: 2
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -857,10 +865,10 @@ TextureImporter:
       name: PrototypeHero_noSword_22
       rect:
         serializedVersion: 2
-        x: 600
+        x: 625
         y: 2
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -878,10 +886,10 @@ TextureImporter:
       name: PrototypeHero_noSword_23
       rect:
         serializedVersion: 2
-        x: 700
+        x: 725
         y: 2
-        width: 100
-        height: 78
+        width: 48
+        height: 48
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

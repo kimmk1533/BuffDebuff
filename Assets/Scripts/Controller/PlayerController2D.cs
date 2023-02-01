@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController2D : Controller2D
 {
 	Vector2 m_PlayerInput;
+	[SerializeField]
 	Collider2D m_FallingThroughPlatform;
 
 	public Vector2 playerInput => m_PlayerInput;
@@ -70,12 +71,12 @@ public class PlayerController2D : Controller2D
 					{
 						continue;
 					}
-				}
-				if (m_PlayerInput.y == -1 && Input.GetKeyDown(KeyCode.Space))
-				{
-					m_FallingThroughPlatform = hit.collider;
-					Invoke("ResetFallingThroughPlatform", 0.1f);
-					continue;
+					if (m_PlayerInput.y == -1 && Input.GetKeyDown(KeyCode.Space))
+					{
+						m_FallingThroughPlatform = hit.collider;
+						//Invoke("ResetFallingThroughPlatform", 0.5f);
+						continue;
+					}
 				}
 
 				moveAmount.y = (hit.distance - skinWidth) * directionY;
@@ -88,6 +89,10 @@ public class PlayerController2D : Controller2D
 
 				m_Collisions.below = directionY == -1;
 				m_Collisions.above = directionY == 1;
+			}
+			else
+			{
+				ResetFallingThroughPlatform();
 			}
 		}
 
