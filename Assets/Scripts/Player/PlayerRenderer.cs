@@ -49,7 +49,7 @@ public class PlayerRenderer : MonoBehaviour
 	}
 	public void SetVelocity(float x, float y)
 	{
-		direction = System.Math.Sign(x);
+		direction = System.MathF.Sign(x);
 
 		m_Animator.SetFloat("VelocityX", x);
 		m_Animator.SetFloat("VelocityY", y);
