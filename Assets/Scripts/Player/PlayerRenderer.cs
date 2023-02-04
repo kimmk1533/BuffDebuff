@@ -11,6 +11,9 @@ public class PlayerRenderer : MonoBehaviour
 	{
 		set
 		{
+			if (value == 0)
+				return;
+
 			Vector3 scale = transform.localScale;
 
 			if (value > 0)
@@ -46,7 +49,7 @@ public class PlayerRenderer : MonoBehaviour
 	}
 	public void SetVelocity(float x, float y)
 	{
-		direction = (int)x;
+		direction = System.Math.Sign(x);
 
 		m_Animator.SetFloat("VelocityX", x);
 		m_Animator.SetFloat("VelocityY", y);

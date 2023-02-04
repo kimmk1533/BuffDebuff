@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController2D : Controller2D
 {
 	Vector2 m_PlayerInput;
-	[SerializeField]
+	[SerializeField, ReadOnly]
 	Collider2D m_FallingThroughPlatform;
 
 	public Vector2 playerInput => m_PlayerInput;
@@ -27,10 +27,10 @@ public class PlayerController2D : Controller2D
 			DescendSlope(ref moveAmount);
 		}
 
-		//if (moveAmount.x != 0)
-		//{
-		//	m_Collisions.faceDir = (int)Mathf.Sign(moveAmount.x);
-		//}
+		if (moveAmount.x != 0)
+		{
+			m_Collisions.faceDir = (int)Mathf.Sign(moveAmount.x);
+		}
 
 		HorizontalCollisions(ref moveAmount);
 		if (moveAmount.y != 0)
@@ -49,7 +49,9 @@ public class PlayerController2D : Controller2D
 	protected override void VerticalCollisions(ref Vector2 moveAmount)
 	{
 		float directionY = Mathf.Sign(moveAmount.y);
-		float rayLength = Mathf.Abs(moveAmount.y) + skinWidth;
+		float rayLength = Mathf.Abs(moveAmount.y) + skinWidth * 2.5f; // 레이가 안 닿는 경우가 생김 임시로 2.5배 곱해줌으로 해결
+
+		bool throughFlag = false;
 
 		for (int i = 0; i < m_VerticalRayCount; ++i)
 		{
@@ -57,12 +59,13 @@ public class PlayerController2D : Controller2D
 			rayOrigin += Vector2.right * (m_VerticalRaySpacing * i + moveAmount.x);
 			RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, m_CollisionMask);
 
-			Debug.DrawRay(rayOrigin, Vector2.up * directionY * rayLength * 10.0f, Color.red);
+			Debug.DrawRay(rayOrigin, Vector2.up * directionY * rayLength, Color.red);
 
 			if (hit)
 			{
 				if (hit.collider.CompareTag("Through"))
 				{
+					throughFlag = true;
 					if (directionY == 1 || hit.distance == 0)
 					{
 						continue;
@@ -74,13 +77,14 @@ public class PlayerController2D : Controller2D
 					if (m_PlayerInput.y == -1 && Input.GetKeyDown(KeyCode.Space))
 					{
 						m_FallingThroughPlatform = hit.collider;
-						//Invoke("ResetFallingThroughPlatform", 0.5f);
 						continue;
 					}
 				}
 
 				moveAmount.y = (hit.distance - skinWidth) * directionY;
 				rayLength = hit.distance;
+				//moveAmount.y = Mathf.Min(Mathf.Abs(moveAmount.y), (hit.distance - skinWidth)) * directionY;
+				//rayLength = Mathf.Min(Mathf.Abs(moveAmount.y) + skinWidth, hit.distance);
 
 				if (m_Collisions.climbingSlope)
 				{
@@ -90,10 +94,11 @@ public class PlayerController2D : Controller2D
 				m_Collisions.below = directionY == -1;
 				m_Collisions.above = directionY == 1;
 			}
-			else
-			{
-				ResetFallingThroughPlatform();
-			}
+		}
+
+		if (!throughFlag)
+		{
+			ResetFallingThroughPlatform();
 		}
 
 		if (m_Collisions.climbingSlope)

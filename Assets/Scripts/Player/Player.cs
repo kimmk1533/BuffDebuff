@@ -5,13 +5,18 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D), typeof(PlayerController2D))]
 public class Player : MonoBehaviour
 {
-	public float m_MaxJumpHeight = 4;
-	public float m_MinJumpHeight = 1;
-	public float m_TimeToJumpApex = 0.4f;
+	[SerializeField, ReadOnly(true)]
+	float m_MaxJumpHeight = 4;
+	[SerializeField, ReadOnly(true)]
+	float m_MinJumpHeight = 1;
+	[SerializeField, ReadOnly(true)]
+	float m_TimeToJumpApex = 0.4f;
 	float m_AccelerationTimeAirborne = 0.2f;
 	float m_AccelerationTimeGrounded = 0.1f;
+	[SerializeField]
 	float m_MoveSpeed = 6;
 
+	[SerializeField, ReadOnly]
 	float m_Gravity;
 	float m_MaxJumpVelocity;
 	float m_MinJumpVelocity;
@@ -33,17 +38,17 @@ public class Player : MonoBehaviour
 
 		{
 			/*
-			 *                                           acceleration * time��
-			 * deltaMovement = velocityInitial * time + �ѤѤѤѤѤѤѤѤѤѤѤѤѤ�
+			 *                                           acceleration * time²
+			 * deltaMovement = velocityInitial * time + ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 			 *                                                     2
-			 *               ��
-			 *                  gravity * timeToJumpApex��
-			 *    jumpHeight = �ѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤѤ�
+			 *               ↓
+			 *                  gravity * timeToJumpApex²
+			 *    jumpHeight = ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 			 *                              2
-			 *               ��
+			 *               ↓
 			 *                  2 * jumpHeight
-			 *       gravity = �ѤѤѤѤѤѤѤѤѤ�
-			 *                  timeToJumpApex��
+			 *       gravity = ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+			 *                  timeToJumpApex²
 			 * 
 			 */
 		}
@@ -68,11 +73,11 @@ public class Player : MonoBehaviour
 
 		if (m_Controller.collisions.above || m_Controller.collisions.below)
 		{
-			if (m_Controller.collisions.slidingDownMaxSlope)
-			{
-				m_Velocity.y += m_Controller.collisions.slopeNormal.y * -m_Gravity * Time.deltaTime;
-			}
-			else
+			//if (m_Controller.collisions.slidingDownMaxSlope)
+			//{
+			//	m_Velocity.y += m_Controller.collisions.slopeNormal.y * -m_Gravity * Time.deltaTime;
+			//}
+			//else
 			{
 				m_Velocity.y = 0;
 			}
@@ -81,9 +86,6 @@ public class Player : MonoBehaviour
 		m_Renderer.SetVelocity(m_Velocity);
 		m_Renderer.SetIsGround(m_Controller.collisions.below);
 	}
-	//private void LateUpdate()
-	//{
-	//}
 
 	public void SetDirectionalInput(Vector2 input)
 	{
@@ -94,15 +96,15 @@ public class Player : MonoBehaviour
 	{
 		if (m_Controller.collisions.below && m_DirectionalInput.y != -1)
 		{
-			if (m_Controller.collisions.slidingDownMaxSlope)
-			{
-				if (m_DirectionalInput.x != -Mathf.Sign(m_Controller.collisions.slopeNormal.x)) // not jumping against max slope
-				{
-					m_Velocity.y = m_MaxJumpVelocity * m_Controller.collisions.slopeNormal.y;
-					m_Velocity.x = m_MaxJumpVelocity * m_Controller.collisions.slopeNormal.x;
-				}
-			}
-			else
+			//if (m_Controller.collisions.slidingDownMaxSlope)
+			//{
+			//	if (m_DirectionalInput.x != -Mathf.Sign(m_Controller.collisions.slopeNormal.x)) // not jumping against max slope
+			//	{
+			//		m_Velocity.y = m_MaxJumpVelocity * m_Controller.collisions.slopeNormal.y;
+			//		m_Velocity.x = m_MaxJumpVelocity * m_Controller.collisions.slopeNormal.x;
+			//	}
+			//}
+			//else
 			{
 				m_Velocity.y = m_MaxJumpVelocity;
 				m_Renderer.Jump();
