@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
 
 	Vector2 m_DirectionalInput;
 
-	protected ProjectileManager M_Project => ProjectileManager.Instance;
+	ProjectileManager M_Projectile => ProjectileManager.Instance;
 
 	private void Start()
 	{
@@ -118,7 +118,7 @@ public class Player : MonoBehaviour
 	}
 	public void DefaultAttack()
 	{
-		Projectile projectile = M_Project.Spawn("Projectile");
+		Projectile projectile = M_Projectile.Spawn("Projectile");
 		projectile.transform.position = transform.position;
 		projectile.m_MovingType = E_MovingType.Straight;
 

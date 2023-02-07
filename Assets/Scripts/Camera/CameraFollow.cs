@@ -16,8 +16,10 @@ public class CameraFollow : MonoBehaviour
 	public Vector2 m_FocusAreaSize;
 
 	[Space(10)]
-	public Vector2 m_ClampOffset;
-	public Vector2 m_ClampAreaSize;
+	[SerializeField]
+	Vector2 m_ClampOffset;
+	[SerializeField]
+	Vector2 m_ClampAreaSize;
 
 	Camera m_Camera;
 
@@ -59,7 +61,7 @@ public class CameraFollow : MonoBehaviour
 	private void OnDrawGizmos()
 	{
 		Gizmos.color = new Color(1, 0, 0, 0.5f);
-		Gizmos.DrawCube((Application.isPlaying) ? m_FocusArea.center : m_Player.transform.position, m_FocusAreaSize);
+		Gizmos.DrawCube((Application.isPlaying) ? m_FocusArea.center : m_Player.transform.position + Vector3.up * (m_FocusAreaSize.y / 2), m_FocusAreaSize);
 
 		Gizmos.color = new Color(0, 1, 0, 0.1f);
 		Gizmos.DrawCube(m_ClampOffset, m_ClampAreaSize);
@@ -101,6 +103,12 @@ public class CameraFollow : MonoBehaviour
 
 		focusPosition.x = Mathf.Clamp(focusPosition.x, m_ClampOffset.x - lx, m_ClampOffset.x + lx);
 		focusPosition.y = Mathf.Clamp(focusPosition.y, m_ClampOffset.y - ly, m_ClampOffset.y + ly);
+	}
+
+	public void ChangeClampOffset(float x, float y)
+	{
+		m_ClampOffset.x += x;
+		m_ClampOffset.y += y;
 	}
 
 	struct FocusArea

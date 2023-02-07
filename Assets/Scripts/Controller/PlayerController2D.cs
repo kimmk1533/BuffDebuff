@@ -10,6 +10,8 @@ public class PlayerController2D : Controller2D
 
 	public Vector2 playerInput => m_PlayerInput;
 
+	StageManager M_Stage => StageManager.Instance;
+
 	public new void Move(Vector2 moveAmount, bool standingOnPlatform)
 	{
 		Move(moveAmount, Vector2.zero, standingOnPlatform);
@@ -44,8 +46,17 @@ public class PlayerController2D : Controller2D
 		{
 			m_Collisions.below = true;
 		}
-	}
 
+		RaycastHit2D hit = Physics2D.BoxCast(m_Collider.bounds.center, m_Collider.bounds.size, 0.0f, moveAmount, 0.1f, LayerMask.GetMask("Portal"));
+
+		if (hit)
+		{
+			Transform spawnPoint = M_Stage.GetSpawnPoint(hit.collider);
+
+			if (spawnPoint != null)
+				transform.position = spawnPoint.position;
+		}
+	}
 	protected override void VerticalCollisions(ref Vector2 moveAmount)
 	{
 		float directionY = Mathf.Sign(moveAmount.y);

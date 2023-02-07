@@ -12,7 +12,7 @@ public class MapGenerator : MonoBehaviour
 	[SerializeField]
 	bool AutoClear = true;
 
-	[Space(15)]
+	[Space(10)]
 	[SerializeField, ReadOnly]
 	Info info;
 	
@@ -32,8 +32,11 @@ public class MapGenerator : MonoBehaviour
 
 	StageManager M_Stage => StageManager.Instance;
 
-	private void Start()
+	private void Awake()
 	{
+		m_Map = new bool[M_Stage.height, M_Stage.width];
+
+		ClearMap();
 		GenerateMap();
 	}
 	public void OnValidate()
@@ -41,6 +44,15 @@ public class MapGenerator : MonoBehaviour
 		info.MinExpectedRoomCount = /*Random.Range(0, 2)*/0 + 5 + (int)(M_Stage.stage * m_StageMagnification);
 		info.MaxExpectedRoomCount = /*Random.Range(0, 2)*/1 + 5 + (int)(M_Stage.stage * m_StageMagnification);
 		info.MaxRoomCount = M_Stage.mapSize.x * M_Stage.mapSize.y;
+	}
+
+	public bool CheckMapGenerated(int x, int y)
+	{
+		return m_Map[y, x];
+	}
+	public bool CheckMapGenerated(Vector2Int check)
+	{
+		return m_Map[check.y, check.x];
 	}
 
 	[ContextMenu("맵 생성")]
@@ -78,7 +90,6 @@ public class MapGenerator : MonoBehaviour
 		m_RoomCount = 0;
 		m_MaxRoomCount = Random.Range(0, 2) + 5 + (int)(stage * m_StageMagnification);
 	}
-
 	void ResetMap(int stage)
 	{
 		ResetRoomCount(stage);
@@ -147,7 +158,6 @@ public class MapGenerator : MonoBehaviour
 			}
 		}
 	}
-
 	bool CheckRoom(Vector2Int room)
 	{
 		// 이미 충분한 방이 채워졌으면 포기
