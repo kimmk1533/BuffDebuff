@@ -8,27 +8,28 @@ using System;
 
 public class TileEditorWindow : EditorWindow
 {
-	#region RoomOptions
-	private static bool m_ShowRoomOptions = true;
-	private static int m_LevelWidth = 1;
-	private static int m_LevelHeight = 1;
-	#endregion
-
 	#region GridOptions
 	private static readonly Vector2 m_CellSize = Vector2.one;
 	private static readonly Color m_GridColor = new Color(1f, 1f, 1f, 0.08f);
+	private static readonly Color m_IconColor = new Color(1f, 1f, 1f, 0.3f);
 	private static readonly Color m_SelectedCellColor = Color.green;
 	#endregion
 
 	private static bool m_ShowPaletteOptions;
+
 	private static List<string> m_PaletteList;
 	private static Dictionary<string, List<Sprite>> m_PaletteDictionary;
 	private static Dictionary<string, List<GUIContent>> m_PaletteIconDictionary;
-	private static string m_Palette;
-	private static Vector2 m_PaletteScrollPos;
+	private static Dictionary<Vector2, Dictionary<int, GameObject>> m_Tilemap;
 
+	private static string m_Palette;
 	private static int m_PaletteIndex;
 	private static int m_TileIndex;
+
+	private static int m_SortingLayer;
+	private static int m_SortingOrder;
+
+	private static Vector2 m_PaletteScrollPos;
 
 	[InitializeOnLoadMethod]
 	[MenuItem("Window/Custom Tools/Enable")]
@@ -36,10 +37,13 @@ public class TileEditorWindow : EditorWindow
 	{
 		Init();
 
-		Tools.current = Tool.Custom;
+		Tools.current = Tool.None;
 
 		SceneView.duringSceneGui -= OnSceneGUI;
 		SceneView.duringSceneGui += OnSceneGUI;
+
+		SceneView.duringSceneGui -= OnSceneUpdate;
+		SceneView.duringSceneGui += OnSceneUpdate;
 	}
 	[MenuItem("Window/Custom Tools/Disable")]
 	public static void Disable()
@@ -47,10 +51,13 @@ public class TileEditorWindow : EditorWindow
 		Tools.current = Tool.Move;
 
 		SceneView.duringSceneGui -= OnSceneGUI;
+		SceneView.duringSceneGui -= OnSceneUpdate;
 	}
 
 	private static void Init()
 	{
+		m_ShowPaletteOptions = true;
+
 		string resourcesPath = Path.Combine(Application.dataPath, "Resources");
 		if (!Directory.Exists(resourcesPath))
 			Directory.CreateDirectory(resourcesPath);
@@ -64,6 +71,7 @@ public class TileEditorWindow : EditorWindow
 		m_PaletteList = new List<string>();
 		m_PaletteDictionary = new Dictionary<string, List<Sprite>>();
 		m_PaletteIconDictionary = new Dictionary<string, List<GUIContent>>();
+		m_Tilemap = new Dictionary<Vector2, Dictionary<int, GameObject>>();
 
 		foreach (var item in spriteList)
 		{
@@ -107,9 +115,10 @@ public class TileEditorWindow : EditorWindow
 		}
 		m_PaletteScrollPos = new Vector2();
 
-		m_ShowPaletteOptions = true;
-
 		m_Palette = m_PaletteList[0];
+
+		m_SortingLayer = SortingLayer.GetLayerValueFromName("Default");
+		m_SortingOrder = 0;
 
 		//string root = Path.Combine(Application.dataPath, "Tilemap Resources");
 		//if (!Directory.Exists(root))
@@ -120,22 +129,22 @@ public class TileEditorWindow : EditorWindow
 		//	parent = new GameObject("Tilemap Parent");
 	}
 
-	private static void OnSceneGUI(SceneView obj)
+	private static void OnSceneGUI(SceneView sceneView)
 	{
 		DisplayGrid();
 
 		Handles.BeginGUI();
 		{
-			#region SelectedCell
+			#region Icon
 			#region size
-			Vector2 one = obj.camera.WorldToScreenPoint(m_CellSize);
-			Vector2 zero = obj.camera.WorldToScreenPoint(Vector2.zero);
+			Vector2 one = sceneView.camera.WorldToScreenPoint(m_CellSize);
+			Vector2 zero = sceneView.camera.WorldToScreenPoint(Vector2.zero);
 
 			Vector2 size = one - zero;
 			#endregion
 
 			#region pos
-			Vector2 cameraPos = obj.camera.WorldToScreenPoint(obj.camera.transform.position);
+			Vector2 cameraPos = sceneView.camera.WorldToScreenPoint(sceneView.camera.transform.position);
 			Vector2 standardPos = new Vector2(zero.x, zero.y - size.y - (zero.y - cameraPos.y) * 2f);
 
 			Vector2 cellPos = (GetSelectedCellPos() * size) / m_CellSize;
@@ -145,7 +154,8 @@ public class TileEditorWindow : EditorWindow
 			#endregion
 
 			Texture texture = m_PaletteIconDictionary[m_Palette][m_TileIndex].image;
-			GUI.DrawTexture(new Rect(pos, size), texture, ScaleMode.StretchToFill);
+
+			GUI.DrawTexture(new Rect(pos, size), texture, ScaleMode.StretchToFill, true, 0f, m_IconColor, 0f, 0f);
 			#endregion
 		}
 		Handles.EndGUI();
@@ -157,7 +167,7 @@ public class TileEditorWindow : EditorWindow
 		{
 			#region Palette
 
-			GUILayout.BeginArea(new Rect(10, obj.position.height - 50, 50, 25));
+			GUILayout.BeginArea(new Rect(10, sceneView.position.height - 50, 50, 25));
 			{
 				m_ShowPaletteOptions = GUILayout.Toggle(m_ShowPaletteOptions, "", new GUIStyle("Foldout"));
 			}
@@ -165,8 +175,8 @@ public class TileEditorWindow : EditorWindow
 
 			if (m_ShowPaletteOptions)
 			{
-				GUI.Box(new Rect(5, obj.position.height - 205, 310, 155), "");
-				GUILayout.BeginArea(new Rect(10, obj.position.height - 200, 300, 145));
+				GUI.Box(new Rect(5, sceneView.position.height - 205, 310, 155), "");
+				GUILayout.BeginArea(new Rect(10, sceneView.position.height - 200, 300, 145));
 				{
 					m_PaletteIndex = EditorGUILayout.Popup(m_PaletteIndex, m_PaletteList.ToArray());
 
@@ -185,7 +195,28 @@ public class TileEditorWindow : EditorWindow
 		}
 		Handles.EndGUI();
 
-		obj.Repaint();
+		sceneView.Repaint();
+	}
+	private static void OnSceneUpdate(SceneView sceneView)
+	{
+		int currentID = GUIUtility.GetControlID(FocusType.Passive);
+		Event e = Event.current;
+
+		if (e.type == EventType.MouseDown)
+		{
+			Sprite sprite = m_PaletteDictionary[m_Palette][m_TileIndex];
+			Vector2 pivot = sprite.pivot / sprite.rect.size;
+			Vector2 tilePos = GetSelectedCellPos() + pivot * m_CellSize;
+
+			if (e.button == 0)
+			{
+				DrawTile(tilePos);
+			}
+			else if (e.button == 1)
+			{
+				DestroyTile(tilePos);
+			}
+		}
 	}
 
 	private static Vector2 GetSelectedCellPos()
@@ -236,6 +267,38 @@ public class TileEditorWindow : EditorWindow
 		Handles.color = Color.white;
 		Handles.DrawLine(new Vector3(10000000.0f, 0.0f, 0.0f), new Vector3(-10000000.0f, 0.0f, 0.0f));
 		Handles.DrawLine(new Vector3(0.0f, 10000000.0f, 0.0f), new Vector3(0.0f, -10000000.0f, 0.0f));
+	}
+
+	private static void DrawTile(Vector2 tilePos)
+	{
+		GameObject gameObject = new GameObject("tile", typeof(SpriteRenderer));
+		SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+		spriteRenderer.sprite = m_PaletteDictionary[m_Palette][m_TileIndex];
+		spriteRenderer.sortingLayerID = m_SortingLayer;
+		spriteRenderer.sortingOrder = m_SortingOrder;
+
+		if (!m_Tilemap.ContainsKey(tilePos))
+			m_Tilemap[tilePos] = new Dictionary<int, GameObject>();
+
+		gameObject.transform.position = tilePos;
+
+		if (m_Tilemap[tilePos].ContainsKey(m_SortingOrder) &&
+			m_Tilemap[tilePos][m_SortingOrder] != null)
+		{
+			Undo.DestroyObjectImmediate(m_Tilemap[tilePos][m_SortingOrder]);
+		}
+
+		m_Tilemap[tilePos][m_SortingOrder] = gameObject;
+
+		Undo.RegisterCreatedObjectUndo(m_Tilemap[tilePos][m_SortingOrder], "tile");
+	}
+	private static void DestroyTile(Vector2 tilePos)
+	{
+		if (!m_Tilemap.ContainsKey(tilePos) ||
+			m_Tilemap[tilePos][m_SortingOrder] == null)
+			return;
+
+		Undo.DestroyObjectImmediate(m_Tilemap[tilePos][m_SortingOrder]);
 	}
 
 	//private void OnGUI()
