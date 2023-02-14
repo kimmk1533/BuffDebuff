@@ -20,19 +20,38 @@ public class TileEditorWindow : EditorWindow
 	private static List<string> m_PaletteList;
 	private static Dictionary<string, List<Sprite>> m_PaletteDictionary;
 	private static Dictionary<string, List<GUIContent>> m_PaletteIconDictionary;
-	private static Dictionary<Vector2, Dictionary<int, GameObject>> m_Tilemap;
+	private static Dictionary<Vector2, Dictionary<int, SpriteRenderer>> m_Tilemap;
 
 	private static string m_Palette;
 	private static int m_PaletteIndex;
 	private static int m_TileIndex;
 
-	private static int m_SortingLayer;
-	private static int m_SortingOrder;
-
 	private static Vector2 m_PaletteScrollPos;
 
+	private static List<string> m_SortingLayerList;
+	private static int m_SortingLayerIndex;
+	private static int sortingLayerID
+	{
+		get
+		{
+			return SortingLayer.NameToID(m_SortingLayerList[m_SortingLayerIndex]);
+		}
+	}
+	private static string sortingLayerName
+	{
+		get
+		{
+			return m_SortingLayerList[m_SortingLayerIndex];
+		}
+		set
+		{
+			m_SortingLayerIndex = SortingLayer.GetLayerValueFromName(value) + 1;
+		}
+	}
+	private static int m_SortingOrder;
+
 	[InitializeOnLoadMethod]
-	[MenuItem("Window/Custom Tools/Enable")]
+	[MenuItem("Window/Custom Tilemap Tool/Enable")]
 	public static void Enable()
 	{
 		Init();
@@ -45,7 +64,7 @@ public class TileEditorWindow : EditorWindow
 		SceneView.duringSceneGui -= OnSceneUpdate;
 		SceneView.duringSceneGui += OnSceneUpdate;
 	}
-	[MenuItem("Window/Custom Tools/Disable")]
+	[MenuItem("Window/Custom Tilemap Tool/Disable")]
 	public static void Disable()
 	{
 		Tools.current = Tool.Move;
@@ -71,7 +90,7 @@ public class TileEditorWindow : EditorWindow
 		m_PaletteList = new List<string>();
 		m_PaletteDictionary = new Dictionary<string, List<Sprite>>();
 		m_PaletteIconDictionary = new Dictionary<string, List<GUIContent>>();
-		m_Tilemap = new Dictionary<Vector2, Dictionary<int, GameObject>>();
+		m_Tilemap = new Dictionary<Vector2, Dictionary<int, SpriteRenderer>>();
 
 		foreach (var item in spriteList)
 		{
@@ -117,16 +136,15 @@ public class TileEditorWindow : EditorWindow
 
 		m_Palette = m_PaletteList[0];
 
-		m_SortingLayer = SortingLayer.GetLayerValueFromName("Default");
+		m_SortingLayerList = new List<string>();
+		SortingLayer[] layers = SortingLayer.layers;
+		foreach (var item in layers)
+		{
+			m_SortingLayerList.Add(item.name);
+		}
+		sortingLayerName = "Default";
+
 		m_SortingOrder = 0;
-
-		//string root = Path.Combine(Application.dataPath, "Tilemap Resources");
-		//if (!Directory.Exists(root))
-		//	Directory.CreateDirectory(root);
-
-		//GameObject parent;
-		//if (!GameObject.Find("Tilemap Parent"))
-		//	parent = new GameObject("Tilemap Parent");
 	}
 
 	private static void OnSceneGUI(SceneView sceneView)
@@ -166,7 +184,6 @@ public class TileEditorWindow : EditorWindow
 		Handles.BeginGUI();
 		{
 			#region Palette
-
 			GUILayout.BeginArea(new Rect(10, sceneView.position.height - 50, 50, 25));
 			{
 				m_ShowPaletteOptions = GUILayout.Toggle(m_ShowPaletteOptions, "", new GUIStyle("Foldout"));
@@ -190,7 +207,15 @@ public class TileEditorWindow : EditorWindow
 				}
 				GUILayout.EndArea();
 			}
+			#endregion
 
+			#region Layer
+			GUI.Box(new Rect(5, sceneView.position.height - 370, 310, 160), "");
+			GUILayout.BeginArea(new Rect(10, sceneView.position.height - 365, 300, 150));
+			{
+				m_SortingLayerIndex = EditorGUILayout.Popup(m_SortingLayerIndex, m_SortingLayerList.ToArray());
+			}
+			GUILayout.EndArea();
 			#endregion
 		}
 		Handles.EndGUI();
@@ -199,24 +224,7 @@ public class TileEditorWindow : EditorWindow
 	}
 	private static void OnSceneUpdate(SceneView sceneView)
 	{
-		int currentID = GUIUtility.GetControlID(FocusType.Passive);
-		Event e = Event.current;
-
-		if (e.type == EventType.MouseDown)
-		{
-			Sprite sprite = m_PaletteDictionary[m_Palette][m_TileIndex];
-			Vector2 pivot = sprite.pivot / sprite.rect.size;
-			Vector2 tilePos = GetSelectedCellPos() + pivot * m_CellSize;
-
-			if (e.button == 0)
-			{
-				DrawTile(tilePos);
-			}
-			else if (e.button == 1)
-			{
-				DestroyTile(tilePos);
-			}
-		}
+		BrushTool();
 	}
 
 	private static Vector2 GetSelectedCellPos()
@@ -271,116 +279,79 @@ public class TileEditorWindow : EditorWindow
 
 	private static void DrawTile(Vector2 tilePos)
 	{
-		GameObject gameObject = new GameObject("tile", typeof(SpriteRenderer));
-		SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-		spriteRenderer.sprite = m_PaletteDictionary[m_Palette][m_TileIndex];
-		spriteRenderer.sortingLayerID = m_SortingLayer;
-		spriteRenderer.sortingOrder = m_SortingOrder;
-
 		if (!m_Tilemap.ContainsKey(tilePos))
-			m_Tilemap[tilePos] = new Dictionary<int, GameObject>();
-
-		gameObject.transform.position = tilePos;
+			m_Tilemap[tilePos] = new Dictionary<int, SpriteRenderer>();
 
 		if (m_Tilemap[tilePos].ContainsKey(m_SortingOrder) &&
 			m_Tilemap[tilePos][m_SortingOrder] != null)
 		{
-			Undo.DestroyObjectImmediate(m_Tilemap[tilePos][m_SortingOrder]);
+			// 수정해야함.
+			if (m_Tilemap[tilePos][m_SortingOrder].sprite != m_PaletteDictionary[m_Palette][m_TileIndex] ||
+				m_Tilemap[tilePos][m_SortingOrder].sortingLayerID != sortingLayerID ||
+				m_Tilemap[tilePos][m_SortingOrder].sortingOrder != m_SortingOrder)
+				Undo.DestroyObjectImmediate(m_Tilemap[tilePos][m_SortingOrder].gameObject);
+			else
+				return;
 		}
 
-		m_Tilemap[tilePos][m_SortingOrder] = gameObject;
+		GameObject gameObject = new GameObject("tile", typeof(SpriteRenderer));
+		SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+		spriteRenderer.sprite = m_PaletteDictionary[m_Palette][m_TileIndex];
+		spriteRenderer.sortingLayerID = sortingLayerID;
+		spriteRenderer.sortingOrder = m_SortingOrder;
 
-		Undo.RegisterCreatedObjectUndo(m_Tilemap[tilePos][m_SortingOrder], "tile");
+		gameObject.transform.position = tilePos;
+
+		m_Tilemap[tilePos][m_SortingOrder] = spriteRenderer;
+
+		Undo.RegisterCreatedObjectUndo(m_Tilemap[tilePos][m_SortingOrder].gameObject, "tile");
 	}
 	private static void DestroyTile(Vector2 tilePos)
 	{
 		if (!m_Tilemap.ContainsKey(tilePos) ||
-			m_Tilemap[tilePos][m_SortingOrder] == null)
+			!m_Tilemap[tilePos].ContainsKey(m_SortingOrder) ||
+			m_Tilemap[tilePos][m_SortingOrder] == null ||
+			m_Tilemap[tilePos][m_SortingOrder].sprite == null ||
+			m_Tilemap[tilePos][m_SortingOrder].sortingLayerID != sortingLayerID ||
+			m_Tilemap[tilePos][m_SortingOrder].sortingOrder != m_SortingOrder)
 			return;
 
-		Undo.DestroyObjectImmediate(m_Tilemap[tilePos][m_SortingOrder]);
+		Undo.DestroyObjectImmediate(m_Tilemap[tilePos][m_SortingOrder].gameObject);
 	}
 
-	//private void OnGUI()
-	//{
-	//	m_ShowRoomOptions = EditorGUILayout.Foldout(m_ShowRoomOptions, "방 옵션", true);
-	//	if (m_ShowRoomOptions)
-	//	{
-	//		EditorGUILayout.Space();
-	//		++EditorGUI.indentLevel;
+	private static void BrushTool()
+	{
+		int currentID = GUIUtility.GetControlID(FocusType.Passive);
 
-	//		EditorGUILayout.BeginHorizontal(); // Level Value
-	//		{
-	//			EditorGUILayout.BeginVertical("HelpBox");
-	//			{
-	//				m_LevelWidth = EditorGUILayout.IntField("너비", m_LevelWidth);
-	//				m_LevelHeight = EditorGUILayout.IntField("높이", m_LevelHeight);
+		Sprite sprite = m_PaletteDictionary[m_Palette][m_TileIndex];
+		Vector2 pivot = sprite.pivot / sprite.rect.size;
+		Vector2 tilePos = GetSelectedCellPos() + pivot * m_CellSize;
 
-	//				if (m_LevelWidth < 1)
-	//					m_LevelWidth = 1;
-	//				if (m_LevelHeight < 1)
-	//					m_LevelHeight = 1;
-	//			}
-	//			EditorGUILayout.EndVertical();
-	//		}
-	//		EditorGUILayout.EndHorizontal();
-
-	//		EditorGUILayout.Space();
-
-	//		//EditorGUILayout.BeginHorizontal();
-	//		//GUILayout.Button("New Map Spawner");
-	//		//GUILayout.Button("Find Map Spawner");
-	//		//EditorGUILayout.EndHorizontal();
-
-	//		--EditorGUI.indentLevel;
-	//	}
-
-	//	m_ShowGridOptions = EditorGUILayout.Foldout(m_ShowGridOptions, "그리드 옵션", true);
-	//	if (m_ShowGridOptions)
-	//	{
-	//		EditorGUILayout.Space();
-	//		++EditorGUI.indentLevel;
-
-	//		EditorGUILayout.BeginHorizontal(); // Grid Value
-	//		{
-	//			EditorGUILayout.BeginVertical("HelpBox");
-	//			{
-	//				m_CellSize = EditorGUILayout.Vector2Field("칸 크기", m_CellSize);
-
-	//				if (m_CellSize.x < 0)
-	//					m_CellSize.x = 0;
-	//				if (m_CellSize.y < 0)
-	//					m_CellSize.y = 0;
-	//			}
-	//			EditorGUILayout.EndVertical();
-	//		}
-	//		EditorGUILayout.EndHorizontal();
-
-	//		--EditorGUI.indentLevel;
-	//	}
-	//	//EditorGUILayout.Space();
-
-	//	//m_PaintMode = GUILayout.Toggle(m_PaintMode, "그리기 시작", "Button", GUILayout.Height(60f));
-
-	//	//EditorGUILayout.Space();
-
-	//	++EditorGUI.indentLevel;
-
-	//	EditorGUILayout.BeginVertical();
-
-	//	EditorGUILayout.LabelField("현재 레벨:");
-
-	//	EditorGUILayout.BeginHorizontal();
-	//	GUILayout.Button("<");
-	//	GUILayout.Button(">");
-	//	EditorGUILayout.EndHorizontal();
-
-	//	EditorGUILayout.EndVertical();
-
-	//	m_PaletteIndex = EditorGUILayout.Popup("선택한 팔레트", m_PaletteIndex, m_PaletteNames);
-
-	//	EditorGUILayout.LabelField("선택된 타일");
-
-	//	--EditorGUI.indentLevel;
-	//}
+		if (Event.current.type == EventType.MouseDown)
+		{
+			if (Event.current.button == 0)
+			{
+				DrawTile(tilePos);
+				GUIUtility.hotControl = currentID;
+				Event.current.Use();
+			}
+			else if (Event.current.button == 1)
+			{
+				DestroyTile(tilePos);
+				GUIUtility.hotControl = currentID;
+				Event.current.Use();
+			}
+		}
+		else if (Event.current.type == EventType.MouseDrag)
+		{
+			if (Event.current.button == 0)
+			{
+				DrawTile(tilePos);
+			}
+			else if (Event.current.button == 1)
+			{
+				DestroyTile(tilePos);
+			}
+		}
+	}
 }
