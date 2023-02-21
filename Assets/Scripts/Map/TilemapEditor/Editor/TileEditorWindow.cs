@@ -135,7 +135,7 @@ public class TileEditorWindow : EditorWindow
 			{
 				for (int x = offsetX; x < offsetX + width; ++x)
 				{
-					icon.SetPixel(x, y, item.texture.GetPixel(x, y));
+					icon.SetPixel(x - offsetX, y - offsetY, item.texture.GetPixel(x, y));
 				}
 			}
 
@@ -344,22 +344,22 @@ public class TileEditorWindow : EditorWindow
 				return;
 		}
 
-		GameObject gameObject = new GameObject("tile", typeof(SpriteRenderer));
-		gameObject.transform.SetParent(selectedTilemap.transform);
+		//GameObject gameObject = new GameObject("tile", typeof(SpriteRenderer));
+		//gameObject.transform.SetParent(selectedTilemap.transform);
 
-		SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-		spriteRenderer.sprite = m_PaletteDictionary[m_Palette][m_TileIndex];
-		spriteRenderer.sortingLayerID = sortingLayerID;
-		spriteRenderer.sortingOrder = m_SortingOrder;
+		//SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+		//spriteRenderer.sprite = m_PaletteDictionary[m_Palette][m_TileIndex];
+		//spriteRenderer.sortingLayerID = sortingLayerID;
+		//spriteRenderer.sortingOrder = m_SortingOrder;
 
-		gameObject.transform.localPosition = tilePos;
+		//gameObject.transform.localPosition = tilePos;
 
-		m_TilemapDictionary[tilePos][m_SortingOrder] = spriteRenderer;
+		//m_TilemapDictionary[tilePos][m_SortingOrder] = spriteRenderer;
 		selectedTilemap.DrawTile(tilePos, m_PaletteDictionary[m_Palette][m_TileIndex]);
 
-		Undo.RegisterCreatedObjectUndo(m_TilemapDictionary[tilePos][m_SortingOrder].gameObject, "tile");
+		//Undo.RegisterCreatedObjectUndo(m_TilemapDictionary[tilePos][m_SortingOrder].gameObject, "tile");
 
-		selectedTilemap.Render();
+		selectedTilemap.UpdateRenderer();
 	}
 	private static void DestroyTile(Vector2 tilePos)
 	{
@@ -372,7 +372,7 @@ public class TileEditorWindow : EditorWindow
 
 		Undo.DestroyObjectImmediate(m_TilemapDictionary[tilePos][m_SortingOrder].gameObject);
 
-		selectedTilemap.Render();
+		selectedTilemap.UpdateRenderer();
 	}
 
 	private static void BrushTool()
