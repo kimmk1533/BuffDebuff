@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
 public class Tilemap : MonoBehaviour
 {
 	private SpriteRenderer m_SpriteRenderer;
@@ -19,80 +19,122 @@ public class Tilemap : MonoBehaviour
 			return m_Rect;
 		}
 	}
-	public int width => (int)Mathf.RoundToInt(m_Rect.width);
-	public int height => (int)Mathf.RoundToInt(m_Rect.height);
+	public int width => Mathf.RoundToInt(m_Rect.width);
+	public int height => Mathf.RoundToInt(m_Rect.height);
 
-	private Color m_AlphaColor = new Color(1f, 0f, 0f, 1f);
+	private Color m_AlphaColor = Color.clear;
+	private GameObject m_Tilemap = null;
 
 	// 추후 Value는 Scriptable Object로 수정하여 메모리를 절약할 것
-	private Dictionary<Vector2, Sprite> m_SpriteDictionary;
+	// 또는 유니티의 스프라이트처럼 한 장의 전체 텍스쳐와 범위만 가지고 있는 것은 어떨까?
+	private Dictionary<Vector2, Sprite> m_SpriteDictionary = new Dictionary<Vector2, Sprite>();
 
-	private void Reset()
-	{
-		Init();
-
-		int count = transform.childCount;
-		for (int i = 0; i < count; ++i)
-		{
-			DestroyImmediate(transform.GetChild(0).gameObject);
-		}
-	}
-
-	public void Init()
-	{
-		m_SpriteRenderer = GetComponent<SpriteRenderer>();
-		m_SpriteRenderer.sprite = null;
-		m_Rect = new Rect();
-		m_SpriteDictionary = new Dictionary<Vector2, Sprite>();
-
-		m_AlphaColor = new Color(0f, 0f, 0f, 0f);
-	}
 	public void DrawTile(Vector2 pos, Sprite tile)
 	{
+		// 예외처리
 		if (m_SpriteDictionary == null)
 			return;
 
+		// 정보 저장
 		m_SpriteDictionary[pos] = tile;
 
-		Debug.Log(pos);
+		// 새로운 정보를 바탕으로 크기 계산
+		ReSize();
 
-		Vector2 halfSize = tile.rect.size / 2;
+		// 저장된 정보를 바탕으로 렌더링
+		UpdateRenderer();
+	}
+	public void DestroyTile(Vector2 pos)
+	{
+		// 예외처리
+		if (m_SpriteDictionary == null)
+			return;
 
-		Rect tileRect = new Rect(pos * m_PixelsPerUnit, tile.rect.size);
+		// 정보 제거
+		m_SpriteDictionary.Remove(pos);
 
-		//m_Rect.xMin = Mathf.Min(pos.x * m_PixelsPerUnit - halfSize.x, m_Rect.xMin);
-		//m_Rect.xMax = Mathf.Max(pos.x * m_PixelsPerUnit + halfSize.x, m_Rect.xMax);
-		//m_Rect.yMin = Mathf.Min(pos.y * m_PixelsPerUnit - halfSize.y, m_Rect.yMin);
-		//m_Rect.yMax = Mathf.Max(pos.y * m_PixelsPerUnit + halfSize.y, m_Rect.yMax);
+		// 새로운 정보를 바탕으로 크기 계산
+		ReSize();
 
-		if (m_Rect.xMin == m_Rect.xMax)
+		// 저장된 정보를 바탕으로 렌더링
+		UpdateRenderer();
+	}
+
+	[ContextMenu("Init")]
+	private void Init()
+	{
+		if (m_Rect == null) m_Rect = new Rect();
+		else m_Rect.Set(0f, 0f, 0f, 0f);
+
+		if (m_SpriteDictionary == null) m_SpriteDictionary = new Dictionary<Vector2, Sprite>();
+		else m_SpriteDictionary.Clear();
+
+		if (m_Tilemap == null)
 		{
-			m_Rect.xMin = tileRect.xMin;
-			m_Rect.xMax = tileRect.xMax;
-		}
-		else
-		{
-			m_Rect.xMin = Mathf.Min(tileRect.xMin, m_Rect.xMin);
-			m_Rect.xMax = Mathf.Max(tileRect.xMax, m_Rect.xMax);
-		}
+			int childCount = transform.childCount;
 
-		if (m_Rect.yMin == m_Rect.yMax)
-		{
-			m_Rect.yMin = tileRect.yMin;
-			m_Rect.yMax = tileRect.yMax;
-		}
-		else
-		{
-			m_Rect.yMin = Mathf.Min(tileRect.yMin, m_Rect.yMin);
-			m_Rect.yMax = Mathf.Max(tileRect.yMax, m_Rect.yMax);
+			if (childCount == 0)
+			{
+				m_Tilemap = new GameObject("Layer 0", typeof(SpriteRenderer));
+				m_Tilemap.transform.SetParent(transform);
+				m_Tilemap.transform.position = Vector3.zero;
+				//m_Tilemap.hideFlags = HideFlags.HideInHierarchy;
+
+				m_SpriteRenderer = m_Tilemap.GetComponent<SpriteRenderer>();
+				m_SpriteRenderer.sprite = null;
+			}
+			else
+			{
+				for (int i = 1; i < childCount; ++i)
+				{
+					GameObject.DestroyImmediate(transform.GetChild(1));
+				}
+
+				m_Tilemap = transform.GetChild(0).gameObject;
+
+				m_SpriteRenderer = m_Tilemap.GetComponent<SpriteRenderer>();
+				m_SpriteRenderer.sprite = null;
+			}
 		}
 	}
-	public void UpdateRenderer()
+	private void ReSize()
+	{
+		// 예외처리
+		if (m_SpriteDictionary.Count == 0)
+		{
+			m_Rect.width = 0;
+			m_Rect.height = 0;
+			return;
+		}
+
+		var posList = m_SpriteDictionary
+			.Select(item => item.Key);
+
+		// x좌표를 기준으로 정렬
+		var xList = posList
+			.OrderBy(item => item.x)
+			.ToList();
+
+		float xMin = (xList.First().x - 0.5f) * m_PixelsPerUnit;
+		float xMax = (xList.Last().x + 0.5f) * m_PixelsPerUnit;
+
+		// y좌표를 기준으로 정렬
+		var yList = posList
+			.OrderBy(item => item.y)
+			.ToList();
+
+		float yMin = (yList.First().y - 0.5f) * m_PixelsPerUnit;
+		float yMax = (yList.Last().y + 0.5f) * m_PixelsPerUnit;
+
+		m_Rect.xMin = xMin; m_Rect.yMin = yMin;
+		m_Rect.xMax = xMax; m_Rect.yMax = yMax;
+
+		m_Tilemap.transform.localPosition = m_Rect.min / m_PixelsPerUnit;
+	}
+	private void UpdateRenderer()
 	{
 		int width = this.width;
 		int height = this.height;
-
-		Debug.Log(new Vector2(width, height));
 
 		Texture2D texture = new Texture2D(width, height)
 		{
@@ -100,6 +142,7 @@ public class Tilemap : MonoBehaviour
 			filterMode = FilterMode.Point,
 		};
 
+		// 투명 처리
 		for (int y = 0; y < height; ++y)
 		{
 			for (int x = 0; x < width; ++x)
@@ -108,22 +151,27 @@ public class Tilemap : MonoBehaviour
 			}
 		}
 
+		// 타일 그리기
 		foreach (var item in m_SpriteDictionary)
 		{
-			Vector2 pos = (item.Key - Vector2.one * 0.5f) * m_PixelsPerUnit;
-			Sprite spr = item.Value;
+			Vector2 destPos = (item.Key - Vector2.one / 2) * m_PixelsPerUnit;
 
-			int offsetX = (int)spr.rect.x;
-			int offsetY = (int)spr.rect.y;
+			Sprite src = item.Value;
 
-			int tex_width = Mathf.RoundToInt(spr.rect.width);
-			int tex_height = Mathf.RoundToInt(spr.rect.height);
+			int src_offsetX = Mathf.RoundToInt(src.rect.x);
+			int src_offsetY = Mathf.RoundToInt(src.rect.y);
 
-			for (int y = offsetY; y < offsetY + tex_height; ++y)
+			int src_width = Mathf.RoundToInt(src.rect.width);
+			int src_height = Mathf.RoundToInt(src.rect.height);
+
+			for (int y = 0; y < src_height; ++y)
 			{
-				for (int x = offsetX; x < offsetX + tex_width; ++x)
+				for (int x = 0; x < src_width; ++x)
 				{
-					texture.SetPixel((int)(x - offsetX + pos.x), (int)(y - offsetY + pos.y), spr.texture.GetPixel(x, y));
+					int tex_x = Mathf.RoundToInt(destPos.x + x - m_Rect.min.x);
+					int tex_y = Mathf.RoundToInt(destPos.y + y - m_Rect.min.y);
+
+					texture.SetPixel(tex_x, tex_y, src.texture.GetPixel(src_offsetX + x, src_offsetY + y));
 				}
 			}
 		}

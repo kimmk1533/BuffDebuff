@@ -358,21 +358,19 @@ public class TileEditorWindow : EditorWindow
 		selectedTilemap.DrawTile(tilePos, m_PaletteDictionary[m_Palette][m_TileIndex]);
 
 		//Undo.RegisterCreatedObjectUndo(m_TilemapDictionary[tilePos][m_SortingOrder].gameObject, "tile");
-
-		selectedTilemap.UpdateRenderer();
 	}
 	private static void DestroyTile(Vector2 tilePos)
 	{
-		if (!m_TilemapDictionary.ContainsKey(tilePos) ||
-			!m_TilemapDictionary[tilePos].ContainsKey(m_SortingOrder) ||
-			m_TilemapDictionary[tilePos][m_SortingOrder] == null ||
-			m_TilemapDictionary[tilePos][m_SortingOrder].sprite == null ||
-			m_TilemapDictionary[tilePos][m_SortingOrder].sortingOrder != m_SortingOrder)
-			return;
+		//if (!m_TilemapDictionary.ContainsKey(tilePos) ||
+		//	!m_TilemapDictionary[tilePos].ContainsKey(m_SortingOrder) ||
+		//	m_TilemapDictionary[tilePos][m_SortingOrder] == null ||
+		//	m_TilemapDictionary[tilePos][m_SortingOrder].sprite == null ||
+		//	m_TilemapDictionary[tilePos][m_SortingOrder].sortingOrder != m_SortingOrder)
+		//	return;
 
-		Undo.DestroyObjectImmediate(m_TilemapDictionary[tilePos][m_SortingOrder].gameObject);
+		//Undo.DestroyObjectImmediate(m_TilemapDictionary[tilePos][m_SortingOrder].gameObject);
 
-		selectedTilemap.UpdateRenderer();
+		selectedTilemap.DestroyTile(tilePos);
 	}
 
 	private static void BrushTool()
