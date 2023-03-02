@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D), typeof(PlayerController2D))]
 public class Player : MonoBehaviour
 {
+	#region PlayerController Variables
 	[SerializeField, ReadOnly(true)]
 	float m_MaxJumpHeight = 4;
 	[SerializeField, ReadOnly(true)]
@@ -28,6 +29,10 @@ public class Player : MonoBehaviour
 	PlayerRenderer m_Renderer;
 
 	Vector2 m_DirectionalInput;
+	#endregion
+
+	[SerializeField]
+	Character m_Character;
 
 	ProjectileManager M_Projectile => ProjectileManager.Instance;
 
@@ -67,6 +72,7 @@ public class Player : MonoBehaviour
 	}
 	private void Update()
 	{
+		#region PlayerController Method
 		CalculateVelocity();
 
 		m_Controller.Move(m_Velocity * Time.deltaTime, m_DirectionalInput);
@@ -85,8 +91,10 @@ public class Player : MonoBehaviour
 
 		m_Renderer.SetVelocity(m_Velocity);
 		m_Renderer.SetIsGround(m_Controller.collisions.below);
+		#endregion
 	}
 
+	#region PlayerController Func
 	public void SetDirectionalInput(Vector2 input)
 	{
 		m_DirectionalInput = input;
@@ -135,4 +143,5 @@ public class Player : MonoBehaviour
 		m_Velocity.x = Mathf.SmoothDamp(m_Velocity.x, targetVelocityX, ref m_VelocityXSmoothing, (m_Controller.collisions.below) ? m_AccelerationTimeGrounded : m_AccelerationTimeAirborne);
 		m_Velocity.y += m_Gravity * Time.deltaTime;
 	}
+	#endregion
 }
