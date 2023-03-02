@@ -64,7 +64,7 @@ public class TileEditorWindow : EditorWindow
 		}
 	}
 
-	[InitializeOnLoadMethod]
+	//[InitializeOnLoadMethod]
 	[MenuItem("Window/Custom Tilemap Tool/Enable")]
 	public static void Enable()
 	{
