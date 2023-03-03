@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,21 @@ using UnityEngine;
 public interface IOnBuff
 {
 
+}
+
+public enum E_BuffCondition
+{
+	Initialize,
+	Finalize,
+	Update,
+	Jump,
+	Dash,
+	GetDamage,
+	AttackStart,
+	GiveDamage,
+	AttackEnd,
+
+	Max
 }
 
 // 버프를 얻은 순간

@@ -32,8 +32,9 @@ public class Player : MonoBehaviour
 	#endregion
 
 	[SerializeField]
-	Character m_Character;
+	Character m_Character = new Character();
 
+	BuffManager M_Buff => BuffManager.Instance;
 	ProjectileManager M_Projectile => ProjectileManager.Instance;
 
 	private void Start()
@@ -69,6 +70,15 @@ public class Player : MonoBehaviour
 		}
 		m_MaxJumpVelocity = Mathf.Abs(m_Gravity) * m_TimeToJumpApex;
 		m_MinJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(m_Gravity) * m_MinJumpHeight);
+
+		// 임시 버프 획득
+		m_Character.AddBuff(M_Buff.m_BuffDictionary[101001]);
+		m_Character.AddBuff(M_Buff.m_BuffDictionary[101002]);
+
+		foreach (var item in m_Character.m_BuffList[E_BuffCondition.Initialize])
+		{
+			item.OnBuffInvoke(ref m_Character);
+		}
 	}
 	private void Update()
 	{
@@ -92,6 +102,11 @@ public class Player : MonoBehaviour
 		m_Renderer.SetVelocity(m_Velocity);
 		m_Renderer.SetIsGround(m_Controller.collisions.below);
 		#endregion
+
+		foreach (var item in m_Character.m_BuffList[E_BuffCondition.Update])
+		{
+			item.OnBuffInvoke(ref m_Character);
+		}
 	}
 
 	#region PlayerController Func
@@ -116,6 +131,12 @@ public class Player : MonoBehaviour
 			{
 				m_Velocity.y = m_MaxJumpVelocity;
 				m_Renderer.Jump();
+
+				foreach (var item in m_Character.m_BuffList[E_BuffCondition.Jump])
+				{
+					item.OnBuffInvoke(ref m_Character);
+				}
+				
 			}
 		}
 	}

@@ -48,4 +48,31 @@ public static class UtilsClass
 		textMesh.GetComponent<MeshRenderer>().sortingOrder = sortingOrder;
 		return textMesh;
 	}
+
+	public class Timer
+	{
+		public float interval;
+		public float timer;
+
+		public Timer(float interval)
+		{
+			this.interval = interval;
+			timer = 0f;
+		}
+
+		public bool Update()
+		{
+			bool result = false;
+
+			if (timer >= interval)
+			{
+				timer -= interval;
+				result = true;
+			}
+
+			timer += Time.deltaTime;
+
+			return result;
+		}
+	}
 }
