@@ -75,9 +75,9 @@ public class Player : MonoBehaviour
 		m_Character.AddBuff(M_Buff.m_BuffDictionary[101001]);
 		m_Character.AddBuff(M_Buff.m_BuffDictionary[101002]);
 
-		foreach (var item in m_Character.m_BuffList[E_BuffCondition.Initialize])
+		foreach (BaseBuff item in m_Character.m_BuffList)
 		{
-			item.OnBuffInvoke(ref m_Character);
+			item.OnBuffInitialize.OnBuffInvoke(ref m_Character);
 		}
 	}
 	private void Update()
@@ -103,9 +103,9 @@ public class Player : MonoBehaviour
 		m_Renderer.SetIsGround(m_Controller.collisions.below);
 		#endregion
 
-		foreach (var item in m_Character.m_BuffList[E_BuffCondition.Update])
+		foreach (BaseBuff item in m_Character.m_BuffList)
 		{
-			item.OnBuffInvoke(ref m_Character);
+			item.OnBuffUpdate.OnBuffInvoke(ref m_Character);
 		}
 	}
 
@@ -119,24 +119,16 @@ public class Player : MonoBehaviour
 	{
 		if (m_Controller.collisions.below && m_DirectionalInput.y != -1)
 		{
-			//if (m_Controller.collisions.slidingDownMaxSlope)
-			//{
-			//	if (m_DirectionalInput.x != -Mathf.Sign(m_Controller.collisions.slopeNormal.x)) // not jumping against max slope
-			//	{
-			//		m_Velocity.y = m_MaxJumpVelocity * m_Controller.collisions.slopeNormal.y;
-			//		m_Velocity.x = m_MaxJumpVelocity * m_Controller.collisions.slopeNormal.x;
-			//	}
-			//}
-			//else
-			{
-				m_Velocity.y = m_MaxJumpVelocity;
-				m_Renderer.Jump();
+			m_Velocity.y = m_MaxJumpVelocity;
+			m_Renderer.Jump();
 
-				foreach (var item in m_Character.m_BuffList[E_BuffCondition.Jump])
-				{
-					item.OnBuffInvoke(ref m_Character);
-				}
-				
+			//foreach (var item in m_Character.m_BuffList[E_BuffInvokeCondition.Jump])
+			//{
+			//	item.OnBuffInvoke(ref m_Character);
+			//}
+			foreach (var item in m_Character.m_BuffList)
+			{
+				item.OnBuffJump.OnBuffInvoke(ref m_Character);
 			}
 		}
 	}

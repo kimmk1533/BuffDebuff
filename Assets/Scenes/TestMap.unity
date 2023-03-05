@@ -733,6 +733,294 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flag: 1
+  m_AssociatedSheet: 1vDHbPcXSj3IUdHfGhmYbG7bse7FmDJKVRJ8DDd-slDQ
+  m_AssociatedWorkSheet: "\uBC84\uD504 \uBAA9\uB85D"
+  m_BuffList:
+  - m_Data:
+      m_Name: "\uCCB4\uB825 \uC99D\uAC00"
+      m_Code: 101001
+      m_Grade: 0
+      m_Condition: 0
+      m_Description: "\uCCB4\uB825 \uACE0\uC815 \uC218\uCE58 \uC99D\uAC00"
+  - m_Data:
+      m_Name: "\uCD08 \uB2F9 \uCCB4\uB825 \uD68C\uBCF5"
+      m_Code: 101002
+      m_Grade: 0
+      m_Condition: 0
+      m_Description: "5\uCD08 \uB2F9 \uCCB4\uB825 \uD68C\uBCF5"
+  - m_Data:
+      m_Name: "\uD68C\uBCF5\uB7C9 \uC99D\uAC00"
+      m_Code: 102003
+      m_Grade: 1
+      m_Condition: 0
+      m_Description: "\uBC1B\uB294 \uBAA8\uB4E0 \uD68C\uBCF5\uB7C9 \uC99D\uAC00"
+  - m_Data:
+      m_Name: "\uBC29\uC5B4\uB825 \uC99D\uAC00"
+      m_Code: 101004
+      m_Grade: 0
+      m_Condition: 0
+      m_Description: "\uBC29\uC5B4\uB825 \uACE0\uC815 \uC218\uCE58 \uC99D\uAC00"
+  - m_Data:
+      m_Name: "\uD68C\uD53C\uC728 \uC99D\uAC00"
+      m_Code: 101005
+      m_Grade: 0
+      m_Condition: 0
+      m_Description: "\uD68C\uD53C\uC728 \uC99D\uAC00"
+  - m_Data:
+      m_Name: "\uACF5\uACA9\uB825 \uC99D\uAC00"
+      m_Code: 101006
+      m_Grade: 0
+      m_Condition: 0
+      m_Description: "\uACF5\uACA9\uB825 \uACE0\uC815 \uC218\uCE58 \uC99D\uAC00"
+  - m_Data:
+      m_Name: "\uACF5\uACA9 \uC18D\uB3C4 \uC99D\uAC00"
+      m_Code: 101007
+      m_Grade: 0
+      m_Condition: 0
+      m_Description: "\uACF5\uACA9\uC18D\uB3C4 \uACE0\uC815 \uC218\uCE58 \uC99D\uAC00"
+  - m_Data:
+      m_Name: "\uC774\uB3D9 \uC18D\uB3C4 \uC99D\uAC00"
+      m_Code: 101008
+      m_Grade: 0
+      m_Condition: 0
+      m_Description: "\uC774\uB3D9\uC18D\uB3C4 \uACE0\uC815 \uC218\uCE58 \uC99D\uAC00"
+  - m_Data:
+      m_Name: "\uACF5\uACA9 \uBC94\uC704 \uC99D\uAC00"
+      m_Code: 102009
+      m_Grade: 1
+      m_Condition: 1
+      m_Description: "\uADFC\uC811 \uACF5\uACA9 \uBC94\uC704 \uC99D\uAC00"
+  - m_Data:
+      m_Name: "\uC0AC\uAC70\uB9AC \uC99D\uAC00"
+      m_Code: 102010
+      m_Grade: 1
+      m_Condition: 2
+      m_Description: "\uD22C\uC0AC\uCCB4 \uC0DD\uC874 \uC2DC\uAC04 \uC99D\uAC00"
+  - m_Data:
+      m_Name: "\uD22C\uC0AC\uCCB4 \uC18D\uB3C4 \uC99D\uAC00"
+      m_Code: 102011
+      m_Grade: 1
+      m_Condition: 2
+      m_Description: "\uD22C\uC0AC\uCCB4 \uC774\uB3D9 \uC18D\uB3C4 \uC99D\uAC00"
+  - m_Data:
+      m_Name: "\uACF5\uACA9 \uD69F\uC218 \uC99D\uAC00"
+      m_Code: 103012
+      m_Grade: 2
+      m_Condition: 0
+      m_Description: "\uD0C0\uACA9 \uC2DC \uAC19\uC740 \uB300\uC0C1\uC5D0\uAC8C\uB9CC
+        \uCD94\uAC00 \uD0C0\uACA9(\uB2E4\uB2E8 \uD788\uD2B8\uAC00 \uC0DD\uAE40)"
+  - m_Data:
+      m_Name: "\uCE58\uBA85\uD0C0"
+      m_Code: 0
+      m_Grade: 0
+      m_Condition: 0
+      m_Description: "\uCE58\uBA85\uD0C0 \uCD94\uAC00(\uC77C\uD68C\uC6A9)"
+  - m_Data:
+      m_Name: "\uCE58\uBA85\uD0C0 \uD655\uB960 \uC99D\uAC00"
+      m_Code: 102013
+      m_Grade: 1
+      m_Condition: 0
+      m_Description: "\uCE58\uBA85\uD0C0 \uD655\uB960 \uC99D\uAC00"
+  - m_Data:
+      m_Name: "\uCE58\uBA85\uD0C0 \uB300\uBBF8\uC9C0 \uC99D\uAC00"
+      m_Code: 102014
+      m_Grade: 1
+      m_Condition: 0
+      m_Description: "\uCE58\uBA85\uD0C0 \uB300\uBBF8\uC9C0 \uC99D\uAC00"
+  - m_Data:
+      m_Name: "\uB300\uC26C \uD69F\uC218 \uC99D\uAC00"
+      m_Code: 103015
+      m_Grade: 2
+      m_Condition: 0
+      m_Description: "\uCD5C\uB300 \uB300\uC26C \uD69F\uC218 \uC99D\uAC00(\uAE30\uBCF8
+        1)"
+  - m_Data:
+      m_Name: "\uB300\uC26C \uCDA9\uC804 \uC18D\uB3C4 \uC99D\uAC00"
+      m_Code: 103016
+      m_Grade: 2
+      m_Condition: 0
+      m_Description: "\uB300\uC26C\uAC00 \uCDA9\uC804\uB418\uB294 \uC2DC\uAC04 \uAC10\uC18C"
+  - m_Data:
+      m_Name: "\uB300\uC26C \uBB34\uC801"
+      m_Code: 103017
+      m_Grade: 2
+      m_Condition: 0
+      m_Description: "\uB300\uC26C \uC774\uD6C4 \uC77C\uC815 \uC2DC\uAC04 \uBB34\uC801"
+  - m_Data:
+      m_Name: "\uBB34\uC801\uC2DC\uAC04 \uC99D\uAC00"
+      m_Code: 103018
+      m_Grade: 2
+      m_Condition: 0
+      m_Description: "\uBAA8\uB4E0 \uBB34\uC801 \uC2DC\uAC04 \uC99D\uAC00"
+  - m_Data:
+      m_Name: "\uB454\uD654"
+      m_Code: 102019
+      m_Grade: 1
+      m_Condition: 0
+      m_Description: "\uACF5\uACA9\uC774 \uC801\uC744 \uB454\uD654\uC2DC\uD0B4"
+  - m_Data:
+      m_Name: "\uAC10\uC18D \uC99D\uAC00"
+      m_Code: 101020
+      m_Grade: 0
+      m_Condition: 0
+      m_Description: "\uC801\uC5D0\uAC8C \uC8FC\uB294 \uB454\uD654\uC728 \uC99D\uAC00"
+  - m_Data:
+      m_Name: "\uBBFC\uCCA9\uD568 \uC99D\uAC00"
+      m_Code: 101021
+      m_Grade: 0
+      m_Condition: 0
+      m_Description: "\uBC1B\uB294 \uB454\uD654\uC728 \uAC10\uC18C"
+  - m_Data:
+      m_Name: "\uC2DC\uC57C \uC99D\uAC00"
+      m_Code: 103022
+      m_Grade: 2
+      m_Condition: 0
+      m_Description: "\uB354 \uBA40\uB9AC\uAE4C\uC9C0 \uBCFC \uC218 \uC788\uC74C(\uCE74\uBA54\uB77C
+        \uC2DC\uC57C \uC870\uC808)"
+  - m_Data:
+      m_Name: "\uD761\uD608"
+      m_Code: 103023
+      m_Grade: 2
+      m_Condition: 0
+      m_Description: "\uC801\uC744 \uACF5\uACA9\uC2DC \uD53C\uD574\uB7C9 \uBE44\uC728
+        \uD68C\uBCF5"
+  - m_Data:
+      m_Name: "\uB3C5"
+      m_Code: 103024
+      m_Grade: 2
+      m_Condition: 0
+      m_Description: "\uACF5\uACA9\uC5D0 \uB3C5 \uC18D\uC131(\uB3C4\uD2B8\uB51C)
+        \uCD94\uAC00"
+  - m_Data:
+      m_Name: "\uB0C9\uAE30"
+      m_Code: 103025
+      m_Grade: 2
+      m_Condition: 0
+      m_Description: "\uACF5\uACA9\uC774 \uC801\uC758 \uBAA8\uB4E0 \uC18D\uB3C4(\uACF5\uC18D,
+        \uC774\uC18D \uB4F1\uB4F1)\uC744 \uAC10\uC18C\uC2DC\uD0B4"
+  - m_Data:
+      m_Name: "\uC5F4\uAE30"
+      m_Code: 103026
+      m_Grade: 2
+      m_Condition: 0
+      m_Description: "\uACF5\uACA9\uC774 \uC801\uC744 \uC5F4\uAE30 \uC0C1\uD0DC\uB85C
+        \uB9CC\uB4E6. \uC5F4\uAE30 \uC0C1\uD0DC\uC758 \uC801\uC740 \uBC1B\uB294 \uB300\uBBF8\uC9C0
+        \uCD94\uAC00"
+  - m_Data:
+      m_Name: "\uB9C8\uBE44"
+      m_Code: 103027
+      m_Grade: 2
+      m_Condition: 0
+      m_Description: "\uACF5\uACA9\uC774 \uC801\uC744 \uB9C8\uBE44\uC2DC\uD0B4(\uBA48\uCDA4)"
+  - m_Data:
+      m_Name: "\uB9C8\uC6B0\uC2A4\uD0C4"
+      m_Code: 104028
+      m_Grade: 3
+      m_Condition: 2
+      m_Description: "\uD22C\uC0AC\uCCB4\uAC00 \uB9C8\uC6B0\uC2A4 \uC5D0\uC784 \uC810\uC73C\uB85C\uB9CC
+        \uAC10"
+  - m_Data:
+      m_Name: "\uC720\uB3C4\uD0C4"
+      m_Code: 105029
+      m_Grade: 4
+      m_Condition: 2
+      m_Description: "\uD22C\uC0AC\uCCB4\uAC00 \uC720\uB3C4\uD0C4\uC774 \uB418\uC5B4
+        \uAC00\uC7A5 \uAC00\uAE4C\uC6B4 \uC801\uC744 \uCAD3\uC544\uAC10"
+  - m_Data:
+      m_Name: "\uAC10\uAC01 \uACF5\uC720(\uC801)"
+      m_Code: 105030
+      m_Grade: 4
+      m_Condition: 1
+      m_Description: "\uD0C0\uACA9 \uC2DC \uB9F5 \uC804\uCCB4\uC758 \uBAA8\uB4E0
+        \uC801\uC774 \uAC19\uC740 \uB300\uBBF8\uC9C0\uB97C \uBC1B\uC74C"
+  - m_Data:
+      m_Name: "\uAC10\uAC01 \uACF5\uC720(\uD50C\uB808\uC774\uC5B4)"
+      m_Code: 105031
+      m_Grade: 4
+      m_Condition: 0
+      m_Description: "\uD53C\uACA9 \uC2DC \uB9F5 \uC804\uCCB4\uC758 \uBAA8\uB4E0
+        \uC801\uC774 \uBC29\uC5B4\uB825 \uC801\uC6A9 \uC804\uC758 \uB300\uBBF8\uC9C0\uB97C
+        \uBC1B\uC74C"
+  - m_Data:
+      m_Name: "\uC720\uB839\uD0C4"
+      m_Code: 104032
+      m_Grade: 3
+      m_Condition: 2
+      m_Description: "\uD22C\uC0AC\uCCB4\uAC00 \uB9F5\uC744 \uB6AB\uC74C"
+  - m_Data:
+      m_Name: "\uD328\uB9C1"
+      m_Code: 104033
+      m_Grade: 3
+      m_Condition: 1
+      m_Description: "\uD53C\uACA9 \uC2DC \uC77C\uC815 \uD655\uB960\uB85C \uC801\uC758
+        \uACF5\uACA9\uC744 \uD295\uACA8\uB0C4(\uADFC\uAC70\uB9AC \uD53C\uACA9\uC77C
+        \uACBD\uC6B0 \uC989\uC2DC \uB300\uBBF8\uC9C0, \uC6D0\uAC70\uB9AC \uD53C\uACA9\uC77C
+        \uACBD\uC6B0 \uD22C\uC0AC\uCCB4\uB97C \uC544\uAD70 \uAC83\uC73C\uB85C \uBCC0\uACBD\uD558\uC5EC
+        \uACF5\uACA9\uD55C \uC801\uC5D0\uAC8C \uBC18\uC0AC)"
+  - m_Data:
+      m_Name: "\uD328\uB9C1 \uD655\uB960 \uC99D\uAC00"
+      m_Code: 102034
+      m_Grade: 1
+      m_Condition: 1
+      m_Description: "\uD328\uB9C1 \uD655\uB960 \uC99D\uAC00"
+  - m_Data:
+      m_Name: "\uB124\uD06C\uB85C\uBA58\uC2DC"
+      m_Code: 106035
+      m_Grade: 5
+      m_Condition: 1
+      m_Description: "\uC801\uC744 \uCC98\uCE58\uD560 \uC2DC \uC801\uC758 \uC2A4\uD0EF\uC744
+        \uC77C\uBD80 \uD761\uC218\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+  - m_Data:
+      m_Name: "\uB2E4\uC7AC\uB2E4\uB2A5"
+      m_Code: 106036
+      m_Grade: 5
+      m_Condition: 0
+      m_Description: "\uADFC\uAC70\uB9AC\uC640 \uC6D0\uAC70\uB9AC\uAC00 \uD569\uCCD0\uC838
+        \uB3D9\uC2DC\uC5D0 \uADFC\uAC70\uB9AC\uC640 \uC6D0\uAC70\uB9AC \uBAA8\uB450
+        \uACF5\uACA9\uD569\uB2C8\uB2E4."
+  - m_Data:
+      m_Name: "\uCD5C\uC120\uC758 \uBC29\uC5B4\uB294 \uACF5\uACA9"
+      m_Code: 103037
+      m_Grade: 2
+      m_Condition: 0
+      m_Description: "\uC801\uC758 \uACF5\uACA9 \uB610\uD55C \uACF5\uACA9\uD560 \uC218
+        \uC788\uAC8C \uB429\uB2C8\uB2E4."
+  - m_Data:
+      m_Name: "\uBBF8\uD2B8 \uD050\uBE0C"
+      m_Code: 103038
+      m_Grade: 2
+      m_Condition: 0
+      m_Description: "\uD50C\uB808\uC774\uC5B4 \uC8FC\uBCC0\uC5D0 \uC801\uC758 \uC6D0\uAC70\uB9AC
+        \uACF5\uACA9\uC744 \uB9C9\uB294 \uBBF8\uD2B8 \uD050\uBE0C\uAC00 \uB3D5\uB2C8\uB2E4(\uC544\uC774\uC791
+        \uBBF8\uD2B8 \uD050\uBE0C\uC640 \uAC19\uC74C)"
+  - m_Data:
+      m_Name: "\uC870\uAC01\uC870\uAC01(\uC8FC\uC5B4)"
+      m_Code: 107039
+      m_Grade: 6
+      m_Condition: 0
+      m_Description: "\uC2A4\uD0EF\uD615 \uBC84\uD504\uB97C \uC870\uAC01\uB0B4\uC11C
+        \uC0C8\uB85C \uC870\uD569\uD560 \uC218 \uC788\uAC8C \uB428. (\uC8FC\uC5B4)"
+  - m_Data:
+      m_Name: "\uC870\uAC01\uC870\uAC01(\uBAA9\uC801\uC5B4)"
+      m_Code: 107040
+      m_Grade: 6
+      m_Condition: 0
+      m_Description: "\uC2A4\uD0EF\uD615 \uBC84\uD504\uB97C \uC870\uAC01\uB0B4\uC11C
+        \uC0C8\uB85C \uC870\uD569\uD560 \uC218 \uC788\uAC8C \uB428. (\uBAA9\uC801\uC5B4)"
+  - m_Data:
+      m_Name: "\uC870\uAC01\uC870\uAC01(\uC218\uCE58)"
+      m_Code: 107041
+      m_Grade: 6
+      m_Condition: 0
+      m_Description: "\uC2A4\uD0EF\uD615 \uBC84\uD504\uB97C \uC870\uAC01\uB0B4\uC11C
+        \uC0C8\uB85C \uC870\uD569\uD560 \uC218 \uC788\uAC8C \uB428. (\uC218\uCE58)"
+  - m_Data:
+      m_Name: "\uB514\uBC84\uD504 \uACF5\uC720"
+      m_Code: 107042
+      m_Grade: 6
+      m_Condition: 0
+      m_Description: "\uC8FC\uBCC0 \uC801\uC5D0\uAC8C \uC790\uC2E0\uC758 \uB514\uBC84\uD504\uB97C
+        \uACF5\uC720"
 --- !u!4 &2022746457
 Transform:
   m_ObjectHideFlags: 0

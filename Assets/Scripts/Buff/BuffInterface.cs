@@ -8,7 +8,7 @@ public interface IOnBuff
 
 }
 
-public enum E_BuffCondition
+public enum E_BuffInvokeCondition
 {
 	Initialize,
 	Finalize,

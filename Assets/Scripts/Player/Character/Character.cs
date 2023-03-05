@@ -7,32 +7,32 @@ public class Character
 {
 	public CharacterStat m_CurrentStat;
 	public CharacterStat m_BuffStat;
-	public Dictionary<E_BuffCondition, List<BaseBuff.BuffHandler>> m_BuffList = new Dictionary<E_BuffCondition, List<BaseBuff.BuffHandler>>();
-	//public List<BaseBuff> m_BuffList = new List<BaseBuff>();
+	//public Dictionary<E_BuffInvokeCondition, List<BaseBuff>> m_BuffList;
+	public HashSet<BaseBuff> m_BuffList;
 
 	public Character()
 	{
 		m_CurrentStat = new CharacterStat();
 		m_BuffStat = new CharacterStat();
-
-		// 버프 리스트 초기화
-		for (E_BuffCondition i = E_BuffCondition.Initialize; i < E_BuffCondition.Max; ++i)
-		{
-			m_BuffList.Add(i, new List<BaseBuff.BuffHandler>());
-		}
+		m_BuffList = new HashSet<BaseBuff>();
 	}
 
 	public void AddBuff(BaseBuff buff)
 	{
-		m_BuffList[E_BuffCondition.Initialize].Add(buff.OnBuffInitialize);
-		m_BuffList[E_BuffCondition.Finalize].Add(buff.OnBuffFinalize);
-		m_BuffList[E_BuffCondition.Update].Add(buff.OnBuffUpdate);
-		m_BuffList[E_BuffCondition.Jump].Add(buff.OnBuffJump);
-		m_BuffList[E_BuffCondition.Dash].Add(buff.OnBuffDash);
-		m_BuffList[E_BuffCondition.GetDamage].Add(buff.OnBuffGetDamage);
-		m_BuffList[E_BuffCondition.AttackStart].Add(buff.OnBuffAttackStart);
-		m_BuffList[E_BuffCondition.GiveDamage].Add(buff.OnBuffGiveDamage);
-		m_BuffList[E_BuffCondition.AttackEnd].Add(buff.OnBuffAttackEnd);
+		if (buff == null)
+			return;
+
+		m_BuffList.Add(buff);
+
+		//m_BuffList[E_BuffInvokeCondition.Initialize].Add(buff.OnBuffInitialize);
+		//m_BuffList[E_BuffInvokeCondition.Finalize].Add(buff.OnBuffFinalize);
+		//m_BuffList[E_BuffInvokeCondition.Update].Add(buff.OnBuffUpdate);
+		//m_BuffList[E_BuffInvokeCondition.Jump].Add(buff.OnBuffJump);
+		//m_BuffList[E_BuffInvokeCondition.Dash].Add(buff.OnBuffDash);
+		//m_BuffList[E_BuffInvokeCondition.GetDamage].Add(buff.OnBuffGetDamage);
+		//m_BuffList[E_BuffInvokeCondition.AttackStart].Add(buff.OnBuffAttackStart);
+		//m_BuffList[E_BuffInvokeCondition.GiveDamage].Add(buff.OnBuffGiveDamage);
+		//m_BuffList[E_BuffInvokeCondition.AttackEnd].Add(buff.OnBuffAttackEnd);
 	}
 
 	[System.Serializable]

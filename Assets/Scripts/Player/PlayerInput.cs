@@ -27,7 +27,7 @@ public class PlayerInput : MonoBehaviour
 
 		if (Input.GetMouseButtonDown(0))
 		{
-			m_Player.DefaultAttack();
+			//m_Player.DefaultAttack();
 		}
 	}
 }
