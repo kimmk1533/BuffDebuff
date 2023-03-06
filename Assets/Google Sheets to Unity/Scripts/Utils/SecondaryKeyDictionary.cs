@@ -11,7 +11,6 @@ namespace GreenerGames
 	/// <typeparam name="T1"></typeparam>
 	/// <typeparam name="T2"></typeparam>
 	/// <typeparam name="V"></typeparam>
-	[Serializable]
 	public class SecondaryKeyDictionary<T1, T2, V>
 	{
 		public Dictionary<T1, V> primaryDictionary = new Dictionary<T1, V>();

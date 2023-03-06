@@ -71,14 +71,10 @@ public class Player : MonoBehaviour
 		m_MaxJumpVelocity = Mathf.Abs(m_Gravity) * m_TimeToJumpApex;
 		m_MinJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(m_Gravity) * m_MinJumpHeight);
 
-		// 임시 버프 획득
-		m_Character.AddBuff(M_Buff.m_BuffDictionary[101001]);
-		m_Character.AddBuff(M_Buff.m_BuffDictionary[101002]);
-
-		foreach (BaseBuff item in m_Character.m_BuffList)
-		{
-			item.OnBuffInitialize.OnBuffInvoke(ref m_Character);
-		}
+		//foreach (Buff item in m_Character.m_BuffList)
+		//{
+		//	item.OnBuffInitialize.OnBuffInvoke(ref m_Character);
+		//}
 	}
 	private void Update()
 	{
@@ -103,7 +99,14 @@ public class Player : MonoBehaviour
 		m_Renderer.SetIsGround(m_Controller.collisions.below);
 		#endregion
 
-		foreach (BaseBuff item in m_Character.m_BuffList)
+		// 임시 버프 획득
+		if (Input.GetKeyDown(KeyCode.F))
+		{
+			m_Character.AddBuff(M_Buff.m_BuffDictionary["체력 증가"]);
+			m_Character.AddBuff(M_Buff.m_BuffDictionary["초 당 체력 회복"]);
+		}
+
+		foreach (Buff item in m_Character.m_BuffList)
 		{
 			item.OnBuffUpdate.OnBuffInvoke(ref m_Character);
 		}
