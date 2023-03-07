@@ -20,7 +20,6 @@ namespace GreenerGames
 		{
 			get { return GetValueFromPrimary(primary); }
 		}
-
 		public V this[T2 secondary]
 		{
 			get { return GetValueFromSecondary(secondary); }
@@ -44,7 +43,7 @@ namespace GreenerGames
 		/// <param name="primaryKey"></param>
 		/// <returns></returns>
 		/// <exception cref="KeyNotFoundException"></exception>
-		public V GetValueFromPrimary(T1 primaryKey)
+		private V GetValueFromPrimary(T1 primaryKey)
 		{
 			if (primaryDictionary.ContainsKey(primaryKey)) return primaryDictionary[primaryKey];
 
@@ -57,7 +56,7 @@ namespace GreenerGames
 		/// <param name="secondaryKey"></param>
 		/// <returns></returns>
 		/// <exception cref="KeyNotFoundException"></exception>
-		public V GetValueFromSecondary(T2 secondaryKey)
+		private V GetValueFromSecondary(T2 secondaryKey)
 		{
 			if (secondaryKeyLink.ContainsKey(secondaryKey))
 			{
@@ -75,7 +74,7 @@ namespace GreenerGames
 		/// <param name="secondary"></param>
 		/// <returns></returns>
 		/// <exception cref="KeyNotFoundException"></exception>
-		public V GetValueFromEither(T1 primary, T2 secondary)
+		private V GetValueFromEither(T1 primary, T2 secondary)
 		{
 			if (primaryDictionary.ContainsKey(primary)) return GetValueFromPrimary(primary);
 
@@ -109,6 +108,28 @@ namespace GreenerGames
 
 			LinkSecondaryKey(key, secondaryKey);
 		}
+		public bool Remove(T1 primaryKey)
+		{
+			if (primaryKey == null)
+				throw new ArgumentNullException("primaryKey", "Primary Key is null");
+
+			if (!ContainsKey(primaryKey))
+				return false;
+
+			return primaryDictionary.Remove(primaryKey);
+		}
+		public bool Remove(T2 secondaryKey)
+		{
+			if (secondaryKey == null)
+				throw new ArgumentNullException("secondaryKey", "Secondary Key is null");
+
+			if (!ContainsKey(secondaryKey))
+				return false;
+
+			T1 primaryKey = secondaryKeyLink[secondaryKey];
+			secondaryKeyLink.Remove(secondaryKey);
+			return primaryDictionary.Remove(primaryKey);
+		}
 
 		/// <summary>
 		/// Link a secondary key to a primary key
@@ -132,12 +153,10 @@ namespace GreenerGames
 			else
 				throw new InvalidOperationException("Secondary key already exist");
 		}
-
 		public bool ContainsPrimaryKey(T1 primaryKey)
 		{
 			return primaryDictionary.ContainsKey(primaryKey);
 		}
-
 		public bool ContainsSecondaryKey(T2 secondaryKey)
 		{
 			if (secondaryKeyLink.ContainsKey(secondaryKey))
@@ -149,15 +168,36 @@ namespace GreenerGames
 
 			return false;
 		}
-
 		public bool ContainsKey(T1 key)
 		{
 			return ContainsPrimaryKey(key);
 		}
-
 		public bool ContainsKey(T2 secondaryKey)
 		{
 			return ContainsSecondaryKey(secondaryKey);
+		}
+
+		public bool TryGetValue(T1 primaryKey, out V value)
+		{
+			if (!ContainsKey(primaryKey))
+			{
+				value = default(V);
+				return false;
+			}
+
+			value = this[primaryKey];
+			return true;
+		}
+		public bool TryGetValue(T2 secondaryKey, out V value)
+		{
+			if (!ContainsKey(secondaryKey))
+			{
+				value = default(V);
+				return false;
+			}
+
+			value = this[secondaryKey];
+			return true;
 		}
 	}
 
@@ -189,7 +229,7 @@ namespace GreenerGames
 		/// <param name="primaryKey"></param>
 		/// <returns></returns>
 		/// <exception cref="KeyNotFoundException"></exception>
-		public V GetValueFromPrimary(T primaryKey)
+		private V GetValueFromPrimary(T primaryKey)
 		{
 			if (primaryDictionary.ContainsKey(primaryKey)) return primaryDictionary[primaryKey];
 
@@ -202,7 +242,7 @@ namespace GreenerGames
 		/// <param name="secondaryKey"></param>
 		/// <returns></returns>
 		/// <exception cref="KeyNotFoundException"></exception>
-		public V GetValueFromSecondary(T secondaryKey)
+		private V GetValueFromSecondary(T secondaryKey)
 		{
 			if (secondaryKeyLink.ContainsKey(secondaryKey))
 			{
@@ -220,7 +260,7 @@ namespace GreenerGames
 		/// <param name="key"></param>
 		/// <returns></returns>
 		/// <exception cref="KeyNotFoundException"></exception>
-		public V GetValueFromEither(T key)
+		private V GetValueFromEither(T key)
 		{
 			if (primaryDictionary.ContainsKey(key)) return GetValueFromPrimary(key);
 
@@ -277,20 +317,16 @@ namespace GreenerGames
 			else
 				throw new InvalidOperationException("Secondary key already exist");
 		}
-
-
 		public bool ContainsKey(T key)
 		{
 			if (ContainsPrimaryKey(key)) return true;
 
 			return ContainsSecondaryKey(key);
 		}
-
 		public bool ContainsPrimaryKey(T primaryKey)
 		{
 			return primaryDictionary.ContainsKey(primaryKey);
 		}
-
 		public bool ContainsSecondaryKey(T secondaryKey)
 		{
 			if (secondaryKeyLink.ContainsKey(secondaryKey))
@@ -301,6 +337,18 @@ namespace GreenerGames
 			}
 
 			return false;
+		}
+
+		public bool TryGetValue(T key, out V value)
+		{
+			if (!ContainsKey(key))
+			{
+				value = default(V);
+				return false;
+			}
+
+			value = this[key];
+			return true;
 		}
 	}
 }

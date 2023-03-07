@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public static class UtilsClass
+public static class UtilClass
 {
 	public static Vector3 GetMouseWorldPosition()
 	{
@@ -51,28 +51,50 @@ public static class UtilsClass
 
 	public class Timer
 	{
-		public float interval;
-		public float timer;
+		private float m_Interval;
+		private float m_Time;
+
+		public float interval
+		{
+			get { return m_Interval; }
+			set
+			{
+				m_Interval = value;
+				if (m_Interval < m_Time)
+					m_Time = m_Interval;
+			}
+		}
+		public float time
+		{
+			get { return m_Time; }
+		}
 
 		public Timer(float interval)
 		{
-			this.interval = interval;
-			timer = 0f;
+			m_Interval = interval;
+			m_Time = 0f;
 		}
 
-		public bool Update()
+		public bool Update(float timeScale = 1.0f, bool autoUse = false)
 		{
-			bool result = false;
-
-			if (timer >= interval)
+			if (m_Time >= m_Interval)
 			{
-				timer -= interval;
-				result = true;
+				if (autoUse)
+					Use();
+
+				return true;
 			}
 
-			timer += Time.deltaTime;
+			m_Time += Time.deltaTime * timeScale;
 
-			return result;
+			return false;
+		}
+		public void Use()
+		{
+			if (m_Time >= m_Interval)
+			{
+				m_Time -= m_Interval;
+			}
 		}
 	}
 }

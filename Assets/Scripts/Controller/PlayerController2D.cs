@@ -92,10 +92,10 @@ public class PlayerController2D : Controller2D
 					}
 				}
 
-				moveAmount.y = (hit.distance - skinWidth) * directionY;
-				rayLength = hit.distance;
-				//moveAmount.y = Mathf.Min(Mathf.Abs(moveAmount.y), (hit.distance - skinWidth)) * directionY;
-				//rayLength = Mathf.Min(Mathf.Abs(moveAmount.y) + skinWidth, hit.distance);
+				//moveAmount.y = (hit.distance - skinWidth) * directionY;
+				//rayLength = hit.distance;
+				moveAmount.y = Mathf.Min(Mathf.Abs(moveAmount.y), (hit.distance - skinWidth)) * directionY;
+				rayLength = Mathf.Min(Mathf.Abs(moveAmount.y) + skinWidth, hit.distance);
 
 				if (m_Collisions.climbingSlope)
 				{

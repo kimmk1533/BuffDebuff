@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using GreenerGames;
 using GoogleSheetsToUnity;
-using GoogleSheetsToUnity.ThirdPary;
-using static BuffData;
 
-public class BuffManager : Singleton<BuffManager>
+public sealed class BuffManager : Singleton<BuffManager>
 {
-	public string m_AssociatedSheet = "1vDHbPcXSj3IUdHfGhmYbG7bse7FmDJKVRJ8DDd-slDQ";
-	public string m_AssociatedWorkSheet = "버프 목록";
+	[SerializeField, ReadOnly]
+	private string m_AssociatedSheet = "1vDHbPcXSj3IUdHfGhmYbG7bse7FmDJKVRJ8DDd-slDQ";
+	[SerializeField, ReadOnly]
+	private string m_AssociatedWorkSheet = "버프 목록";
 
-	public string m_StartCell = "C1";
-	public string m_EndCell = "J55";
+	[SerializeField]
+	private string m_StartCell = "C1";
+	[SerializeField]
+	private string m_EndCell = "J55";
 
 	// [ 코드, 버프 ]
-	public SecondaryKeyDictionary<int, string, Buff> m_BuffDictionary;
+	private SecondaryKeyDictionary<int, string, Buff> m_BuffDictionary;
 #if UNITY_EDITOR
 	[SerializeField, ReadOnly]
 	private DebugDictionary<string, int> m_Debug1;
@@ -72,49 +74,17 @@ public class BuffManager : Singleton<BuffManager>
 		int titleRow = int.Parse(m_StartCell.Substring(1, m_StartCell.Length - 1));
 		GSTU_Search search = new GSTU_Search(m_AssociatedSheet, m_AssociatedWorkSheet, m_StartCell, m_EndCell, titleColumn, titleRow);
 
-		SpreadsheetManager.Read(search, LoadBuffCallBack);
+		SpreadsheetManager.Read(search, LoadBuffCallBack, true);
 	}
 	private void LoadBuffCallBack(GstuSpreadSheet spreadSheet)
 	{
 		LoadBuff(spreadSheet);
-
-		/*
-		 * 버프 구현
-		 */
-		{
-			// 001. 체력 증가
-			{
-				m_BuffDictionary["체력 증가"]
-					.OnBuffInitialize.OnBuffEvent += (ref Character character) =>
-					{
-						character.m_BuffStat.MaxHP += 100;
-					};
-				m_BuffDictionary["체력 증가"]
-					.OnBuffFinalize.OnBuffEvent += (ref Character character) =>
-					{
-						character.m_BuffStat.MaxHP -= 100;
-					};
-			}
-
-			// 002. 5초 당 체력 회복
-			{
-				UtilsClass.Timer timer = new UtilsClass.Timer(5f);
-				m_BuffDictionary["초 당 체력 회복"]
-					.OnBuffUpdate.OnBuffEvent += (ref Character character) =>
-					{
-						if (timer.Update())
-						{
-							character.m_CurrentStat.HP += 10;
-						}
-					};
-			}
-		}
-		/*
-		 * 버프 구현 끝
-		 */
+		CodeBuff();
 	}
 	private void LoadBuff(GstuSpreadSheet spreadSheet)
 	{
+		Debug.Log("Load Buff is Started.");
+
 		bool first = true;
 		foreach (var item in spreadSheet.rows.primaryDictionary)
 		{
@@ -126,6 +96,9 @@ public class BuffManager : Singleton<BuffManager>
 
 			var list = item.Value;
 
+			string name = list[0].value;
+			int.TryParse(list[1].value, out int code);
+
 			string typeStr = list[2].value;
 			switch (typeStr)
 			{
@@ -136,6 +109,8 @@ public class BuffManager : Singleton<BuffManager>
 					typeStr = "Debuff";
 					break;
 			}
+			System.Enum.TryParse(typeStr, out E_BuffType type);
+
 			string effectTypeStr = list[3].value;
 			switch (effectTypeStr)
 			{
@@ -149,32 +124,32 @@ public class BuffManager : Singleton<BuffManager>
 					effectTypeStr = "Combat";
 					break;
 			}
-			string targetStr = list[5].value;
-			switch (targetStr)
+			System.Enum.TryParse(effectTypeStr, out E_BuffEffectType effectType);
+
+			System.Enum.TryParse(list[4].value, out E_BuffGrade grade);
+
+			string weaponStr = list[5].value;
+			switch (weaponStr)
 			{
 				case "공통":
-					targetStr = "All";
+					weaponStr = "All";
 					break;
 				case "근거리 무기":
-					targetStr = "Melee";
+					weaponStr = "Melee";
 					break;
 				case "원거리 무기":
-					targetStr = "Ranged";
+					weaponStr = "Ranged";
 					break;
 			}
+			System.Enum.TryParse(weaponStr, out E_BuffWeapon weapon);
 
-			string name = list[0].value;
-			int.TryParse(list[1].value, out int code);
-			System.Enum.TryParse(typeStr, out E_BuffType type);
-			System.Enum.TryParse(effectTypeStr, out E_BuffEffectType effectType);
-			System.Enum.TryParse(list[4].value, out E_BuffGrade grade);
-			System.Enum.TryParse(targetStr, out E_BuffWeapon target);
 			string description = list[7].value;
 
-			BuffData buffData = new BuffData(name, code, type, effectType, grade, target, description);
+			BuffData buffData = new BuffData(name, code, type, effectType, grade, weapon, description);
 			Buff buff = new Buff(buffData);
 
 			m_BuffDictionary.Add(code, buff, name);
+
 #if UNITY_EDITOR
 			m_Debug1.Add(name, code);
 			m_Debug2.Add(code, buff);
@@ -183,6 +158,73 @@ public class BuffManager : Singleton<BuffManager>
 
 		Debug.Log("Load Buff is Completed.");
 	}
+	private void CodeBuff()
+	{
+		#region 001. 체력 증가
+		m_BuffDictionary["체력 증가"]
+			.OnBuffInitialize.OnBuffEvent += (Character character) =>
+			{
+				character.m_CurrentStat.MaxHP += 100f;
+				//character.m_BuffStat.MaxHP += 100f;
+			};
+		m_BuffDictionary["체력 증가"]
+			.OnBuffFinalize.OnBuffEvent += (Character character) =>
+			{
+				character.m_CurrentStat.MaxHP -= 100f;
+				//character.m_BuffStat.MaxHP -= 100f;
+			};
+		#endregion
 
-	
+		#region 003. 재생
+		m_BuffDictionary["재생"]
+			.OnBuffInitialize.OnBuffEvent += (Character character) =>
+			{
+				character.m_CurrentStat.HPregen = 10f;
+			};
+		m_BuffDictionary["재생"]
+			.OnBuffFinalize.OnBuffEvent += (Character character) =>
+			{
+				character.m_CurrentStat.HPregen = 0f;
+			};
+		#endregion
+
+		#region 004. 빠른 재생
+		m_BuffDictionary["빠른 재생"]
+			.OnBuffInitialize.OnBuffEvent += (Character character) =>
+			{
+				character.m_CurrentStat.HPregenCooldown -= 1f;
+				character.m_HealTimer.interval = character.m_CurrentStat.HPregenCooldown;
+			};
+		m_BuffDictionary["빠른 재생"]
+			.OnBuffFinalize.OnBuffEvent += (Character character) =>
+			{
+				character.m_CurrentStat.HPregenCooldown += 1f;
+				character.m_HealTimer.interval = character.m_CurrentStat.HPregenCooldown;
+			};
+		#endregion
+
+		#region 005. 느린 재생
+		m_BuffDictionary["느린 재생"]
+			.OnBuffInitialize.OnBuffEvent += (Character character) =>
+			{
+				character.m_CurrentStat.HPregenCooldown += 1f;
+				character.m_HealTimer.interval = character.m_CurrentStat.HPregenCooldown;
+			};
+		m_BuffDictionary["느린 재생"]
+			.OnBuffFinalize.OnBuffEvent += (Character character) =>
+			{
+				character.m_CurrentStat.HPregenCooldown -= 1f;
+				character.m_HealTimer.interval = character.m_CurrentStat.HPregenCooldown;
+			};
+		#endregion
+	}
+
+	public Buff GetBuff(int key)
+	{
+		return m_BuffDictionary[key];
+	}
+	public Buff GetBuff(string key)
+	{
+		return m_BuffDictionary[key];
+	}
 }

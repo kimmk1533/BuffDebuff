@@ -32,11 +32,14 @@ public class Player : MonoBehaviour
 	#endregion
 
 	[SerializeField]
-	Character m_Character = new Character();
+	Character m_Character;
 
-	BuffManager M_Buff => BuffManager.Instance;
 	ProjectileManager M_Projectile => ProjectileManager.Instance;
 
+	private void Awake()
+	{
+		m_Character = new Character();
+	}
 	private void Start()
 	{
 		m_Controller = GetComponent<PlayerController2D>();
@@ -71,6 +74,9 @@ public class Player : MonoBehaviour
 		m_MaxJumpVelocity = Mathf.Abs(m_Gravity) * m_TimeToJumpApex;
 		m_MinJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(m_Gravity) * m_MinJumpHeight);
 
+		//m_Character.AddBuff(M_Buff.m_BuffDictionary["체력 증가"]);
+		//m_Character.AddBuff(M_Buff.m_BuffDictionary["재생"]);
+
 		//foreach (Buff item in m_Character.m_BuffList)
 		//{
 		//	item.OnBuffInitialize.OnBuffInvoke(ref m_Character);
@@ -99,16 +105,31 @@ public class Player : MonoBehaviour
 		m_Renderer.SetIsGround(m_Controller.collisions.below);
 		#endregion
 
-		// 임시 버프 획득
+		// 임시 버프
 		if (Input.GetKeyDown(KeyCode.F))
 		{
-			m_Character.AddBuff(M_Buff.m_BuffDictionary["체력 증가"]);
-			m_Character.AddBuff(M_Buff.m_BuffDictionary["초 당 체력 회복"]);
+			m_Character.AddBuff("체력 증가");
+			m_Character.AddBuff("재생");
 		}
-
-		foreach (Buff item in m_Character.m_BuffList)
+		if (Input.GetMouseButtonDown(0))
 		{
-			item.OnBuffUpdate.OnBuffInvoke(ref m_Character);
+			m_Character.AddBuff("빠른 재생");
+		}
+		if (Input.GetMouseButtonDown(1))
+		{
+			m_Character.AddBuff("느린 재생");
+		}
+		if (Input.GetKeyDown(KeyCode.G))
+		{
+			m_Character.RemoveBuff("체력 증가");
+		}
+		//
+
+		m_Character.Update();
+
+		foreach (var item in m_Character.m_BuffList.primaryDictionary)
+		{
+			item.Value.OnBuffUpdate.OnBuffInvoke(m_Character);
 		}
 	}
 
@@ -129,9 +150,9 @@ public class Player : MonoBehaviour
 			//{
 			//	item.OnBuffInvoke(ref m_Character);
 			//}
-			foreach (var item in m_Character.m_BuffList)
+			foreach (var item in m_Character.m_BuffList.primaryDictionary)
 			{
-				item.OnBuffJump.OnBuffInvoke(ref m_Character);
+				item.Value.OnBuffJump.OnBuffInvoke(m_Character);
 			}
 		}
 	}

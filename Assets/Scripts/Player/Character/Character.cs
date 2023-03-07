@@ -1,49 +1,119 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GreenerGames;
 
 [System.Serializable]
 public class Character
 {
 	public CharacterStat m_CurrentStat;
 	public CharacterStat m_BuffStat;
-	//public Dictionary<E_BuffInvokeCondition, List<BaseBuff>> m_BuffList;
-	public HashSet<Buff> m_BuffList;
+	[SerializeField, ReadOnly]
+	private CharacterStat m_FinalStat;
+
+	public UtilClass.Timer m_HealTimer;
+
+	public SecondaryKeyDictionary<int, string, Buff> m_BuffList;
+
+	public CharacterStat finalStat
+	{
+		get { return m_FinalStat; }
+	}
 
 	public Character()
 	{
-		m_CurrentStat = new CharacterStat();
+		m_CurrentStat = new CharacterStat()
+		{
+			HPregenCooldown = 5f,
+		};
 		m_BuffStat = new CharacterStat();
-		m_BuffList = new HashSet<Buff>();
+		m_FinalStat = m_CurrentStat + m_BuffStat;
+
+		m_HealTimer = new UtilClass.Timer(finalStat.HPregenCooldown);
+
+		m_BuffList = new SecondaryKeyDictionary<int, string, Buff>();
 	}
 
+	BuffManager M_Buff => BuffManager.Instance;
+
+	public void Update()
+	{
+		if (m_HealTimer.Update())
+		{
+			if (m_CurrentStat.HP < m_CurrentStat.MaxHP)
+			{
+				m_CurrentStat.HP += m_CurrentStat.HPregen;
+				m_HealTimer.Use();
+
+				if (m_CurrentStat.HP > m_CurrentStat.MaxHP)
+				{
+					m_CurrentStat.HP = m_CurrentStat.MaxHP;
+				}
+			}
+		}
+	}
+
+	public void AddBuff(string name)
+	{
+		Buff buff = M_Buff.GetBuff(name);
+
+		this.AddBuff(buff);
+	}
+	public void AddBuff(int code)
+	{
+		Buff buff = M_Buff.GetBuff(code);
+
+		this.AddBuff(buff);
+	}
 	public void AddBuff(Buff buff)
 	{
 		if (buff == null)
 			return;
 
-		m_BuffList.Add(buff);
+		if (m_BuffList.TryGetValue(buff.code, out Buff newBuff))
+		{
+			++newBuff.stackCount;
+			newBuff.OnBuffInitialize.OnBuffInvoke(this);
+			return;
+		}
+
+		newBuff = new Buff(buff);
+
+		m_BuffList.Add(buff.code, newBuff, buff.name);
+
+		newBuff.OnBuffInitialize.OnBuffInvoke(this);
+	}
+	public bool RemoveBuff(string name)
+	{
+		if (name == null || name == "")
+			return false;
+
+		Buff buff = M_Buff.GetBuff(name);
+
+		return RemoveBuff(buff);
+	}
+	public bool RemoveBuff(int code)
+	{
+		Buff buff = M_Buff.GetBuff(code);
+
+		return RemoveBuff(buff);
+	}
+	public bool RemoveBuff(Buff buff)
+	{
+		if (buff == null)
+			return false;
 
 		Character character = this;
-		buff.OnBuffInitialize.OnBuffInvoke(ref character);
 
-		//m_BuffList[E_BuffInvokeCondition.Initialize].Add(buff.OnBuffInitialize);
-		//m_BuffList[E_BuffInvokeCondition.Finalize].Add(buff.OnBuffFinalize);
-		//m_BuffList[E_BuffInvokeCondition.Update].Add(buff.OnBuffUpdate);
-		//m_BuffList[E_BuffInvokeCondition.Jump].Add(buff.OnBuffJump);
-		//m_BuffList[E_BuffInvokeCondition.Dash].Add(buff.OnBuffDash);
-		//m_BuffList[E_BuffInvokeCondition.GetDamage].Add(buff.OnBuffGetDamage);
-		//m_BuffList[E_BuffInvokeCondition.AttackStart].Add(buff.OnBuffAttackStart);
-		//m_BuffList[E_BuffInvokeCondition.GiveDamage].Add(buff.OnBuffGiveDamage);
-		//m_BuffList[E_BuffInvokeCondition.AttackEnd].Add(buff.OnBuffAttackEnd);
-	}
-	public void RemoveBuff(string name)
-	{
+		if (m_BuffList.TryGetValue(buff.code, out Buff newBuff) &&
+			newBuff.stackCount > 0)
+		{
+			--newBuff.stackCount;
+			newBuff.OnBuffFinalize.OnBuffInvoke(this);
+			return true;
+		}
 
-	}
-	public void RemoveBuff(int code)
-	{
-
+		return false;
 	}
 
 	[System.Serializable]
@@ -51,7 +121,8 @@ public class Character
 	{
 		public float MaxHP;                 // 최대 체력
 		public float HP;                    // 현재 체력
-		public float HPregen;               // 체력 재생력
+		public float HPregen;               // 체력 재생량 (체력 재생 시간마다 한 번 재생)
+		public float HPregenCooldown;       // 체력 재생 시간
 		public float HealScale;             // 모든 힐 배율
 		public float Defense;               // 방어력
 		public float Avoidability;          // 회피율
@@ -77,8 +148,10 @@ public class Character
 			result.MaxHP = s1.MaxHP + s2.MaxHP;
 			// 현재 체력
 			result.HP = s1.HP + s2.HP;
-			// 체력 재생력
+			// 체력 재생량
 			result.HPregen = s1.HPregen + s2.HPregen;
+			// 체력 재생 시간
+			result.HPregenCooldown = s1.HPregenCooldown + s2.HPregenCooldown;
 			// 모든 힐 배율
 			result.HealScale = s1.HealScale + s2.HealScale;
 			// 방어력

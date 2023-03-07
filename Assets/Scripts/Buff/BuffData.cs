@@ -93,13 +93,13 @@ public class BuffDataDrawer : PropertyDrawer
 			code.intValue = EditorGUI.IntField(pos, "코드", code.intValue);
 			pos.y += EditorGUIUtility.singleLineHeight + 5f;
 
-			E_BuffGrade e_Type = (E_BuffGrade)type.enumValueIndex;
-			e_Type = (E_BuffGrade)EditorGUI.EnumPopup(pos, "종류", e_Type);
+			E_BuffType e_Type = (E_BuffType)type.enumValueIndex;
+			e_Type = (E_BuffType)EditorGUI.EnumPopup(pos, "종류", e_Type);
 			type.enumValueIndex = (int)e_Type;
 			pos.y += EditorGUIUtility.singleLineHeight + 5f;
 
-			E_BuffGrade e_EffectType = (E_BuffGrade)effectType.enumValueIndex;
-			e_EffectType = (E_BuffGrade)EditorGUI.EnumPopup(pos, "효과 종류", e_EffectType);
+			E_BuffEffectType e_EffectType = (E_BuffEffectType)effectType.enumValueIndex;
+			e_EffectType = (E_BuffEffectType)EditorGUI.EnumPopup(pos, "효과 종류", e_EffectType);
 			effectType.enumValueIndex = (int)e_EffectType;
 			pos.y += EditorGUIUtility.singleLineHeight + 5f;
 
