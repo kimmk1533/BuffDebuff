@@ -96,9 +96,13 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 			var list = item.Value;
 
+			// 명칭
 			string name = list[0].value;
+
+			// 코드
 			int.TryParse(list[1].value, out int code);
 
+			// 버프 종류
 			string typeStr = list[2].value;
 			switch (typeStr)
 			{
@@ -111,6 +115,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 			}
 			System.Enum.TryParse(typeStr, out E_BuffType type);
 
+			// 효과 종류
 			string effectTypeStr = list[3].value;
 			switch (effectTypeStr)
 			{
@@ -126,9 +131,14 @@ public sealed class BuffManager : Singleton<BuffManager>
 			}
 			System.Enum.TryParse(effectTypeStr, out E_BuffEffectType effectType);
 
+			// 등급
 			System.Enum.TryParse(list[4].value, out E_BuffGrade grade);
 
-			string weaponStr = list[5].value;
+			// 최대 스택
+			int.TryParse(list[5].value, out int maxStack);
+
+			// 적용 무기
+			string weaponStr = list[6].value;
 			switch (weaponStr)
 			{
 				case "공통":
@@ -143,9 +153,10 @@ public sealed class BuffManager : Singleton<BuffManager>
 			}
 			System.Enum.TryParse(weaponStr, out E_BuffWeapon weapon);
 
-			string description = list[7].value;
+			// 설명
+			string description = list[8].value;
 
-			BuffData buffData = new BuffData(name, code, type, effectType, grade, weapon, description);
+			BuffData buffData = new BuffData(name, code, type, effectType, grade, maxStack, weapon, description);
 			Buff buff = new Buff(buffData);
 
 			m_BuffDictionary.Add(code, buff, name);

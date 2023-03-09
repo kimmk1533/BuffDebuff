@@ -17,6 +17,8 @@ public struct BuffData
 	[SerializeField, ReadOnly]
 	private E_BuffGrade m_Grade;
 	[SerializeField, ReadOnly]
+	private int m_MaxStack;
+	[SerializeField, ReadOnly]
 	private E_BuffWeapon m_Weapon;
 	[SerializeField, ReadOnly]
 	private string m_Description;
@@ -41,6 +43,10 @@ public struct BuffData
 	{
 		get { return m_Grade; }
 	}
+	public int maxStack
+	{
+		get { return m_MaxStack; }
+	}
 	public E_BuffWeapon weapon
 	{
 		get { return m_Weapon; }
@@ -50,13 +56,14 @@ public struct BuffData
 		get { return m_Description; }
 	}
 
-	public BuffData(string _name, int _code, E_BuffType _type, E_BuffEffectType _effectType, E_BuffGrade _grade, E_BuffWeapon _weapon, string _description)
+	public BuffData(string _name, int _code, E_BuffType _type, E_BuffEffectType _effectType, E_BuffGrade _grade, int _maxStack, E_BuffWeapon _weapon, string _description)
 	{
 		m_Name = _name;
 		m_Code = _code;
 		m_Type = _type;
 		m_EffectType = _effectType;
 		m_Grade = _grade;
+		m_MaxStack = _maxStack;
 		m_Weapon = _weapon;
 		m_Description = _description;
 	}
