@@ -75,7 +75,7 @@ public static class UtilClass
 			m_Time = 0f;
 		}
 
-		public bool Update(float timeScale = 1.0f, bool autoUse = false)
+		public bool Update(bool autoUse = false, float timeScale = 1.0f)
 		{
 			if (m_Time >= m_Interval)
 			{

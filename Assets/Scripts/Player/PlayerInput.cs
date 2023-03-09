@@ -25,9 +25,14 @@ public class PlayerInput : MonoBehaviour
 			m_Player.OnJumpInputUp();
 		}
 
-		if (Input.GetMouseButtonDown(0))
+		//if (Input.GetMouseButtonDown(0))
+		//{
+		//	m_Player.DefaultAttack();
+		//}
+
+		if (Input.GetMouseButtonDown(1))
 		{
-			//m_Player.DefaultAttack();
+			m_Player.OnDashInputDown();
 		}
 	}
 }

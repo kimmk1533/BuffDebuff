@@ -389,6 +389,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MoveSpeed: 10
+  m_DashSpeed: 30
+  m_MaxDashCount: 3
+  m_DashCooldown: 1
   m_Velocity: {x: 0, y: 0}
   m_AccelerationTimeAirborne: 0.2
   m_AccelerationTimeGrounded: 0.1
