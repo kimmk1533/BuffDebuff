@@ -5,14 +5,13 @@ using UnityEngine;
 public class PlayerController2D : Controller2D
 {
 	Vector2 m_PlayerInput;
-	[SerializeField, ReadOnly]
 	Collider2D m_FallingThroughPlatform;
 
 	public Vector2 playerInput => m_PlayerInput;
 
 	StageManager M_Stage => StageManager.Instance;
 
-	public new void Move(Vector2 moveAmount, bool standingOnPlatform)
+	public new void Move(Vector2 moveAmount, bool standingOnPlatform = false)
 	{
 		Move(moveAmount, Vector2.zero, standingOnPlatform);
 	}

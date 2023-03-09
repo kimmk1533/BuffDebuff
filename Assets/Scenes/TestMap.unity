@@ -388,12 +388,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 391c0cf984af74f44b6e7dea94dcd561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxJumpHeight: 5.5
-  m_MinJumpHeight: 1
-  m_TimeToJumpApex: 0.4
   m_MoveSpeed: 10
-  m_Gravity: 0
   m_Velocity: {x: 0, y: 0}
+  m_AccelerationTimeAirborne: 0.2
+  m_AccelerationTimeGrounded: 0.1
   m_Character:
     m_CurrentStat:
       MaxHP: 0
@@ -467,7 +465,9 @@ MonoBehaviour:
   m_CollisionMask:
     serializedVersion: 2
     m_Bits: 64
-  m_FallingThroughPlatform: {fileID: 0}
+  m_MaxJumpHeight: 6
+  m_MinJumpHeight: 1
+  m_TimeToJumpApex: 0.4
 --- !u!61 &1230272636
 BoxCollider2D:
   m_ObjectHideFlags: 0

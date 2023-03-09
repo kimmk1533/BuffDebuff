@@ -5,7 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class RaycastController : MonoBehaviour
 {
-	public LayerMask m_CollisionMask;
+	[SerializeField]
+	protected LayerMask m_CollisionMask;
 
 	public const float skinWidth = 0.015f;
 	const float dstBetweenRays = 0.125f;

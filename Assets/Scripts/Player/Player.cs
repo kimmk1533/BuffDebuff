@@ -3,33 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D), typeof(PlayerController2D))]
-public class Player : MonoBehaviour
+public sealed class Player : MonoBehaviour
 {
 	#region PlayerController Variables
-	[SerializeField, ReadOnly(true)]
-	float m_MaxJumpHeight = 4;
-	[SerializeField, ReadOnly(true)]
-	float m_MinJumpHeight = 1;
-	[SerializeField, ReadOnly(true)]
-	float m_TimeToJumpApex = 0.4f;
-	float m_AccelerationTimeAirborne = 0.2f;
-	float m_AccelerationTimeGrounded = 0.1f;
 	[SerializeField]
-	float m_MoveSpeed = 6;
+	float m_MoveSpeed = 10f;
 
-	[SerializeField, ReadOnly]
-	float m_Gravity;
-	float m_MaxJumpVelocity;
-	float m_MinJumpVelocity;
 	[SerializeField, ReadOnly]
 	Vector2 m_Velocity;
 	float m_VelocityXSmoothing;
-
-	PlayerController2D m_Controller;
-	PlayerRenderer m_Renderer;
+	float m_AccelerationTimeAirborne = 0.2f;
+	float m_AccelerationTimeGrounded = 0.1f;
 
 	Vector2 m_DirectionalInput;
 	#endregion
+
+	PlayerController2D m_Controller;
+	PlayerRenderer m_Renderer;
 
 	[SerializeField]
 	Character m_Character;
@@ -38,50 +28,18 @@ public class Player : MonoBehaviour
 
 	private void Awake()
 	{
-		m_Character = new Character();
+		Initialize();
 	}
-	private void Start()
-	{
-		m_Controller = GetComponent<PlayerController2D>();
-		m_Renderer = GetComponentInChildren<PlayerRenderer>();
+	//private void Start()
+	//{
+	//	m_Character.AddBuff(M_Buff.m_BuffDictionary["체력 증가"]);
+	//	m_Character.AddBuff(M_Buff.m_BuffDictionary["재생"]);
 
-		{
-			/*
-			 *                                           acceleration * time²
-			 * deltaMovement = velocityInitial * time + ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-			 *                                                     2
-			 *               ↓
-			 *                  gravity * timeToJumpApex²
-			 *    jumpHeight = ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-			 *                              2
-			 *               ↓
-			 *                  2 * jumpHeight
-			 *       gravity = ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-			 *                  timeToJumpApex²
-			 * 
-			 */
-		}
-		m_Gravity = -(2 * m_MaxJumpHeight) / Mathf.Pow(m_TimeToJumpApex, 2);
-		{
-			/*
-			 * 
-			 * velocityFinal = velocityInitial + acceleration * time
-			 * 
-			 *  jumpVelocity = gravity * timeToJumpApex
-			 * 
-			 */
-		}
-		m_MaxJumpVelocity = Mathf.Abs(m_Gravity) * m_TimeToJumpApex;
-		m_MinJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(m_Gravity) * m_MinJumpHeight);
-
-		//m_Character.AddBuff(M_Buff.m_BuffDictionary["체력 증가"]);
-		//m_Character.AddBuff(M_Buff.m_BuffDictionary["재생"]);
-
-		//foreach (Buff item in m_Character.m_BuffList)
-		//{
-		//	item.OnBuffInitialize.OnBuffInvoke(ref m_Character);
-		//}
-	}
+	//	foreach (Buff item in m_Character.m_BuffList)
+	//	{
+	//		item.OnBuffInitialize.OnBuffInvoke(ref m_Character);
+	//	}
+	//}
 	private void Update()
 	{
 		#region PlayerController Method
@@ -91,21 +49,14 @@ public class Player : MonoBehaviour
 
 		if (m_Controller.collisions.above || m_Controller.collisions.below)
 		{
-			//if (m_Controller.collisions.slidingDownMaxSlope)
-			//{
-			//	m_Velocity.y += m_Controller.collisions.slopeNormal.y * -m_Gravity * Time.deltaTime;
-			//}
-			//else
-			{
-				m_Velocity.y = 0;
-			}
+			m_Velocity.y = 0;
 		}
 
 		m_Renderer.SetVelocity(m_Velocity);
-		m_Renderer.SetIsGround(m_Controller.collisions.below);
+		m_Renderer.SetIsGround(m_Controller.collisions.isGrounded);
 		#endregion
 
-		// 임시 버프
+		#region 임시 버프
 		if (Input.GetKeyDown(KeyCode.F))
 		{
 			m_Character.AddBuff("체력 증가");
@@ -115,15 +66,11 @@ public class Player : MonoBehaviour
 		{
 			m_Character.AddBuff("빠른 재생");
 		}
-		if (Input.GetMouseButtonDown(1))
-		{
-			m_Character.AddBuff("느린 재생");
-		}
 		if (Input.GetKeyDown(KeyCode.G))
 		{
 			m_Character.RemoveBuff("체력 증가");
 		}
-		//
+		#endregion
 
 		m_Character.Update();
 
@@ -131,6 +78,14 @@ public class Player : MonoBehaviour
 		{
 			item.Value.OnBuffUpdate.OnBuffInvoke(m_Character);
 		}
+	}
+
+	private void Initialize()
+	{
+		m_Controller = GetComponent<PlayerController2D>();
+		m_Renderer = GetComponentInChildren<PlayerRenderer>();
+
+		m_Character = new Character();
 	}
 
 	#region PlayerController Func
@@ -143,13 +98,9 @@ public class Player : MonoBehaviour
 	{
 		if (m_Controller.collisions.below && m_DirectionalInput.y != -1)
 		{
-			m_Velocity.y = m_MaxJumpVelocity;
+			m_Velocity.y = m_Controller.maxJumpVelocity;
 			m_Renderer.Jump();
 
-			//foreach (var item in m_Character.m_BuffList[E_BuffInvokeCondition.Jump])
-			//{
-			//	item.OnBuffInvoke(ref m_Character);
-			//}
 			foreach (var item in m_Character.m_BuffList.primaryDictionary)
 			{
 				item.Value.OnBuffJump.OnBuffInvoke(m_Character);
@@ -158,9 +109,20 @@ public class Player : MonoBehaviour
 	}
 	public void OnJumpInputUp()
 	{
-		if (m_Velocity.y > m_MinJumpVelocity)
-			m_Velocity.y = m_MinJumpVelocity;
+		if (m_Velocity.y > m_Controller.minJumpVelocity)
+			m_Velocity.y = m_Controller.minJumpVelocity;
 	}
+
+	void CalculateVelocity()
+	{
+		float targetVelocityX = m_DirectionalInput.x * m_MoveSpeed;
+
+		m_Velocity.x = Mathf.SmoothDamp(m_Velocity.x, targetVelocityX, ref m_VelocityXSmoothing, (m_Controller.collisions.isGrounded) ? m_AccelerationTimeGrounded : m_AccelerationTimeAirborne);
+
+		m_Velocity.y += m_Controller.gravity * Time.deltaTime;
+	}
+	#endregion
+
 	public void DefaultAttack()
 	{
 		Projectile projectile = M_Projectile.Spawn("Projectile");
@@ -172,13 +134,4 @@ public class Player : MonoBehaviour
 		projectile.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 		projectile.m_MoveSpeed = 5.0f;
 	}
-
-	void CalculateVelocity()
-	{
-		float targetVelocityX = m_DirectionalInput.x * m_MoveSpeed;
-
-		m_Velocity.x = Mathf.SmoothDamp(m_Velocity.x, targetVelocityX, ref m_VelocityXSmoothing, (m_Controller.collisions.below) ? m_AccelerationTimeGrounded : m_AccelerationTimeAirborne);
-		m_Velocity.y += m_Gravity * Time.deltaTime;
-	}
-	#endregion
 }
