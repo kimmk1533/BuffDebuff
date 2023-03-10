@@ -13,6 +13,7 @@ public class Controller2D : RaycastController
 	[SerializeField, ReadOnly(true)]
 	protected float m_TimeToJumpApex = 0.4f;
 
+	[SerializeField, ReadOnly]
 	protected float m_Gravity;
 	protected float m_MaxJumpVelocity;
 	protected float m_MinJumpVelocity;
@@ -24,9 +25,9 @@ public class Controller2D : RaycastController
 	protected CollisionInfo m_Collisions;
 	public CollisionInfo collisions => m_Collisions;
 
-	protected override void Start()
+	public override void Initialize()
 	{
-		base.Start();
+		base.Initialize();
 
 		{
 			/*

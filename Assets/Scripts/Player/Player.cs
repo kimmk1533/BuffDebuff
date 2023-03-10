@@ -97,6 +97,8 @@ public sealed class Player : MonoBehaviour
 	private void Initialize()
 	{
 		m_Controller = GetComponent<PlayerController2D>();
+		m_Controller.Initialize();
+
 		m_Renderer = GetComponentInChildren<PlayerRenderer>();
 
 		m_Character = new Character();
