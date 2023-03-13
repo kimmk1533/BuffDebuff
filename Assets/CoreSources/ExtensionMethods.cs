@@ -97,7 +97,15 @@ public static class Methods
     {
         return transform.gameObject.AddComponent<T>();
     }
-    public static T AddOneComponent<T>(this Component origin) where T : Component
+    public static Component GetOrAddComponent(this Component origin, System.Type type)
+	{
+        Component result = origin.GetComponent(type);
+        if (result == null)
+            result = origin.gameObject.AddComponent(type);
+
+        return result;
+	}
+    public static T GetOrAddComponent<T>(this Component origin) where T : Component
     {
         T result = origin.GetComponent<T>();
         if (result == null)
@@ -111,7 +119,7 @@ public static class Methods
     /// <typeparam name="T">추가할 컴포넌트</typeparam>
     /// <param name="result">결과 컴포넌트</param>
     /// <returns>추가 여부</returns>
-    public static bool AddOneComponent<T>(this Component origin, out T result) where T : Component
+    public static bool GetOrAddComponent<T>(this Component origin, out T result) where T : Component
 	{
         result = origin.GetComponent<T>();
         if (result == null)

@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
 	#endregion
 
 	protected EnemyController2D m_Controller;
+	[SerializeField, ChildComponent("VisualRange")]
 	protected EnemyVisualRange m_VisualRange;
 
 	private void Awake()

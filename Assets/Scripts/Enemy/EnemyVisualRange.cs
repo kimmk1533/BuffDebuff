@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider2D))]
 public class EnemyVisualRange : MonoBehaviour
 {
 	[Space(10)]
@@ -59,7 +60,7 @@ public class EnemyVisualRange : MonoBehaviour
 
 	protected virtual void Init()
 	{
-		if (this.AddOneComponent<BoxCollider2D>(out m_Collider))
+		if (this.GetOrAddComponent<BoxCollider2D>(out m_Collider))
 		{
 			m_Collider.isTrigger = true;
 			m_Collider.offset = new Vector2(2.1875f, 0.5f);
