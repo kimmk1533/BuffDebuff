@@ -97,6 +97,14 @@ public static class Methods
     {
         return transform.gameObject.AddComponent<T>();
     }
+    public static Component AddOneComponent(this Component origin, System.Type type)
+	{
+        Component result = origin.GetComponent(type);
+        if (result == null)
+            result = origin.gameObject.AddComponent(type);
+
+        return result;
+	}
     public static T AddOneComponent<T>(this Component origin) where T : Component
     {
         T result = origin.GetComponent<T>();
