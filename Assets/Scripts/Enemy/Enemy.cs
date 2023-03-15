@@ -60,16 +60,13 @@ public class Enemy : MonoBehaviour
 	{
 		m_MoveDir = Random.Range(-1, 2);
 
-		if (m_MoveDir == 0)
-			m_MoveDir = System.MathF.Sign(transform.localScale.x);
-
-		transform.localScale = new Vector3(m_MoveDir, 1.0f, 1.0f);
+		if (m_MoveDir != 0)
+			transform.localScale = new Vector3(m_MoveDir, 1.0f, 1.0f);
 	}
 	protected virtual void CalculateVelocity()
 	{
 		float targetVelocityX = m_MoveDir * m_MoveSpeed;
 
-		//m_Velocity.x = Mathf.SmoothDamp(m_Velocity.x, targetVelocityX, ref m_VelocityXSmoothing, (m_Controller.collisions.isGrounded) ? m_AccelerationTimeGrounded : m_AccelerationTimeAirborne);
 		m_Velocity.x = targetVelocityX;
 		m_Velocity.y += m_Controller.gravity * Time.deltaTime;
 	}

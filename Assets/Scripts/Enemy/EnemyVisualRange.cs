@@ -60,17 +60,10 @@ public class EnemyVisualRange : MonoBehaviour
 
 	protected virtual void Init()
 	{
-		if (this.GetOrAddComponent<BoxCollider2D>(out m_Collider))
-		{
-			m_Collider.isTrigger = true;
-			m_Collider.offset = new Vector2(2.1875f, 0.5f);
-			m_Collider.size = new Vector2(5.0f, 1.0f);
-		}
-
+		m_Collider = GetComponent<BoxCollider2D>();
 		m_isLostTarget = false;
 
-		if (m_FindTargetTimeLimit == 0.0f)
-			m_FindTargetTimeLimit = 3.0f;
+		m_FindTargetTimeLimit = 3.0f;
 		m_FindTargetTimer = 0.0f;
 	}
 	protected virtual void FindTarget()

@@ -132,7 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 87201731}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &638952478
 MonoBehaviour:
@@ -497,7 +497,7 @@ MonoBehaviour:
   m_CollisionMask:
     serializedVersion: 2
     m_Bits: 64
-  m_MaxJumpHeight: 6
+  m_MaxJumpHeight: 1
   m_MinJumpHeight: 1
   m_TimeToJumpApex: 0.4
   m_Gravity: 0
@@ -555,7 +555,7 @@ GameObject:
   - component: {fileID: 1276558578}
   - component: {fileID: 1276558577}
   - component: {fileID: 1276558579}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -675,9 +675,9 @@ GameObject:
   - component: {fileID: 1359844117}
   - component: {fileID: 1359844116}
   - component: {fileID: 1359844115}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Enemy
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -758,7 +758,7 @@ Transform:
   - {fileID: 1276558575}
   - {fileID: 1869425813}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1464964194
 GameObject:
@@ -865,6 +865,64 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1616040638
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1616040639}
+  - component: {fileID: 1616040641}
+  - component: {fileID: 1616040640}
+  m_Layer: 0
+  m_Name: GridManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1616040639
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616040638}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1616040640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616040638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a34364d505170244ca429bf30849dbce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1616040641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616040638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdc830189db28f74cbc676ca3fc82e8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flag: 1
 --- !u!1 &1680343246
 GameObject:
   m_ObjectHideFlags: 0
@@ -924,7 +982,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1760934776}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1016,7 +1074,7 @@ GameObject:
   - component: {fileID: 1869425813}
   - component: {fileID: 1869425812}
   - component: {fileID: 1869425811}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: VisualRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1051,7 +1109,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 2.07, y: 0.9}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1062,7 +1120,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 5, y: 2}
   m_EdgeRadius: 0
 --- !u!4 &1869425813
 Transform:
@@ -1110,15 +1168,643 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flag: 1
   m_AssociatedSheet: 1vDHbPcXSj3IUdHfGhmYbG7bse7FmDJKVRJ8DDd-slDQ
-  m_AssociatedWorkSheet: "\uBC84\uD504 \uBAA9\uB85D"
-  m_StartCell: C1
-  m_EndCell: K55
-  m_Debug1:
-    m_Keys: []
-    m_Values: 
-  m_Debug2:
-    m_Keys: 
-    m_Values: []
+  m_WorkSheetDatas:
+  - WorkSheetName: "\uBC84\uD504 \uBAA9\uB85D"
+    StartCell:
+      column: C
+      row: 1
+    EndCell:
+      column: K
+      row: 0
+  - WorkSheetName: "\uB514\uBC84\uD504 \uBAA9\uB85D"
+    StartCell:
+      column: C
+      row: 1
+    EndCell:
+      column: K
+      row: 0
+  Debug_BuffDictionary:
+    m_Keys: 000000000100000002000000
+    m_Values:
+    - buffs:
+      - m_Data:
+          m_Name: "\uCCB4\uB825 \uC99D\uAC00"
+          m_Code: 111001
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 0
+          m_MaxStack: 10
+          m_Weapon: 0
+          m_Description: "\uCD5C\uB300 \uCCB4\uB825 \uACE0\uC815 \uC99D\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uC7AC\uC0DD"
+          m_Code: 112002
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 1
+          m_MaxStack: 10
+          m_Weapon: 0
+          m_Description: "5\uCD08 \uB2F9 \uCCB4\uB825 \uD68C\uBCF5"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uBE60\uB978 \uC7AC\uC0DD"
+          m_Code: 112003
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 1
+          m_MaxStack: 10
+          m_Weapon: 0
+          m_Description: "\uCCB4\uB825 \uD68C\uBCF5 \uC8FC\uAE30 \uAC10\uC18C"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uD68C\uBCF5\uB7C9 \uC99D\uAC00"
+          m_Code: 112004
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 1
+          m_MaxStack: 10
+          m_Weapon: 0
+          m_Description: "\uBC1B\uB294 \uBAA8\uB4E0 \uD68C\uBCF5\uB7C9 \uC99D\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uBC29\uC5B4\uB825 \uC99D\uAC00"
+          m_Code: 111005
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 0
+          m_MaxStack: 10
+          m_Weapon: 0
+          m_Description: "\uBC29\uC5B4\uB825 \uACE0\uC815 \uC99D\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uD68C\uD53C\uC728 \uC99D\uAC00"
+          m_Code: 111006
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 0
+          m_MaxStack: 10
+          m_Weapon: 0
+          m_Description: "\uD68C\uD53C\uC728 \uACE0\uC815 \uC99D\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uACF5\uACA9\uB825 \uC99D\uAC00"
+          m_Code: 111007
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 0
+          m_MaxStack: 10
+          m_Weapon: 0
+          m_Description: "\uACF5\uACA9\uB825 \uACE0\uC815 \uC99D\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uACF5\uACA9 \uC18D\uB3C4 \uC99D\uAC00"
+          m_Code: 111008
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 0
+          m_MaxStack: 10
+          m_Weapon: 0
+          m_Description: "\uACF5\uACA9\uC18D\uB3C4 \uACE0\uC815 \uC99D\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uC774\uB3D9 \uC18D\uB3C4 \uC99D\uAC00"
+          m_Code: 111009
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 0
+          m_MaxStack: 10
+          m_Weapon: 0
+          m_Description: "\uC774\uB3D9\uC18D\uB3C4 \uACE0\uC815 \uC99D\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uACF5\uACA9 \uBC94\uC704 \uC99D\uAC00"
+          m_Code: 112010
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 1
+          m_MaxStack: 10
+          m_Weapon: 1
+          m_Description: "\uADFC\uC811 \uACF5\uACA9 \uBC94\uC704 \uC99D\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uC0AC\uAC70\uB9AC \uC99D\uAC00"
+          m_Code: 112011
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 1
+          m_MaxStack: 10
+          m_Weapon: 2
+          m_Description: "\uD22C\uC0AC\uCCB4 \uC0DD\uC874 \uC2DC\uAC04 \uC99D\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uD22C\uC0AC\uCCB4 \uC18D\uB3C4 \uC99D\uAC00"
+          m_Code: 112012
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 1
+          m_MaxStack: 10
+          m_Weapon: 2
+          m_Description: "\uD22C\uC0AC\uCCB4 \uC774\uB3D9 \uC18D\uB3C4 \uC99D\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uACF5\uACA9 \uD69F\uC218 \uC99D\uAC00"
+          m_Code: 113013
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 2
+          m_MaxStack: 10
+          m_Weapon: 0
+          m_Description: "\uD0C0\uACA9 \uC2DC \uAC19\uC740 \uB300\uC0C1\uC5D0\uAC8C\uB9CC
+            \uCD94\uAC00 \uD0C0\uACA9(\uB2E4\uB2E8 \uD788\uD2B8\uAC00 \uC0DD\uAE40)"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uCE58\uBA85\uD0C0 \uD655\uB960 \uC99D\uAC00"
+          m_Code: 112014
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 1
+          m_MaxStack: 10
+          m_Weapon: 0
+          m_Description: "\uCE58\uBA85\uD0C0 \uD655\uB960 \uC99D\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uCE58\uBA85\uD0C0 \uB300\uBBF8\uC9C0 \uC99D\uAC00"
+          m_Code: 112015
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 1
+          m_MaxStack: 10
+          m_Weapon: 0
+          m_Description: "\uCE58\uBA85\uD0C0 \uB300\uBBF8\uC9C0 \uC99D\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uC810\uD504 \uCD94\uAC00"
+          m_Code: 132016
+          m_Type: 0
+          m_EffectType: 2
+          m_Grade: 1
+          m_MaxStack: 5
+          m_Weapon: 0
+          m_Description: "\uCD5C\uB300 \uC810\uD504 \uD69F\uC218 \uC99D\uAC00(\uAE30\uBCF8
+            2)"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uC804\uBC29\uD5A5 \uB300\uC26C"
+          m_Code: 133017
+          m_Type: 0
+          m_EffectType: 2
+          m_Grade: 2
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uB300\uC26C\uAC00 \uC88C\uC6B0\uC5D0\uC11C \uC804\uBC29\uD5A5\uC73C\uB85C
+            \uBCC0\uACBD"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uB300\uC26C \uD69F\uC218 \uC99D\uAC00"
+          m_Code: 113018
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 2
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uCD5C\uB300 \uB300\uC26C \uD69F\uC218 \uC99D\uAC00(\uAE30\uBCF8
+            3)"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uB300\uC26C \uCDA9\uC804 \uC18D\uB3C4 \uC99D\uAC00"
+          m_Code: 113019
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 2
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uB300\uC26C\uAC00 \uCDA9\uC804\uB418\uB294 \uC2DC\uAC04
+            \uAC10\uC18C"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uB300\uC26C \uBB34\uC801"
+          m_Code: 113020
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 2
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uB300\uC26C \uC885\uB8CC \uC774\uD6C4 \uC77C\uC815 \uC2DC\uAC04
+            \uBB34\uC801"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uBB34\uC801\uC2DC\uAC04 \uC99D\uAC00"
+          m_Code: 113021
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 2
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uBAA8\uB4E0 \uBB34\uC801 \uC2DC\uAC04 \uC99D\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uB454\uD654"
+          m_Code: 112022
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 1
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uACF5\uACA9\uC774 \uC801\uC744 \uB454\uD654\uC2DC\uD0B4"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uAC10\uC18D \uC99D\uAC00"
+          m_Code: 111023
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 0
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uC801\uC5D0\uAC8C \uC8FC\uB294 \uB454\uD654\uC728 \uC99D\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uBBFC\uCCA9\uD568 \uC99D\uAC00"
+          m_Code: 111024
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 0
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uBC1B\uB294 \uB454\uD654\uC728 \uAC10\uC18C"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uD761\uD608"
+          m_Code: 123025
+          m_Type: 0
+          m_EffectType: 1
+          m_Grade: 2
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uC801\uC744 \uACF5\uACA9\uC2DC \uD53C\uD574\uB7C9 \uBE44\uC728
+            \uD68C\uBCF5"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uB3C5"
+          m_Code: 123026
+          m_Type: 0
+          m_EffectType: 1
+          m_Grade: 2
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uACF5\uACA9\uC5D0 \uB3C5 \uC18D\uC131(\uB3C4\uD2B8\uB51C)
+            \uCD94\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uB0C9\uAE30"
+          m_Code: 123027
+          m_Type: 0
+          m_EffectType: 1
+          m_Grade: 2
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uACF5\uACA9\uC774 \uC801\uC758 \uBAA8\uB4E0 \uC18D\uB3C4(\uACF5\uC18D,
+            \uC774\uC18D)\uC744 \uAC10\uC18C\uC2DC\uD0B4"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uC5F4\uAE30"
+          m_Code: 123028
+          m_Type: 0
+          m_EffectType: 1
+          m_Grade: 2
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uACF5\uACA9\uC774 \uC801\uC744 \uC5F4\uAE30 \uC0C1\uD0DC\uB85C
+            \uB9CC\uB4E6\n\uC5F4\uAE30 \uC0C1\uD0DC\uC758 \uC801\uC740 \uBC1B\uB294
+            \uB300\uBBF8\uC9C0 \uCD94\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uB9C8\uBE44"
+          m_Code: 123029
+          m_Type: 0
+          m_EffectType: 1
+          m_Grade: 2
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uACF5\uACA9\uC774 \uC801\uC744 \uB9C8\uBE44\uC2DC\uD0B4(\uBA48\uCDA4)"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uB9C8\uC6B0\uC2A4\uD0C4"
+          m_Code: 124030
+          m_Type: 0
+          m_EffectType: 1
+          m_Grade: 3
+          m_MaxStack: 0
+          m_Weapon: 2
+          m_Description: "\uD22C\uC0AC\uCCB4\uAC00 \uB9C8\uC6B0\uC2A4 \uC5D0\uC784
+            \uC810\uC73C\uB85C\uB9CC \uAC10"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uC720\uB3C4\uD0C4"
+          m_Code: 125031
+          m_Type: 0
+          m_EffectType: 1
+          m_Grade: 4
+          m_MaxStack: 0
+          m_Weapon: 2
+          m_Description: "\uD22C\uC0AC\uCCB4\uAC00 \uC720\uB3C4\uD0C4\uC774 \uB418\uC5B4
+            \uAC00\uC7A5 \uAC00\uAE4C\uC6B4 \uC801\uC744 \uCAD3\uC544\uAC10"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uB9DD\uC6D0\uACBD"
+          m_Code: 133032
+          m_Type: 0
+          m_EffectType: 2
+          m_Grade: 2
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uCE74\uBA54\uB77C \uC2DC\uC57C \uC870\uC808(\uC90C\uC778,
+            \uC90C\uC544\uC6C3)\uC774 \uAC00\uB2A5\uD574\uC9D0"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uAC10\uAC01 \uACF5\uC720(\uC801)"
+          m_Code: 135033
+          m_Type: 0
+          m_EffectType: 2
+          m_Grade: 4
+          m_MaxStack: 0
+          m_Weapon: 1
+          m_Description: "\uD0C0\uACA9 \uC2DC \uB9F5 \uC804\uCCB4\uC758 \uBAA8\uB4E0
+            \uC801\uC774 \uAC19\uC740 \uB300\uBBF8\uC9C0\uB97C \uBC1B\uC74C"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uAC10\uAC01 \uACF5\uC720(\uD50C\uB808\uC774\uC5B4)"
+          m_Code: 135034
+          m_Type: 0
+          m_EffectType: 2
+          m_Grade: 4
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uD53C\uACA9 \uC2DC \uB9F5 \uC804\uCCB4\uC758 \uBAA8\uB4E0
+            \uC801\uC774 \uBC29\uC5B4\uB825 \uC801\uC6A9 \uC804\uC758 \uB300\uBBF8\uC9C0\uB97C
+            \uBC1B\uC74C"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uC720\uB839\uD0C4"
+          m_Code: 124035
+          m_Type: 0
+          m_EffectType: 1
+          m_Grade: 3
+          m_MaxStack: 0
+          m_Weapon: 2
+          m_Description: "\uD22C\uC0AC\uCCB4\uAC00 \uB9F5\uC744 \uB6AB\uC74C"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uD328\uB9C1"
+          m_Code: 124036
+          m_Type: 0
+          m_EffectType: 1
+          m_Grade: 3
+          m_MaxStack: 0
+          m_Weapon: 2
+          m_Description: "\uC801\uC758 \uACF5\uACA9\uC744 \uACF5\uACA9\uD574 \uBC18\uC0AC\uD560
+            \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uC790\uB3D9 \uD328\uB9C1"
+          m_Code: 124037
+          m_Type: 0
+          m_EffectType: 1
+          m_Grade: 3
+          m_MaxStack: 0
+          m_Weapon: 1
+          m_Description: "\uD53C\uACA9 \uC2DC \uC77C\uC815 \uD655\uB960\uB85C \uC801\uC758
+            \uACF5\uACA9\uC744 \uD295\uACA8\uB0C4(\uADFC\uAC70\uB9AC \uD53C\uACA9\uC77C
+            \uACBD\uC6B0 \uC989\uC2DC \uB300\uBBF8\uC9C0, \uC6D0\uAC70\uB9AC \uD53C\uACA9\uC77C
+            \uACBD\uC6B0 \uD22C\uC0AC\uCCB4\uB97C \uC544\uAD70 \uAC83\uC73C\uB85C
+            \uBCC0\uACBD\uD558\uC5EC \uACF5\uACA9\uD55C \uC801\uC5D0\uAC8C \uBC18\uC0AC)"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uD328\uB9C1 \uD655\uB960 \uC99D\uAC00"
+          m_Code: 112038
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 1
+          m_MaxStack: 0
+          m_Weapon: 1
+          m_Description: "\uC790\uB3D9\uC73C\uB85C \uD328\uB9C1\uD560 \uD655\uB960
+            \uC99D\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uB124\uD06C\uB85C\uBA58\uC2DC"
+          m_Code: 116039
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 5
+          m_MaxStack: 0
+          m_Weapon: 1
+          m_Description: "\uC801\uC744 \uCC98\uCE58\uD560 \uC2DC \uC801\uC744 \uC544\uAD70\uC73C\uB85C
+            \uB418\uC0B4\uB9BC"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uB2E4\uC7AC\uB2E4\uB2A5"
+          m_Code: 126040
+          m_Type: 0
+          m_EffectType: 1
+          m_Grade: 5
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uADFC\uAC70\uB9AC\uC640 \uC6D0\uAC70\uB9AC\uAC00 \uD569\uCCD0\uC838
+            \uB3D9\uC2DC\uC5D0 \uADFC\uAC70\uB9AC\uC640 \uC6D0\uAC70\uB9AC \uBAA8\uB450
+            \uACF5\uACA9\uD569\uB2C8\uB2E4."
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uCD5C\uC120\uC758 \uBC29\uC5B4\uB294 \uACF5\uACA9"
+          m_Code: 134041
+          m_Type: 0
+          m_EffectType: 2
+          m_Grade: 3
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uC801\uC758 \uACF5\uACA9\uC744 \uACF5\uACA9\uD574 \uC5C6\uC568
+            \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uBBF8\uD2B8 \uD050\uBE0C"
+          m_Code: 133042
+          m_Type: 0
+          m_EffectType: 2
+          m_Grade: 2
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uD50C\uB808\uC774\uC5B4 \uC8FC\uBCC0\uC5D0 \uC801\uC758
+            \uC6D0\uAC70\uB9AC \uACF5\uACA9\uC744 \uB9C9\uB294 \uBBF8\uD2B8 \uD050\uBE0C\uAC00
+            \uB3D5\uB2C8\uB2E4(\uC544\uC774\uC791 \uBBF8\uD2B8 \uD050\uBE0C\uC640
+            \uAC19\uC74C)"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uC870\uAC01\uC870\uAC01"
+          m_Code: 117043
+          m_Type: 0
+          m_EffectType: 0
+          m_Grade: 6
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uC2A4\uD0EF\uD615 \uBC84\uD504\uB97C \uC870\uAC01\uB0B4\uC11C
+            \uC0C8\uB85C \uC870\uD569\uD560 \uC218 \uC788\uAC8C \uB428. (\uC8FC\uC5B4,
+            \uBAA9\uC801\uC5B4, \uC218\uCE58)"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uB514\uBC84\uD504 \uACF5\uC720"
+          m_Code: 137044
+          m_Type: 0
+          m_EffectType: 2
+          m_Grade: 6
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uC8FC\uBCC0 \uC801\uC5D0\uAC8C \uC790\uC2E0\uC758 \uB514\uBC84\uD504\uB97C
+            \uACF5\uC720"
+        m_StackCount: 1
+    - buffs:
+      - m_Data:
+          m_Name: "\uCCB4\uB825 \uAC10\uC18C"
+          m_Code: 211001
+          m_Type: 1
+          m_EffectType: 0
+          m_Grade: 0
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uCD5C\uB300 \uCCB4\uB825 \uACE0\uC815 \uAC10\uC18C"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uB290\uB9B0 \uC7AC\uC0DD"
+          m_Code: 212002
+          m_Type: 1
+          m_EffectType: 0
+          m_Grade: 1
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uCCB4\uB825 \uD68C\uBCF5 \uC8FC\uAE30 \uC99D\uAC00"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uD68C\uBCF5\uB7C9 \uAC10\uC18C"
+          m_Code: 212003
+          m_Type: 1
+          m_EffectType: 0
+          m_Grade: 1
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uBC1B\uB294 \uBAA8\uB4E0 \uD68C\uBCF5\uB7C9 \uAC10\uC18C"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uBC29\uC5B4\uB825 \uAC10\uC18C"
+          m_Code: 211004
+          m_Type: 1
+          m_EffectType: 0
+          m_Grade: 0
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uBC29\uC5B4\uB825 \uACE0\uC815 \uAC10\uC18C"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uD68C\uD53C\uC728 \uAC10\uC18C"
+          m_Code: 211005
+          m_Type: 1
+          m_EffectType: 0
+          m_Grade: 0
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uD68C\uD53C\uC728 \uACE0\uC815 \uAC10\uC18C"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uACF5\uACA9\uB825 \uAC10\uC18C"
+          m_Code: 211006
+          m_Type: 1
+          m_EffectType: 0
+          m_Grade: 0
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uACF5\uACA9\uB825 \uACE0\uC815 \uAC10\uC18C"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uACF5\uACA9 \uC18D\uB3C4 \uAC10\uC18C"
+          m_Code: 211007
+          m_Type: 1
+          m_EffectType: 0
+          m_Grade: 0
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uACF5\uACA9\uC18D\uB3C4 \uACE0\uC815 \uAC10\uC18C"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uC774\uB3D9 \uC18D\uB3C4 \uAC10\uC18C"
+          m_Code: 211008
+          m_Type: 1
+          m_EffectType: 0
+          m_Grade: 0
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uC774\uB3D9\uC18D\uB3C4 \uACE0\uC815 \uAC10\uC18C"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uACF5\uACA9 \uBC94\uC704 \uAC10\uC18C"
+          m_Code: 212009
+          m_Type: 1
+          m_EffectType: 0
+          m_Grade: 1
+          m_MaxStack: 0
+          m_Weapon: 1
+          m_Description: "\uADFC\uC811 \uACF5\uACA9 \uBC94\uC704 \uAC10\uC18C"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uC0AC\uAC70\uB9AC \uAC10\uC18C"
+          m_Code: 212010
+          m_Type: 1
+          m_EffectType: 0
+          m_Grade: 1
+          m_MaxStack: 0
+          m_Weapon: 2
+          m_Description: "\uD22C\uC0AC\uCCB4 \uC0DD\uC874 \uC2DC\uAC04 \uAC10\uC18C"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uD22C\uC0AC\uCCB4 \uC18D\uB3C4 \uAC10\uC18C"
+          m_Code: 212011
+          m_Type: 1
+          m_EffectType: 0
+          m_Grade: 1
+          m_MaxStack: 0
+          m_Weapon: 2
+          m_Description: "\uD22C\uC0AC\uCCB4 \uC774\uB3D9 \uC18D\uB3C4 \uAC10\uC18C"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uD328\uB9C1 \uD655\uB960 \uAC10\uC18C"
+          m_Code: 212012
+          m_Type: 1
+          m_EffectType: 0
+          m_Grade: 1
+          m_MaxStack: 0
+          m_Weapon: 1
+          m_Description: "\uC790\uB3D9\uC73C\uB85C \uD328\uB9C1\uD560 \uD655\uB960
+            \uAC10\uC18C"
+        m_StackCount: 1
+    - buffs:
+      - m_Data:
+          m_Name: "\uAD11\uC804\uC0AC"
+          m_Code: 312001
+          m_Type: 2
+          m_EffectType: 0
+          m_Grade: 1
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uD604\uC7AC \uCCB4\uB825 \uBE44\uC728\uC774 \uAC10\uC18C\uD560\uC218\uB85D
+            \uC2A4\uD0EF \uC99D\uAC00(\uACF5\uACA9\uB825, \uACF5\uC18D \uB4F1?)"
+        m_StackCount: 1
+      - m_Data:
+          m_Name: "\uAD11\uACAC\uBCD1"
+          m_Code: 0
+          m_Type: 2
+          m_EffectType: 0
+          m_Grade: 0
+          m_MaxStack: 0
+          m_Weapon: 0
+          m_Description: "\uBAAC\uC2A4\uD130 \uCC98\uCE58/\uAC00\uACA9\uC2DC \uCCB4\uB825
+            \uD68C\uBCF5, \uD53C\uACA9\uC2DC \uBC1B\uB294 \uD53C\uD574\uB7C9 \uC99D\uAC00"
+        m_StackCount: 1
 --- !u!4 &2022746457
 Transform:
   m_ObjectHideFlags: 0
@@ -1132,7 +1818,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2029536889
 GameObject:

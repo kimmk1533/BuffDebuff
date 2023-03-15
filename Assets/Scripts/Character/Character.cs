@@ -70,7 +70,8 @@ public class Character
 		if (buff == null)
 			return;
 
-		if (m_BuffList.TryGetValue(buff.code, out Buff newBuff))
+		if (m_BuffList.TryGetValue(buff.code, out Buff newBuff) &&
+			newBuff.stackCount < newBuff.data.maxStack)
 		{
 			++newBuff.stackCount;
 			newBuff.OnBuffInitialize.OnBuffInvoke(this);
@@ -80,7 +81,6 @@ public class Character
 		newBuff = new Buff(buff);
 
 		m_BuffList.Add(buff.code, newBuff, buff.name);
-
 		newBuff.OnBuffInitialize.OnBuffInvoke(this);
 	}
 	public bool RemoveBuff(string name)
@@ -102,8 +102,6 @@ public class Character
 	{
 		if (buff == null)
 			return false;
-
-		Character character = this;
 
 		if (m_BuffList.TryGetValue(buff.code, out Buff newBuff) &&
 			newBuff.stackCount > 0)

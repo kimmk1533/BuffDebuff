@@ -50,6 +50,9 @@ namespace UnityEditor
 			if (childTransform == null && child.autoCreateChild)
 			{
 				GameObject childObject = new GameObject(child.childName);
+				childObject.tag = gameObject.tag;
+				childObject.layer = gameObject.layer;
+
 				childTransform = childObject.transform;
 				childTransform.SetParent(gameObject.transform);
 				childTransform.transform.localPosition = Vector3.zero;

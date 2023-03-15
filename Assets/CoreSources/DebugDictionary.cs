@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +10,7 @@ using UnityEngine;
 [System.Serializable]
 public class DebugDictionary<TKey, TValue>
 {
-    [SerializeField, NonReorderable]
+    [SerializeField, NonReorderable, ReadOnly]
     List<TKey> m_Keys;
     [SerializeField, NonReorderable]
     List<TValue> m_Values;
@@ -40,7 +40,10 @@ public class DebugDictionary<TKey, TValue>
         set
         {
             if (!m_Keys.Contains(key))
+            {
+                this.Add(key, value);
                 return;
+            }
 
             int index = m_Keys.IndexOf(key);
 

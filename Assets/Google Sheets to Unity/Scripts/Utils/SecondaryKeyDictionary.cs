@@ -91,7 +91,8 @@ namespace GreenerGames
 		/// <exception cref="InvalidOperationException"></exception>
 		public void Add(T1 key, V value)
 		{
-			if (primaryDictionary.ContainsKey(key)) throw new InvalidOperationException("Primary key already exist");
+			if (primaryDictionary.ContainsKey(key))
+				throw new InvalidOperationException("Primary key already exist");
 
 			primaryDictionary.Add(key, value);
 		}

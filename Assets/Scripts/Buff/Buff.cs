@@ -12,6 +12,10 @@ public class Buff : IEquatable<Buff>
 	protected int m_StackCount;
 	protected Dictionary<E_BuffInvokeCondition, BuffHandler> m_BuffList;
 
+	public BuffData data
+	{
+		get { return m_Data; }
+	}
 	public string name
 	{
 		get { return m_Data.name; }

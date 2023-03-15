@@ -74,9 +74,15 @@ public struct BuffData
 [CustomPropertyDrawer(typeof(BuffData))]
 public class BuffDataDrawer : PropertyDrawer
 {
+	string title = "버프 데이터";
+
 	public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 	{
-		return base.GetPropertyHeight(property, label) * 12.5f;
+		float height =
+			property.isExpanded ?
+			EditorGUIUtility.singleLineHeight * 14f :
+			0f;
+		return base.GetPropertyHeight(property, label) + height;
 	}
 	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 	{
@@ -86,46 +92,70 @@ public class BuffDataDrawer : PropertyDrawer
 		var type = property.FindPropertyRelative("m_Type");
 		var effectType = property.FindPropertyRelative("m_EffectType");
 		var grade = property.FindPropertyRelative("m_Grade");
+		var maxStack = property.FindPropertyRelative("m_MaxStack");
 		var weapon = property.FindPropertyRelative("m_Weapon");
 		var description = property.FindPropertyRelative("m_Description");
 
-		EditorGUI.BeginProperty(position, label, property);
+		Rect pos = position;
+		pos.height = EditorGUIUtility.singleLineHeight;
+
+		title = name.stringValue;
+		property.isExpanded = EditorGUI.Foldout(pos, property.isExpanded, title, true);
+		pos.y += EditorGUIUtility.singleLineHeight + 5f;
+
+		++EditorGUI.indentLevel;
+
+		if (property.isExpanded)
 		{
-			Rect pos = position;
-			pos.height = EditorGUIUtility.singleLineHeight;
+			float labelWidth = EditorGUIUtility.labelWidth;
+			EditorGUIUtility.labelWidth = 100f;
 
-			name.stringValue = EditorGUI.TextField(pos, "명칭", name.stringValue);
-			pos.y += EditorGUIUtility.singleLineHeight + 5f;
+			EditorGUI.BeginProperty(position, label, property);
+			{
+				name.stringValue = EditorGUI.TextField(pos, "명칭", name.stringValue);
+				if (name.stringValue != "")
+					title = name.stringValue;
+				else
+					title = "버프 데이터";
+				pos.y += EditorGUIUtility.singleLineHeight + 5f;
 
-			code.intValue = EditorGUI.IntField(pos, "코드", code.intValue);
-			pos.y += EditorGUIUtility.singleLineHeight + 5f;
+				code.intValue = EditorGUI.IntField(pos, "코드", code.intValue);
+				pos.y += EditorGUIUtility.singleLineHeight + 5f;
 
-			E_BuffType e_Type = (E_BuffType)type.enumValueIndex;
-			e_Type = (E_BuffType)EditorGUI.EnumPopup(pos, "종류", e_Type);
-			type.enumValueIndex = (int)e_Type;
-			pos.y += EditorGUIUtility.singleLineHeight + 5f;
+				E_BuffType e_Type = (E_BuffType)type.enumValueIndex;
+				e_Type = (E_BuffType)EditorGUI.EnumPopup(pos, "종류", e_Type);
+				type.enumValueIndex = (int)e_Type;
+				pos.y += EditorGUIUtility.singleLineHeight + 5f;
 
-			E_BuffEffectType e_EffectType = (E_BuffEffectType)effectType.enumValueIndex;
-			e_EffectType = (E_BuffEffectType)EditorGUI.EnumPopup(pos, "효과 종류", e_EffectType);
-			effectType.enumValueIndex = (int)e_EffectType;
-			pos.y += EditorGUIUtility.singleLineHeight + 5f;
+				E_BuffEffectType e_EffectType = (E_BuffEffectType)effectType.enumValueIndex;
+				e_EffectType = (E_BuffEffectType)EditorGUI.EnumPopup(pos, "효과 종류", e_EffectType);
+				effectType.enumValueIndex = (int)e_EffectType;
+				pos.y += EditorGUIUtility.singleLineHeight + 5f;
 
-			E_BuffGrade e_Grade = (E_BuffGrade)grade.enumValueIndex;
-			e_Grade = (E_BuffGrade)EditorGUI.EnumPopup(pos, "등급", e_Grade);
-			grade.enumValueIndex = (int)e_Grade;
-			pos.y += EditorGUIUtility.singleLineHeight + 5f;
+				E_BuffGrade e_Grade = (E_BuffGrade)grade.enumValueIndex;
+				e_Grade = (E_BuffGrade)EditorGUI.EnumPopup(pos, "등급", e_Grade);
+				grade.enumValueIndex = (int)e_Grade;
+				pos.y += EditorGUIUtility.singleLineHeight + 5f;
 
-			E_BuffWeapon e_Weapon = (E_BuffWeapon)weapon.enumValueIndex;
-			e_Weapon = (E_BuffWeapon)EditorGUI.EnumPopup(pos, "발동 무기", e_Weapon);
-			weapon.enumValueIndex = (int)e_Weapon;
-			pos.y += EditorGUIUtility.singleLineHeight + 5f;
+				maxStack.intValue = EditorGUI.IntField(pos, "최대 스택", maxStack.intValue);
+				pos.y += EditorGUIUtility.singleLineHeight + 5f;
 
-			EditorGUI.LabelField(pos, "설명");
-			pos.y += EditorGUIUtility.singleLineHeight + 5f;
-			pos.height = (pos.height * 3f) + 5f;
-			description.stringValue = EditorGUI.TextArea(pos, description.stringValue, "TextArea");
+				E_BuffWeapon e_Weapon = (E_BuffWeapon)weapon.enumValueIndex;
+				e_Weapon = (E_BuffWeapon)EditorGUI.EnumPopup(pos, "발동 무기", e_Weapon);
+				weapon.enumValueIndex = (int)e_Weapon;
+				pos.y += EditorGUIUtility.singleLineHeight + 5f;
+
+				EditorGUI.LabelField(pos, "설명");
+				pos.y += EditorGUIUtility.singleLineHeight + 5f;
+				pos.height = (pos.height * 3f) + 5f;
+				description.stringValue = EditorGUI.TextArea(pos, description.stringValue, "TextArea");
+			}
+			EditorGUI.EndProperty();
+
+			EditorGUIUtility.labelWidth = labelWidth;
 		}
-		EditorGUI.EndProperty();
+
+		--EditorGUI.indentLevel;
 	}
 }
 #endif
@@ -136,6 +166,7 @@ public enum E_BuffType
 {
 	Buff,
 	Debuff,
+	Bothbuff,
 
 	Max
 }
@@ -169,17 +200,17 @@ public enum E_BuffWeapon
 }
 public enum E_BuffInvokeCondition
 {
-	Initialize,		// 버프를 얻을 때
-	Finalize,		// 버프를 잃을 때
-	Update,			// 일정 시간마다
-	Jump,			// 점프 시
-	Dash,			// 대쉬 시
-	GiveDamage,		// 타격 시
-	GetDamage,		// 피격 시
-	AttackStart,	// 공격 시작 시
-	Attack,			// 공격 시
-	AttackEnd,		// 공격 종료 시
-	KillEnemy,		// 적 처치 시
+	Initialize,     // 버프를 얻을 때
+	Finalize,       // 버프를 잃을 때
+	Update,         // 일정 시간마다
+	Jump,           // 점프 시
+	Dash,           // 대쉬 시
+	GiveDamage,     // 타격 시
+	GetDamage,      // 피격 시
+	AttackStart,    // 공격 시작 시
+	Attack,         // 공격 시
+	AttackEnd,      // 공격 종료 시
+	KillEnemy,      // 적 처치 시
 
 	Max
 }
