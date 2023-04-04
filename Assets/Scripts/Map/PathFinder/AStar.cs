@@ -9,20 +9,29 @@ public class AStar : MonoBehaviour
 	PriorityQueue<CustomNode> m_OpenList = new PriorityQueue<CustomNode>();
 	List<CustomNode> m_CloseList = new List<CustomNode>();
 
-	public bool m_IsManhatten = false;
+	//public bool m_IsManhatten = true;
+	public bool m_AllowDiagonal = true;
 
+	private int Heuristic(Vector2Int start, Vector2Int end)
+	{
+		return Heuristic(start.x, start.y, end.x, end.y);
+	}
 	private int Heuristic(int sx, int sy, int ex, int ey)
 	{
 		// 맨해튼(Manhattan)
-		if (m_IsManhatten)
+		//if (m_IsManhatten)
 		{
 			int m = Mathf.Abs(sx - ex) + Mathf.Abs(sy - ey);
-			return m * m;
+			return m;
 		}
 
-		// 유클리드(Euclidean)
-		int h = (sx - ex) * (sx - ex) + (sy - ey) * (sy - ey);
-		return h;
+		//// 유클리드(Euclidean)
+		//int h = (sx - ex) * (sx - ex) + (sy - ey) * (sy - ey);
+		//return h;
+	}
+	private void AddNearNode(in TileBase[] tiles, Vector2Int size, CustomNode node)
+	{
+		AddNearNode(in tiles, size.x, size.y, node);
 	}
 	private void AddNearNode(in TileBase[] tiles, int width, int height, CustomNode node)
 	{
@@ -32,18 +41,22 @@ public class AStar : MonoBehaviour
 		{
 			for (int x = -1; x <= 1; ++x)
 			{
+				int realX = node.position.x + x;
+				int realY = node.position.y + y;
+
 				#region 예외처리
 				// 배열 범위 밖 체크
-				if (node.x + x < 0 || node.x + x >= width ||
-					node.y + y < 0 || node.y + y >= height)
+				if (realX < 0 || realX >= width ||
+					realY < 0 || realY >= height)
 					continue;
 				// 노드 체크
 				if (y == 0 && x == 0)
 					continue;
-				#endregion
 
-				int realX = node.x + x;
-				int realY = node.y + y;
+				if (!m_AllowDiagonal &&
+					x != 0 && y != 0)
+					continue;
+				#endregion
 
 				int index = realX + realY * width;
 
@@ -51,24 +64,24 @@ public class AStar : MonoBehaviour
 					continue;
 
 				CustomNode near = new CustomNode();
-				near.x = realX; near.y = realY;
+				near.position.Set(realX, realY);
 
 				if (m_CloseList.Contains(near))
 					continue;
 
-				near.sx = node.sx; near.sy = node.sy;
-				near.ex = node.ex; near.ey = node.ey;
+				near.start = node.start;
+				near.end = node.end;
 
 				near.G = node.G;
-				near.H = Heuristic(realX, realY, node.ex, node.ey);
+				near.H = Heuristic(near.position, near.end);
 				near.parent = node;
 
 				// 직선 이동
 				if (x == 0 || y == 0)
-					near.G += 10 * 10;
+					near.G += 10;
 				// 대각선 이동
 				else
-					near.G += 14 * 14;
+					near.G += 14;
 
 				nodeList.Add(near);
 			}
@@ -91,16 +104,21 @@ public class AStar : MonoBehaviour
 		if (nodeList.Count > 0)
 			m_OpenList.EnqueueRange(nodeList);
 	}
+
+	public List<Vector2Int> PathFinding(TileBase[] tiles, Vector2Int start, Vector2Int end, Vector2Int size)
+	{
+		return PathFinding(tiles, start.x, start.y, end.x, end.y, size.x, size.y);
+	}
 	public List<Vector2Int> PathFinding(TileBase[] tiles, int sx, int sy, int ex, int ey, int width, int height)
 	{
 		m_OpenList.Clear();
 		m_CloseList.Clear();
 
 		CustomNode start = new CustomNode();
-		start.x = start.sx = sx;
-		start.y = start.sy = sy;
-		start.ex = ex;
-		start.ey = ey;
+		start.position.x = start.start.x = sx;
+		start.position.y = start.start.y = sy;
+		start.end.x = ex;
+		start.end.y = ey;
 		start.G = 0;
 		start.H = Heuristic(sx, sy, ex, ey);
 
@@ -111,8 +129,7 @@ public class AStar : MonoBehaviour
 		{
 			node = m_OpenList.Dequeue();
 
-			if (node.x == ex &&
-				node.y == ey)
+			if (node.position.x == ex && node.position.y == ey)
 				break;
 
 			m_CloseList.Add(node);
@@ -120,10 +137,13 @@ public class AStar : MonoBehaviour
 			AddNearNode(in tiles, width, height, node);
 		}
 
+		if (node.position.x != ex || node.position.y != ey)
+			return null;
+
 		List<Vector2Int> result = new List<Vector2Int>();
 		while (node != null)
 		{
-			Vector2Int pos = new Vector2Int(node.x, node.y);
+			Vector2Int pos = node.position;
 			result.Add(pos);
 			node = (CustomNode)node.parent;
 		}
@@ -171,13 +191,13 @@ public class AStar : MonoBehaviour
 	}
 	public class CustomNode : Node, IEquatable<CustomNode>
 	{
-		public int x, y;
-		public int sx, sy;
-		public int ex, ey;
+		public Vector2Int position;
+		public Vector2Int start;
+		public Vector2Int end;
 
 		public bool Equals(CustomNode other)
 		{
-			return this.x == other.x && this.y == other.y;
+			return this.position == other.position;
 		}
 	}
 }
