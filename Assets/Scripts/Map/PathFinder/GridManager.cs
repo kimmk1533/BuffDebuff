@@ -3,21 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[RequireComponent(typeof(AStar))]
+[RequireComponent(typeof(JumpAStar))]
 public class GridManager : Singleton<GridManager>
 {
 	public Tilemap m_Tilemap;
-	AStar m_AStar;
+	public Tilemap m_ThroughMap;
+
+	private JumpAStar m_AStar;
 
 	public List<Vector2Int> m_Road;
 	public Vector2Int m_Start;
 	public Vector2Int m_End;
 
+	private void OnValidate()
+	{
+		if (m_Tilemap != null)
+		{
+			m_Start.Clamp((Vector2Int)m_Tilemap.cellBounds.min, (Vector2Int)m_Tilemap.cellBounds.max - Vector2Int.one);
+			m_End.Clamp((Vector2Int)m_Tilemap.cellBounds.min, (Vector2Int)m_Tilemap.cellBounds.max - Vector2Int.one);
+		}
+	}
 	private void Awake()
 	{
 		//PriorityQueue<int, int> test;
 
-		m_AStar = GetComponent<AStar>();
+		m_AStar = GetComponent<JumpAStar>();
 
 		Test();
 	}
@@ -25,16 +35,14 @@ public class GridManager : Singleton<GridManager>
 	[ContextMenu("Test")]
 	public void Test()
 	{
-		BoundsInt bounds = m_Tilemap.cellBounds;
-		TileBase[] allTile = m_Tilemap.GetTilesBlock(bounds);
-
-		int width = bounds.size.x;
-		int height = bounds.size.y;
-
 		if (m_AStar == null)
-			m_AStar = GetComponent<AStar>();
+			m_AStar = GetComponent<JumpAStar>();
 
-		m_Road = m_AStar.PathFinding(allTile, m_Start.x, m_Start.y, m_End.x, m_End.y, width, height);
+		float s_time = Time.realtimeSinceStartup;
+		m_Road = m_AStar.PathFinding(m_Tilemap, m_ThroughMap, m_Start.x, m_Start.y, m_End.x, m_End.y, 6);
+		float e_time = Time.realtimeSinceStartup;
+
+		print(e_time - s_time);
 	}
 
 
@@ -70,11 +78,15 @@ public class GridManager : Singleton<GridManager>
 		if (m_Road == null)
 			return;
 
-		for (int i = 1; i < m_Road.Count - 1; ++i)
+		for (int i = 0; i < m_Road.Count - 1; ++i)
 		{
-			Vector3 center = new Vector3(m_Road[i].x, m_Road[i].y) + offset;
+			//Vector3 center = new Vector3(m_Road[i].x, m_Road[i].y) + offset;
 
-			Gizmos.DrawCube(center, size);
+			//Gizmos.DrawCube(center, size);
+
+			Vector3 from = new Vector3(m_Road[i].x, m_Road[i].y) + offset;
+			Vector3 to = new Vector3(m_Road[i + 1].x, m_Road[i + 1].y) + offset;
+			Gizmos.DrawLine(from, to);
 		}
 	}
 }

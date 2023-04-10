@@ -497,7 +497,7 @@ MonoBehaviour:
   m_CollisionMask:
     serializedVersion: 2
     m_Bits: 64
-  m_MaxJumpHeight: 1
+  m_MaxJumpHeight: 6
   m_MinJumpHeight: 1
   m_TimeToJumpApex: 0.4
   m_Gravity: 0
@@ -875,7 +875,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1616040639}
   - component: {fileID: 1616040641}
-  - component: {fileID: 1616040640}
+  - component: {fileID: 1616040642}
   m_Layer: 0
   m_Name: GridManager
   m_TagString: Untagged
@@ -898,20 +898,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1616040640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1616040638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a34364d505170244ca429bf30849dbce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IsManhatten: 1
-  m_AllowDiagonal: 1
 --- !u!114 &1616040641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -925,34 +911,66 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flag: 1
-  m_Tilemap: {fileID: 1822058639}
+  m_Tilemap: {fileID: 1822058640}
+  m_ThroughMap: {fileID: 1822058639}
   m_Road:
-  - {x: 21, y: 20}
-  - {x: 20, y: 20}
-  - {x: 19, y: 20}
-  - {x: 18, y: 20}
-  - {x: 17, y: 19}
-  - {x: 16, y: 18}
-  - {x: 16, y: 17}
-  - {x: 16, y: 16}
-  - {x: 16, y: 15}
-  - {x: 16, y: 14}
-  - {x: 15, y: 13}
-  - {x: 14, y: 12}
-  - {x: 13, y: 11}
-  - {x: 12, y: 10}
-  - {x: 11, y: 9}
-  - {x: 10, y: 8}
-  - {x: 9, y: 7}
-  - {x: 8, y: 7}
-  - {x: 7, y: 6}
-  - {x: 6, y: 5}
-  - {x: 5, y: 4}
-  - {x: 4, y: 3}
-  - {x: 3, y: 2}
-  - {x: 2, y: 2}
-  m_Start: {x: 2, y: 2}
-  m_End: {x: 21, y: 20}
+  - {x: 35, y: 26}
+  - {x: 34, y: 26}
+  - {x: 33, y: 26}
+  - {x: 32, y: 25}
+  - {x: 31, y: 24}
+  - {x: 30, y: 23}
+  - {x: 30, y: 22}
+  - {x: 29, y: 23}
+  - {x: 28, y: 22}
+  - {x: 27, y: 22}
+  - {x: 26, y: 21}
+  - {x: 25, y: 20}
+  - {x: 24, y: 19}
+  - {x: 23, y: 18}
+  - {x: 24, y: 19}
+  - {x: 25, y: 18}
+  - {x: 26, y: 17}
+  - {x: 26, y: 16}
+  - {x: 26, y: 15}
+  - {x: 27, y: 14}
+  - {x: 28, y: 13}
+  - {x: 28, y: 14}
+  - {x: 27, y: 13}
+  - {x: 26, y: 12}
+  - {x: 25, y: 13}
+  - {x: 24, y: 14}
+  - {x: 23, y: 13}
+  - {x: 22, y: 12}
+  - {x: 21, y: 11}
+  - {x: 20, y: 10}
+  - {x: 19, y: 9}
+  - {x: 18, y: 9}
+  - {x: 17, y: 9}
+  - {x: 16, y: 8}
+  - {x: 15, y: 9}
+  - {x: 14, y: 10}
+  - {x: 13, y: 9}
+  - {x: 12, y: 8}
+  - {x: 11, y: 7}
+  - {x: 10, y: 6}
+  - {x: 9, y: 5}
+  - {x: 8, y: 4}
+  m_Start: {x: 8, y: 4}
+  m_End: {x: 35, y: 26}
+--- !u!114 &1616040642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616040638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d37475935718d0046b40451af9350881, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AllowDiagonal: 1
 --- !u!1 &1680343246
 GameObject:
   m_ObjectHideFlags: 0
@@ -29502,6 +29520,11 @@ Tilemap:
   m_CorrespondingSourceObject: {fileID: 853564449986947902, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
   m_PrefabInstance: {fileID: 1822058638}
   m_PrefabAsset: {fileID: 0}
+--- !u!1839735485 &1822058640 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 853564450256860615, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
+  m_PrefabInstance: {fileID: 1822058638}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1869425810
 GameObject:
   m_ObjectHideFlags: 0
@@ -30314,7 +30337,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2133236830}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19, y: -14, z: 0}
+  m_LocalPosition: {x: 24.5, y: 19.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

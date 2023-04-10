@@ -4,16 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class AStar : MonoBehaviour
+public class JumpAStar : MonoBehaviour
 {
 	const int straight = 10;
 	const int diagonal = 14;
-	
+
 	PriorityQueue<CustomNode> m_OpenList = new PriorityQueue<CustomNode>();
 	List<CustomNode> m_CloseList = new List<CustomNode>();
 
-	[SerializeField]
-	private bool m_AllowDiagonal = true;
+	public bool m_AllowDiagonal = true;
 
 	private int Heuristic(Vector2Int start, Vector2Int end)
 	{
@@ -23,48 +22,110 @@ public class AStar : MonoBehaviour
 	{
 		int width = Mathf.Abs(sx - ex);
 		int height = Mathf.Abs(sy - ey);
-		
+
 		// 맨해튼(Manhattan)
 		int m = width * straight + height * straight;
 		return m;
 	}
-	private void AddNearNode(in TileBase[] tiles, Vector2Int size, CustomNode node)
-	{
-		AddNearNode(in tiles, size.x, size.y, node);
-	}
-	private void AddNearNode(in TileBase[] tiles, int width, int height, CustomNode node)
+	//private void AddNearNode(Tilemap tilemap, Tilemap throughMap, Vector2Int size, CustomNode node, float maxJump)
+	//{
+	//	AddNearNode(tilemap, throughMap, size.x, size.y, node, maxJump);
+	//}
+	//private void AddNearNode(Tilemap tilemap, Tilemap throughMap, Vector3Int size, CustomNode node, float maxJump)
+	//{
+	//	AddNearNode(tilemap, throughMap, size.x, size.y, node, maxJump);
+	//}
+	private void AddNearNode(Tilemap tilemap, Tilemap throughMap, CustomNode node, int maxJump)
 	{
 		List<CustomNode> nodeList = new List<CustomNode>();
+
+		BoundsInt tileBounds = tilemap.cellBounds;
+		TileBase[] allTile = tilemap.GetTilesBlock(tileBounds);
+
+		int width = tileBounds.size.x;
+		int height = tileBounds.size.y;
+
+		int realX = node.position.x;
+		int realY = node.position.y;
+		int index = realX + realY * width;
+		int index_down = realX + (realY - 1) * width;
 
 		for (int y = -1; y <= 1; ++y)
 		{
 			for (int x = -1; x <= 1; ++x)
 			{
-				int realX = node.position.x + x;
-				int realY = node.position.y + y;
+				realX = node.position.x + x;
+				realY = node.position.y + y;
 
 				#region 예외처리
 				// 배열 범위 밖 체크
 				if (realX < 0 || realX >= width ||
 					realY < 0 || realY >= height)
 					continue;
+
 				// 노드 체크
 				if (y == 0 && x == 0)
 					continue;
 
+				// 대각선 이동 옵션 체크
 				if (!m_AllowDiagonal &&
 					x != 0 && y != 0)
 					continue;
 				#endregion
 
-				int index = realX + realY * width;
+				index = realX + realY * width;
+				index_down =
+					(realY - 1) >= 0 ?
+					realX + (realY - 1) * width :
+					0;
 
-				if (tiles[index] != null)
+				if (allTile[index] != null)
 					continue;
 
 				CustomNode near = new CustomNode();
 				near.position.Set(realX, realY);
+				near.currentJump = node.currentJump;
+				near.isFalling = node.isFalling;
 
+				if (node.currentJump > maxJump)
+					near.isFalling = true;
+
+				if (near.isFalling == true)
+				{
+					if (y >= 0)
+						continue;
+					else
+						--near.currentJump;
+				}
+				else
+				{
+					if (y > 0)
+						++near.currentJump;
+				}
+
+				if (allTile[index_down] != null ||
+					throughMap.GetTile(new Vector3Int(realX, realY - 1)) != null)
+				{
+					if (y < 0)
+					{
+						near.currentJump = 0;
+						near.isFalling = false;
+					}
+				}
+
+				if (near.currentJump > maxJump)
+					continue;
+
+				if (allTile[index_down - x] == null &&
+					throughMap.GetTile(new Vector3Int(realX - x, realY - 1)) == null)
+				{
+					if (y == 0)
+					{
+						continue;
+					}
+				}
+
+				// 닫힌 리스트에 포함되어 있는 경우
 				if (m_CloseList.Contains(near))
 					continue;
 
@@ -104,11 +165,11 @@ public class AStar : MonoBehaviour
 			m_OpenList.EnqueueRange(nodeList);
 	}
 
-	public List<Vector2Int> PathFinding(TileBase[] tiles, Vector2Int start, Vector2Int end, Vector2Int size)
+	public List<Vector2Int> PathFinding(Tilemap tilemap, Tilemap throughMap, Vector2Int start, Vector2Int end, int maxJump)
 	{
-		return PathFinding(tiles, start.x, start.y, end.x, end.y, size.x, size.y);
+		return PathFinding(tilemap, throughMap, start.x, start.y, end.x, end.y, maxJump);
 	}
-	public List<Vector2Int> PathFinding(TileBase[] tiles, int sx, int sy, int ex, int ey, int width, int height)
+	public List<Vector2Int> PathFinding(Tilemap tilemap, Tilemap throughMap, int sx, int sy, int ex, int ey, int maxJump)
 	{
 		m_OpenList.Clear();
 		m_CloseList.Clear();
@@ -133,7 +194,7 @@ public class AStar : MonoBehaviour
 
 			m_CloseList.Add(node);
 
-			AddNearNode(in tiles, width, height, node);
+			AddNearNode(tilemap, throughMap, node, maxJump);
 		}
 
 		if (node.position.x != ex || node.position.y != ey)
@@ -194,9 +255,13 @@ public class AStar : MonoBehaviour
 		public Vector2Int start;
 		public Vector2Int end;
 
+		public int currentJump;
+		public bool isFalling;
+
 		public bool Equals(CustomNode other)
 		{
-			return this.position == other.position;
+			return this.position == other.position &&
+				this.currentJump == other.currentJump;
 		}
 	}
 }
