@@ -8,7 +8,7 @@ public class AStar : MonoBehaviour
 {
 	const int straight = 10;
 	const int diagonal = 14;
-	
+
 	PriorityQueue<CustomNode> m_OpenList = new PriorityQueue<CustomNode>();
 	List<CustomNode> m_CloseList = new List<CustomNode>();
 
@@ -23,19 +23,21 @@ public class AStar : MonoBehaviour
 	{
 		int width = Mathf.Abs(sx - ex);
 		int height = Mathf.Abs(sy - ey);
-		
-		// 맨해튼(Manhattan)
-		int m = width * straight + height * straight;
-		return m;
-	}
-	private void AddNearNode(in TileBase[] tiles, Vector2Int size, CustomNode node)
-	{
-		AddNearNode(in tiles, size.x, size.y, node);
-	}
-	private void AddNearNode(in TileBase[] tiles, int width, int height, CustomNode node)
-	{
-		List<CustomNode> nodeList = new List<CustomNode>();
 
+		// 맨해튼(Manhattan)
+		int m = (width + height) * straight;
+		return m;
+
+		// 유클리드
+		//int h = width * width + height * height;
+		//return h;
+	}
+	private void AddNearNode(in TileBase[] tiles, Vector2Int size, ref CustomNode node)
+	{
+		AddNearNode(in tiles, size.x, size.y, ref node);
+	}
+	private bool AddNearNode(in TileBase[] tiles, int width, int height, ref CustomNode node)
+	{
 		for (int y = -1; y <= 1; ++y)
 		{
 			for (int x = -1; x <= 1; ++x)
@@ -82,26 +84,28 @@ public class AStar : MonoBehaviour
 				else
 					near.G += diagonal;
 
-				nodeList.Add(near);
-			}
-		}
-
-		foreach (var item in m_OpenList)
-		{
-			foreach (var near in nodeList)
-			{
-				if (item.Equals(near))
+				if (near.position == near.end)
 				{
-					item.G = Mathf.Min(item.G, near.G);
-					nodeList.Remove(near);
+					node = near;
 
-					break;
+					return true;
 				}
+
+				foreach (var item in m_OpenList)
+				{
+					if (item.Equals(near))
+					{
+						item.G = Mathf.Min(item.G, near.G);
+
+						break;
+					}
+				}
+
+				m_OpenList.Enqueue(near);
 			}
 		}
 
-		if (nodeList.Count > 0)
-			m_OpenList.EnqueueRange(nodeList);
+		return false;
 	}
 
 	public List<Vector2Int> PathFinding(TileBase[] tiles, Vector2Int start, Vector2Int end, Vector2Int size)
@@ -128,12 +132,10 @@ public class AStar : MonoBehaviour
 		{
 			node = m_OpenList.Dequeue();
 
-			if (node.position.x == ex && node.position.y == ey)
-				break;
-
 			m_CloseList.Add(node);
 
-			AddNearNode(in tiles, width, height, node);
+			if (AddNearNode(in tiles, width, height, ref node))
+				break;
 		}
 
 		if (node.position.x != ex || node.position.y != ey)
@@ -156,19 +158,9 @@ public class AStar : MonoBehaviour
 		// 시작점으로부터 현재 위치까지 이동하기 위한 비용
 		public int G;
 		// 현재 위치부터 도착 위치까지 예상 비용
-		public int H; // 휴리스틱
+		public int H; // 휴리스틱 함수
 
 		public Node parent;
-
-		public int Compare(Node lhs, Node rhs)
-		{
-			if (lhs.F < rhs.F)
-				return -1;
-			else if (lhs.F > rhs.F)
-				return 1;
-
-			return 0;
-		}
 
 		public Node()
 		{
@@ -186,6 +178,15 @@ public class AStar : MonoBehaviour
 		public override string ToString()
 		{
 			return "F: " + F + " | G: " + G + ", H: " + H;
+		}
+		public int Compare(Node lhs, Node rhs)
+		{
+			if (lhs.F > rhs.F)
+				return 1;
+			else if (lhs.F < rhs.F)
+				return -1;
+
+			return 0;
 		}
 	}
 	public class CustomNode : Node, IEquatable<CustomNode>

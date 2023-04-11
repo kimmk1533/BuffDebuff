@@ -24,8 +24,12 @@ public class JumpAStar : MonoBehaviour
 		int height = Mathf.Abs(sy - ey);
 
 		// 맨해튼(Manhattan)
-		int m = width * straight + height * straight;
+		int m = (width + height) * straight;
 		return m;
+
+		// 유클리드
+		//int h = width * width + height * height;
+		//return h;
 	}
 	//private void AddNearNode(Tilemap tilemap, Tilemap throughMap, Vector2Int size, CustomNode node, float maxJump)
 	//{
@@ -35,12 +39,11 @@ public class JumpAStar : MonoBehaviour
 	//{
 	//	AddNearNode(tilemap, throughMap, size.x, size.y, node, maxJump);
 	//}
-	private void AddNearNode(Tilemap tilemap, Tilemap throughMap, CustomNode node, int maxJump)
+	private bool AddNearNode(Tilemap tilemap, Tilemap throughMap, ref CustomNode node, int maxJump)
 	{
-		List<CustomNode> nodeList = new List<CustomNode>();
-
 		BoundsInt tileBounds = tilemap.cellBounds;
 		TileBase[] allTile = tilemap.GetTilesBlock(tileBounds);
+		TileBase[] allThrough = throughMap.GetTilesBlock(tileBounds);
 
 		int width = tileBounds.size.x;
 		int height = tileBounds.size.y;
@@ -54,24 +57,22 @@ public class JumpAStar : MonoBehaviour
 		{
 			for (int x = -1; x <= 1; ++x)
 			{
-				realX = node.position.x + x;
-				realY = node.position.y + y;
-
-				#region 예외처리
-				// 배열 범위 밖 체크
-				if (realX < 0 || realX >= width ||
-					realY < 0 || realY >= height)
-					continue;
-
 				// 노드 체크
-				if (y == 0 && x == 0)
+				if (x == 0 && y == 0)
 					continue;
 
 				// 대각선 이동 옵션 체크
 				if (!m_AllowDiagonal &&
 					x != 0 && y != 0)
 					continue;
-				#endregion
+
+				realX = node.position.x + x;
+				realY = node.position.y + y;
+
+				// 배열 범위 밖 체크
+				if (realX < 0 || realX >= width ||
+					realY < 0 || realY >= height)
+					continue;
 
 				index = realX + realY * width;
 				index_down =
@@ -82,47 +83,52 @@ public class JumpAStar : MonoBehaviour
 				if (allTile[index] != null)
 					continue;
 
-				CustomNode near = new CustomNode();
-				near.position.Set(realX, realY);
-				near.currentJump = node.currentJump;
-				near.isFalling = node.isFalling;
-
-				if (node.currentJump > maxJump)
-					near.isFalling = true;
-
-				if (near.isFalling == true)
-				{
-					if (y >= 0)
-						continue;
-					else
-						--near.currentJump;
-				}
-				else
-				{
-					if (y > 0)
-						++near.currentJump;
-				}
-
-				if (allTile[index_down] != null ||
-					throughMap.GetTile(new Vector3Int(realX, realY - 1)) != null)
-				{
-					if (y < 0)
-					{
-						near.currentJump = 0;
-						near.isFalling = false;
-					}
-				}
-
-				if (near.currentJump > maxJump)
+				if (allThrough[index] != null)
 					continue;
 
-				if (allTile[index_down - x] == null &&
-					throughMap.GetTile(new Vector3Int(realX - x, realY - 1)) == null)
+				CustomNode near = new CustomNode();
+				near.position.Set(realX, realY);
 				{
-					if (y == 0)
-					{
-						continue;
-					}
+					//	near.currentJump = node.currentJump;
+					//	near.isFalling = node.isFalling;
+
+					//	if (node.currentJump > maxJump)
+					//		near.isFalling = true;
+
+					//	if (near.isFalling == true)
+					//	{
+					//		if (y >= 0)
+					//			continue;
+					//		else
+					//			--near.currentJump;
+					//	}
+					//	else
+					//	{
+					//		if (y > 0)
+					//			++near.currentJump;
+					//	}
+
+					//	if (allTile[index_down] != null ||
+					//		throughMap.GetTile(new Vector3Int(realX, realY - 1)) != null)
+					//	{
+					//		if (y < 0)
+					//		{
+					//			near.currentJump = 0;
+					//			near.isFalling = false;
+					//		}
+					//	}
+
+					//	if (near.currentJump > maxJump)
+					//		continue;
+
+					//	if (allTile[index_down - x] == null &&
+					//		throughMap.GetTile(new Vector3Int(realX - x, realY - 1)) == null)
+					//	{
+					//		if (y == 0)
+					//		{
+					//			continue;
+					//		}
+					//	}
 				}
 
 				// 닫힌 리스트에 포함되어 있는 경우
@@ -143,26 +149,28 @@ public class JumpAStar : MonoBehaviour
 				else
 					near.G += diagonal;
 
-				nodeList.Add(near);
-			}
-		}
-
-		foreach (var item in m_OpenList)
-		{
-			foreach (var near in nodeList)
-			{
-				if (item.Equals(near))
+				if (near.position == near.end)
 				{
-					item.G = Mathf.Min(item.G, near.G);
-					nodeList.Remove(near);
+					node = near;
 
-					break;
+					return true;
 				}
+
+				foreach (var item in m_OpenList)
+				{
+					if (item.Equals(near))
+					{
+						item.G = Mathf.Min(item.G, near.G);
+
+						break;
+					}
+				}
+
+				m_OpenList.Enqueue(near);
 			}
 		}
 
-		if (nodeList.Count > 0)
-			m_OpenList.EnqueueRange(nodeList);
+		return false;
 	}
 
 	public List<Vector2Int> PathFinding(Tilemap tilemap, Tilemap throughMap, Vector2Int start, Vector2Int end, int maxJump)
@@ -189,12 +197,10 @@ public class JumpAStar : MonoBehaviour
 		{
 			node = m_OpenList.Dequeue();
 
-			if (node.position.x == ex && node.position.y == ey)
-				break;
-
 			m_CloseList.Add(node);
 
-			AddNearNode(tilemap, throughMap, node, maxJump);
+			if (AddNearNode(tilemap, throughMap, ref node, maxJump))
+				break;
 		}
 
 		if (node.position.x != ex || node.position.y != ey)
@@ -217,19 +223,9 @@ public class JumpAStar : MonoBehaviour
 		// 시작점으로부터 현재 위치까지 이동하기 위한 비용
 		public int G;
 		// 현재 위치부터 도착 위치까지 예상 비용
-		public int H; // 휴리스틱
+		public int H; // 휴리스틱 함수
 
 		public Node parent;
-
-		public int Compare(Node lhs, Node rhs)
-		{
-			if (lhs.F < rhs.F)
-				return -1;
-			else if (lhs.F > rhs.F)
-				return 1;
-
-			return 0;
-		}
 
 		public Node()
 		{
@@ -248,6 +244,20 @@ public class JumpAStar : MonoBehaviour
 		{
 			return "F: " + F + " | G: " + G + ", H: " + H;
 		}
+		public int Compare(Node lhs, Node rhs)
+		{
+			if (lhs.F > rhs.F)
+				return 1;
+			else if (lhs.F < rhs.F)
+				return -1;
+
+			if (lhs.G > rhs.G)
+				return 1;
+			else if (lhs.G < rhs.G)
+				return -1;
+
+			return 0;
+		}
 	}
 	public class CustomNode : Node, IEquatable<CustomNode>
 	{
@@ -260,8 +270,29 @@ public class JumpAStar : MonoBehaviour
 
 		public bool Equals(CustomNode other)
 		{
-			return this.position == other.position &&
-				this.currentJump == other.currentJump;
+			return this.position == other.position /*&& this.currentJump == other.currentJump*/;
 		}
+	}
+
+	private void OnDrawGizmos()
+	{
+		Vector3 size = Vector3.one * 0.5f;
+		Vector3 offset = size;
+
+		for (int i = 1; i < m_CloseList.Count; ++i)
+		{
+			Vector3 center = new Vector3(m_CloseList[i].position.x, m_CloseList[i].position.y) + offset;
+
+			Gizmos.DrawCube(center, size);
+
+			print(i + ": " + (center - offset));
+		}
+
+		//foreach (var item in m_OpenList)
+		//{
+		//	Vector3 center = new Vector3(item.position.x, item.position.y) + offset;
+
+		//	Gizmos.DrawCube(center, size);
+		//}
 	}
 }

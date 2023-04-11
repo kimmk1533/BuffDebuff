@@ -60,7 +60,7 @@ namespace System.Collections.Generic
 			// 2. 추가한 원소와 부모 노드와 우선순위 비교
 			int index = Count;
 			TElement parent = GetParent(index);
-			while (index != 1 &&
+			while (index > 1 &&
 				Comparer.Compare(parent, element) > 0)
 			{
 				// 3. 추가한 원소의 우선순위가 더 높다면 부모와 자리교환
@@ -71,6 +71,8 @@ namespace System.Collections.Generic
 
 			// 3-1. 최적화로 자식은 마지막에 1번만 옮김
 			m_ElementList[index] = element;
+
+			Heapify();
 		}
 		public TElement EnqueueDequeue(TElement element)
 		{
@@ -155,6 +157,9 @@ namespace System.Collections.Generic
 		/// <param name="index"></param>
 		private void Heapify(int index = 1)
 		{
+			if (index <= 0)
+				return;
+
 			int tempIndex = index;
 			int leftIndex = GetLeftIndex(index);
 			int rightIndex = GetRightIndex(index);
