@@ -32,36 +32,37 @@ public class AStar : MonoBehaviour
 		//int h = width * width + height * height;
 		//return h;
 	}
-	private void AddNearNode(in TileBase[] tiles, Vector2Int size, ref CustomNode node)
+	private bool AddNearNode(Tilemap tilemap, ref CustomNode node)
 	{
-		AddNearNode(in tiles, size.x, size.y, ref node);
-	}
-	private bool AddNearNode(in TileBase[] tiles, int width, int height, ref CustomNode node)
-	{
+		BoundsInt tileBounds = tilemap.cellBounds;
+		TileBase[] allTile = tilemap.GetTilesBlock(tileBounds);
+
+		int width = tileBounds.size.x;
+		int height = tileBounds.size.y;
+
 		for (int y = -1; y <= 1; ++y)
 		{
 			for (int x = -1; x <= 1; ++x)
 			{
-				int realX = node.position.x + x;
-				int realY = node.position.y + y;
-
-				#region 예외처리
-				// 배열 범위 밖 체크
-				if (realX < 0 || realX >= width ||
-					realY < 0 || realY >= height)
-					continue;
 				// 노드 체크
-				if (y == 0 && x == 0)
+				if (x == 0 && y == 0)
 					continue;
 
 				if (!m_AllowDiagonal &&
 					x != 0 && y != 0)
 					continue;
-				#endregion
+
+				int realX = node.position.x + x;
+				int realY = node.position.y + y;
+
+				// 배열 범위 밖 체크
+				if (realX < 0 || realX >= width ||
+					realY < 0 || realY >= height)
+					continue;
 
 				int index = realX + realY * width;
 
-				if (tiles[index] != null)
+				if (allTile[index] != null)
 					continue;
 
 				CustomNode near = new CustomNode();
@@ -91,28 +92,37 @@ public class AStar : MonoBehaviour
 					return true;
 				}
 
+				bool flag = false;
+
 				foreach (var item in m_OpenList)
 				{
 					if (item.Equals(near))
 					{
-						item.G = Mathf.Min(item.G, near.G);
+						flag = true;
+
+						if (item.G > near.G)
+						{
+							item.G = near.G;
+							item.parent = near.parent;
+						}
 
 						break;
 					}
 				}
 
-				m_OpenList.Enqueue(near);
+				if (!flag)
+					m_OpenList.Enqueue(near);
 			}
 		}
 
 		return false;
 	}
 
-	public List<Vector2Int> PathFinding(TileBase[] tiles, Vector2Int start, Vector2Int end, Vector2Int size)
+	public List<CustomNode> PathFinding(Tilemap tilemap, Vector2Int start, Vector2Int end)
 	{
-		return PathFinding(tiles, start.x, start.y, end.x, end.y, size.x, size.y);
+		return PathFinding(tilemap, start.x, start.y, end.x, end.y);
 	}
-	public List<Vector2Int> PathFinding(TileBase[] tiles, int sx, int sy, int ex, int ey, int width, int height)
+	public List<CustomNode> PathFinding(Tilemap tilemap, int sx, int sy, int ex, int ey)
 	{
 		m_OpenList.Clear();
 		m_CloseList.Clear();
@@ -134,70 +144,55 @@ public class AStar : MonoBehaviour
 
 			m_CloseList.Add(node);
 
-			if (AddNearNode(in tiles, width, height, ref node))
+			if (AddNearNode(tilemap, ref node))
 				break;
 		}
 
 		if (node.position.x != ex || node.position.y != ey)
 			return null;
 
-		List<Vector2Int> result = new List<Vector2Int>();
+		List<CustomNode> result = new List<CustomNode>();
 		while (node != null)
 		{
-			Vector2Int pos = node.position;
-			result.Add(pos);
+			result.Add(node);
 			node = (CustomNode)node.parent;
 		}
 		return result;
 	}
 
-	public class Node : IComparer<Node>
+	private void OnDrawGizmos()
 	{
-		public int F => G + H;
+		if (GridManager.Instance.m_Jump)
+			return;
 
-		// 시작점으로부터 현재 위치까지 이동하기 위한 비용
-		public int G;
-		// 현재 위치부터 도착 위치까지 예상 비용
-		public int H; // 휴리스틱 함수
+		Vector3 size = Vector3.one * 0.5f;
+		Vector3 offset = size;
 
-		public Node parent;
-
-		public Node()
+		Color color = Gizmos.color;
+		Gizmos.color = Color.green * new Color(1f, 1f, 1f, 0.5f);
+		foreach (var item in m_OpenList)
 		{
-			G = 0;
-			H = int.MaxValue;
-			parent = null;
-		}
-		public Node(int g, int h, Node node)
-		{
-			G = g;
-			H = h;
-			parent = node;
-		}
+			if (item.position == item.start ||
+				item.position == item.end)
+				continue;
 
-		public override string ToString()
-		{
-			return "F: " + F + " | G: " + G + ", H: " + H;
-		}
-		public int Compare(Node lhs, Node rhs)
-		{
-			if (lhs.F > rhs.F)
-				return 1;
-			else if (lhs.F < rhs.F)
-				return -1;
+			Vector3 center = new Vector3(item.position.x, item.position.y) + offset;
 
-			return 0;
+			Gizmos.DrawCube(center, size);
 		}
-	}
-	public class CustomNode : Node, IEquatable<CustomNode>
-	{
-		public Vector2Int position;
-		public Vector2Int start;
-		public Vector2Int end;
-
-		public bool Equals(CustomNode other)
+		Gizmos.color = Color.cyan * new Color(1f, 1f, 1f, 0.5f);
+		for (int i = 1; i < m_CloseList.Count; ++i)
 		{
-			return this.position == other.position;
+			CustomNode item = m_CloseList[i];
+
+			if (item.position == item.start ||
+				item.position == item.end)
+				continue;
+
+			Vector3 center = new Vector3(item.position.x, item.position.y) + offset;
+
+			Gizmos.DrawCube(center, size);
 		}
+		Gizmos.color = color;
 	}
 }

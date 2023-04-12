@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[RequireComponent(typeof(JumpAStar))]
+//[RequireComponent(typeof(JumpAStar))]
 public class GridManager : Singleton<GridManager>
 {
 	public Tilemap m_Tilemap;
 	public Tilemap m_ThroughMap;
 
-	private JumpAStar m_AStar;
+	public bool m_Jump;
 
-	public List<Vector2Int> m_Road;
+	private AStar m_AStar;
+	private JumpAStar m_JumpAStar;
+
+	List<CustomNode> m_Road = new List<CustomNode>();
+	List<CustomNode> m_JumpRoad = new List<CustomNode>();
+
 	public Vector2Int m_Start;
 	public Vector2Int m_End;
 
@@ -27,7 +32,8 @@ public class GridManager : Singleton<GridManager>
 	{
 		//PriorityQueue<int, int> test;
 
-		m_AStar = GetComponent<JumpAStar>();
+		m_AStar = GetComponent<AStar>();
+		m_JumpAStar = GetComponent<JumpAStar>();
 
 		Test();
 	}
@@ -36,10 +42,13 @@ public class GridManager : Singleton<GridManager>
 	public void Test()
 	{
 		if (m_AStar == null)
-			m_AStar = GetComponent<JumpAStar>();
+			m_AStar = GetComponent<AStar>();
+		if (m_JumpAStar == null)
+			m_JumpAStar = GetComponent<JumpAStar>();
 
 		float s_time = Time.realtimeSinceStartup;
-		m_Road = m_AStar.PathFinding(m_Tilemap, m_ThroughMap, m_Start.x, m_Start.y, m_End.x, m_End.y, 6);
+		m_Road = m_AStar.PathFinding(m_Tilemap, m_Start.x, m_Start.y, m_End.x, m_End.y);
+		m_JumpRoad = m_JumpAStar.PathFinding(m_Tilemap, m_ThroughMap, m_Start.x, m_Start.y, m_End.x, m_End.y, 6);
 		float e_time = Time.realtimeSinceStartup;
 
 		print(e_time - s_time);
@@ -73,20 +82,35 @@ public class GridManager : Singleton<GridManager>
 		Gizmos.color = Color.blue;
 		Gizmos.DrawCube(end + offset, Vector3.one * 0.5f);
 
-		Gizmos.color = color;
-
-		if (m_Road == null)
+		if (m_Jump == false && m_Road == null)
 			return;
 
-		for (int i = 0; i < m_Road.Count - 1; ++i)
+		if (m_Jump == true && m_JumpRoad == null)
+			return;
+
+		float width = 0.01f;
+		Gizmos.color = Color.yellow;
+
+		List<CustomNode> road = null;
+
+		if (m_Jump == false)
+			road = m_Road;
+		else
+			road = m_JumpRoad;
+
+		for (int i = 0; i < road.Count - 1; ++i)
 		{
-			//Vector3 center = new Vector3(m_Road[i].x, m_Road[i].y) + offset;
-
-			//Gizmos.DrawCube(center, size);
-
-			Vector3 from = new Vector3(m_Road[i].x, m_Road[i].y) + offset;
-			Vector3 to = new Vector3(m_Road[i + 1].x, m_Road[i + 1].y) + offset;
-			Gizmos.DrawLine(from, to);
+			for (float y = -0.05f; y <= 0.05f; y += width)
+			{
+				for (float x = -0.05f; x <= 0.05f; x += width)
+				{
+					Vector3 from = new Vector3(road[i].position.x + x, road[i].position.y + y) + offset;
+					Vector3 to = new Vector3(road[i + 1].position.x + x, road[i + 1].position.y + y) + offset;
+					Gizmos.DrawLine(from, to);
+				}
+			}
 		}
+
+		Gizmos.color = color;
 	}
 }

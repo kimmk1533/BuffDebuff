@@ -71,8 +71,6 @@ namespace System.Collections.Generic
 
 			// 3-1. 최적화로 자식은 마지막에 1번만 옮김
 			m_ElementList[index] = element;
-
-			Heapify();
 		}
 		public TElement EnqueueDequeue(TElement element)
 		{
