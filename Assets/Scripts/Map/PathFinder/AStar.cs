@@ -4,13 +4,74 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+[System.Serializable]
+public class Node : IComparer<Node>, IEquatable<Node>
+{
+	public int F => G + H;
+
+	// 시작점으로부터 현재 위치까지 이동하기 위한 비용
+	public int G;
+	// 현재 위치부터 도착 위치까지 예상 비용
+	public int H; // 휴리스틱 함수
+
+	public Node parent;
+
+	public Vector2Int position;
+	public Vector2Int start;
+	public Vector2Int end;
+
+	public Node()
+	{
+		G = 0;
+		H = int.MaxValue;
+		parent = null;
+
+		position = new Vector2Int();
+		start = new Vector2Int();
+		end = new Vector2Int();
+	}
+	public Node(int g, int h, Node node)
+	{
+		G = g;
+		H = h;
+		parent = node;
+
+		position = new Vector2Int();
+		start = new Vector2Int();
+		end = new Vector2Int();
+	}
+
+	public override string ToString()
+	{
+		return "F: " + F + " | G: " + G + ", H: " + H;
+	}
+	public int Compare(Node lhs, Node rhs)
+	{
+		if (lhs.F > rhs.F)
+			return 1;
+		else if (lhs.F < rhs.F)
+			return -1;
+
+		if (lhs.G > rhs.G)
+			return 1;
+		else if (lhs.G < rhs.G)
+			return -1;
+
+		return 0;
+	}
+	public bool Equals(Node other)
+	{
+		return this.position == other.position;
+	}
+}
+
 public class AStar : MonoBehaviour
 {
 	const int straight = 10;
 	const int diagonal = 14;
 
-	PriorityQueue<CustomNode> m_OpenList = new PriorityQueue<CustomNode>();
-	List<CustomNode> m_CloseList = new List<CustomNode>();
+	PriorityQueue<Node> m_OpenList = new PriorityQueue<Node>();
+	List<Node> m_CloseList = new List<Node>();
 
 	[SerializeField]
 	private bool m_AllowDiagonal = true;
@@ -32,13 +93,14 @@ public class AStar : MonoBehaviour
 		//int h = width * width + height * height;
 		//return h;
 	}
-	private bool AddNearNode(Tilemap tilemap, ref CustomNode node)
+	private bool AddNearNode(Tilemap tilemap, ref Node node)
 	{
 		BoundsInt tileBounds = tilemap.cellBounds;
 		TileBase[] allTile = tilemap.GetTilesBlock(tileBounds);
 
 		int width = tileBounds.size.x;
 		int height = tileBounds.size.y;
+		Vector2Int position = new Vector2Int();
 
 		for (int y = -1; y <= 1; ++y)
 		{
@@ -48,6 +110,7 @@ public class AStar : MonoBehaviour
 				if (x == 0 && y == 0)
 					continue;
 
+				// 대각선 체크
 				if (!m_AllowDiagonal &&
 					x != 0 && y != 0)
 					continue;
@@ -65,18 +128,19 @@ public class AStar : MonoBehaviour
 				if (allTile[index] != null)
 					continue;
 
-				CustomNode near = new CustomNode();
-				near.position.Set(realX, realY);
+				position.Set(realX, realY);
+				Node near = new Node();
+				near.G = node.G;
+				near.H = Heuristic(position, node.end);
 
-				if (m_CloseList.Contains(near))
-					continue;
-
+				near.position = position;
 				near.start = node.start;
 				near.end = node.end;
 
-				near.G = node.G;
-				near.H = Heuristic(near.position, near.end);
 				near.parent = node;
+
+				if (m_CloseList.Contains(near) == true)
+					continue;
 
 				// 직선 이동
 				if (x == 0 || y == 0)
@@ -110,33 +174,37 @@ public class AStar : MonoBehaviour
 					}
 				}
 
-				if (!flag)
+				// 오픈리스트에 없는 경우
+				if (flag == false)
+				{
+					// 오픈리스트에 추가
 					m_OpenList.Enqueue(near);
+				}
 			}
 		}
 
 		return false;
 	}
 
-	public List<CustomNode> PathFinding(Tilemap tilemap, Vector2Int start, Vector2Int end)
+	public List<Node> PathFinding(Tilemap tilemap, Vector2Int start, Vector2Int end)
 	{
 		return PathFinding(tilemap, start.x, start.y, end.x, end.y);
 	}
-	public List<CustomNode> PathFinding(Tilemap tilemap, int sx, int sy, int ex, int ey)
+	public List<Node> PathFinding(Tilemap tilemap, int sx, int sy, int ex, int ey)
 	{
 		m_OpenList.Clear();
 		m_CloseList.Clear();
 
-		CustomNode start = new CustomNode();
-		start.position.x = start.start.x = sx;
-		start.position.y = start.start.y = sy;
-		start.end.x = ex;
-		start.end.y = ey;
-		start.G = 0;
-		start.H = Heuristic(sx, sy, ex, ey);
+		Node root = new Node();
+		root.G = 0;
+		root.H = Heuristic(sx, sy, ex, ey);
+		root.position.Set(sx, sy);
+		root.start.Set(sx, sy);
+		root.end.Set(ex, ey);
 
-		m_OpenList.Enqueue(start);
-		CustomNode node = null;
+		m_OpenList.Enqueue(root);
+
+		Node node = null;
 
 		while (m_OpenList.Count != 0)
 		{
@@ -151,11 +219,11 @@ public class AStar : MonoBehaviour
 		if (node.position.x != ex || node.position.y != ey)
 			return null;
 
-		List<CustomNode> result = new List<CustomNode>();
+		List<Node> result = new List<Node>();
 		while (node != null)
 		{
 			result.Add(node);
-			node = (CustomNode)node.parent;
+			node = node.parent;
 		}
 		return result;
 	}
@@ -169,30 +237,39 @@ public class AStar : MonoBehaviour
 		Vector3 offset = size;
 
 		Color color = Gizmos.color;
-		Gizmos.color = Color.green * new Color(1f, 1f, 1f, 0.5f);
-		foreach (var item in m_OpenList)
+
+		if (GridManager.Instance.m_ShowOpenList)
 		{
-			if (item.position == item.start ||
-				item.position == item.end)
-				continue;
+			Gizmos.color = Color.green * new Color(1f, 1f, 1f, 0.5f);
+			foreach (var item in m_OpenList)
+			{
+				if (item.position == item.start ||
+					item.position == item.end)
+					continue;
 
-			Vector3 center = new Vector3(item.position.x, item.position.y) + offset;
+				Vector3 center = new Vector3(item.position.x, item.position.y) + offset;
 
-			Gizmos.DrawCube(center, size);
+				Gizmos.DrawCube(center, size);
+			}
 		}
-		Gizmos.color = Color.cyan * new Color(1f, 1f, 1f, 0.5f);
-		for (int i = 1; i < m_CloseList.Count; ++i)
+
+		if (GridManager.Instance.m_ShowCloseList)
 		{
-			CustomNode item = m_CloseList[i];
+			Gizmos.color = Color.cyan * new Color(1f, 1f, 1f, 0.5f);
+			for (int i = 1; i < m_CloseList.Count; ++i)
+			{
+				Node item = m_CloseList[i];
 
-			if (item.position == item.start ||
-				item.position == item.end)
-				continue;
+				if (item.position == item.start ||
+					item.position == item.end)
+					continue;
 
-			Vector3 center = new Vector3(item.position.x, item.position.y) + offset;
+				Vector3 center = new Vector3(item.position.x, item.position.y) + offset;
 
-			Gizmos.DrawCube(center, size);
+				Gizmos.DrawCube(center, size);
+			}
 		}
+
 		Gizmos.color = color;
 	}
 }

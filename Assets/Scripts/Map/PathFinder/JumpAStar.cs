@@ -4,6 +4,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+[System.Serializable]
+public class CustomNode : Node, IEquatable<CustomNode>
+{
+	public Vector2Int? jumpStartPos;
+
+	public int currentJump;
+	public bool isFalling;
+
+	public override string ToString()
+	{
+		return "(" + position.x + ", " + position.y + ") | " + base.ToString();
+	}
+	public bool Equals(CustomNode other)
+	{
+		return base.Equals(other) && jumpStartPos == other.jumpStartPos;
+	}
+}
+
 public class JumpAStar : MonoBehaviour
 {
 	const int straight = 10;
@@ -31,11 +49,11 @@ public class JumpAStar : MonoBehaviour
 		//int h = width * width + height * height;
 		//return h;
 	}
-	private bool AddNearNode(Tilemap tilemap, Tilemap throughMap, ref CustomNode node, int maxJump)
+	private bool AddNearNode(Tilemap tilemap, Tilemap throughMap, ref CustomNode node, int maxJump, int speed)
 	{
 		BoundsInt tileBounds = tilemap.cellBounds;
 		TileBase[] allTile = tilemap.GetTilesBlock(tileBounds);
-		TileBase[] allThrough = throughMap.GetTilesBlock(tileBounds);
+		//TileBase[] allThrough = throughMap.GetTilesBlock(tileBounds);
 
 		int width = tileBounds.size.x;
 		int height = tileBounds.size.y;
@@ -70,18 +88,26 @@ public class JumpAStar : MonoBehaviour
 				if (allTile[index] != null)
 					continue;
 
-				if (y < 0 && allThrough[index] != null)
-					continue;
+				//if (
+				//	throughMap.GetTile(new Vector3Int(realX, realY)) != null)
+				//	continue;
 
 				CustomNode near = new CustomNode();
 				near.position.Set(realX, realY);
+
+				// 닫힌 리스트에 포함되어 있는 경우
+				if (m_CloseList.Contains(near))
+					continue;
+
 				{
 					near.currentJump = node.currentJump;
 					near.isFalling = node.isFalling;
+					near.jumpStartPos = node.jumpStartPos;
 
-					if (node.currentJump > maxJump)
+					if (y < 0)
 						near.isFalling = true;
 
+					// 점프
 					if (near.isFalling == true)
 					{
 						if (y >= 0)
@@ -91,36 +117,60 @@ public class JumpAStar : MonoBehaviour
 					}
 					else
 					{
+						if (y < 0)
+							continue;
+
 						if (y > 0)
+						{
 							++near.currentJump;
+
+							if (node.jumpStartPos == null)
+								near.jumpStartPos = node.position;
+						}
 					}
 
-					if (allTile[index_down] != null ||
-						throughMap.GetTile(new Vector3Int(realX, realY - 1)) != null)
+					// 착지
+					// 이동할 곳이 비어 있어야 하고
+					if (allTile[index] == null &&
+						throughMap.GetTile(new Vector3Int(realX, realY)) == null)
 					{
-						if (y < 0)
+						// 이동할 곳 밑에 블럭이 있어야 함
+						if (allTile[index_down] != null ||
+							throughMap.GetTile(new Vector3Int(realX, realY - 1)) != null)
 						{
 							near.currentJump = 0;
 							near.isFalling = false;
+							near.jumpStartPos = null;
 						}
 					}
 
-					if (near.currentJump > maxJump)
+					// 최대 점프 높이 이상 점프 금지
+					if (near.currentJump >= maxJump)
 						continue;
 
-					if (allTile[index_down - x] == null &&
-						throughMap.GetTile(new Vector3Int(realX - x, realY - 1)) == null)
+					// 아직 떨어지는 중이면 상승 금지
+					if (near.isFalling == true &&
+						y > 0)
+						continue;
+
+					// 좌우이동 시
+					if (y == 0)
 					{
-						if (y == 0)
-						{
+						// 이동할 곳 밑에 발판이 없는 경우
+						if (allTile[index_down] == null &&
+							throughMap.GetTile(new Vector3Int(realX, realY - 1)) == null)
 							continue;
-						}
+
+						// 현재 공중에 떠 있는 경우
+						if (allTile[index_down - x] == null &&
+							throughMap.GetTile(new Vector3Int(realX - x, realY - 1)) == null)
+							continue;
+
+						if (allTile[index] != null ||
+							throughMap.GetTile(new Vector3Int(realX, realY)) != null)
+							continue;
 					}
 				}
-
-				// 닫힌 리스트에 포함되어 있는 경우
-				if (m_CloseList.Contains(near))
-					continue;
 
 				near.start = node.start;
 				near.end = node.end;
@@ -155,25 +205,33 @@ public class JumpAStar : MonoBehaviour
 						{
 							item.G = near.G;
 							item.parent = near.parent;
+
+							item.jumpStartPos = near.jumpStartPos;
+							item.currentJump = near.currentJump;
+							item.isFalling = near.isFalling;
 						}
 
 						break;
 					}
 				}
 
-				if (!flag)
+				// 오픈리스트에 없는 경우
+				if (flag == false)
+				{
+					// 오픈리스트에 추가
 					m_OpenList.Enqueue(near);
+				}
 			}
 		}
 
 		return false;
 	}
 
-	public List<CustomNode> PathFinding(Tilemap tilemap, Tilemap throughMap, Vector2Int start, Vector2Int end, int maxJump)
+	public List<CustomNode> PathFinding(Tilemap tilemap, Tilemap throughMap, Vector2Int start, Vector2Int end, int maxJump, int speed)
 	{
-		return PathFinding(tilemap, throughMap, start.x, start.y, end.x, end.y, maxJump);
+		return PathFinding(tilemap, throughMap, start.x, start.y, end.x, end.y, maxJump, speed);
 	}
-	public List<CustomNode> PathFinding(Tilemap tilemap, Tilemap throughMap, int sx, int sy, int ex, int ey, int maxJump)
+	public List<CustomNode> PathFinding(Tilemap tilemap, Tilemap throughMap, int sx, int sy, int ex, int ey, int maxJump, int speed)
 	{
 		m_OpenList.Clear();
 		m_CloseList.Clear();
@@ -195,7 +253,7 @@ public class JumpAStar : MonoBehaviour
 
 			m_CloseList.Add(node);
 
-			if (AddNearNode(tilemap, throughMap, ref node, maxJump))
+			if (AddNearNode(tilemap, throughMap, ref node, maxJump, speed))
 				break;
 		}
 
@@ -220,94 +278,39 @@ public class JumpAStar : MonoBehaviour
 		Vector3 offset = size;
 
 		Color color = Gizmos.color;
-		Gizmos.color = Color.green * new Color(1f, 1f, 1f, 0.5f);
-		foreach (var item in m_OpenList)
+
+		if (GridManager.Instance.m_ShowOpenList)
 		{
-			if (item.position == item.start ||
-				item.position == item.end)
-				continue;
+			Gizmos.color = Color.green * new Color(1f, 1f, 1f, 0.5f);
+			foreach (var item in m_OpenList)
+			{
+				if (item.position == item.start ||
+					item.position == item.end)
+					continue;
 
-			Vector3 center = new Vector3(item.position.x, item.position.y) + offset;
+				Vector3 center = new Vector3(item.position.x, item.position.y) + offset;
 
-			Gizmos.DrawCube(center, size);
+				Gizmos.DrawCube(center, size);
+			}
 		}
-		Gizmos.color = Color.cyan * new Color(1f, 1f, 1f, 0.5f);
-		for (int i = 1; i < m_CloseList.Count; ++i)
+
+		if (GridManager.Instance.m_ShowCloseList)
 		{
-			CustomNode item = m_CloseList[i];
+			Gizmos.color = Color.cyan * new Color(1f, 1f, 1f, 0.5f);
+			for (int i = 1; i < m_CloseList.Count; ++i)
+			{
+				CustomNode item = m_CloseList[i];
 
-			if (item.position == item.start ||
-				item.position == item.end)
-				continue;
+				if (item.position == item.start ||
+					item.position == item.end)
+					continue;
 
-			Vector3 center = new Vector3(item.position.x, item.position.y) + offset;
+				Vector3 center = new Vector3(item.position.x, item.position.y) + offset;
 
-			Gizmos.DrawCube(center, size);
+				Gizmos.DrawCube(center, size);
+			}
 		}
+
 		Gizmos.color = color;
-	}
-}
-
-
-public class Node : IComparer<Node>
-{
-	public int F => G + H;
-
-	// 시작점으로부터 현재 위치까지 이동하기 위한 비용
-	public int G;
-	// 현재 위치부터 도착 위치까지 예상 비용
-	public int H; // 휴리스틱 함수
-
-	public Node parent;
-
-	public Node()
-	{
-		G = 0;
-		H = int.MaxValue;
-		parent = null;
-	}
-	public Node(int g, int h, Node node)
-	{
-		G = g;
-		H = h;
-		parent = node;
-	}
-
-	public override string ToString()
-	{
-		return "F: " + F + " | G: " + G + ", H: " + H;
-	}
-	public int Compare(Node lhs, Node rhs)
-	{
-		if (lhs.F > rhs.F)
-			return 1;
-		else if (lhs.F < rhs.F)
-			return -1;
-
-		if (lhs.G > rhs.G)
-			return 1;
-		else if (lhs.G < rhs.G)
-			return -1;
-
-		return 0;
-	}
-}
-[System.Serializable]
-public class CustomNode : Node, IEquatable<CustomNode>
-{
-	public Vector2Int position;
-	public Vector2Int start;
-	public Vector2Int end;
-
-	public int currentJump;
-	public bool isFalling;
-
-	public override string ToString()
-	{
-		return "(" + position.x + ", " + position.y + ") | " + base.ToString();
-	}
-	public bool Equals(CustomNode other)
-	{
-		return this.position == other.position && this.currentJump == other.currentJump;
 	}
 }

@@ -10,11 +10,13 @@ public class GridManager : Singleton<GridManager>
 	public Tilemap m_ThroughMap;
 
 	public bool m_Jump;
+	public bool m_ShowOpenList;
+	public bool m_ShowCloseList;
 
 	private AStar m_AStar;
 	private JumpAStar m_JumpAStar;
 
-	List<CustomNode> m_Road = new List<CustomNode>();
+	List<Node> m_Road = new List<Node>();
 	List<CustomNode> m_JumpRoad = new List<CustomNode>();
 
 	public Vector2Int m_Start;
@@ -47,8 +49,8 @@ public class GridManager : Singleton<GridManager>
 			m_JumpAStar = GetComponent<JumpAStar>();
 
 		float s_time = Time.realtimeSinceStartup;
-		m_Road = m_AStar.PathFinding(m_Tilemap, m_Start.x, m_Start.y, m_End.x, m_End.y);
-		m_JumpRoad = m_JumpAStar.PathFinding(m_Tilemap, m_ThroughMap, m_Start.x, m_Start.y, m_End.x, m_End.y, 6);
+		m_Road = m_AStar.PathFinding(m_ThroughMap, m_Start.x, m_Start.y, m_End.x, m_End.y);
+		m_JumpRoad = m_JumpAStar.PathFinding(m_Tilemap, m_ThroughMap, m_Start.x, m_Start.y, m_End.x, m_End.y, 4, 5);
 		float e_time = Time.realtimeSinceStartup;
 
 		print(e_time - s_time);
@@ -77,35 +79,39 @@ public class GridManager : Singleton<GridManager>
 
 		Color color = Gizmos.color;
 
+		// 시작점
 		Gizmos.color = Color.red;
 		Gizmos.DrawCube(start + offset, Vector3.one * 0.5f);
+
+		// 도착점
 		Gizmos.color = Color.blue;
 		Gizmos.DrawCube(end + offset, Vector3.one * 0.5f);
 
-		if (m_Jump == false && m_Road == null)
+		if (!m_Jump && m_Road == null)
 			return;
-
-		if (m_Jump == true && m_JumpRoad == null)
+		if (m_Jump && m_JumpRoad == null)
 			return;
 
 		float width = 0.01f;
+
 		Gizmos.color = Color.yellow;
 
-		List<CustomNode> road = null;
+		int Count = (m_Jump) ? m_JumpRoad.Count : m_Road.Count;
 
-		if (m_Jump == false)
-			road = m_Road;
-		else
-			road = m_JumpRoad;
-
-		for (int i = 0; i < road.Count - 1; ++i)
+		for (int i = 0; i < Count - 1; ++i)
 		{
 			for (float y = -0.05f; y <= 0.05f; y += width)
 			{
 				for (float x = -0.05f; x <= 0.05f; x += width)
 				{
-					Vector3 from = new Vector3(road[i].position.x + x, road[i].position.y + y) + offset;
-					Vector3 to = new Vector3(road[i + 1].position.x + x, road[i + 1].position.y + y) + offset;
+					float realX = ((m_Jump) ? m_JumpRoad[i].position.x : m_Road[i].position.x) + x;
+					float realY = ((m_Jump) ? m_JumpRoad[i].position.y : m_Road[i].position.y) + y;
+
+					Vector3 from = new Vector3(realX, realY) + offset;
+
+					realX = ((m_Jump) ? m_JumpRoad[i + 1].position.x : m_Road[i + 1].position.x) + x;
+					realY = ((m_Jump) ? m_JumpRoad[i + 1].position.y : m_Road[i + 1].position.y) + y;
+					Vector3 to = new Vector3(realX, realY) + offset;
 					Gizmos.DrawLine(from, to);
 				}
 			}
