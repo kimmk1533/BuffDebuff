@@ -19,6 +19,8 @@ public class Controller2D : RaycastController
 	protected float m_MinJumpVelocity;
 
 	public float gravity => m_Gravity;
+	public float maxJumpHeight => m_MaxJumpHeight;
+	public float minJumpHeight => m_MinJumpHeight;
 	public float maxJumpVelocity => m_MaxJumpVelocity;
 	public float minJumpVelocity => m_MinJumpVelocity;
 

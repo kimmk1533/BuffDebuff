@@ -1,7 +1,4 @@
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 [System.Serializable]
 public struct BuffData
@@ -69,98 +66,6 @@ public struct BuffData
 	}
 }
 
-#region PropertyDrawer
-#if UNITY_EDITOR
-[CustomPropertyDrawer(typeof(BuffData))]
-public class BuffDataDrawer : PropertyDrawer
-{
-	string title = "버프 데이터";
-
-	public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-	{
-		float height =
-			property.isExpanded ?
-			EditorGUIUtility.singleLineHeight * 14f :
-			0f;
-		return base.GetPropertyHeight(property, label) + height;
-	}
-	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-	{
-		//base.OnGUI(position, property, label);
-		var name = property.FindPropertyRelative("m_Name");
-		var code = property.FindPropertyRelative("m_Code");
-		var type = property.FindPropertyRelative("m_Type");
-		var effectType = property.FindPropertyRelative("m_EffectType");
-		var grade = property.FindPropertyRelative("m_Grade");
-		var maxStack = property.FindPropertyRelative("m_MaxStack");
-		var weapon = property.FindPropertyRelative("m_Weapon");
-		var description = property.FindPropertyRelative("m_Description");
-
-		Rect pos = position;
-		pos.height = EditorGUIUtility.singleLineHeight;
-
-		title = name.stringValue;
-		property.isExpanded = EditorGUI.Foldout(pos, property.isExpanded, title, true);
-		pos.y += EditorGUIUtility.singleLineHeight + 5f;
-
-		++EditorGUI.indentLevel;
-
-		if (property.isExpanded)
-		{
-			float labelWidth = EditorGUIUtility.labelWidth;
-			EditorGUIUtility.labelWidth = 100f;
-
-			EditorGUI.BeginProperty(position, label, property);
-			{
-				name.stringValue = EditorGUI.TextField(pos, "명칭", name.stringValue);
-				if (name.stringValue != "")
-					title = name.stringValue;
-				else
-					title = "버프 데이터";
-				pos.y += EditorGUIUtility.singleLineHeight + 5f;
-
-				code.intValue = EditorGUI.IntField(pos, "코드", code.intValue);
-				pos.y += EditorGUIUtility.singleLineHeight + 5f;
-
-				E_BuffType e_Type = (E_BuffType)type.enumValueIndex;
-				e_Type = (E_BuffType)EditorGUI.EnumPopup(pos, "종류", e_Type);
-				type.enumValueIndex = (int)e_Type;
-				pos.y += EditorGUIUtility.singleLineHeight + 5f;
-
-				E_BuffEffectType e_EffectType = (E_BuffEffectType)effectType.enumValueIndex;
-				e_EffectType = (E_BuffEffectType)EditorGUI.EnumPopup(pos, "효과 종류", e_EffectType);
-				effectType.enumValueIndex = (int)e_EffectType;
-				pos.y += EditorGUIUtility.singleLineHeight + 5f;
-
-				E_BuffGrade e_Grade = (E_BuffGrade)grade.enumValueIndex;
-				e_Grade = (E_BuffGrade)EditorGUI.EnumPopup(pos, "등급", e_Grade);
-				grade.enumValueIndex = (int)e_Grade;
-				pos.y += EditorGUIUtility.singleLineHeight + 5f;
-
-				maxStack.intValue = EditorGUI.IntField(pos, "최대 스택", maxStack.intValue);
-				pos.y += EditorGUIUtility.singleLineHeight + 5f;
-
-				E_BuffWeapon e_Weapon = (E_BuffWeapon)weapon.enumValueIndex;
-				e_Weapon = (E_BuffWeapon)EditorGUI.EnumPopup(pos, "발동 무기", e_Weapon);
-				weapon.enumValueIndex = (int)e_Weapon;
-				pos.y += EditorGUIUtility.singleLineHeight + 5f;
-
-				EditorGUI.LabelField(pos, "설명");
-				pos.y += EditorGUIUtility.singleLineHeight + 5f;
-				pos.height = (pos.height * 3f) + 5f;
-				description.stringValue = EditorGUI.TextArea(pos, description.stringValue, "TextArea");
-			}
-			EditorGUI.EndProperty();
-
-			EditorGUIUtility.labelWidth = labelWidth;
-		}
-
-		--EditorGUI.indentLevel;
-	}
-}
-#endif
-#endregion
-
 #region enum
 public enum E_BuffType
 {
@@ -217,47 +122,47 @@ public enum E_BuffInvokeCondition
 #endregion
 
 #region interface
-public interface IOnBuff
+public interface IOnBuffCondition
 {
 
 }
 // 버프를 얻은 순간
-public interface IOnBuffStart : IOnBuff
+public interface IOnBuffStart : IOnBuffCondition
 {
 	public void OnBuffStart(ref Character character);
 }
 // 매 프레임마다
-public interface IOnBuffUpdate : IOnBuff
+public interface IOnBuffUpdate : IOnBuffCondition
 {
 	public void OnBuffUpdate();
 }
 // 점프했을 때
-public interface IOnBuffJump : IOnBuff
+public interface IOnBuffJump : IOnBuffCondition
 {
 	public void OnBuffJump();
 }
 // 대쉬했을 때
-public interface IOnBuffDash : IOnBuff
+public interface IOnBuffDash : IOnBuffCondition
 {
 	public void OnBuffDash();
 }
 // 대미지를 받을 때
-public interface IOnBuffGetDamage : IOnBuff
+public interface IOnBuffGetDamage : IOnBuffCondition
 {
 	public void OnBuffGetDamage();
 }
 // 공격 시작할 때
-public interface IOnBuffAttackStart : IOnBuff
+public interface IOnBuffAttackStart : IOnBuffCondition
 {
 	public void OnBuffAttackStart();
 }
 // 대미지를 줄 때
-public interface IOnBuffGiveDamage : IOnBuff
+public interface IOnBuffGiveDamage : IOnBuffCondition
 {
 	public void OnBuffGiveDamage();
 }
 // 공격을 끝낼 때
-public interface IOnBuffAttackEnd : IOnBuff
+public interface IOnBuffAttackEnd : IOnBuffCondition
 {
 	public void OnBuffAttackEnd();
 }

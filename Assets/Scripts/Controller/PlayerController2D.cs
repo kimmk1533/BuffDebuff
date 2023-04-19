@@ -108,7 +108,7 @@ public class PlayerController2D : Controller2D
 
 		if (!throughFlag)
 		{
-			ResetFallingThroughPlatform();
+			m_FallingThroughPlatform = null;
 		}
 
 		if (m_Collisions.climbingSlope)
@@ -129,10 +129,5 @@ public class PlayerController2D : Controller2D
 				}
 			}
 		}
-	}
-
-	protected void ResetFallingThroughPlatform()
-	{
-		m_FallingThroughPlatform = null;
 	}
 }

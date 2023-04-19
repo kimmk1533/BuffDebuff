@@ -37,28 +37,36 @@ public class GridManager : Singleton<GridManager>
 		m_AStar = GetComponent<AStar>();
 		m_JumpAStar = GetComponent<JumpAStar>();
 
-		Test();
+		//PathFinding();
 	}
 
-	[ContextMenu("Test")]
-	public void Test()
+	public List<CustomNode> PathFinding(Vector3 start, Vector3 end, int maxJump)
 	{
-		if (m_AStar == null)
-			m_AStar = GetComponent<AStar>();
-		if (m_JumpAStar == null)
-			m_JumpAStar = GetComponent<JumpAStar>();
+		Vector2Int tileStart = (Vector2Int)m_Tilemap.WorldToCell(start + Vector3.up * 2);
+		Vector2Int tileEnd = (Vector2Int)m_Tilemap.WorldToCell(end + Vector3.up * 2);
 
-		float s_time = Time.realtimeSinceStartup;
-		m_Road = m_AStar.PathFinding(m_ThroughMap, m_Start.x, m_Start.y, m_End.x, m_End.y);
-		m_JumpRoad = m_JumpAStar.PathFinding(m_Tilemap, m_ThroughMap, m_Start.x, m_Start.y, m_End.x, m_End.y, 4, 5);
-		float e_time = Time.realtimeSinceStartup;
+		if (tileStart == tileEnd)
+			return null;
 
-		print(e_time - s_time);
+		if (m_Start == tileStart &&
+			m_End == tileEnd)
+			return m_JumpRoad;
+
+		m_Start = tileStart;
+		m_End = tileEnd;
+
+		//m_Road = m_AStar.PathFinding(m_ThroughMap, tileStart, tileEnd);
+		m_JumpRoad = m_JumpAStar.PathFinding(m_Tilemap, m_ThroughMap, tileStart, tileEnd, maxJump, 5);
+		m_JumpRoad.Reverse();
+		return m_JumpRoad;
 	}
 
 
 	private void OnDrawGizmos()
 	{
+		if (m_Tilemap == null)
+			return;
+
 		BoundsInt bounds = m_Tilemap.cellBounds;
 
 		Vector3 size = Vector3.one * 0.5f;

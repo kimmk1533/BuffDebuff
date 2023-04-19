@@ -7,9 +7,9 @@ using UnityEngine;
 public class Buff : IEquatable<Buff>
 {
 	[SerializeField]
-	protected BuffData m_Data;
-	[SerializeField]
 	protected int m_StackCount;
+	[SerializeField]
+	protected BuffData m_Data;
 	protected Dictionary<E_BuffInvokeCondition, BuffHandler> m_BuffList;
 
 	public BuffData data

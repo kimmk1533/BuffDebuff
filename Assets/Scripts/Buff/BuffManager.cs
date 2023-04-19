@@ -18,14 +18,9 @@ public sealed class BuffManager : Singleton<BuffManager>
 	DebugDictionary<E_BuffType, BuffList> Debug_BuffDictionary;
 
 	[System.Serializable]
-	public struct BuffList
+	public class BuffList
 	{
-		public List<Buff> buffs;
-
-		public BuffList(int a)
-		{
-			buffs = new List<Buff>();
-		}
+		public List<Buff> buffList = new List<Buff>();
 	}
 #endif
 
@@ -46,21 +41,18 @@ public sealed class BuffManager : Singleton<BuffManager>
 	private void Initialize()
 	{
 		m_BuffDictionary = new Dictionary<E_BuffType, SecondaryKeyDictionary<int, string, Buff>>();
+#if UNITY_EDITOR
+		Debug_BuffDictionary = new DebugDictionary<E_BuffType, BuffList>();
+#endif
 
-		for (E_BuffType i = 0; i < E_BuffType.Max; ++i)
+		for (E_BuffType i = 0; i < E_BuffType.Max - 1; ++i)
 		{
 			m_BuffDictionary[i] = new SecondaryKeyDictionary<int, string, Buff>();
-		}
 
 #if UNITY_EDITOR
-		//Debug_BuffDictionary = new DebugDictionary<E_BuffType, List<Buff>>();
-		Debug_BuffDictionary = new DebugDictionary<E_BuffType, BuffList>();
-
-		for (E_BuffType i = 0; i < E_BuffType.Max; ++i)
-		{
-			Debug_BuffDictionary[i] = new BuffList(0);
-		}
+			Debug_BuffDictionary[i] = new BuffList();
 #endif
+		}
 	}
 
 	[ContextMenu("LoadBuff")]
@@ -169,7 +161,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 #if UNITY_EDITOR
 			//Debug_BuffDictionary[type].Add(buff);
-			Debug_BuffDictionary[type].buffs.Add(buff);
+			Debug_BuffDictionary[type].buffList.Add(buff);
 #endif
 		}
 
@@ -278,7 +270,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 	{
 		public string WorkSheetName;
 
-		public readonly E_BuffType BuffType;
+		public E_BuffType BuffType;
 
 		public Cell StartCell;
 		public Cell EndCell;

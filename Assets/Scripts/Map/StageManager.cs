@@ -80,7 +80,7 @@ public class StageManager : Singleton<StageManager>
 
 				if (room != null)
 				{
-					spawnPoint = room.Find("Right").Find("SpawnPoint");
+					spawnPoint = room.Find("Portal").Find("Right").Find("SpawnPoint");
 					--m_CurrentPos.x;
 					m_CameraFollow.clampOffset += Vector2.left * 50;
 					m_CameraFollow.transform.position = spawnPoint.position;
@@ -94,7 +94,7 @@ public class StageManager : Singleton<StageManager>
 
 				if (room != null)
 				{
-					spawnPoint = room.Find("Left").Find("SpawnPoint");
+					spawnPoint = room.Find("Portal").Find("Left").Find("SpawnPoint");
 					++m_CurrentPos.x;
 					m_CameraFollow.clampOffset += Vector2.right * 50;
 					m_CameraFollow.transform.position = spawnPoint.position;
@@ -108,7 +108,7 @@ public class StageManager : Singleton<StageManager>
 
 				if (room != null)
 				{
-					spawnPoint = room.Find("Bottom").Find("SpawnPoint");
+					spawnPoint = room.Find("Portal").Find("Bottom").Find("SpawnPoint");
 					++m_CurrentPos.y;
 					m_CameraFollow.clampOffset += Vector2.up * 50;
 					m_CameraFollow.transform.position = spawnPoint.position;
@@ -122,7 +122,7 @@ public class StageManager : Singleton<StageManager>
 
 				if (room != null)
 				{
-					spawnPoint = room.Find("Top").Find("SpawnPoint");
+					spawnPoint = room.Find("Portal").Find("Top").Find("SpawnPoint");
 					--m_CurrentPos.y;
 					m_CameraFollow.clampOffset += Vector2.down * 50;
 					m_CameraFollow.transform.position = spawnPoint.position;

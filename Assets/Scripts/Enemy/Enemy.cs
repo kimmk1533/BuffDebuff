@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D), typeof(EnemyController2D))]
+[RequireComponent(typeof(EnemyController2D))]
 public class Enemy : MonoBehaviour
 {
 	[Space(10)]
@@ -21,23 +21,46 @@ public class Enemy : MonoBehaviour
 	[SerializeField, ChildComponent("VisualRange")]
 	protected EnemyVisualRange m_VisualRange;
 
+	protected GridManager M_Grid => GridManager.Instance;
+
 	private void Awake()
 	{
 		Initialize();
 	}
 	private void Update()
 	{
-		if (m_MoveDirTimer.Update())
-		{
-			m_MoveDirTimer.Use();
-			m_MoveDirTimer.interval = Random.Range(0.5f, 1.5f);
+		Vector2Int dir = Vector2Int.zero;
 
-			ChangeMoveDir();
+		if (m_VisualRange.target == null)
+		{
+			if (m_MoveDirTimer.Update())
+			{
+				m_MoveDirTimer.Use();
+				m_MoveDirTimer.interval = Random.Range(0.5f, 1.5f);
+
+				ChangeMoveDir(Random.Range(-1, 2));
+			}
+		}
+		else
+		{
+			var list = M_Grid.PathFinding(transform.position, m_VisualRange.target.transform.position, (int)m_Controller.maxJumpHeight);
+
+			if (list != null)
+			{
+				dir = list[1].position - list[0].position;
+
+				ChangeMoveDir((int)Mathf.Sign(dir.x));
+
+				if (m_Controller.collisions.below)
+				{
+					m_Velocity.y = dir.y * m_Controller.maxJumpVelocity;
+				}
+			}
 		}
 
 		CalculateVelocity();
 
-		m_Controller.Move(m_Velocity * Time.deltaTime);
+		m_Controller.Move(m_Velocity * Time.deltaTime, dir);
 
 		if (m_Controller.collisions.above || m_Controller.collisions.below)
 		{
@@ -56,9 +79,9 @@ public class Enemy : MonoBehaviour
 		m_MoveDirTimer = new UtilClass.Timer(Random.Range(0.5f, 1.5f));
 	}
 	// 코루틴 사용 자제 이유 https://dhy948.tistory.com/16
-	protected virtual void ChangeMoveDir()
+	protected virtual void ChangeMoveDir(int moveDir)
 	{
-		m_MoveDir = Random.Range(-1, 2);
+		m_MoveDir = moveDir;
 
 		if (m_MoveDir != 0)
 			transform.localScale = new Vector3(m_MoveDir, 1.0f, 1.0f);
