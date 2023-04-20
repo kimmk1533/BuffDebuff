@@ -17,6 +17,8 @@ public class Enemy : MonoBehaviour
 	Vector2 m_Velocity;
 	#endregion
 
+	protected List<CustomNode> m_RoadToPlayerList;
+
 	protected EnemyController2D m_Controller;
 	[SerializeField, ChildComponent("VisualRange")]
 	protected EnemyVisualRange m_VisualRange;
@@ -29,7 +31,7 @@ public class Enemy : MonoBehaviour
 	}
 	private void Update()
 	{
-		Vector2Int dir = Vector2Int.zero;
+		Vector3 dir = Vector3.zero;
 
 		if (m_VisualRange.target == null)
 		{
@@ -43,17 +45,34 @@ public class Enemy : MonoBehaviour
 		}
 		else
 		{
-			var list = M_Grid.PathFinding(transform.position, m_VisualRange.target.transform.position, (int)m_Controller.maxJumpHeight);
+			Vector3 pos = transform.position + Vector3.up * 2;
+			Vector3 targetPos = m_VisualRange.target.transform.position + Vector3.up * 2;
 
-			if (list != null)
+			if (m_RoadToPlayerList.Count == 0)
 			{
-				dir = list[1].position - list[0].position;
+				var list = M_Grid.PathFinding(pos, targetPos, (int)m_Controller.maxJumpHeight);
+
+				if (list != null)
+					m_RoadToPlayerList.AddRange(list);
+			}
+
+			//m_RoadToPlayerList = M_Grid.PathFinding(pos, targetPos, (int)m_Controller.maxJumpHeight);
+
+			if (m_RoadToPlayerList != null)
+			{
+				Vector3 roadPos = new Vector3(m_RoadToPlayerList[0].position.x, m_RoadToPlayerList[0].position.y);
+
+				if (Vector3.Distance(roadPos, pos) <= 1f)
+				{
+					m_RoadToPlayerList.RemoveAt(0);
+				}
+				dir = roadPos - pos;
 
 				ChangeMoveDir((int)Mathf.Sign(dir.x));
 
-				if (m_Controller.collisions.below)
+				if (m_Controller.collisions.below && dir.y > 0f)
 				{
-					m_Velocity.y = dir.y * m_Controller.maxJumpVelocity;
+					m_Velocity.y = m_Controller.maxJumpVelocity;
 				}
 			}
 		}
@@ -73,8 +92,7 @@ public class Enemy : MonoBehaviour
 		m_Controller = GetComponent<EnemyController2D>();
 		m_Controller.Initialize();
 
-		if (m_MoveSpeed == 0.0f)
-			m_MoveSpeed = 2.0f;
+		m_RoadToPlayerList = new List<CustomNode>();
 
 		m_MoveDirTimer = new UtilClass.Timer(Random.Range(0.5f, 1.5f));
 	}

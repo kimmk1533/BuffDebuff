@@ -12,6 +12,20 @@ public class CustomNode : Node, IEquatable<CustomNode>
 	public int currentJump;
 	public bool isFalling;
 
+	public CustomNode() : base()
+	{
+
+	}
+	public CustomNode(Node node)
+	{
+		G = node.G;
+		H = node.H;
+		parent = node.parent;
+
+		position = node.position;
+		start = node.start;
+		end = node.end;
+	}
 	public override string ToString()
 	{
 		return "(" + position.x + ", " + position.y + ") | " + base.ToString();

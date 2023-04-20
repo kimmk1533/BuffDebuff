@@ -53,10 +53,10 @@ public class TileEditorWindow : EditorWindow
 	private static bool m_ShowTilemapOptions;
 
 	private static int m_TilemapIndex;
-	private static List<TileMap> m_TilemapList;
+	private static List<MyTileMap> m_TilemapList;
 	private static List<string> m_TilemapNameList;
 	private static Dictionary<Vector2, Dictionary<int, SpriteRenderer>> m_TilemapDictionary;
-	private static TileMap selectedTilemap
+	private static MyTileMap selectedTilemap
 	{
 		get
 		{
@@ -163,7 +163,7 @@ public class TileEditorWindow : EditorWindow
 		m_ShowTilemapOptions = true;
 
 		m_TilemapIndex = 0;
-		m_TilemapList = new List<TileMap>(FindObjectsOfType<TileMap>());
+		m_TilemapList = new List<MyTileMap>(FindObjectsOfType<MyTileMap>());
 		m_TilemapList = m_TilemapList.OrderBy(x => x.name).ToList();
 		m_TilemapNameList = new List<string>();
 		foreach (var item in m_TilemapList)

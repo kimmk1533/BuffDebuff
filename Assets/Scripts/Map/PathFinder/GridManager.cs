@@ -16,11 +16,13 @@ public class GridManager : Singleton<GridManager>
 	private AStar m_AStar;
 	private JumpAStar m_JumpAStar;
 
-	List<Node> m_Road = new List<Node>();
-	List<CustomNode> m_JumpRoad = new List<CustomNode>();
+	List<Node> m_Road;
+	List<CustomNode> m_JumpRoad;
 
 	public Vector2Int m_Start;
 	public Vector2Int m_End;
+
+	protected StageManager M_Stage => StageManager.Instance;
 
 	private void OnValidate()
 	{
@@ -37,13 +39,19 @@ public class GridManager : Singleton<GridManager>
 		m_AStar = GetComponent<AStar>();
 		m_JumpAStar = GetComponent<JumpAStar>();
 
-		//PathFinding();
+		m_Road = new List<Node>();
+		m_JumpRoad = new List<CustomNode>();
+	}
+	private void Start()
+	{
+		m_Tilemap = M_Stage.currentRoom.Find("TileMapLayer").Find("TileMap").GetComponent<Tilemap>();
+		m_ThroughMap = M_Stage.currentRoom.Find("TileMapLayer").Find("ThroughMap").GetComponent<Tilemap>();
 	}
 
 	public List<CustomNode> PathFinding(Vector3 start, Vector3 end, int maxJump)
 	{
-		Vector2Int tileStart = (Vector2Int)m_Tilemap.WorldToCell(start + Vector3.up * 2);
-		Vector2Int tileEnd = (Vector2Int)m_Tilemap.WorldToCell(end + Vector3.up * 2);
+		Vector2Int tileStart = (Vector2Int)m_Tilemap.WorldToCell(start);
+		Vector2Int tileEnd = (Vector2Int)m_Tilemap.WorldToCell(end);
 
 		if (tileStart == tileEnd)
 			return null;
@@ -55,9 +63,20 @@ public class GridManager : Singleton<GridManager>
 		m_Start = tileStart;
 		m_End = tileEnd;
 
-		//m_Road = m_AStar.PathFinding(m_ThroughMap, tileStart, tileEnd);
+		//m_Road = m_AStar.PathFinding(m_Tilemap, tileStart, tileEnd);
+
+		//m_JumpRoad.Clear();
+		//foreach (Node node in m_Road)
+		//{
+		//	CustomNode customNode = new CustomNode(node);
+		//	m_JumpRoad.Add(customNode);
+		//}
+
 		m_JumpRoad = m_JumpAStar.PathFinding(m_Tilemap, m_ThroughMap, tileStart, tileEnd, maxJump, 5);
+
 		m_JumpRoad.Reverse();
+		m_JumpRoad.RemoveAt(0);
+
 		return m_JumpRoad;
 	}
 

@@ -27,16 +27,17 @@ public class StageManager : Singleton<StageManager>
 	public Vector2Int mapSize => m_MapSize;
 	public int width => m_MapSize.x;
 	public int height => m_MapSize.y;
+	public Transform currentRoom => m_GeneratedRooms[m_CurrentPos.y, m_CurrentPos.x];
 
 	private void Awake()
 	{
 		m_MapGenerator = GetComponent<MapGenerator>();
 		m_CameraFollow = Camera.main.GetComponent<CameraFollow>();
+
+		m_GeneratedRooms = new Transform[m_MapSize.y, m_MapSize.x];
 	}
 	private void Start()
 	{
-		m_GeneratedRooms = new Transform[m_MapSize.y, m_MapSize.x];
-
 		int index = 0;
 		for (int y = 0; y < m_MapSize.y; ++y)
 		{
