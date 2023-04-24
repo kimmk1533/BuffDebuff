@@ -71,7 +71,7 @@ public class EnemyController2D : Controller2D
 					{
 						continue;
 					}
-					if (m_EnemyInput.y < 0f)
+					if (m_EnemyInput.y < -0.1f)
 					{
 						m_FallingThroughPlatform = hit.collider;
 						continue;

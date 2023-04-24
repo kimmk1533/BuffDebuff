@@ -22,11 +22,6 @@ public class RaycastController : MonoBehaviour
 
 	public new Collider2D collider => m_Collider;
 
-	protected virtual void Awake()
-	{
-		Initialize();
-	}
-
 	private void CalculateRaySpacing()
 	{
 		Bounds bounds = m_Collider.bounds;

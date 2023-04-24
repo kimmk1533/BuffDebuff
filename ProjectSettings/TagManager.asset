@@ -42,9 +42,6 @@ TagManager:
   - name: Background
     uniqueID: 77629871
     locked: 0
-  - name: Default
-    uniqueID: 0
-    locked: 0
   - name: TileMap
     uniqueID: 2448312315
     locked: 0
@@ -53,4 +50,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 518170279
+    locked: 0
+  - name: Default
+    uniqueID: 0
     locked: 0

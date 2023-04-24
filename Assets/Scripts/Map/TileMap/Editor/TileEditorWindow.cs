@@ -11,7 +11,7 @@ public class TileEditorWindow : EditorWindow
 	#region GridOptions
 	private static readonly Vector2 CellSize = Vector2.one;
 
-	private static readonly Color GridColor = new Color(1f, 1f, 1f, 0.08f);
+	private static readonly Color GridColor = new Color(1f, 1f, 1f, 0.2f);
 	private static readonly Color IconColor = new Color(1f, 1f, 1f, 0.3f);
 	private static readonly Color SelectedCellColor = Color.green;
 	#endregion

@@ -28,11 +28,31 @@ public class CustomNode : Node, IEquatable<CustomNode>
 	}
 	public override string ToString()
 	{
-		return "(" + position.x + ", " + position.y + ") | " + base.ToString();
+		return "(" + x + ", " + y + ") | " + base.ToString();
 	}
 	public bool Equals(CustomNode other)
 	{
-		return base.Equals(other) && jumpStartPos == other.jumpStartPos;
+		return base.Equals(other) && jumpStartPos == other.jumpStartPos && isFalling == other.isFalling;
+	}
+	public void Reverse()
+	{
+		Stack<CustomNode> nodeStack = new Stack<CustomNode>();
+		CustomNode node = this;
+
+		while (node != null)
+		{
+			nodeStack.Push(node);
+			node = (CustomNode)node.parent;
+		}
+
+		node = nodeStack.Pop();
+
+		while (nodeStack.Count > 0)
+		{
+			node.parent = nodeStack.Pop();
+			node = (CustomNode)node.parent;
+		}
+		node.parent = null;
 	}
 }
 
@@ -66,8 +86,6 @@ public class JumpAStar : MonoBehaviour
 	private bool AddNearNode(Tilemap tilemap, Tilemap throughMap, ref CustomNode node, int maxJump, int speed)
 	{
 		BoundsInt tileBounds = tilemap.cellBounds;
-		TileBase[] allTile = tilemap.GetTilesBlock(tileBounds);
-		//TileBase[] allThrough = throughMap.GetTilesBlock(tileBounds);
 
 		int width = tileBounds.size.x;
 		int height = tileBounds.size.y;
@@ -85,34 +103,31 @@ public class JumpAStar : MonoBehaviour
 					x != 0 && y != 0)
 					continue;
 
-				int realX = node.position.x + x;
-				int realY = node.position.y + y;
+				int realX = node.x + x;
+				int realY = node.y + y;
 
 				// 배열 범위 밖 체크
 				if (realX < 0 || realX >= width ||
 					realY < 0 || realY >= height)
 					continue;
 
-				int index = realX + realY * width;
-				int index_down =
-					(realY - 1) >= 0 ?
-					realX + (realY - 1) * width :
-					0;
+				TileBase tile = tilemap.GetTile(new Vector3Int(realX, realY));
+				TileBase tileDown = tilemap.GetTile(new Vector3Int(realX, realY - 1));
 
-				if (allTile[index] != null)
+				TileBase through = throughMap.GetTile(new Vector3Int(realX, realY));
+				TileBase throughDown = throughMap.GetTile(new Vector3Int(realX, realY - 1));
+
+				if (tile != null)
 					continue;
-
-				//if (
-				//	throughMap.GetTile(new Vector3Int(realX, realY)) != null)
-				//	continue;
 
 				CustomNode near = new CustomNode();
 				near.position.Set(realX, realY);
 
-				// 닫힌 리스트에 포함되어 있는 경우
-				if (m_CloseList.Contains(near))
+				if (node.parent != null &&
+					node.parent.position == near.position)
 					continue;
 
+				// Jump
 				{
 					near.currentJump = node.currentJump;
 					near.isFalling = node.isFalling;
@@ -126,89 +141,70 @@ public class JumpAStar : MonoBehaviour
 					{
 						if (y >= 0)
 							continue;
-						else
-							--near.currentJump;
+
+						--near.currentJump;
 					}
 					else
 					{
-						if (y < 0)
-							continue;
-
 						if (y > 0)
 						{
 							++near.currentJump;
 
-							if (node.jumpStartPos == null)
+							// 최대 점프 높이 이상 점프 금지
+							if (near.currentJump >= maxJump)
+								continue;
+
+							if (near.jumpStartPos == null)
 								near.jumpStartPos = node.position;
 						}
 					}
 
-					// 착지
-					// 이동할 곳이 비어 있어야 하고
-					if (allTile[index] == null &&
-						throughMap.GetTile(new Vector3Int(realX, realY)) == null)
+					// 이동할 곳이 비어있고
+					if (tile == null && through == null)
 					{
-						// 이동할 곳 밑에 블럭이 있어야 함
-						if (allTile[index_down] != null ||
-							throughMap.GetTile(new Vector3Int(realX, realY - 1)) != null)
+						// 이동할 곳 밑에 블럭이 있으면
+						if (tileDown != null || throughDown != null)
 						{
+							// 착지
 							near.currentJump = 0;
 							near.isFalling = false;
 							near.jumpStartPos = null;
 						}
-					}
-
-					// 최대 점프 높이 이상 점프 금지
-					if (near.currentJump >= maxJump)
-						continue;
-
-					// 아직 떨어지는 중이면 상승 금지
-					if (near.isFalling == true &&
-						y > 0)
-						continue;
-
-					// 좌우이동 시
-					if (y == 0)
-					{
-						// 이동할 곳 밑에 발판이 없는 경우
-						if (allTile[index_down] == null &&
-							throughMap.GetTile(new Vector3Int(realX, realY - 1)) == null)
-							continue;
-
-						// 현재 공중에 떠 있는 경우
-						if (allTile[index_down - x] == null &&
-							throughMap.GetTile(new Vector3Int(realX - x, realY - 1)) == null)
-							continue;
-
-						if (allTile[index] != null ||
-							throughMap.GetTile(new Vector3Int(realX, realY)) != null)
+						// 공중 이동 금지
+						else if (y == 0)
 							continue;
 					}
+					// 공중 이동 금지
+					else if (y == 0)
+						continue;
 				}
 
-				near.start = node.start;
-				near.end = node.end;
-
-				near.G = node.G;
-				near.H = Heuristic(near.position, near.end);
-				near.parent = node;
-
-				// 직선 이동
-				if (x == 0 || y == 0)
-					near.G += straight;
-				// 대각선 이동
-				else
-					near.G += diagonal;
-
-				if (near.position == near.end)
+				if (near.position == node.end)
 				{
+					near.G = node.G + ((x == 0 || y == 0) ? straight : diagonal);
+					near.H = Heuristic(near.position, node.end);
+
+					near.start = node.start;
+					near.end = node.end;
+					near.parent = node;
+
 					node = near;
 
 					return true;
 				}
 
-				bool flag = false;
+				// 닫힌 리스트에 포함되어 있는 경우
+				if (m_CloseList.Contains(near))
+					continue;
 
+				near.G = node.G + ((x == 0 || y == 0) ? straight : diagonal);
+				near.H = Heuristic(near.position, node.end);
+
+				near.start = node.start;
+				near.end = node.end;
+				near.parent = node;
+
+				bool flag = false;
 				foreach (var item in m_OpenList)
 				{
 					if (item.Equals(near))
@@ -217,12 +213,26 @@ public class JumpAStar : MonoBehaviour
 
 						if (item.G > near.G)
 						{
+							CustomNode itemParent = (CustomNode)item.parent;
+							node = (CustomNode)near.parent;
+							while (node.jumpStartPos != null)
+							{
+								if (itemParent.position != node.position)
+									break;
+
+								itemParent.G = node.G;
+								itemParent.jumpStartPos = node.jumpStartPos;
+								itemParent.currentJump = node.currentJump;
+								itemParent.isFalling = node.isFalling;
+
+								itemParent = (CustomNode)item.parent;
+								node = (CustomNode)node.parent;
+							}
+
 							item.G = near.G;
 							item.parent = near.parent;
 
-							item.jumpStartPos = near.jumpStartPos;
 							item.currentJump = near.currentJump;
-							item.isFalling = near.isFalling;
 						}
 
 						break;
@@ -241,11 +251,11 @@ public class JumpAStar : MonoBehaviour
 		return false;
 	}
 
-	public List<CustomNode> PathFinding(Tilemap tilemap, Tilemap throughMap, Vector2Int start, Vector2Int end, int maxJump, int speed)
+	public CustomNode PathFinding(Tilemap tilemap, Tilemap throughMap, Vector2Int start, Vector2Int end, int maxJump, int speed)
 	{
 		return PathFinding(tilemap, throughMap, start.x, start.y, end.x, end.y, maxJump, speed);
 	}
-	public List<CustomNode> PathFinding(Tilemap tilemap, Tilemap throughMap, int sx, int sy, int ex, int ey, int maxJump, int speed)
+	public CustomNode PathFinding(Tilemap tilemap, Tilemap throughMap, int sx, int sy, int ex, int ey, int maxJump, int speed)
 	{
 		m_OpenList.Clear();
 		m_CloseList.Clear();
@@ -271,16 +281,17 @@ public class JumpAStar : MonoBehaviour
 				break;
 		}
 
-		if (node.position.x != ex || node.position.y != ey)
+		if (node.x != ex || node.y != ey)
 			return null;
 
-		List<CustomNode> result = new List<CustomNode>();
-		while (node != null)
-		{
-			result.Add(node);
-			node = (CustomNode)node.parent;
-		}
-		return result;
+		//List<CustomNode> result = new List<CustomNode>();
+		//while (node != null)
+		//{
+		//	result.Add(node);
+		//	node = (CustomNode)node.parent;
+		//}
+
+		return node;
 	}
 
 	private void OnDrawGizmos()
@@ -302,7 +313,7 @@ public class JumpAStar : MonoBehaviour
 					item.position == item.end)
 					continue;
 
-				Vector3 center = new Vector3(item.position.x, item.position.y) + offset;
+				Vector3 center = new Vector3(item.x, item.y) + offset;
 
 				Gizmos.DrawCube(center, size);
 			}
@@ -319,7 +330,7 @@ public class JumpAStar : MonoBehaviour
 					item.position == item.end)
 					continue;
 
-				Vector3 center = new Vector3(item.position.x, item.position.y) + offset;
+				Vector3 center = new Vector3(item.x, item.y) + offset;
 
 				Gizmos.DrawCube(center, size);
 			}

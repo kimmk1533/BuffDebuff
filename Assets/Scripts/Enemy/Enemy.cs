@@ -15,9 +15,11 @@ public class Enemy : MonoBehaviour
 
 	[SerializeField, ReadOnly]
 	Vector2 m_Velocity;
+
+	Vector3 m_TargetPos;
 	#endregion
 
-	protected List<CustomNode> m_RoadToPlayerList;
+	protected CustomNode m_RoadToPlayer;
 
 	protected EnemyController2D m_Controller;
 	[SerializeField, ChildComponent("VisualRange")]
@@ -30,6 +32,32 @@ public class Enemy : MonoBehaviour
 		Initialize();
 	}
 	private void Update()
+	{
+		Move();
+	}
+
+	protected virtual void Initialize()
+	{
+		m_Controller = GetComponent<EnemyController2D>();
+		m_Controller.Initialize();
+
+		m_MoveDirTimer = new UtilClass.Timer(Random.Range(0.5f, 1.5f));
+	}
+	protected virtual void ChangeMoveDir(int moveDir)
+	{
+		m_MoveDir = moveDir;
+
+		if (m_MoveDir != 0)
+			transform.localScale = new Vector3(m_MoveDir, 1.0f, 1.0f);
+	}
+	protected virtual void CalculateVelocity()
+	{
+		float targetVelocityX = m_MoveDir * m_MoveSpeed;
+
+		m_Velocity.x = targetVelocityX;
+		m_Velocity.y += m_Controller.gravity * Time.deltaTime;
+	}
+	protected virtual void Move()
 	{
 		Vector3 dir = Vector3.zero;
 
@@ -45,33 +73,36 @@ public class Enemy : MonoBehaviour
 		}
 		else
 		{
-			Vector3 pos = transform.position + Vector3.up * 2;
-			Vector3 targetPos = m_VisualRange.target.transform.position + Vector3.up * 2;
+			Vector3 pos = transform.position + Vector3.up;
+			Vector3 targetPos = m_VisualRange.target.transform.position + Vector3.up;
 
-			if (m_RoadToPlayerList.Count == 0)
+			if (m_RoadToPlayer == null ||
+				m_TargetPos != targetPos)
 			{
-				var list = M_Grid.PathFinding(pos, targetPos, (int)m_Controller.maxJumpHeight);
+				m_TargetPos = targetPos;
 
-				if (list != null)
-					m_RoadToPlayerList.AddRange(list);
+				m_RoadToPlayer = M_Grid.PathFinding(pos, targetPos, (int)m_Controller.maxJumpHeight);
 			}
 
 			//m_RoadToPlayerList = M_Grid.PathFinding(pos, targetPos, (int)m_Controller.maxJumpHeight);
 
-			if (m_RoadToPlayerList != null)
+			if (m_RoadToPlayer != null)
 			{
-				Vector3 roadPos = new Vector3(m_RoadToPlayerList[0].position.x, m_RoadToPlayerList[0].position.y);
+				Vector3 nextPos = new Vector3(m_RoadToPlayer.parent.x, m_RoadToPlayer.parent.y);
 
-				if (Vector3.Distance(roadPos, pos) <= 1f)
+				dir = nextPos - pos;
+				if (Mathf.Abs(dir.x) <= 0.1f &&
+					Mathf.Abs(dir.y) <= 1.5f)
 				{
-					m_RoadToPlayerList.RemoveAt(0);
+					m_RoadToPlayer = (CustomNode)m_RoadToPlayer.parent;
 				}
-				dir = roadPos - pos;
 
 				ChangeMoveDir((int)Mathf.Sign(dir.x));
 
 				if (m_Controller.collisions.below && dir.y > 0f)
 				{
+
+
 					m_Velocity.y = m_Controller.maxJumpVelocity;
 				}
 			}
@@ -85,30 +116,5 @@ public class Enemy : MonoBehaviour
 		{
 			m_Velocity.y = 0;
 		}
-	}
-
-	protected virtual void Initialize()
-	{
-		m_Controller = GetComponent<EnemyController2D>();
-		m_Controller.Initialize();
-
-		m_RoadToPlayerList = new List<CustomNode>();
-
-		m_MoveDirTimer = new UtilClass.Timer(Random.Range(0.5f, 1.5f));
-	}
-	// 코루틴 사용 자제 이유 https://dhy948.tistory.com/16
-	protected virtual void ChangeMoveDir(int moveDir)
-	{
-		m_MoveDir = moveDir;
-
-		if (m_MoveDir != 0)
-			transform.localScale = new Vector3(m_MoveDir, 1.0f, 1.0f);
-	}
-	protected virtual void CalculateVelocity()
-	{
-		float targetVelocityX = m_MoveDir * m_MoveSpeed;
-
-		m_Velocity.x = targetVelocityX;
-		m_Velocity.y += m_Controller.gravity * Time.deltaTime;
 	}
 }

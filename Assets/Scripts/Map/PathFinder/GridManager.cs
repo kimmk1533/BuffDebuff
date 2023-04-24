@@ -6,8 +6,23 @@ using UnityEngine.Tilemaps;
 //[RequireComponent(typeof(JumpAStar))]
 public class GridManager : Singleton<GridManager>
 {
+	public bool m_ShowGrid;
+	public Color m_GridColor;
+
+	[Space(10)]
+
+	public bool m_ShowGridText;
+	public Color m_GridTextColor;
+	public Transform m_GridTextParent;
+
+	[Space(10)]
+
+	public bool m_Debug;
+
 	public Tilemap m_Tilemap;
 	public Tilemap m_ThroughMap;
+
+	[Space(10)]
 
 	public bool m_Jump;
 	public bool m_ShowOpenList;
@@ -16,8 +31,8 @@ public class GridManager : Singleton<GridManager>
 	private AStar m_AStar;
 	private JumpAStar m_JumpAStar;
 
-	List<Node> m_Road;
-	List<CustomNode> m_JumpRoad;
+	Node m_Road;
+	CustomNode m_JumpRoad;
 
 	public Vector2Int m_Start;
 	public Vector2Int m_End;
@@ -26,10 +41,18 @@ public class GridManager : Singleton<GridManager>
 
 	private void OnValidate()
 	{
+		if (m_GridTextParent != null)
+			m_GridTextParent.gameObject.SetActive(m_ShowGridText);
+
 		if (m_Tilemap != null)
 		{
 			m_Start.Clamp((Vector2Int)m_Tilemap.cellBounds.min, (Vector2Int)m_Tilemap.cellBounds.max - Vector2Int.one);
 			m_End.Clamp((Vector2Int)m_Tilemap.cellBounds.min, (Vector2Int)m_Tilemap.cellBounds.max - Vector2Int.one);
+
+			if (m_Debug)
+			{
+				Test();
+			}
 		}
 	}
 	private void Awake()
@@ -38,9 +61,6 @@ public class GridManager : Singleton<GridManager>
 
 		m_AStar = GetComponent<AStar>();
 		m_JumpAStar = GetComponent<JumpAStar>();
-
-		m_Road = new List<Node>();
-		m_JumpRoad = new List<CustomNode>();
 	}
 	private void Start()
 	{
@@ -48,34 +68,96 @@ public class GridManager : Singleton<GridManager>
 		m_ThroughMap = M_Stage.currentRoom.Find("TileMapLayer").Find("ThroughMap").GetComponent<Tilemap>();
 	}
 
-	public List<CustomNode> PathFinding(Vector3 start, Vector3 end, int maxJump)
+	[ContextMenu("Create Grid Text")]
+	public void CreateGridText()
+	{
+		if (m_Tilemap == null)
+			return;
+		if (m_GridTextParent == null)
+			return;
+
+		BoundsInt boundsInt = m_Tilemap.cellBounds;
+
+		Vector3Int min = boundsInt.min;
+		Vector3Int max = boundsInt.max;
+
+		DestroyGridText();
+
+		for (int y = min.y; y < max.y; y++)
+		{
+			for (int x = min.x; x < max.x; x++)
+			{
+				Vector2 pos = new Vector2(x, y) + Vector2.one * 0.5f;
+				string text = new Vector2Int(x, y).ToString();
+
+				UtilClass.CreateWorldText(text, m_GridTextParent, pos, 0.1f, 25, m_GridTextColor, TextAnchor.MiddleCenter);
+			}
+		}
+	}
+	[ContextMenu("Destroy Grid Text")]
+	public void DestroyGridText()
+	{
+		if (m_GridTextParent == null)
+			return;
+
+		int count = m_GridTextParent.childCount;
+		for (int i = 0; i < count; ++i)
+		{
+			DestroyImmediate(m_GridTextParent.GetChild(0).gameObject);
+		}
+	}
+	[ContextMenu("Test")]
+	public void Test()
+	{
+		if (!m_Jump && m_AStar == null)
+			m_AStar = GetComponent<AStar>();
+		if (m_Jump && m_JumpAStar == null)
+			m_JumpAStar = GetComponent<JumpAStar>();
+
+		if (m_Start == m_End)
+			return;
+
+		if (m_Tilemap.GetTile((Vector3Int)m_Start) != null ||
+			m_Tilemap.GetTile((Vector3Int)m_End) != null)
+			return;
+
+		float s = Time.realtimeSinceStartup;
+		if (!m_Jump)
+		{
+			m_Road = m_AStar.PathFinding(m_Tilemap, m_Start, m_End);
+		}
+		else
+		{
+			Vector3 start = new Vector3(m_Start.x, m_Start.y);
+			Vector3 end = new Vector3(m_End.x, m_End.y);
+
+			PathFinding(start, end, 6);
+			//m_JumpRoad = m_JumpAStar.PathFinding(m_Tilemap, m_ThroughMap, m_Start, m_End, 6, 5);
+		}
+		float e = Time.realtimeSinceStartup;
+		Debug.Log(e - s);
+	}
+	public CustomNode PathFinding(Vector3 start, Vector3 end, int maxJump)
 	{
 		Vector2Int tileStart = (Vector2Int)m_Tilemap.WorldToCell(start);
 		Vector2Int tileEnd = (Vector2Int)m_Tilemap.WorldToCell(end);
 
+		if (m_Tilemap.GetTile((Vector3Int)tileStart) != null ||
+			m_Tilemap.GetTile((Vector3Int)tileEnd) != null)
+			return null;
+
 		if (tileStart == tileEnd)
 			return null;
 
-		if (m_Start == tileStart &&
+		if (Application.isEditor == false &&
+			m_Start == tileStart &&
 			m_End == tileEnd)
 			return m_JumpRoad;
 
 		m_Start = tileStart;
 		m_End = tileEnd;
 
-		//m_Road = m_AStar.PathFinding(m_Tilemap, tileStart, tileEnd);
-
-		//m_JumpRoad.Clear();
-		//foreach (Node node in m_Road)
-		//{
-		//	CustomNode customNode = new CustomNode(node);
-		//	m_JumpRoad.Add(customNode);
-		//}
-
 		m_JumpRoad = m_JumpAStar.PathFinding(m_Tilemap, m_ThroughMap, tileStart, tileEnd, maxJump, 5);
-
-		m_JumpRoad.Reverse();
-		m_JumpRoad.RemoveAt(0);
 
 		return m_JumpRoad;
 	}
@@ -86,25 +168,50 @@ public class GridManager : Singleton<GridManager>
 		if (m_Tilemap == null)
 			return;
 
+		float width = m_Tilemap.cellSize.x;
+		float height = m_Tilemap.cellSize.y;
+
+		if (width <= 0 || height <= 0)
+			return;
+
+		Color color = Gizmos.color;
+
 		BoundsInt bounds = m_Tilemap.cellBounds;
+		Vector3Int min = bounds.min;
+		Vector3Int max = bounds.max;
+
+		Gizmos.color = m_GridColor;
+		for (float y = min.y; y <= max.y; y += height)
+		{
+			Gizmos.DrawLine(new Vector3(min.x, Mathf.Floor(y / height) * height, 0f), new Vector3(max.x, Mathf.Floor(y / height) * height, 0f));
+		}
+
+		for (float x = min.x; x <= max.x; x += width)
+		{
+			Gizmos.DrawLine(new Vector3(Mathf.Floor(x / width) * width, min.y, 0f), new Vector3(Mathf.Floor(x / width) * width, max.y, 0f));
+		}
+
+		Gizmos.color = color;
+
+		bounds = m_Tilemap.cellBounds;
 
 		Vector3 size = Vector3.one * 0.5f;
-		Vector3 offset = size + bounds.min + transform.position;
+		Vector3 offset = size + min + transform.position;
 
 		Vector3 start = new Vector3(m_Start.x, m_Start.y);
 		Vector3 end = new Vector3(m_End.x, m_End.y);
 
-		Vector3 leftBottom = bounds.min;
-		Vector3 rightBottom = bounds.min + new Vector3(bounds.size.x, 0f);
-		Vector3 leftTop = bounds.min + new Vector3(0f, bounds.size.y);
-		Vector3 rightTop = bounds.max;
+		Vector3 leftBottom = min;
+		Vector3 rightBottom = min + new Vector3(bounds.size.x, 0f);
+		Vector3 leftTop = min + new Vector3(0f, bounds.size.y);
+		Vector3 rightTop = max;
 
 		Gizmos.DrawLine(leftBottom, rightBottom);
 		Gizmos.DrawLine(leftBottom, leftTop);
 		Gizmos.DrawLine(leftTop, rightTop);
 		Gizmos.DrawLine(rightBottom, rightTop);
 
-		Color color = Gizmos.color;
+		color = Gizmos.color;
 
 		// 시작점
 		Gizmos.color = Color.red;
@@ -119,31 +226,30 @@ public class GridManager : Singleton<GridManager>
 		if (m_Jump && m_JumpRoad == null)
 			return;
 
-		float width = 0.01f;
+		width = 0.005f;
+		Node node = m_Jump ? m_JumpRoad : m_Road;
 
 		Gizmos.color = Color.yellow;
-
-		int Count = (m_Jump) ? m_JumpRoad.Count : m_Road.Count;
-
-		for (int i = 0; i < Count - 1; ++i)
+		while (node.parent != null)
 		{
 			for (float y = -0.05f; y <= 0.05f; y += width)
 			{
 				for (float x = -0.05f; x <= 0.05f; x += width)
 				{
-					float realX = ((m_Jump) ? m_JumpRoad[i].position.x : m_Road[i].position.x) + x;
-					float realY = ((m_Jump) ? m_JumpRoad[i].position.y : m_Road[i].position.y) + y;
-
+					float realX = node.x + x;
+					float realY = node.y + y;
 					Vector3 from = new Vector3(realX, realY) + offset;
 
-					realX = ((m_Jump) ? m_JumpRoad[i + 1].position.x : m_Road[i + 1].position.x) + x;
-					realY = ((m_Jump) ? m_JumpRoad[i + 1].position.y : m_Road[i + 1].position.y) + y;
+					realX = node.parent.x + x;
+					realY = node.parent.y + y;
 					Vector3 to = new Vector3(realX, realY) + offset;
+
 					Gizmos.DrawLine(from, to);
 				}
 			}
-		}
 
+			node = node.parent;
+		}
 		Gizmos.color = color;
 	}
 }

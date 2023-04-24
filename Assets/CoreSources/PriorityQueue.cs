@@ -37,6 +37,10 @@ namespace System.Collections.Generic
 			m_ElementList.Clear();
 			m_ElementList.Add(default(TElement));
 		}
+		public bool Contains(TElement element)
+		{
+			return m_ElementList.Contains(element);
+		}
 		public TElement Dequeue()
 		{
 			// 1. 루트 노드 반환하기 위해 저장

@@ -20,6 +20,9 @@ public class Node : IComparer<Node>, IEquatable<Node>
 	public Vector2Int start;
 	public Vector2Int end;
 
+	public int x => position.x;
+	public int y => position.y;
+
 	public Node()
 	{
 		G = 0;
@@ -100,7 +103,6 @@ public class AStar : MonoBehaviour
 
 		int width = tileBounds.size.x;
 		int height = tileBounds.size.y;
-		Vector2Int position = new Vector2Int();
 
 		for (int y = -1; y <= 1; ++y)
 		{
@@ -115,8 +117,8 @@ public class AStar : MonoBehaviour
 					x != 0 && y != 0)
 					continue;
 
-				int realX = node.position.x + x;
-				int realY = node.position.y + y;
+				int realX = node.x + x;
+				int realY = node.y + y;
 
 				// 배열 범위 밖 체크
 				if (realX < 0 || realX >= width ||
@@ -128,36 +130,34 @@ public class AStar : MonoBehaviour
 				if (allTile[index] != null)
 					continue;
 
-				position.Set(realX, realY);
 				Node near = new Node();
-				near.G = node.G;
-				near.H = Heuristic(position, node.end);
+				near.position.Set(realX, realY);
 
-				near.position = position;
-				near.start = node.start;
-				near.end = node.end;
-
-				near.parent = node;
-
-				if (m_CloseList.Contains(near) == true)
-					continue;
-
-				// 직선 이동
-				if (x == 0 || y == 0)
-					near.G += straight;
-				// 대각선 이동
-				else
-					near.G += diagonal;
-
-				if (near.position == near.end)
+				if (near.position == node.end)
 				{
+					near.G = node.G + ((x == 0 || y == 0) ? straight : diagonal);
+					near.H = Heuristic(near.position, node.end);
+
+					near.start = node.start;
+					near.end = node.end;
+					near.parent = node;
+
 					node = near;
 
 					return true;
 				}
 
-				bool flag = false;
+				if (m_CloseList.Contains(near) == true)
+					continue;
 
+				near.G = node.G + ((x == 0 || y == 0) ? straight : diagonal);
+				near.H = Heuristic(near.position, node.end);
+
+				near.start = node.start;
+				near.end = node.end;
+				near.parent = node;
+
+				bool flag = false;
 				foreach (var item in m_OpenList)
 				{
 					if (item.Equals(near))
@@ -186,11 +186,11 @@ public class AStar : MonoBehaviour
 		return false;
 	}
 
-	public List<Node> PathFinding(Tilemap tilemap, Vector2Int start, Vector2Int end)
+	public Node PathFinding(Tilemap tilemap, Vector2Int start, Vector2Int end)
 	{
 		return PathFinding(tilemap, start.x, start.y, end.x, end.y);
 	}
-	public List<Node> PathFinding(Tilemap tilemap, int sx, int sy, int ex, int ey)
+	public Node PathFinding(Tilemap tilemap, int sx, int sy, int ex, int ey)
 	{
 		m_OpenList.Clear();
 		m_CloseList.Clear();
@@ -216,16 +216,17 @@ public class AStar : MonoBehaviour
 				break;
 		}
 
-		if (node.position.x != ex || node.position.y != ey)
+		if (node.x != ex || node.y != ey)
 			return null;
 
-		List<Node> result = new List<Node>();
-		while (node != null)
-		{
-			result.Add(node);
-			node = node.parent;
-		}
-		return result;
+		//List<Node> result = new List<Node>();
+		//while (node != null)
+		//{
+		//	result.Add(node);
+		//	node = node.parent;
+		//}
+
+		return node;
 	}
 
 	private void OnDrawGizmos()
@@ -247,7 +248,7 @@ public class AStar : MonoBehaviour
 					item.position == item.end)
 					continue;
 
-				Vector3 center = new Vector3(item.position.x, item.position.y) + offset;
+				Vector3 center = new Vector3(item.x, item.y) + offset;
 
 				Gizmos.DrawCube(center, size);
 			}
@@ -264,7 +265,7 @@ public class AStar : MonoBehaviour
 					item.position == item.end)
 					continue;
 
-				Vector3 center = new Vector3(item.position.x, item.position.y) + offset;
+				Vector3 center = new Vector3(item.x, item.y) + offset;
 
 				Gizmos.DrawCube(center, size);
 			}
