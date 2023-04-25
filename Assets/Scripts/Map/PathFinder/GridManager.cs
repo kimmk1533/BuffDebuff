@@ -132,7 +132,7 @@ public class GridManager : Singleton<GridManager>
 			Vector3 end = new Vector3(m_End.x, m_End.y);
 
 			PathFinding(start, end, 6);
-			//m_JumpRoad = m_JumpAStar.PathFinding(m_Tilemap, m_ThroughMap, m_Start, m_End, 6, 5);
+			//m_JumpRoad = m_JumpAStar.PathFinding(m_Tilemap, m_ThroughMap, m_Start, m_End, 6);
 		}
 		float e = Time.realtimeSinceStartup;
 		Debug.Log(e - s);
@@ -157,7 +157,7 @@ public class GridManager : Singleton<GridManager>
 		m_Start = tileStart;
 		m_End = tileEnd;
 
-		m_JumpRoad = m_JumpAStar.PathFinding(m_Tilemap, m_ThroughMap, tileStart, tileEnd, maxJump, 5);
+		m_JumpRoad = m_JumpAStar.PathFinding(m_Tilemap, m_ThroughMap, tileStart, tileEnd, maxJump);
 
 		return m_JumpRoad;
 	}
@@ -180,20 +180,22 @@ public class GridManager : Singleton<GridManager>
 		Vector3Int min = bounds.min;
 		Vector3Int max = bounds.max;
 
-		Gizmos.color = m_GridColor;
-		for (float y = min.y; y <= max.y; y += height)
+		if (m_ShowGrid)
 		{
-			Gizmos.DrawLine(new Vector3(min.x, Mathf.Floor(y / height) * height, 0f), new Vector3(max.x, Mathf.Floor(y / height) * height, 0f));
+			Gizmos.color = m_GridColor;
+
+			for (float y = min.y; y <= max.y; y += height)
+			{
+				Gizmos.DrawLine(new Vector3(min.x, Mathf.Floor(y / height) * height, 0f), new Vector3(max.x, Mathf.Floor(y / height) * height, 0f));
+			}
+
+			for (float x = min.x; x <= max.x; x += width)
+			{
+				Gizmos.DrawLine(new Vector3(Mathf.Floor(x / width) * width, min.y, 0f), new Vector3(Mathf.Floor(x / width) * width, max.y, 0f));
+			}
+
+			Gizmos.color = color;
 		}
-
-		for (float x = min.x; x <= max.x; x += width)
-		{
-			Gizmos.DrawLine(new Vector3(Mathf.Floor(x / width) * width, min.y, 0f), new Vector3(Mathf.Floor(x / width) * width, max.y, 0f));
-		}
-
-		Gizmos.color = color;
-
-		bounds = m_Tilemap.cellBounds;
 
 		Vector3 size = Vector3.one * 0.5f;
 		Vector3 offset = size + min + transform.position;

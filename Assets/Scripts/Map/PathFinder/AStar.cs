@@ -98,6 +98,9 @@ public class AStar : MonoBehaviour
 	}
 	private bool AddNearNode(Tilemap tilemap, ref Node node)
 	{
+		if (node.position == node.end)
+			return true;
+
 		BoundsInt tileBounds = tilemap.cellBounds;
 		TileBase[] allTile = tilemap.GetTilesBlock(tileBounds);
 
@@ -133,19 +136,19 @@ public class AStar : MonoBehaviour
 				Node near = new Node();
 				near.position.Set(realX, realY);
 
-				if (near.position == node.end)
-				{
-					near.G = node.G + ((x == 0 || y == 0) ? straight : diagonal);
-					near.H = Heuristic(near.position, node.end);
+				//if (near.position == node.end)
+				//{
+				//	near.G = node.G + ((x == 0 || y == 0) ? straight : diagonal);
+				//	near.H = Heuristic(near.position, node.end);
 
-					near.start = node.start;
-					near.end = node.end;
-					near.parent = node;
+				//	near.start = node.start;
+				//	near.end = node.end;
+				//	near.parent = node;
 
-					node = near;
+				//	node = near;
 
-					return true;
-				}
+				//	return true;
+				//}
 
 				if (m_CloseList.Contains(near) == true)
 					continue;

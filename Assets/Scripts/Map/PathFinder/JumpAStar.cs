@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 [System.Serializable]
-public class CustomNode : Node, IEquatable<CustomNode>
+public class CustomNode : Node, IComparer<CustomNode>, IEquatable<CustomNode>
 {
 	public Vector2Int? jumpStartPos;
 
@@ -30,9 +30,45 @@ public class CustomNode : Node, IEquatable<CustomNode>
 	{
 		return "(" + x + ", " + y + ") | " + base.ToString();
 	}
+	public int Compare(CustomNode lhs, CustomNode rhs)
+	{
+		if (lhs.F > rhs.F)
+			return 1;
+		else if (lhs.F < rhs.F)
+			return -1;
+
+		if (lhs.G > rhs.G)
+			return 1;
+		else if (lhs.G < rhs.G)
+			return -1;
+
+		return 0;
+	}
 	public bool Equals(CustomNode other)
 	{
-		return base.Equals(other) && jumpStartPos == other.jumpStartPos && isFalling == other.isFalling;
+		if (!base.Equals(other))
+			return false;
+
+		if (isFalling != other.isFalling)
+			return false;
+
+		if (jumpStartPos != other.jumpStartPos)
+			return false;
+
+		CustomNode nodeParent = this.parent as CustomNode;
+		CustomNode otherParent = other.parent as CustomNode;
+
+		while (nodeParent != null &&
+			otherParent != null)
+		{
+			if (nodeParent.position != otherParent.position)
+				return false;
+
+			nodeParent = nodeParent.parent as CustomNode;
+			otherParent = otherParent.parent as CustomNode;
+		}
+
+		return true;
 	}
 	public void Reverse()
 	{
@@ -61,10 +97,13 @@ public class JumpAStar : MonoBehaviour
 	const int straight = 10;
 	const int diagonal = 14;
 
+	public bool m_AllowDiagonal = true;
+
 	PriorityQueue<CustomNode> m_OpenList = new PriorityQueue<CustomNode>();
 	List<CustomNode> m_CloseList = new List<CustomNode>();
 
-	public bool m_AllowDiagonal = true;
+	float m_StartTime;
+	float m_EndTime;
 
 	private int Heuristic(Vector2Int start, Vector2Int end)
 	{
@@ -83,8 +122,13 @@ public class JumpAStar : MonoBehaviour
 		//int h = width * width + height * height;
 		//return h;
 	}
-	private bool AddNearNode(Tilemap tilemap, Tilemap throughMap, ref CustomNode node, int maxJump, int speed)
+	private bool AddNearNode(Tilemap tilemap, Tilemap throughMap, ref CustomNode node, int maxJump)
 	{
+		if (node.position == node.end)
+		{
+			return true;
+		}
+
 		BoundsInt tileBounds = tilemap.cellBounds;
 
 		int width = tileBounds.size.x;
@@ -92,7 +136,7 @@ public class JumpAStar : MonoBehaviour
 
 		for (int y = -1; y <= 1; ++y)
 		{
-			for (int x = -1; x <= 1; ++x)
+			for (int x = 1; x >= -1; --x)
 			{
 				// 노드 체크
 				if (x == 0 && y == 0)
@@ -179,20 +223,6 @@ public class JumpAStar : MonoBehaviour
 						continue;
 				}
 
-				if (near.position == node.end)
-				{
-					near.G = node.G + ((x == 0 || y == 0) ? straight : diagonal);
-					near.H = Heuristic(near.position, node.end);
-
-					near.start = node.start;
-					near.end = node.end;
-					near.parent = node;
-
-					node = near;
-
-					return true;
-				}
-
 				// 닫힌 리스트에 포함되어 있는 경우
 				if (m_CloseList.Contains(near))
 					continue;
@@ -251,11 +281,11 @@ public class JumpAStar : MonoBehaviour
 		return false;
 	}
 
-	public CustomNode PathFinding(Tilemap tilemap, Tilemap throughMap, Vector2Int start, Vector2Int end, int maxJump, int speed)
+	public CustomNode PathFinding(Tilemap tilemap, Tilemap throughMap, Vector2Int start, Vector2Int end, int maxJump)
 	{
-		return PathFinding(tilemap, throughMap, start.x, start.y, end.x, end.y, maxJump, speed);
+		return PathFinding(tilemap, throughMap, start.x, start.y, end.x, end.y, maxJump);
 	}
-	public CustomNode PathFinding(Tilemap tilemap, Tilemap throughMap, int sx, int sy, int ex, int ey, int maxJump, int speed)
+	public CustomNode PathFinding(Tilemap tilemap, Tilemap throughMap, int sx, int sy, int ex, int ey, int maxJump)
 	{
 		m_OpenList.Clear();
 		m_CloseList.Clear();
@@ -271,14 +301,24 @@ public class JumpAStar : MonoBehaviour
 		m_OpenList.Enqueue(start);
 		CustomNode node = null;
 
+		m_StartTime = Time.realtimeSinceStartup;
+
 		while (m_OpenList.Count != 0)
 		{
 			node = m_OpenList.Dequeue();
 
 			m_CloseList.Add(node);
 
-			if (AddNearNode(tilemap, throughMap, ref node, maxJump, speed))
+			if (AddNearNode(tilemap, throughMap, ref node, maxJump))
 				break;
+
+			m_EndTime = Time.realtimeSinceStartup;
+			// 타임오버 (임시로 0.3초로 설정)
+			if (m_EndTime - m_StartTime > 0.3f)
+			{
+				m_CloseList.Sort(node);
+				return m_CloseList[0];
+			}
 		}
 
 		if (node.x != ex || node.y != ey)
