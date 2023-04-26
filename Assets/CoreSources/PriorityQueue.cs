@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace System.Collections.Generic
 {
+	// 참고: https://yoongrammer.tistory.com/81
 	public class PriorityQueue<TElement> : IEnumerable<TElement> where TElement : IComparer<TElement>, new()
 	{
 		List<TElement> m_ElementList;

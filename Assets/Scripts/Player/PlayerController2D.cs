@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
-public class EnemyController2D : Controller2D
+public class PlayerController2D : Controller2D
 {
-	Vector2 m_EnemyInput;
+	Vector2 m_PlayerInput;
 	Collider2D m_FallingThroughPlatform;
+
+	public Vector2 playerInput => m_PlayerInput;
+
+	StageManager M_Stage => StageManager.Instance;
 
 	public new void Move(Vector2 moveAmount, bool standingOnPlatform = false)
 	{
@@ -18,7 +21,7 @@ public class EnemyController2D : Controller2D
 
 		m_Collisions.Reset();
 		m_Collisions.moveAmountOld = moveAmount;
-		m_EnemyInput = input;
+		m_PlayerInput = input;
 
 		if (moveAmount.y < 0)
 		{
@@ -42,12 +45,23 @@ public class EnemyController2D : Controller2D
 		{
 			m_Collisions.below = true;
 		}
+
+		RaycastHit2D hit = Physics2D.BoxCast(m_Collider.bounds.center, m_Collider.bounds.size, 0.0f, moveAmount, 0.1f, LayerMask.GetMask("Portal"));
+
+		if (hit)
+		{
+			Transform spawnPoint = M_Stage.GetSpawnPoint(hit.collider);
+
+			if (spawnPoint != null)
+				transform.position = spawnPoint.position;
+		}
 	}
 	protected override void VerticalCollisions(ref Vector2 moveAmount)
 	{
 		float directionY = Mathf.Sign(moveAmount.y);
 		float rayLength = Mathf.Abs(moveAmount.y) + skinWidth * 2.5f; // 레이가 안 닿는 경우가 생김 임시로 2.5배 곱해줌으로 해결
 
+		bool grounded = false;
 		bool throughFlag = false;
 
 		for (int i = 0; i < m_VerticalRayCount; ++i)
@@ -71,7 +85,7 @@ public class EnemyController2D : Controller2D
 					{
 						continue;
 					}
-					if (m_EnemyInput.y < -0.1f)
+					if (m_PlayerInput.y == -1 && Input.GetKeyDown(KeyCode.Space))
 					{
 						m_FallingThroughPlatform = hit.collider;
 						continue;
@@ -90,8 +104,13 @@ public class EnemyController2D : Controller2D
 
 				m_Collisions.below = directionY == -1;
 				m_Collisions.above = directionY == 1;
+
+				grounded = true;
 			}
 		}
+
+		m_Collisions.isair = !grounded;
+		m_Collisions.grounded = grounded;
 
 		if (!throughFlag)
 		{

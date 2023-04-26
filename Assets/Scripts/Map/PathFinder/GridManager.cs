@@ -17,7 +17,7 @@ public class GridManager : Singleton<GridManager>
 
 	[Space(10)]
 
-	public bool m_Debug;
+	public bool m_AutoPathFinding;
 
 	public Tilemap m_Tilemap;
 	public Tilemap m_ThroughMap;
@@ -34,6 +34,11 @@ public class GridManager : Singleton<GridManager>
 	Node m_Road;
 	CustomNode m_JumpRoad;
 
+	[Space(10)]
+
+	public bool m_ShowPath;
+	public bool m_ShowStartPoint;
+	public bool m_ShowEndPoint;
 	public Vector2Int m_Start;
 	public Vector2Int m_End;
 
@@ -49,7 +54,7 @@ public class GridManager : Singleton<GridManager>
 			m_Start.Clamp((Vector2Int)m_Tilemap.cellBounds.min, (Vector2Int)m_Tilemap.cellBounds.max - Vector2Int.one);
 			m_End.Clamp((Vector2Int)m_Tilemap.cellBounds.min, (Vector2Int)m_Tilemap.cellBounds.max - Vector2Int.one);
 
-			if (m_Debug)
+			if (m_AutoPathFinding)
 			{
 				Test();
 			}
@@ -142,6 +147,9 @@ public class GridManager : Singleton<GridManager>
 		Vector2Int tileStart = (Vector2Int)m_Tilemap.WorldToCell(start);
 		Vector2Int tileEnd = (Vector2Int)m_Tilemap.WorldToCell(end);
 
+		//tileStart.y = tileStart.y + 1;
+		//tileEnd.y = tileEnd.y + 1;
+
 		if (m_Tilemap.GetTile((Vector3Int)tileStart) != null ||
 			m_Tilemap.GetTile((Vector3Int)tileEnd) != null)
 			return null;
@@ -159,9 +167,10 @@ public class GridManager : Singleton<GridManager>
 
 		m_JumpRoad = m_JumpAStar.PathFinding(m_Tilemap, m_ThroughMap, tileStart, tileEnd, maxJump);
 
+		CustomNode.Reverse(ref m_JumpRoad);
+
 		return m_JumpRoad;
 	}
-
 
 	private void OnDrawGizmos()
 	{
@@ -216,14 +225,23 @@ public class GridManager : Singleton<GridManager>
 		color = Gizmos.color;
 
 		// 시작점
-		Gizmos.color = Color.red;
-		Gizmos.DrawCube(start + offset, Vector3.one * 0.5f);
+		if (m_ShowStartPoint)
+		{
+			Gizmos.color = Color.red;
+			Gizmos.DrawCube(start + offset + ((Application.isPlaying) ? Vector3.down : Vector3.zero), Vector3.one * 0.5f);
+		}
 
 		// 도착점
-		Gizmos.color = Color.blue;
-		Gizmos.DrawCube(end + offset, Vector3.one * 0.5f);
+		if (m_ShowEndPoint)
+		{
+			Gizmos.color = Color.blue;
+			Gizmos.DrawCube(end + offset + ((Application.isPlaying) ? Vector3.down : Vector3.zero), Vector3.one * 0.5f);
+		}
 
-		if (!m_Jump && m_Road == null)
+		if (m_ShowPath == false)
+			return;
+
+		if (m_Jump == false && m_Road == null)
 			return;
 		if (m_Jump && m_JumpRoad == null)
 			return;

@@ -78,6 +78,8 @@ public class AStar : MonoBehaviour
 
 	[SerializeField]
 	private bool m_AllowDiagonal = true;
+	[SerializeField]
+	private bool m_DontCrossCorner = false;
 
 	private int Heuristic(Vector2Int start, Vector2Int end)
 	{
@@ -116,7 +118,7 @@ public class AStar : MonoBehaviour
 					continue;
 
 				// 대각선 체크
-				if (!m_AllowDiagonal &&
+				if (m_AllowDiagonal == false &&
 					x != 0 && y != 0)
 					continue;
 
@@ -132,6 +134,18 @@ public class AStar : MonoBehaviour
 
 				if (allTile[index] != null)
 					continue;
+
+				// 코너 체크
+				if (m_DontCrossCorner == false &&
+					x != 0 && y != 0)
+				{
+					int index1 = realX - x + realY * width;
+					int index2 = realX + (realY - y) * width;
+
+					if (allTile[index1] != null ||
+						allTile[index2] != null)
+						continue;
+				}
 
 				Node near = new Node();
 				near.position.Set(realX, realY);
@@ -232,6 +246,10 @@ public class AStar : MonoBehaviour
 		return node;
 	}
 
+	private void OnValidate()
+	{
+		GridManager.Instance.Test();
+	}
 	private void OnDrawGizmos()
 	{
 		if (GridManager.Instance.m_Jump)

@@ -18,6 +18,7 @@ public class Controller2D : RaycastController
 	protected float m_MaxJumpVelocity;
 	protected float m_MinJumpVelocity;
 
+	public float timeToJumpApex => m_TimeToJumpApex;
 	public float gravity => m_Gravity;
 	public float maxJumpHeight => m_MaxJumpHeight;
 	public float minJumpHeight => m_MinJumpHeight;
@@ -163,6 +164,8 @@ public class Controller2D : RaycastController
 		float directionY = Mathf.Sign(moveAmount.y);
 		float rayLength = Mathf.Abs(moveAmount.y) + skinWidth;
 
+		bool grounded = false;
+
 		for (int i = 0; i < m_VerticalRayCount; ++i)
 		{
 			Vector2 rayOrigin = (directionY == -1) ? m_RaycastOrigins.bottomLeft : m_RaycastOrigins.topLeft;
@@ -206,8 +209,13 @@ public class Controller2D : RaycastController
 
 				m_Collisions.below = directionY == -1;
 				m_Collisions.above = directionY == 1;
+
+				grounded = true;
 			}
 		}
+
+		m_Collisions.isair = !grounded;
+		m_Collisions.grounded = grounded;
 
 		if (m_Collisions.climbingSlope)
 		{
@@ -278,6 +286,8 @@ public class Controller2D : RaycastController
 		public bool above, below;
 		public bool left, right;
 
+		public bool isair, grounded;
+
 		public bool climbingSlope;
 		public bool descendingSlope;
 
@@ -286,13 +296,11 @@ public class Controller2D : RaycastController
 		public Vector2 moveAmountOld;
 		public int faceDir;
 
-		public bool isGrounded => below;
-		public bool isFalling => !below;
-
 		public void Reset()
 		{
 			above = below = false;
 			left = right = false;
+			isair = grounded = false;
 			climbingSlope = false;
 			descendingSlope = false;
 			slopeNormal = Vector2.zero;

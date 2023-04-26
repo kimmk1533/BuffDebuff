@@ -61,23 +61,23 @@ public sealed class Player : MonoBehaviour
 		}
 
 		m_Renderer.SetVelocity(m_Velocity);
-		m_Renderer.SetIsGround(m_Controller.collisions.isGrounded);
+		m_Renderer.SetIsGround(m_Controller.collisions.grounded);
 		#endregion
 
 		#region 임시 버프
-		if (Input.GetKeyDown(KeyCode.F))
-		{
-			m_Character.AddBuff("체력 증가");
-			m_Character.AddBuff("재생");
-		}
-		if (Input.GetMouseButtonDown(0))
-		{
-			m_Character.AddBuff("빠른 재생");
-		}
-		if (Input.GetKeyDown(KeyCode.G))
-		{
-			m_Character.RemoveBuff("체력 증가");
-		}
+		//if (Input.GetKeyDown(KeyCode.F))
+		//{
+		//	m_Character.AddBuff("체력 증가");
+		//	m_Character.AddBuff("재생");
+		//}
+		//if (Input.GetMouseButtonDown(0))
+		//{
+		//	m_Character.AddBuff("빠른 재생");
+		//}
+		//if (Input.GetKeyDown(KeyCode.G))
+		//{
+		//	m_Character.RemoveBuff("체력 증가");
+		//}
 		#endregion
 
 		if (m_DashCount < m_MaxDashCount &&
@@ -150,7 +150,7 @@ public sealed class Player : MonoBehaviour
 	{
 		float targetVelocityX = m_DirectionalInput.x * m_MoveSpeed;
 
-		m_Velocity.x = Mathf.SmoothDamp(m_Velocity.x, targetVelocityX, ref m_VelocityXSmoothing, (m_Controller.collisions.isGrounded) ? m_AccelerationTimeGrounded : m_AccelerationTimeAirborne);
+		m_Velocity.x = Mathf.SmoothDamp(m_Velocity.x, targetVelocityX, ref m_VelocityXSmoothing, (m_Controller.collisions.grounded) ? m_AccelerationTimeGrounded : m_AccelerationTimeAirborne);
 
 		m_Velocity.y += m_Controller.gravity * Time.deltaTime;
 	}

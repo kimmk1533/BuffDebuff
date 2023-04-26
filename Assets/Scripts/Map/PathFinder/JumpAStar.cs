@@ -14,7 +14,7 @@ public class CustomNode : Node, IComparer<CustomNode>, IEquatable<CustomNode>
 
 	public CustomNode() : base()
 	{
-
+		jumpStartPos = null;
 	}
 	public CustomNode(Node node)
 	{
@@ -25,6 +25,15 @@ public class CustomNode : Node, IComparer<CustomNode>, IEquatable<CustomNode>
 		position = node.position;
 		start = node.start;
 		end = node.end;
+
+		CustomNode customNode = node as CustomNode;
+
+		if (customNode != null)
+		{
+			jumpStartPos = customNode.jumpStartPos;
+			currentJump = customNode.currentJump;
+			isFalling = customNode.isFalling;
+		}
 	}
 	public override string ToString()
 	{
@@ -32,9 +41,12 @@ public class CustomNode : Node, IComparer<CustomNode>, IEquatable<CustomNode>
 	}
 	public int Compare(CustomNode lhs, CustomNode rhs)
 	{
-		if (lhs.F > rhs.F)
+		float lF = lhs.F + lhs.currentJump * JumpAStar.straight;
+		float rF = rhs.F + rhs.currentJump * JumpAStar.straight;
+
+		if (lF > rF)
 			return 1;
-		else if (lhs.F < rhs.F)
+		else if (lF < rF)
 			return -1;
 
 		if (lhs.G > rhs.G)
@@ -70,34 +82,38 @@ public class CustomNode : Node, IComparer<CustomNode>, IEquatable<CustomNode>
 
 		return true;
 	}
-	public void Reverse()
+	public static CustomNode Reverse(ref CustomNode customNode)
 	{
 		Stack<CustomNode> nodeStack = new Stack<CustomNode>();
-		CustomNode node = this;
+		CustomNode root;
+		CustomNode node = customNode;
 
 		while (node != null)
 		{
 			nodeStack.Push(node);
-			node = (CustomNode)node.parent;
+			node = node.parent as CustomNode;
 		}
 
-		node = nodeStack.Pop();
+		customNode = root = node = nodeStack.Pop();
 
 		while (nodeStack.Count > 0)
 		{
 			node.parent = nodeStack.Pop();
-			node = (CustomNode)node.parent;
+			node = node.parent as CustomNode;
 		}
 		node.parent = null;
+
+		return root;
 	}
 }
 
 public class JumpAStar : MonoBehaviour
 {
-	const int straight = 10;
-	const int diagonal = 14;
+	public const int straight = 10;
+	public const int diagonal = 14;
 
-	public bool m_AllowDiagonal = true;
+	[SerializeField]
+	private bool m_AllowDiagonal = true;
 
 	PriorityQueue<CustomNode> m_OpenList = new PriorityQueue<CustomNode>();
 	List<CustomNode> m_CloseList = new List<CustomNode>();
@@ -130,6 +146,8 @@ public class JumpAStar : MonoBehaviour
 		}
 
 		BoundsInt tileBounds = tilemap.cellBounds;
+		TileBase[] allTile = tilemap.GetTilesBlock(tileBounds);
+		TileBase[] allThrough = throughMap.GetTilesBlock(tileBounds);
 
 		int width = tileBounds.size.x;
 		int height = tileBounds.size.y;
@@ -143,7 +161,7 @@ public class JumpAStar : MonoBehaviour
 					continue;
 
 				// 대각선 이동 옵션 체크
-				if (!m_AllowDiagonal &&
+				if (m_AllowDiagonal == false &&
 					x != 0 && y != 0)
 					continue;
 
@@ -155,14 +173,19 @@ public class JumpAStar : MonoBehaviour
 					realY < 0 || realY >= height)
 					continue;
 
-				TileBase tile = tilemap.GetTile(new Vector3Int(realX, realY));
-				TileBase tileDown = tilemap.GetTile(new Vector3Int(realX, realY - 1));
+				int index = realX + realY * width;
 
-				TileBase through = throughMap.GetTile(new Vector3Int(realX, realY));
-				TileBase throughDown = throughMap.GetTile(new Vector3Int(realX, realY - 1));
-
-				if (tile != null)
+				if (allTile[index] != null)
 					continue;
+
+				//TileBase tile = tilemap.GetTile(new Vector3Int(realX, realY));
+				//TileBase tileDown = tilemap.GetTile(new Vector3Int(realX, realY - 1));
+
+				//TileBase through = throughMap.GetTile(new Vector3Int(realX, realY));
+				//TileBase throughDown = throughMap.GetTile(new Vector3Int(realX, realY - 1));
+
+				//if (tile != null)
+				//	continue;
 
 				CustomNode near = new CustomNode();
 				near.position.Set(realX, realY);
@@ -199,15 +222,19 @@ public class JumpAStar : MonoBehaviour
 								continue;
 
 							if (near.jumpStartPos == null)
+							{
 								near.jumpStartPos = node.position;
+							}
 						}
 					}
 
+					int index_down = realX + (realY - 1) * width;
+
 					// 이동할 곳이 비어있고
-					if (tile == null && through == null)
+					if (allTile[index] == null && allThrough[index] == null)
 					{
 						// 이동할 곳 밑에 블럭이 있으면
-						if (tileDown != null || throughDown != null)
+						if (allTile[index_down] != null || allThrough[index_down] != null)
 						{
 							// 착지
 							near.currentJump = 0;
@@ -243,8 +270,8 @@ public class JumpAStar : MonoBehaviour
 
 						if (item.G > near.G)
 						{
-							CustomNode itemParent = (CustomNode)item.parent;
-							node = (CustomNode)near.parent;
+							CustomNode itemParent = item.parent as CustomNode;
+							node = near.parent as CustomNode;
 							while (node.jumpStartPos != null)
 							{
 								if (itemParent.position != node.position)
@@ -255,8 +282,8 @@ public class JumpAStar : MonoBehaviour
 								itemParent.currentJump = node.currentJump;
 								itemParent.isFalling = node.isFalling;
 
-								itemParent = (CustomNode)item.parent;
-								node = (CustomNode)node.parent;
+								itemParent = item.parent as CustomNode;
+								node = node.parent as CustomNode;
 							}
 
 							item.G = near.G;
@@ -328,12 +355,16 @@ public class JumpAStar : MonoBehaviour
 		//while (node != null)
 		//{
 		//	result.Add(node);
-		//	node = (CustomNode)node.parent;
+		//	node = node.parent as CustomNode;
 		//}
 
 		return node;
 	}
 
+	private void OnValidate()
+	{
+		GridManager.Instance.Test();
+	}
 	private void OnDrawGizmos()
 	{
 		if (GridManager.Instance.m_Jump == false)
