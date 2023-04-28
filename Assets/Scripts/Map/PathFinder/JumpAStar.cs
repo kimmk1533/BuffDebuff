@@ -84,6 +84,9 @@ public class CustomNode : Node, IComparer<CustomNode>, IEquatable<CustomNode>
 	}
 	public static CustomNode Reverse(ref CustomNode customNode)
 	{
+		if (customNode == null)
+			return null;
+
 		Stack<CustomNode> nodeStack = new Stack<CustomNode>();
 		CustomNode root;
 		CustomNode node = customNode;
@@ -174,8 +177,12 @@ public class JumpAStar : MonoBehaviour
 					continue;
 
 				int index = realX + realY * width;
+				int index_down = realX + (realY - 1) * width;
 
 				if (allTile[index] != null)
+					continue;
+				if (y < 0 && x != 0 &&
+					allThrough[index_down] != null)
 					continue;
 
 				//TileBase tile = tilemap.GetTile(new Vector3Int(realX, realY));
@@ -211,24 +218,24 @@ public class JumpAStar : MonoBehaviour
 
 						--near.currentJump;
 					}
-					else
+					else if (y > 0)
 					{
-						if (y > 0)
-						{
-							++near.currentJump;
+						++near.currentJump;
 
-							// 최대 점프 높이 이상 점프 금지
-							if (near.currentJump >= maxJump)
+						// 최대 점프 높이 이상 점프 금지
+						if (near.currentJump >= maxJump)
+							continue;
+
+						if (near.jumpStartPos == null)
+						{
+							// 공중 점프 금지
+							int node_index_down = node.x + (node.y - 1) * width;
+							if (allTile[node_index_down] == null && allThrough[node_index_down] == null)
 								continue;
 
-							if (near.jumpStartPos == null)
-							{
-								near.jumpStartPos = node.position;
-							}
+							near.jumpStartPos = node.position;
 						}
 					}
-
-					int index_down = realX + (realY - 1) * width;
 
 					// 이동할 곳이 비어있고
 					if (allTile[index] == null && allThrough[index] == null)

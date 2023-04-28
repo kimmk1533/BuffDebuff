@@ -29,13 +29,15 @@ public static class UtilClass
 
 	public static TextMesh CreateWorldText(object text, Transform parent = null, Vector3 localPosition = default(Vector3), float characterSize = 0.1f, int fontSize = 40, Color? color = null, TextAnchor textAnchor = TextAnchor.LowerLeft, TextAlignment textAlignment = TextAlignment.Left, int sortingOrder = 5000)
 	{
-		if (color == null) color = Color.white;
+		if (color == null)
+			color = Color.white;
 
 		return CreateWorldText(parent, text.ToString(), localPosition, characterSize, fontSize, (Color)color, textAnchor, textAlignment, sortingOrder);
 	}
 	public static TextMesh CreateWorldText(string text, Transform parent = null, Vector3 localPosition = default(Vector3), float characterSize = 0.1f, int fontSize = 40, Color? color = null, TextAnchor textAnchor = TextAnchor.LowerLeft, TextAlignment textAlignment = TextAlignment.Left, int sortingOrder = 5000)
 	{
-		if (color == null) color = Color.white;
+		if (color == null)
+			color = Color.white;
 
 		return CreateWorldText(parent, text, localPosition, characterSize, fontSize, (Color)color, textAnchor, textAlignment, sortingOrder);
 	}
@@ -75,6 +77,13 @@ public static class UtilClass
 		{
 			get { return m_Time; }
 		}
+		public bool timeIsUp
+		{
+			get
+			{
+				return time >= m_Interval;
+			}
+		}
 
 		public Timer(float interval)
 		{
@@ -84,7 +93,7 @@ public static class UtilClass
 
 		public bool Update(bool autoUse = false, float timeScale = 1.0f)
 		{
-			if (m_Time >= m_Interval)
+			if (timeIsUp)
 			{
 				if (autoUse)
 					Use();
@@ -98,10 +107,7 @@ public static class UtilClass
 		}
 		public void Use()
 		{
-			if (m_Time >= m_Interval)
-			{
-				m_Time -= m_Interval;
-			}
+			m_Time = 0f;
 		}
 	}
 }

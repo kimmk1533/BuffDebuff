@@ -67,19 +67,19 @@ public class EnemyVisualRange : MonoBehaviour
 	{
 		target = collider2D.gameObject;
 
-		if (m_isLostTarget)
-			Debug.Log("타겟 다시 찾음!");
+		//if (m_isLostTarget)
+		//	Debug.Log("타겟 다시 찾음!");
 
 		m_isLostTarget = false;
 
-		Debug.Log("타겟 찾음!");
+		//Debug.Log("타겟 찾음!");
 	}
 	private void TriggerExit2D(Collider2D collider2D)
 	{
 		m_isLostTarget = true;
 		m_FindTargetTimer = 0.0f;
 
-		Debug.Log("타겟 놓침!");
+		//Debug.Log("타겟 놓침!");
 	}
 
 	private void Update()
@@ -94,12 +94,12 @@ public class EnemyVisualRange : MonoBehaviour
 
 	protected virtual void FindTarget()
 	{
-		Debug.Log("타겟 다시 찾는 중!");
+		//Debug.Log("타겟 다시 찾는 중!");
 		m_FindTargetTimer += Time.deltaTime;
 
 		if (m_FindTargetTimer >= m_FindTargetTimeLimit)
 		{
-			Debug.Log("타겟 잃어버림!");
+			//Debug.Log("타겟 잃어버림!");
 			m_Target = null;
 			m_isLostTarget = false;
 		}

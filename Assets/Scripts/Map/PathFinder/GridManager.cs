@@ -67,11 +67,11 @@ public class GridManager : Singleton<GridManager>
 		m_AStar = GetComponent<AStar>();
 		m_JumpAStar = GetComponent<JumpAStar>();
 	}
-	private void Start()
-	{
-		m_Tilemap = M_Stage.currentRoom.Find("TileMapLayer").Find("TileMap").GetComponent<Tilemap>();
-		m_ThroughMap = M_Stage.currentRoom.Find("TileMapLayer").Find("ThroughMap").GetComponent<Tilemap>();
-	}
+	//private void Start()
+	//{
+	//	m_Tilemap = M_Stage.currentRoom.Find("TileMapLayer").Find("TileMap").GetComponent<Tilemap>();
+	//	m_ThroughMap = M_Stage.currentRoom.Find("TileMapLayer").Find("ThroughMap").GetComponent<Tilemap>();
+	//}
 
 	[ContextMenu("Create Grid Text")]
 	public void CreateGridText()
@@ -147,9 +147,6 @@ public class GridManager : Singleton<GridManager>
 		Vector2Int tileStart = (Vector2Int)m_Tilemap.WorldToCell(start);
 		Vector2Int tileEnd = (Vector2Int)m_Tilemap.WorldToCell(end);
 
-		//tileStart.y = tileStart.y + 1;
-		//tileEnd.y = tileEnd.y + 1;
-
 		if (m_Tilemap.GetTile((Vector3Int)tileStart) != null ||
 			m_Tilemap.GetTile((Vector3Int)tileEnd) != null)
 			return null;
@@ -157,7 +154,7 @@ public class GridManager : Singleton<GridManager>
 		if (tileStart == tileEnd)
 			return null;
 
-		if (Application.isEditor == false &&
+		if (Application.isPlaying == true &&
 			m_Start == tileStart &&
 			m_End == tileEnd)
 			return m_JumpRoad;
@@ -168,6 +165,23 @@ public class GridManager : Singleton<GridManager>
 		m_JumpRoad = m_JumpAStar.PathFinding(m_Tilemap, m_ThroughMap, tileStart, tileEnd, maxJump);
 
 		CustomNode.Reverse(ref m_JumpRoad);
+
+		// 현재 타일 맨 위 칸과 겹치는 상황이므로 임시로 검색할 땐 한 칸 위로 검색함(임시)
+		// 타일 위치 수정(한 칸 내리기)
+		CustomNode node = m_JumpRoad;
+		while (node != null)
+		{
+			node.position.y = node.position.y - 1;
+			node.start.y = node.start.y - 1;
+			node.end.y = node.end.y - 1;
+			if (node.jumpStartPos.HasValue == true)
+			{
+				Vector2Int jumpStartPos = node.jumpStartPos.Value;
+				--jumpStartPos.y;
+				node.jumpStartPos = jumpStartPos;
+			}
+			node = node.parent as CustomNode;
+		}
 
 		return m_JumpRoad;
 	}
