@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GreenerGames;
 using GoogleSheetsToUnity;
 
 public sealed class BuffManager : Singleton<BuffManager>
@@ -12,19 +11,18 @@ public sealed class BuffManager : Singleton<BuffManager>
 	public List<WorkSheetData> m_WorkSheetDatas;
 
 	// < 코드, 명칭, 버프 >
-	Dictionary<E_BuffType, SecondaryKeyDictionary<int, string, Buff>> m_BuffDictionary;
+	Dictionary<E_BuffType, BuffList> m_BuffDictionary;
 #if UNITY_EDITOR
 	[SerializeField]
-	DebugDictionary<E_BuffType, BuffList> Debug_BuffDictionary;
+	DebugDictionary<E_BuffType, DebugBuffList> Debug_BuffDictionary;
 
 	[System.Serializable]
-	public class BuffList
+	public class DebugBuffList
 	{
+		public string m_Name;
 		public List<Buff> buffList = new List<Buff>();
 	}
 #endif
-
-	public List<List<int>> m_Test;
 
 	private void Reset()
 	{
@@ -40,24 +38,27 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 	private void Initialize()
 	{
-		m_BuffDictionary = new Dictionary<E_BuffType, SecondaryKeyDictionary<int, string, Buff>>();
+		m_BuffDictionary = new Dictionary<E_BuffType, BuffList>();
 #if UNITY_EDITOR
-		Debug_BuffDictionary = new DebugDictionary<E_BuffType, BuffList>();
+		Debug_BuffDictionary = new DebugDictionary<E_BuffType, DebugBuffList>();
 #endif
 
 		for (E_BuffType i = 0; i < E_BuffType.Max - 1; ++i)
 		{
-			m_BuffDictionary[i] = new SecondaryKeyDictionary<int, string, Buff>();
+			m_BuffDictionary[i] = new BuffList();
 
 #if UNITY_EDITOR
-			Debug_BuffDictionary[i] = new BuffList();
+			Debug_BuffDictionary[i] = new DebugBuffList();
 #endif
 		}
 	}
 
-	[ContextMenu("LoadBuff")]
+	[ContextMenu("LoadBuffAll")]
 	private void LoadBuffAll()
 	{
+		float start = Time.realtimeSinceStartup;
+		Debug.Log("Load Buff is Started.");
+
 		Initialize();
 
 		foreach (var item in m_WorkSheetDatas)
@@ -66,55 +67,63 @@ public sealed class BuffManager : Singleton<BuffManager>
 			int titleRow = item.StartCell.row;
 			GSTU_Search search = new GSTU_Search(m_AssociatedSheet, item.WorkSheetName, item.StartCell, item.EndCell, titleColumn, titleRow);
 
-			SpreadsheetManager.Read(search, LoadBuffCallBack);
+			SpreadsheetManager.Read(search, LoadBuff);
 		}
-	}
-	private void LoadBuffCallBack(GstuSpreadSheet spreadSheet)
-	{
-		LoadBuff(spreadSheet);
 
-		if (Application.isPlaying)
-			CodeBuff();
+		float end = Time.realtimeSinceStartup;
+		Debug.Log("Load Buff is Completed. t = " + (end - start).ToString());
 	}
 	private void LoadBuff(GstuSpreadSheet spreadSheet)
 	{
-		Debug.Log("Load Buff is Started.");
-
 		bool first = true;
-		foreach (var item in spreadSheet.rows.primaryDictionary)
+
+		var dict = spreadSheet.rows.primaryDictionary.Values;
+
+		foreach (var item in dict)
 		{
+			// 첫 번째 줄 건너뛰기
 			if (first)
 			{
 				first = false;
 				continue;
 			}
 
-			var list = item.Value;
+			#region 명칭
+			// 명칭 불러오기
+			string name = item[0].value;
+			#endregion
 
-			// 명칭
-			string name = list[0].value;
+			#region 코드
+			// 코드 불러오기
+			string codeStr = item[1].value;
 
-			// 코드
-			int.TryParse(list[1].value, out int code);
-
-			// 버프 종류
-			string typeStr = list[2].value;
-			switch (typeStr)
+			// 자료형 파싱
+			if (int.TryParse(codeStr, out int code) == false)
 			{
-				case "버프":
-					typeStr = "Buff";
-					break;
-				case "디버프":
-					typeStr = "Debuff";
-					break;
-				case "양면버프":
-					typeStr = "Bothbuff";
-					break;
+				Debug.LogError("버프 코드 불러오기 오류! | 코드: " + codeStr);
+				return;
 			}
-			System.Enum.TryParse(typeStr, out E_BuffType type);
+			#endregion
 
-			// 효과 종류
-			string effectTypeStr = list[3].value;
+			#region 버프 종류
+			// 버프 종류 불러오기
+			string typeStr = codeStr[0].ToString();
+
+			// 자료형 파싱
+			if (int.TryParse(typeStr, out int typeInt) == false)
+			{
+				Debug.LogError("버프 종류 전환 오류! | 버프 종류: " + typeStr);
+				return;
+			}
+
+			E_BuffType type = (E_BuffType)(typeInt - 1);
+			#endregion
+
+			#region 효과 종류
+			// 효과 종류 불러오기
+			string effectTypeStr = item[2].value;
+
+			// 한글 -> 영어 전환
 			switch (effectTypeStr)
 			{
 				case "스탯형":
@@ -126,17 +135,48 @@ public sealed class BuffManager : Singleton<BuffManager>
 				case "전투형":
 					effectTypeStr = "Combat";
 					break;
+				default:
+					Debug.LogError("버프 효과 종류 불러오기 오류! | 버프 효과 종류: " + effectTypeStr);
+					return;
 			}
-			System.Enum.TryParse(effectTypeStr, out E_BuffEffectType effectType);
 
-			// 등급
-			System.Enum.TryParse(list[4].value, out E_BuffGrade grade);
+			// 자료형 파싱
+			if (System.Enum.TryParse(effectTypeStr, out E_BuffEffectType effectType) == false)
+			{
+				Debug.LogError("버프 효과 종류 전환 오류! | 버프 효과 종류: " + effectTypeStr);
+				return;
+			}
+			#endregion
 
-			// 최대 스택
-			int.TryParse(list[5].value, out int maxStack);
+			#region 등급
+			// 등급 불러오기
+			string gradeStr = item[3].value;
 
-			// 적용 무기
-			string weaponStr = list[6].value;
+			// 자료형 파싱
+			if (System.Enum.TryParse(gradeStr, out E_BuffGrade grade) == false)
+			{
+				Debug.LogError("버프 등급 전환 오류! | 버프 등급: " + gradeStr);
+				return;
+			}
+			#endregion
+
+			#region 최대 스택
+			// 최대 스택 불러오기
+			string maxStackStr = item[4].value;
+
+			// 자료형 파싱
+			if (int.TryParse(maxStackStr, out int maxStack) == false)
+			{
+				Debug.LogError("버프 최대 스택 전환 오류! | 버프 최대 스택: " + maxStackStr);
+				return;
+			}
+			#endregion
+
+			#region 적용 무기 타입
+			// 적용되는 무기 타입 불러오기
+			string weaponStr = item[5].value;
+
+			// 한글 -> 영어 전환
 			switch (weaponStr)
 			{
 				case "공통":
@@ -148,41 +188,59 @@ public sealed class BuffManager : Singleton<BuffManager>
 				case "원거리 무기":
 					weaponStr = "Ranged";
 					break;
+				default:
+					Debug.LogError("버프 적용 무기 타입 전환 오류! | 버프 적용 무기: " + weaponStr);
+					return;
 			}
-			System.Enum.TryParse(weaponStr, out E_BuffWeapon weapon);
 
-			// 설명
-			string description = list[8].value;
+			// 자료형 파싱
+			if (System.Enum.TryParse(weaponStr, out E_BuffWeapon weapon) == false)
+			{
+				Debug.LogError("버프 적용 무기 타입 전환 오류! | 버프 적용 무기: " + weaponStr);
+				return;
+			}
+			#endregion
 
+			#region 설명
+			string description = item[7].value;
+			#endregion
+
+			#region 버프 생성
 			BuffData buffData = new BuffData(name, code, type, effectType, grade, maxStack, weapon, description);
 			Buff buff = new Buff(buffData);
+			#endregion
 
-			m_BuffDictionary[type].Add(code, buff, name);
+			#region 버프 추가
+			m_BuffDictionary[type].Add((code, name), buff);
 
 #if UNITY_EDITOR
 			//Debug_BuffDictionary[type].Add(buff);
 			Debug_BuffDictionary[type].buffList.Add(buff);
 #endif
+			#endregion
 		}
 
-		Debug.Log("Load Buff is Completed.");
+		if (Application.isPlaying)
+			CodeBuff();
 	}
 	private void CodeBuff()
 	{
-		//#region 001. 체력 증가
-		//m_BuffDictionary["체력 증가"]
-		//	.OnBuffInitialize.OnBuffEvent += (Character character) =>
-		//	{
-		//		character.m_CurrentStat.MaxHP += 100f;
-		//		//character.m_BuffStat.MaxHP += 100f;
-		//	};
-		//m_BuffDictionary["체력 증가"]
-		//	.OnBuffFinalize.OnBuffEvent += (Character character) =>
-		//	{
-		//		character.m_CurrentStat.MaxHP -= 100f;
-		//		//character.m_BuffStat.MaxHP -= 100f;
-		//	};
-		//#endregion
+		#region 001. 체력 증가
+		m_BuffDictionary[E_BuffType.Buff]["체력 증가"]
+			.OnBuffInitialize.OnBuffEvent += (Character character) =>
+			{
+				Character.CharacterStat buffStat = character.buffStat;
+				buffStat.MaxHp += 100f;
+				character.buffStat = buffStat;
+			};
+		m_BuffDictionary[E_BuffType.Buff]["체력 증가"]
+			.OnBuffFinalize.OnBuffEvent += (Character character) =>
+			{
+				Character.CharacterStat buffStat = character.buffStat;
+				buffStat.MaxHp -= 100f;
+				character.buffStat = buffStat;
+			};
+		#endregion
 
 		//#region 003. 재생
 		//m_BuffDictionary["재생"]
@@ -234,17 +292,33 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 		for (E_BuffType i = 0; i < E_BuffType.Max; ++i)
 		{
-			buff = GetBuff(i, key);
-
-			if (buff != null)
+			if (TryGetBuff(i, key, out buff) == true)
 				break;
 		}
 
 		return buff;
 	}
-	public Buff GetBuff(E_BuffType buffType, int key)
+	public bool TryGetBuff(E_BuffType buffType, int key, out Buff buff)
 	{
-		return m_BuffDictionary[buffType][key];
+		BuffList buffDictionary = m_BuffDictionary[buffType];
+
+		if (buffDictionary == null)
+		{
+			buff = null;
+
+			Debug.LogError("버프 목록 생성 안됨");
+			return false;
+		}
+
+		if (buffDictionary.TryGetValue(key, out buff))
+		{
+			buff = null;
+
+			Debug.LogError("버프 가져오기 실패");
+			return false;
+		}
+
+		return true;
 	}
 	public Buff GetBuff(string key)
 	{
@@ -252,17 +326,33 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 		for (E_BuffType i = 0; i < E_BuffType.Max; ++i)
 		{
-			buff = GetBuff(i, key);
-
-			if (buff != null)
+			if (TryGetBuff(i, key, out buff) == true)
 				break;
 		}
 
 		return buff;
 	}
-	public Buff GetBuff(E_BuffType buffType, string key)
+	public bool TryGetBuff(E_BuffType buffType, string key, out Buff buff)
 	{
-		return m_BuffDictionary[buffType][key];
+		BuffList buffDictionary = m_BuffDictionary[buffType];
+
+		if (buffDictionary == null)
+		{
+			buff = null;
+
+			Debug.LogError("버프 목록 생성 안됨");
+			return false;
+		}
+
+		if (buffDictionary.TryGetValue(key, out buff) == false)
+		{
+			buff = null;
+
+			Debug.LogError("버프 가져오기 실패");
+			return false;
+		}
+
+		return true;
 	}
 
 	[System.Serializable]
@@ -292,6 +382,86 @@ public sealed class BuffManager : Singleton<BuffManager>
 			{
 				return cell.ToString();
 			}
+		}
+	}
+	public class BuffList
+	{
+		public Dictionary<string, int> m_NameDictionary = new Dictionary<string, int>();
+		public Dictionary<int, Buff> m_BuffDictionary = new Dictionary<int, Buff>();
+
+		public Buff this[int code]
+		{
+			get
+			{
+				if (m_BuffDictionary.TryGetValue(code, out Buff buff) == false)
+					return null;
+
+				return buff;
+			}
+			set
+			{
+				m_BuffDictionary[code] = value;
+			}
+		}
+		public Buff this[string name]
+		{
+			get
+			{
+				if (m_NameDictionary.TryGetValue(name, out int code) == false)
+					return null;
+
+				return this[code];
+			}
+			set
+			{
+				if (m_NameDictionary.TryGetValue(name, out int code) == false)
+					return;
+
+				this[code] = value;
+			}
+		}
+
+		public void Add((int code, string name) key, Buff buff)
+		{
+			m_NameDictionary.Add(key.name, key.code);
+			m_BuffDictionary.Add(key.code, buff);
+		}
+		public void Add(int code, string name, Buff buff)
+		{
+			m_NameDictionary.Add(name, code);
+			m_BuffDictionary.Add(code, buff);
+		}
+		public bool TryAdd((int code, string name) key, Buff buff)
+		{
+			if (m_NameDictionary.TryAdd(key.name, key.code) == false)
+				return false;
+			if (m_BuffDictionary.TryAdd(key.code, buff) == false)
+				return false;
+
+			return true;
+		}
+		public bool TryAdd(int code, string name, Buff buff)
+		{
+			if (m_NameDictionary.TryAdd(name, code) == false)
+				return false;
+			if (m_BuffDictionary.TryAdd(code, buff) == false)
+				return false;
+
+			return true;
+		}
+		public bool TryGetValue(int code, out Buff buff)
+		{
+			return m_BuffDictionary.TryGetValue(code, out buff);
+		}
+		public bool TryGetValue(string name, out Buff buff)
+		{
+			if (m_NameDictionary.TryGetValue(name, out int code) == false)
+			{
+				buff = default(Buff);
+				return false;
+			}
+
+			return TryGetValue(code, out buff);
 		}
 	}
 }

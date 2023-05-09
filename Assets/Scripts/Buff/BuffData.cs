@@ -115,9 +115,15 @@ public enum E_BuffInvokeCondition
 	AttackStart,    // 공격 시작 시
 	Attack,         // 공격 시
 	AttackEnd,      // 공격 종료 시
-	KillEnemy,      // 적 처치 시
+	Kill,           // 적 처치 시
+	Death,          // 사망 시
+	NextStage,      // 스테이지를 넘어갈 시
 
 	Max
+}
+public enum E_BuffStat
+{
+
 }
 #endregion
 

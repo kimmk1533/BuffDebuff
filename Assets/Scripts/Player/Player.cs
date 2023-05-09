@@ -10,10 +10,6 @@ public sealed class Player : MonoBehaviour
 	float m_MoveSpeed = 10f;
 	[SerializeField]
 	float m_DashSpeed = 15f;
-	[SerializeField]
-	int m_MaxDashCount = 3;
-	[SerializeField]
-	float m_DashCooldown = 1f;
 
 	[SerializeField, ReadOnly]
 	Vector2 m_Velocity;
@@ -22,8 +18,6 @@ public sealed class Player : MonoBehaviour
 	float m_AccelerationTimeGrounded = 0.1f;
 
 	Vector2 m_DirectionalInput;
-	UtilClass.Timer m_DashTimer;
-	int m_DashCount;
 	#endregion
 
 	PlayerController2D m_Controller;
@@ -31,6 +25,11 @@ public sealed class Player : MonoBehaviour
 
 	[SerializeField]
 	Character m_Character;
+
+	//int buff
+	//{
+
+	//}
 
 	ProjectileManager M_Projectile => ProjectileManager.Instance;
 
@@ -65,11 +64,11 @@ public sealed class Player : MonoBehaviour
 		#endregion
 
 		#region 임시 버프
-		//if (Input.GetKeyDown(KeyCode.F))
-		//{
-		//	m_Character.AddBuff("체력 증가");
-		//	m_Character.AddBuff("재생");
-		//}
+		if (Input.GetKeyDown(KeyCode.F))
+		{
+			m_Character.AddBuff("체력 증가");
+			//m_Character.AddBuff("재생");
+		}
 		//if (Input.GetMouseButtonDown(0))
 		//{
 		//	m_Character.AddBuff("빠른 재생");
@@ -80,18 +79,7 @@ public sealed class Player : MonoBehaviour
 		//}
 		#endregion
 
-		if (m_DashCount < m_MaxDashCount &&
-			m_DashTimer.Update(true))
-		{
-			++m_DashCount;
-		}
-
 		m_Character.Update();
-
-		foreach (var item in m_Character.m_BuffList.primaryDictionary)
-		{
-			item.Value.OnBuffUpdate.OnBuffInvoke(m_Character);
-		}
 	}
 
 	private void Initialize()
@@ -102,9 +90,6 @@ public sealed class Player : MonoBehaviour
 		m_Renderer = GetComponentInChildren<PlayerRenderer>();
 
 		m_Character = new Character();
-
-		m_DashTimer = new UtilClass.Timer(m_DashCooldown);
-		m_DashCount = m_MaxDashCount;
 	}
 
 	#region PlayerController Func
@@ -115,16 +100,13 @@ public sealed class Player : MonoBehaviour
 	}
 	public void OnJumpInputDown()
 	{
-		if (m_Controller.collisions.below && m_DirectionalInput.y != -1)
-		{
-			m_Velocity.y = m_Controller.maxJumpVelocity;
-			m_Renderer.Jump();
+		if (!(m_Controller.collisions.below && m_DirectionalInput.y != -1))
+			return;
 
-			foreach (var item in m_Character.m_BuffList.primaryDictionary)
-			{
-				item.Value.OnBuffJump.OnBuffInvoke(m_Character);
-			}
-		}
+		m_Renderer.Jump();
+		m_Character.Jump();
+
+		m_Velocity.y = m_Controller.maxJumpVelocity;
 	}
 	public void OnJumpInputUp()
 	{
@@ -133,10 +115,8 @@ public sealed class Player : MonoBehaviour
 	}
 	public void OnDashInputDown()
 	{
-		if (m_DashCount <= 0)
+		if (m_Character.Dash() == false)
 			return;
-
-		--m_DashCount;
 
 		// 좌우 대쉬
 		//m_Velocity.x = m_DirectionalInput.x * m_DashSpeed;

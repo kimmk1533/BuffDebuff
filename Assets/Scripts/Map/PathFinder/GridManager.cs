@@ -126,7 +126,7 @@ public class GridManager : Singleton<GridManager>
 			m_Tilemap.GetTile((Vector3Int)m_End) != null)
 			return;
 
-		float s = Time.realtimeSinceStartup;
+		//float s = Time.realtimeSinceStartup;
 		if (!m_Jump)
 		{
 			m_Road = m_AStar.PathFinding(m_Tilemap, m_Start, m_End);
@@ -139,8 +139,8 @@ public class GridManager : Singleton<GridManager>
 			PathFinding(start, end, 6);
 			//m_JumpRoad = m_JumpAStar.PathFinding(m_Tilemap, m_ThroughMap, m_Start, m_End, 6);
 		}
-		float e = Time.realtimeSinceStartup;
-		Debug.Log(e - s);
+		//float e = Time.realtimeSinceStartup;
+		//Debug.Log(e - s);
 	}
 	public CustomNode PathFinding(Vector3 start, Vector3 end, int maxJump)
 	{

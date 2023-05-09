@@ -7,8 +7,6 @@ using UnityEngine;
 public class Buff : IEquatable<Buff>
 {
 	[SerializeField]
-	protected int m_StackCount;
-	[SerializeField]
 	protected BuffData m_Data;
 	protected Dictionary<E_BuffInvokeCondition, BuffHandler> m_BuffList;
 
@@ -24,11 +22,6 @@ public class Buff : IEquatable<Buff>
 	{
 		get { return m_Data.code; }
 	}
-	public int stackCount
-	{
-		get { return m_StackCount; }
-		set { m_StackCount = value; }
-	}
 
 	public delegate void OnBuffHandler(Character character);
 	public class BuffHandler
@@ -43,7 +36,6 @@ public class Buff : IEquatable<Buff>
 	public Buff(BuffData buffData)
 	{
 		m_Data = buffData;
-		m_StackCount = 1;
 		m_BuffList = new Dictionary<E_BuffInvokeCondition, BuffHandler>();
 
 		// 버프 리스트 초기화
@@ -55,7 +47,6 @@ public class Buff : IEquatable<Buff>
 	public Buff(Buff other)
 	{
 		m_Data = other.m_Data;
-		m_StackCount = other.m_StackCount;
 		m_BuffList = new Dictionary<E_BuffInvokeCondition, BuffHandler>(other.m_BuffList);
 	}
 	public override bool Equals(object obj)
