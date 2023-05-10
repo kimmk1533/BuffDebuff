@@ -19,7 +19,13 @@ public sealed class BuffManager : Singleton<BuffManager>
 	[System.Serializable]
 	public class DebugBuffList
 	{
-		public string m_Name;
+		[SerializeField, HideInInspector]
+		private string m_Name;
+		public string name
+		{
+			get { return m_Name; }
+			set { m_Name = value; }
+		}
 		public List<Buff> buffList = new List<Buff>();
 	}
 #endif
@@ -49,6 +55,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 #if UNITY_EDITOR
 			Debug_BuffDictionary[i] = new DebugBuffList();
+			Debug_BuffDictionary[i].name = i.ToString();
 #endif
 		}
 	}
@@ -359,8 +366,6 @@ public sealed class BuffManager : Singleton<BuffManager>
 	public struct WorkSheetData
 	{
 		public string WorkSheetName;
-
-		public E_BuffType BuffType;
 
 		public Cell StartCell;
 		public Cell EndCell;

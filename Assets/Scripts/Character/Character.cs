@@ -8,6 +8,7 @@ public class Character
 	protected readonly CharacterStat m_InitialStat;
 	[SerializeField]
 	protected CharacterStat m_CurrentStat;
+	[SerializeField]
 	protected CharacterStat m_BuffStat;
 
 	public CharacterStat buffStat
