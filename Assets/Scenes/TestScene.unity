@@ -27248,73 +27248,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5000
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &462563475
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 462563478}
-  - component: {fileID: 462563477}
-  - component: {fileID: 462563476}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &462563476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 462563475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
---- !u!114 &462563477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 462563475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!4 &462563478
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 462563475}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &463126698
 GameObject:
   m_ObjectHideFlags: 0
@@ -38519,8 +38452,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1304587247}
-  m_RootOrder: -1
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &638952478
 MonoBehaviour:
@@ -51472,6 +51405,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5000
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &844645666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 844645667}
+  m_Layer: 0
+  m_Name: =======================
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &844645667
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844645666}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &845943926
 GameObject:
   m_ObjectHideFlags: 0
@@ -51781,7 +51745,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &847479395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69348,37 +69312,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5000
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &1148054781
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1148054782}
-  m_Layer: 0
-  m_Name: =======================
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1148054782
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1148054781}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1149672645
 GameObject:
   m_ObjectHideFlags: 0
@@ -79734,40 +79667,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5000
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &1304587246
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1304587247}
-  m_Layer: 0
-  m_Name: Managers
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1304587247
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1304587246}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 638952477}
-  - {fileID: 2022746457}
-  - {fileID: 1616040639}
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1308605156
 GameObject:
   m_ObjectHideFlags: 0
@@ -99014,8 +98913,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2133236831}
-  m_Father: {fileID: 1304587247}
-  m_RootOrder: -1
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1616040641
 MonoBehaviour:
@@ -135945,378 +135844,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5000
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &2022746455
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2022746457}
-  - component: {fileID: 2022746456}
-  m_Layer: 0
-  m_Name: BuffManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2022746456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2022746455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8216867bd5ab7624c94fc1d9aca2bbc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flag: 1
-  m_AssociatedSheet: 1vDHbPcXSj3IUdHfGhmYbG7bse7FmDJKVRJ8DDd-slDQ
-  m_WorkSheetDatas:
-  - WorkSheetName: "\uBC84\uD504 \uBAA9\uB85D"
-    StartCell:
-      column: C
-      row: 1
-    EndCell:
-      column: K
-      row: 0
-  - WorkSheetName: "\uB514\uBC84\uD504 \uBAA9\uB85D"
-    StartCell:
-      column: C
-      row: 1
-    EndCell:
-      column: K
-      row: 0
-  Debug_BuffDictionary:
-    m_Keys: 0000000001000000
-    m_Values:
-    - m_Name: Buff
-      buffList:
-      - m_Data:
-          m_Name: "\uCCB4\uB825 \uC99D\uAC00"
-          m_Code: 111001
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 0
-          m_MaxStack: 10
-          m_Weapon: 0
-          m_Description: "\uCD5C\uB300 \uCCB4\uB825 \uACE0\uC815 \uC99D\uAC00"
-      - m_Data:
-          m_Name: "\uC7AC\uC0DD"
-          m_Code: 132002
-          m_Type: 0
-          m_EffectType: 2
-          m_Grade: 1
-          m_MaxStack: 10
-          m_Weapon: 0
-          m_Description: "5\uCD08 \uB2F9 \uCCB4\uB825 \uD68C\uBCF5"
-      - m_Data:
-          m_Name: "\uBE60\uB978 \uC7AC\uC0DD"
-          m_Code: 112003
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 1
-          m_MaxStack: 10
-          m_Weapon: 0
-          m_Description: "\uCCB4\uB825 \uD68C\uBCF5 \uC8FC\uAE30 \uAC10\uC18C"
-      - m_Data:
-          m_Name: "\uD68C\uBCF5\uB7C9 \uC99D\uAC00"
-          m_Code: 112004
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 1
-          m_MaxStack: 10
-          m_Weapon: 0
-          m_Description: "\uBC1B\uB294 \uBAA8\uB4E0 \uD68C\uBCF5\uB7C9 \uC99D\uAC00"
-      - m_Data:
-          m_Name: "\uBC29\uC5B4\uB825 \uC99D\uAC00"
-          m_Code: 111005
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 0
-          m_MaxStack: 10
-          m_Weapon: 0
-          m_Description: "\uBC29\uC5B4\uB825 \uACE0\uC815 \uC99D\uAC00"
-      - m_Data:
-          m_Name: "\uD68C\uD53C\uC728 \uC99D\uAC00"
-          m_Code: 111006
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 0
-          m_MaxStack: 10
-          m_Weapon: 0
-          m_Description: "\uD68C\uD53C\uC728 \uACE0\uC815 \uC99D\uAC00"
-      - m_Data:
-          m_Name: "\uACF5\uACA9\uB825 \uC99D\uAC00"
-          m_Code: 111007
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 0
-          m_MaxStack: 10
-          m_Weapon: 0
-          m_Description: "\uACF5\uACA9\uB825 \uACE0\uC815 \uC99D\uAC00"
-      - m_Data:
-          m_Name: "\uACF5\uACA9 \uC18D\uB3C4 \uC99D\uAC00"
-          m_Code: 111008
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 0
-          m_MaxStack: 10
-          m_Weapon: 0
-          m_Description: "\uACF5\uACA9\uC18D\uB3C4 \uACE0\uC815 \uC99D\uAC00"
-      - m_Data:
-          m_Name: "\uC774\uB3D9 \uC18D\uB3C4 \uC99D\uAC00"
-          m_Code: 111009
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 0
-          m_MaxStack: 10
-          m_Weapon: 0
-          m_Description: "\uC774\uB3D9\uC18D\uB3C4 \uACE0\uC815 \uC99D\uAC00"
-      - m_Data:
-          m_Name: "\uACF5\uACA9 \uBC94\uC704 \uC99D\uAC00"
-          m_Code: 112010
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 1
-          m_MaxStack: 10
-          m_Weapon: 1
-          m_Description: "\uADFC\uC811 \uACF5\uACA9 \uBC94\uC704 \uC99D\uAC00"
-      - m_Data:
-          m_Name: "\uC0AC\uAC70\uB9AC \uC99D\uAC00"
-          m_Code: 112011
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 1
-          m_MaxStack: 10
-          m_Weapon: 2
-          m_Description: "\uD22C\uC0AC\uCCB4 \uC0DD\uC874 \uC2DC\uAC04 \uC99D\uAC00"
-      - m_Data:
-          m_Name: "\uD22C\uC0AC\uCCB4 \uC18D\uB3C4 \uC99D\uAC00"
-          m_Code: 112012
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 1
-          m_MaxStack: 10
-          m_Weapon: 2
-          m_Description: "\uD22C\uC0AC\uCCB4 \uC774\uB3D9 \uC18D\uB3C4 \uC99D\uAC00"
-      - m_Data:
-          m_Name: "\uACF5\uACA9 \uD69F\uC218 \uC99D\uAC00"
-          m_Code: 113013
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 2
-          m_MaxStack: 10
-          m_Weapon: 0
-          m_Description: "\uD0C0\uACA9 \uC2DC \uAC19\uC740 \uB300\uC0C1\uC5D0\uAC8C\uB9CC
-            \uCD94\uAC00 \uD0C0\uACA9(\uB2E4\uB2E8 \uD788\uD2B8\uAC00 \uC0DD\uAE40)"
-      - m_Data:
-          m_Name: "\uCE58\uBA85\uD0C0 \uD655\uB960 \uC99D\uAC00"
-          m_Code: 112014
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 1
-          m_MaxStack: 10
-          m_Weapon: 0
-          m_Description: "\uCE58\uBA85\uD0C0 \uD655\uB960 \uC99D\uAC00"
-      - m_Data:
-          m_Name: "\uCE58\uBA85\uD0C0 \uB300\uBBF8\uC9C0 \uC99D\uAC00"
-          m_Code: 112015
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 1
-          m_MaxStack: 10
-          m_Weapon: 0
-          m_Description: "\uCE58\uBA85\uD0C0 \uB300\uBBF8\uC9C0 \uC99D\uAC00"
-      - m_Data:
-          m_Name: "\uC810\uD504 \uCD94\uAC00"
-          m_Code: 132016
-          m_Type: 0
-          m_EffectType: 2
-          m_Grade: 1
-          m_MaxStack: 5
-          m_Weapon: 0
-          m_Description: "\uCD5C\uB300 \uC810\uD504 \uD69F\uC218 \uC99D\uAC00(\uAE30\uBCF8
-            2)"
-      - m_Data:
-          m_Name: "\uC804\uBC29\uD5A5 \uB300\uC26C"
-          m_Code: 133017
-          m_Type: 0
-          m_EffectType: 2
-          m_Grade: 2
-          m_MaxStack: 0
-          m_Weapon: 0
-          m_Description: "\uB300\uC26C\uAC00 \uC88C\uC6B0\uC5D0\uC11C \uC804\uBC29\uD5A5\uC73C\uB85C
-            \uBCC0\uACBD"
-      - m_Data:
-          m_Name: "\uB300\uC26C \uD69F\uC218 \uC99D\uAC00"
-          m_Code: 113018
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 2
-          m_MaxStack: 0
-          m_Weapon: 0
-          m_Description: "\uCD5C\uB300 \uB300\uC26C \uD69F\uC218 \uC99D\uAC00(\uAE30\uBCF8
-            3)"
-      - m_Data:
-          m_Name: "\uB300\uC26C \uCDA9\uC804 \uC18D\uB3C4 \uC99D\uAC00"
-          m_Code: 113019
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 2
-          m_MaxStack: 0
-          m_Weapon: 0
-          m_Description: "\uB300\uC26C\uAC00 \uCDA9\uC804\uB418\uB294 \uC2DC\uAC04
-            \uAC10\uC18C"
-      - m_Data:
-          m_Name: "\uB300\uC26C \uBB34\uC801"
-          m_Code: 113020
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 2
-          m_MaxStack: 0
-          m_Weapon: 0
-          m_Description: "\uB300\uC26C \uC885\uB8CC \uC774\uD6C4 \uC77C\uC815 \uC2DC\uAC04
-            \uBB34\uC801"
-      - m_Data:
-          m_Name: "\uBB34\uC801\uC2DC\uAC04 \uC99D\uAC00"
-          m_Code: 113021
-          m_Type: 0
-          m_EffectType: 0
-          m_Grade: 2
-          m_MaxStack: 0
-          m_Weapon: 0
-          m_Description: "\uBAA8\uB4E0 \uBB34\uC801 \uC2DC\uAC04 \uC99D\uAC00"
-    - m_Name: Debuff
-      buffList:
-      - m_Data:
-          m_Name: "\uCCB4\uB825 \uAC10\uC18C"
-          m_Code: 211001
-          m_Type: 1
-          m_EffectType: 0
-          m_Grade: 0
-          m_MaxStack: 0
-          m_Weapon: 0
-          m_Description: "\uCD5C\uB300 \uCCB4\uB825 \uACE0\uC815 \uAC10\uC18C"
-      - m_Data:
-          m_Name: "\uB290\uB9B0 \uC7AC\uC0DD"
-          m_Code: 212002
-          m_Type: 1
-          m_EffectType: 0
-          m_Grade: 1
-          m_MaxStack: 0
-          m_Weapon: 0
-          m_Description: "\uCCB4\uB825 \uD68C\uBCF5 \uC8FC\uAE30 \uC99D\uAC00"
-      - m_Data:
-          m_Name: "\uD68C\uBCF5\uB7C9 \uAC10\uC18C"
-          m_Code: 212003
-          m_Type: 1
-          m_EffectType: 0
-          m_Grade: 1
-          m_MaxStack: 0
-          m_Weapon: 0
-          m_Description: "\uBC1B\uB294 \uBAA8\uB4E0 \uD68C\uBCF5\uB7C9 \uAC10\uC18C"
-      - m_Data:
-          m_Name: "\uBC29\uC5B4\uB825 \uAC10\uC18C"
-          m_Code: 211004
-          m_Type: 1
-          m_EffectType: 0
-          m_Grade: 0
-          m_MaxStack: 0
-          m_Weapon: 0
-          m_Description: "\uBC29\uC5B4\uB825 \uACE0\uC815 \uAC10\uC18C"
-      - m_Data:
-          m_Name: "\uD68C\uD53C\uC728 \uAC10\uC18C"
-          m_Code: 211005
-          m_Type: 1
-          m_EffectType: 0
-          m_Grade: 0
-          m_MaxStack: 0
-          m_Weapon: 0
-          m_Description: "\uD68C\uD53C\uC728 \uACE0\uC815 \uAC10\uC18C"
-      - m_Data:
-          m_Name: "\uACF5\uACA9\uB825 \uAC10\uC18C"
-          m_Code: 211006
-          m_Type: 1
-          m_EffectType: 0
-          m_Grade: 0
-          m_MaxStack: 0
-          m_Weapon: 0
-          m_Description: "\uACF5\uACA9\uB825 \uACE0\uC815 \uAC10\uC18C"
-      - m_Data:
-          m_Name: "\uACF5\uACA9 \uC18D\uB3C4 \uAC10\uC18C"
-          m_Code: 211007
-          m_Type: 1
-          m_EffectType: 0
-          m_Grade: 0
-          m_MaxStack: 0
-          m_Weapon: 0
-          m_Description: "\uACF5\uACA9\uC18D\uB3C4 \uACE0\uC815 \uAC10\uC18C"
-      - m_Data:
-          m_Name: "\uC774\uB3D9 \uC18D\uB3C4 \uAC10\uC18C"
-          m_Code: 211008
-          m_Type: 1
-          m_EffectType: 0
-          m_Grade: 0
-          m_MaxStack: 0
-          m_Weapon: 0
-          m_Description: "\uC774\uB3D9\uC18D\uB3C4 \uACE0\uC815 \uAC10\uC18C"
-      - m_Data:
-          m_Name: "\uACF5\uACA9 \uBC94\uC704 \uAC10\uC18C"
-          m_Code: 212009
-          m_Type: 1
-          m_EffectType: 0
-          m_Grade: 1
-          m_MaxStack: 0
-          m_Weapon: 1
-          m_Description: "\uADFC\uC811 \uACF5\uACA9 \uBC94\uC704 \uAC10\uC18C"
-      - m_Data:
-          m_Name: "\uC0AC\uAC70\uB9AC \uAC10\uC18C"
-          m_Code: 212010
-          m_Type: 1
-          m_EffectType: 0
-          m_Grade: 1
-          m_MaxStack: 0
-          m_Weapon: 2
-          m_Description: "\uD22C\uC0AC\uCCB4 \uC0DD\uC874 \uC2DC\uAC04 \uAC10\uC18C"
-      - m_Data:
-          m_Name: "\uD22C\uC0AC\uCCB4 \uC18D\uB3C4 \uAC10\uC18C"
-          m_Code: 212011
-          m_Type: 1
-          m_EffectType: 0
-          m_Grade: 1
-          m_MaxStack: 0
-          m_Weapon: 2
-          m_Description: "\uD22C\uC0AC\uCCB4 \uC774\uB3D9 \uC18D\uB3C4 \uAC10\uC18C"
-      - m_Data:
-          m_Name: "\uD328\uB9C1 \uD655\uB960 \uAC10\uC18C"
-          m_Code: 212012
-          m_Type: 1
-          m_EffectType: 0
-          m_Grade: 1
-          m_MaxStack: 0
-          m_Weapon: 1
-          m_Description: "\uC790\uB3D9\uC73C\uB85C \uD328\uB9C1\uD560 \uD655\uB960
-            \uAC10\uC18C"
---- !u!4 &2022746457
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2022746455}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1304587247}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2023261049
 GameObject:
   m_ObjectHideFlags: 0

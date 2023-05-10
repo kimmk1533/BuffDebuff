@@ -10,92 +10,92 @@ using UnityEngine;
 [System.Serializable]
 public class DebugDictionary<TKey, TValue>
 {
-    [SerializeField, NonReorderable, ReadOnly]
-    List<TKey> m_Keys;
-    [SerializeField, NonReorderable]
-    List<TValue> m_Values;
+	[SerializeField, ReadOnly]
+	List<TKey> m_Keys;
+	[SerializeField, ReadOnly]
+	List<TValue> m_Values;
 
-    public DebugDictionary()
-    {
-        m_Keys = new List<TKey>();
-        m_Values = new List<TValue>();
-    }
-    public DebugDictionary(Dictionary<TKey, TValue> dictionary)
-    {
-        m_Keys = new List<TKey>(dictionary.Keys);
-        m_Values = new List<TValue>(dictionary.Values);
-    }
+	public DebugDictionary()
+	{
+		m_Keys = new List<TKey>();
+		m_Values = new List<TValue>();
+	}
+	public DebugDictionary(Dictionary<TKey, TValue> dictionary)
+	{
+		m_Keys = new List<TKey>(dictionary.Keys);
+		m_Values = new List<TValue>(dictionary.Values);
+	}
 
-    public TValue this[TKey key]
-    {
-        get
-        {
-            if (!m_Keys.Contains(key))
-                return default(TValue);
+	public TValue this[TKey key]
+	{
+		get
+		{
+			if (!m_Keys.Contains(key))
+				return default(TValue);
 
-            int index = m_Keys.IndexOf(key);
+			int index = m_Keys.IndexOf(key);
 
-            return m_Values[index];
-        }
-        set
-        {
-            if (!m_Keys.Contains(key))
-            {
-                this.Add(key, value);
-                return;
-            }
+			return m_Values[index];
+		}
+		set
+		{
+			if (!m_Keys.Contains(key))
+			{
+				this.Add(key, value);
+				return;
+			}
 
-            int index = m_Keys.IndexOf(key);
+			int index = m_Keys.IndexOf(key);
 
-            m_Values[index] = value;
-        }
-    }
-    public int Count
-    {
-        get
-        {
-            return Mathf.Min(m_Keys.Count, m_Values.Count);
-        }
-    }
+			m_Values[index] = value;
+		}
+	}
+	public int Count
+	{
+		get
+		{
+			return Mathf.Min(m_Keys.Count, m_Values.Count);
+		}
+	}
 
-    public void Add(TKey key, TValue value)
-    {
-        if (m_Keys.Contains(key))
-        {
-            Debug.LogError(
-                string.Format(
-                    "DebugDictionary Add({0}, {1}) : 딕셔너리에 동일한 키 값이 존재합니다.",
-                    key, value)
-                );
-            return;
-        }
+	public void Add(TKey key, TValue value)
+	{
+		if (m_Keys.Contains(key))
+		{
+			Debug.LogError(
+				string.Format(
+					"DebugDictionary Add({0}, {1}) : 딕셔너리에 동일한 키 값이 존재합니다.",
+					key, value)
+				);
+			return;
+		}
 
-        m_Keys.Add(key);
-        m_Values.Add(value);
-    }
-    public void Clear()
-    {
-        m_Keys.Clear();
-        m_Values.Clear();
-    }
-    public bool ContainsKey(TKey key)
-    {
-        return m_Keys.Contains(key);
-    }
-    public bool ContainsValue(TValue value)
-    {
-        return m_Values.Contains(value);
-    }
-    public bool Remove(TKey key)
-    {
-        if (!m_Keys.Contains(key))
-            return false;
+		m_Keys.Add(key);
+		m_Values.Add(value);
+	}
+	public void Clear()
+	{
+		m_Keys.Clear();
+		m_Values.Clear();
+	}
+	public bool ContainsKey(TKey key)
+	{
+		return m_Keys.Contains(key);
+	}
+	public bool ContainsValue(TValue value)
+	{
+		return m_Values.Contains(value);
+	}
+	public bool Remove(TKey key)
+	{
+		if (!m_Keys.Contains(key))
+			return false;
 
-        int index = m_Keys.IndexOf(key);
+		int index = m_Keys.IndexOf(key);
 
-        m_Keys.RemoveAt(index);
-        m_Values.RemoveAt(index);
+		m_Keys.RemoveAt(index);
+		m_Values.RemoveAt(index);
 
-        return true;
-    }
+		return true;
+	}
 }

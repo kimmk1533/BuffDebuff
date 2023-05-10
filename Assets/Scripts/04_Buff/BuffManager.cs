@@ -8,7 +8,8 @@ public sealed class BuffManager : Singleton<BuffManager>
 	[SerializeField, ReadOnly(true)]
 	private string m_AssociatedSheet;
 
-	public List<WorkSheetData> m_WorkSheetDatas;
+	[SerializeField, ReadOnly(true)]
+	private List<WorkSheetData> m_WorkSheetDatas;
 
 	// < 코드, 명칭, 버프 >
 	Dictionary<E_BuffType, BuffList> m_BuffDictionary;
