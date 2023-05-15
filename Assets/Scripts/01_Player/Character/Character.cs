@@ -18,9 +18,10 @@ public class Character
 	}
 	public CharacterStat finalStat => m_InitialStat + m_BuffStat;
 
-	protected Dictionary<int, (Buff buff, int count)> m_BuffList;
 	protected UtilClass.Timer m_HealTimer;
 	protected UtilClass.Timer m_DashTimer;
+
+	protected Dictionary<int, AbstractBuff> m_BuffList;
 
 	private BuffManager M_Buff => BuffManager.Instance;
 
@@ -37,7 +38,7 @@ public class Character
 
 		m_CurrentStat = m_InitialStat;
 		m_BuffStat = new CharacterStat();
-		m_BuffList = new Dictionary<int, (Buff buff, int count)>();
+		m_BuffList = new Dictionary<int, AbstractBuff>();
 
 		m_HealTimer = new UtilClass.Timer(m_InitialStat.HpRegenTime);
 		m_DashTimer = new UtilClass.Timer(m_InitialStat.DashRechargeTime);
@@ -73,14 +74,14 @@ public class Character
 
 		foreach (var item in m_BuffList.Values)
 		{
-			item.buff.OnBuffUpdate.OnBuffInvoke(this);
+			item.OnBuffUpdate();
 		}
 	}
 	public void Jump()
 	{
 		foreach (var item in m_BuffList.Values)
 		{
-			item.buff.OnBuffJump.OnBuffInvoke(this);
+			item.OnBuffJump();
 		}
 	}
 	public bool Dash()
@@ -92,38 +93,39 @@ public class Character
 
 		foreach (var item in m_BuffList.Values)
 		{
-			item.buff.OnBuffDash.OnBuffInvoke(this);
+			item.OnBuffDash();
 		}
 
 		return true;
 	}
 
+	public void AddBuff(int code)
+	{
+		BuffData buffData = M_Buff.GetBuffData(code);
+
+		this.AddBuff(buffData);
+	}
 	public void AddBuff(string name)
 	{
 		if (name == null || name == string.Empty)
 			return;
 
-		Buff buff = M_Buff.GetBuff(name);
+		BuffData buffData = M_Buff.GetBuffData(name);
 
-		this.AddBuff(buff);
+		this.AddBuff(buffData);
 	}
-	public void AddBuff(int code)
+	public void AddBuff(BuffData buffData)
 	{
-		Buff buff = M_Buff.GetBuff(code);
-
-		this.AddBuff(buff);
-	}
-	public void AddBuff(Buff buff)
-	{
-		if (buff == null)
+		if (buffData == null)
 			return;
 
-		if (m_BuffList.TryGetValue(buff.code, out (Buff buff, int count) tuple))
+		if (m_BuffList.TryGetValue(buffData.code, out AbstractBuff buff) &&
+			buff != null)
 		{
-			if (tuple.count < tuple.buff.data.maxStack)
+			if (buff.count < buffData.maxStack)
 			{
-				++tuple.count;
-				tuple.buff.OnBuffInitialize.OnBuffInvoke(this);
+				++buff.count;
+				buff.OnBuffInitialize(this);
 			}
 			else
 				Debug.Log("버프 최대");
@@ -131,43 +133,52 @@ public class Character
 			return;
 		}
 
-		tuple.buff = new Buff(buff);
+		buff = M_Buff.CreateBuff(buffData);
 
-		m_BuffList.Add(tuple.buff.code, tuple);
+		m_BuffList.Add(buffData.code, buff);
 
-		tuple.buff.OnBuffInitialize.OnBuffInvoke(this);
+		buff.OnBuffInitialize(this);
+	}
+	public bool RemoveBuff(int code)
+	{
+		BuffData buffData = M_Buff.GetBuffData(code);
+
+		return this.RemoveBuff(buffData);
 	}
 	public bool RemoveBuff(string name)
 	{
 		if (name == null || name == string.Empty)
 			return false;
 
-		Buff buff = M_Buff.GetBuff(name);
+		BuffData buff = M_Buff.GetBuffData(name);
 
-		return RemoveBuff(buff);
+		return this.RemoveBuff(buff);
 	}
-	public bool RemoveBuff(int code)
+	public bool RemoveBuff(BuffData buffData)
 	{
-		if (m_BuffList.TryGetValue(code, out (Buff buff, int count) tuple))
-		{
-			if (tuple.count > 0)
-			{
-				--tuple.count;
+		if (buffData == null)
+			return false;
 
-				tuple.buff.OnBuffFinalize.OnBuffInvoke(this);
+		if (m_BuffList.TryGetValue(buffData.code, out AbstractBuff buff) &&
+			buff != null)
+		{
+			if (buff.count > 0)
+			{
+				--buff.count;
 			}
+			else
+			{
+				m_BuffList.Remove(buffData.code);
+			}
+
+			buff.OnBuffFinalize(this);
 
 			return true;
 		}
 
-		return false;
-	}
-	public bool RemoveBuff(Buff buff)
-	{
-		if (buff == null)
-			return false;
+		Debug.Log("버프 없는데 제거");
 
-		return RemoveBuff(buff.code);
+		return false;
 	}
 
 	[System.Serializable]
@@ -179,7 +190,6 @@ public class Character
 		// 현재 체력
 		public float Hp;
 		#endregion
-
 		#region 회복
 		// 체력 재생량 (체력 재생 시간마다 한 번 재생)
 		public float HpRegen;
@@ -188,34 +198,163 @@ public class Character
 		// 힐 배율
 		public float HealScale;
 		#endregion
-
 		#region 공격
-		public float Attack;                // 공격력
-		public float AttackSpeed;           // 공격 속도
-		public float AttackRadius;          // 근접 공격 범위
-		public float AttackRange;           // 투사체 공격 사거리
-		public int   MultiHitCount;         // 타격 수
-		public float CriticalRate;          // 치명타 확률
-		public float CriticalDamageScale;   // 치명타 대미지 배율 
+		// 공격력
+		public float Attack;
+		// 공격 속도
+		public float AttackSpeed;
+		// 근접 공격 범위
+		public float AttackRadius;
+		// 투사체 공격 사거리
+		public float AttackRange;
+		// 타격 수
+		public int MultiHitCount;
+		// 치명타 확률
+		public float CriticalRate;
+		// 치명타 대미지 배율
+		public float CriticalDamageScale;
 		#endregion
-
 		#region 수비
-		public float Armor;                 // 방어력
-		public float Avoidability;          // 회피율 
+		// 방어력
+		public float Armor;
+		// 회피율
+		public float Avoidability;
 		#endregion
-
 		#region 대쉬
-		public int   DashCount;             // 대쉬 횟수
-		public float DashRechargeTime;      // 대쉬 충전 속도 
+		// 대쉬 횟수
+		public int DashCount;
+		// 대쉬 충전 속도
+		public float DashRechargeTime;
 		#endregion
-
 		#region 이동
-		public float MoveSpeed;             // 이동 속도 
+		// 이동 속도
+		public float MoveSpeed;
+		#endregion
+		#region 시야
+		// 시야 거리
+		public float Sight;
 		#endregion
 
-		#region 시야
-		public float Sight;                 // 시야 거리
-		#endregion
+		private static readonly CharacterStat zeroStat = new CharacterStat()
+		{
+			#region 체력
+			// 최대 체력
+			MaxHp = 0.0f,
+			// 현재 체력
+			Hp = 0.0f,
+			#endregion
+			#region 회복
+			// 체력 재생량 (체력 재생 시간마다 한 번 재생)
+			HpRegen = 0.0f,
+			// 체력 재생 시간
+			HpRegenTime = 0.0f,
+			// 힐 배율
+			HealScale = 0.0f,
+			#endregion
+			#region 공격
+			// 공격력
+			Attack = 0.0f,
+			// 공격 속도
+			AttackSpeed = 0.0f,
+			// 근접 공격 범위
+			AttackRadius = 0.0f,
+			// 투사체 공격 사거리
+			AttackRange = 0.0f,
+			// 타격 수
+			MultiHitCount = 0,
+			// 치명타 확률
+			CriticalRate = 0.0f,
+			// 치명타 대미지 배율
+			CriticalDamageScale = 0.0f,
+			#endregion
+			#region 수비
+			// 방어력
+			Armor = 0.0f,
+			// 회피율
+			Avoidability = 0.0f,
+			#endregion
+			#region 대쉬
+			// 대쉬 횟수
+			DashCount = 0,
+			// 대쉬 충전 속도
+			DashRechargeTime = 0.0f,
+			#endregion
+			#region 이동
+			// 이동 속도
+			MoveSpeed = 0.0f,
+			#endregion
+			#region 시야
+			// 시야 거리
+			Sight = 0.0f,
+			#endregion
+		};
+		private static readonly CharacterStat oneStat = new CharacterStat()
+		{
+			#region 체력
+			// 최대 체력
+			MaxHp = 1.0f,
+			// 현재 체력
+			Hp = 1.0f,
+			#endregion
+			#region 회복
+			// 체력 재생량 (체력 재생 시간마다 한 번 재생)
+			HpRegen = 1.0f,
+			// 체력 재생 시간
+			HpRegenTime = 1.0f,
+			// 힐 배율
+			HealScale = 1.0f,
+			#endregion
+			#region 공격
+			// 공격력
+			Attack = 1.0f,
+			// 공격 속도
+			AttackSpeed = 1.0f,
+			// 근접 공격 범위
+			AttackRadius = 1.0f,
+			// 투사체 공격 사거리
+			AttackRange = 1.0f,
+			// 타격 수
+			MultiHitCount = 1,
+			// 치명타 확률
+			CriticalRate = 1.0f,
+			// 치명타 대미지 배율
+			CriticalDamageScale = 1.0f,
+			#endregion
+			#region 수비
+			// 방어력
+			Armor = 1.0f,
+			// 회피율
+			Avoidability = 1.0f,
+			#endregion
+			#region 대쉬
+			// 대쉬 횟수
+			DashCount = 1,
+			// 대쉬 충전 속도
+			DashRechargeTime = 1.0f,
+			#endregion
+			#region 이동
+			// 이동 속도
+			MoveSpeed = 1.0f,
+			#endregion
+			#region 시야
+			// 시야 거리
+			Sight = 1.0f,
+			#endregion
+		};
+		public static CharacterStat zero
+		{
+			get
+			{
+				return zeroStat;
+			}
+		}
+		public static CharacterStat one
+		{
+			get
+			{
+				return oneStat;
+			}
+		}
 
 		public static CharacterStat operator +(CharacterStat s1, CharacterStat s2)
 		{

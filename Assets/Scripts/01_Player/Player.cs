@@ -42,7 +42,7 @@ public sealed class Player : MonoBehaviour
 	//	m_Character.AddBuff(M_Buff.m_BuffDictionary["체력 증가"]);
 	//	m_Character.AddBuff(M_Buff.m_BuffDictionary["재생"]);
 
-	//	foreach (Buff item in m_Character.m_BuffList)
+	//	foreach (AbstractBuff item in m_Character.m_BuffList)
 	//	{
 	//		item.OnBuffInitialize.OnBuffInvoke(ref m_Character);
 	//	}

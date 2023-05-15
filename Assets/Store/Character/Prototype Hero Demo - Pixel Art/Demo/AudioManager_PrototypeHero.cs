@@ -78,6 +78,6 @@ public class AudioManager_PrototypeHero : MonoBehaviour
             }
         }
 
-        Debug.LogWarning("AudioManager: Sound name not found in list: " + name);
+        Debug.LogWarning("AudioManager: Sound m_Title not found in list: " + name);
     }
 }

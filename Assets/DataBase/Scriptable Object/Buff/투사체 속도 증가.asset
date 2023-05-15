@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7ae57efcd1fa9a4ea78a6d89f1d2565, type: 3}
+  m_Name: "\uD22C\uC0AC\uCCB4 \uC18D\uB3C4 \uC99D\uAC00"
+  m_EditorClassIdentifier: 
+  m_Title: "\uD22C\uC0AC\uCCB4 \uC18D\uB3C4 \uC99D\uAC00"
+  m_Code: 112012
+  m_Type: 0
+  m_EffectType: 0
+  m_Grade: 1
+  m_MaxStack: 10
+  m_Weapon: 2
+  m_Description: "\uD22C\uC0AC\uCCB4 \uC774\uB3D9 \uC18D\uB3C4 \uC99D\uAC00"
