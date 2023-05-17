@@ -26,11 +26,6 @@ public sealed class Player : MonoBehaviour
 	[SerializeField]
 	Character m_Character;
 
-	//int buff
-	//{
-
-	//}
-
 	ProjectileManager M_Projectile => ProjectileManager.Instance;
 
 	private void Awake()

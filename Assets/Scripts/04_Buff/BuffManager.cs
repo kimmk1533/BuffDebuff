@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Text;
 using SpreadSheet;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public sealed class BuffManager : Singleton<BuffManager>
 {
@@ -18,7 +21,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 		Initialize();
 
 		// 엑셀에서 읽어온 데이터로 딕셔너리에 버프 생성
-		//LoadBuffAll();
+		LoadAllBuff();
 	}
 
 	private void Initialize()
@@ -31,33 +34,21 @@ public sealed class BuffManager : Singleton<BuffManager>
 		}
 	}
 
-#if UNITY_EDITOR
-	[ContextMenu("LoadBuffAll")]
-	public void LoadBuffAll()
+	[ContextMenu("LoadAllBuff")]
+	public void LoadAllBuff()
 	{
-		Initialize();
+		if (Application.isPlaying == false)
+			Initialize();
 
 		DataSet dataSet = new DataSet();
 		SpreadSheetManager.Instance.LoadJsonData(dataSet);
 
-		StringBuilder sb = new StringBuilder();
-
-		sb.AppendLine("\t\tswitch (title)");
-		sb.AppendLine("\t\t{");
-
 		for (E_BuffType buffType = E_BuffType.Buff; buffType != E_BuffType.Max - 1; ++buffType)
 		{
-			sb.Append("#region ");
-			sb.AppendLine(BuffEnumUtil.EnumToKorString<E_BuffType>(buffType));
-			LoadBuff(sb, dataSet, buffType);
-			sb.AppendLine("#endregion");
+			LoadBuff(dataSet, buffType);
 		}
-
-		sb.AppendLine("\t\t}");
-
-		CreateBuffFunc(sb);
 	}
-	public void LoadBuff(StringBuilder sb, DataSet dataSet, E_BuffType buffType)
+	public void LoadBuff(DataSet dataSet, E_BuffType buffType)
 	{
 		string sheetName = string.Concat(BuffEnumUtil.EnumToKorString(buffType), " 목록");
 
@@ -162,68 +153,200 @@ public sealed class BuffManager : Singleton<BuffManager>
 			string description = row[7] as string;
 			#endregion
 
-			CreateBuffData(title, code, buffType, effectType, grade, maxStack, weapon, description);
+			BuffData buffData = new BuffData(title, code, buffType, effectType, grade, maxStack, weapon, description);
 
-			AppendBuffFunc(sb, title);
+			m_BuffDictionary[buffType].Add((code, title), buffData);
 		}
-
-		AssetDatabase.SaveAssets();
 	}
-	private void CreateBuffData(string title, int code, E_BuffType buffType, E_BuffEffectType effectType, E_BuffGrade grade, int maxStack, E_BuffWeapon weapon, string description)
+#if UNITY_EDITOR
+	[ContextMenu("CreateAllBuffScript")]
+	public void CreateAllBuffScript()
 	{
-		BuffData buffData = CreateBuffScriptableObject(title, code, buffType, effectType, grade, maxStack, weapon, description);
+		if (Application.isPlaying == true)
+			return;
 
-		CreateBuffScript(title, buffType);
-
-		m_BuffDictionary[buffType].Add((code, title), buffData);
-	}
-	public BuffData CreateBuffScriptableObject(string title, int code, E_BuffType buffType, E_BuffEffectType effectType, E_BuffGrade grade, int maxStack, E_BuffWeapon weapon, string description)
-	{
-		BuffData buffData = new BuffData(title, code, buffType, effectType, grade, maxStack, weapon, description);
-
-		string path = Path.Combine(Application.dataPath, "DataBase", "Scriptable Object", buffType.ToString());
-
-		if (Directory.Exists(path) == false)
-			Directory.CreateDirectory(path);
-
-		string file = Path.Combine("Assets", "DataBase", "Scriptable Object", buffType.ToString(), title + ".asset");
-
-		AssetDatabase.CreateAsset(buffData, file);
-
-		return buffData;
-	}
-	public void CreateBuffScript(string title, E_BuffType buffType)
-	{
-		string path = Path.Combine(Application.dataPath, "DataBase", "Script", buffType.ToString());
-
-		if (Directory.Exists(path) == false)
-			Directory.CreateDirectory(path);
-
-		string file = Path.Combine(path, title + ".cs");
-		string template = Path.Combine(Application.dataPath, "DataBase", "Template", "BuffScriptTemplate.txt");
-		string className = title.Replace(' ', '_');
+		if (m_BuffDictionary == null ||
+			m_BuffDictionary.Count == 0)
+		{
+			LoadAllBuff();
+		}
 
 		StringBuilder sb = new StringBuilder();
 
-		sb.Append(File.ReadAllText(template));
-		sb.Replace("$Buff", className);
+		sb.AppendLine("\t\tswitch (buffData.title)");
+		sb.AppendLine("\t\t{");
 
-		try
+		for (E_BuffType buffType = E_BuffType.Buff; buffType != E_BuffType.Max - 1; ++buffType)
 		{
-			byte[] bytes = Encoding.UTF8.GetBytes(sb.ToString());
-
-			using (FileStream fs = new FileStream(file, FileMode.CreateNew, FileAccess.Write))
+			sb.Append("#region ");
+			sb.AppendLine(BuffEnumUtil.EnumToKorString<E_BuffType>(buffType));
+			foreach (var item in m_BuffDictionary[buffType])
 			{
-				fs.Write(new ReadOnlySpan<byte>(bytes));
+				BuffData buffData = item.Value;
+
+				if (buffData == null)
+				{
+					Debug.LogError("버프 데이터 없음");
+					return;
+				}
+
+				CreateBuffScript(buffData);
+				CreateBuffScriptableObject(buffData);
+				AppendBuffCase(sb, buffData.title);
+			}
+			sb.AppendLine("#endregion");
+		}
+
+		sb.AppendLine("\t\t}");
+
+		CreateBuffCase(sb);
+
+		AssetDatabase.SaveAssets();
+		AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+	}
+	// 스크립트 생성
+	public void CreateBuffScript(BuffData buffData)
+	{
+		string path = Path.Combine(Application.dataPath, "DataBase", "Script", buffData.buffType.ToString());
+
+		if (Directory.Exists(path) == false)
+			Directory.CreateDirectory(path);
+
+		string file = Path.Combine(path, buffData.title + ".cs");
+		string template = Path.Combine(Application.dataPath, "DataBase", "Template", "BuffScriptTemplate.txt");
+		string className = buffData.title.Replace(' ', '_');
+
+		StringBuilder sb = new StringBuilder(File.ReadAllText(template));
+
+		sb.Replace("$Buff", className);
+		sb.Replace("$Description", buffData.description);
+
+		if (File.Exists(file) == true)
+		{
+			const string start = "\t{";
+			const string end = "\t}";
+
+			string templateCode = sb.ToString();
+			sb.Clear();
+
+			string[] newFileLines = templateCode.Split("\r\n");
+			string[] oldFileLines = File.ReadAllLines(file);
+
+			#region 템플릿 파일 함수 저장
+			List<string> newFileFuncOrderList = new List<string>();
+			Dictionary<string, string> newFileFuncMap = new Dictionary<string, string>();
+			for (int i = 0; i < newFileLines.Length; ++i)
+			{
+				if (newFileLines[i] != start)
+					continue;
+
+				string funcName = newFileLines[i - 1];
+
+				sb.AppendLine(newFileLines[i - 1]);
+				for (int j = i; j < newFileLines.Length; ++j)
+				{
+					sb.AppendLine(newFileLines[j]);
+
+					if (newFileLines[j] == end)
+					{
+						newFileFuncOrderList.Add(funcName);
+						newFileFuncMap.Add(funcName, sb.ToString());
+						sb.Clear();
+						break;
+					}
+				}
+			}
+			#endregion
+
+			#region 기존 파일 함수 저장
+			Dictionary<string, string> oldFileFuncMap = new Dictionary<string, string>();
+			for (int i = 0; i < oldFileLines.Length; ++i)
+			{
+				if (oldFileLines[i] != start)
+					continue;
+
+				string funcName = oldFileLines[i - 1];
+
+				sb.AppendLine(oldFileLines[i - 1]);
+				for (int j = i; j < oldFileLines.Length; ++j)
+				{
+					sb.AppendLine(oldFileLines[j]);
+
+					if (oldFileLines[j] == end)
+					{
+						oldFileFuncMap.Add(funcName, sb.ToString());
+						sb.Clear();
+						break;
+					}
+				}
+			}
+			#endregion
+
+			sb.Clear();
+
+			foreach (var item in oldFileFuncMap)
+			{
+				if (newFileFuncMap.ContainsKey(item.Key))
+				{
+					newFileFuncMap[item.Key] = item.Value;
+				}
+			}
+
+			List<string> deletedFuncNameList = new List<string>();
+			for (int i = 0; i < oldFileLines.Length; ++i)
+			{
+				string oldfuncName = oldFileLines[i];
+
+				if (deletedFuncNameList.Contains(oldfuncName))
+				{
+					int index = oldFileFuncMap[oldfuncName].Split("\r\n").Length - 1;
+					i += index - 1;
+					continue;
+				}
+
+				if (newFileFuncMap.ContainsKey(oldfuncName))
+				{
+					int index = newFileFuncOrderList.IndexOf(oldfuncName);
+
+					for (int j = 0; j < index; ++j)
+					{
+						string newFuncName = newFileFuncOrderList[0];
+
+						string[] funcLines = newFileFuncMap[newFuncName].Split("\r\n");
+
+						for (int k = 0; k < funcLines.Length - 1; ++k)
+						{
+							sb.AppendLine(funcLines[k]);
+						}
+
+						newFileFuncOrderList.RemoveAt(0);
+						newFileFuncMap.Remove(newFuncName);
+						deletedFuncNameList.Add(newFuncName);
+					}
+
+					newFileFuncMap.Remove(oldfuncName);
+					newFileFuncOrderList.Remove(oldfuncName);
+				}
+
+				sb.AppendLine(oldFileLines[i]);
 			}
 		}
-		catch (Exception)
-		{
 
-		}
-		//File.WriteAllText(file, sb.ToString());
+		File.WriteAllText(file, sb.ToString());
 	}
-	private void CreateBuffFunc(StringBuilder sb, [System.Runtime.CompilerServices.CallerFilePath] string path = "")
+	// 스크립터블 오브젝트 생성
+	public void CreateBuffScriptableObject(BuffData buffData)
+	{
+		string path = Path.Combine(Application.dataPath, "DataBase", "Scriptable Object", buffData.buffType.ToString());
+
+		if (Directory.Exists(path) == false)
+			Directory.CreateDirectory(path);
+
+		string file = Path.Combine("Assets", "DataBase", "Scriptable Object", buffData.buffType.ToString(), buffData.title + ".asset");
+
+		AssetDatabase.CreateAsset(buffData, file);
+	}
+	private void CreateBuffCase(StringBuilder sb, [System.Runtime.CompilerServices.CallerFilePath] string path = "")
 	{
 		string code = File.ReadAllText(path);
 
@@ -240,7 +363,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 		File.WriteAllText(path, sb.ToString());
 	}
-	private void AppendBuffFunc(StringBuilder sb, string title)
+	private void AppendBuffCase(StringBuilder sb, string title)
 	{
 		string className = title.Replace(' ', '_');
 
@@ -326,17 +449,21 @@ public sealed class BuffManager : Singleton<BuffManager>
 	{
 		BuffData buffData = GetBuffData(code);
 
-		return CreateBuff(buffData.title);
+		return CreateBuff(buffData);
 	}
 	public AbstractBuff CreateBuff(string title)
 	{
 		BuffData buffData = GetBuffData(title);
 
+		return CreateBuff(buffData);
+	}
+	public AbstractBuff CreateBuff(BuffData buffData)
+	{
 		if (buffData == null)
 			return null;
 
 		// $BuffFunc
-		switch (title)
+		switch (buffData.title)
 		{
 #region 버프
 			case "체력 증가":
@@ -413,12 +540,8 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 		return null;
 	}
-	public AbstractBuff CreateBuff(BuffData buffData)
-	{
-		return CreateBuff(buffData.title);
-	}
 
-	public class BuffDictionary
+	public class BuffDictionary : IEnumerable<KeyValuePair<int, BuffData>>
 	{
 		public Dictionary<string, int> m_NameDictionary = new Dictionary<string, int>();
 		public Dictionary<int, BuffData> m_BuffDictionary = new Dictionary<int, BuffData>();
@@ -465,6 +588,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 			m_NameDictionary.Add(name, code);
 			m_BuffDictionary.Add(code, buff);
 		}
+
 		public bool TryAdd((int code, string name) key, BuffData buff)
 		{
 			if (m_NameDictionary.TryAdd(key.name, key.code) == false)
@@ -496,6 +620,74 @@ public sealed class BuffManager : Singleton<BuffManager>
 			}
 
 			return TryGetValue(code, out buff);
+		}
+
+		public IEnumerator<KeyValuePair<int, BuffData>> GetEnumerator()
+		{
+			return new Enumerator<int, BuffData>(m_BuffDictionary);
+		}
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return new Enumerator<int, BuffData>(m_BuffDictionary);
+		}
+
+		public class Enumerator<TKey, TValue> : IEnumerator<KeyValuePair<TKey, TValue>>, IEnumerator
+		{
+			List<KeyValuePair<TKey, TValue>> elementList;
+			int index = -1;
+
+			KeyValuePair<TKey, TValue> IEnumerator<KeyValuePair<TKey, TValue>>.Current
+			{
+				get
+				{
+					try
+					{
+						return elementList[index];
+					}
+					catch (IndexOutOfRangeException)
+					{
+						throw new InvalidOperationException();
+					}
+				}
+			}
+			object IEnumerator.Current
+			{
+				get
+				{
+					try
+					{
+						return elementList[index];
+					}
+					catch (IndexOutOfRangeException)
+					{
+						throw new InvalidOperationException();
+					}
+				}
+			}
+
+			public Enumerator(Dictionary<TKey, TValue> elements)
+			{
+				elementList = elements.ToList();
+			}
+			public bool MoveNext()
+			{
+				if (index == elementList.Count - 1)
+				{
+					Reset();
+					return false;
+				}
+
+				return ++index < elementList.Count;
+			}
+			public void Reset()
+			{
+				index = -1;
+			}
+
+			public void Dispose()
+			{
+				elementList.Clear();
+			}
 		}
 	}
 }

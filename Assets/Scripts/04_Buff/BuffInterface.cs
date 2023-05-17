@@ -1,12 +1,22 @@
-// 버프를 얻었을 때
+// 버프를 얻었을 때 (첫 1번만)
 public interface IOnBuffInitialize
 {
 	public void OnBuffInitialize(Character character);
 }
-// 버프를 잃었을 때
+// 버프를 잃었을 때 (갯수가 0이 될 때)
 public interface IOnBuffFinalize
 {
 	public void OnBuffFinalize(Character character);
+}
+// 버프를 얻었을 때 (매번 추가될 때 마다)
+public interface IOnBuffAdded
+{
+	public void OnBuffAdded(Character character);
+}
+// 버프를 잃었을 때 (매번 감소될 때 마다)
+public interface IOnBuffRemoved
+{
+	public void OnBuffRemoved(Character character);
 }
 // 매 프레임마다
 public interface IOnBuffUpdate
@@ -44,7 +54,7 @@ public interface IOnBuffAttackEnd
 	public void OnBuffAttackEnd();
 }
 // 모든 버프 조건
-public interface IOnBuffCondition : IOnBuffInitialize, IOnBuffFinalize, IOnBuffUpdate, IOnBuffJump, IOnBuffDash, IOnBuffGetDamage, IOnBuffAttackStart, IOnBuffGiveDamage, IOnBuffAttackEnd
+public interface IOnBuffCondition : IOnBuffInitialize, IOnBuffFinalize, IOnBuffAdded, IOnBuffRemoved, IOnBuffUpdate, IOnBuffJump, IOnBuffDash, IOnBuffGetDamage, IOnBuffAttackStart, IOnBuffGiveDamage, IOnBuffAttackEnd
 {
 
 }

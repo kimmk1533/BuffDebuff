@@ -51,6 +51,14 @@ public abstract class AbstractBuff : IEquatable<AbstractBuff>, IOnBuffCondition
 	{
 
 	}
+	public virtual void OnBuffAdded(Character character)
+	{
+
+	}
+	public virtual void OnBuffRemoved(Character character)
+	{
+
+	}
 	public virtual void OnBuffUpdate()
 	{
 

@@ -2,48 +2,61 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * 근접 공격 범위 증가
+ */
 [System.Serializable]
 public class 공격_범위_증가 : AbstractBuff
 {
 	public 공격_범위_증가(BuffData buffData) : base(buffData)
 	{
-		Debug.Log("테스트");
+
 	}
 
+	#region 버프 구현
 	public override void OnBuffInitialize(Character character)
 	{
-		base.OnBuffInitialize(character);
+
 	}
 	public override void OnBuffFinalize(Character character)
 	{
-		base.OnBuffFinalize(character);
+
+	}
+	public override void OnBuffAdded(Character character)
+	{
+
+	}
+	public override void OnBuffRemoved(Character character)
+	{
+
 	}
 	public override void OnBuffUpdate()
 	{
-		base.OnBuffUpdate();
+
 	}
 	public override void OnBuffJump()
 	{
-		base.OnBuffJump();
+
 	}
 	public override void OnBuffDash()
 	{
-		base.OnBuffDash();
+
 	}
 	public override void OnBuffGetDamage()
 	{
-		base.OnBuffGetDamage();
+
 	}
 	public override void OnBuffAttackStart()
 	{
-		base.OnBuffAttackStart();
+
 	}
 	public override void OnBuffGiveDamage()
 	{
-		base.OnBuffGiveDamage();
+
 	}
 	public override void OnBuffAttackEnd()
 	{
-		base.OnBuffAttackEnd();
+
 	}
+	#endregion
 }

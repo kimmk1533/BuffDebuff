@@ -24,7 +24,7 @@ public class BuffData : ScriptableObject
 
 	public string title { get { return m_Title; } }
 	public int code { get { return m_Code; } }
-	public E_BuffType bufftype { get { return m_Type; } }
+	public E_BuffType buffType { get { return m_Type; } }
 	public E_BuffEffectType effectType { get { return m_EffectType; } }
 	public E_BuffGrade grade { get { return m_Grade; } }
 	public int maxStack { get { return m_MaxStack; } }

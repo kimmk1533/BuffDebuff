@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * 대쉬 종료 이후 일정 시간 무적
+ */
 [System.Serializable]
 public class 대쉬_무적 : AbstractBuff
 {
@@ -10,40 +13,50 @@ public class 대쉬_무적 : AbstractBuff
 
 	}
 
+	#region 버프 구현
 	public override void OnBuffInitialize(Character character)
 	{
-		base.OnBuffInitialize(character);
+
 	}
 	public override void OnBuffFinalize(Character character)
 	{
-		base.OnBuffFinalize(character);
+
+	}
+	public override void OnBuffAdded(Character character)
+	{
+
+	}
+	public override void OnBuffRemoved(Character character)
+	{
+
 	}
 	public override void OnBuffUpdate()
 	{
-		base.OnBuffUpdate();
+
 	}
 	public override void OnBuffJump()
 	{
-		base.OnBuffJump();
+
 	}
 	public override void OnBuffDash()
 	{
-		base.OnBuffDash();
+
 	}
 	public override void OnBuffGetDamage()
 	{
-		base.OnBuffGetDamage();
+
 	}
 	public override void OnBuffAttackStart()
 	{
-		base.OnBuffAttackStart();
+
 	}
 	public override void OnBuffGiveDamage()
 	{
-		base.OnBuffGiveDamage();
+
 	}
 	public override void OnBuffAttackEnd()
 	{
-		base.OnBuffAttackEnd();
+
 	}
+	#endregion
 }
