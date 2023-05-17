@@ -159,8 +159,8 @@ public sealed class BuffManager : Singleton<BuffManager>
 		}
 	}
 #if UNITY_EDITOR
-	[ContextMenu("CreateAllBuffScript")]
-	public void CreateAllBuffScript()
+	[ContextMenu("CreateAllBuff")]
+	public void CreateAllBuff()
 	{
 		if (Application.isPlaying == true)
 			return;
@@ -204,6 +204,67 @@ public sealed class BuffManager : Singleton<BuffManager>
 		AssetDatabase.SaveAssets();
 		AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
 	}
+	public void CreateAllBuffScript()
+	{
+		if (Application.isPlaying == true)
+			return;
+
+		if (m_BuffDictionary == null ||
+			m_BuffDictionary.Count == 0)
+		{
+			LoadAllBuff();
+		}
+
+		for (E_BuffType buffType = E_BuffType.Buff; buffType != E_BuffType.Max - 1; ++buffType)
+		{
+			foreach (var item in m_BuffDictionary[buffType])
+			{
+				BuffData buffData = item.Value;
+
+				if (buffData == null)
+				{
+					Debug.LogError("버프 데이터 없음");
+					return;
+				}
+
+				CreateBuffScript(buffData);
+			}
+		}
+
+		AssetDatabase.SaveAssets();
+		AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+	}
+	public void CreateAllBuffScriptableObject()
+	{
+		if (Application.isPlaying == true)
+			return;
+
+		if (m_BuffDictionary == null ||
+			m_BuffDictionary.Count == 0)
+		{
+			LoadAllBuff();
+		}
+
+		for (E_BuffType buffType = E_BuffType.Buff; buffType != E_BuffType.Max - 1; ++buffType)
+		{
+			foreach (var item in m_BuffDictionary[buffType])
+			{
+				BuffData buffData = item.Value;
+
+				if (buffData == null)
+				{
+					Debug.LogError("버프 데이터 없음");
+					return;
+				}
+
+				CreateBuffScriptableObject(buffData);
+			}
+		}
+
+		AssetDatabase.SaveAssets();
+		AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+	}
+
 	// 스크립트 생성
 	public void CreateBuffScript(BuffData buffData)
 	{
@@ -213,7 +274,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 			Directory.CreateDirectory(path);
 
 		string file = Path.Combine(path, buffData.title + ".cs");
-		string template = Path.Combine(Application.dataPath, "DataBase", "Template", "BuffScriptTemplate.txt");
+		string template = Path.Combine(Application.dataPath, "DataBase", "Script", "Template", "BuffScriptTemplate.txt");
 		string className = buffData.title.Replace(' ', '_');
 
 		StringBuilder sb = new StringBuilder(File.ReadAllText(template));
@@ -328,7 +389,10 @@ public sealed class BuffManager : Singleton<BuffManager>
 					newFileFuncOrderList.Remove(oldfuncName);
 				}
 
-				sb.AppendLine(oldFileLines[i]);
+				if (i == oldFileLines.Length - 1)
+					sb.Append(oldFileLines[i]);
+				else
+					sb.AppendLine(oldFileLines[i]);
 			}
 		}
 
@@ -465,7 +529,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 		// $BuffFunc
 		switch (buffData.title)
 		{
-#region 버프
+			#region 버프
 			case "체력 증가":
 				return new 체력_증가(buffData);
 			case "재생":
@@ -508,8 +572,8 @@ public sealed class BuffManager : Singleton<BuffManager>
 				return new 대쉬_무적(buffData);
 			case "무적시간 증가":
 				return new 무적시간_증가(buffData);
-#endregion
-#region 디버프
+			#endregion
+			#region 디버프
 			case "체력 감소":
 				return new 체력_감소(buffData);
 			case "느린 재생":
@@ -534,14 +598,14 @@ public sealed class BuffManager : Singleton<BuffManager>
 				return new 투사체_속도_감소(buffData);
 			case "패링 확률 감소":
 				return new 패링_확률_감소(buffData);
-#endregion
+				#endregion
 		}
 		// $BuffFunc
 
 		return null;
 	}
 
-	public class BuffDictionary : IEnumerable<KeyValuePair<int, BuffData>>
+	private class BuffDictionary : IEnumerable<KeyValuePair<int, BuffData>>
 	{
 		public Dictionary<string, int> m_NameDictionary = new Dictionary<string, int>();
 		public Dictionary<int, BuffData> m_BuffDictionary = new Dictionary<int, BuffData>();
