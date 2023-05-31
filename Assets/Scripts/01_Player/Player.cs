@@ -32,16 +32,6 @@ public sealed class Player : MonoBehaviour
 	{
 		Initialize();
 	}
-	//private void Start()
-	//{
-	//	m_Character.AddBuff(M_Buff.m_BuffDictionary["체력 증가"]);
-	//	m_Character.AddBuff(M_Buff.m_BuffDictionary["재생"]);
-
-	//	foreach (AbstractBuff item in m_Character.m_BuffList)
-	//	{
-	//		item.OnBuffInitialize.OnBuffInvoke(ref m_Character);
-	//	}
-	//}
 	private void Update()
 	{
 		#region PlayerController Method
@@ -62,16 +52,7 @@ public sealed class Player : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.F))
 		{
 			m_Character.AddBuff("체력 증가");
-			//m_Character.AddBuff("재생");
 		}
-		//if (Input.GetMouseButtonDown(0))
-		//{
-		//	m_Character.AddBuff("빠른 재생");
-		//}
-		//if (Input.GetKeyDown(KeyCode.G))
-		//{
-		//	m_Character.RemoveBuff("체력 증가");
-		//}
 		#endregion
 
 		m_Character.Update();

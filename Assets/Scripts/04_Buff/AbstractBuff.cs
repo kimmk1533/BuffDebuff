@@ -11,8 +11,15 @@ public abstract class AbstractBuff : IEquatable<AbstractBuff>, IOnBuffCondition
 	protected BuffData m_DebugBuffData;
 	protected readonly BuffData m_BuffData;
 
-	public int count { get { return m_Count; } set { m_Count = value; } }
-	public BuffData data { get { return m_BuffData; } }
+	public int count
+	{
+		get { return m_Count; }
+		set { m_Count = value; }
+	}
+	public BuffData data
+	{
+		get { return m_BuffData; }
+	}
 
 	public AbstractBuff(BuffData buffData)
 	{
@@ -71,7 +78,6 @@ public abstract class AbstractBuff : IEquatable<AbstractBuff>, IOnBuffCondition
 	{
 
 	}
-
 	public virtual void OnBuffGetDamage()
 	{
 

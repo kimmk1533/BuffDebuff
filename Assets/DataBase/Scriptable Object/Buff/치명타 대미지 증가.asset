@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7ae57efcd1fa9a4ea78a6d89f1d2565, type: 3}
   m_Name: "\uCE58\uBA85\uD0C0 \uB300\uBBF8\uC9C0 \uC99D\uAC00"
   m_EditorClassIdentifier: 
-  m_Title: "\uCE58\uBA85\uD0C0 \uB300\uBBF8\uC9C0 \uC99D\uAC00"
   m_Code: 112015
+  m_Title: "\uCE58\uBA85\uD0C0 \uB300\uBBF8\uC9C0 \uC99D\uAC00"
   m_Type: 0
   m_EffectType: 0
   m_Grade: 1

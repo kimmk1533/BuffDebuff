@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 
 [DefaultExecutionOrder(-98)]
-public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
 	[SerializeField]
 	protected bool flag;
@@ -16,7 +16,9 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 			{
 				Singleton<T>[] objs = FindObjectsOfType<Singleton<T>>(true);
 
-				GameObject obj = objs.Where(item => item.flag == true).FirstOrDefault()?.gameObject; //GameObject.Find(typeof(T).Name);
+				GameObject obj = objs
+					.Where(item => item.flag == true)
+					.FirstOrDefault()?.gameObject; //GameObject.Find(typeof(T).Name);
 				if (obj == null)
 				{
 					if (objs.Length > 0)
@@ -34,7 +36,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 	}
 }
 
-public class SingletonBasic<T> where T : new()
+public abstract class SingletonBasic<T> where T : new()
 {
 	private static T instance;
 	public static T Instance

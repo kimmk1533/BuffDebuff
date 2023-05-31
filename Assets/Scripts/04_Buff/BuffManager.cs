@@ -10,11 +10,15 @@ using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using BuffDictionary = DoubleKeyDictionary<int, string, BuffData>;
+using BuffUIDictionary = DoubleKeyDictionary<int, string, BuffUIData>;
 
 public sealed class BuffManager : Singleton<BuffManager>
 {
-	// < 코드, 명칭, 버프 >
+	// < 코드, 명칭, 버프 데이터 >
 	private Dictionary<E_BuffType, BuffDictionary> m_BuffDictionary;
+	// < 코드, 명칭, 버프UI 데이터 >
+	private Dictionary<E_BuffType, BuffUIDictionary> m_BuffUIDictionary;
 
 	private void Awake()
 	{
@@ -56,13 +60,9 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 		foreach (var row in rows)
 		{
-			#region 명칭
-			// 명칭 불러오기
-			string title = row[0] as string;
-			#endregion
 			#region 코드
 			// 코드 불러오기
-			string codeStr = row[1] as string;
+			string codeStr = row[0] as string;
 
 			// 자료형 파싱
 			if (int.TryParse(codeStr, out int code) == false)
@@ -70,6 +70,10 @@ public sealed class BuffManager : Singleton<BuffManager>
 				Debug.LogError("버프 코드 불러오기 오류! | 코드: " + codeStr);
 				return;
 			}
+			#endregion
+			#region 명칭
+			// 명칭 불러오기
+			string title = row[1] as string;
 			#endregion
 			#region 효과 종류
 			// 효과 종류 불러오기
@@ -153,33 +157,50 @@ public sealed class BuffManager : Singleton<BuffManager>
 			string description = row[7] as string;
 			#endregion
 
+			// 파일 읽어 오는 방식으로 수정 필요
 			BuffData buffData = new BuffData(title, code, buffType, effectType, grade, maxStack, weapon, description);
 
 			m_BuffDictionary[buffType].Add((code, title), buffData);
 		}
 	}
 #if UNITY_EDITOR
-	[ContextMenu("CreateAllBuff")]
-	public void CreateAllBuff()
+	public void CreateAllBuff(bool load, bool script, bool asset, bool uiAsset, bool switchCase)
 	{
-		if (Application.isPlaying == true)
+		if (Application.isEditor == false ||
+			Application.isPlaying == true)
 			return;
 
-		if (m_BuffDictionary == null ||
+		if (script == false &&
+			asset == false &&
+			uiAsset == false &&
+			switchCase == false)
+			return;
+
+		if (load == true ||
+			m_BuffDictionary == null ||
 			m_BuffDictionary.Count == 0)
 		{
 			LoadAllBuff();
 		}
 
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = null;
 
-		sb.AppendLine("\t\tswitch (buffData.title)");
-		sb.AppendLine("\t\t{");
+		if (switchCase)
+		{
+			sb = new StringBuilder();
+
+			sb.AppendLine("\t\tswitch (buffData.title)");
+			sb.AppendLine("\t\t{");
+		}
 
 		for (E_BuffType buffType = E_BuffType.Buff; buffType != E_BuffType.Max - 1; ++buffType)
 		{
-			sb.Append("#region ");
-			sb.AppendLine(BuffEnumUtil.EnumToKorString<E_BuffType>(buffType));
+			if (switchCase)
+			{
+				sb.Append("#region ");
+				sb.AppendLine(BuffEnumUtil.EnumToKorString<E_BuffType>(buffType));
+			}
+
 			foreach (var item in m_BuffDictionary[buffType])
 			{
 				BuffData buffData = item.Value;
@@ -190,16 +211,26 @@ public sealed class BuffManager : Singleton<BuffManager>
 					return;
 				}
 
-				CreateBuffScript(buffData);
-				CreateBuffScriptableObject(buffData);
-				AppendBuffCase(sb, buffData.title);
+				if (script)
+					CreateBuffScript(buffData);
+				if (asset)
+					CreateBuffScriptableObject(buffData);
+				if (uiAsset)
+					CreateBuffUIScriptableObject(buffData);
+				if (switchCase)
+					AppendBuffCase(sb, buffData.title);
 			}
-			sb.AppendLine("#endregion");
+
+			if (switchCase)
+				sb.AppendLine("#endregion");
 		}
 
-		sb.AppendLine("\t\t}");
+		if (switchCase)
+		{
+			sb.AppendLine("\t\t}");
 
-		CreateBuffCase(sb);
+			CreateBuffCase(sb);
+		}
 
 		AssetDatabase.SaveAssets();
 		AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
@@ -232,6 +263,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 		}
 
 		AssetDatabase.SaveAssets();
+		Debug.Log("버프 Script 생성 완료");
 		AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
 	}
 	public void CreateAllBuffScriptableObject()
@@ -258,10 +290,12 @@ public sealed class BuffManager : Singleton<BuffManager>
 				}
 
 				CreateBuffScriptableObject(buffData);
+				CreateBuffUIScriptableObject(buffData);
 			}
 		}
 
 		AssetDatabase.SaveAssets();
+		Debug.Log("버프 Scriptable Object 생성 완료");
 		AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
 	}
 
@@ -410,6 +444,18 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 		AssetDatabase.CreateAsset(buffData, file);
 	}
+	public void CreateBuffUIScriptableObject(BuffData buffData)
+	{
+		string path = Path.Combine(Application.dataPath, "DataBase", "Scriptable Object", buffData.buffType.ToString());
+
+		if (Directory.Exists(path) == false)
+			Directory.CreateDirectory(path);
+
+		string file = Path.Combine("Assets", "DataBase", "Scriptable Object", buffData.buffType.ToString(), buffData.title + "_UI.asset");
+
+		AssetDatabase.CreateAsset(new BuffUIData(buffData), file);
+	}
+
 	private void CreateBuffCase(StringBuilder sb, [System.Runtime.CompilerServices.CallerFilePath] string path = "")
 	{
 		string code = File.ReadAllText(path);
@@ -603,155 +649,5 @@ public sealed class BuffManager : Singleton<BuffManager>
 		// $BuffFunc
 
 		return null;
-	}
-
-	private class BuffDictionary : IEnumerable<KeyValuePair<int, BuffData>>
-	{
-		public Dictionary<string, int> m_NameDictionary = new Dictionary<string, int>();
-		public Dictionary<int, BuffData> m_BuffDictionary = new Dictionary<int, BuffData>();
-
-		public BuffData this[int code]
-		{
-			get
-			{
-				if (m_BuffDictionary.TryGetValue(code, out BuffData buff) == false)
-					return null;
-
-				return buff;
-			}
-			set
-			{
-				m_BuffDictionary[code] = value;
-			}
-		}
-		public BuffData this[string name]
-		{
-			get
-			{
-				if (m_NameDictionary.TryGetValue(name, out int code) == false)
-					return null;
-
-				return this[code];
-			}
-			set
-			{
-				if (m_NameDictionary.TryGetValue(name, out int code) == false)
-					return;
-
-				this[code] = value;
-			}
-		}
-
-		public void Add((int code, string name) key, BuffData buff)
-		{
-			m_NameDictionary.Add(key.name, key.code);
-			m_BuffDictionary.Add(key.code, buff);
-		}
-		public void Add(int code, string name, BuffData buff)
-		{
-			m_NameDictionary.Add(name, code);
-			m_BuffDictionary.Add(code, buff);
-		}
-
-		public bool TryAdd((int code, string name) key, BuffData buff)
-		{
-			if (m_NameDictionary.TryAdd(key.name, key.code) == false)
-				return false;
-			if (m_BuffDictionary.TryAdd(key.code, buff) == false)
-				return false;
-
-			return true;
-		}
-		public bool TryAdd(int code, string name, BuffData buff)
-		{
-			if (m_NameDictionary.TryAdd(name, code) == false)
-				return false;
-			if (m_BuffDictionary.TryAdd(code, buff) == false)
-				return false;
-
-			return true;
-		}
-		public bool TryGetValue(int code, out BuffData buff)
-		{
-			return m_BuffDictionary.TryGetValue(code, out buff);
-		}
-		public bool TryGetValue(string name, out BuffData buff)
-		{
-			if (m_NameDictionary.TryGetValue(name, out int code) == false)
-			{
-				buff = default(BuffData);
-				return false;
-			}
-
-			return TryGetValue(code, out buff);
-		}
-
-		public IEnumerator<KeyValuePair<int, BuffData>> GetEnumerator()
-		{
-			return new Enumerator<int, BuffData>(m_BuffDictionary);
-		}
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return new Enumerator<int, BuffData>(m_BuffDictionary);
-		}
-
-		public class Enumerator<TKey, TValue> : IEnumerator<KeyValuePair<TKey, TValue>>, IEnumerator
-		{
-			List<KeyValuePair<TKey, TValue>> elementList;
-			int index = -1;
-
-			KeyValuePair<TKey, TValue> IEnumerator<KeyValuePair<TKey, TValue>>.Current
-			{
-				get
-				{
-					try
-					{
-						return elementList[index];
-					}
-					catch (IndexOutOfRangeException)
-					{
-						throw new InvalidOperationException();
-					}
-				}
-			}
-			object IEnumerator.Current
-			{
-				get
-				{
-					try
-					{
-						return elementList[index];
-					}
-					catch (IndexOutOfRangeException)
-					{
-						throw new InvalidOperationException();
-					}
-				}
-			}
-
-			public Enumerator(Dictionary<TKey, TValue> elements)
-			{
-				elementList = elements.ToList();
-			}
-			public bool MoveNext()
-			{
-				if (index == elementList.Count - 1)
-				{
-					Reset();
-					return false;
-				}
-
-				return ++index < elementList.Count;
-			}
-			public void Reset()
-			{
-				index = -1;
-			}
-
-			public void Dispose()
-			{
-				elementList.Clear();
-			}
-		}
 	}
 }

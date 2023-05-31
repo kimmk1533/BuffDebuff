@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7ae57efcd1fa9a4ea78a6d89f1d2565, type: 3}
   m_Name: "\uC7AC\uC0DD"
   m_EditorClassIdentifier: 
-  m_Title: "\uC7AC\uC0DD"
   m_Code: 132002
+  m_Title: "\uC7AC\uC0DD"
   m_Type: 0
   m_EffectType: 2
   m_Grade: 1
