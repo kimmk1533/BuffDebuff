@@ -10,10 +10,10 @@ public class Room : MonoBehaviour
 	[SerializeField]
 	Vector2 m_ClampAreaSize;
 
-	[SerializeField, ReadOnly]
-	Tilemap m_TileMap;
-	[SerializeField, ReadOnly]
-	Tilemap m_ThroughMap;
+	[SerializeField]
+	Dictionary<E_RoomTilemapLayer, Tilemap> m_TilemapMap;
+	[SerializeField]
+	Dictionary<E_RoomDir, Transform> m_WarpPointMap;
 
 	public Vector2 clampOffset
 	{
@@ -26,9 +26,63 @@ public class Room : MonoBehaviour
 		set { m_ClampAreaSize = value; }
 	}
 
+	public void Initialize()
+	{
+		// 방 첫 입장 시 할 일 (몬스터 생성 등)
+	}
+	public Transform GetWarpPoint(E_RoomDir dir)
+	{
+		return m_WarpPointMap[dir];
+	}
+
+	private void Awake()
+	{
+		m_TilemapMap = new Dictionary<E_RoomTilemapLayer, Tilemap>();
+		m_WarpPointMap = new Dictionary<E_RoomDir, Transform>();
+	}
+	private void Start()
+	{
+		Transform tilemapLayer = transform.Find("TileMapLayer");
+		for (E_RoomTilemapLayer layer = E_RoomTilemapLayer.BackGround; layer != E_RoomTilemapLayer.Max; ++layer)
+		{
+			Tilemap tileMap = tilemapLayer.Find(layer.ToString()).GetComponent<Tilemap>();
+			m_TilemapMap.Add(layer, tileMap);
+		}
+
+		Transform portal = transform.Find("Portal");
+		for (E_RoomDir dir = E_RoomDir.Left; dir != E_RoomDir.Max; ++dir)
+		{
+			Transform warpPoint = portal.Find(dir.ToString()).Find("WarpPoint");
+
+			m_WarpPointMap.Add(dir, warpPoint);
+		}
+	}
 	private void OnDrawGizmosSelected()
 	{
 		Gizmos.color = new Color(0, 1, 0, 0.1f);
 		Gizmos.DrawCube((Vector2)transform.position + m_ClampOffset, m_ClampAreaSize);
+	}
+
+	public enum E_RoomTilemapLayer
+	{
+		// 뒷 배경
+		BackGround,
+		// 벽
+		TileMap,
+		// 점프 가능한 벽
+		ThroughMap,
+		// 앞 배경 (장식 등등)
+		Environment,
+
+		Max
+	}
+	public enum E_RoomDir
+	{
+		Left = 0,
+		Right = 1,
+		Top = 2,
+		Bottom = 3,
+
+		Max
 	}
 }

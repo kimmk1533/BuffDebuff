@@ -105,7 +105,6 @@ public class CameraFollow : MonoBehaviour
 
 		focusPosition.y = Mathf.SmoothDamp(transform.position.y, focusPosition.y, ref m_SmoothVelocityY, m_VerticalSmoothTime);
 		focusPosition += Vector2.right * m_CurrentLookAheadX;
-
 	}
 	void Clamp(ref Vector2 focusPosition)
 	{

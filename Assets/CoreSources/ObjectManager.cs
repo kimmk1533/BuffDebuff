@@ -53,11 +53,11 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 		GameObject Parent = new GameObject();
 		Parent.name = m_Origin.name + "_Pool";
 		Parent.transform.SetParent(parent);
-		m_Origin.transform.SetParent(Parent.transform);
 
 		m_Pools.Add(key, new MemoryPool<Origin>(m_Origin, m_PoolSize, Parent.transform));
 
 		m_Origin.name += "_Origin";
+		m_Origin.transform.SetParent(Parent.transform);
 		m_Origin.gameObject.SetActive(false);
 
 		return true;

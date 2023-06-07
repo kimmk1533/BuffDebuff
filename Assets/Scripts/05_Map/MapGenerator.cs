@@ -15,7 +15,7 @@ public class MapGenerator : MonoBehaviour
 	[Space(10)]
 	[SerializeField, ReadOnly]
 	Info info;
-	
+
 	[System.Serializable]
 	struct Info
 	{
@@ -24,7 +24,7 @@ public class MapGenerator : MonoBehaviour
 		public int MaxRoomCount;
 	}
 
-	bool[,] m_Map;
+	bool[,] m_MapCheck;
 
 	int m_MaxRoomCount;
 	int m_RoomCount;
@@ -34,7 +34,7 @@ public class MapGenerator : MonoBehaviour
 
 	private void Awake()
 	{
-		m_Map = new bool[M_Stage.height, M_Stage.width];
+		m_MapCheck = new bool[M_Stage.height, M_Stage.width];
 
 		ClearMap();
 		GenerateMap();
@@ -48,11 +48,11 @@ public class MapGenerator : MonoBehaviour
 
 	public bool CheckMapGenerated(int x, int y)
 	{
-		return m_Map[y, x];
+		return m_MapCheck[y, x];
 	}
 	public bool CheckMapGenerated(Vector2Int check)
 	{
-		return m_Map[check.y, check.x];
+		return m_MapCheck[check.y, check.x];
 	}
 
 	[ContextMenu("맵 생성")]
@@ -69,9 +69,12 @@ public class MapGenerator : MonoBehaviour
 		{
 			for (int x = 0; x < M_Stage.mapSize.x; ++x)
 			{
-				Vector3 pos = new Vector3(x - center.x, y - center.y) * 50;
-				if (m_Map[y, x])
-					GameObject.Instantiate(M_Stage.GetRoom(0), pos, Quaternion.identity, M_Stage.roomParent);
+				Room room = M_Stage.GetRandomRoom();
+
+				Vector3 pos = new Vector3((x - center.x) * room.clampAreaSize.x, (y - center.y) * room.clampAreaSize.y);
+
+				if (m_MapCheck[y, x])
+					Instantiate(room, pos, Quaternion.identity, M_Stage.roomParent);
 			}
 		}
 	}
@@ -99,8 +102,8 @@ public class MapGenerator : MonoBehaviour
 		m_RoomQueue.Clear();
 		m_RoomQueue.Enqueue(center);
 
-		m_Map = new bool[M_Stage.mapSize.y, M_Stage.mapSize.x];
-		m_Map[center.y, center.x] = true;
+		m_MapCheck = new bool[M_Stage.mapSize.y, M_Stage.mapSize.x];
+		m_MapCheck[center.y, center.x] = true;
 		++m_RoomCount;
 	}
 	void RandomMap(int stage)
@@ -124,7 +127,7 @@ public class MapGenerator : MonoBehaviour
 				check = current + Vector2Int.left;
 				if (CheckRoom(check))
 				{
-					m_Map[check.y, check.x] = true;
+					m_MapCheck[check.y, check.x] = true;
 					m_RoomQueue.Enqueue(check);
 					++m_RoomCount;
 				}
@@ -133,7 +136,7 @@ public class MapGenerator : MonoBehaviour
 				check = current + Vector2Int.right;
 				if (CheckRoom(check))
 				{
-					m_Map[check.y, check.x] = true;
+					m_MapCheck[check.y, check.x] = true;
 					m_RoomQueue.Enqueue(check);
 					++m_RoomCount;
 				}
@@ -142,7 +145,7 @@ public class MapGenerator : MonoBehaviour
 				check = current + Vector2Int.up;
 				if (CheckRoom(check))
 				{
-					m_Map[check.y, check.x] = true;
+					m_MapCheck[check.y, check.x] = true;
 					m_RoomQueue.Enqueue(check);
 					++m_RoomCount;
 				}
@@ -151,7 +154,7 @@ public class MapGenerator : MonoBehaviour
 				check = current + Vector2Int.down;
 				if (CheckRoom(check))
 				{
-					m_Map[check.y, check.x] = true;
+					m_MapCheck[check.y, check.x] = true;
 					m_RoomQueue.Enqueue(check);
 					++m_RoomCount;
 				}
@@ -170,7 +173,7 @@ public class MapGenerator : MonoBehaviour
 			return false;
 
 		// 이미 채워져 있으면 포기
-		if (m_Map[room.y, room.x])
+		if (m_MapCheck[room.y, room.x])
 			return false;
 
 		// 인접 칸이 둘 이상 채워져 있으면 포기
@@ -180,7 +183,7 @@ public class MapGenerator : MonoBehaviour
 			check.x < 0 || check.x >= M_Stage.mapSize.x ||
 			check.y < 0 || check.y >= M_Stage.mapSize.y
 			) &&
-			m_Map[check.y, check.x])
+			m_MapCheck[check.y, check.x])
 		{
 			if (++count > 2)
 				return false;
@@ -190,7 +193,7 @@ public class MapGenerator : MonoBehaviour
 			check.x < 0 || check.x >= M_Stage.mapSize.x ||
 			check.y < 0 || check.y >= M_Stage.mapSize.y
 			) &&
-			m_Map[check.y, check.x])
+			m_MapCheck[check.y, check.x])
 		{
 			if (++count > 2)
 				return false;
@@ -200,7 +203,7 @@ public class MapGenerator : MonoBehaviour
 			check.x < 0 || check.x >= M_Stage.mapSize.x ||
 			check.y < 0 || check.y >= M_Stage.mapSize.y
 			) &&
-			m_Map[check.y, check.x])
+			m_MapCheck[check.y, check.x])
 		{
 			if (++count > 2)
 				return false;
@@ -210,7 +213,7 @@ public class MapGenerator : MonoBehaviour
 			check.x < 0 || check.x >= M_Stage.mapSize.x ||
 			check.y < 0 || check.y >= M_Stage.mapSize.y
 			) &&
-			m_Map[check.y, check.x])
+			m_MapCheck[check.y, check.x])
 		{
 			if (++count > 2)
 				return false;
