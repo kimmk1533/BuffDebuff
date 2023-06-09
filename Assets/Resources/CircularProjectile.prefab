@@ -10,14 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 9101627568137235035}
   - component: {fileID: 6714666791282288326}
-  - component: {fileID: -315589934582938476}
+  - component: {fileID: -3498626418826155819}
   m_Layer: 0
-  m_Name: Projectile
+  m_Name: CircularProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9101627568137235035
 Transform:
   m_ObjectHideFlags: 0
@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6714666791282288326
 SpriteRenderer:
@@ -71,8 +71,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 203169563
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-315589934582938476
+--- !u!114 &-3498626418826155819
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,13 +94,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1722286115171223466}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c51f865a8169aca42b35b4b149ece23b, type: 3}
+  m_Script: {fileID: 11500000, guid: 0af7ff07725cba44fa0b4dda02044d7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Target: {fileID: 0}
-  m_InitPos: {x: 0, y: 0}
   m_MoveSpeed: 0
-  m_AngularMaxSpeed: 0
-  m_AngularAcceleration: 0
   m_AngularSpeed: 0
   m_MovingType: 0

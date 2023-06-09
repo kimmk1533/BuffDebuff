@@ -5,9 +5,14 @@ using UnityEngine;
 [System.Serializable]
 public class Character
 {
+	// 초기 스탯
 	protected readonly CharacterStat m_InitialStat;
+	// 레벨당 스탯(성장 스탯)
+	protected readonly CharacterStat m_LevelStat;
+	// 현재 스탯
 	[SerializeField]
 	protected CharacterStat m_CurrentStat;
+	// 버프 스탯
 	[SerializeField]
 	protected CharacterStat m_BuffStat;
 
@@ -16,7 +21,7 @@ public class Character
 		get { return m_BuffStat; }
 		set { m_BuffStat = value; }
 	}
-	public CharacterStat finalStat => m_InitialStat + m_BuffStat;
+	public CharacterStat finalStat => m_CurrentStat + m_BuffStat;
 
 	protected UtilClass.Timer m_HealTimer;
 	protected UtilClass.Timer m_DashTimer;
@@ -203,9 +208,9 @@ public class Character
 		public float Attack;
 		// 공격 속도
 		public float AttackSpeed;
-		// 근접 공격 범위
-		public float AttackRadius;
-		// 투사체 공격 사거리
+		// 공격 크기
+		public float AttackScale;
+		// 공격 사거리(투사체 생존 시간)
 		public float AttackRange;
 		// 타격 수
 		public int MultiHitCount;
@@ -257,7 +262,7 @@ public class Character
 			// 공격 속도
 			AttackSpeed = 0.0f,
 			// 근접 공격 범위
-			AttackRadius = 0.0f,
+			AttackScale = 0.0f,
 			// 투사체 공격 사거리
 			AttackRange = 0.0f,
 			// 타격 수
@@ -310,7 +315,7 @@ public class Character
 			// 공격 속도
 			AttackSpeed = 1.0f,
 			// 근접 공격 범위
-			AttackRadius = 1.0f,
+			AttackScale = 1.0f,
 			// 투사체 공격 사거리
 			AttackRange = 1.0f,
 			// 타격 수
@@ -380,7 +385,7 @@ public class Character
 			// 공격 속도
 			result.AttackSpeed = s1.AttackSpeed + s2.AttackSpeed;
 			// 근접 공격 범위
-			result.AttackRadius = s1.AttackRadius + s2.AttackRadius;
+			result.AttackScale = s1.AttackScale + s2.AttackScale;
 			// 투사체 공격 사거리
 			result.AttackRange = s1.AttackRange + s2.AttackRange;
 			// 타격 수

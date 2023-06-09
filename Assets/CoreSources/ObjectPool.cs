@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MemoryPool<T> : System.IDisposable where T : MonoBehaviour
+public class ObjectPool<T> : System.IDisposable where T : MonoBehaviour
 {
 	// 풀에 담을 원본
 	private T original;
 	// 오브젝트들을 담을 실제 풀
 	private Queue<T> queue = new Queue<T>();
 	// 생성한 오브젝트를 기억하고 있다가 디스폰 시 확인할 리스트
-	private List<T> despawnList = new List<T>();
+	private List<T> despawnCheckList = new List<T>();
 	// 초기 풀 사이즈
 	private int poolSize;
 	// 하이어라키 창에서 관리하기 쉽도록 parent 지정
@@ -18,7 +18,7 @@ public class MemoryPool<T> : System.IDisposable where T : MonoBehaviour
 	public int preLoadedPoolSize = 1000;
 
 	// 부모 지정 안하고 생성하는 경우
-	public MemoryPool(T _original, int _poolsize)
+	public ObjectPool(T _original, int _poolsize)
 	{
 		original = _original;
 		poolSize = _poolsize;
@@ -28,11 +28,11 @@ public class MemoryPool<T> : System.IDisposable where T : MonoBehaviour
 			T newItem = GameObject.Instantiate<T>(original);
 			newItem.gameObject.SetActive(false);
 			queue.Enqueue(newItem);
-			despawnList.Add(newItem);
+			despawnCheckList.Add(newItem);
 		}
 	}
 	// 부모 지정하여 생성하는 경우
-	public MemoryPool(T _original, int _poolSize, Transform parent)
+	public ObjectPool(T _original, int _poolSize, Transform parent)
 	{
 		original = _original;
 		poolSize = _poolSize;
@@ -46,7 +46,7 @@ public class MemoryPool<T> : System.IDisposable where T : MonoBehaviour
 			newItem.transform.SetParent(parent);
 			newItem.gameObject.SetActive(false);
 			queue.Enqueue(newItem);
-			despawnList.Add(newItem);
+			despawnCheckList.Add(newItem);
 		}
 
 
@@ -90,7 +90,7 @@ public class MemoryPool<T> : System.IDisposable where T : MonoBehaviour
 			if (parent != null)
 				newItem.transform.SetParent(parent);
 			queue.Enqueue(newItem);
-			despawnList.Add(newItem);
+			despawnCheckList.Add(newItem);
 		}
 		poolSize = newSize;
 	}
@@ -115,16 +115,26 @@ public class MemoryPool<T> : System.IDisposable where T : MonoBehaviour
 	}
 
 	// 회수 작업
-	public void DeSpawn(T obj)
+	public bool DeSpawn(T obj)
 	{
-		if (obj == null ||
-			!despawnList.Contains(obj))
-			return;
+		if (obj == null)
+		{
+			return false;
+			throw new System.NullReferenceException();
+		}
+
+		if (!despawnCheckList.Contains(obj))
+		{
+			return false;
+			throw new System.Exception("obj is not MemoryPool Object");
+		}
 
 		obj.gameObject.SetActive(false);
 		obj.transform.SetParent(parent);
 		obj.transform.localPosition = Vector3.zero;
 		queue.Enqueue(obj);
+
+		return true;
 	}
 
 	// 메모리 해제
@@ -136,12 +146,12 @@ public class MemoryPool<T> : System.IDisposable where T : MonoBehaviour
 		}
 		queue.Clear();
 		queue = null;
-		despawnList.Clear();
-		despawnList = null;
+		despawnCheckList.Clear();
+		despawnCheckList = null;
 	}
 }
 
-public class MemoryPool : System.IDisposable
+public class ObjectPool : System.IDisposable
 {
 	// 풀에 담을 원본
 	private GameObject original;
@@ -157,7 +167,7 @@ public class MemoryPool : System.IDisposable
 	public int preLoadedPoolSize = 1000;
 
 	// 부모 지정 안하고 생성하는 경우
-	public MemoryPool(GameObject _original, int _poolsize)
+	public ObjectPool(GameObject _original, int _poolsize)
 	{
 		original = _original;
 		poolSize = _poolsize;
@@ -171,7 +181,7 @@ public class MemoryPool : System.IDisposable
 		}
 	}
 	// 부모 지정하여 생성하는 경우
-	public MemoryPool(GameObject _original, int _poolSize, Transform parent)
+	public ObjectPool(GameObject _original, int _poolSize, Transform parent)
 	{
 		original = _original;
 		poolSize = _poolSize;

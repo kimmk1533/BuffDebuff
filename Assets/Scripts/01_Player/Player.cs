@@ -26,6 +26,9 @@ public sealed class Player : MonoBehaviour
 	[SerializeField]
 	Character m_Character;
 
+	[SerializeField]
+	Transform m_AttackSpot;
+
 	ProjectileManager M_Projectile => ProjectileManager.Instance;
 
 	private void Awake()
@@ -54,6 +57,11 @@ public sealed class Player : MonoBehaviour
 			m_Character.AddBuff("체력 증가");
 		}
 		#endregion
+
+		if (Input.GetMouseButtonDown(0))
+		{
+			DefaultAttack();
+		}
 
 		m_Character.Update();
 	}
@@ -112,15 +120,32 @@ public sealed class Player : MonoBehaviour
 	}
 	#endregion
 
-	public void DefaultAttack()
+	public void MeleeAttack()
 	{
-		Projectile projectile = M_Projectile.Spawn("Projectile");
-		projectile.transform.position = transform.position;
-		projectile.m_MovingType = E_MovingType.Straight;
+		Vector3 position = m_AttackSpot.position;
 
 		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		float angle = transform.position.GetAngle(mousePos);
-		projectile.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-		projectile.m_MoveSpeed = 5.0f;
+		float angle = position.GetAngle(mousePos);
+		Quaternion quaternion = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+
+		Projectile projectile = M_Projectile.Spawn("Straight", position, quaternion);
+
+		projectile.Initialize(0.0f, m_Character.finalStat.AttackRange);
+
+		projectile.gameObject.SetActive(true);
+	}
+	public void DefaultAttack()
+	{
+		Vector3 position = m_AttackSpot.position;
+
+		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		float angle = position.GetAngle(mousePos);
+		Quaternion quaternion = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+
+		Projectile projectile = M_Projectile.Spawn("Straight", position, quaternion);
+
+		projectile.Initialize(1.0f, m_Character.finalStat.AttackRange);
+
+		projectile.gameObject.SetActive(true);
 	}
 }
