@@ -2,101 +2,292 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Projectile : MonoBehaviour
+[RequireComponent(typeof(ProjectileController))]
+public sealed class Projectile : MonoBehaviour
 {
-	[SerializeField]
-	protected float m_MoveSpeed;
-	[SerializeField]
-	protected float m_LifeTime;
-	[SerializeField]
-	protected LayerMask m_CollisionLayerMask;
+	private ProjectileController m_Controller;
+	private IMovingStrategy m_MovingStrategy;
+	private HashSet<ICollisionStrategy> m_CollisionStrategy;
 
-	protected ProjectileManager M_Project => ProjectileManager.Instance;
+	[SerializeField]
+	private float m_MoveSpeed;
+	[SerializeField]
+	private float m_LifeTime;
 
-	protected virtual void OnEnable()
+	private Vector2 m_Velocity;
+
+	public float moveSpeed => m_MoveSpeed;
+
+	private ProjectileManager M_Projectile => ProjectileManager.Instance;
+
+	private void OnEnable()
 	{
 		Invoke("DeSpawn", m_LifeTime);
 	}
-	protected virtual void OnDisable()
+	private void OnDisable()
 	{
 		CancelInvoke("DeSpawn");
 	}
-	protected virtual void Update()
+	private void Update()
 	{
-		RotateToTarget();
+		m_Velocity = m_MovingStrategy.CalculateVelocity(this);
 
-		Move();
+		#region Rotate
+		Vector2 direction = m_Velocity.normalized;
+
+		float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+		Quaternion angleAxis = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+
+		transform.rotation = angleAxis;
+		#endregion
+
+		#region Move
+		m_Controller.Move(m_Velocity * Time.deltaTime);
+		#endregion
+	}
+	public void OnTriggerEnter2D(Collider2D collider)
+	{
+		foreach (var item in m_CollisionStrategy)
+		{
+			item.OnTriggerEnter2D(collider);
+		}
+	}
+	public void OnTriggerStay2D(Collider2D collider)
+	{
+		foreach (var item in m_CollisionStrategy)
+		{
+			item.OnTriggerStay2D(collider);
+		}
+	}
+	public void OnTriggerExit2D(Collider2D collider)
+	{
+		foreach (var item in m_CollisionStrategy)
+		{
+			item.OnTriggerExit2D(collider);
+		}
 	}
 
-	public virtual void Initialize(float moveSpeed, float lifeTime)
+	public void Initialize(float moveSpeed, float lifeTime)
 	{
 		m_MoveSpeed = moveSpeed;
 		m_LifeTime = lifeTime;
+
+		if (m_Controller == null)
+		{
+			m_Controller = GetComponent<ProjectileController>();
+			m_Controller.Initialize(this);
+		}
+
+		m_CollisionStrategy = new HashSet<ICollisionStrategy>();
+	}
+	public void Initialize(float moveSpeed, float lifeTime, IMovingStrategy movingStrategy)
+	{
+		Initialize(moveSpeed, lifeTime);
+
+		m_MovingStrategy = movingStrategy;
+	}
+	public void SetMovingStrategy(IMovingStrategy movingStrategy)
+	{
+		m_MovingStrategy = movingStrategy;
+	}
+	public void AddCollisionStrategy(ICollisionStrategy collisionStrategy)
+	{
+		m_CollisionStrategy.Add(collisionStrategy);
+		m_Controller.collisionMask |= collisionStrategy.GetLayerMask();
 	}
 
-	protected abstract void DeSpawn();
-	protected abstract void Move();
-	//protected void Move()
-	//{
-	//	if (m_MovingType == E_MovingType.None)
-	//		return;
+	private void DeSpawn()
+	{
+		M_Projectile.DeSpawn(this);
+	}
 
-	//	if (m_MovingType == E_MovingType.Straight)
-	//		transform.position += transform.rotation * Vector2.up * moveSpeed;
-	//	else if (m_Target == null)
-	//		return;
+	#region Moving Strategy
+	public interface IMovingStrategy
+	{
+		public Vector2 CalculateVelocity(Projectile projectile);
+	}
 
-	//	transform.position += transform.rotation * Vector2.up * Mathf.Min(moveSpeed, distanceToTarget);
-	//}
-	protected abstract void RotateToTarget();
-	//protected void RotateToTarget()
-	//{
-	//	if (null == m_Target || m_MovingType == E_MovingType.None)
-	//		return;
+	public class StraightMove : IMovingStrategy
+	{
+		public Vector2 CalculateVelocity(Projectile projectile)
+		{
+			Vector2 dir = projectile.transform.rotation * Vector2.up;
 
-	//	Vector2 direction = m_Target.transform.position - transform.position;
-	//	direction.Normalize();
+			return dir.normalized * projectile.moveSpeed;
+		}
+	}
+	public class GuidedMove : IMovingStrategy
+	{
+		[SerializeField]
+		protected GameObject m_Target;
 
-	//	float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-	//	Quaternion angleAxis = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+		public GuidedMove(GameObject target = null)
+		{
+			m_Target = target;
+		}
 
-	//	//Vector2 axis = transform.position + transform.up;
-	//	//axis.Normalize();
+		public Vector2 CalculateVelocity(Projectile projectile)
+		{
+			if (m_Target == null)
+			{
+				return Vector2.zero;
+			}
 
-	//	//float theta = Mathf.Acos(Vector2.Dot(direction, axis)) * Mathf.Rad2Deg;
+			Vector2 direction = m_Target.transform.position - projectile.transform.position;
+			float distanceToTarget = direction.magnitude;
+			direction.Normalize();
 
-	//	//Debug.Log(theta);
+			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+			Quaternion angleAxis = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
 
-	//	//if (p_DistanceToTarget < 1f)
-	//	//	m_AngularSpeed = 0f;
+			Vector2 dir = angleAxis * Vector2.up;
 
-	//	Quaternion rotation = new Quaternion();
-	//	switch (m_MovingType)
-	//	{
-	//		case E_MovingType.Straight:
-	//			rotation = transform.rotation;
-	//			break;
-	//		//case E_MovingType.CircularToTarget:
-	//		//	if (m_AngularSpeed < m_AngularMaxSpeed)
-	//		//		m_AngularSpeed += m_AngularAcceleration * Time.deltaTime;
-	//		//	else
-	//		//		m_AngularSpeed = m_AngularMaxSpeed;
+			float speed = projectile.moveSpeed;
 
-	//		//	rotation = Quaternion.Slerp(transform.rotation, angleAxis, m_AngularSpeed * Time.deltaTime);
-	//		//	break;
-	//		case E_MovingType.DirectToTarget:
-	//			rotation = angleAxis;
-	//			break;
-	//	}
+			if (projectile.moveSpeed * Time.deltaTime > distanceToTarget)
+				speed = distanceToTarget;
 
-	//	transform.rotation = rotation;
+			return dir.normalized * speed;
+		}
+	}
+	public class CircularMove : IMovingStrategy
+	{
+		[SerializeField]
+		protected GameObject m_Target;
+		[SerializeField]
+		protected float m_AngularSpeed;
+		protected float m_AngularMaxSpeed;
+		protected float m_AngularAcceleration;
 
-	//	//if (m_MovingType == E_MovingType.Circular)
-	//	//{
-	//	//	float rotateAmount = Vector3.Cross(direction, transform.rotation * Vector2.up).z;
-	//	//	angle = -rotateAmount * m_AngularSpeed * Time.deltaTime;
+		public CircularMove(GameObject target = null, float angularSpeed = 5.0f)
+		{
+			m_Target = target;
+			m_AngularSpeed = angularSpeed;
+			m_AngularMaxSpeed = angularSpeed * 2f;
+			m_AngularAcceleration = angularSpeed * 0.5f;
+		}
 
-	//	//	transform.Rotate(Vector3.forward, angle);
-	//	//}
-	//}
+		public Vector2 CalculateVelocity(Projectile projectile)
+		{
+			if (m_Target == null)
+			{
+				return Vector2.zero;
+			}
+
+			Vector2 direction = m_Target.transform.position - projectile.transform.position;
+			float distanceToTarget = direction.magnitude;
+			direction.Normalize();
+
+			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+			Quaternion angleAxis = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+
+			if (m_AngularSpeed < m_AngularMaxSpeed)
+				m_AngularSpeed += m_AngularAcceleration * Time.deltaTime;
+			else
+				m_AngularSpeed = m_AngularMaxSpeed;
+
+			// t 수정 필요
+			Vector2 dir = Quaternion.Slerp(projectile.transform.rotation, angleAxis, m_AngularSpeed * Time.deltaTime) * Vector2.up;
+
+			float speed = projectile.moveSpeed;
+
+			if (projectile.moveSpeed * Time.deltaTime > distanceToTarget)
+				speed = distanceToTarget;
+
+			return dir.normalized * speed;
+		}
+	}
+	#endregion
+
+	#region Collision Strategy
+	public interface ICollisionStrategy
+	{
+		public LayerMask GetLayerMask();
+		public void OnTriggerEnter2D(Collider2D collider);
+		public void OnTriggerStay2D(Collider2D collider);
+		public void OnTriggerExit2D(Collider2D collider);
+	}
+
+	public class PlayerCollision : ICollisionStrategy
+	{
+		public LayerMask GetLayerMask()
+		{
+			return LayerMask.GetMask("Player");
+		}
+		public void OnTriggerEnter2D(Collider2D collider)
+		{
+			int layer = LayerMask.NameToLayer("Player");
+			if (collider.gameObject.layer == layer)
+			{
+				Debug.Log("Projectile: Player 충돌 Enter!");
+			}
+		}
+		public void OnTriggerStay2D(Collider2D collider)
+		{
+
+		}
+		public void OnTriggerExit2D(Collider2D collider)
+		{
+			int layer = LayerMask.NameToLayer("Player");
+			if (collider.gameObject.layer == layer)
+			{
+				Debug.Log("Projectile: Player 충돌 Exit!");
+			}
+		}
+	}
+	public class ObstacleCollision : ICollisionStrategy
+	{
+		public LayerMask GetLayerMask()
+		{
+			return LayerMask.GetMask("Obstacle");
+		}
+		public void OnTriggerEnter2D(Collider2D collider)
+		{
+			int layer = LayerMask.NameToLayer("Obstacle");
+			if (collider.gameObject.layer == layer)
+			{
+				Debug.Log("Projectile: Obstacle 충돌 Enter!");
+			}
+		}
+		public void OnTriggerStay2D(Collider2D collider)
+		{
+
+		}
+		public void OnTriggerExit2D(Collider2D collider)
+		{
+			int layer = LayerMask.NameToLayer("Obstacle");
+			if (collider.gameObject.layer == layer)
+			{
+				Debug.Log("Projectile: Obstacle 충돌 Exit!");
+			}
+		}
+	}
+	public class EnemyCollision : ICollisionStrategy
+	{
+		public LayerMask GetLayerMask()
+		{
+			return LayerMask.GetMask("Enemy");
+		}
+		public void OnTriggerEnter2D(Collider2D collider)
+		{
+			int layer = LayerMask.NameToLayer("Enemy");
+			if (collider.gameObject.layer == layer)
+			{
+				Debug.Log("Projectile: Enemy 충돌 Enter!");
+			}
+		}
+		public void OnTriggerStay2D(Collider2D collider)
+		{
+
+		}
+		public void OnTriggerExit2D(Collider2D collider)
+		{
+			int layer = LayerMask.NameToLayer("Enemy");
+			if (collider.gameObject.layer == layer)
+			{
+				Debug.Log("Projectile: Enemy 충돌 Exit!");
+			}
+		}
+	}
+	#endregion
 }

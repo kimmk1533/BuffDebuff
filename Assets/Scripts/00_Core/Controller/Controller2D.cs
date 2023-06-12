@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Controller2D : RaycastController
 {
+	[SerializeField]
+	protected LayerMask m_CollisionMask;
+
 	protected float m_MaxSlopeAngle = 50;
 
 	[SerializeField, ReadOnly(true)]
@@ -94,7 +97,7 @@ public class Controller2D : RaycastController
 			m_Collisions.below = true;
 		}
 	}
-	protected void HorizontalCollisions(ref Vector2 moveAmount)
+	protected virtual void HorizontalCollisions(ref Vector2 moveAmount)
 	{
 		float directionX = m_Collisions.faceDir;
 		float rayLength = Mathf.Abs(moveAmount.x) + skinWidth;

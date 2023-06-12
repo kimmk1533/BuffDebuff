@@ -39,6 +39,8 @@ public class Character
 
 			DashCount = 3,
 			DashRechargeTime = 1f,
+
+			AttackRange = 5f,
 		};
 
 		m_CurrentStat = m_InitialStat;

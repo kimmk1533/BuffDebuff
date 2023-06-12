@@ -6,6 +6,8 @@ using UnityEngine;
 public sealed class Player : MonoBehaviour
 {
 	#region PlayerController Variables
+	PlayerController2D m_Controller;
+
 	[SerializeField]
 	float m_MoveSpeed = 10f;
 	[SerializeField]
@@ -20,7 +22,6 @@ public sealed class Player : MonoBehaviour
 	Vector2 m_DirectionalInput;
 	#endregion
 
-	PlayerController2D m_Controller;
 	PlayerRenderer m_Renderer;
 
 	[SerializeField]
@@ -29,6 +30,7 @@ public sealed class Player : MonoBehaviour
 	[SerializeField]
 	Transform m_AttackSpot;
 
+	StageManager M_Stage => StageManager.Instance;
 	ProjectileManager M_Projectile => ProjectileManager.Instance;
 
 	private void Awake()
@@ -37,26 +39,12 @@ public sealed class Player : MonoBehaviour
 	}
 	private void Update()
 	{
-		#region PlayerController Method
-		CalculateVelocity();
+		Move();
 
-		m_Controller.Move(m_Velocity * Time.deltaTime, m_DirectionalInput);
-
-		if (m_Controller.collisions.above || m_Controller.collisions.below)
-		{
-			m_Velocity.y = 0;
-		}
-
-		m_Renderer.SetVelocity(m_Velocity);
-		m_Renderer.SetIsGround(m_Controller.collisions.grounded);
-		#endregion
-
-		#region 임시 버프
 		if (Input.GetKeyDown(KeyCode.F))
 		{
 			m_Character.AddBuff("체력 증가");
 		}
-		#endregion
 
 		if (Input.GetMouseButtonDown(0))
 		{
@@ -110,6 +98,30 @@ public sealed class Player : MonoBehaviour
 		m_Velocity = dir.normalized * m_DashSpeed;
 	}
 
+	void Move()
+	{
+		CalculateVelocity();
+
+		m_Controller.Move(m_Velocity * Time.deltaTime, m_DirectionalInput);
+
+		RaycastHit2D hit = Physics2D.BoxCast(m_Controller.collider.bounds.center, m_Controller.collider.bounds.size, 0.0f, m_Velocity, 0.1f, LayerMask.GetMask("Portal"));
+
+		if (hit)
+		{
+			Transform spawnPoint = M_Stage.GetSpawnPoint(hit.collider);
+
+			if (spawnPoint != null)
+				transform.position = spawnPoint.position;
+		}
+
+		if (m_Controller.collisions.above || m_Controller.collisions.below)
+		{
+			m_Velocity.y = 0;
+		}
+
+		m_Renderer.SetVelocity(m_Velocity);
+		m_Renderer.SetIsGround(m_Controller.collisions.grounded);
+	}
 	void CalculateVelocity()
 	{
 		float targetVelocityX = m_DirectionalInput.x * m_MoveSpeed;
@@ -128,9 +140,11 @@ public sealed class Player : MonoBehaviour
 		float angle = position.GetAngle(mousePos);
 		Quaternion quaternion = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
-		Projectile projectile = M_Projectile.Spawn("Straight", position, quaternion);
+		Projectile projectile = M_Projectile.Spawn("Projectile", position, quaternion);
 
 		projectile.Initialize(0.0f, m_Character.finalStat.AttackRange);
+
+		projectile.SetMovingStrategy(new Projectile.StraightMove());
 
 		projectile.gameObject.SetActive(true);
 	}
@@ -142,9 +156,13 @@ public sealed class Player : MonoBehaviour
 		float angle = position.GetAngle(mousePos);
 		Quaternion quaternion = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
-		Projectile projectile = M_Projectile.Spawn("Straight", position, quaternion);
+		Projectile projectile = M_Projectile.Spawn("Projectile", position, quaternion);
 
-		projectile.Initialize(1.0f, m_Character.finalStat.AttackRange);
+		projectile.Initialize(5.0f, m_Character.finalStat.AttackRange);
+
+		projectile.SetMovingStrategy(new Projectile.GuidedMove(gameObject));
+		projectile.AddCollisionStrategy(new Projectile.ObstacleCollision());
+		projectile.AddCollisionStrategy(new Projectile.EnemyCollision());
 
 		projectile.gameObject.SetActive(true);
 	}

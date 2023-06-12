@@ -5,9 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class RaycastController : MonoBehaviour
 {
-	[SerializeField]
-	protected LayerMask m_CollisionMask;
-
 	public const float skinWidth = 0.015f;
 	const float dstBetweenRays = 0.125f;
 
@@ -21,6 +18,13 @@ public class RaycastController : MonoBehaviour
 	public RaycastOrigins m_RaycastOrigins;
 
 	public new Collider2D collider => m_Collider;
+
+	public virtual void Initialize()
+	{
+		m_Collider = GetComponent<Collider2D>();
+
+		CalculateRaySpacing();
+	}
 
 	private void CalculateRaySpacing()
 	{
@@ -41,17 +45,10 @@ public class RaycastController : MonoBehaviour
 		Bounds bounds = m_Collider.bounds;
 		bounds.Expand(skinWidth * -2);
 
-		m_RaycastOrigins.bottomLeft = new Vector2(bounds.min.x, bounds.min.y);
-		m_RaycastOrigins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
-		m_RaycastOrigins.topLeft = new Vector2(bounds.min.x, bounds.max.y);
-		m_RaycastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);
-	}
-
-	public virtual void Initialize()
-	{
-		m_Collider = GetComponent<Collider2D>();
-
-		CalculateRaySpacing();
+		m_RaycastOrigins.bottomLeft.Set(bounds.min.x, bounds.min.y);
+		m_RaycastOrigins.bottomRight.Set(bounds.max.x, bounds.min.y);
+		m_RaycastOrigins.topLeft.Set(bounds.min.x, bounds.max.y);
+		m_RaycastOrigins.topRight.Set(bounds.max.x, bounds.max.y);
 	}
 
 	public struct RaycastOrigins

@@ -32,5 +32,4 @@ public class ProjectileManager : ObjectManager<ProjectileManager, Projectile>
 
 	//	return item;
 	//}
-
 }

@@ -56,11 +56,22 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 
 		return item;
 	}
+	public bool DeSpawn(Origin item)
+	{
+		foreach (var pool in m_Pools.Values)
+		{
+			if (pool.DeSpawn(item))
+				return true;
+		}
+
+		return false;
+	}
 	public bool DeSpawn(string key, Origin item)
 	{
 		ObjectPool<Origin> pool = GetPool(key);
 		if (pool == null)
 		{
+			return false;
 			throw new System.NullReferenceException("pool is null. key is " + key);
 		}
 

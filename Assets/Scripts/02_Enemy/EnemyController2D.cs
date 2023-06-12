@@ -36,7 +36,7 @@ public class EnemyController2D : Controller2D
 			VerticalCollisions(ref moveAmount);
 		}
 
-		transform.Translate(moveAmount);
+		transform.Translate(moveAmount, Space.World);
 
 		if (standingOnPlatform)
 		{
