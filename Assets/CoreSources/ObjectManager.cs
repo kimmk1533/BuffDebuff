@@ -56,7 +56,7 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 
 		return item;
 	}
-	public bool DeSpawn(Origin item)
+	public bool Despawn(Origin item)
 	{
 		foreach (var pool in m_Pools.Values)
 		{
@@ -100,7 +100,7 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 
 	private void AddPool(string key, Origin origin, Transform parent)
 	{
-		origin.name = key + "_Origin";
+		origin.name = key;
 		origin.transform.SetParent(transform);
 		origin.gameObject.SetActive(false);
 

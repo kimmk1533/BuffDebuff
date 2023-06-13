@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(ProjectileController))]
 public sealed class Projectile : MonoBehaviour
 {
 	private ProjectileController m_Controller;
 	private IMovingStrategy m_MovingStrategy;
-	private HashSet<ICollisionStrategy> m_CollisionStrategy;
 
 	[SerializeField]
 	private float m_MoveSpeed;
@@ -20,51 +20,55 @@ public sealed class Projectile : MonoBehaviour
 
 	private ProjectileManager M_Projectile => ProjectileManager.Instance;
 
-	private void OnEnable()
+	#region Collision
+	public delegate void OnTriggerHandler(Collider2D collider);
+	public class Trigger
 	{
-		Invoke("DeSpawn", m_LifeTime);
+		public OnTriggerHandler OnEnter2D;
+		public OnTriggerHandler OnStay2D;
+		public OnTriggerHandler OnExit2D;
 	}
-	private void OnDisable()
+	private Dictionary<int, Trigger> m_CollisionMap;
+
+	public Trigger this[int layer]
 	{
-		CancelInvoke("DeSpawn");
+		get
+		{
+			if (m_CollisionMap.ContainsKey(layer) == false)
+			{
+				m_Controller.collisionMask |= 1 << layer;
+				m_CollisionMap.Add(layer, new Trigger());
+			}
+
+			return m_CollisionMap[layer];
+		}
 	}
+	public Trigger this[string layer]
+	{
+		get
+		{
+			return this[LayerMask.NameToLayer(layer)];
+		}
+	}
+	#endregion
+
 	private void Update()
 	{
+		if (m_MovingStrategy == null)
+			return;
+
 		m_Velocity = m_MovingStrategy.CalculateVelocity(this);
 
-		#region Rotate
+		if (m_Velocity.sqrMagnitude * Time.deltaTime < 0.01f)
+			return;
+
+		// Rotate
 		Vector2 direction = m_Velocity.normalized;
-
 		float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-		Quaternion angleAxis = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+		transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
 
-		transform.rotation = angleAxis;
-		#endregion
-
-		#region Move
+		// Move
 		m_Controller.Move(m_Velocity * Time.deltaTime);
-		#endregion
-	}
-	public void OnTriggerEnter2D(Collider2D collider)
-	{
-		foreach (var item in m_CollisionStrategy)
-		{
-			item.OnTriggerEnter2D(collider);
-		}
-	}
-	public void OnTriggerStay2D(Collider2D collider)
-	{
-		foreach (var item in m_CollisionStrategy)
-		{
-			item.OnTriggerStay2D(collider);
-		}
-	}
-	public void OnTriggerExit2D(Collider2D collider)
-	{
-		foreach (var item in m_CollisionStrategy)
-		{
-			item.OnTriggerExit2D(collider);
-		}
 	}
 
 	public void Initialize(float moveSpeed, float lifeTime)
@@ -73,35 +77,39 @@ public sealed class Projectile : MonoBehaviour
 		m_LifeTime = lifeTime;
 
 		if (m_Controller == null)
-		{
 			m_Controller = GetComponent<ProjectileController>();
-			m_Controller.Initialize(this);
-		}
+		m_Controller.Initialize(this);
 
-		m_CollisionStrategy = new HashSet<ICollisionStrategy>();
+		if (m_CollisionMap == null)
+			m_CollisionMap = new Dictionary<int, Trigger>();
+		else
+			m_CollisionMap.Clear();
 	}
-	public void Initialize(float moveSpeed, float lifeTime, IMovingStrategy movingStrategy)
+
+	#region Despawn
+	private Coroutine m_DespawnCoroutine;
+	private void OnEnable()
 	{
-		Initialize(moveSpeed, lifeTime);
-
-		m_MovingStrategy = movingStrategy;
+		m_DespawnCoroutine = StartCoroutine(Despawn());
 	}
+	private void OnDisable()
+	{
+		StopCoroutine(m_DespawnCoroutine);
+	}
+	private IEnumerator Despawn()
+	{
+		yield return new WaitForSeconds(m_LifeTime);
+
+		M_Projectile.Despawn(this);
+	}
+	#endregion
+
+	#region Moving Strategy
 	public void SetMovingStrategy(IMovingStrategy movingStrategy)
 	{
 		m_MovingStrategy = movingStrategy;
 	}
-	public void AddCollisionStrategy(ICollisionStrategy collisionStrategy)
-	{
-		m_CollisionStrategy.Add(collisionStrategy);
-		m_Controller.collisionMask |= collisionStrategy.GetLayerMask();
-	}
 
-	private void DeSpawn()
-	{
-		M_Projectile.DeSpawn(this);
-	}
-
-	#region Moving Strategy
 	public interface IMovingStrategy
 	{
 		public Vector2 CalculateVelocity(Projectile projectile);
@@ -121,7 +129,7 @@ public sealed class Projectile : MonoBehaviour
 		[SerializeField]
 		protected GameObject m_Target;
 
-		public GuidedMove(GameObject target = null)
+		public GuidedMove(GameObject target)
 		{
 			m_Target = target;
 		}
@@ -149,22 +157,25 @@ public sealed class Projectile : MonoBehaviour
 
 			return dir.normalized * speed;
 		}
-	}
+	};
 	public class CircularMove : IMovingStrategy
 	{
 		[SerializeField]
 		protected GameObject m_Target;
 		[SerializeField]
 		protected float m_AngularSpeed;
-		protected float m_AngularMaxSpeed;
 		protected float m_AngularAcceleration;
+		protected float m_RandomAngle;
+		protected Quaternion m_InitRotation;
+		private bool m_IsFirst;
 
-		public CircularMove(GameObject target = null, float angularSpeed = 5.0f)
+		public CircularMove(GameObject target, float angularAcceleration, float randomAngle = 0f)
 		{
 			m_Target = target;
-			m_AngularSpeed = angularSpeed;
-			m_AngularMaxSpeed = angularSpeed * 2f;
-			m_AngularAcceleration = angularSpeed * 0.5f;
+			m_AngularSpeed = 0f;
+			m_AngularAcceleration = angularAcceleration;
+			m_RandomAngle = randomAngle;
+			m_IsFirst = true;
 		}
 
 		public Vector2 CalculateVelocity(Projectile projectile)
@@ -174,20 +185,41 @@ public sealed class Projectile : MonoBehaviour
 				return Vector2.zero;
 			}
 
-			Vector2 direction = m_Target.transform.position - projectile.transform.position;
-			float distanceToTarget = direction.magnitude;
-			direction.Normalize();
+			Quaternion rotation = projectile.transform.rotation;
+			Vector3 eulerAngles = rotation.eulerAngles;
 
-			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-			Quaternion angleAxis = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+			if (m_IsFirst == true)
+			{
+				m_IsFirst = false;
 
-			if (m_AngularSpeed < m_AngularMaxSpeed)
-				m_AngularSpeed += m_AngularAcceleration * Time.deltaTime;
-			else
-				m_AngularSpeed = m_AngularMaxSpeed;
+				eulerAngles.z += Random.Range(-m_RandomAngle, m_RandomAngle);
+				rotation.eulerAngles = eulerAngles;
+				projectile.transform.rotation = rotation;
+				m_InitRotation = rotation;
+			}
 
-			// t 수정 필요
-			Vector2 dir = Quaternion.Slerp(projectile.transform.rotation, angleAxis, m_AngularSpeed * Time.deltaTime) * Vector2.up;
+			m_AngularSpeed += m_AngularAcceleration * Time.deltaTime;
+
+			Vector2 target = (m_Target.transform.position - projectile.transform.position);
+
+			int sign = 1;
+
+			Vector3 cross = Vector3.Cross(projectile.transform.up, target.normalized);
+			if (cross.z < 0)
+				sign = -1;
+
+			float dot = Vector2.Dot(projectile.transform.up, target.normalized);
+			float theta = Mathf.Acos(Mathf.Clamp(dot, -1f, 1f)) * Mathf.Rad2Deg;
+
+			eulerAngles.z += sign * Mathf.Min(m_AngularSpeed, theta);
+			rotation.eulerAngles = eulerAngles;
+
+			Vector2 dir = rotation * Vector2.up;
+
+			if (theta <= m_AngularSpeed)
+				m_AngularSpeed = 0f;
+
+			float distanceToTarget = target.magnitude;
 
 			float speed = projectile.moveSpeed;
 
@@ -195,98 +227,6 @@ public sealed class Projectile : MonoBehaviour
 				speed = distanceToTarget;
 
 			return dir.normalized * speed;
-		}
-	}
-	#endregion
-
-	#region Collision Strategy
-	public interface ICollisionStrategy
-	{
-		public LayerMask GetLayerMask();
-		public void OnTriggerEnter2D(Collider2D collider);
-		public void OnTriggerStay2D(Collider2D collider);
-		public void OnTriggerExit2D(Collider2D collider);
-	}
-
-	public class PlayerCollision : ICollisionStrategy
-	{
-		public LayerMask GetLayerMask()
-		{
-			return LayerMask.GetMask("Player");
-		}
-		public void OnTriggerEnter2D(Collider2D collider)
-		{
-			int layer = LayerMask.NameToLayer("Player");
-			if (collider.gameObject.layer == layer)
-			{
-				Debug.Log("Projectile: Player 충돌 Enter!");
-			}
-		}
-		public void OnTriggerStay2D(Collider2D collider)
-		{
-
-		}
-		public void OnTriggerExit2D(Collider2D collider)
-		{
-			int layer = LayerMask.NameToLayer("Player");
-			if (collider.gameObject.layer == layer)
-			{
-				Debug.Log("Projectile: Player 충돌 Exit!");
-			}
-		}
-	}
-	public class ObstacleCollision : ICollisionStrategy
-	{
-		public LayerMask GetLayerMask()
-		{
-			return LayerMask.GetMask("Obstacle");
-		}
-		public void OnTriggerEnter2D(Collider2D collider)
-		{
-			int layer = LayerMask.NameToLayer("Obstacle");
-			if (collider.gameObject.layer == layer)
-			{
-				Debug.Log("Projectile: Obstacle 충돌 Enter!");
-			}
-		}
-		public void OnTriggerStay2D(Collider2D collider)
-		{
-
-		}
-		public void OnTriggerExit2D(Collider2D collider)
-		{
-			int layer = LayerMask.NameToLayer("Obstacle");
-			if (collider.gameObject.layer == layer)
-			{
-				Debug.Log("Projectile: Obstacle 충돌 Exit!");
-			}
-		}
-	}
-	public class EnemyCollision : ICollisionStrategy
-	{
-		public LayerMask GetLayerMask()
-		{
-			return LayerMask.GetMask("Enemy");
-		}
-		public void OnTriggerEnter2D(Collider2D collider)
-		{
-			int layer = LayerMask.NameToLayer("Enemy");
-			if (collider.gameObject.layer == layer)
-			{
-				Debug.Log("Projectile: Enemy 충돌 Enter!");
-			}
-		}
-		public void OnTriggerStay2D(Collider2D collider)
-		{
-
-		}
-		public void OnTriggerExit2D(Collider2D collider)
-		{
-			int layer = LayerMask.NameToLayer("Enemy");
-			if (collider.gameObject.layer == layer)
-			{
-				Debug.Log("Projectile: Enemy 충돌 Exit!");
-			}
 		}
 	}
 	#endregion

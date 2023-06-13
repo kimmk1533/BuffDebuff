@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class ProjectileController : RaycastController
 {
@@ -85,23 +86,27 @@ public class ProjectileController : RaycastController
 
 		foreach (var item in hitColliders)
 		{
-			m_CollisionList.Add(item);
+			int layer = item.gameObject.layer;
 
 			if (m_OldCollisionList.Contains(item) == false)
 			{
-				m_Projectile.OnTriggerEnter2D(item);
+				m_Projectile[layer].OnEnter2D?.Invoke(item);
 			}
 			else
 			{
-				m_Projectile.OnTriggerStay2D(item);
+				m_Projectile[layer].OnStay2D?.Invoke(item);
 			}
+
+			m_CollisionList.Add(item);
 		}
 
 		foreach (var item in m_OldCollisionList)
 		{
+			int layer = item.gameObject.layer;
+
 			if (m_CollisionList.Contains(item) == false)
 			{
-				m_Projectile.OnTriggerExit2D(item);
+				m_Projectile[layer].OnExit2D?.Invoke(item);
 			}
 		}
 	}

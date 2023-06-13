@@ -21,7 +21,8 @@ public class RaycastController : MonoBehaviour
 
 	public virtual void Initialize()
 	{
-		m_Collider = GetComponent<Collider2D>();
+		if (m_Collider == null)
+			m_Collider = GetComponent<Collider2D>();
 
 		CalculateRaySpacing();
 	}

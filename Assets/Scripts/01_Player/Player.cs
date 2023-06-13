@@ -160,9 +160,11 @@ public sealed class Player : MonoBehaviour
 
 		projectile.Initialize(5.0f, m_Character.finalStat.AttackRange);
 
-		projectile.SetMovingStrategy(new Projectile.GuidedMove(gameObject));
-		projectile.AddCollisionStrategy(new Projectile.ObstacleCollision());
-		projectile.AddCollisionStrategy(new Projectile.EnemyCollision());
+		projectile.SetMovingStrategy(new Projectile.CircularMove(gameObject, 1f, 90f));
+		projectile["Obstacle"].OnEnter2D += (Collider2D collider) =>
+		{
+			M_Projectile.Despawn(projectile);
+		};
 
 		projectile.gameObject.SetActive(true);
 	}
