@@ -132,7 +132,7 @@ public class Character
 			if (buff.count < buffData.maxStack)
 			{
 				++buff.count;
-				buff.OnBuffInitialize(this);
+				buff.OnBuffAdded(this);
 			}
 			else
 				Debug.Log("버프 최대");
@@ -145,6 +145,7 @@ public class Character
 		m_BuffList.Add(buffData.code, buff);
 
 		buff.OnBuffInitialize(this);
+		buff.OnBuffAdded(this);
 	}
 	public bool RemoveBuff(int code)
 	{
@@ -175,10 +176,12 @@ public class Character
 			}
 			else
 			{
+				buff.OnBuffFinalize(this);
+
 				m_BuffList.Remove(buffData.code);
 			}
 
-			buff.OnBuffFinalize(this);
+			buff.OnBuffRemoved(this);
 
 			return true;
 		}

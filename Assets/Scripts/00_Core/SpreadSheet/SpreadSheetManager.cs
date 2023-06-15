@@ -196,7 +196,6 @@ namespace SpreadSheet
 		}
 		public void LoadJsonData(DataSet dataset)
 		{
-
 			string JsonPath = string.Concat(Application.dataPath + "/Resources/JsonData/");
 			DirectoryInfo info = new DirectoryInfo(JsonPath);
 			foreach (FileInfo file in info.GetFiles())

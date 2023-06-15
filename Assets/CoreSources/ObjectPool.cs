@@ -88,7 +88,7 @@ public class ObjectPool<T> : System.IDisposable where T : MonoBehaviour
 	}
 
 	// 회수 작업
-	public bool DeSpawn(T obj)
+	public bool Despawn(T obj)
 	{
 		if (obj == null)
 		{
@@ -211,7 +211,7 @@ public class ObjectPool : System.IDisposable
 	}
 
 	// 회수 작업
-	public bool DeSpawn(GameObject obj)
+	public bool Despawn(GameObject obj)
 	{
 		if (obj == null)
 		{

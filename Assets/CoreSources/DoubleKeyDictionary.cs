@@ -5,8 +5,8 @@ using System.Linq;
 
 public class DoubleKeyDictionary<TPrimaryKey, TSubKey, TValue> : IEnumerable<KeyValuePair<TPrimaryKey, TValue>>
 {
-	public Dictionary<TSubKey, TPrimaryKey> m_SubDictionary = new Dictionary<TSubKey, TPrimaryKey>();
-	public Dictionary<TPrimaryKey, TValue> m_PrimaryDictionary = new Dictionary<TPrimaryKey, TValue>();
+	private Dictionary<TSubKey, TPrimaryKey> m_SubDictionary = new Dictionary<TSubKey, TPrimaryKey>();
+	private Dictionary<TPrimaryKey, TValue> m_PrimaryDictionary = new Dictionary<TPrimaryKey, TValue>();
 
 	public TValue this[TPrimaryKey primaryKey]
 	{
@@ -37,6 +37,34 @@ public class DoubleKeyDictionary<TPrimaryKey, TSubKey, TValue> : IEnumerable<Key
 				return;
 
 			this[primaryKey] = value;
+		}
+	}
+	public Dictionary<TSubKey, TPrimaryKey>.KeyCollection SubKeys
+	{
+		get
+		{
+			return m_SubDictionary.Keys;
+		}
+	}
+	public Dictionary<TPrimaryKey, TValue>.KeyCollection PrimaryKeys
+	{
+		get
+		{
+			return m_PrimaryDictionary.Keys;
+		}
+	}
+	public Dictionary<TPrimaryKey, TValue>.ValueCollection Values
+	{
+		get
+		{
+			return m_PrimaryDictionary.Values;
+		}
+	}
+	public int Count
+	{
+		get
+		{
+			return m_PrimaryDictionary.Count;
 		}
 	}
 
@@ -176,6 +204,6 @@ public class DoubleKeyDictionary<TPrimaryKey, TSubKey, TValue> : IEnumerable<Key
 	IEnumerator IEnumerable.GetEnumerator()
 	{
 		return new Enumerator<TPrimaryKey, TValue>(m_PrimaryDictionary);
-	} 
+	}
 	#endregion
 }

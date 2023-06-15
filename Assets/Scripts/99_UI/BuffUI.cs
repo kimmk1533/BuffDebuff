@@ -8,8 +8,10 @@ public class BuffUI : MonoBehaviour
 {
 	[SerializeField]
 	private int m_BuffCount;
-	[SerializeField]
 	private BuffUIData m_Data;
+
+	[SerializeField]
+	private Button m_Button;
 
 	[Space(10)]
 	[SerializeField]
@@ -29,26 +31,29 @@ public class BuffUI : MonoBehaviour
 		set
 		{
 			if (value < 0)
-			{
 				return;
-			}
+			else if (value > m_Data.maxStack)
+				Debug.LogError("BuffUI MaxStack");
 
 			m_BuffCount = Mathf.Clamp(value, 0, m_Data.maxStack);
 
 			if (value <= 1)
 				m_BuffCountText.gameObject.SetActive(false);
 			else
-			{
 				m_BuffCountText.gameObject.SetActive(true);
 
-				m_BuffCountText.text = "x" + m_BuffCount.ToString();
-			}
+			m_BuffCountText.text = "x" + m_BuffCount.ToString();
 		}
 	}
+	public Button.ButtonClickedEvent onClick => m_Button.onClick;
 
 	public void Initialize(BuffUIData buffUIData)
 	{
-		#region Null 체크
+		#region Null Check
+		if (m_Button == null)
+		{
+			m_Button = transform.Find("BackGround").GetComponent<Button>();
+		}
 		if (m_BuffCountText == null)
 		{
 			m_BuffCountText = transform.Find("BuffCount").GetComponent<TextMeshProUGUI>();
@@ -71,9 +76,9 @@ public class BuffUI : MonoBehaviour
 		}
 		#endregion
 
+		m_BuffCount = 1;
 		m_Data = buffUIData;
 
-		m_BuffCount = 1;
 		m_BuffCountText.text = "x" + m_BuffCount.ToString();
 		m_TitleText.text = m_Data.title;
 		m_SpriteImage.sprite = m_Data.sprite;

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -16,9 +15,23 @@ using BuffUIDictionary = DoubleKeyDictionary<int, string, BuffUIData>;
 public sealed class BuffManager : Singleton<BuffManager>
 {
 	// < 코드, 명칭, 버프 데이터 >
-	private Dictionary<E_BuffType, BuffDictionary> m_BuffDictionary;
+	private Dictionary<E_BuffType, BuffDictionary> m_BuffMap;
 	// < 코드, 명칭, 버프UI 데이터 >
-	private Dictionary<E_BuffType, BuffUIDictionary> m_BuffUIDictionary;
+	private Dictionary<E_BuffType, BuffUIDictionary> m_BuffUIMap;
+
+	private int m_RewardsCount = 3;
+
+	public int rewardsCount
+	{
+		get
+		{
+			return m_RewardsCount;
+		}
+		set
+		{
+			m_RewardsCount = value;
+		}
+	}
 
 	private void Awake()
 	{
@@ -30,11 +43,13 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 	private void Initialize()
 	{
-		m_BuffDictionary = new Dictionary<E_BuffType, BuffDictionary>();
+		m_BuffMap = new Dictionary<E_BuffType, BuffDictionary>();
+		m_BuffUIMap = new Dictionary<E_BuffType, BuffUIDictionary>();
 
 		for (E_BuffType i = 0; i != E_BuffType.Max; ++i)
 		{
-			m_BuffDictionary[i] = new BuffDictionary();
+			m_BuffMap[i] = new BuffDictionary();
+			m_BuffUIMap[i] = new BuffUIDictionary();
 		}
 	}
 
@@ -160,10 +175,15 @@ public sealed class BuffManager : Singleton<BuffManager>
 			// 파일 읽어 오는 방식으로 수정 필요
 			BuffData buffData = new BuffData(title, code, buffType, effectType, grade, maxStack, weapon, description);
 
-			m_BuffDictionary[buffType].Add((code, title), buffData);
+			m_BuffMap[buffType].Add((code, title), buffData);
+
+			BuffUIData buffUIData = new BuffUIData(buffData);
+			m_BuffUIMap[buffType].Add((code, title), buffUIData);
 		}
 	}
+
 #if UNITY_EDITOR
+	#region Create File
 	public void CreateAllBuff(bool load, bool script, bool asset, bool uiAsset, bool switchCase)
 	{
 		if (Application.isEditor == false ||
@@ -177,8 +197,8 @@ public sealed class BuffManager : Singleton<BuffManager>
 			return;
 
 		if (load == true ||
-			m_BuffDictionary == null ||
-			m_BuffDictionary.Count == 0)
+			m_BuffMap == null ||
+			m_BuffMap.Count == 0)
 		{
 			LoadAllBuff();
 		}
@@ -201,7 +221,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 				sb.AppendLine(BuffEnumUtil.EnumToKorString<E_BuffType>(buffType));
 			}
 
-			foreach (var item in m_BuffDictionary[buffType])
+			foreach (var item in m_BuffMap[buffType])
 			{
 				BuffData buffData = item.Value;
 
@@ -240,15 +260,15 @@ public sealed class BuffManager : Singleton<BuffManager>
 		if (Application.isPlaying == true)
 			return;
 
-		if (m_BuffDictionary == null ||
-			m_BuffDictionary.Count == 0)
+		if (m_BuffMap == null ||
+			m_BuffMap.Count == 0)
 		{
 			LoadAllBuff();
 		}
 
 		for (E_BuffType buffType = E_BuffType.Buff; buffType != E_BuffType.Max - 1; ++buffType)
 		{
-			foreach (var item in m_BuffDictionary[buffType])
+			foreach (var item in m_BuffMap[buffType])
 			{
 				BuffData buffData = item.Value;
 
@@ -271,15 +291,15 @@ public sealed class BuffManager : Singleton<BuffManager>
 		if (Application.isPlaying == true)
 			return;
 
-		if (m_BuffDictionary == null ||
-			m_BuffDictionary.Count == 0)
+		if (m_BuffMap == null ||
+			m_BuffMap.Count == 0)
 		{
 			LoadAllBuff();
 		}
 
 		for (E_BuffType buffType = E_BuffType.Buff; buffType != E_BuffType.Max - 1; ++buffType)
 		{
-			foreach (var item in m_BuffDictionary[buffType])
+			foreach (var item in m_BuffMap[buffType])
 			{
 				BuffData buffData = item.Value;
 
@@ -484,35 +504,82 @@ public sealed class BuffManager : Singleton<BuffManager>
 		sb.Append(className);
 		sb.AppendLine("(buffData);");
 	}
+	#endregion
 #endif
+
+	public BuffData GetRandomBuffData()
+	{
+		E_BuffType buffType = (E_BuffType)Random.Range(0, (int)E_BuffType.Max);
+
+		return GetRandomBuffData(buffType);
+	}
+	public BuffData GetRandomBuffData(E_BuffType buffType)
+	{
+		BuffDictionary buffDictionary = m_BuffMap[buffType];
+
+		var dataList = buffDictionary.Values.ToList();
+		int index = Random.Range(0, dataList.Count);
+
+		return dataList[index];
+	}
+	public BuffUIData GetRandomBuffUIData()
+	{
+		E_BuffType buffType = (E_BuffType)Random.Range(0, (int)E_BuffType.Max);
+
+		return GetRandomBuffUIData(buffType);
+	}
+	public BuffUIData GetRandomBuffUIData(E_BuffType buffType)
+	{
+		BuffUIDictionary buffUIDictionary = m_BuffUIMap[buffType];
+
+		var dataList = buffUIDictionary.Values.ToList();
+		int index = Random.Range(0, dataList.Count);
+
+		return dataList[index];
+	}
+	public List<BuffUIData> GetRandomBuffUIData(E_BuffType buffType, int count)
+	{
+		BuffUIDictionary buffUIDictionary = m_BuffUIMap[buffType];
+
+		var dataList = buffUIDictionary.Values.ToList();
+
+		count = Mathf.Clamp(count, 0, dataList.Count);
+		
+		// 피셔 예이츠 셔플
+		for (int i = 0; i < count; ++i)
+		{
+			int index = Random.Range(i, dataList.Count);
+
+			dataList.Swap(i, index);
+		}
+
+		return dataList.GetRange(0, count);
+	}
 
 	public BuffData GetBuffData(int code)
 	{
-		BuffData buff = null;
+		string str = code.ToString()[0].ToString();
+		E_BuffType buffType = (E_BuffType)(int.Parse(str) - 1);
 
-		for (E_BuffType i = 0; i < E_BuffType.Max; ++i)
-		{
-			if (TryGetBuffData(i, code, out buff) == true)
-				break;
-		}
+		TryGetBuffData(buffType, code, out BuffData buffData);
 
-		return buff;
+		return buffData;
 	}
-	public bool TryGetBuffData(E_BuffType buffType, int code, out BuffData buff)
+	public bool TryGetBuffData(E_BuffType buffType, int code, out BuffData buffData)
 	{
-		BuffDictionary buffDictionary = m_BuffDictionary[buffType];
+		BuffDictionary buffDictionary = m_BuffMap[buffType];
 
 		if (buffDictionary == null)
 		{
-			buff = null;
+			buffData = null;
 
 			Debug.LogError("버프 목록 생성 안됨");
 			return false;
 		}
 
-		if (buffDictionary.TryGetValue(code, out buff))
+		if (buffDictionary.TryGetValue(code, out buffData) == false)
 		{
-			buff = null;
+			buffData = null;
 
 			Debug.LogError("버프 가져오기 실패");
 			return false;
@@ -522,31 +589,38 @@ public sealed class BuffManager : Singleton<BuffManager>
 	}
 	public BuffData GetBuffData(string title)
 	{
-		BuffData buff = null;
+		BuffData buffData = null;
 
 		for (E_BuffType i = 0; i < E_BuffType.Max; ++i)
 		{
-			if (TryGetBuffData(i, title, out buff) == true)
+			buffData = GetBuffData(i, title);
+			if (buffData != null)
 				break;
 		}
 
-		return buff;
+		return buffData;
 	}
-	public bool TryGetBuffData(E_BuffType buffType, string title, out BuffData buff)
+	public BuffData GetBuffData(E_BuffType buffType, string title)
 	{
-		BuffDictionary buffDictionary = m_BuffDictionary[buffType];
+		TryGetBuffData(buffType, title, out BuffData buffData);
+
+		return buffData;
+	}
+	public bool TryGetBuffData(E_BuffType buffType, string title, out BuffData buffData)
+	{
+		BuffDictionary buffDictionary = m_BuffMap[buffType];
 
 		if (buffDictionary == null)
 		{
-			buff = null;
+			buffData = null;
 
 			Debug.LogError("버프 목록 생성 안됨");
 			return false;
 		}
 
-		if (buffDictionary.TryGetValue(title, out buff) == false)
+		if (buffDictionary.TryGetValue(title, out buffData) == false)
 		{
-			buff = null;
+			buffData = null;
 
 			Debug.LogError("버프 가져오기 실패");
 			return false;

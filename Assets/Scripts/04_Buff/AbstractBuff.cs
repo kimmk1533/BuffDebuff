@@ -50,46 +50,57 @@ public abstract class AbstractBuff : IEquatable<AbstractBuff>, IOnBuffCondition
 	}
 
 	#region Interface
+	// 버프가 처음 추가됐을 때
 	public virtual void OnBuffInitialize(Character character)
 	{
 
 	}
+	// 버프가 모두 제거됐을 때
 	public virtual void OnBuffFinalize(Character character)
 	{
 
 	}
+	// 버프가 추가될 때 마다
 	public virtual void OnBuffAdded(Character character)
 	{
 
 	}
+	// 버프가 제거될 때 마다
 	public virtual void OnBuffRemoved(Character character)
 	{
 
 	}
+	// 매 프레임마다
 	public virtual void OnBuffUpdate()
 	{
 
 	}
+	// 점프할 때
 	public virtual void OnBuffJump()
 	{
 
 	}
+	// 대쉬할 때
 	public virtual void OnBuffDash()
 	{
 
 	}
+	// 대미지를 받을 때
 	public virtual void OnBuffGetDamage()
 	{
 
 	}
+	// 공격을 시작할 때 (애니메이션 시작)
 	public virtual void OnBuffAttackStart()
 	{
 
 	}
+	// 대미지를 줄 때
 	public virtual void OnBuffGiveDamage()
 	{
 
 	}
+	// 공격을 끝낼 때 (애니메이션 종료)
 	public virtual void OnBuffAttackEnd()
 	{
 

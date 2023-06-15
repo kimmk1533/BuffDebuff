@@ -1,2 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+/[Aa]ssets/[Ff]ont/* filter=lfs diff=lsf merge=lfs -text
+Assets/Font/NotoSansKR-Medium[[:space:]]SDF.asset filter=lfs diff=lfs merge=lfs -text

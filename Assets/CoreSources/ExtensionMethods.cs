@@ -7,15 +7,18 @@ using UnityEngine;
 
 public static class Methods
 {
-	private static System.DateTime timer;
-	public static void CheckTimeIN()
+	public static void Swap<T>(this List<T> list, int index1, int index2)
 	{
-		timer = System.DateTime.Now;
-	}
-	public static System.TimeSpan CheckTimeStop()
-	{
-		System.TimeSpan time = System.DateTime.Now - timer;
-		return time;
+		if (index1 == index2)
+			return;
+
+		if (list.Count <= index1 ||
+			list.Count <= index2)
+			return;
+
+		T temp = list[index1];
+		list[index1] = list[index2];
+		list[index2] = temp;
 	}
 
 	public static Transform[] GetChilderen(this Transform tf, string name)

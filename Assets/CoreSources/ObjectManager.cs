@@ -60,7 +60,7 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 	{
 		foreach (var pool in m_Pools.Values)
 		{
-			if (pool.DeSpawn(item))
+			if (pool.Despawn(item))
 				return true;
 		}
 
@@ -75,7 +75,7 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 			throw new System.NullReferenceException("pool is null. key is " + key);
 		}
 
-		return pool.DeSpawn(item);
+		return pool.Despawn(item);
 	}
 
 	public virtual void __Initialize()

@@ -158,14 +158,23 @@ public sealed class Player : MonoBehaviour
 
 		Projectile projectile = M_Projectile.Spawn("Projectile", position, quaternion);
 
-		projectile.Initialize(5.0f, m_Character.finalStat.AttackRange);
+		projectile.Initialize(5.0f, /*m_Character.finalStat.AttackRange*/float.MaxValue);
 
-		projectile.SetMovingStrategy(new Projectile.CircularMove(gameObject, 1f, 90f));
+		projectile.SetMovingStrategy(new Projectile.StraightMove());
 		projectile["Obstacle"].OnEnter2D += (Collider2D collider) =>
 		{
 			M_Projectile.Despawn(projectile);
 		};
 
 		projectile.gameObject.SetActive(true);
+	}
+
+	public void AddBuff(int code)
+	{
+		m_Character.AddBuff(code);
+	}
+	public void RemoveBuff(int code)
+	{
+		m_Character.RemoveBuff(code);
 	}
 }
