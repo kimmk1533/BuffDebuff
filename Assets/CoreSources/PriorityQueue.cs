@@ -191,6 +191,7 @@ namespace System.Collections.Generic
 
 			m_Comparer = new TElement();
 		}
+#nullable enable
 		public PriorityQueue(IComparer<TElement>? comparer)
 		{
 			m_ElementList = new List<TElement>();
@@ -198,6 +199,7 @@ namespace System.Collections.Generic
 
 			m_Comparer = comparer;
 		}
+#nullable disable
 		public PriorityQueue(IEnumerable<TElement> items)
 		{
 			m_ElementList = new List<TElement>(items);
@@ -471,6 +473,7 @@ namespace System.Collections.Generic
 
 			m_Comparer = new TPriority();
 		}
+#nullable enable
 		public PriorityQueue(IComparer<TPriority>? comparer)
 		{
 			m_ElementList = new List<Tuple<TElement, TPriority>>();
@@ -478,6 +481,7 @@ namespace System.Collections.Generic
 
 			m_Comparer = comparer;
 		}
+#nullable disable
 		public PriorityQueue(IEnumerable<Tuple<TElement, TPriority>> items)
 		{
 			m_ElementList = new List<Tuple<TElement, TPriority>>(items);

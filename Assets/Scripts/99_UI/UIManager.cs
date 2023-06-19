@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
@@ -8,26 +9,31 @@ public class UIManager : Singleton<UIManager>
 	// Buff UI
 	[SerializeField]
 	private BuffUI m_BuffUIOrigin;
-	private GameObject m_BuffUIPoolParent;
 	private ObjectPool<BuffUI> m_BuffUIPool;
 
-	// Buff Rewards
+	// Buff Combine
 	[SerializeField]
-	private GameObject m_BuffRewardsPanel;
+	private RectTransform m_FirstCombineBuff;
 	[SerializeField]
-	private HorizontalLayoutGroup m_BuffRewardsContent;
-
-	// Buff Inventory
+	private RectTransform m_SecondCombineBuff;
 	[SerializeField]
-	private GameObject m_BuffUIInventoryPanel;
-	[SerializeField]
-	private GridLayoutGroup m_BuffUIInventoryContent;
-	private Dictionary<int, BuffUI> m_BuffUIInventoryMap;
+	private Button m_CombineButton;
 
 	// Panels
-	private Dictionary<string, Panel> m_PanelMap;
+	private BuffPanel m_CurrentBuffPanel;
+	[SerializeField]
+	private List<BuffPanel> m_BuffPanelList;
+	private Dictionary<string, BuffPanel> m_BuffPanelMap;
+
+	// Buff Inventory
+	private Dictionary<int, BuffUI> m_BuffInventoryMap;
 
 	// property
+	private BuffPanel rewardsPanel => m_BuffPanelMap["Buff Rewards"];
+	private BuffPanel inventoryPanel => m_BuffPanelMap["Buff Inventory"];
+	private BuffPanel combinePanel => m_BuffPanelMap["Buff Combine"];
+
+	// Manager
 	private BuffManager M_Buff => BuffManager.Instance;
 	private PlayerManager M_Player => PlayerManager.Instance;
 
@@ -37,85 +43,107 @@ public class UIManager : Singleton<UIManager>
 	}
 	private void Start()
 	{
-		UpdateBuffRewards();
+		RerollBuffRewards();
 	}
 	private void Update()
 	{
-		Panel panel = null;
-
-		if (Input.GetKeyDown(KeyCode.Alpha1))
+		foreach (var item in m_BuffPanelList)
 		{
-			panel = m_PanelMap["Buff Rewards"];
-
-			if (panel.active)
+			if (Input.GetKeyDown(item.keyCode))
 			{
-				panel.TurnOffPanel();
-			}
-			else
-			{
-				foreach (var item in m_PanelMap)
-				{
-					item.Value.TurnOffPanel();
-				}
-				UpdateBuffRewards();
-				panel.TurnOnPanel();
+				m_CurrentBuffPanel = item;
+				break;
 			}
 		}
-		if (Input.GetKeyDown(KeyCode.Alpha2))
+		if (m_CurrentBuffPanel != null)
 		{
-			panel = m_PanelMap["Buff Inventory"];
-
-			if (panel.active)
+			if (m_CurrentBuffPanel.active)
 			{
-				panel.TurnOffPanel();
+				m_CurrentBuffPanel.active = false;
 			}
 			else
 			{
-				foreach (var item in m_PanelMap)
+				foreach (var item in m_BuffPanelMap)
 				{
-					item.Value.TurnOffPanel();
+					item.Value.active = false;
 				}
 
-				panel.TurnOnPanel();
+				m_CurrentBuffPanel.active = true;
 			}
+
+			m_CurrentBuffPanel = null;
 		}
 	}
 
 	public void Initialize()
 	{
-		if (m_BuffUIPoolParent == null)
-		{
-			m_BuffUIPoolParent = new GameObject("BuffUI_Pool");
-			m_BuffUIPoolParent.transform.SetParent(transform);
-		}
-
 		if (m_BuffUIPool == null)
 		{
-			m_BuffUIPool = new ObjectPool<BuffUI>(m_BuffUIOrigin, 100, m_BuffUIPoolParent.transform);
+			GameObject buffUIPoolParent = new GameObject("BuffUI_Pool");
+			buffUIPoolParent.transform.SetParent(transform);
+
+			m_BuffUIPool = new ObjectPool<BuffUI>(m_BuffUIOrigin, 100, buffUIPoolParent.transform);
 		}
 
-		if (m_PanelMap == null)
+		if (m_BuffPanelMap == null)
 		{
-			m_PanelMap = new Dictionary<string, Panel>
+			m_BuffPanelMap = new Dictionary<string, BuffPanel>();
+			foreach (var item in m_BuffPanelList)
 			{
-				{ "Buff Rewards", new Panel(m_BuffRewardsPanel) },
-				{ "Buff Inventory", new Panel(m_BuffUIInventoryPanel) }
-			};
+				m_BuffPanelMap.Add(item.name, item);
+			}
 		}
 
-		if (m_BuffUIInventoryMap == null)
-			m_BuffUIInventoryMap = new Dictionary<int, BuffUI>();
+		if (m_BuffInventoryMap == null)
+			m_BuffInventoryMap = new Dictionary<int, BuffUI>();
 		else
-			m_BuffUIInventoryMap.Clear();
+			m_BuffInventoryMap.Clear();
 	}
 
-	public void UpdateBuffRewards()
+	public void AddBuff_Inventory(BuffUIData buffUIData)
 	{
-		int childCount = m_BuffRewardsContent.transform.childCount;
+		if (m_BuffInventoryMap.TryGetValue(buffUIData.code, out BuffUI buffUI) == true)
+		{
+			if (buffUI.buffCount < buffUIData.maxStack)
+				++buffUI.buffCount;
+
+			return;
+		}
+
+		buffUI = m_BuffUIPool.Spawn();
+		buffUI.Initialize(buffUIData);
+		buffUI.name = "BuffUI (" + buffUIData.title + ")";
+		buffUI.transform.SetParent(inventoryPanel.content.transform);
+		buffUI.transform.localPosition = Vector3.zero;
+		buffUI.transform.localScale = Vector3.one * 0.75f;
+
+		buffUI.gameObject.SetActive(true);
+
+		m_BuffInventoryMap.Add(buffUIData.code, buffUI);
+	}
+	public void RemoveBuff_Inventory(BuffUIData buffUIData)
+	{
+		if (m_BuffInventoryMap.TryGetValue(buffUIData.code, out BuffUI buffUI) == false)
+			return;
+
+		if (buffUI.buffCount > 0)
+			--buffUI.buffCount;
+
+		if (buffUI.buffCount == 0)
+		{
+			m_BuffUIPool.Despawn(buffUI);
+
+			m_BuffInventoryMap.Remove(buffUIData.code);
+		}
+	}
+
+	public void RerollBuffRewards()
+	{
+		int childCount = rewardsPanel.content.transform.childCount;
 		int offset = 0;
 		for (int i = 0; i < childCount; ++i)
 		{
-			BuffUI buffUI = m_BuffRewardsContent.transform.GetChild(offset).GetComponent<BuffUI>();
+			BuffUI buffUI = rewardsPanel.content.transform.GetChild(offset).GetComponent<BuffUI>();
 
 			buffUI.onClick.RemoveAllListeners();
 
@@ -126,19 +154,16 @@ public class UIManager : Singleton<UIManager>
 
 		int count = M_Buff.rewardsCount;
 		List<BuffUIData> buffUIDataList = M_Buff.GetRandomBuffUIData(E_BuffType.Buff, count);
-		count = Mathf.Clamp(count, 0, buffUIDataList.Count);
-		for (int i = 0; i < count; ++i)
+		foreach (var buffUIData in buffUIDataList)
 		{
-			BuffUIData buffUIData = buffUIDataList[i];
-
 			BuffUI buffUI = m_BuffUIPool.Spawn();
 			buffUI.Initialize(buffUIData);
-			buffUI.transform.SetParent(m_BuffRewardsContent.transform);
+			buffUI.transform.SetParent(rewardsPanel.content.transform);
 			buffUI.name = "BuffUI (" + buffUIData.title + ")";
 			buffUI.transform.localScale = Vector3.one;
 			buffUI.onClick.AddListener(() =>
 			{
-				m_PanelMap["Buff Rewards"].TurnOffPanel();
+				m_BuffPanelMap["Buff Rewards"].active = false;
 				AddBuff_Inventory(buffUIData);
 				M_Player.AddBuff(buffUIData.code);
 			});
@@ -146,51 +171,41 @@ public class UIManager : Singleton<UIManager>
 			buffUI.gameObject.SetActive(true);
 		}
 	}
-	public void AddBuff_Inventory(BuffUIData buffUIData)
+	public void OnBuffInventoryEnabled()
 	{
-		if (m_BuffUIInventoryMap.TryGetValue(buffUIData.code, out BuffUI buffUI) == true)
-		{
-			if (buffUI.buffCount < buffUIData.maxStack)
-				++buffUI.buffCount;
+		combinePanel.scrollRect.transform.SetParent(inventoryPanel.panel.transform);
 
-			return;
-		}
+		RectTransform rectTransform = inventoryPanel.scrollRect.GetComponent<RectTransform>();
+		rectTransform.offsetMin = Vector2.zero;
+		rectTransform.offsetMax = new Vector2(rectTransform.offsetMax.x, 0f);
 
-		buffUI = m_BuffUIPool.Spawn();
-		buffUI.Initialize(buffUIData);
-		buffUI.transform.SetParent(m_BuffUIInventoryContent.transform);
-		buffUI.name = "BuffUI (" + buffUIData.title + ")";
-		buffUI.transform.localScale = Vector3.one * 0.75f;
-
-		buffUI.gameObject.SetActive(true);
-
-		m_BuffUIInventoryMap.Add(buffUIData.code, buffUI);
+		inventoryPanel.scrollRect.verticalScrollbar.value = 0f;
 	}
-	public void RemoveBuff_Inventory(BuffUIData buffUIData)
+	public void OnBuffCombineEnabled()
 	{
-		if (m_BuffUIInventoryMap.TryGetValue(buffUIData.code, out BuffUI buffUI) == false)
-			return;
+		inventoryPanel.scrollRect.transform.SetParent(combinePanel.panel.transform);
 
-		if (buffUI.buffCount > 0)
-			--buffUI.buffCount;
+		RectTransform rectTransform = combinePanel.scrollRect.GetComponent<RectTransform>();
+		rectTransform.offsetMin = Vector2.zero;
+		rectTransform.offsetMax = new Vector2(rectTransform.offsetMax.x, -450f);
 
-		if (buffUI.buffCount == 0)
-		{
-			m_BuffUIPool.Despawn(buffUI);
+		combinePanel.scrollRect.verticalScrollbar.value = 0f;
 
-			m_BuffUIInventoryMap.Remove(buffUIData.code);
-		}
+		int childCount = combinePanel.content.transform.childCount;
 	}
 
 	[System.Serializable]
-	private class Panel
+	private class BuffPanel
 	{
-		private GameObject panel;
+		public string name;
+		public KeyCode keyCode;
+		public GameObject panel;
+		public ScrollRect scrollRect;
+		public LayoutGroup content;
 
-		public Panel(GameObject panel)
-		{
-			this.panel = panel;
-		}
+		[Space(10)]
+		public UnityEvent onEnabled;
+		public UnityEvent onDisabled;
 
 		public bool active
 		{
@@ -200,20 +215,16 @@ public class UIManager : Singleton<UIManager>
 			}
 			set
 			{
-				if (value == true)
-					TurnOnPanel();
-				else
-					TurnOffPanel();
-			}
-		}
+				if (value == panel.activeSelf)
+					return;
 
-		public void TurnOnPanel()
-		{
-			panel.SetActive(true);
-		}
-		public void TurnOffPanel()
-		{
-			panel.SetActive(false);
+				if (value)
+					onEnabled?.Invoke();
+				else
+					onDisabled?.Invoke();
+
+				panel.SetActive(value);
+			}
 		}
 	}
 }
