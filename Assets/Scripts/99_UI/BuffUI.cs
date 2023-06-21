@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class BuffUI : MonoBehaviour
 {
 	[SerializeField]
 	private int m_BuffCount;
-	private BuffUIData m_Data;
-
-	[SerializeField]
-	private Button m_Button;
+	private BuffUIData m_BuffUIData;
 
 	[Space(10)]
 	[SerializeField]
 	private TextMeshProUGUI m_BuffCountText;
+	[SerializeField]
+	private TextMeshProUGUI m_BuffCode;
 	[SerializeField]
 	private TextMeshProUGUI m_TitleText;
 	[SerializeField]
@@ -25,6 +25,9 @@ public class BuffUI : MonoBehaviour
 	[SerializeField]
 	private TextMeshProUGUI m_DescriptionText;
 
+	[SerializeField]
+	private Button m_Button;
+
 	public int buffCount
 	{
 		get { return m_BuffCount; }
@@ -32,10 +35,10 @@ public class BuffUI : MonoBehaviour
 		{
 			if (value < 0)
 				return;
-			else if (value > m_Data.maxStack)
+			else if (value > m_BuffUIData.maxStack)
 				Debug.LogError("BuffUI MaxStack");
 
-			m_BuffCount = Mathf.Clamp(value, 0, m_Data.maxStack);
+			m_BuffCount = Mathf.Clamp(value, 0, m_BuffUIData.maxStack);
 
 			if (value <= 1)
 				m_BuffCountText.gameObject.SetActive(false);
@@ -45,44 +48,71 @@ public class BuffUI : MonoBehaviour
 			m_BuffCountText.text = "x" + m_BuffCount.ToString();
 		}
 	}
-	public Button.ButtonClickedEvent onClick => m_Button.onClick;
+	public BuffUIData buffUIData => m_BuffUIData;
+	public event UnityAction onClick
+	{
+		add
+		{
+			m_Button.onClick.AddListener(value);
+		}
+		remove
+		{
+			m_Button.onClick.RemoveListener(value);
+		}
+	}
 
-	public void Initialize(BuffUIData buffUIData)
+	private void Awake()
 	{
 		#region Null Check
 		if (m_Button == null)
 		{
-			m_Button = transform.Find("BackGround").GetComponent<Button>();
+			m_Button = transform.Find<Button>("BackGround");
 		}
 		if (m_BuffCountText == null)
 		{
-			m_BuffCountText = transform.Find("BuffCount").GetComponent<TextMeshProUGUI>();
+			m_BuffCountText = transform.Find<TextMeshProUGUI>("BuffCount");
+		}
+		if (m_BuffCode == null)
+		{
+			m_BuffCode = transform.Find<TextMeshProUGUI>("BuffCode");
 		}
 		if (m_TitleText == null)
 		{
-			m_TitleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
+			m_TitleText = transform.Find<TextMeshProUGUI>("Title");
 		}
 		if (m_SpriteImage == null)
 		{
-			m_SpriteImage = transform.Find("Sprite").GetComponent<Image>();
+			m_SpriteImage = transform.Find<Image>("Sprite");
 		}
 		if (m_BuffGradeText == null)
 		{
-			m_BuffGradeText = transform.Find("Grade").GetComponent<TextMeshProUGUI>();
+			m_BuffGradeText = transform.Find<TextMeshProUGUI>("Grade");
 		}
 		if (m_DescriptionText == null)
 		{
-			m_DescriptionText = transform.Find("Description").GetComponent<TextMeshProUGUI>();
+			m_DescriptionText = transform.Find<TextMeshProUGUI>("Description");
 		}
 		#endregion
+	}
 
+	public void Initialize(BuffUIData buffUIData)
+	{
 		m_BuffCount = 1;
-		m_Data = buffUIData;
-
+		UpdateBuffUIData(buffUIData);
+	}
+	public void UpdateBuffUIData()
+	{
 		m_BuffCountText.text = "x" + m_BuffCount.ToString();
-		m_TitleText.text = m_Data.title;
-		m_SpriteImage.sprite = m_Data.sprite;
-		m_BuffGradeText.text = m_Data.buffGrade.ToString();
-		m_DescriptionText.text = m_Data.description;
+		m_BuffCode.text = m_BuffUIData.code.ToString();
+		m_TitleText.text = m_BuffUIData.title;
+		m_SpriteImage.sprite = m_BuffUIData.sprite;
+		m_BuffGradeText.text = m_BuffUIData.buffGrade.ToString();
+		m_DescriptionText.text = m_BuffUIData.description;
+	}
+	public void UpdateBuffUIData(BuffUIData buffUIData)
+	{
+		m_BuffUIData = buffUIData;
+
+		UpdateBuffUIData();
 	}
 }

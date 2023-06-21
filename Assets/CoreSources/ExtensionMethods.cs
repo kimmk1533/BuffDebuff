@@ -21,21 +21,21 @@ public static class Methods
 		list[index2] = temp;
 	}
 
-	public static Transform[] GetChilderen(this Transform tf, string name)
+	public static Transform[] GetChilderen(this Transform transform, string n)
 	{
-		int count = tf.childCount;
+		int count = transform.childCount;
 
 		List<Transform> ret_list = new List<Transform>();
-		if (tf.name == name)
+		if (transform.name == n)
 		{
-			ret_list.Add(tf);
+			ret_list.Add(transform);
 		}
 		else if (count == 0)
 			return null;
 
 		for (int i = 0; i < count; i++)
 		{
-			Transform[] arr = tf.GetChild(i).GetChilderen(name);
+			Transform[] arr = transform.GetChild(i).GetChilderen(n);
 			if (arr != null)
 				ret_list.AddRange(arr);
 		}
@@ -43,29 +43,42 @@ public static class Methods
 		return ret_list.ToArray();
 	}
 
-	public static Transform GetChild(this Transform _transform, string p_name)
+	public static T Find<T>(this Transform transform, string n)
 	{
-		int count = _transform.childCount;
+		return transform.Find(n).GetComponent<T>();
+	}
+	public static Transform FindInChilderen(this Transform transform, string n)
+	{
+		int count = transform.childCount;
 
-		Transform temp_child_transforms;
+		Transform childTransform;
 
 		for (int i = 0; i < count; i++)
 		{
-			temp_child_transforms = _transform.GetChild(i);
-			if (temp_child_transforms.name == p_name)
+			childTransform = transform.GetChild(i);
+			if (childTransform.name == n)
 			{
-				return temp_child_transforms;
+				return childTransform;
 			}
-			else if (temp_child_transforms.childCount > 0)
+			else if (childTransform.childCount > 0)
 			{
-				temp_child_transforms = GetChild(temp_child_transforms, p_name);
-				if (temp_child_transforms != null)
+				childTransform = FindInChilderen(childTransform, n);
+				if (childTransform != null)
 				{
-					return temp_child_transforms;
+					return childTransform;
 				}
 			}
 		}
 		return null;
+	}
+	public static T GetChild<T>(this Transform transform, int index)
+	{
+		Transform child = transform.GetChild(index);
+
+		if (child == null)
+			return default(T);
+
+		return child.GetComponent<T>();
 	}
 
 	public static string CombinePath(char split_word = '/', params string[] path)

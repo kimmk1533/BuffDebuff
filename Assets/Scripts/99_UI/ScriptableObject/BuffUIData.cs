@@ -66,4 +66,13 @@ public class BuffUIData : ScriptableObject
 		m_MaxStack = maxStack;
 		m_Description = description;
 	}
+
+	public static bool operator ==(BuffUIData a, BuffUIData b)
+	{
+		return a.code == b.code;
+	}
+	public static bool operator !=(BuffUIData a, BuffUIData b)
+	{
+		return a.code != b.code;
+	}
 }

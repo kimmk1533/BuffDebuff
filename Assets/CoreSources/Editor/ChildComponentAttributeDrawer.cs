@@ -33,7 +33,7 @@ namespace UnityEditor
 
 			if (child.checkChildren)
 			{
-				childTransform = gameObject.transform.GetChild(child.childName);
+				childTransform = Methods.FindInChilderen(gameObject.transform, child.childName);
 			}
 			else
 			{

@@ -135,7 +135,7 @@ public class Character
 				buff.OnBuffAdded(this);
 			}
 			else
-				Debug.Log("버프 최대");
+				Debug.Log("Buff Count is Max. title =" + buffData.title + ", maxStack = " + buffData.maxStack.ToString());
 
 			return;
 		}
