@@ -23,7 +23,7 @@ namespace SpreadSheet
 		SpreadSheetSetting setting => SpreadSheetSetting.Instance;
 
 		[ContextMenu("Init")]
-		public void Init()
+		public void Initialize()
 		{
 			m_DataBase = new DataSet("DataBase");
 

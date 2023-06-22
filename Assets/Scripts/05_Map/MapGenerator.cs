@@ -32,18 +32,12 @@ public class MapGenerator : MonoBehaviour
 
 	StageManager M_Stage => StageManager.Instance;
 
-	private void Awake()
+	public void Initialize()
 	{
 		m_MapCheck = new bool[M_Stage.height, M_Stage.width];
 
 		ClearMap();
 		GenerateMap();
-	}
-	public void OnValidate()
-	{
-		info.MinExpectedRoomCount = /*Random.Range(0, 2)*/0 + 5 + (int)(M_Stage.stage * m_StageMagnification);
-		info.MaxExpectedRoomCount = /*Random.Range(0, 2)*/1 + 5 + (int)(M_Stage.stage * m_StageMagnification);
-		info.MaxRoomCount = M_Stage.mapSize.x * M_Stage.mapSize.y;
 	}
 
 	public bool CheckMapGenerated(int x, int y)
@@ -224,5 +218,12 @@ public class MapGenerator : MonoBehaviour
 			return false;
 
 		return true;
+	}
+
+	public void OnValidate()
+	{
+		info.MinExpectedRoomCount = /*Random.Range(0, 2)*/0 + 5 + (int)(M_Stage.stage * m_StageMagnification);
+		info.MaxExpectedRoomCount = /*Random.Range(0, 2)*/1 + 5 + (int)(M_Stage.stage * m_StageMagnification);
+		info.MaxRoomCount = M_Stage.mapSize.x * M_Stage.mapSize.y;
 	}
 }

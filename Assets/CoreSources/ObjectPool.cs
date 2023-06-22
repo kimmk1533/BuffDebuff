@@ -47,6 +47,9 @@ public class ObjectPool<T> : System.IDisposable where T : MonoBehaviour
 		m_OnInstantiated = new UnityEvent<T>();
 	}
 
+	/// <summary>
+	/// 초기 풀 세팅
+	/// </summary>
 	public void Initialize()
 	{
 		ExpandPool(m_PoolSize);

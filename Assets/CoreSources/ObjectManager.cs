@@ -9,11 +9,6 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 	protected List<OriginInfo> m_Origins = new List<OriginInfo>();
 	protected Dictionary<string, ObjectPool<Origin>> m_Pools = null;
 
-	protected virtual void Awake()
-	{
-		Initialize();
-	}
-
 	public virtual void Initialize()
 	{
 		m_Pools = new Dictionary<string, ObjectPool<Origin>>();

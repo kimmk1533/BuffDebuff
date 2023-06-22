@@ -21,6 +21,8 @@ public class BuffData : ScriptableObject
 	private E_BuffWeapon m_Weapon;
 	[SerializeField, ReadOnly, TextArea]
 	private string m_Description;
+	[SerializeField, ReadOnly]
+	private Sprite m_Sprite;
 
 	public int code
 	{
@@ -54,8 +56,12 @@ public class BuffData : ScriptableObject
 	{
 		get { return m_Description; }
 	}
+	public Sprite sprite
+	{
+		get { return m_Sprite; }
+	}
 
-	public BuffData(string _title, int _code, E_BuffType _type, E_BuffEffectType _effectType, E_BuffGrade _grade, int _maxStack, E_BuffWeapon _weapon, string _description)
+	public BuffData(string _title, int _code, E_BuffType _type, E_BuffEffectType _effectType, E_BuffGrade _grade, int _maxStack, E_BuffWeapon _weapon, string _description, Sprite _sprite)
 	{
 		m_Title = _title;
 		m_Code = _code;
@@ -65,5 +71,6 @@ public class BuffData : ScriptableObject
 		m_MaxStack = _maxStack;
 		m_Weapon = _weapon;
 		m_Description = _description;
+		m_Sprite = _sprite;
 	}
 }

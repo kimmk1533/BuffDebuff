@@ -10,10 +10,8 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 {
 	// Buff Combine
 	[Space(10)]
-	private BuffUI m_FirstCombineBuff;
 	[SerializeField]
 	private CombineBuffUIPanel m_FirstCombineBuffUIPanel;
-	private BuffUI m_SecondCombineBuff;
 	[SerializeField]
 	private CombineBuffUIPanel m_SecondCombineBuffUIPanel;
 	[SerializeField]
@@ -38,7 +36,6 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 	// Manager
 	private BuffManager M_Buff => BuffManager.Instance;
-	private PlayerManager M_Player => PlayerManager.Instance;
 
 	private void Update()
 	{
@@ -74,6 +71,11 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	{
 		base.Initialize();
 
+		M_Buff.onBuffAdded += AddBuff_Inventory;
+		M_Buff.onBuffAdded += AddBuff_CombineInventory;
+		M_Buff.onBuffRemoved += RemoveBuff_Inventory;
+		M_Buff.onBuffRemoved += RemoveBuff_CombineInventory;
+
 		foreach (var originInfo in m_Origins)
 		{
 			AddPool(originInfo, transform, false);
@@ -86,11 +88,8 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 					{
 						buffUI.onClick += () =>
 						{
-							// 나중에 최대 갯수인 버프는 안나오게 BuffManager 수정해야함.
+							M_Buff.AddBuff(buffUI.buffData);
 							rewardsPanel.active = false;
-							AddBuff_Inventory(buffUI.buffUIData);
-							AddBuff_CombineInventory(buffUI.buffUIData);
-							M_Player.AddBuff(buffUI.buffUIData.code);
 						};
 					};
 					break;
@@ -108,9 +107,9 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 					{
 						buffUI.onClick += () =>
 						{
-							if (AddBuff_Combine(buffUI.buffUIData))
+							if (AddBuff_Combine(buffUI.buffData))
 							{
-								RemoveBuff_CombineInventory(buffUI.buffUIData);
+								RemoveBuff_CombineInventory(buffUI.buffData);
 							}
 						};
 					};
@@ -120,8 +119,8 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 					{
 						buffUI.onClick += () =>
 						{
-							AddBuff_CombineInventory(buffUI.buffUIData);
-							RemoveBuff_Combine(buffUI.buffUIData);
+							AddBuff_CombineInventory(buffUI.buffData);
+							RemoveBuff_Combine(buffUI.buffData);
 						};
 					};
 					break;
@@ -135,6 +134,18 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 		m_FirstCombineBuffUIPanel.Initialize();
 		m_SecondCombineBuffUIPanel.Initialize();
+		m_CombineButton.onClick.AddListener(
+			() =>
+			{
+				BuffData first = m_FirstCombineBuffUIPanel.buffData;
+				BuffData second = m_SecondCombineBuffUIPanel.buffData;
+
+				if (M_Buff.CombineBuff(first, second) == true)
+				{
+					m_FirstCombineBuffUIPanel.RemoveBuffData(first);
+					m_SecondCombineBuffUIPanel.RemoveBuffData(second);
+				}
+			});
 
 		if (m_BuffPanelMap == null)
 		{
@@ -162,12 +173,6 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 			m_BuffCombineInventoryMap = new Dictionary<int, BuffUI>();
 		else
 			m_BuffCombineInventoryMap.Clear();
-
-		foreach (var item in m_BuffPanelList)
-		{
-			item.panel.SetActive(true);
-			item.panel.SetActive(false);
-		}
 	}
 
 	public void RerollBuffRewards()
@@ -184,152 +189,140 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		}
 
 		int count = M_Buff.rewardsCount;
-		List<BuffUIData> buffUIDataList = M_Buff.GetRandomBuffUIData(E_BuffType.Buff, count);
-		foreach (var buffUIData in buffUIDataList)
+		List<BuffData> buffDataList = M_Buff.GetRandomBuffData(E_BuffType.Buff, E_BuffGrade.Normal, count);
+		foreach (var buffData in buffDataList)
 		{
 			BuffUI buffUI = Spawn("Buff Rewards");
-			buffUI.Initialize(buffUIData);
+			buffUI.Initialize(buffData);
 			buffUI.transform.SetParent(rewardsPanel.content.transform);
-			buffUI.name = buffUIData.title;
+			buffUI.name = buffData.title;
 			buffUI.transform.localScale = Vector3.one;
 
 			buffUI.gameObject.SetActive(true);
 		}
 	}
-	public void AddBuff_Inventory(BuffUIData buffUIData)
+	private bool AddBuff_Inventory(BuffData buffData)
 	{
-		if (m_BuffInventoryMap.TryGetValue(buffUIData.code, out BuffUI buffUI) == true)
+		if (m_BuffInventoryMap.TryGetValue(buffData.code, out BuffUI buffUI) == true)
 		{
-			if (buffUI.buffCount < buffUIData.maxStack)
+			if (buffUI.buffCount < buffData.maxStack)
 				++buffUI.buffCount;
+			else
+				return false;
 
-			return;
+			return true;
 		}
 
+		// 버프가 인벤에 안들어감. 디버깅 해야함.
 		buffUI = Spawn("Buff Inventory");
-		buffUI.Initialize(buffUIData);
-		buffUI.name = buffUIData.title;
+		buffUI.Initialize(buffData);
+		buffUI.name = buffData.title;
 		buffUI.transform.SetParent(inventoryPanel.content.transform);
 		buffUI.transform.localPosition = Vector3.zero;
 		buffUI.transform.localScale = Vector3.one * 0.75f;
 		buffUI.gameObject.SetActive(true);
 
 		m_BuffInventoryList.Add(buffUI);
-		m_BuffInventoryMap.Add(buffUIData.code, buffUI);
+		m_BuffInventoryMap.Add(buffData.code, buffUI);
 
-		m_BuffInventoryList = m_BuffInventoryList
-			.OrderBy((BuffUI buff) =>
-			{
-				return buff.buffUIData.code % 1000;
-			})
-			.ToList();
+		SortBuffList(ref m_BuffInventoryList, inventoryPanel);
 
-		inventoryPanel.content.transform.DetachChildren();
-		int count = m_BuffInventoryList.Count;
-		for (int i = 0; i < count; ++i)
-		{
-			buffUI = m_BuffInventoryList[i];
-			buffUI.transform.SetParent(inventoryPanel.content.transform);
-			buffUI.transform.localPosition = Vector3.zero;
-		}
+		return true;
 	}
-	public void AddBuff_CombineInventory(BuffUIData buffUIData)
+	private bool AddBuff_CombineInventory(BuffData buffData)
 	{
-		if (m_BuffCombineInventoryMap.TryGetValue(buffUIData.code, out BuffUI buffUI) == true)
+		if (m_BuffCombineInventoryMap.TryGetValue(buffData.code, out BuffUI buffUI) == true)
 		{
-			if (buffUI.buffCount < buffUIData.maxStack)
+			if (buffUI.buffCount < buffData.maxStack)
 				++buffUI.buffCount;
+			else
+				return false;
 
-			return;
+			return true;
 		}
 
 		buffUI = Spawn("Buff Combine Inventory");
-		buffUI.Initialize(buffUIData);
-		buffUI.name = buffUIData.title;
+		buffUI.Initialize(buffData);
+		buffUI.name = buffData.title;
 		buffUI.transform.SetParent(combineInventoryPanel.content.transform);
 		buffUI.transform.localPosition = Vector3.zero;
 		buffUI.transform.localScale = Vector3.one * 0.75f;
 		buffUI.gameObject.SetActive(true);
 
 		m_BuffCombineInventoryList.Add(buffUI);
-		m_BuffCombineInventoryMap.Add(buffUIData.code, buffUI);
+		m_BuffCombineInventoryMap.Add(buffData.code, buffUI);
 
-		m_BuffCombineInventoryList = m_BuffCombineInventoryList
-			.OrderBy((BuffUI buff) =>
-			{
-				return buff.buffUIData.code % 1000;
-			})
-			.ToList();
+		SortBuffList(ref m_BuffCombineInventoryList, combineInventoryPanel);
 
-		combineInventoryPanel.content.transform.DetachChildren();
-		int count = m_BuffCombineInventoryList.Count;
-		for (int i = 0; i < count; ++i)
-		{
-			buffUI = m_BuffCombineInventoryList[i];
-			buffUI.transform.SetParent(combineInventoryPanel.content.transform);
-			buffUI.transform.localPosition = Vector3.zero;
-		}
+		return true;
 	}
-	public bool AddBuff_Combine(BuffUIData buffUIData)
+	private bool AddBuff_Combine(BuffData buffData)
 	{
-		if (m_FirstCombineBuffUIPanel.SetBuffUIData(buffUIData) == true)
-		{
-			//m_FirstCombineBuff = buffUI;
+		if (m_FirstCombineBuffUIPanel.SetBuffData(buffData) == true)
 			return true;
-		}
 
-		if (m_SecondCombineBuffUIPanel.SetBuffUIData(buffUIData) == true)
-		{
-			//m_SecondCombineBuff = buffUI;
+		if (m_SecondCombineBuffUIPanel.SetBuffData(buffData) == true)
 			return true;
-		}
 
 		return false;
 	}
-	public void RemoveBuff_Inventory(BuffUIData buffUIData)
+	private bool RemoveBuff_Inventory(BuffData buffData)
 	{
-		if (m_BuffInventoryMap.TryGetValue(buffUIData.code, out BuffUI buffUI) == false)
-			return;
+		if (m_BuffInventoryMap.TryGetValue(buffData.code, out BuffUI buffUI) == false)
+			return false;
 
 		if (--buffUI.buffCount == 0)
 		{
 			Despawn("Buff Inventory", buffUI);
 
 			m_BuffInventoryList.Remove(buffUI);
-			m_BuffInventoryMap.Remove(buffUIData.code);
+			m_BuffInventoryMap.Remove(buffData.code);
 		}
+
+		return true;
 	}
-	public void RemoveBuff_CombineInventory(BuffUIData buffUIData)
+	private bool RemoveBuff_CombineInventory(BuffData buffData)
 	{
-		if (m_BuffCombineInventoryMap.TryGetValue(buffUIData.code, out BuffUI buffUI) == false)
-			return;
+		if (m_BuffCombineInventoryMap.TryGetValue(buffData.code, out BuffUI buffUI) == false)
+			return false;
 
 		if (--buffUI.buffCount == 0)
 		{
 			Despawn("Buff Combine Inventory", buffUI);
 
 			m_BuffCombineInventoryList.Remove(buffUI);
-			m_BuffCombineInventoryMap.Remove(buffUIData.code);
+			m_BuffCombineInventoryMap.Remove(buffData.code);
 		}
+
+		return true;
 	}
-	public void RemoveBuff_Combine(BuffUIData buffUIData)
+	private bool RemoveBuff_Combine(BuffData buffData)
 	{
-		if (m_FirstCombineBuffUIPanel.RemoveBuffUIData(buffUIData) == false)
-			m_SecondCombineBuffUIPanel.RemoveBuffUIData(buffUIData);
+		if (m_FirstCombineBuffUIPanel.RemoveBuffData(buffData) == false)
+			if (m_SecondCombineBuffUIPanel.RemoveBuffData(buffData) == false)
+				return false;
 
-		//if (m_FirstCombineBuff == buffUI)
-		//{
-		//	m_FirstCombineBuffUIPanel.RemoveBuffUIData(buffUI.buffUIData);
-		//	m_FirstCombineBuff = null;
-		//	return;
-		//}
+		return true;
+	}
 
-		//if (m_SecondCombineBuff == buffUI)
-		//{
-		//	m_SecondCombineBuffUIPanel.RemoveBuffUIData(buffUI.buffUIData);
-		//	m_SecondCombineBuff = null;
-		//	return;
-		//}
+	private void SortBuffList(ref List<BuffUI> buffUIList, BuffPanel panel)
+	{
+		buffUIList = buffUIList
+			.OrderBy((BuffUI buff) =>
+			{
+				return buff.buffData.code % 1000;
+			})
+			.ToList();
+
+		BuffUI buffUI;
+		panel.content.transform.DetachChildren();
+		int count = buffUIList.Count;
+		for (int i = 0; i < count; ++i)
+		{
+			buffUI = buffUIList[i];
+			buffUI.transform.SetParent(panel.content.transform);
+			buffUI.transform.localPosition = Vector3.zero;
+		}
 	}
 
 	[System.Serializable]

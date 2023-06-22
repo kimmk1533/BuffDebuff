@@ -169,12 +169,20 @@ public sealed class Player : MonoBehaviour
 		projectile.gameObject.SetActive(true);
 	}
 
-	public void AddBuff(int code)
+	public bool AddBuff(int code)
 	{
-		m_Character.AddBuff(code);
+		return m_Character.AddBuff(code);
 	}
-	public void RemoveBuff(int code)
+	public bool AddBuff(BuffData buffData)
 	{
-		m_Character.RemoveBuff(code);
+		return m_Character.AddBuff(buffData);
+	}
+	public bool RemoveBuff(int code)
+	{
+		return m_Character.RemoveBuff(code);
+	}
+	public bool RemoveBuff(BuffData buffData)
+	{
+		return m_Character.RemoveBuff(buffData);
 	}
 }

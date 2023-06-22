@@ -60,18 +60,18 @@ public class GridManager : Singleton<GridManager>
 			}
 		}
 	}
-	private void Awake()
-	{
-		//PriorityQueue<int, int> test;
 
-		m_AStar = GetComponent<AStar>();
-		m_JumpAStar = GetComponent<JumpAStar>();
-	}
 	//private void Start()
 	//{
 	//	m_Tilemap = M_Stage.currentRoom.Find("TileMapLayer").Find("TileMap").GetComponent<Tilemap>();
 	//	m_ThroughMap = M_Stage.currentRoom.Find("TileMapLayer").Find("ThroughMap").GetComponent<Tilemap>();
 	//}
+
+	public void Initialize()
+	{
+		m_AStar = GetComponent<AStar>();
+		m_JumpAStar = GetComponent<JumpAStar>();
+	}
 
 	[ContextMenu("Create Grid Text")]
 	public void CreateGridText()

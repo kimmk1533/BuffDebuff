@@ -6,21 +6,21 @@ using UnityEngine;
 public class StageManager : Singleton<StageManager>
 {
 	[SerializeField]
-	Transform m_RoomParent;
+	private Transform m_RoomParent;
 	[SerializeField, ReadOnly(true)]
-	List<Room> m_RoomList;
+	private List<Room> m_RoomList;
 	[SerializeField, Min(1)]
-	int m_Stage;
+	private int m_Stage;
 
 	Room[,] m_GeneratedRooms;
 
 	[SerializeField]
-	Vector2Int m_MapSize;
+	private Vector2Int m_MapSize;
 	[SerializeField, ReadOnly]
-	Vector2Int m_CurrentPos;
+	private Vector2Int m_CurrentPos;
 
-	MapGenerator m_MapGenerator;
-	CameraFollow m_CameraFollow;
+	private MapGenerator m_MapGenerator;
+	private CameraFollow m_CameraFollow;
 
 	public int stage => m_Stage;
 	public Transform roomParent => m_RoomParent;
@@ -29,15 +29,15 @@ public class StageManager : Singleton<StageManager>
 	public int height => m_MapSize.y;
 	public Room currentRoom => m_GeneratedRooms[m_CurrentPos.y, m_CurrentPos.x];
 
-	private void Awake()
+	public void Initialize()
 	{
 		m_MapGenerator = GetComponent<MapGenerator>();
+		m_MapGenerator.Initialize();
+
 		m_CameraFollow = Camera.main.GetComponent<CameraFollow>();
 
 		m_GeneratedRooms = new Room[m_MapSize.y, m_MapSize.x];
-	}
-	private void Start()
-	{
+
 		int index = 0;
 		for (int y = 0; y < m_MapSize.y; ++y)
 		{
@@ -49,10 +49,6 @@ public class StageManager : Singleton<StageManager>
 		}
 
 		m_CurrentPos = m_MapSize / 2;
-	}
-	private void OnValidate()
-	{
-		GetComponent<MapGenerator>().OnValidate();
 	}
 
 	public Room GetRoom(int stage)
@@ -133,5 +129,10 @@ public class StageManager : Singleton<StageManager>
 		}
 
 		return warpPoint;
+	}
+
+	private void OnValidate()
+	{
+		GetComponent<MapGenerator>().OnValidate();
 	}
 }

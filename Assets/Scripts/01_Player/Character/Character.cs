@@ -106,25 +106,25 @@ public class Character
 		return true;
 	}
 
-	public void AddBuff(int code)
+	public bool AddBuff(int code)
 	{
 		BuffData buffData = M_Buff.GetBuffData(code);
 
-		this.AddBuff(buffData);
+		return this.AddBuff(buffData);
 	}
-	public void AddBuff(string name)
+	public bool AddBuff(string name)
 	{
 		if (name == null || name == string.Empty)
-			return;
+			return false;
 
 		BuffData buffData = M_Buff.GetBuffData(name);
 
-		this.AddBuff(buffData);
+		return this.AddBuff(buffData);
 	}
-	public void AddBuff(BuffData buffData)
+	public bool AddBuff(BuffData buffData)
 	{
 		if (buffData == null)
-			return;
+			return false;
 
 		if (m_BuffList.TryGetValue(buffData.code, out AbstractBuff buff) &&
 			buff != null)
@@ -135,9 +135,13 @@ public class Character
 				buff.OnBuffAdded(this);
 			}
 			else
+			{
 				Debug.Log("Buff Count is Max. title =" + buffData.title + ", maxStack = " + buffData.maxStack.ToString());
 
-			return;
+				return false;
+			}
+
+			return true;
 		}
 
 		buff = M_Buff.CreateBuff(buffData);
@@ -146,6 +150,8 @@ public class Character
 
 		buff.OnBuffInitialize(this);
 		buff.OnBuffAdded(this);
+
+		return true;
 	}
 	public bool RemoveBuff(int code)
 	{

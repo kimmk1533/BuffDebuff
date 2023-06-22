@@ -9,7 +9,7 @@ public class BuffUI : MonoBehaviour
 {
 	[SerializeField]
 	private int m_BuffCount;
-	private BuffUIData m_BuffUIData;
+	private BuffData m_BuffData;
 
 	[Space(10)]
 	[SerializeField]
@@ -35,10 +35,10 @@ public class BuffUI : MonoBehaviour
 		{
 			if (value < 0)
 				return;
-			else if (value > m_BuffUIData.maxStack)
+			else if (value > m_BuffData.maxStack)
 				Debug.LogError("BuffUI MaxStack");
 
-			m_BuffCount = Mathf.Clamp(value, 0, m_BuffUIData.maxStack);
+			m_BuffCount = Mathf.Clamp(value, 0, m_BuffData.maxStack);
 
 			if (value <= 1)
 				m_BuffCountText.gameObject.SetActive(false);
@@ -48,7 +48,7 @@ public class BuffUI : MonoBehaviour
 			m_BuffCountText.text = "x" + m_BuffCount.ToString();
 		}
 	}
-	public BuffUIData buffUIData => m_BuffUIData;
+	public BuffData buffData => m_BuffData;
 	public event UnityAction onClick
 	{
 		add
@@ -95,23 +95,23 @@ public class BuffUI : MonoBehaviour
 		#endregion
 	}
 
-	public void Initialize(BuffUIData buffUIData)
+	public void Initialize(BuffData buffData)
 	{
 		m_BuffCount = 1;
-		UpdateBuffUIData(buffUIData);
+		UpdateBuffUIData(buffData);
 	}
 	public void UpdateBuffUIData()
 	{
 		m_BuffCountText.text = "x" + m_BuffCount.ToString();
-		m_BuffCode.text = m_BuffUIData.code.ToString();
-		m_TitleText.text = m_BuffUIData.title;
-		m_SpriteImage.sprite = m_BuffUIData.sprite;
-		m_BuffGradeText.text = m_BuffUIData.buffGrade.ToString();
-		m_DescriptionText.text = m_BuffUIData.description;
+		m_BuffCode.text = m_BuffData.code.ToString();
+		m_TitleText.text = m_BuffData.title;
+		m_SpriteImage.sprite = m_BuffData.sprite;
+		m_BuffGradeText.text = m_BuffData.grade.ToString();
+		m_DescriptionText.text = m_BuffData.description;
 	}
-	public void UpdateBuffUIData(BuffUIData buffUIData)
+	public void UpdateBuffUIData(BuffData buffData)
 	{
-		m_BuffUIData = buffUIData;
+		m_BuffData = buffData;
 
 		UpdateBuffUIData();
 	}
