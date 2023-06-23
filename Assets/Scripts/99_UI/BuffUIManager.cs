@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 {
+	// Buff Rewards
+	private int m_RewardsCount = 3;
+
 	// Buff Combine
 	[Space(10)]
 	[SerializeField]
@@ -36,6 +39,7 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 	// Manager
 	private BuffManager M_Buff => BuffManager.Instance;
+	private PlayerManager M_Player => PlayerManager.Instance;
 
 	private void Update()
 	{
@@ -188,8 +192,20 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 				++offset;
 		}
 
-		int count = M_Buff.rewardsCount;
-		List<BuffData> buffDataList = M_Buff.GetRandomBuffData(E_BuffType.Buff, E_BuffGrade.Normal, count);
+		int count = m_RewardsCount;
+
+		List<BuffData> buffDataList = new List<BuffData>();
+		for (int i = 0; i < count; ++i)
+		{
+			E_BuffGrade grade = M_Buff.GetRandomGrade(M_Player.currentLevel);
+			BuffData buffData = M_Buff.GetRandomBuffData(E_BuffType.Buff, grade);
+
+			if (buffData == null)
+				continue;
+
+			buffDataList.Add(buffData);
+		}
+
 		foreach (var buffData in buffDataList)
 		{
 			BuffUI buffUI = Spawn("Buff Rewards");

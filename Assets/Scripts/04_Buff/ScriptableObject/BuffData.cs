@@ -12,13 +12,13 @@ public class BuffData : ScriptableObject
 	[SerializeField, ReadOnly]
 	private E_BuffType m_Type;
 	[SerializeField, ReadOnly]
-	private E_BuffEffectType m_EffectType;
+	private E_BuffEffectType m_BuffEffectType;
 	[SerializeField, ReadOnly]
-	private E_BuffGrade m_Grade;
+	private E_BuffGrade m_BuffGrade;
 	[SerializeField, ReadOnly]
 	private int m_MaxStack;
 	[SerializeField, ReadOnly]
-	private E_BuffWeapon m_Weapon;
+	private E_BuffWeapon m_BuffWeapon;
 	[SerializeField, ReadOnly, TextArea]
 	private string m_Description;
 	[SerializeField, ReadOnly]
@@ -36,21 +36,21 @@ public class BuffData : ScriptableObject
 	{
 		get { return m_Type; }
 	}
-	public E_BuffEffectType effectType
+	public E_BuffEffectType buffEffectType
 	{
-		get { return m_EffectType; }
+		get { return m_BuffEffectType; }
 	}
-	public E_BuffGrade grade
+	public E_BuffGrade buffGrade
 	{
-		get { return m_Grade; }
+		get { return m_BuffGrade; }
 	}
 	public int maxStack
 	{
 		get { return m_MaxStack; }
 	}
-	public E_BuffWeapon weapon
+	public E_BuffWeapon buffWeapon
 	{
-		get { return m_Weapon; }
+		get { return m_BuffWeapon; }
 	}
 	public string description
 	{
@@ -61,15 +61,15 @@ public class BuffData : ScriptableObject
 		get { return m_Sprite; }
 	}
 
-	public BuffData(string _title, int _code, E_BuffType _type, E_BuffEffectType _effectType, E_BuffGrade _grade, int _maxStack, E_BuffWeapon _weapon, string _description, Sprite _sprite)
+	public BuffData(string _title, int _code, E_BuffType _buffType, E_BuffEffectType _buffEffectType, E_BuffGrade _buffGrade, int _maxStack, E_BuffWeapon _buffWeapon, string _description, Sprite _sprite)
 	{
 		m_Title = _title;
 		m_Code = _code;
-		m_Type = _type;
-		m_EffectType = _effectType;
-		m_Grade = _grade;
+		m_Type = _buffType;
+		m_BuffEffectType = _buffEffectType;
+		m_BuffGrade = _buffGrade;
 		m_MaxStack = _maxStack;
-		m_Weapon = _weapon;
+		m_BuffWeapon = _buffWeapon;
 		m_Description = _description;
 		m_Sprite = _sprite;
 	}

@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
+	// Game Managers
 	private SpreadSheet.SpreadSheetManager M_SpreadSheet => SpreadSheet.SpreadSheetManager.Instance;
 	private BuffManager M_Buff => BuffManager.Instance;
 	private GridManager M_Grid => GridManager.Instance;
 	private StageManager M_Stage => StageManager.Instance;
 	private PlayerManager M_Player => PlayerManager.Instance;
 	private ProjectileManager M_ProjectilManager => ProjectileManager.Instance;
+
+	// UI Managers
 	private BuffUIManager M_BuffUI => BuffUIManager.Instance;
 
 	private void Awake()

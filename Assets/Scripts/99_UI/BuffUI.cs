@@ -106,7 +106,7 @@ public class BuffUI : MonoBehaviour
 		m_BuffCode.text = m_BuffData.code.ToString();
 		m_TitleText.text = m_BuffData.title;
 		m_SpriteImage.sprite = m_BuffData.sprite;
-		m_BuffGradeText.text = m_BuffData.grade.ToString();
+		m_BuffGradeText.text = m_BuffData.buffGrade.ToString();
 		m_DescriptionText.text = m_BuffData.description;
 	}
 	public void UpdateBuffUIData(BuffData buffData)

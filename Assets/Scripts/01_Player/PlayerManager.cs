@@ -6,6 +6,14 @@ public class PlayerManager : Singleton<PlayerManager>
 {
 	private Player m_Player;
 
+	[SerializeField]
+	private int m_MaxLevel;
+	[SerializeField]
+	private int m_CurrentLevel;
+
+	public int maxLevel => m_MaxLevel;
+	public int currentLevel => m_CurrentLevel;
+
 	private BuffManager M_Buff => BuffManager.Instance;
 
 	public void Initialize()

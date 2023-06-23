@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using SpreadSheet;
 using UnityEngine;
-using UnityEngine.Events;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -19,22 +18,18 @@ public sealed class BuffManager : Singleton<BuffManager>
 	// < 타입, 등급, 버프 >
 	private Dictionary<E_BuffType, Dictionary<E_BuffGrade, BuffDictionary>> m_BuffMap;
 
-	private int m_RewardsCount = 3;
+	[SerializeField, Min(0.01f)]
+	private float m_A;
+	[SerializeField, Min(1f)]
+	private float m_B;
+	[SerializeField]
+	private float m_C;
+
+	[SerializeField]
+	private List<BuffGrade> m_BuffGradeInfoList;
 
 	private System.Func<BuffData, bool> m_OnBuffAdded;
 	private System.Func<BuffData, bool> m_OnBuffRemoved;
-
-	public int rewardsCount
-	{
-		get
-		{
-			return m_RewardsCount;
-		}
-		set
-		{
-			m_RewardsCount = value;
-		}
-	}
 
 	public event System.Func<BuffData, bool> onBuffAdded
 	{
@@ -59,6 +54,8 @@ public sealed class BuffManager : Singleton<BuffManager>
 		}
 	}
 
+	private PlayerManager M_Player => PlayerManager.Instance;
+
 	public void Initialize()
 	{
 		m_BuffCounterMap = new Dictionary<int, BuffCounter>();
@@ -71,6 +68,8 @@ public sealed class BuffManager : Singleton<BuffManager>
 				m_BuffMap[i][j] = new BuffDictionary();
 			}
 		}
+
+		UpdateBuffGradeInfoList();
 	}
 
 	[ContextMenu("LoadAllBuff")]
@@ -460,144 +459,6 @@ public sealed class BuffManager : Singleton<BuffManager>
 #endif
 	#endregion
 
-	public BuffData GetBuffData(int code)
-	{
-		string codeStr = code.ToString();
-
-		string buffTypeStr = codeStr[0].ToString();
-		E_BuffType buffType = (E_BuffType)(int.Parse(buffTypeStr) - 1);
-
-		string gradeStr = codeStr[2].ToString();
-		E_BuffGrade grade = (E_BuffGrade)(int.Parse(gradeStr) - 1);
-
-		TryGetBuffData(buffType, grade, code, out BuffData buffData);
-
-		return buffData;
-	}
-	public bool TryGetBuffData(E_BuffType buffType, E_BuffGrade grade, int code, out BuffData buffData)
-	{
-		BuffDictionary buffDictionary = m_BuffMap[buffType][grade];
-
-		if (buffDictionary == null)
-		{
-			buffData = null;
-
-			Debug.LogError("버프 목록 생성 안됨");
-			return false;
-		}
-
-		if (buffDictionary.TryGetValue(code, out buffData) == false)
-		{
-			buffData = null;
-
-			Debug.LogError("버프 가져오기 실패");
-			return false;
-		}
-
-		return true;
-	}
-	public BuffData GetBuffData(string title)
-	{
-		BuffData buffData = null;
-
-		for (E_BuffType i = E_BuffType.Buff; i < E_BuffType.Max; ++i)
-		{
-			for (E_BuffGrade j = E_BuffGrade.Normal; j < E_BuffGrade.Max; ++j)
-			{
-				buffData = GetBuffData(i, j, title);
-				if (buffData != null)
-					return buffData;
-			}
-		}
-
-		return buffData;
-	}
-	private BuffData GetBuffData(E_BuffType buffType, E_BuffGrade grade, string title)
-	{
-		TryGetBuffData(buffType, grade, title, out BuffData buffData);
-
-		return buffData;
-	}
-	public bool TryGetBuffData(E_BuffType buffType, E_BuffGrade grade, string title, out BuffData buffData)
-	{
-		BuffDictionary buffDictionary = m_BuffMap[buffType][grade];
-
-		if (buffDictionary == null)
-		{
-			buffData = null;
-
-			Debug.LogError("버프 목록 생성 안됨");
-			return false;
-		}
-
-		if (buffDictionary.TryGetValue(title, out buffData) == false)
-		{
-			buffData = null;
-
-			Debug.LogError("버프 가져오기 실패");
-			return false;
-		}
-
-		return true;
-	}
-	public BuffData GetRandomBuffData()
-	{
-		E_BuffType buffType = (E_BuffType)Random.Range(0, (int)E_BuffType.Max);
-		E_BuffGrade grade = (E_BuffGrade)Random.Range(0, (int)E_BuffGrade.Max);
-
-		return GetRandomBuffData(buffType, grade);
-	}
-	public BuffData GetRandomBuffData(E_BuffType buffType, E_BuffGrade grade)
-	{
-		BuffDictionary buffDictionary = m_BuffMap[buffType][grade];
-
-		List<BuffData> dataList = buffDictionary.Values.ToList();
-		dataList.RemoveAll((BuffData buffData) =>
-		{
-			BuffCounter buffCounter = m_BuffCounterMap[buffData.code];
-			if (buffCounter.count >= buffCounter.maxStack)
-				return true;
-
-			return false;
-		});
-
-		if (dataList.Count <= 0)
-			return null;
-
-		int index = Random.Range(0, dataList.Count);
-
-		return dataList[index];
-	}
-	public List<BuffData> GetRandomBuffData(E_BuffType buffType, E_BuffGrade grade, int count)
-	{
-		BuffDictionary buffDictionary = m_BuffMap[buffType][grade];
-
-		List<BuffData> dataList = buffDictionary.Values.ToList();
-		dataList.RemoveAll((BuffData buffData) =>
-		{
-			BuffCounter buffCounter = m_BuffCounterMap[buffData.code];
-			if (buffCounter.count >= buffCounter.maxStack)
-				return true;
-
-			return false;
-		});
-
-		if (dataList.Count <= 0)
-			return null;
-
-		count = Mathf.Clamp(count, 0, dataList.Count);
-
-		// 피셔 예이츠 셔플
-		for (int i = 0; i < count; ++i)
-		{
-			int index = Random.Range(i, dataList.Count);
-
-			dataList.Swap(i, index);
-		}
-
-		return dataList.GetRange(0, count);
-	}
-
 	public AbstractBuff CreateBuff(int code)
 	{
 		BuffData buffData = GetBuffData(code);
@@ -744,14 +605,19 @@ public sealed class BuffManager : Singleton<BuffManager>
 			return false;
 		}
 
-		float firstGrade = (int)first.grade + 1.0f;
-		float secondGrade = (int)second.grade + 1.0f;
-		float gradeInt = Mathf.Max(firstGrade, secondGrade) + 1;
+		E_BuffGrade firstBuffGrade = first.buffGrade;
+		E_BuffGrade secondBuffGrade = second.buffGrade;
 
-		firstGrade = firstGrade / gradeInt;
-		secondGrade = secondGrade / gradeInt;
+		if (firstBuffGrade != secondBuffGrade)
+		{
+			Debug.Log("Combine Buff`s buffGrade should be same. first = " + first.buffGrade.ToString() + ", second = " + second.buffGrade.ToString());
+			return false;
+		}
 
-		E_BuffGrade grade = (E_BuffGrade)Mathf.RoundToInt(firstGrade * secondGrade);
+		E_BuffGrade grade = firstBuffGrade + 1;
+
+		if (grade == E_BuffGrade.Max)
+			grade = E_BuffGrade.Max - 1;
 
 		BuffData buffData = null;
 		switch (firstBuffType)
@@ -782,15 +648,372 @@ public sealed class BuffManager : Singleton<BuffManager>
 		return true;
 	}
 
+	public BuffData GetBuffData(int code)
+	{
+		string codeStr = code.ToString();
+
+		string buffTypeStr = codeStr[0].ToString();
+		E_BuffType buffType = (E_BuffType)(int.Parse(buffTypeStr) - 1);
+
+		string gradeStr = codeStr[2].ToString();
+		E_BuffGrade grade = (E_BuffGrade)(int.Parse(gradeStr) - 1);
+
+		TryGetBuffData(buffType, grade, code, out BuffData buffData);
+
+		return buffData;
+	}
+	public bool TryGetBuffData(E_BuffType buffType, E_BuffGrade grade, int code, out BuffData buffData)
+	{
+		if (grade == E_BuffGrade.Max)
+		{
+			Debug.LogError("Random Grade should be not E_BuffGrade.Max!");
+			buffData = null;
+			return false;
+		}
+
+		BuffDictionary buffDictionary = m_BuffMap[buffType][grade];
+
+		if (buffDictionary == null)
+		{
+			buffData = null;
+
+			Debug.LogError("버프 목록 생성 안됨");
+			return false;
+		}
+
+		if (buffDictionary.TryGetValue(code, out buffData) == false)
+		{
+			buffData = null;
+
+			Debug.LogError("버프 가져오기 실패");
+			return false;
+		}
+
+		return true;
+	}
+	public BuffData GetBuffData(string title)
+	{
+		BuffData buffData = null;
+
+		for (E_BuffType i = E_BuffType.Buff; i < E_BuffType.Max; ++i)
+		{
+			for (E_BuffGrade j = E_BuffGrade.Normal; j < E_BuffGrade.Max; ++j)
+			{
+				buffData = GetBuffData(i, j, title);
+				if (buffData != null)
+					return buffData;
+			}
+		}
+
+		return buffData;
+	}
+	private BuffData GetBuffData(E_BuffType buffType, E_BuffGrade grade, string title)
+	{
+		if (grade == E_BuffGrade.Max)
+		{
+			Debug.LogError("Random Grade should be not E_BuffGrade.Max!");
+			return null;
+		}
+
+		TryGetBuffData(buffType, grade, title, out BuffData buffData);
+
+		return buffData;
+	}
+	public bool TryGetBuffData(E_BuffType buffType, E_BuffGrade grade, string title, out BuffData buffData)
+	{
+		if (grade == E_BuffGrade.Max)
+		{
+			Debug.LogError("Random Grade should be not E_BuffGrade.Max!");
+			buffData = null;
+			return false;
+		}
+
+		BuffDictionary buffDictionary = m_BuffMap[buffType][grade];
+
+		if (buffDictionary == null)
+		{
+			buffData = null;
+
+			Debug.LogError("버프 목록 생성 안됨");
+			return false;
+		}
+
+		if (buffDictionary.TryGetValue(title, out buffData) == false)
+		{
+			buffData = null;
+
+			Debug.LogError("버프 가져오기 실패");
+			return false;
+		}
+
+		return true;
+	}
+	public BuffData GetRandomBuffData()
+	{
+		E_BuffType buffType = (E_BuffType)Random.Range(0, (int)E_BuffType.Max);
+		E_BuffGrade grade = (E_BuffGrade)Random.Range(0, (int)E_BuffGrade.Max);
+
+		return GetRandomBuffData(buffType, grade);
+	}
+	public BuffData GetRandomBuffData(E_BuffType buffType, E_BuffGrade grade)
+	{
+		if (grade == E_BuffGrade.Max)
+		{
+			Debug.LogError("Random Grade should be not E_BuffGrade.Max!");
+			return null;
+		}
+
+		BuffDictionary buffDictionary = m_BuffMap[buffType][grade];
+
+		List<BuffData> dataList = buffDictionary.Values.ToList();
+		dataList.RemoveAll((BuffData buffData) =>
+		{
+			BuffCounter buffCounter = m_BuffCounterMap[buffData.code];
+			if (buffCounter.count >= buffCounter.maxStack)
+				return true;
+
+			return false;
+		});
+
+		if (dataList.Count <= 0)
+			return null;
+
+		int index = Random.Range(0, dataList.Count);
+
+		return dataList[index];
+	}
+	public List<BuffData> GetRandomBuffData(E_BuffType buffType, E_BuffGrade grade, int count)
+	{
+		if (grade == E_BuffGrade.Max)
+		{
+			Debug.LogError("Random Grade should be not E_BuffGrade.Max!");
+			return null;
+		}
+
+		BuffDictionary buffDictionary = m_BuffMap[buffType][grade];
+
+		List<BuffData> dataList = buffDictionary.Values.ToList();
+		dataList.RemoveAll((BuffData buffData) =>
+		{
+			BuffCounter buffCounter = m_BuffCounterMap[buffData.code];
+			if (buffCounter.count >= buffCounter.maxStack)
+				return true;
+
+			return false;
+		});
+
+		if (dataList.Count <= 0)
+			return null;
+
+		count = Mathf.Clamp(count, 0, dataList.Count);
+
+		// 피셔 예이츠 셔플
+		for (int i = 0; i < count; ++i)
+		{
+			int index = Random.Range(i, dataList.Count);
+
+			dataList.Swap(i, index);
+		}
+
+		return dataList.GetRange(0, count);
+	}
+
+	public E_BuffGrade GetRandomGrade(int level)
+	{
+		const E_BuffGrade MaxBuffGrade = E_BuffGrade.Max - 1;
+
+		float max = 0f;
+		float[] rates = new float[(int)MaxBuffGrade];
+
+		int index;
+		for (E_BuffGrade grade = 0; grade < MaxBuffGrade; ++grade)
+		{
+			index = (int)grade;
+
+			rates[index] = m_BuffGradeInfoList[index].curve.keys[level].value;
+
+			max += rates[index];
+		}
+
+		int randInt = Random.Range(0, 100);
+		float rand = randInt * 0.01f;
+
+		float sum = 0f;
+		E_BuffGrade result = E_BuffGrade.Max;
+		for (E_BuffGrade grade = 0; grade < MaxBuffGrade; ++grade)
+		{
+			index = (int)grade;
+
+			sum += rates[index] / max;
+
+			if (rand < sum)
+			{
+				result = grade;
+				break;
+			}
+		}
+
+		return result;
+	}
+
+	private void UpdateBuffGradeInfoList()
+	{
+		foreach (var item in m_BuffGradeInfoList)
+		{
+			int length = item.curve.length;
+			for (int i = 0; i < length; ++i)
+			{
+				item.curve.RemoveKey(0);
+			}
+		}
+
+		int maxLevel = M_Player.maxLevel;
+		float levelPercent, rate;
+
+		for (int level = 0; level < maxLevel; ++level)
+		{
+			levelPercent = (float)level / maxLevel;
+
+			for (E_BuffGrade grade = 0; grade < E_BuffGrade.GOD; ++grade)
+			{
+				rate = BuffGradeRateFormula(levelPercent, grade);
+
+				m_BuffGradeInfoList[(int)grade].curve.AddKey(new Keyframe(levelPercent, rate)
+				{
+					weightedMode = WeightedMode.Both,
+					inTangent = 0f,
+					outTangent = 0f,
+					inWeight = 0f,
+					outWeight = 0f,
+				});
+			}
+		}
+	}
+	private float BuffGradeRateFormula(float levelPercent, E_BuffGrade buffGrade)
+	{
+		const int n = (int)E_BuffGrade.GOD - 1;
+
+		int grade = (int)buffGrade;
+
+		const float PI2 = 2 * Mathf.PI;
+		float a = m_A + m_BuffGradeInfoList[grade].a;
+		float b = m_B + m_BuffGradeInfoList[grade].b;
+		float c = m_C + m_BuffGradeInfoList[grade].c;
+
+		// 대충 직접 만든 공식
+		// 그래프 그려볼 수 있는 사이트: https://www.desmos.com/calculator/kihjluohq9?lang=ko
+		float value = a * Mathf.Cos(PI2 * (levelPercent - c - (float)grade / n) / b);
+
+		return Mathf.Clamp01(value);
+	}
+
+	private void OnValidate()
+	{
+		const E_BuffGrade MaxBuffGrade = E_BuffGrade.Max - 1;
+		int index;
+		float left, right;
+
+		for (E_BuffGrade grade = 0; grade < MaxBuffGrade; ++grade)
+		{
+			index = (int)grade;
+
+			m_BuffGradeInfoList[index].buffGrade = grade;
+
+			left = BuffGradeRateFormula(0f, grade);
+			right = BuffGradeRateFormula(1f, grade);
+
+			m_BuffGradeInfoList[index].leftWeight = Mathf.Round(left * 100f) / 100f;
+			m_BuffGradeInfoList[index].rightWeight = Mathf.Round(right * 100f) / 100f;
+		}
+
+		UpdateBuffGradeInfoList();
+
+		float[] leftRates = new float[(int)MaxBuffGrade];
+		float[] rightRates = new float[(int)MaxBuffGrade];
+
+		float leftMax = 0f;
+		float rightMax = 0f;
+
+		for (E_BuffGrade grade = 0; grade < MaxBuffGrade; ++grade)
+		{
+			index = (int)grade;
+
+			leftRates[index] = m_BuffGradeInfoList[index].curve.keys[0].value;
+			rightRates[index] = m_BuffGradeInfoList[index].curve.keys[M_Player.maxLevel - 1].value;
+
+			leftMax += leftRates[index];
+			rightMax += rightRates[index];
+		}
+
+		for (E_BuffGrade grade = 0; grade < MaxBuffGrade; ++grade)
+		{
+			index = (int)grade;
+
+			leftRates[index] /= leftMax;
+			rightRates[index] /= rightMax;
+
+			m_BuffGradeInfoList[index].leftPercent = Mathf.RoundToInt(leftRates[index] * 100f);
+			m_BuffGradeInfoList[index].rightPercent = Mathf.RoundToInt(rightRates[index] * 100f);
+		}
+	}
+
 	private class BuffCounter
 	{
 		public int code { get; set; }
 		public int count { get; set; }
 		public int maxStack { get; set; }
 	}
+	[System.Serializable]
 	private class BuffGrade
 	{
-		public E_BuffGrade key { get; set; }
-		public float rate { get; set; }
+		[SerializeField, ReadOnly]
+		private E_BuffGrade m_Grade;
+		[SerializeField]
+		private float m_A;
+		[SerializeField]
+		private float m_B;
+		[SerializeField]
+		private float m_C;
+		[SerializeField]
+		private AnimationCurve m_Curve;
+
+		[SerializeField, ReadOnly]
+		private float m_LeftWeight;
+		[SerializeField, ReadOnly]
+		private float m_RightWeight;
+		[SerializeField, ReadOnly]
+		private int m_LeftPercent;
+		[SerializeField, ReadOnly]
+		private int m_RightPercent;
+
+		public E_BuffGrade buffGrade
+		{
+			get => m_Grade;
+			set => m_Grade = value;
+		}
+		public float a => m_A;
+		public float b => m_B;
+		public float c => m_C;
+		public AnimationCurve curve => m_Curve;
+		public float leftWeight
+		{
+			get => m_LeftWeight;
+			set => m_LeftWeight = value;
+		}
+		public float rightWeight
+		{
+			get => m_RightWeight;
+			set => m_RightWeight = value;
+		}
+		public int leftPercent
+		{
+			get => m_LeftPercent;
+			set => m_LeftPercent = value;
+		}
+		public int rightPercent
+		{
+			get => m_RightPercent;
+			set => m_RightPercent = value;
+		}
 	}
 }
