@@ -28,20 +28,9 @@ public class Room : MonoBehaviour
 
 	public void Initialize()
 	{
-		// 방 첫 입장 시 할 일 (몬스터 생성 등)
-	}
-	public Transform GetWarpPoint(E_RoomDir dir)
-	{
-		return m_WarpPointMap[dir];
-	}
-
-	private void Awake()
-	{
 		m_TilemapMap = new Dictionary<E_RoomTilemapLayer, Tilemap>();
 		m_WarpPointMap = new Dictionary<E_RoomDir, Transform>();
-	}
-	private void Start()
-	{
+
 		Transform tilemapLayer = transform.Find("TileMapLayer");
 		for (E_RoomTilemapLayer layer = E_RoomTilemapLayer.BackGround; layer != E_RoomTilemapLayer.Max; ++layer)
 		{
@@ -57,6 +46,18 @@ public class Room : MonoBehaviour
 			m_WarpPointMap.Add(dir, warpPoint);
 		}
 	}
+	public Tilemap GetTilemap(E_RoomTilemapLayer layer)
+	{
+		if (m_TilemapMap == null)
+			return null;
+
+		return m_TilemapMap[layer];
+	}
+	public Transform GetWarpPoint(E_RoomDir dir)
+	{
+		return m_WarpPointMap[dir];
+	}
+
 	private void OnDrawGizmosSelected()
 	{
 		Gizmos.color = new Color(0, 1, 0, 0.1f);

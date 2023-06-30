@@ -21,7 +21,7 @@ public class BuffManagerEditor : Editor
 
 		EditorGUILayout.LabelField("Options");
 
-		m_LoadBuff = GUILayout.Toggle(m_LoadBuff, " Load Buff From Spread Sheet");
+		m_LoadBuff = GUILayout.Toggle(m_LoadBuff, " Update BuffData from SpreadSheet");
 		//GUILayout.Space(5.0f);
 		m_CreateScript = GUILayout.Toggle(m_CreateScript, " Create Script");
 		//GUILayout.Space(5.0f);

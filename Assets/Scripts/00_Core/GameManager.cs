@@ -10,7 +10,8 @@ public class GameManager : Singleton<GameManager>
 	private GridManager M_Grid => GridManager.Instance;
 	private StageManager M_Stage => StageManager.Instance;
 	private PlayerManager M_Player => PlayerManager.Instance;
-	private ProjectileManager M_ProjectilManager => ProjectileManager.Instance;
+	private ProjectileManager M_Projectile => ProjectileManager.Instance;
+	private EnemyManager M_Enemy => EnemyManager.Instance;
 
 	// UI Managers
 	private BuffUIManager M_BuffUI => BuffUIManager.Instance;
@@ -22,19 +23,23 @@ public class GameManager : Singleton<GameManager>
 
 	public void Initialize()
 	{
+		// Game Init
 		//M_SpreadSheet.Initialize();
 
 		M_Buff.Initialize();
 		M_Buff.LoadAllBuff();
 
-		M_Grid.Initialize();
-
 		M_Stage.Initialize();
+
+		M_Grid.Initialize();
 
 		M_Player.Initialize();
 
-		M_ProjectilManager.Initialize();
+		M_Projectile.Initialize();
 
+		M_Enemy.Initialize();
+
+		// UI Init
 		M_BuffUI.Initialize();
 	}
 }

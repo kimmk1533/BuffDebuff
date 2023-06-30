@@ -25,7 +25,7 @@ public class EnemyRenderer : MonoBehaviour
 		}
 	}
 
-	void Start()
+	public void Initialize()
 	{
 		m_SpriteRenderer = GetComponent<SpriteRenderer>();
 		m_Animator = GetComponent<Animator>();

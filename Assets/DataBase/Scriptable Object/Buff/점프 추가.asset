@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Code: 132016
   m_Title: "\uC810\uD504 \uCD94\uAC00"
-  m_Type: 0
-  m_EffectType: 2
-  m_Grade: 1
+  m_BuffType: 0
+  m_BuffEffectType: 2
+  m_BuffGrade: 1
   m_MaxStack: 5
-  m_Weapon: 0
+  m_BuffWeapon: 0
   m_Description: "\uCD5C\uB300 \uC810\uD504 \uD69F\uC218 \uC99D\uAC00(\uAE30\uBCF8
     2)"
+  m_Sprite: {fileID: 0}
+  m_BuffValue: 0
+  m_BuffTime: 0

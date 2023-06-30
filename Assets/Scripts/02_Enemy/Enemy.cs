@@ -5,10 +5,29 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyController2D))]
 public class Enemy : MonoBehaviour
 {
-	[Space(10)]
-	#region Move Variables
+	protected EnemyController2D m_Controller;
+
 	[SerializeField]
 	protected int m_MoveDir;
+	protected UtilClass.Timer m_MoveDirTimer;
+
+	[SerializeField, ReadOnly]
+	Vector2 m_Velocity;
+
+	protected CustomNode m_RoadToTarget;
+	Vector2Int m_TargetPos;
+
+	bool m_Jumping;
+	Vector2Int? m_JumpEndPos = null;
+
+	UtilClass.Timer m_PathFindTimer;
+
+	[SerializeField, ChildComponent("Renderer")]
+	protected EnemyRenderer m_Renderer;
+	[SerializeField, ChildComponent("VisualRange")]
+	protected EnemyVisualRange m_VisualRange;
+	protected EnemyCharacter m_Character;
+
 	protected int moveDir
 	{
 		get { return m_MoveDir; }
@@ -20,28 +39,18 @@ public class Enemy : MonoBehaviour
 				transform.localScale = new Vector3(value, 1.0f, 1.0f);
 		}
 	}
-	protected UtilClass.Timer m_MoveDirTimer;
-	[SerializeField/*, ReadOnly*/]
-	protected float m_MoveSpeed;
 
-	[SerializeField, ReadOnly]
-	Vector2 m_Velocity;
-
-	Vector2Int m_TargetPos;
-
-	bool m_Jumping;
-	Vector2Int? m_JumpEndPos = null;
-
-	UtilClass.Timer m_PathTimer;
-	#endregion
-
-	protected CustomNode m_RoadToPlayer;
-
-	protected EnemyController2D m_Controller;
-	[SerializeField, ChildComponent("VisualRange")]
-	protected EnemyVisualRange m_VisualRange;
-
+	protected EnemyManager M_Enemy => EnemyManager.Instance;
 	protected GridManager M_Grid => GridManager.Instance;
+
+	private void Awake()
+	{
+		Initialize();
+	}
+	private void Update()
+	{
+		//Move();
+	}
 
 	// 초기화
 	protected virtual void Initialize()
@@ -50,7 +59,13 @@ public class Enemy : MonoBehaviour
 		m_Controller.Initialize();
 
 		m_MoveDirTimer = new UtilClass.Timer(Random.Range(0.5f, 1.5f));
-		m_PathTimer = new UtilClass.Timer(1f);
+		m_PathFindTimer = new UtilClass.Timer(1f);
+
+		m_Renderer.Initialize();
+		m_VisualRange.Initialize();
+
+		m_Character = GetComponent<EnemyCharacter>();
+		m_Character.Initialize();
 		//m_MoveSpeed = m_Controller.maxJumpHeight;
 	}
 	#region 이동
@@ -87,7 +102,7 @@ public class Enemy : MonoBehaviour
 			TargetVelocity(ref dir);
 		}
 
-		m_Velocity.x = moveDir * m_MoveSpeed;
+		m_Velocity.x = moveDir * m_Character.currentStat.MoveSpeed;
 		m_Velocity.y += m_Controller.gravity * Time.deltaTime;
 	}
 	#region 랜덤 움직임
@@ -134,7 +149,7 @@ public class Enemy : MonoBehaviour
 		posInt -= Vector2Int.up;
 
 		// 경로가 없는 경우
-		if (m_RoadToPlayer == null)
+		if (m_RoadToTarget == null)
 		{
 			// x 방향 움직임 봉인
 			moveDir = 0;
@@ -143,7 +158,7 @@ public class Enemy : MonoBehaviour
 		}
 
 		// 다음 경로로의 방향 계산
-		dir = new Vector3(m_RoadToPlayer.x + 0.5f, m_RoadToPlayer.y) - pos;
+		dir = new Vector3(m_RoadToTarget.x + 0.5f, m_RoadToTarget.y) - pos;
 
 		// x 방향 움직임
 		moveDir = System.MathF.Sign(dir.x);
@@ -194,36 +209,36 @@ public class Enemy : MonoBehaviour
 			(Mathf.Abs(dir.y) <= 0.1f ||    // y 좌표가 충분히 가까워졌거나
 			(m_Jumping && dir.y <= 0f)))    // 점프중이고 y 좌표가 아래에 있으면
 		{
-			m_PathTimer.Use();
+			m_PathFindTimer.Use();
 
-			m_RoadToPlayer = m_RoadToPlayer.parent as CustomNode;
+			m_RoadToTarget = m_RoadToTarget.parent as CustomNode;
 		}
 	}
 
 	// 경로 찾기
 	private void FindPathToTarget(ref Vector3 pos, ref Vector3 targetPos, ref Vector2Int posInt, ref Vector2Int targetPosInt)
 	{
-		m_PathTimer.Update();
+		m_PathFindTimer.Update();
 
 		#region 새로운 경로 찾는 조건 확인(예외 처리)
 		// 땅에 붙어 있는지 확인
 		if (m_Controller.collisions.grounded == false)
 			return;
 
-		if (!(m_RoadToPlayer == null || // 경로가 아직 존재하는지 확인
-				Vector2Int.Distance(posInt, m_RoadToPlayer.position) > 3f || // 찾은 경로와 너무 멀어지면 다시 찾는 임시 조건
+		if (!(m_RoadToTarget == null || // 경로가 아직 존재하는지 확인
+				Vector2Int.Distance(posInt, m_RoadToTarget.position) > 3f || // 찾은 경로와 너무 멀어지면 다시 찾는 임시 조건
 				m_TargetPos != targetPosInt || // 목표가 움직였는지 확인
-				m_PathTimer.timeIsUp == true))
+				m_PathFindTimer.timeIsUp == true))
 			return;
 		#endregion
 
-		m_PathTimer.Use();
+		m_PathFindTimer.Clear();
 
 		// 목표 위치 업데이트
 		m_TargetPos = targetPosInt;
 
 		// 경로 검색
-		m_RoadToPlayer = M_Grid.PathFinding(pos, targetPos, (int)m_Controller.maxJumpHeight);
+		m_RoadToTarget = M_Grid.PathFinding(pos, targetPos, (int)m_Controller.maxJumpHeight);
 
 		// 착지 지점 날리고
 		m_JumpEndPos = null;
@@ -231,8 +246,8 @@ public class Enemy : MonoBehaviour
 		m_Jumping = false;
 
 		// 경로에 시작점(현재 위치)가 포함되어 시작점 다음 위치부터 검색하도록 수정
-		if (m_RoadToPlayer != null)
-			m_RoadToPlayer = m_RoadToPlayer.parent as CustomNode;
+		if (m_RoadToTarget != null)
+			m_RoadToTarget = m_RoadToTarget.parent as CustomNode;
 	}
 	// 점프
 	private void Jump(ref Vector2 dir, ref Vector3 pos)
@@ -264,7 +279,7 @@ public class Enemy : MonoBehaviour
 	// 위로 점프
 	private void JumpToUp(ref Vector3 pos)
 	{
-		CustomNode jumpNode = m_RoadToPlayer as CustomNode;
+		CustomNode jumpNode = m_RoadToTarget as CustomNode;
 
 		if (jumpNode == null)
 			return;
@@ -277,7 +292,7 @@ public class Enemy : MonoBehaviour
 		}
 
 		// 좌우 이동을 못하면 점프도 못함
-		if (m_MoveSpeed == 0f)
+		if (m_Character.currentStat.MoveSpeed == 0f)
 			return;
 
 		Vector2Int jumpStartPos = jumpNode.jumpStartPos.Value;
@@ -312,7 +327,7 @@ public class Enemy : MonoBehaviour
 			while (height <= m_Controller.maxJumpHeight)
 			{
 				// 최고점 x 위치
-				float Cx = pos.x + m_MoveSpeed * distanceX * Mathf.Sqrt(2 * height / g) / Mathf.Abs(distanceX);
+				float Cx = pos.x + m_Character.currentStat.MoveSpeed * distanceX * Mathf.Sqrt(2 * height / g) / Mathf.Abs(distanceX);
 				// 최고점 y 위치
 				float Cy = pos.y + height;
 
@@ -322,7 +337,7 @@ public class Enemy : MonoBehaviour
 				float moveY = Mathf.Abs(Cy - jumpNode.y);
 
 				// 최고점에서 목표지점까지 x축 이동 시간
-				float xTime = moveX / m_MoveSpeed;
+				float xTime = moveX / m_Character.currentStat.MoveSpeed;
 				// 최고점에서 목표지점까지 y축 이동 시간
 				float yTime = moveY / height;
 
@@ -353,22 +368,21 @@ public class Enemy : MonoBehaviour
 	}
 	#endregion
 	#endregion
+	public void HitDamage(float damage)
+	{
+		m_Character.currentStat.Hp -= damage;
 
-	private void Awake()
-	{
-		Initialize();
+		if (m_Character.currentStat.Hp <= 0f)
+			M_Enemy.Despawn(this);
 	}
-	private void Update()
-	{
-		Move();
-	}
+
 	private void OnDrawGizmos()
 	{
-		if (m_RoadToPlayer == null ||
+		if (m_RoadToTarget == null ||
 			Application.isPlaying == false)
 			return;
 
-		Vector3 pos = new Vector3(m_RoadToPlayer.x, m_RoadToPlayer.y);
+		Vector3 pos = new Vector3(m_RoadToTarget.x, m_RoadToTarget.y);
 		Vector3 half = Vector3.one * 0.5f;
 
 		// 시작점

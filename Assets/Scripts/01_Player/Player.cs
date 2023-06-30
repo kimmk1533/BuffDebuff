@@ -6,32 +6,28 @@ using UnityEngine;
 public sealed class Player : MonoBehaviour
 {
 	#region PlayerController Variables
-	PlayerController2D m_Controller;
-
-	[SerializeField]
-	float m_MoveSpeed = 10f;
-	[SerializeField]
-	float m_DashSpeed = 15f;
+	private PlayerController2D m_Controller;
 
 	[SerializeField, ReadOnly]
-	Vector2 m_Velocity;
-	float m_VelocityXSmoothing;
-	float m_AccelerationTimeAirborne = 0.2f;
-	float m_AccelerationTimeGrounded = 0.1f;
+	private Vector2 m_Velocity;
+	private float m_VelocityXSmoothing;
+	private float m_AccelerationTimeAirborne = 0.2f;
+	private float m_AccelerationTimeGrounded = 0.1f;
 
-	Vector2 m_DirectionalInput;
+	private Vector2 m_DirectionalInput;
 	#endregion
 
-	PlayerRenderer m_Renderer;
+	[SerializeField, ChildComponent("Renderer")]
+	private PlayerRenderer m_Renderer;
+	private PlayerInput m_Input;
+
+	private PlayerCharacter m_Character;
 
 	[SerializeField]
-	Character m_Character;
+	private Transform m_AttackSpot;
 
-	[SerializeField]
-	Transform m_AttackSpot;
-
-	StageManager M_Stage => StageManager.Instance;
-	ProjectileManager M_Projectile => ProjectileManager.Instance;
+	private StageManager M_Stage => StageManager.Instance;
+	private ProjectileManager M_Projectile => ProjectileManager.Instance;
 
 	private void Awake()
 	{
@@ -50,8 +46,6 @@ public sealed class Player : MonoBehaviour
 		{
 			DefaultAttack();
 		}
-
-		m_Character.Update();
 	}
 
 	private void Initialize()
@@ -59,9 +53,11 @@ public sealed class Player : MonoBehaviour
 		m_Controller = GetComponent<PlayerController2D>();
 		m_Controller.Initialize();
 
-		m_Renderer = GetComponentInChildren<PlayerRenderer>();
+		m_Input = GetComponent<PlayerInput>();
+		m_Input.Initialize();
 
-		m_Character = new Character();
+		m_Character = GetComponent<PlayerCharacter>();
+		m_Character.Initialize();
 	}
 
 	#region PlayerController Func
@@ -87,15 +83,19 @@ public sealed class Player : MonoBehaviour
 	}
 	public void OnDashInputDown()
 	{
-		if (m_Character.Dash() == false)
+		if (m_Character.currentStat.DashCount <= 0)
 			return;
+
+		--m_Character.currentStat.DashCount;
 
 		// 좌우 대쉬
 		//m_Velocity.x = m_DirectionalInput.x * m_DashSpeed;
 
 		// 마우스 대쉬
 		Vector2 dir = UtilClass.GetMouseWorldPosition() - transform.position;
-		m_Velocity = dir.normalized * m_DashSpeed;
+		m_Velocity = dir.normalized * m_Character.currentStat.DashSpeed;
+
+		m_Character.Dash();
 	}
 
 	void Move()
@@ -124,50 +124,13 @@ public sealed class Player : MonoBehaviour
 	}
 	void CalculateVelocity()
 	{
-		float targetVelocityX = m_DirectionalInput.x * m_MoveSpeed;
+		float targetVelocityX = m_DirectionalInput.x * m_Character.currentStat.MoveSpeed;
 
 		m_Velocity.x = Mathf.SmoothDamp(m_Velocity.x, targetVelocityX, ref m_VelocityXSmoothing, (m_Controller.collisions.grounded) ? m_AccelerationTimeGrounded : m_AccelerationTimeAirborne);
 
 		m_Velocity.y += m_Controller.gravity * Time.deltaTime;
 	}
 	#endregion
-
-	public void MeleeAttack()
-	{
-		Vector3 position = m_AttackSpot.position;
-
-		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		float angle = position.GetAngle(mousePos);
-		Quaternion quaternion = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-
-		Projectile projectile = M_Projectile.Spawn("Projectile", position, quaternion);
-
-		projectile.Initialize(0.0f, m_Character.finalStat.AttackRange);
-
-		projectile.SetMovingStrategy(new Projectile.StraightMove());
-
-		projectile.gameObject.SetActive(true);
-	}
-	public void DefaultAttack()
-	{
-		Vector3 position = m_AttackSpot.position;
-
-		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		float angle = position.GetAngle(mousePos);
-		Quaternion quaternion = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-
-		Projectile projectile = M_Projectile.Spawn("Projectile", position, quaternion);
-
-		projectile.Initialize(5.0f, /*m_Character.finalStat.AttackRange*/float.MaxValue);
-
-		projectile.SetMovingStrategy(new Projectile.StraightMove());
-		projectile["Obstacle"].OnEnter2D += (Collider2D collider) =>
-		{
-			M_Projectile.Despawn(projectile);
-		};
-
-		projectile.gameObject.SetActive(true);
-	}
 
 	public bool AddBuff(int code)
 	{
@@ -184,5 +147,39 @@ public sealed class Player : MonoBehaviour
 	public bool RemoveBuff(BuffData buffData)
 	{
 		return m_Character.RemoveBuff(buffData);
+	}
+
+	public void DefaultAttack()
+	{
+		Vector3 position = m_AttackSpot.position;
+		Vector2 mousePos = UtilClass.GetMouseWorldPosition();
+		float angle = position.GetAngle(mousePos);
+		Quaternion quaternion = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+
+		Projectile projectile = M_Projectile.Spawn("Projectile", position, quaternion);
+
+		projectile.Initialize(5.0f, m_Character.currentStat.AttackRange);
+
+		projectile.SetMovingStrategy(new Projectile.StraightMove());
+		projectile["Enemy"].OnEnter2D += (Collider2D collider) =>
+		{
+			if (projectile.gameObject.activeSelf == false)
+				return;
+
+			Enemy enemy = collider.GetComponent<Enemy>();
+
+			if (enemy.gameObject.activeSelf == false)
+				return;
+
+			enemy.HitDamage(m_Character.currentStat.Attack);
+
+			M_Projectile.Despawn("Projectile", projectile);
+		};
+		projectile["Obstacle"].OnEnter2D += (Collider2D collider) =>
+		{
+			M_Projectile.Despawn("Projectile", projectile);
+		};
+
+		projectile.gameObject.SetActive(true);
 	}
 }

@@ -14,18 +14,18 @@ public class EnemyVisualRange : MonoBehaviour
 
 	[SerializeField, ReadOnly]
 	protected GameObject m_Target;
+
+	protected bool m_isLostTarget;
+	[SerializeField]
+	protected UtilClass.Timer m_ForgetTargetTimer;
+
+	private bool m_Finding;
+
 	public GameObject target
 	{
 		get { return m_Target; }
 		protected set { m_Target = value; }
 	}
-
-	protected bool m_isLostTarget;
-	[SerializeField]
-	protected float m_FindTargetTimeLimit;
-	protected float m_FindTargetTimer;
-
-	private bool m_Finding;
 	protected int moveDir
 	{
 		get
@@ -34,16 +34,12 @@ public class EnemyVisualRange : MonoBehaviour
 		}
 	}
 
-	private void Awake()
-	{
-		Init();
-	}
-	protected virtual void Init()
+	public virtual void Initialize()
 	{
 		m_Collider = GetComponent<BoxCollider2D>();
 		m_isLostTarget = false;
 
-		m_FindTargetTimer = 0.0f;
+		m_ForgetTargetTimer = new UtilClass.Timer(1.0f);
 	}
 
 	private void CollisionCheck()
@@ -55,15 +51,15 @@ public class EnemyVisualRange : MonoBehaviour
 		if (m_Finding == false && hit)
 		{
 			m_Finding = true;
-			TriggerEnter2D(hit.collider);
+			TargetEnter2D(hit.collider);
 		}
 		else if (m_Finding == true && !hit)
 		{
 			m_Finding = false;
-			TriggerExit2D(hit.collider);
+			TargetExit2D(hit.collider);
 		}
 	}
-	private void TriggerEnter2D(Collider2D collider2D)
+	private void TargetEnter2D(Collider2D collider2D)
 	{
 		target = collider2D.gameObject;
 
@@ -74,10 +70,10 @@ public class EnemyVisualRange : MonoBehaviour
 
 		//Debug.Log("타겟 찾음!");
 	}
-	private void TriggerExit2D(Collider2D collider2D)
+	private void TargetExit2D(Collider2D collider2D)
 	{
 		m_isLostTarget = true;
-		m_FindTargetTimer = 0.0f;
+		m_ForgetTargetTimer.Clear();
 
 		//Debug.Log("타겟 놓침!");
 	}
@@ -95,9 +91,8 @@ public class EnemyVisualRange : MonoBehaviour
 	protected virtual void FindTarget()
 	{
 		//Debug.Log("타겟 다시 찾는 중!");
-		m_FindTargetTimer += Time.deltaTime;
 
-		if (m_FindTargetTimer >= m_FindTargetTimeLimit)
+		if (m_ForgetTargetTimer.Update(true))
 		{
 			//Debug.Log("타겟 잃어버림!");
 			m_Target = null;

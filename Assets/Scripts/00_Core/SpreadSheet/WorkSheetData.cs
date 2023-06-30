@@ -9,6 +9,7 @@ public class WorkSheetData
 	public bool enabled = true;
 
 	public string sheetName;
+	public string fileName;
 
 	public Cell startCell;
 	public Cell endCell;

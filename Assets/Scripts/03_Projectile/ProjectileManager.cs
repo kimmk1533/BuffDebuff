@@ -4,13 +4,8 @@ using UnityEngine;
 
 public class ProjectileManager : ObjectManager<ProjectileManager, Projectile>
 {
-	public override void Initialize()
+	public override void Initialize(bool autoInit = true)
 	{
-		base.Initialize();
-
-		foreach (var item in m_Origins)
-		{
-			AddPool(item, transform);
-		}
+		base.Initialize(autoInit);
 	}
 }

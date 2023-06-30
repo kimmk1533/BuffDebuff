@@ -1,60 +1,70 @@
-// 버프를 얻었을 때 (첫 1번만)
-public interface IOnBuffInitialize
-{
-	public void OnBuffInitialize(Character character);
-}
-// 버프를 잃었을 때 (갯수가 0이 될 때)
-public interface IOnBuffFinalize
-{
-	public void OnBuffFinalize(Character character);
-}
-// 버프를 얻었을 때 (매번 추가될 때 마다)
+// 버프를 얻었을 때
 public interface IOnBuffAdded
 {
-	public void OnBuffAdded(Character character);
+	public void OnBuffAdded<T>(Character<T> character) where T : CharacterStat, new();
 }
-// 버프를 잃었을 때 (매번 감소될 때 마다)
+// 버프를 잃었을 때
 public interface IOnBuffRemoved
 {
-	public void OnBuffRemoved(Character character);
+	public void OnBuffRemoved<T>(Character<T> character) where T : CharacterStat, new();
 }
 // 매 프레임마다
 public interface IOnBuffUpdate
 {
-	public void OnBuffUpdate();
+	public void OnBuffUpdate<T>(Character<T> character) where T : CharacterStat, new();
+}
+// 일정 시간마다
+public interface IOnBuffTimer
+{
+	public void OnBuffTimer<T>(Character<T> character) where T : CharacterStat, new();
 }
 // 점프했을 때
 public interface IOnBuffJump
 {
-	public void OnBuffJump();
+	public void OnBuffJump<T>(Character<T> character) where T : CharacterStat, new();
 }
 // 대쉬했을 때
 public interface IOnBuffDash
 {
-	public void OnBuffDash();
+	public void OnBuffDash<T>(Character<T> character) where T : CharacterStat, new();
 }
-// 대미지를 받을 때
-public interface IOnBuffGetDamage
+// 타격시
+public interface IOnBuffGiveDamage
 {
-	public void OnBuffGetDamage();
+	public void OnBuffGiveDamage<T>(Character<T> character) where T : CharacterStat, new();
+}
+// 피격 시
+public interface IOnBuffTakeDamage
+{
+	public void OnBuffTakeDamage<T>(Character<T> character) where T : CharacterStat, new();
 }
 // 공격 시작할 때
 public interface IOnBuffAttackStart
 {
-	public void OnBuffAttackStart();
+	public void OnBuffAttackStart<T>(Character<T> character) where T : CharacterStat, new();
 }
-// 대미지를 줄 때
-public interface IOnBuffGiveDamage
+// 공격 시
+public interface IOnBuffAttack
 {
-	public void OnBuffGiveDamage();
+	public void OnBuffAttack<T>(Character<T> character) where T : CharacterStat, new();
 }
 // 공격을 끝낼 때
 public interface IOnBuffAttackEnd
 {
-	public void OnBuffAttackEnd();
+	public void OnBuffAttackEnd<T>(Character<T> character) where T : CharacterStat, new();
 }
-// 모든 버프 조건
-public interface IOnBuffCondition : IOnBuffInitialize, IOnBuffFinalize, IOnBuffAdded, IOnBuffRemoved, IOnBuffUpdate, IOnBuffJump, IOnBuffDash, IOnBuffGetDamage, IOnBuffAttackStart, IOnBuffGiveDamage, IOnBuffAttackEnd
+// 적 처치 시
+public interface IOnBuffKillEnemy
 {
-
+	public void OnBuffKillEnemy<T>(Character<T> character) where T : CharacterStat, new();
+}
+// 사망 시
+public interface IOnBuffDeath
+{
+	public void OnBuffDeath<T>(Character<T> character) where T : CharacterStat, new();
+}
+// 스테이지를 넘어갈 시
+public interface IOnBuffNextStage
+{
+	public void OnBuffNextStage<T>(Character<T> character) where T : CharacterStat, new();
 }

@@ -6,57 +6,19 @@ using UnityEngine;
  * 투사체 이동 속도 증가
  */
 [System.Serializable]
-public class 투사체_속도_증가 : AbstractBuff
+public class 투사체_속도_증가 : AbstractBuff, IOnBuffAdded, IOnBuffRemoved
 {
 	public 투사체_속도_증가(BuffData buffData) : base(buffData)
 	{
 
 	}
-
-	#region 버프 구현
-	public override void OnBuffInitialize(Character character)
+	
+	public void OnBuffAdded<T>(Character<T> character) where T : CharacterStat, new()
 	{
 
 	}
-	public override void OnBuffFinalize(Character character)
+	public void OnBuffRemoved<T>(Character<T> character) where T : CharacterStat, new()
 	{
 
 	}
-	public override void OnBuffAdded(Character character)
-	{
-
-	}
-	public override void OnBuffRemoved(Character character)
-	{
-
-	}
-	public override void OnBuffUpdate()
-	{
-
-	}
-	public override void OnBuffJump()
-	{
-
-	}
-	public override void OnBuffDash()
-	{
-
-	}
-	public override void OnBuffGetDamage()
-	{
-
-	}
-	public override void OnBuffAttackStart()
-	{
-
-	}
-	public override void OnBuffGiveDamage()
-	{
-
-	}
-	public override void OnBuffAttackEnd()
-	{
-
-	}
-	#endregion
 }

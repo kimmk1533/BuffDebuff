@@ -9,9 +9,14 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 	protected List<OriginInfo> m_Origins = new List<OriginInfo>();
 	protected Dictionary<string, ObjectPool<Origin>> m_Pools = null;
 
-	public virtual void Initialize()
+	public virtual void Initialize(bool autoInit)
 	{
 		m_Pools = new Dictionary<string, ObjectPool<Origin>>();
+
+		foreach (var originInfo in m_Origins)
+		{
+			AddPool(originInfo, transform, autoInit);
+		}
 	}
 
 	public Origin Spawn(string key)
@@ -77,6 +82,9 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 
 	protected virtual ObjectPool<Origin> GetPool(string key)
 	{
+		if (m_Pools == null)
+			return null;
+
 		if (key == null)
 			return null;
 

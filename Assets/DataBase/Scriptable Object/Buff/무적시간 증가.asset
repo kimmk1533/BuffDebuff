@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Code: 113021
   m_Title: "\uBB34\uC801\uC2DC\uAC04 \uC99D\uAC00"
-  m_Type: 0
-  m_EffectType: 0
-  m_Grade: 2
-  m_MaxStack: 0
-  m_Weapon: 0
+  m_BuffType: 0
+  m_BuffEffectType: 0
+  m_BuffGrade: 2
+  m_MaxStack: 1
+  m_BuffWeapon: 0
+  m_BuffInvokeCondition: 0
+  m_BuffValue: 1.2
+  m_BuffTime: 0
   m_Description: "\uBAA8\uB4E0 \uBB34\uC801 \uC2DC\uAC04 \uC99D\uAC00"
+  m_Sprite: {fileID: 0}

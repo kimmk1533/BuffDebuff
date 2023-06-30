@@ -22,7 +22,6 @@ namespace SpreadSheet
 
 		SpreadSheetSetting setting => SpreadSheetSetting.Instance;
 
-		[ContextMenu("Init")]
 		public void Initialize()
 		{
 			m_DataBase = new DataSet("DataBase");
@@ -52,15 +51,20 @@ namespace SpreadSheet
 
 			WorkSheetData sheetData;
 
-			foreach (Sheet sheet in request.Sheets)
+			foreach (var item in setting.workSheetDataList)
 			{
+				if (item.enabled == false)
+					continue;
+
+				if (string.IsNullOrEmpty(item.fileName) == true)
+					item.fileName = item.sheetName;
+
 				#region 시트 이름 확인
 				sheetData = null;
 
-				foreach (var item in setting.workSheetDataList)
+				foreach (Sheet sheet in request.Sheets)
 				{
-					if (item.enabled == true &&
-						item.sheetName.Equals(sheet.Properties.Title))
+					if (sheet.Properties.Title.Equals(item.sheetName))
 					{
 						sheetData = item;
 						break;
@@ -74,8 +78,22 @@ namespace SpreadSheet
 				DataTable table = SendRequest(service, sheetData);
 				dataset.Tables.Add(table);
 			}
-
 		}
+		public void LoadJsonData(DataSet dataset)
+		{
+			string JsonPath = string.Concat(Application.dataPath + "/Resources/JsonData/");
+			DirectoryInfo info = new DirectoryInfo(JsonPath);
+			foreach (FileInfo file in info.GetFiles())
+			{
+				if (file.Name.EndsWith(".json") == false)
+					continue;
+
+				//로컬 경로에서 json 가져와서 DataTable으로 변환
+				DataTable table = DataUtil.GetDataTable(file);
+				dataset.Tables.Add(table);
+			}
+		}
+
 		private DataTable SendRequest(SheetsService service, WorkSheetData sheetData)
 		{
 			DataTable result = null;
@@ -97,9 +115,8 @@ namespace SpreadSheet
 			{
 				success = false;
 				Debug.LogError(e);
-				string path = string.Format("JsonData/{0}", sheetName);
 				// 예외 발생시 로컬 경로에 있는 json 파일을 통해 데이터 가져옴
-				result = DataUtil.GetDataTable(path, sheetName);
+				result = DataUtil.GetDataTable(sheetName, sheetName);
 				Debug.Log("시트 로드 실패로 로컬 " + sheetName + " json 데이터 불러옴");
 			}
 
@@ -110,7 +127,7 @@ namespace SpreadSheet
 			if (result != null)
 			{
 				// 변환한 테이블을 json 파일로 저장
-				SaveDataToFile(result);
+				SaveDataToFile(sheetData.fileName, result);
 			}
 
 			return result;
@@ -130,27 +147,29 @@ namespace SpreadSheet
 			for (int row = 1; row < value.Count; row++)
 			{
 				var data = value[row];
+
 				jsonBuilder.Append("{");
 				for (int col = 0; col < data.Count; col++)
 				{
-					jsonBuilder.Append("\"" + columns[col] + "\"" + ":");
-					jsonBuilder.Append("\"" + data[col] + "\"");
+					jsonBuilder.Append("\"" + columns[col].ToString() + "\"" + ":");
+					jsonBuilder.Append("\"" + data[col].ToString() + "\"");
 					jsonBuilder.Append(",");
 				}
 				jsonBuilder.Append("}");
+
 				if (row != value.Count - 1)
 					jsonBuilder.Append(",");
 			}
 			jsonBuilder.Append("]");
 			return jsonBuilder.ToString();
 		}
-		private void SaveDataToFile(DataTable newTable)
+		private void SaveDataToFile(string fileName, DataTable newTable)
 		{
 			string path = Path.Combine(Application.dataPath, "Resources", "JsonData");
 			if (Directory.Exists(path) == false)
 				Directory.CreateDirectory(path);
 
-			string file = newTable.TableName + ".json";
+			string file = fileName + ".json";
 
 			// 로컬경로
 			string JsonPath = Path.Combine(path, file);
@@ -194,20 +213,6 @@ namespace SpreadSheet
 			}
 			return true;
 		}
-		public void LoadJsonData(DataSet dataset)
-		{
-			string JsonPath = string.Concat(Application.dataPath + "/Resources/JsonData/");
-			DirectoryInfo info = new DirectoryInfo(JsonPath);
-			foreach (FileInfo file in info.GetFiles())
-			{
-				if (file.Name.EndsWith(".json") == false)
-					continue;
-
-				//로컬 경로에서 json 가져와서 DataTable으로 변환
-				DataTable table = DataUtil.GetDataTable(file);
-				dataset.Tables.Add(table);
-			}
-		}
 	}
 
 	public static class DataUtil
@@ -233,7 +238,7 @@ namespace SpreadSheet
 			}
 			catch (Exception e)
 			{
-
+				Debug.LogError(e.ToString());
 			}
 
 			DataTable data = JsonConvert.DeserializeObject<DataTable>(value);

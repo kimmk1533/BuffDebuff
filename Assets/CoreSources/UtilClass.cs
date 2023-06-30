@@ -58,9 +58,12 @@ public static class UtilClass
 		return textMesh;
 	}
 
+	[System.Serializable]
 	public class Timer
 	{
+		[SerializeField]
 		private float m_Interval;
+		[SerializeField, ReadOnly]
 		private float m_Time;
 
 		public float interval
@@ -106,6 +109,10 @@ public static class UtilClass
 			return false;
 		}
 		public void Use()
+		{
+			m_Time = 0f;
+		}
+		public void Clear()
 		{
 			m_Time = 0f;
 		}

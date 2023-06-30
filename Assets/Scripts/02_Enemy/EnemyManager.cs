@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class EnemyManager : ObjectManager<EnemyManager, Enemy>
 {
+	public override void Initialize(bool autoInit = true)
+	{
+		base.Initialize(autoInit);
+
+
+	}
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetKeyDown(KeyCode.Tab))
 		{
 			Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 

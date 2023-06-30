@@ -72,7 +72,6 @@ public sealed class BuffManager : Singleton<BuffManager>
 		UpdateBuffGradeInfoList();
 	}
 
-	[ContextMenu("LoadAllBuff")]
 	public void LoadAllBuff()
 	{
 		if (Application.isPlaying == false)
@@ -159,8 +158,8 @@ public sealed class BuffManager : Singleton<BuffManager>
 				return;
 			}
 			#endregion
-			#region 적용 무기 타입
-			// 적용되는 무기 타입 불러오기
+			#region 적용 무기
+			// 적용되는 무기 불러오기
 			string weaponStr = row[5] as string;
 
 			// 한글 -> 영어 전환
@@ -183,16 +182,103 @@ public sealed class BuffManager : Singleton<BuffManager>
 			// 자료형 파싱
 			if (System.Enum.TryParse(weaponStr, out E_BuffWeapon weapon) == false)
 			{
-				Debug.LogError("버프 적용 무기 타입 전환 오류! | 버프 적용 무기: " + weaponStr);
+				Debug.LogError("버프 적용 무기 전환 오류! | 버프 적용 무기: " + weaponStr);
+				return;
+			}
+			#endregion
+			#region 발동 조건
+			// 발동 조건 불러오기
+			string conditionStr = row[6] as string;
+
+			// 한글 -> 영어 전환
+			switch (conditionStr)
+			{
+				case "버프를 얻을 때":
+					conditionStr = "Added";
+					break;
+				case "버프를 잃을 때":
+					conditionStr = "Removed";
+					break;
+				case "매 프레임마다":
+					conditionStr = "Update";
+					break;
+				case "일정 시간마다":
+					conditionStr = "Timer";
+					break;
+				case "점프 시":
+					conditionStr = "Jump";
+					break;
+				case "대쉬 시":
+					conditionStr = "Dash";
+					break;
+				case "타격 시":
+					conditionStr = "GiveDamage";
+					break;
+				case "피격 시":
+					conditionStr = "TakeDamage";
+					break;
+				case "공격 시작 시":
+					conditionStr = "AttackStart";
+					break;
+				case "공격 시":
+					conditionStr = "Attack";
+					break;
+				case "공격 종료 시":
+					conditionStr = "AttackEnd";
+					break;
+				case "적 처치 시":
+					conditionStr = "KillEnemy";
+					break;
+				case "사망 시":
+					conditionStr = "Death";
+					break;
+				case "스테이지를 넘어갈 시":
+					conditionStr = "NextStage";
+					break;
+				default:
+					Debug.LogError("버프 발동 조건 불러오기 오류! | 발동 조건 종류: " + conditionStr);
+					return;
+			}
+
+			// 자료형 파싱
+			if (System.Enum.TryParse(conditionStr, out E_BuffInvokeCondition condition) == false)
+			{
+				Debug.LogError("버프 발동 조건 전환 오류! | 버프 등급: " + conditionStr);
+				return;
+			}
+			#endregion
+			#region 버프 값
+			// 버프 값 불러오기
+			string buffValueStr = row[7] as string;
+
+			// 자료형 파싱
+			if (float.TryParse(buffValueStr, out float buffValue) == false &&
+				buffValueStr != "-")
+			{
+				Debug.LogError("버프 값 전환 오류! | 버프 값: " + buffValueStr);
+				return;
+			}
+			#endregion
+			#region 버프 시간
+			// 버프 시간 불러오기
+			string buffTimeStr = row[8] as string;
+
+			// 자료형 파싱
+			if (float.TryParse(buffTimeStr, out float buffTime) == false &&
+				buffTimeStr != "-")
+			{
+				Debug.LogError("버프 시간 전환 오류! | 버프 시간: " + buffTimeStr);
 				return;
 			}
 			#endregion
 			#region 설명
-			string description = row[7] as string;
+			string description = row[9] as string;
+			#endregion
+			#region 이미지
+
 			#endregion
 
-			// 파일 읽어 오는 방식으로 수정 필요
-			BuffData buffData = new BuffData(title, code, buffType, effectType, grade, maxStack, weapon, description, null);
+			BuffData buffData = new BuffData(title, code, buffType, effectType, grade, maxStack, weapon, condition, buffValue, buffTime, description, null);
 
 			m_BuffMap[buffType][grade].Add((code, title), buffData);
 
@@ -205,8 +291,9 @@ public sealed class BuffManager : Singleton<BuffManager>
 		}
 	}
 
-	#region Create File
 #if UNITY_EDITOR
+
+	#region Create File
 
 	public void CreateAllBuff(bool load, bool script, bool asset, bool switchCase)
 	{
@@ -214,17 +301,18 @@ public sealed class BuffManager : Singleton<BuffManager>
 			Application.isPlaying == true)
 			return;
 
-		if (script == false &&
+		if (load == false &&
+			script == false &&
 			asset == false &&
 			switchCase == false)
 			return;
 
-		if (load == true ||
-			m_BuffMap == null ||
-			m_BuffMap.Count == 0)
+		if (load)
 		{
-			LoadAllBuff();
+			SpreadSheetManager.Instance.Initialize();
 		}
+
+		LoadAllBuff();
 
 		StringBuilder sb = null;
 
@@ -238,14 +326,14 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 		for (E_BuffType buffType = E_BuffType.Buff; buffType < E_BuffType.Max - 1; ++buffType)
 		{
+			if (switchCase)
+			{
+				sb.Append("#region ");
+				sb.AppendLine(BuffEnumUtil.EnumToKorString<E_BuffType>(buffType));
+			}
+
 			for (E_BuffGrade grade = E_BuffGrade.Normal; grade < E_BuffGrade.Max; ++grade)
 			{
-				if (switchCase)
-				{
-					sb.Append("#region ");
-					sb.AppendLine(BuffEnumUtil.EnumToKorString<E_BuffType>(buffType));
-				}
-
 				foreach (var item in m_BuffMap[buffType][grade])
 				{
 					BuffData buffData = item.Value;
@@ -263,11 +351,11 @@ public sealed class BuffManager : Singleton<BuffManager>
 					if (switchCase)
 						AppendBuffCase(sb, buffData.title);
 				}
+			}
 
-				if (switchCase)
-				{
-					sb.AppendLine("#endregion");
-				}
+			if (switchCase)
+			{
+				sb.AppendLine("#endregion");
 			}
 		}
 
@@ -293,10 +381,57 @@ public sealed class BuffManager : Singleton<BuffManager>
 		string file = Path.Combine(path, buffData.title + ".cs");
 		string template = Path.Combine(Application.dataPath, "DataBase", "Script", "Template", "BuffScriptTemplate.txt");
 		string className = buffData.title.Replace(' ', '_');
+		string conditionInterface = "IOnBuff" + buffData.buffInvokeCondition.ToString();
+		string conditionFormat = @"
+	public void OnBuff{0}<T>(Character<T> character) where T : CharacterStat, new()
+	{
+
+	}";
+		string condition = conditionFormat.Replace("{0}", buffData.buffInvokeCondition.ToString());
+
+		switch (buffData.buffInvokeCondition)
+		{
+			case E_BuffInvokeCondition.Added:
+				conditionInterface += ", IOnBuffRemoved";
+				condition += conditionFormat.Replace("{0}", "Removed");
+				break;
+			case E_BuffInvokeCondition.Removed:
+				conditionInterface = "IOnBuffAdded, " + conditionInterface;
+				condition = conditionFormat.Replace("{0}", "Added") + condition;
+				break;
+
+			case E_BuffInvokeCondition.GiveDamage:
+				conditionInterface += ", IOnBuffTakeDamage";
+				condition += conditionFormat.Replace("{0}", "TakeDamage");
+				break;
+			case E_BuffInvokeCondition.TakeDamage:
+				conditionInterface = "IOnBuffGiveDamage, " + conditionInterface;
+				condition = conditionFormat.Replace("{0}", "GiveDamage") + condition;
+				break;
+
+			case E_BuffInvokeCondition.AttackStart:
+				conditionInterface += ", IOnBuffAttack";
+				conditionInterface += ", IOnBuffAttackEnd";
+				condition += conditionFormat.Replace("{0}", "Attack");
+				condition += conditionFormat.Replace("{0}", "AttackEnd");
+				break;
+			case E_BuffInvokeCondition.Attack:
+				conditionInterface = "IOnBuffAttackStart, " + conditionInterface;
+				conditionInterface += ", IOnBuffAttackEnd";
+				condition = conditionFormat.Replace("{0}", "AttackStart") + condition;
+				condition += conditionFormat.Replace("{0}", "AttackEnd");
+				break;
+			case E_BuffInvokeCondition.AttackEnd:
+				conditionInterface = "IOnBuffAttackStart, IOnBuffAttack, " + conditionInterface;
+				condition = conditionFormat.Replace("{0}", "AttackStart") + conditionFormat.Replace("{0}", "Attack") + condition;
+				break;
+		}
 
 		StringBuilder sb = new StringBuilder(File.ReadAllText(template));
 
-		sb.Replace("$Buff", className);
+		sb.Replace("$Title", className);
+		sb.Replace("$ConditionInterface", conditionInterface);
+		sb.Replace("$Condition", condition);
 		sb.Replace("$Description", buffData.description);
 
 		if (File.Exists(file) == true)
@@ -456,8 +591,9 @@ public sealed class BuffManager : Singleton<BuffManager>
 		sb.AppendLine("(buffData);");
 	}
 
-#endif
 	#endregion
+
+#endif
 
 	public AbstractBuff CreateBuff(int code)
 	{
@@ -482,36 +618,36 @@ public sealed class BuffManager : Singleton<BuffManager>
 			#region 버프
 			case "체력 증가":
 				return new 체력_증가(buffData);
+			case "공격력 증가":
+				return new 공격력_증가(buffData);
+			case "공격 속도 증가":
+				return new 공격_속도_증가(buffData);
+			case "방어력 증가":
+				return new 방어력_증가(buffData);
+			case "회피율 증가":
+				return new 회피율_증가(buffData);
+			case "이동 속도 증가":
+				return new 이동_속도_증가(buffData);
 			case "재생":
 				return new 재생(buffData);
 			case "빠른 재생":
 				return new 빠른_재생(buffData);
 			case "회복량 증가":
 				return new 회복량_증가(buffData);
-			case "방어력 증가":
-				return new 방어력_증가(buffData);
-			case "회피율 증가":
-				return new 회피율_증가(buffData);
-			case "공격력 증가":
-				return new 공격력_증가(buffData);
-			case "공격 속도 증가":
-				return new 공격_속도_증가(buffData);
-			case "이동 속도 증가":
-				return new 이동_속도_증가(buffData);
 			case "공격 범위 증가":
 				return new 공격_범위_증가(buffData);
 			case "사거리 증가":
 				return new 사거리_증가(buffData);
 			case "투사체 속도 증가":
 				return new 투사체_속도_증가(buffData);
-			case "공격 횟수 증가":
-				return new 공격_횟수_증가(buffData);
 			case "치명타 확률 증가":
 				return new 치명타_확률_증가(buffData);
 			case "치명타 대미지 증가":
 				return new 치명타_대미지_증가(buffData);
-			case "점프 추가":
-				return new 점프_추가(buffData);
+			case "추가 점프":
+				return new 추가_점프(buffData);
+			case "공격 횟수 증가":
+				return new 공격_횟수_증가(buffData);
 			case "전방향 대쉬":
 				return new 전방향_대쉬(buffData);
 			case "대쉬 횟수 증가":
@@ -526,10 +662,6 @@ public sealed class BuffManager : Singleton<BuffManager>
 			#region 디버프
 			case "체력 감소":
 				return new 체력_감소(buffData);
-			case "느린 재생":
-				return new 느린_재생(buffData);
-			case "회복량 감소":
-				return new 회복량_감소(buffData);
 			case "방어력 감소":
 				return new 방어력_감소(buffData);
 			case "회피율 감소":
@@ -540,6 +672,10 @@ public sealed class BuffManager : Singleton<BuffManager>
 				return new 공격_속도_감소(buffData);
 			case "이동 속도 감소":
 				return new 이동_속도_감소(buffData);
+			case "느린 재생":
+				return new 느린_재생(buffData);
+			case "회복량 감소":
+				return new 회복량_감소(buffData);
 			case "공격 범위 감소":
 				return new 공격_범위_감소(buffData);
 			case "사거리 감소":

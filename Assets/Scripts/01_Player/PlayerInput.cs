@@ -5,12 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Player))]
 public class PlayerInput : MonoBehaviour
 {
-	Player m_Player;
+	private Player m_Player;
 
-	private void Start()
-	{
-		m_Player = GetComponent<Player>();
-	}
 	private void Update()
 	{
 		Vector2 directionalInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -34,5 +30,10 @@ public class PlayerInput : MonoBehaviour
 		{
 			m_Player.OnDashInputDown();
 		}
+	}
+
+	public void Initialize()
+	{
+		m_Player = GetComponent<Player>();
 	}
 }

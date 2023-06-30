@@ -88,11 +88,13 @@ public enum E_BuffWeapon
 public enum E_BuffInvokeCondition
 {
 	// 버프를 얻을 때
-	Initialize,
+	Added,
 	// 버프를 잃을 때
-	Finalize,
-	// 일정 시간마다
+	Removed,
+	// 매 프레임마다
 	Update,
+	// 일정 시간마다
+	Timer,
 	// 점프 시
 	Jump,
 	// 대쉬 시
@@ -100,7 +102,7 @@ public enum E_BuffInvokeCondition
 	// 타격 시
 	GiveDamage,
 	// 피격 시
-	GetDamage,
+	TakeDamage,
 	// 공격 시작 시	(애니메이션 시작)
 	AttackStart,
 	// 공격 시		(애니메이션 도중)
@@ -108,7 +110,7 @@ public enum E_BuffInvokeCondition
 	// 공격 종료 시	(애니메이션 종료)
 	AttackEnd,
 	// 적 처치 시
-	Kill,
+	KillEnemy,
 	// 사망 시
 	Death,
 	// 스테이지를 넘어갈 시

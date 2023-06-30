@@ -19,25 +19,28 @@ MonoBehaviour:
   workSheetDataList:
   - enabled: 1
     sheetName: "\uBC84\uD504 \uBAA9\uB85D"
+    fileName: "\uBC84\uD504 \uBAA9\uB85D"
     startCell:
       column: C
       row: 1
     endCell:
-      column: J
+      column: M
       row: 0
   - enabled: 1
     sheetName: "\uB514\uBC84\uD504 \uBAA9\uB85D"
+    fileName: "\uB514\uBC84\uD504 \uBAA9\uB85D"
     startCell:
       column: C
       row: 1
     endCell:
-      column: J
+      column: M
       row: 0
   - enabled: 1
     sheetName: "\uC591\uBA74\uBC84\uD504 \uBAA9\uB85D"
+    fileName: "\uC591\uBA74\uBC84\uD504 \uBAA9\uB85D"
     startCell:
       column: C
       row: 1
     endCell:
-      column: J
+      column: M
       row: 0

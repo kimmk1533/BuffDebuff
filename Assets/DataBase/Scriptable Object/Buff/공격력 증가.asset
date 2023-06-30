@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7ae57efcd1fa9a4ea78a6d89f1d2565, type: 3}
   m_Name: "\uACF5\uACA9\uB825 \uC99D\uAC00"
   m_EditorClassIdentifier: 
-  m_Code: 111007
+  m_Code: 111005
   m_Title: "\uACF5\uACA9\uB825 \uC99D\uAC00"
-  m_Type: 0
-  m_EffectType: 0
-  m_Grade: 0
+  m_BuffType: 0
+  m_BuffEffectType: 0
+  m_BuffGrade: 0
   m_MaxStack: 10
-  m_Weapon: 0
+  m_BuffWeapon: 0
+  m_BuffInvokeCondition: 0
+  m_BuffValue: 10
+  m_BuffTime: 0
   m_Description: "\uACF5\uACA9\uB825 \uACE0\uC815 \uC99D\uAC00"
+  m_Sprite: {fileID: 0}

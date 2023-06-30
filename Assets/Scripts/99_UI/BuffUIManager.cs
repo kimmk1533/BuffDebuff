@@ -71,9 +71,9 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		}
 	}
 
-	public override void Initialize()
+	public override void Initialize(bool autoInit = false)
 	{
-		base.Initialize();
+		base.Initialize(autoInit);
 
 		M_Buff.onBuffAdded += AddBuff_Inventory;
 		M_Buff.onBuffAdded += AddBuff_CombineInventory;
@@ -82,8 +82,6 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 		foreach (var originInfo in m_Origins)
 		{
-			AddPool(originInfo, transform, false);
-
 			var pool = GetPool(originInfo.key);
 			switch (originInfo.key)
 			{
