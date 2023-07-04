@@ -6,13 +6,26 @@ public class PlayerManager : Singleton<PlayerManager>
 {
 	private Player m_Player;
 
-	[SerializeField]
-	private int m_MaxLevel;
-	[SerializeField]
-	private int m_CurrentLevel;
+	public int maxLevel
+	{
+		get
+		{
+			if (Application.isEditor)
+				return FindObjectOfType<PlayerCharacter>().maxStat.Level;
 
-	public int maxLevel => m_MaxLevel;
-	public int currentLevel => m_CurrentLevel;
+			return m_Player.maxLevel;
+		}
+	}
+	public int currentLevel
+	{
+		get
+		{
+			if (Application.isEditor)
+				return FindObjectOfType<PlayerCharacter>().currentStat.Level;
+
+			return m_Player.currentLevel;
+		}
+	}
 
 	private BuffManager M_Buff => BuffManager.Instance;
 
@@ -27,22 +40,22 @@ public class PlayerManager : Singleton<PlayerManager>
 		}
 
 		m_Player = players[0];
-
+		m_Player.Initialize();
+	}
+	public void InitializeEvent()
+	{
 		M_Buff.onBuffAdded += AddBuff;
 		M_Buff.onBuffRemoved += RemoveBuff;
 	}
 
-	private bool AddBuff(int code)
+	public void AddXp(float xp)
 	{
-		return m_Player.AddBuff(code);
+		m_Player.AddXp(xp);
 	}
+
 	private bool AddBuff(BuffData buffData)
 	{
 		return m_Player.AddBuff(buffData);
-	}
-	private bool RemoveBuff(int code)
-	{
-		return m_Player.RemoveBuff(code);
 	}
 	private bool RemoveBuff(BuffData buffData)
 	{

@@ -42,18 +42,11 @@ public abstract class AbstractBuff : IEquatable<AbstractBuff>
 	{
 		if (other == null)
 			return false;
+
 		return this.data.code == other.data.code;
 	}
 	public override int GetHashCode()
 	{
 		return data.code.GetHashCode();
-	}
-	public static bool operator==(AbstractBuff a, AbstractBuff b)
-	{
-		return a.Equals(b);
-	}
-	public static bool operator!=(AbstractBuff a, AbstractBuff b)
-	{
-		return !(a == b);
 	}
 }

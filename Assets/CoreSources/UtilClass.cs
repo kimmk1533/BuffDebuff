@@ -88,29 +88,34 @@ public static class UtilClass
 			}
 		}
 
-		public Timer(float interval)
+		public Timer(float interval, bool filled = false)
 		{
 			m_Interval = interval;
-			m_Time = 0f;
+
+			if (filled)
+				m_Time = interval;
+			else
+				m_Time = 0f;
 		}
 
-		public bool Update(bool autoUse = false, float timeScale = 1.0f)
+		public bool Use()
 		{
 			if (timeIsUp)
 			{
-				if (autoUse)
-					Use();
-
+				m_Time = 0f;
 				return true;
 			}
+
+			return false;
+		}
+		public bool Update(bool autoUse = false, float timeScale = 1.0f)
+		{
+			if (autoUse && Use())
+				return true;
 
 			m_Time += Time.deltaTime * timeScale;
 
 			return false;
-		}
-		public void Use()
-		{
-			m_Time = 0f;
 		}
 		public void Clear()
 		{

@@ -10,6 +10,7 @@ public class EnemyManager : ObjectManager<EnemyManager, Enemy>
 
 
 	}
+
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Tab))

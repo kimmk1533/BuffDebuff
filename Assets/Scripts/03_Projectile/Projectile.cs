@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(ProjectileController))]
 public sealed class Projectile : MonoBehaviour
@@ -9,18 +8,19 @@ public sealed class Projectile : MonoBehaviour
 	private ProjectileController m_Controller;
 	private IMovingStrategy m_MovingStrategy;
 
-	[SerializeField]
+	[SerializeField, ReadOnly]
 	private float m_MoveSpeed;
-	[SerializeField]
-	private float m_LifeTime;
 
+	[SerializeField, ReadOnly]
 	private Vector2 m_Velocity;
+
+	[SerializeField, ReadOnly]
+	private UtilClass.Timer m_DespawnTimer;
 
 	public float moveSpeed => m_MoveSpeed;
 
 	private ProjectileManager M_Projectile => ProjectileManager.Instance;
 
-	#region Collision
 	public delegate void OnTriggerHandler(Collider2D collider);
 	public class Trigger
 	{
@@ -50,9 +50,41 @@ public sealed class Projectile : MonoBehaviour
 			return this[LayerMask.NameToLayer(layer)];
 		}
 	}
-	#endregion
 
 	private void Update()
+	{
+		if (m_DespawnTimer.Update(true))
+		{
+			M_Projectile.Despawn("Projectile", this);
+			return;
+		}
+
+		Move();
+	}
+
+	public void Initialize(float moveSpeed, float lifeTime)
+	{
+		m_MoveSpeed = moveSpeed;
+
+		if (m_DespawnTimer == null)
+			m_DespawnTimer = new UtilClass.Timer(lifeTime);
+		else
+		{
+			m_DespawnTimer.interval = lifeTime;
+			m_DespawnTimer.Clear();
+		}
+
+		if (m_Controller == null)
+			m_Controller = GetComponent<ProjectileController>();
+		m_Controller.Initialize(this);
+
+		if (m_CollisionMap == null)
+			m_CollisionMap = new Dictionary<int, Trigger>();
+		else
+			m_CollisionMap.Clear();
+	}
+
+	private void Move()
 	{
 		if (m_MovingStrategy == null)
 			return;
@@ -70,39 +102,6 @@ public sealed class Projectile : MonoBehaviour
 		// Move
 		m_Controller.Move(m_Velocity * Time.deltaTime);
 	}
-
-	public void Initialize(float moveSpeed, float lifeTime)
-	{
-		m_MoveSpeed = moveSpeed;
-		m_LifeTime = lifeTime;
-
-		if (m_Controller == null)
-			m_Controller = GetComponent<ProjectileController>();
-		m_Controller.Initialize(this);
-
-		if (m_CollisionMap == null)
-			m_CollisionMap = new Dictionary<int, Trigger>();
-		else
-			m_CollisionMap.Clear();
-	}
-
-	#region Despawn
-	private Coroutine m_DespawnCoroutine;
-	private void OnEnable()
-	{
-		m_DespawnCoroutine = StartCoroutine(Despawn());
-	}
-	private void OnDisable()
-	{
-		StopCoroutine(m_DespawnCoroutine);
-	}
-	private IEnumerator Despawn()
-	{
-		yield return new WaitForSeconds(m_LifeTime);
-
-		M_Projectile.Despawn(this);
-	}
-	#endregion
 
 	#region Moving Strategy
 	public void SetMovingStrategy(IMovingStrategy movingStrategy)

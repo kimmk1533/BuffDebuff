@@ -25,15 +25,12 @@ public class PlayerRenderer : MonoBehaviour
 		}
 	}
 
-	void Start()
+	public void Initialize()
 	{
-		m_SpriteRenderer = GetComponent<SpriteRenderer>();
-		m_Animator = GetComponent<Animator>();
-
 		if (m_SpriteRenderer == null)
-			Debug.LogError("Player doesn`t have SpriteRenderer with PlayerRenderer!");
+			m_SpriteRenderer = GetComponent<SpriteRenderer>();
 		if (m_Animator == null)
-			Debug.LogError("Player doesn`t have Animator with PlayerRenderer!");
+			m_Animator = GetComponent<Animator>();
 	}
 
 	public void SetIsGround(bool isGround)

@@ -5,7 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D), typeof(PlayerController2D))]
 public sealed class Player : MonoBehaviour
 {
-	#region PlayerController Variables
 	private PlayerController2D m_Controller;
 
 	[SerializeField, ReadOnly]
@@ -15,27 +14,33 @@ public sealed class Player : MonoBehaviour
 	private float m_AccelerationTimeGrounded = 0.1f;
 
 	private Vector2 m_DirectionalInput;
-	#endregion
+
+	private PlayerCharacter m_Character;
 
 	[SerializeField, ChildComponent("Renderer")]
 	private PlayerRenderer m_Renderer;
-	private PlayerInput m_Input;
-
-	private PlayerCharacter m_Character;
 
 	[SerializeField]
 	private Transform m_AttackSpot;
 
-	private StageManager M_Stage => StageManager.Instance;
-	private ProjectileManager M_Projectile => ProjectileManager.Instance;
+	public int maxLevel => m_Character.maxStat.Level;
+	public int currentLevel => m_Character.currentStat.Level;
 
-	private void Awake()
-	{
-		Initialize();
-	}
+	private ProjectileManager M_Projectile => ProjectileManager.Instance;
+	private StageManager M_Stage => StageManager.Instance;
+
 	private void Update()
 	{
 		Move();
+
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			JumpInputDown();
+		}
+		if (Input.GetKeyUp(KeyCode.Space))
+		{
+			JumpInputUp();
+		}
 
 		if (Input.GetKeyDown(KeyCode.F))
 		{
@@ -44,62 +49,43 @@ public sealed class Player : MonoBehaviour
 
 		if (Input.GetMouseButtonDown(0))
 		{
-			DefaultAttack();
+			Attack();
+		}
+		if (Input.GetMouseButtonDown(1))
+		{
+			Dash();
 		}
 	}
 
-	private void Initialize()
+	public void Initialize()
 	{
 		m_Controller = GetComponent<PlayerController2D>();
 		m_Controller.Initialize();
 
-		m_Input = GetComponent<PlayerInput>();
-		m_Input.Initialize();
-
 		m_Character = GetComponent<PlayerCharacter>();
 		m_Character.Initialize();
+
+		m_Renderer.Initialize();
 	}
 
-	#region PlayerController Func
-	public void SetDirectionalInput(Vector2 input)
+	private void SetDirectionalInput(Vector2 input)
 	{
 		m_DirectionalInput = input;
 		m_Renderer.SetDirectionalInput(input);
 	}
-	public void OnJumpInputDown()
+	private void CalculateVelocity()
 	{
-		if (!(m_Controller.collisions.below && m_DirectionalInput.y != -1))
-			return;
+		float targetVelocityX = m_DirectionalInput.x * m_Character.currentStat.MoveSpeed;
 
-		m_Renderer.Jump();
-		m_Character.Jump();
+		m_Velocity.x = Mathf.SmoothDamp(m_Velocity.x, targetVelocityX, ref m_VelocityXSmoothing, (m_Controller.collisions.grounded) ? m_AccelerationTimeGrounded : m_AccelerationTimeAirborne);
 
-		m_Velocity.y = m_Controller.maxJumpVelocity;
+		m_Velocity.y += m_Controller.gravity * Time.deltaTime;
 	}
-	public void OnJumpInputUp()
+	private void Move()
 	{
-		if (m_Velocity.y > m_Controller.minJumpVelocity)
-			m_Velocity.y = m_Controller.minJumpVelocity;
-	}
-	public void OnDashInputDown()
-	{
-		if (m_Character.currentStat.DashCount <= 0)
-			return;
+		Vector2 directionalInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+		SetDirectionalInput(directionalInput);
 
-		--m_Character.currentStat.DashCount;
-
-		// 좌우 대쉬
-		//m_Velocity.x = m_DirectionalInput.x * m_DashSpeed;
-
-		// 마우스 대쉬
-		Vector2 dir = UtilClass.GetMouseWorldPosition() - transform.position;
-		m_Velocity = dir.normalized * m_Character.currentStat.DashSpeed;
-
-		m_Character.Dash();
-	}
-
-	void Move()
-	{
 		CalculateVelocity();
 
 		m_Controller.Move(m_Velocity * Time.deltaTime, m_DirectionalInput);
@@ -122,34 +108,28 @@ public sealed class Player : MonoBehaviour
 		m_Renderer.SetVelocity(m_Velocity);
 		m_Renderer.SetIsGround(m_Controller.collisions.grounded);
 	}
-	void CalculateVelocity()
-	{
-		float targetVelocityX = m_DirectionalInput.x * m_Character.currentStat.MoveSpeed;
 
-		m_Velocity.x = Mathf.SmoothDamp(m_Velocity.x, targetVelocityX, ref m_VelocityXSmoothing, (m_Controller.collisions.grounded) ? m_AccelerationTimeGrounded : m_AccelerationTimeAirborne);
+	public void AttackStart()
+	{
+		if (m_Character.CanAttack() == false)
+			return;
 
-		m_Velocity.y += m_Controller.gravity * Time.deltaTime;
+		m_Character.AttackStart();
 	}
-	#endregion
+	public void Attack()
+	{
+		if (m_Character.CanAttack() == false)
+			return;
 
-	public bool AddBuff(int code)
-	{
-		return m_Character.AddBuff(code);
-	}
-	public bool AddBuff(BuffData buffData)
-	{
-		return m_Character.AddBuff(buffData);
-	}
-	public bool RemoveBuff(int code)
-	{
-		return m_Character.RemoveBuff(code);
-	}
-	public bool RemoveBuff(BuffData buffData)
-	{
-		return m_Character.RemoveBuff(buffData);
-	}
+		m_Character.Attack();
 
-	public void DefaultAttack()
+		CreateProjectile();
+	}
+	public void AttackEnd()
+	{
+		m_Character.AttackEnd();
+	}
+	private void CreateProjectile()
 	{
 		Vector3 position = m_AttackSpot.position;
 		Vector2 mousePos = UtilClass.GetMouseWorldPosition();
@@ -163,17 +143,9 @@ public sealed class Player : MonoBehaviour
 		projectile.SetMovingStrategy(new Projectile.StraightMove());
 		projectile["Enemy"].OnEnter2D += (Collider2D collider) =>
 		{
-			if (projectile.gameObject.activeSelf == false)
-				return;
-
 			Enemy enemy = collider.GetComponent<Enemy>();
 
-			if (enemy.gameObject.activeSelf == false)
-				return;
-
-			enemy.HitDamage(m_Character.currentStat.Attack);
-
-			M_Projectile.Despawn("Projectile", projectile);
+			GiveDamage(projectile, enemy);
 		};
 		projectile["Obstacle"].OnEnter2D += (Collider2D collider) =>
 		{
@@ -181,5 +153,71 @@ public sealed class Player : MonoBehaviour
 		};
 
 		projectile.gameObject.SetActive(true);
+	}
+	private void GiveDamage(Projectile projectile, Enemy enemy)
+	{
+		if (projectile == null || enemy == null)
+			return;
+
+		if (projectile.gameObject.activeSelf == false ||
+			enemy.gameObject.activeSelf == false)
+			return;
+
+		enemy.TakeDamage(m_Character.currentStat.Attack);
+
+		M_Projectile.Despawn("Projectile", projectile);
+	}
+
+	private void JumpInputDown()
+	{
+		if ((m_Controller.collisions.below && m_DirectionalInput.y != -1) == false)
+			return;
+
+		m_Renderer.Jump();
+		m_Character.Jump();
+
+		m_Velocity.y = m_Controller.maxJumpVelocity;
+	}
+	private void JumpInputUp()
+	{
+		if (m_Velocity.y > m_Controller.minJumpVelocity)
+			m_Velocity.y = m_Controller.minJumpVelocity;
+	}
+	private void Dash()
+	{
+		if (m_Character.CanDash() == false)
+			return;
+
+		m_Character.Dash();
+
+		Vector2 dir = UtilClass.GetMouseWorldPosition() - transform.position;
+
+		// 좌우 대쉬
+		m_Velocity.x = Mathf.Sign(dir.x) * m_Character.currentStat.DashSpeed;
+
+		// 마우스 대쉬
+		//m_Velocity = dir.normalized * m_Character.currentStat.DashSpeed;
+	}
+
+	public bool AddBuff(BuffData buffData)
+	{
+		return m_Character.AddBuff(buffData);
+	}
+	public bool RemoveBuff(BuffData buffData)
+	{
+		return m_Character.RemoveBuff(buffData);
+	}
+
+	public void AddXp(float xp)
+	{
+		float Xp = m_Character.currentStat.Xp + xp * m_Character.currentStat.XpScale;
+
+		while (Xp >= m_Character.maxStat.Xp)
+		{
+			Xp -= m_Character.maxStat.Xp;
+			++m_Character.currentStat.Level;
+		}
+
+		m_Character.currentStat.Xp = Xp;
 	}
 }

@@ -19,7 +19,35 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 		}
 	}
 
-	public Origin Spawn(string key)
+	protected void AddPool(OriginInfo info, Transform parent, bool autoInit = true)
+	{
+		AddPool(info.Key, info.PoolSize, info.origin, parent, autoInit);
+	}
+	protected void AddPool(string key, int poolSize, Origin origin, Transform parent, bool autoInit = true)
+	{
+		if (origin.gameObject.scene.buildIndex == -1)
+		{
+			throw new System.Exception("Object Manager`s Origin should not be Asset`s Object.");
+		}
+
+		origin.name = key;
+		origin.transform.SetParent(transform);
+		origin.gameObject.SetActive(false);
+
+		GameObject poolParent = new GameObject();
+		poolParent.name = key + "_Pool";
+		poolParent.transform.SetParent(parent);
+		poolParent.SetActive(false);
+
+		ObjectPool<Origin> pool = new ObjectPool<Origin>(origin, poolSize, poolParent.transform);
+
+		if (autoInit)
+			pool.Initialize();
+
+		m_Pools.Add(key, pool);
+	}
+
+	public Origin Spawn(string key, Transform parent = null)
 	{
 		ObjectPool<Origin> pool = GetPool(key);
 		if (pool == null)
@@ -28,12 +56,6 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 		}
 
 		Origin item = pool.Spawn();
-
-		return item;
-	}
-	public Origin Spawn(string key, Transform parent)
-	{
-		Origin item = Spawn(key);
 
 		item.transform.SetParent(parent);
 
@@ -94,59 +116,34 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 		return null;
 	}
 
-	protected void AddPool(OriginInfo info, Transform parent, bool autoInit = true)
-	{
-		AddPool(info.key, info.poolSize, info.origin, parent, autoInit);
-	}
-	protected void AddPool(string key, int poolSize, Origin origin, Transform parent, bool autoInit = true)
-	{
-		if (origin.gameObject.scene.buildIndex == -1)
-		{
-			throw new System.Exception("Object Manager`s Origin should not be Asset`s Object.");
-		}
-
-		origin.name = key;
-		origin.transform.SetParent(transform);
-		origin.gameObject.SetActive(false);
-
-		GameObject Parent = new GameObject();
-		Parent.name = key + "_Pool";
-		Parent.transform.SetParent(parent);
-
-		ObjectPool<Origin> pool = new ObjectPool<Origin>(origin, poolSize, Parent.transform);
-
-		if (autoInit)
-			pool.Initialize();
-
-		m_Pools.Add(key, pool);
-	}
-
 	[System.Serializable]
 	public struct OriginInfo : IEqualityComparer<OriginInfo>
 	{
-		public string key;
-		[SerializeField, ReadOnly(true)]
-		public int poolSize;
+		[field: SerializeField, ReadOnly(true)]
+		public string Key { get; set; }
+		[field: SerializeField, ReadOnly(true)]
+		public int PoolSize { get; set; }
 
-		[Space]
+		[field: Space]
+		[field: SerializeField, ReadOnly(true)]
 		public Origin origin;
 
 		public OriginInfo(string key, Origin item)
 		{
-			this.key = key;
-			this.poolSize = 100;
+			this.Key = key;
+			this.PoolSize = 100;
 			this.origin = item;
 		}
 		public OriginInfo(string key, int poolSize, Origin item)
 		{
-			this.key = key;
-			this.poolSize = poolSize;
+			this.Key = key;
+			this.PoolSize = poolSize;
 			this.origin = item;
 		}
 
 		public static bool operator ==(OriginInfo x, OriginInfo y)
 		{
-			return string.Equals(x.key, y.key);
+			return string.Equals(x.Key, y.Key);
 		}
 		public static bool operator !=(OriginInfo x, OriginInfo y)
 		{
@@ -171,7 +168,7 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 		}
 		public override int GetHashCode()
 		{
-			return this.key.GetHashCode();
+			return this.Key.GetHashCode();
 		}
 		public int GetHashCode(OriginInfo obj)
 		{

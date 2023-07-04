@@ -69,14 +69,18 @@ public sealed class BuffManager : Singleton<BuffManager>
 			}
 		}
 
-		UpdateBuffGradeInfoList();
+		UpdateBuffGradeCurve();
+
+		LoadAllBuff();
+	}
+	public void InitializeEvent()
+	{
+		m_OnBuffAdded = null;
+		m_OnBuffRemoved = null;
 	}
 
 	public void LoadAllBuff()
 	{
-		if (Application.isPlaying == false)
-			Initialize();
-
 		DataSet dataSet = new DataSet();
 		SpreadSheetManager.Instance.LoadJsonData(dataSet);
 
@@ -291,10 +295,8 @@ public sealed class BuffManager : Singleton<BuffManager>
 		}
 	}
 
-#if UNITY_EDITOR
-
 	#region Create File
-
+#if UNITY_EDITOR
 	public void CreateAllBuff(bool load, bool script, bool asset, bool switchCase)
 	{
 		if (Application.isEditor == false ||
@@ -312,7 +314,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 			SpreadSheetManager.Instance.Initialize();
 		}
 
-		LoadAllBuff();
+		Initialize();
 
 		StringBuilder sb = null;
 
@@ -590,10 +592,8 @@ public sealed class BuffManager : Singleton<BuffManager>
 		sb.Append(className);
 		sb.AppendLine("(buffData);");
 	}
-
-	#endregion
-
 #endif
+	#endregion
 
 	public AbstractBuff CreateBuff(int code)
 	{
@@ -992,7 +992,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 		return result;
 	}
 
-	private void UpdateBuffGradeInfoList()
+	private void UpdateBuffGradeCurve()
 	{
 		foreach (var item in m_BuffGradeInfoList)
 		{
@@ -1003,7 +1003,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 			}
 		}
 
-		int maxLevel = M_Player.maxLevel;
+		int maxLevel = M_Player.maxLevel + 1;
 		float levelPercent, rate;
 
 		for (int level = 0; level < maxLevel; ++level)
@@ -1043,53 +1043,45 @@ public sealed class BuffManager : Singleton<BuffManager>
 		return Mathf.Clamp01(value);
 	}
 
-	private void OnValidate()
+	public void OnValidate()
 	{
 		const E_BuffGrade MaxBuffGrade = E_BuffGrade.Max - 1;
-		int index;
-		float left, right;
+		int grade_index;
 
-		for (E_BuffGrade grade = 0; grade < MaxBuffGrade; ++grade)
-		{
-			index = (int)grade;
-
-			m_BuffGradeInfoList[index].buffGrade = grade;
-
-			left = BuffGradeRateFormula(0f, grade);
-			right = BuffGradeRateFormula(1f, grade);
-
-			m_BuffGradeInfoList[index].leftWeight = Mathf.Round(left * 100f) / 100f;
-			m_BuffGradeInfoList[index].rightWeight = Mathf.Round(right * 100f) / 100f;
-		}
-
-		UpdateBuffGradeInfoList();
+		UpdateBuffGradeCurve();
 
 		float[] leftRates = new float[(int)MaxBuffGrade];
 		float[] rightRates = new float[(int)MaxBuffGrade];
+		float[] currentRates = new float[(int)MaxBuffGrade];
 
 		float leftMax = 0f;
 		float rightMax = 0f;
+		float currentMax = 0f;
 
 		for (E_BuffGrade grade = 0; grade < MaxBuffGrade; ++grade)
 		{
-			index = (int)grade;
+			grade_index = (int)grade;
 
-			leftRates[index] = m_BuffGradeInfoList[index].curve.keys[0].value;
-			rightRates[index] = m_BuffGradeInfoList[index].curve.keys[M_Player.maxLevel - 1].value;
+			leftRates[grade_index] = m_BuffGradeInfoList[grade_index].curve.keys[0].value;
+			rightRates[grade_index] = m_BuffGradeInfoList[grade_index].curve.keys[M_Player.maxLevel].value;
+			currentRates[grade_index] = m_BuffGradeInfoList[grade_index].curve.keys[M_Player.currentLevel].value;
 
-			leftMax += leftRates[index];
-			rightMax += rightRates[index];
+			leftMax += leftRates[grade_index];
+			rightMax += rightRates[grade_index];
+			currentMax += currentRates[grade_index];
 		}
 
 		for (E_BuffGrade grade = 0; grade < MaxBuffGrade; ++grade)
 		{
-			index = (int)grade;
+			grade_index = (int)grade;
 
-			leftRates[index] /= leftMax;
-			rightRates[index] /= rightMax;
+			leftRates[grade_index] /= leftMax;
+			rightRates[grade_index] /= rightMax;
+			currentRates[grade_index] /= currentMax;
 
-			m_BuffGradeInfoList[index].leftPercent = Mathf.RoundToInt(leftRates[index] * 100f);
-			m_BuffGradeInfoList[index].rightPercent = Mathf.RoundToInt(rightRates[index] * 100f);
+			m_BuffGradeInfoList[grade_index].leftPercent = Mathf.RoundToInt(leftRates[grade_index] * 100f);
+			m_BuffGradeInfoList[grade_index].rightPercent = Mathf.RoundToInt(rightRates[grade_index] * 100f);
+			m_BuffGradeInfoList[grade_index].currentPercent = Mathf.RoundToInt(currentRates[grade_index] * 100f);
 		}
 	}
 
@@ -1114,13 +1106,11 @@ public sealed class BuffManager : Singleton<BuffManager>
 		private AnimationCurve m_Curve;
 
 		[SerializeField, ReadOnly]
-		private float m_LeftWeight;
-		[SerializeField, ReadOnly]
-		private float m_RightWeight;
-		[SerializeField, ReadOnly]
 		private int m_LeftPercent;
 		[SerializeField, ReadOnly]
 		private int m_RightPercent;
+		[SerializeField, ReadOnly]
+		private int m_CurrentPercent;
 
 		public E_BuffGrade buffGrade
 		{
@@ -1131,16 +1121,6 @@ public sealed class BuffManager : Singleton<BuffManager>
 		public float b => m_B;
 		public float c => m_C;
 		public AnimationCurve curve => m_Curve;
-		public float leftWeight
-		{
-			get => m_LeftWeight;
-			set => m_LeftWeight = value;
-		}
-		public float rightWeight
-		{
-			get => m_RightWeight;
-			set => m_RightWeight = value;
-		}
 		public int leftPercent
 		{
 			get => m_LeftPercent;
@@ -1150,6 +1130,11 @@ public sealed class BuffManager : Singleton<BuffManager>
 		{
 			get => m_RightPercent;
 			set => m_RightPercent = value;
+		}
+		public int currentPercent
+		{
+			get => m_CurrentPercent;
+			set => m_CurrentPercent = value;
 		}
 	}
 }

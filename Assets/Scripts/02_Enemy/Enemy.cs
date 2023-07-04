@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour
 	protected EnemyRenderer m_Renderer;
 	[SerializeField, ChildComponent("VisualRange")]
 	protected EnemyVisualRange m_VisualRange;
+
 	protected EnemyCharacter m_Character;
 
 	protected int moveDir
@@ -39,7 +40,9 @@ public class Enemy : MonoBehaviour
 				transform.localScale = new Vector3(value, 1.0f, 1.0f);
 		}
 	}
+	protected bool checkDeath => m_Character.currentStat.Hp <= 0f;
 
+	protected PlayerManager M_Player => PlayerManager.Instance;
 	protected EnemyManager M_Enemy => EnemyManager.Instance;
 	protected GridManager M_Grid => GridManager.Instance;
 
@@ -66,8 +69,8 @@ public class Enemy : MonoBehaviour
 
 		m_Character = GetComponent<EnemyCharacter>();
 		m_Character.Initialize();
-		//m_MoveSpeed = m_Controller.maxJumpHeight;
 	}
+
 	#region 이동
 	// 이동
 	protected virtual void Move()
@@ -368,12 +371,20 @@ public class Enemy : MonoBehaviour
 	}
 	#endregion
 	#endregion
-	public void HitDamage(float damage)
+
+	public void TakeDamage(float damage)
 	{
 		m_Character.currentStat.Hp -= damage;
 
-		if (m_Character.currentStat.Hp <= 0f)
-			M_Enemy.Despawn(this);
+		if (checkDeath == true)
+			Death();
+	}
+	protected void Death()
+	{
+		float xp = m_Character.currentStat.Xp * m_Character.currentStat.XpScale;
+		M_Player.AddXp(xp);
+
+		M_Enemy.Despawn(this);
 	}
 
 	private void OnDrawGizmos()

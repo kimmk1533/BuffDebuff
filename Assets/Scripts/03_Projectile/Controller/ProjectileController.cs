@@ -5,7 +5,7 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class ProjectileController : RaycastController
 {
-	[SerializeField]
+	[SerializeField, ReadOnly]
 	protected LayerMask m_CollisionMask;
 
 	protected Projectile m_Projectile;
@@ -115,8 +115,18 @@ public class ProjectileController : RaycastController
 	{
 		base.Initialize();
 
-		m_CollisionList = new List<Collider2D>();
-		m_OldCollisionList = new List<Collider2D>();
+		// CollisionMask 초기화
+		m_CollisionMask = LayerMask.GetMask();
+
+		if (m_CollisionList == null)
+			m_CollisionList = new List<Collider2D>();
+		else
+			m_CollisionList.Clear();
+
+		if (m_OldCollisionList == null)
+			m_OldCollisionList = new List<Collider2D>();
+		else
+			m_OldCollisionList.Clear();
 	}
 	public void Initialize(Projectile projectile)
 	{

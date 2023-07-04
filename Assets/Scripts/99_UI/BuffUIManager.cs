@@ -75,15 +75,10 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	{
 		base.Initialize(autoInit);
 
-		M_Buff.onBuffAdded += AddBuff_Inventory;
-		M_Buff.onBuffAdded += AddBuff_CombineInventory;
-		M_Buff.onBuffRemoved += RemoveBuff_Inventory;
-		M_Buff.onBuffRemoved += RemoveBuff_CombineInventory;
-
 		foreach (var originInfo in m_Origins)
 		{
-			var pool = GetPool(originInfo.key);
-			switch (originInfo.key)
+			var pool = GetPool(originInfo.Key);
+			switch (originInfo.Key)
 			{
 				case "Buff Rewards":
 					pool.onInstantiated += (BuffUI buffUI) =>
@@ -127,7 +122,7 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 					};
 					break;
 				default:
-					Debug.LogError("Object Manager`s Origin Info key is not exist. key = " + originInfo.key);
+					Debug.LogError("Object Manager`s Origin Info key is not exist. key = " + originInfo.Key);
 					break;
 			}
 
@@ -175,6 +170,13 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 			m_BuffCombineInventoryMap = new Dictionary<int, BuffUI>();
 		else
 			m_BuffCombineInventoryMap.Clear();
+	}
+	public void InitializeEvent()
+	{
+		M_Buff.onBuffAdded += AddBuff_Inventory;
+		M_Buff.onBuffAdded += AddBuff_CombineInventory;
+		M_Buff.onBuffRemoved += RemoveBuff_Inventory;
+		M_Buff.onBuffRemoved += RemoveBuff_CombineInventory;
 	}
 
 	public void RerollBuffRewards()
