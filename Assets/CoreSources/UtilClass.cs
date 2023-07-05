@@ -88,6 +88,10 @@ public static class UtilClass
 			}
 		}
 
+		public Timer()
+		{
+			m_Time = m_Interval = 0f;
+		}
 		public Timer(float interval, bool filled = false)
 		{
 			m_Interval = interval;

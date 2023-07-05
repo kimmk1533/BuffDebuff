@@ -27,13 +27,10 @@ public class EnemyRenderer : MonoBehaviour
 
 	public void Initialize()
 	{
-		m_SpriteRenderer = GetComponent<SpriteRenderer>();
-		m_Animator = GetComponent<Animator>();
-
 		if (m_SpriteRenderer == null)
-			Debug.LogError("Enemy doesn`t have SpriteRenderer with EnemyRenderer!");
+			m_SpriteRenderer = GetComponent<SpriteRenderer>();
 		if (m_Animator == null)
-			Debug.LogError("Enemy doesn`t have Animator with EnemyRenderer!");
+			m_Animator = GetComponent<Animator>();
 	}
 
 	public void SetIsGround(bool isGround)

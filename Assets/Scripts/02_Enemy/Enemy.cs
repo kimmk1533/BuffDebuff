@@ -12,23 +12,27 @@ public class Enemy : MonoBehaviour
 	protected UtilClass.Timer m_MoveDirTimer;
 
 	[SerializeField, ReadOnly]
-	Vector2 m_Velocity;
+	protected Vector2 m_Velocity;
 
 	protected CustomNode m_RoadToTarget;
-	Vector2Int m_TargetPos;
+	protected Vector2Int m_TargetPos;
 
-	bool m_Jumping;
-	Vector2Int? m_JumpEndPos = null;
+	protected bool m_Jumping;
+	protected Vector2Int? m_JumpEndPos = null;
 
-	UtilClass.Timer m_PathFindTimer;
-
-	[SerializeField, ChildComponent("Renderer")]
-	protected EnemyRenderer m_Renderer;
-	[SerializeField, ChildComponent("VisualRange")]
-	protected EnemyVisualRange m_VisualRange;
+	protected UtilClass.Timer m_PathFindTimer;
 
 	protected EnemyCharacter m_Character;
 
+	[SerializeField, ChildComponent("Renderer")]
+	protected EnemyRenderer m_Renderer;
+	[SerializeField, ChildComponent("TargetFinder")]
+	protected EnemyTargetFinder m_TargetFinder;
+
+	[SerializeField]
+	private Transform m_AttackSpot;
+
+	protected GameObject target => m_TargetFinder.target;
 	protected int moveDir
 	{
 		get { return m_MoveDir; }
@@ -42,33 +46,42 @@ public class Enemy : MonoBehaviour
 	}
 	protected bool checkDeath => m_Character.currentStat.Hp <= 0f;
 
-	protected PlayerManager M_Player => PlayerManager.Instance;
-	protected EnemyManager M_Enemy => EnemyManager.Instance;
-	protected GridManager M_Grid => GridManager.Instance;
+	private PlayerManager M_Player => PlayerManager.Instance;
+	private EnemyManager M_Enemy => EnemyManager.Instance;
+	private ProjectileManager M_Projectile => ProjectileManager.Instance;
+	private GridManager M_Grid => GridManager.Instance;
 
-	private void Awake()
+	protected virtual void Update()
 	{
-		Initialize();
-	}
-	private void Update()
-	{
-		//Move();
+		if (target != null && m_Character.CanAttack())
+			Attack();
+
+		Move();
 	}
 
 	// 초기화
-	protected virtual void Initialize()
+	public virtual void Initialize()
 	{
-		m_Controller = GetComponent<EnemyController2D>();
+		if (m_Controller == null)
+			m_Controller = GetComponent<EnemyController2D>();
 		m_Controller.Initialize();
 
-		m_MoveDirTimer = new UtilClass.Timer(Random.Range(0.5f, 1.5f));
-		m_PathFindTimer = new UtilClass.Timer(1f);
+		if (m_MoveDirTimer == null)
+			m_MoveDirTimer = new UtilClass.Timer();
+		m_MoveDirTimer.interval = Random.Range(0.2f, 1.0f);
+		m_MoveDirTimer.Clear();
+
+		if (m_PathFindTimer == null)
+			m_PathFindTimer = new UtilClass.Timer();
+		m_PathFindTimer.interval = 1f;
+		m_PathFindTimer.Clear();
+
+		if (m_Character == null)
+			m_Character = GetComponent<EnemyCharacter>();
+		m_Character.Initialize();
 
 		m_Renderer.Initialize();
-		m_VisualRange.Initialize();
-
-		m_Character = GetComponent<EnemyCharacter>();
-		m_Character.Initialize();
+		m_TargetFinder.Initialize();
 	}
 
 	#region 이동
@@ -93,7 +106,7 @@ public class Enemy : MonoBehaviour
 	protected virtual void CalculateVelocity(ref Vector2 dir)
 	{
 		// 목표가 없을 때
-		if (m_VisualRange.target == null)
+		if (target == null)
 		{
 			// 랜덤 움직임
 			RandomVelocity();
@@ -108,12 +121,13 @@ public class Enemy : MonoBehaviour
 		m_Velocity.x = moveDir * m_Character.currentStat.MoveSpeed;
 		m_Velocity.y += m_Controller.gravity * Time.deltaTime;
 	}
+
 	#region 랜덤 움직임
 	// 랜덤 움직임
 	private void RandomVelocity()
 	{
 		// 목표가 존재하는 경우 랜덤하게 움직이면 안됨. 예외처리
-		if (m_VisualRange.target != null)
+		if (target != null)
 			return;
 
 		// 타이머
@@ -121,7 +135,7 @@ public class Enemy : MonoBehaviour
 			return;
 
 		// 다음 움직임까지의 시간
-		m_MoveDirTimer.interval = Random.Range(0.5f, 1.5f);
+		m_MoveDirTimer.interval = Random.Range(0.2f, 1.0f);
 
 		// 랜덤 방향 움직임
 		moveDir = Random.Range(-1, 2);
@@ -136,7 +150,7 @@ public class Enemy : MonoBehaviour
 		// 현재 위치
 		Vector3 pos = transform.position + Vector3.up * (1f + float.Epsilon);
 		// 목표 위치
-		Vector3 targetPos = m_VisualRange.target.transform.position + Vector3.up * (1f + float.Epsilon);
+		Vector3 targetPos = target.transform.position + Vector3.up * (1f + float.Epsilon);
 		// 현재 위치 정수 버전
 		Vector2Int posInt = new Vector2Int((int)pos.x, (int)pos.y);
 		// 목표 위치 정수 버전
@@ -282,7 +296,7 @@ public class Enemy : MonoBehaviour
 	// 위로 점프
 	private void JumpToUp(ref Vector3 pos)
 	{
-		CustomNode jumpNode = m_RoadToTarget as CustomNode;
+		CustomNode jumpNode = m_RoadToTarget;
 
 		if (jumpNode == null)
 			return;
@@ -372,6 +386,53 @@ public class Enemy : MonoBehaviour
 	#endregion
 	#endregion
 
+	protected void Attack()
+	{
+		if (m_Character.CanAttack() == false)
+			return;
+
+		m_Character.Attack();
+
+		CreateProjectile();
+	}
+	protected void CreateProjectile()
+	{
+		Vector3 position = m_AttackSpot.position;
+		Vector3 targetPos = target.GetComponent<Collider2D>().bounds.center;
+		float angle = position.GetAngle(targetPos);
+		Quaternion quaternion = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+
+		Projectile projectile = M_Projectile.Spawn("Projectile", position, quaternion);
+
+		projectile.Initialize(5.0f, m_Character.currentStat.AttackRange);
+
+		projectile.SetMovingStrategy(new Projectile.StraightMove());
+		projectile["Player"].OnEnter2D += (Collider2D collider) =>
+		{
+			Player player = collider.GetComponent<Player>();
+
+			GiveDamage(projectile, player);
+
+			M_Projectile.Despawn("Projectile", projectile);
+		};
+		projectile["Obstacle"].OnEnter2D += (Collider2D collider) =>
+		{
+			M_Projectile.Despawn("Projectile", projectile);
+		};
+
+		projectile.gameObject.SetActive(true);
+	}
+	protected virtual void GiveDamage(Projectile projectile, Player player)
+	{
+		if (projectile == null || player == null)
+			return;
+
+		if (projectile.gameObject.activeSelf == false ||
+			player.gameObject.activeSelf == false)
+			return;
+
+		player.TakeDamage(m_Character.currentStat.Attack);
+	}
 	public void TakeDamage(float damage)
 	{
 		m_Character.currentStat.Hp -= damage;

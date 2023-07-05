@@ -7,12 +7,12 @@ public class ObjectPool<T> : System.IDisposable where T : MonoBehaviour
 {
 	// 풀에 담을 원본
 	private T m_Origin;
-	// 오브젝트들을 담을 실제 풀
-	private Queue<T> m_Queue = new Queue<T>();
-	// 생성한 오브젝트를 기억하고 있다가 디스폰 시 확인할 리스트
-	private List<T> m_DespawnCheckList = new List<T>();
 	// 초기 풀 사이즈
 	private int m_PoolSize;
+	// 오브젝트들을 담을 실제 풀
+	private Queue<T> m_Queue;
+	// 생성한 오브젝트를 기억하고 있다가 디스폰 시 확인할 리스트
+	private List<T> m_DespawnCheckList;
 	// 하이어라키 창에서 관리하기 쉽도록 parent 지정
 	private Transform m_Parent = null;
 
@@ -35,6 +35,8 @@ public class ObjectPool<T> : System.IDisposable where T : MonoBehaviour
 	{
 		m_Origin = origin;
 		m_PoolSize = poolSize;
+		m_Queue = new Queue<T>(poolSize);
+		m_DespawnCheckList = new List<T>(poolSize);
 		m_Parent = null;
 		m_OnInstantiated = new UnityEvent<T>();
 	}
@@ -43,6 +45,8 @@ public class ObjectPool<T> : System.IDisposable where T : MonoBehaviour
 	{
 		m_Origin = origin;
 		m_PoolSize = poolSize;
+		m_Queue = new Queue<T>(poolSize);
+		m_DespawnCheckList = new List<T>(poolSize);
 		m_Parent = parent;
 		m_OnInstantiated = new UnityEvent<T>();
 	}
@@ -109,10 +113,15 @@ public class ObjectPool<T> : System.IDisposable where T : MonoBehaviour
 			throw new System.NullReferenceException();
 		}
 
-		if (!m_DespawnCheckList.Contains(obj))
+		if (m_DespawnCheckList.Contains(obj) == false)
 		{
 			return false;
-			throw new System.Exception("obj is not MemoryPool Object");
+			throw new System.Exception("obj is not ObjectPool_Mono Object");
+		}
+
+		if (m_Queue.Contains(obj) == true)
+		{
+			return false;
 		}
 
 		obj.gameObject.SetActive(false);

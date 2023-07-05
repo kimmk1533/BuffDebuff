@@ -43,4 +43,14 @@ public abstract class Character<T> : MonoBehaviour where T : CharacterStat, new(
 	{
 		m_AttackTimer.Update();
 	}
+
+	// Attack Func
+	public virtual bool CanAttack()
+	{
+		return m_AttackTimer.timeIsUp;
+	}
+	public virtual void Attack()
+	{
+		m_AttackTimer.Use();
+	}
 }

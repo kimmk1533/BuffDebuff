@@ -4,7 +4,7 @@ using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
-public class EnemyVisualRange : MonoBehaviour
+public class EnemyTargetFinder : MonoBehaviour
 {
 	[SerializeField]
 	protected LayerMask m_LayerMask;
@@ -21,18 +21,8 @@ public class EnemyVisualRange : MonoBehaviour
 
 	private bool m_Finding;
 
-	public GameObject target
-	{
-		get { return m_Target; }
-		protected set { m_Target = value; }
-	}
-	protected int moveDir
-	{
-		get
-		{
-			return (int)Mathf.Sign(transform.parent.lossyScale.x);
-		}
-	}
+	public GameObject target => m_Target;
+	protected int moveDir => (int)Mathf.Sign(transform.parent.lossyScale.x);
 
 	public virtual void Initialize()
 	{
@@ -40,6 +30,16 @@ public class EnemyVisualRange : MonoBehaviour
 		m_isLostTarget = false;
 
 		m_ForgetTargetTimer = new UtilClass.Timer(1.0f);
+	}
+
+	private void Update()
+	{
+		CollisionCheck();
+
+		if (m_isLostTarget)
+		{
+			FindTarget();
+		}
 	}
 
 	private void CollisionCheck()
@@ -61,7 +61,7 @@ public class EnemyVisualRange : MonoBehaviour
 	}
 	private void TargetEnter2D(Collider2D collider2D)
 	{
-		target = collider2D.gameObject;
+		m_Target = collider2D.gameObject;
 
 		//if (m_isLostTarget)
 		//	Debug.Log("타겟 다시 찾음!");
@@ -76,16 +76,6 @@ public class EnemyVisualRange : MonoBehaviour
 		m_ForgetTargetTimer.Clear();
 
 		//Debug.Log("타겟 놓침!");
-	}
-
-	private void Update()
-	{
-		CollisionCheck();
-
-		if (m_isLostTarget)
-		{
-			FindTarget();
-		}
 	}
 
 	protected virtual void FindTarget()

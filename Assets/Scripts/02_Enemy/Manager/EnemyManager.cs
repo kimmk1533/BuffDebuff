@@ -18,8 +18,12 @@ public class EnemyManager : ObjectManager<EnemyManager, Enemy>
 			Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
 			Enemy enemy = Spawn("Enemy");
-			enemy.transform.position = position;
+
 			enemy.gameObject.SetActive(true);
+
+			enemy.Initialize();
+
+			enemy.transform.position = position;
 		}
 	}
 }

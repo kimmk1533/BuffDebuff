@@ -25,6 +25,7 @@ public sealed class Player : MonoBehaviour
 
 	public int maxLevel => m_Character.maxStat.Level;
 	public int currentLevel => m_Character.currentStat.Level;
+	private bool checkDeath => m_Character.currentStat.Hp <= 0f;
 
 	private ProjectileManager M_Projectile => ProjectileManager.Instance;
 	private StageManager M_Stage => StageManager.Instance;
@@ -146,6 +147,8 @@ public sealed class Player : MonoBehaviour
 			Enemy enemy = collider.GetComponent<Enemy>();
 
 			GiveDamage(projectile, enemy);
+
+			M_Projectile.Despawn("Projectile", projectile);
 		};
 		projectile["Obstacle"].OnEnter2D += (Collider2D collider) =>
 		{
@@ -164,8 +167,17 @@ public sealed class Player : MonoBehaviour
 			return;
 
 		enemy.TakeDamage(m_Character.currentStat.Attack);
+	}
+	public void TakeDamage(float damage)
+	{
+		m_Character.currentStat.Hp -= damage;
 
-		M_Projectile.Despawn("Projectile", projectile);
+		if (checkDeath == true)
+			Death();
+	}
+	private void Death()
+	{
+		Debug.LogError("Game Over!");
 	}
 
 	private void JumpInputDown()

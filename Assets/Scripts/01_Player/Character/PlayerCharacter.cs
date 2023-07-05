@@ -32,7 +32,7 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat>
 
 		// Timer Init
 		m_HealTimer = new UtilClass.Timer(m_CurrentStat.HpRegenTime);
-		m_AttackTimer = new UtilClass.Timer(m_CurrentStat.AttackSpeed, true);
+		m_AttackTimer = new UtilClass.Timer(1f / m_CurrentStat.AttackSpeed, true);
 		m_DashTimer = new UtilClass.Timer(m_CurrentStat.DashRechargeTime);
 
 		// BuffList Init
@@ -128,10 +128,6 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat>
 		return false;
 	}
 
-	public bool CanAttack()
-	{
-		return m_AttackTimer.timeIsUp;
-	}
 	public void AttackStart()
 	{
 		foreach (var item in m_BuffList.Values)
@@ -139,9 +135,9 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat>
 			(item as IOnBuffAttackStart)?.OnBuffAttackStart(this);
 		}
 	}
-	public void Attack()
+	public override void Attack()
 	{
-		m_AttackTimer.Use();
+		base.Attack();
 
 		foreach (var item in m_BuffList.Values)
 		{

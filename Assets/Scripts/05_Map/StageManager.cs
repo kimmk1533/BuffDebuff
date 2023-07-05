@@ -44,7 +44,10 @@ public class StageManager : Singleton<StageManager>
 			for (int x = 0; x < m_MapSize.x; ++x)
 			{
 				if (m_MapGenerator.CheckMapGenerated(x, y))
+				{
 					m_GeneratedRooms[y, x] = m_RoomParent.GetChild(index++).GetComponent<Room>();
+					m_GeneratedRooms[y, x].Initialize();
+				}
 			}
 		}
 

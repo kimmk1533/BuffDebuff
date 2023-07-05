@@ -271,36 +271,36 @@ public class JumpAStar : MonoBehaviour
 				bool flag = false;
 				foreach (var item in m_OpenList)
 				{
-					if (item.Equals(near))
+					if (item.Equals(near) == false)
+						continue;
+
+					flag = true;
+
+					if (item.G > near.G)
 					{
-						flag = true;
-
-						if (item.G > near.G)
+						CustomNode itemParent = item.parent as CustomNode;
+						node = near.parent as CustomNode;
+						while (node.jumpStartPos != null)
 						{
-							CustomNode itemParent = item.parent as CustomNode;
-							node = near.parent as CustomNode;
-							while (node.jumpStartPos != null)
-							{
-								if (itemParent.position != node.position)
-									break;
+							if (itemParent.position != node.position)
+								break;
 
-								itemParent.G = node.G;
-								itemParent.jumpStartPos = node.jumpStartPos;
-								itemParent.currentJump = node.currentJump;
-								itemParent.isFalling = node.isFalling;
+							itemParent.G = node.G;
+							itemParent.jumpStartPos = node.jumpStartPos;
+							itemParent.currentJump = node.currentJump;
+							itemParent.isFalling = node.isFalling;
 
-								itemParent = item.parent as CustomNode;
-								node = node.parent as CustomNode;
-							}
-
-							item.G = near.G;
-							item.parent = near.parent;
-
-							item.currentJump = near.currentJump;
+							itemParent = item.parent as CustomNode;
+							node = node.parent as CustomNode;
 						}
 
-						break;
+						item.G = near.G;
+						item.parent = near.parent;
+
+						item.currentJump = near.currentJump;
 					}
+
+					break;
 				}
 
 				// 오픈리스트에 없는 경우
@@ -324,16 +324,15 @@ public class JumpAStar : MonoBehaviour
 		m_OpenList.Clear();
 		m_CloseList.Clear();
 
-		CustomNode start = new CustomNode();
-		start.position.x = start.start.x = sx;
-		start.position.y = start.start.y = sy;
-		start.end.x = ex;
-		start.end.y = ey;
-		start.G = 0;
-		start.H = Heuristic(sx, sy, ex, ey);
+		CustomNode node = new CustomNode();
+		node.position.x = node.start.x = sx;
+		node.position.y = node.start.y = sy;
+		node.end.x = ex;
+		node.end.y = ey;
+		node.G = 0;
+		node.H = Heuristic(sx, sy, ex, ey);
 
-		m_OpenList.Enqueue(start);
-		CustomNode node = null;
+		m_OpenList.Enqueue(node);
 
 		m_StartTime = Time.realtimeSinceStartup;
 
