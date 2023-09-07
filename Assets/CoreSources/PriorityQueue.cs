@@ -4,13 +4,21 @@ using System.Collections.Generic;
 
 namespace System.Collections.Generic
 {
-	// 참고: https://yoongrammer.tistory.com/81
-	public class PriorityQueue<TElement> : IEnumerable<TElement> where TElement : IComparer<TElement>, new()
+	public interface IPriorityQueue<T> : IEnumerable<T>
 	{
-		List<TElement> m_ElementList;
-		IComparer<TElement> m_Comparer;
+		int Push(T item);
+		T Pop();
+		T Peek();
+		//void Update(int i);
+	}
 
-		public IComparer<TElement> Comparer
+	// 참고: https://yoongrammer.tistory.com/81
+	public class PriorityQueue<T> : IPriorityQueue<T>, IEnumerable<T>
+	{
+		List<T> m_ElementList;
+		IComparer<T> m_Comparer;
+
+		public IComparer<T> Comparer
 		{
 			get
 			{
@@ -21,35 +29,60 @@ namespace System.Collections.Generic
 		{
 			get
 			{
-				return m_ElementList.Count - 1;
+				return m_ElementList.Count;
 			}
 		}
-
-		private TElement root
+		private T root
 		{
 			get
 			{
-				return m_ElementList[1];
+				return m_ElementList[0];
 			}
+		}
+
+		public PriorityQueue()
+		{
+			m_ElementList = new List<T>();
+
+			m_Comparer = Comparer<T>.Default;
+		}
+#nullable enable
+		public PriorityQueue(IComparer<T>? comparer)
+		{
+			m_ElementList = new List<T>();
+
+			m_Comparer = comparer;
+		}
+#nullable disable
+		public PriorityQueue(IEnumerable<T> items)
+		{
+			m_ElementList = new List<T>(items);
+
+			m_Comparer = Comparer<T>.Default;
+		}
+		public PriorityQueue(int initialCapacity)
+		{
+			m_ElementList = new List<T>(initialCapacity);
+
+			m_Comparer = Comparer<T>.Default;
 		}
 
 		public void Clear()
 		{
 			m_ElementList.Clear();
-			m_ElementList.Add(default(TElement));
 		}
-		public bool Contains(TElement element)
+		public bool Contains(T element)
 		{
 			return m_ElementList.Contains(element);
 		}
-		public TElement Dequeue()
+		public T Pop()
 		{
 			// 1. 루트 노드 반환하기 위해 저장
-			TElement item = root;
+			T item = root;
 
 			// 2. 최하단 노드를 루트 노드로 올림
-			m_ElementList[1] = m_ElementList[Count];
-			m_ElementList.RemoveAt(Count);
+			m_ElementList[0] = m_ElementList[m_ElementList.Count - 1];
+			m_ElementList.RemoveAt(m_ElementList.Count - 1);
 
 			// 3. 루트 노드와 자식 노트들과 값을 비교
 			Heapify();
@@ -57,15 +90,15 @@ namespace System.Collections.Generic
 			// 4. 기존 루트 노드 반환
 			return item;
 		}
-		public void Enqueue(TElement element)
+		public int Push(T element)
 		{
 			// 1. 최하단 노드에 새로운 원소 추가
 			m_ElementList.Add(element);
 
 			// 2. 추가한 원소와 부모 노드와 우선순위 비교
-			int index = Count;
-			TElement parent = GetParent(index);
-			while (index > 1 &&
+			int index = m_ElementList.Count - 1;
+			T parent = GetParent(index);
+			while (index > 0 &&
 				Comparer.Compare(parent, element) > 0)
 			{
 				// 3. 추가한 원소의 우선순위가 더 높다면 부모와 자리교환
@@ -76,23 +109,20 @@ namespace System.Collections.Generic
 
 			// 3-1. 최적화로 자식은 마지막에 1번만 옮김
 			m_ElementList[index] = element;
+
+			return index;
 		}
-		public TElement EnqueueDequeue(TElement element)
-		{
-			Enqueue(element);
-			return Dequeue();
-		}
-		public void EnqueueRange(IEnumerable<TElement> items)
+		public void Push(IEnumerable<T> items)
 		{
 			if (null == items)
 				throw new ArgumentNullException(items.ToString());
 
 			foreach (var item in items)
 			{
-				Enqueue(item);
+				Push(item);
 			}
 		}
-		public TElement Peek()
+		public T Peek()
 		{
 			return root;
 		}
@@ -100,26 +130,26 @@ namespace System.Collections.Generic
 		{
 			m_ElementList.TrimExcess();
 		}
-		public bool TryDequeue(out TElement element)
+		public bool TryPop(out T element)
 		{
-			if (Count == 0 ||
+			if (m_ElementList.Count == 0 ||
 				root == null)
 			{
-				element = default(TElement);
+				element = default(T);
 
 				return false;
 			}
 
-			element = Dequeue();
+			element = Pop();
 
 			return true;
 		}
-		public bool TryPeek(out TElement element)
+		public bool TryPeek(out T element)
 		{
-			if (Count == 0 ||
+			if (m_ElementList.Count == 0 ||
 				root == null)
 			{
-				element = default(TElement);
+				element = default(T);
 
 				return false;
 			}
@@ -129,27 +159,27 @@ namespace System.Collections.Generic
 			return true;
 		}
 
-		private int GetParentIndex(int index)
+		protected int GetParentIndex(int index)
 		{
-			return index / 2;
+			return (index - 1) / 2;
 		}
-		private TElement GetParent(int index)
+		protected T GetParent(int index)
 		{
 			return m_ElementList[GetParentIndex(index)];
 		}
-		private int GetLeftIndex(int index)
-		{
-			return index * 2;
-		}
-		private TElement GetLeft(int index)
-		{
-			return m_ElementList[GetLeftIndex(index)];
-		}
-		private int GetRightIndex(int index)
+		protected int GetLeftIndex(int index)
 		{
 			return index * 2 + 1;
 		}
-		private TElement GetRight(int index)
+		protected T GetLeft(int index)
+		{
+			return m_ElementList[GetLeftIndex(index)];
+		}
+		protected int GetRightIndex(int index)
+		{
+			return (index + 1) * 2;
+		}
+		protected T GetRight(int index)
 		{
 			return m_ElementList[GetRightIndex(index)];
 		}
@@ -158,25 +188,25 @@ namespace System.Collections.Generic
 		/// Heap 속성을 유지하는 작업
 		/// </summary>
 		/// <param name="index"></param>
-		private void Heapify(int index = 1)
+		protected void Heapify(int index = 0)
 		{
-			if (index <= 0)
+			if (index < 0)
 				return;
 
 			int tempIndex = index;
 			int leftIndex = GetLeftIndex(index);
 			int rightIndex = GetRightIndex(index);
 
-			if (leftIndex <= Count &&
+			if (leftIndex <= m_ElementList.Count - 1 &&
 				m_Comparer.Compare(GetLeft(index), m_ElementList[index]) < 0)
 				tempIndex = leftIndex;
-			if (rightIndex <= Count &&
+			if (rightIndex <= m_ElementList.Count - 1 &&
 				m_Comparer.Compare(GetRight(index), m_ElementList[tempIndex]) < 0)
 				tempIndex = rightIndex;
 
 			if (tempIndex != index)
 			{
-				TElement temp = m_ElementList[tempIndex];
+				T temp = m_ElementList[tempIndex];
 				m_ElementList[tempIndex] = m_ElementList[index];
 				m_ElementList[index] = temp;
 
@@ -184,58 +214,18 @@ namespace System.Collections.Generic
 			}
 		}
 
-		public PriorityQueue()
+		public struct Enumerator : IEnumerator<T>, IEnumerator, IDisposable
 		{
-			m_ElementList = new List<TElement>();
-			m_ElementList.Add(default(TElement));
+			List<T> elementList;
+			int index;
 
-			m_Comparer = new TElement();
-		}
-#nullable enable
-		public PriorityQueue(IComparer<TElement>? comparer)
-		{
-			m_ElementList = new List<TElement>();
-			m_ElementList.Add(default(TElement));
-
-			m_Comparer = comparer;
-		}
-#nullable disable
-		public PriorityQueue(IEnumerable<TElement> items)
-		{
-			m_ElementList = new List<TElement>(items);
-			m_ElementList.Add(default(TElement));
-
-			m_Comparer = new TElement();
-		}
-		public PriorityQueue(int initialCapacity)
-		{
-			m_ElementList = new List<TElement>(initialCapacity);
-			m_ElementList.Add(default(TElement));
-
-			m_Comparer = new TElement();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return new Enumerator(m_ElementList);
-		}
-		IEnumerator<TElement> IEnumerable<TElement>.GetEnumerator()
-		{
-			return new Enumerator(m_ElementList);
-		}
-
-		public class Enumerator : IEnumerator<TElement>
-		{
-			List<TElement> elementList;
-			int index = -1;
-
-			TElement IEnumerator<TElement>.Current
+			T IEnumerator<T>.Current
 			{
 				get
 				{
 					try
 					{
-						return elementList[index + 1];
+						return elementList[index];
 					}
 					catch (IndexOutOfRangeException)
 					{
@@ -249,7 +239,7 @@ namespace System.Collections.Generic
 				{
 					try
 					{
-						return elementList[index + 1];
+						return elementList[index];
 					}
 					catch (IndexOutOfRangeException)
 					{
@@ -258,243 +248,33 @@ namespace System.Collections.Generic
 				}
 			}
 
-			public Enumerator(List<TElement> elements)
+			public Enumerator(List<T> elements)
 			{
 				elementList = elements;
+				index = 0;
 			}
 			public void Dispose()
 			{
+				Reset();
 			}
+
 			public bool MoveNext()
 			{
-				return (++index < elementList.Count - 1);
+				return (++index < elementList.Count);
 			}
 			public void Reset()
 			{
-				index = -1;
-			}
-		}
-	}
-	public class PriorityQueue<TElement, TPriority> where TPriority : IComparer<TPriority>, new()
-	{
-		List<Tuple<TElement, TPriority>> m_ElementList;
-		IComparer<TPriority> m_Comparer;
-
-		public IComparer<TPriority> Comparer
-		{
-			get
-			{
-				return m_Comparer;
-			}
-		}
-		public int Count
-		{
-			get
-			{
-				return m_ElementList.Count - 1;
+				index = 0;
 			}
 		}
 
-		private Tuple<TElement, TPriority> root
+		IEnumerator IEnumerable.GetEnumerator()
 		{
-			get
-			{
-				return m_ElementList[1];
-			}
+			return new Enumerator(m_ElementList);
 		}
-
-		public void Clear()
+		IEnumerator<T> IEnumerable<T>.GetEnumerator()
 		{
-			m_ElementList.Clear();
-			m_ElementList.Add(null);
-		}
-		public TElement Dequeue()
-		{
-			// 1. 루트 노드 반환하기 위해 저장
-			Tuple<TElement, TPriority> item = root;
-
-			// 2. 최하단 노드를 루트 노드로 올림
-			m_ElementList[1] = m_ElementList[Count];
-			m_ElementList.RemoveAt(Count);
-
-			// 3. 루트 노드와 자식 노트들과 값을 비교
-			Heapify();
-
-			// 4. 기존 루트 노드 반환
-			return item.Item1;
-		}
-		public void Enqueue(TElement element, TPriority priority)
-		{
-			// 1. 최하단 노드에 새로운 원소 추가
-			Tuple<TElement, TPriority> item = new Tuple<TElement, TPriority>(element, priority);
-			m_ElementList.Add(item);
-
-			// 2. 추가한 원소와 부모 노드와 우선순위 비교
-			int index = Count;
-			Tuple<TElement, TPriority> parent = GetParent(index);
-			while (index != 1 &&
-				Comparer.Compare(parent.Item2, priority) > 0)
-			{
-				// 3. 추가한 원소의 우선순위가 더 높다면 부모와 자리교환
-				m_ElementList[index] = parent;
-				index = GetParentIndex(index);
-				parent = GetParent(index);
-			}
-
-			// 3-1. 최적화로 자식은 마지막에 1번만 옮김
-			m_ElementList[index] = item;
-		}
-		public TElement EnqueueDequeue(TElement element, TPriority priority)
-		{
-			Enqueue(element, priority);
-			return Dequeue();
-		}
-		public void EnqueueRange(IEnumerable<Tuple<TElement, TPriority>> items)
-		{
-			if (null == items)
-				throw new ArgumentNullException(items.ToString());
-
-			foreach (var item in items)
-			{
-				Enqueue(item.Item1, item.Item2);
-			}
-		}
-		public void EnqueueRange(IEnumerable<TElement> elements, TPriority priority)
-		{
-			if (null == elements)
-				throw new ArgumentNullException(elements.ToString());
-
-			foreach (var item in elements)
-			{
-				Enqueue(item, priority);
-			}
-		}
-		public TElement Peek()
-		{
-			return root.Item1;
-		}
-		public void TrimExcess()
-		{
-			m_ElementList.TrimExcess();
-		}
-		public bool TryDequeue(out TElement element, out TPriority priority)
-		{
-			if (Count == 0 ||
-				root == null)
-			{
-				element = default(TElement);
-				priority = default(TPriority);
-
-				return false;
-			}
-
-			Tuple<TElement, TPriority> item = root;
-
-			element = item.Item1;
-			priority = item.Item2;
-
-			Dequeue();
-
-			return true;
-		}
-		public bool TryPeek(out TElement element, out TPriority priority)
-		{
-			if (Count == 0 ||
-				root == null)
-			{
-				element = default(TElement);
-				priority = default(TPriority);
-
-				return false;
-			}
-
-			element = root.Item1;
-			priority = root.Item2;
-
-			return true;
-		}
-
-		private int GetParentIndex(int index)
-		{
-			return index / 2;
-		}
-		private Tuple<TElement, TPriority> GetParent(int index)
-		{
-			return m_ElementList[GetParentIndex(index)];
-		}
-		private int GetLeftIndex(int index)
-		{
-			return index * 2;
-		}
-		private Tuple<TElement, TPriority> GetLeft(int index)
-		{
-			return m_ElementList[GetLeftIndex(index)];
-		}
-		private int GetRightIndex(int index)
-		{
-			return index * 2 + 1;
-		}
-		private Tuple<TElement, TPriority> GetRight(int index)
-		{
-			return m_ElementList[GetRightIndex(index)];
-		}
-
-		/// <summary>
-		/// Heap 속성을 유지하는 작업
-		/// </summary>
-		/// <param name="index"></param>
-		private void Heapify(int index = 1)
-		{
-			int tempIndex = index;
-			int leftIndex = GetLeftIndex(index);
-			int rightIndex = GetRightIndex(index);
-
-			if (leftIndex <= Count &&
-				m_Comparer.Compare(GetLeft(index).Item2, m_ElementList[index].Item2) < 0)
-				tempIndex = leftIndex;
-			if (rightIndex <= Count &&
-				m_Comparer.Compare(GetRight(index).Item2, m_ElementList[tempIndex].Item2) < 0)
-				tempIndex = rightIndex;
-
-			if (tempIndex != index)
-			{
-				Tuple<TElement, TPriority> temp = m_ElementList[tempIndex];
-				m_ElementList[tempIndex] = m_ElementList[index];
-				m_ElementList[index] = temp;
-
-				Heapify(tempIndex);
-			}
-		}
-
-		public PriorityQueue()
-		{
-			m_ElementList = new List<Tuple<TElement, TPriority>>();
-			m_ElementList.Add(null);
-
-			m_Comparer = new TPriority();
-		}
-#nullable enable
-		public PriorityQueue(IComparer<TPriority>? comparer)
-		{
-			m_ElementList = new List<Tuple<TElement, TPriority>>();
-			m_ElementList.Add(null);
-
-			m_Comparer = comparer;
-		}
-#nullable disable
-		public PriorityQueue(IEnumerable<Tuple<TElement, TPriority>> items)
-		{
-			m_ElementList = new List<Tuple<TElement, TPriority>>(items);
-			m_ElementList.Add(null);
-
-			m_Comparer = new TPriority();
-		}
-		public PriorityQueue(int initialCapacity)
-		{
-			m_ElementList = new List<Tuple<TElement, TPriority>>(initialCapacity);
-			m_ElementList.Add(null);
-
-			m_Comparer = new TPriority();
+			return new Enumerator(m_ElementList);
 		}
 	}
 }

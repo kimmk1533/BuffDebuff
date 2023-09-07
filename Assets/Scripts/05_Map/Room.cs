@@ -5,6 +5,31 @@ using UnityEngine.Tilemaps;
 
 public class Room : MonoBehaviour
 {
+	#region Enum
+	public enum E_RoomTilemapLayer
+	{
+		// 뒷 배경
+		BackGround,
+		// 벽
+		TileMap,
+		// 점프 가능한 벽
+		ThroughMap,
+		// 앞 배경 (장식 등등)
+		Environment,
+
+		Max
+	}
+	public enum E_RoomDir
+	{
+		Left = 0,
+		Right = 1,
+		Top = 2,
+		Bottom = 3,
+
+		Max
+	} 
+	#endregion
+
 	[SerializeField]
 	Vector2 m_ClampOffset;
 	[SerializeField]
@@ -62,28 +87,5 @@ public class Room : MonoBehaviour
 	{
 		Gizmos.color = new Color(0, 1, 0, 0.1f);
 		Gizmos.DrawCube((Vector2)transform.position + m_ClampOffset, m_ClampAreaSize);
-	}
-
-	public enum E_RoomTilemapLayer
-	{
-		// 뒷 배경
-		BackGround,
-		// 벽
-		TileMap,
-		// 점프 가능한 벽
-		ThroughMap,
-		// 앞 배경 (장식 등등)
-		Environment,
-
-		Max
-	}
-	public enum E_RoomDir
-	{
-		Left = 0,
-		Right = 1,
-		Top = 2,
-		Bottom = 3,
-
-		Max
 	}
 }
