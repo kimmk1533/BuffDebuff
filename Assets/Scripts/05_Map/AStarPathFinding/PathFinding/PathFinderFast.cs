@@ -30,21 +30,21 @@ namespace Algorithms
 	}
 	#endregion
 
-	public struct Location
-	{
-		public Location(int xy, int z)
-		{
-			this.xy = xy;
-			this.z = z;
-		}
-
-		public int xy;
-		public int z;
-	}
-
 	public class PathFinderFast
 	{
 		#region 구조체
+		public struct Location
+		{
+			public Location(int xy, int z)
+			{
+				this.xy = xy;
+				this.z = z;
+			}
+
+			public int xy;
+			public int z;
+		}
+
 		internal struct PathFinderNodeFast
 		{
 			#region 변수 선언
@@ -98,7 +98,6 @@ namespace Algorithms
 		private int m_H = 0;
 		private Location m_Location;
 		private int m_NewLocation = 0;
-		private PathFinderNodeFast m_Node;
 		private ushort m_LocationX = 0;
 		private ushort m_LocationY = 0;
 		private ushort m_NewLocationX = 0;
@@ -112,7 +111,7 @@ namespace Algorithms
 		private int m_EndLocation = 0;
 		private int m_NewG = 0;
 
-		public Map m_Map;
+		private Map m_Map;
 		#endregion
 
 		#region 생성자
@@ -256,7 +255,7 @@ namespace Algorithms
 				while (m_TouchedLocations.Count > 0)
 					m_Nodes[m_TouchedLocations.Pop()].Clear();
 
-				if (m_Grid[end.y, end.x] == 0)
+				if (m_Grid[end.y, end.x] == Map.block)
 					return null;
 
 				m_Found = false;
@@ -323,30 +322,30 @@ namespace Algorithms
 						bool onGround = false;
 						bool atCeiling = false;
 
-						if (m_Grid[m_NewLocationY, m_NewLocationX] == 0)
+						if (m_Grid[m_NewLocationY, m_NewLocationX] == Map.block)
 							continue;
 
 						if (m_Map.IsGround(m_NewLocationX, m_NewLocationY - 1))
 							onGround = true;
-						else if (m_Grid[m_NewLocationX, m_NewLocationY + characterHeight] == 0)
+						else if (m_Grid[m_NewLocationY + characterHeight, m_NewLocationX] == Map.block)
 							atCeiling = true;
 
 						// calculate a proper jumplength value for the successor
-						var jumpLength = m_Nodes[m_Location.xy][m_Location.z].JumpLength;
+						short jumpLength = m_Nodes[m_Location.xy][m_Location.z].JumpLength;
 						short newJumpLength = jumpLength;
 
-						if (atCeiling)
+						if (onGround)
+							newJumpLength = 0;
+						else if (atCeiling)
 						{
 							if (m_NewLocationX != m_LocationX)
 								newJumpLength = (short)Mathf.Max(maxCharacterJumpHeight * 2 + 1, jumpLength + 1);
 							else
 								newJumpLength = (short)Mathf.Max(maxCharacterJumpHeight * 2, jumpLength + 2);
 						}
-						else if (onGround)
-							newJumpLength = 0;
 						else if (m_NewLocationY > m_LocationY)
 						{
-							if (jumpLength < 2) //first jump is always two block up instead of one up and optionally one to either right or left
+							if (jumpLength < 2 && maxCharacterJumpHeight > 2) //first jump is always two block up instead of one up and optionally one to either right or left
 								newJumpLength = 3;
 							else if (jumpLength % 2 == 0)
 								newJumpLength = (short)(jumpLength + 2);
@@ -366,29 +365,50 @@ namespace Algorithms
 						if (jumpLength >= 0 && jumpLength % 2 != 0 && m_LocationX != m_NewLocationX)
 							continue;
 
-						//if we're falling and succeor's height is bigger than ours, skip that successor
+						if (
+							(newJumpLength == 0 &&
+							m_NewLocationX != m_LocationX &&
+							jumpLength + 1 >= maxCharacterJumpHeight * 2 + 6 &&
+							(jumpLength + 1 - (maxCharacterJumpHeight * 2 + 6)) % 8 <= 1) ||
+							(newJumpLength >= maxCharacterJumpHeight * 2 + 6 &&
+							m_NewLocationX != m_LocationX &&
+							(newJumpLength - (maxCharacterJumpHeight * 2 + 6)) % 8 != 7))
+							continue;
+
+						//if (newJumpLength >= maxCharacterJumpHeight * 2 + 6 &&
+						//	m_NewLocationX != m_LocationX &&
+						//	(newJumpLength - (maxCharacterJumpHeight * 2 + 6)) % 8 != 3)
+						//	continue;
+
+						// if we're falling and succeor's height is bigger than ours, skip that successor
 						if (jumpLength >= maxCharacterJumpHeight * 2 && m_NewLocationY > m_LocationY)
 							continue;
 
-						if (newJumpLength >= maxCharacterJumpHeight * 2 + 6 && m_NewLocationX != m_LocationX && (newJumpLength - (maxCharacterJumpHeight * 2 + 6)) % 8 != 3)
-							continue;
-
-						m_NewG = m_Nodes[m_Location.xy][m_Location.z].G + m_Grid[m_NewLocationX, m_NewLocationY] + newJumpLength / 4;
+						m_NewG = m_Nodes[m_Location.xy][m_Location.z].G + 1/*m_Grid[m_NewLocationY, m_NewLocationX]*/ + newJumpLength / 4;
 
 						if (m_Nodes[m_NewLocation].Count > 0)
 						{
-							int lowestJump = short.MaxValue;
+							short lowestJump = short.MaxValue;
+							int lowestG = int.MaxValue;
 							bool couldMoveSideways = false;
+
 							for (int j = 0; j < m_Nodes[m_NewLocation].Count; ++j)
 							{
 								if (m_Nodes[m_NewLocation][j].JumpLength < lowestJump)
 									lowestJump = m_Nodes[m_NewLocation][j].JumpLength;
 
-								if (m_Nodes[m_NewLocation][j].JumpLength % 2 == 0 && m_Nodes[m_NewLocation][j].JumpLength < maxCharacterJumpHeight * 2 + 6)
+								if (m_Nodes[m_NewLocation][j].G < lowestG)
+									lowestG = m_Nodes[m_NewLocation][j].G;
+
+								if (m_Nodes[m_NewLocation][j].JumpLength % 2 == 0 &&
+									m_Nodes[m_NewLocation][j].JumpLength < maxCharacterJumpHeight * 2 + 6)
 									couldMoveSideways = true;
 							}
 
-							if (lowestJump <= newJumpLength && (newJumpLength % 2 != 0 || newJumpLength >= maxCharacterJumpHeight * 2 + 6 || couldMoveSideways))
+							// The current node has smaller cost than the previous? then skip this node
+							if (lowestG <= m_NewG &&
+								lowestJump <= newJumpLength &&
+								(newJumpLength % 2 != 0 || newJumpLength >= maxCharacterJumpHeight * 2 + 6 || couldMoveSideways))
 								continue;
 						}
 
@@ -440,18 +460,21 @@ namespace Algorithms
 						/*
 						 * 1. 시작 노드
 						 * 2. 끝 노드
-						 * 3. 점프 노드
-						 * 4. 옆으로 이동하는 점프에서 첫 번째 공중 노드 (점프 값이 3 인 노드)
-						 * 5. 착지 노드 (점프 값이 0이 되는 노드)
-						 * 6. 점프의 최고점 (위로 이동하는 노드와 아래로 떨어지는 노드 사이의 노드)
-						 * 7. 장애물을 우회하는 노드﻿
+						 * 3. 단방향 플랫폼 노드
+						 * 4. 지상 노드이면서 이전 노드가 단방향 플랫폼 노드 (또는 그 반대)
+						 * 5. 점프 노드
+						 * 6. 옆으로 이동하는 점프에서 첫 번째 공중 노드 (점프 값이 3 인 노드)
+						 * 7. 착지 노드 (점프 값이 0이 되는 노드)
+						 * 8. 점프의 최고점 (위로 이동하는 노드와 아래로 떨어지는 노드 사이의 노드)
+						 * 9. 장애물을 우회하는 노드﻿
 						 */
 						bool filter =
 							// 끝 노드 필터링
 							(m_Close.Count == 0)
-							// 
+							// 단방향 플랫폼 노드 필터링
 							|| (m_Map.IsOneWayPlatform(node.x, node.y - 1))
-							|| (m_Grid[node.x, node.y - 1] == 0 && m_Map.IsOneWayPlatform(prevNode.x, prevNode.y - 1))
+							// 지상 노드이면서 이전 노드가 단방향 플랫폼 노드 (또는 그 반대)
+							|| (m_Grid[node.y - 1, node.x] == Map.block && m_Map.IsOneWayPlatform(prevNode.x, prevNode.y - 1))
 							// 점프 노드 필터링
 							|| (nodeTmp.JumpLength == 0 && prevNodeTmp.JumpLength != 0)
 							|| (nodeTmp.JumpLength == 3)

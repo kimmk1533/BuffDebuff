@@ -9,7 +9,6 @@ namespace System.Collections.Generic
 		int Push(T item);
 		T Pop();
 		T Peek();
-		//void Update(int i);
 	}
 
 	// 참고: https://yoongrammer.tistory.com/81
@@ -36,6 +35,10 @@ namespace System.Collections.Generic
 		{
 			get
 			{
+				if (m_ElementList == null ||
+					m_ElementList.Count == 0)
+					return default(T);
+
 				return m_ElementList[0];
 			}
 		}
@@ -159,31 +162,6 @@ namespace System.Collections.Generic
 			return true;
 		}
 
-		protected int GetParentIndex(int index)
-		{
-			return (index - 1) / 2;
-		}
-		protected T GetParent(int index)
-		{
-			return m_ElementList[GetParentIndex(index)];
-		}
-		protected int GetLeftIndex(int index)
-		{
-			return index * 2 + 1;
-		}
-		protected T GetLeft(int index)
-		{
-			return m_ElementList[GetLeftIndex(index)];
-		}
-		protected int GetRightIndex(int index)
-		{
-			return (index + 1) * 2;
-		}
-		protected T GetRight(int index)
-		{
-			return m_ElementList[GetRightIndex(index)];
-		}
-
 		/// <summary>
 		/// Heap 속성을 유지하는 작업
 		/// </summary>
@@ -212,6 +190,31 @@ namespace System.Collections.Generic
 
 				Heapify(tempIndex);
 			}
+		}
+
+		protected T GetLeft(int index)
+		{
+			return m_ElementList[GetLeftIndex(index)];
+		}
+		protected T GetRight(int index)
+		{
+			return m_ElementList[GetRightIndex(index)];
+		}
+		protected T GetParent(int index)
+		{
+			return m_ElementList[GetParentIndex(index)];
+		}
+		protected int GetLeftIndex(int index)
+		{
+			return index * 2 + 1;
+		}
+		protected int GetRightIndex(int index)
+		{
+			return index * 2 + 2;
+		}
+		protected int GetParentIndex(int index)
+		{
+			return (index - 1) / 2;
 		}
 
 		public struct Enumerator : IEnumerator<T>, IEnumerator, IDisposable

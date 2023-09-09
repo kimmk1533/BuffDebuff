@@ -7,15 +7,26 @@ using UnityEngine.Tilemaps;
 public class Map : MonoBehaviour
 {
 	#region Enum
-	public enum E_TileType
+	public enum E_TileType : byte
 	{
-		None = -1,
-
 		Empty = 0,
 		Block,
 		OneWay,
 
 		Max
+	}
+
+	public static byte empty
+	{
+		get { return (byte)E_TileType.Empty; }
+	}
+	public static byte block
+	{
+		get { return (byte)E_TileType.Block; }
+	}
+	public static byte oneway
+	{
+		get { return (byte)E_TileType.OneWay; }
 	}
 	#endregion
 
@@ -43,19 +54,32 @@ public class Map : MonoBehaviour
 	{
 		Initialize();
 	}
+
+	// 테스트
 	public int testValue = 100;
-	public float pathTime;
+	public float pathShowTime;
 	private void Update()
 	{
 		if (Input.GetMouseButtonDown(0))
 		{
+			float startT, endT;
+
+			startT = Time.realtimeSinceStartup;
 			for (int i = 0; i < testValue; ++i)
-				Test();
+				Test(i == 0);
+			endT = Time.realtimeSinceStartup;
+
+			float time = endT - startT;
+
+			Debug.Log("길을 " + testValue + "번 찾는 동안 걸린 시간: " + time);
 		}
 	}
-	private void Test()
+	private void Test(bool showPath)
 	{
 		List<Vector2Int> path = m_PathFinder.FindPath(M_Grid.m_Start, M_Grid.m_End, 1, 1, 6);
+
+		if (showPath == false)
+			return;
 
 		Vector3 offset = Vector3.one * 0.5f;
 
@@ -66,16 +90,91 @@ public class Map : MonoBehaviour
 				Vector3 start = new Vector3(path[i].x, path[i].y);
 				Vector3 end = new Vector3(path[i + 1].x, path[i + 1].y);
 
-				Debug.DrawLine(start + offset, end + offset, Color.white, pathTime);
+				Debug.DrawLine(start + offset, end + offset, Color.white, pathShowTime);
+
+				DrawRect(start + offset, offset, Color.white, pathShowTime);
+				var text = UtilClass.CreateWorldText(path.Count - i, transform, start + offset, 0.1f, 40, Color.white, TextAnchor.MiddleCenter);
+				GameObject.Destroy(text.gameObject, pathShowTime);
+
+				if (i == path.Count - 2)
+				{
+					DrawRect(end + offset, offset, Color.white, pathShowTime);
+
+					text = UtilClass.CreateWorldText(1, transform, end + offset, 0.1f, 40, Color.white, TextAnchor.MiddleCenter);
+					GameObject.Destroy(text.gameObject, pathShowTime);
+				}
 			}
 		}
 	}
 
+	// MyDebug 클래스 만들어서 옮겨두자
+	private void DrawRect(Vector3 center, Vector3 size)
+	{
+		bool depthTest = true;
+		float duration = 0f;
+		Color color = Color.white;
+		DrawRect(center, size, color, duration, depthTest);
+	}
+	private void DrawRect(Vector3 center, Vector3 size, Color color)
+	{
+		bool depthTest = true;
+		float duration = 0f;
+		DrawRect(center, size, color, duration, depthTest);
+	}
+	private void DrawRect(Vector3 center, Vector3 size, Color color, float duration)
+	{
+		bool depthTest = true;
+		DrawRect(center, size, color, duration, depthTest);
+	}
+	private void DrawRect(Vector3 center, Vector3 size, Color color, float duration, bool depthTest)
+	{
+		#region 변수 선언
+		Vector3 left = Vector3.left * size.x * 0.5f;
+		Vector3 right = Vector3.right * size.x * 0.5f;
+		Vector3 top = Vector3.up * size.y * 0.5f;
+		Vector3 bottom = Vector3.down * size.y * 0.5f;
+		Vector3 front = Vector3.forward * size.z * 0.5f;
+		Vector3 back = Vector3.back * size.z * 0.5f;
+
+		Vector3 frontLeftTop, frontRightTop, frontLeftBottom, frontRightBottom;
+		Vector3 backLeftTop, backRightTop, backLeftBottom, backRightBottom;
+
+		frontLeftTop = center + front + left + top;
+		frontRightTop = center + front + right + top;
+		frontLeftBottom = center + front + left + bottom;
+		frontRightBottom = center + front + right + bottom;
+
+		backLeftTop = center + back + left + top;
+		backRightTop = center + back + right + top;
+		backLeftBottom = center + back + left + bottom;
+		backRightBottom = center + back + right + bottom;
+		#endregion
+
+		Debug.DrawLine(frontLeftTop, frontRightTop, color, duration, depthTest);
+		Debug.DrawLine(frontRightTop, frontRightBottom, color, duration, depthTest);
+		Debug.DrawLine(frontRightBottom, frontLeftBottom, color, duration, depthTest);
+		Debug.DrawLine(frontLeftBottom, frontLeftTop, color, duration, depthTest);
+
+		Debug.DrawLine(backLeftTop, backRightTop, color, duration, depthTest);
+		Debug.DrawLine(backRightTop, backRightBottom, color, duration, depthTest);
+		Debug.DrawLine(backRightBottom, backLeftBottom, color, duration, depthTest);
+		Debug.DrawLine(backLeftBottom, backLeftTop, color, duration, depthTest);
+
+		Debug.DrawLine(frontLeftTop, backLeftTop, color, duration, depthTest);
+		Debug.DrawLine(frontRightTop, backRightTop, color, duration, depthTest);
+		Debug.DrawLine(frontRightBottom, backRightBottom, color, duration, depthTest);
+		Debug.DrawLine(frontLeftBottom, backLeftBottom, color, duration, depthTest);
+	}
+	//
+
 	public void Initialize()
 	{
+		Tilemap tileMap = M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.TileMap);
+		Tilemap throughMap = M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.ThroughMap);
+
 		// 임시
-		m_Width = (int)(M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.TileMap).cellBounds.size.x);
-		m_Height = (int)(M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.TileMap).cellBounds.size.y);
+		m_Width = (int)(tileMap.cellBounds.size.x);
+		m_Height = (int)(tileMap.cellBounds.size.y);
 		//
 
 		m_Grid = new byte[Mathf.NextPowerOfTwo(m_Height), Mathf.NextPowerOfTwo(m_Width)];
@@ -85,8 +184,6 @@ public class Map : MonoBehaviour
 		m_TileRenderers = new SpriteRenderer[m_Height, m_Width];
 
 		Vector3 offset = new Vector3(0.5f, 0.5f);
-		Tilemap tileMap = M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.TileMap);
-		Tilemap throughMap = M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.ThroughMap);
 		for (int y = 0; y < m_Height; ++y)
 		{
 			for (int x = 0; x < m_Width; ++x)
@@ -104,7 +201,10 @@ public class Map : MonoBehaviour
 				//SetTile(x, y, mapRoom.tileData[y * m_Width + x]);
 
 				tile = throughMap.GetTile(index);
-				SetTile(x, y, GetTile(x, y) == E_TileType.Empty && tile == null ? E_TileType.Empty : E_TileType.Block);
+				SetTile(x, y,
+					CheckTile(x, y, E_TileType.Block) == true
+					? E_TileType.Block
+					: tile == null ? E_TileType.Empty : E_TileType.OneWay);
 			}
 		}
 	}
@@ -125,38 +225,38 @@ public class Map : MonoBehaviour
 		m_PathFinder.DebugProgress = false;
 		m_PathFinder.DebugFoundPath = false;
 	}
-
 	private void SetTile(int x, int y, E_TileType type)
 	{
 		if (x <= 1 || x >= m_Width - 2 ||
 			y <= 1 || y >= m_Height - 2)
 			return;
 
-		m_Tiles[y, x] = type;
-
 		switch (type)
 		{
-			case E_TileType.None:
-			case E_TileType.Max:
-				throw new System.Exception("");
+			default:
+			case E_TileType.Empty:
+				m_Grid[y, x] = empty;
+				m_TileRenderers[y, x].enabled = false;
+				break;
 			case E_TileType.Block:
-				m_Grid[y, x] = 0;
+				m_Grid[y, x] = block;
 				// AutoTile(type, x, y, 1, 8, 4, 4, 4, 4);
 				m_TileRenderers[y, x].enabled = true;
 				break;
 			case E_TileType.OneWay:
-				m_Grid[y, x] = 1;
+				m_Grid[y, x] = oneway;
 				m_TileRenderers[y, x].enabled = true;
+				m_TileRenderers[y, x].color = Color.red;
 
 				m_TileRenderers[y, x].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 				m_TileRenderers[y, x].transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
 				//m_TileRenderers[y, x].sprite = mDirtSprites[25];
 				break;
-			default:
-				m_Grid[y, x] = 1;
-				m_TileRenderers[y, x].enabled = false;
-				break;
+			case E_TileType.Max:
+				throw new System.Exception("");
 		}
+
+		m_Tiles[y, x] = type;
 
 		// 주변 타일 Sprite 자동 변경
 		//AutoTile(type, x - 1, y, 1, 8, 4, 4, 4, 4);
@@ -164,14 +264,24 @@ public class Map : MonoBehaviour
 		//AutoTile(type, x, y - 1, 1, 8, 4, 4, 4, 4);
 		//AutoTile(type, x, y + 1, 1, 8, 4, 4, 4, 4);
 	}
-
-	public E_TileType GetTile(int x, int y)
+	public bool CheckTile(int x, int y, E_TileType type)
 	{
 		if (x < 0 || x >= m_Width ||
 			y < 0 || y >= m_Height)
-			return E_TileType.None;
+			return false;
 
-		return m_Tiles[y, x];
+		return m_Tiles[y, x] == type;
+	}
+	public bool TryGetTile(int x, int y, out E_TileType type)
+	{
+		type = E_TileType.Empty;
+		if (x < 0 || x >= m_Width ||
+			y < 0 || y >= m_Height)
+			return false;
+
+		type = m_Tiles[y, x];
+
+		return true;
 	}
 	public bool IsBlock(int x, int y)
 	{
@@ -243,7 +353,7 @@ public class Map : MonoBehaviour
 		{
 			for (int x = startX; x <= endX; ++x)
 			{
-				if (GetTile(x, y) == E_TileType.Block)
+				if (CheckTile(x, y, E_TileType.Block))
 					return true;
 			}
 		}
