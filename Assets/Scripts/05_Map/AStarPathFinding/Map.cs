@@ -16,18 +16,6 @@ public class Map : MonoBehaviour
 		Max
 	}
 
-	public static byte empty
-	{
-		get { return (byte)E_TileType.Empty; }
-	}
-	public static byte block
-	{
-		get { return (byte)E_TileType.Block; }
-	}
-	public static byte oneway
-	{
-		get { return (byte)E_TileType.OneWay; }
-	}
 	#endregion
 
 	public const int c_tileSize = 16;
@@ -169,10 +157,10 @@ public class Map : MonoBehaviour
 
 	public void Initialize()
 	{
+		// 임시
 		Tilemap tileMap = M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.TileMap);
 		Tilemap throughMap = M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.ThroughMap);
 
-		// 임시
 		m_Width = (int)(tileMap.cellBounds.size.x);
 		m_Height = (int)(tileMap.cellBounds.size.y);
 		//
@@ -235,16 +223,16 @@ public class Map : MonoBehaviour
 		{
 			default:
 			case E_TileType.Empty:
-				m_Grid[y, x] = empty;
+				m_Grid[y, x] = 1;
 				m_TileRenderers[y, x].enabled = false;
 				break;
 			case E_TileType.Block:
-				m_Grid[y, x] = block;
+				m_Grid[y, x] = 0;
 				// AutoTile(type, x, y, 1, 8, 4, 4, 4, 4);
 				m_TileRenderers[y, x].enabled = true;
 				break;
 			case E_TileType.OneWay:
-				m_Grid[y, x] = oneway;
+				m_Grid[y, x] = 0;
 				m_TileRenderers[y, x].enabled = true;
 				m_TileRenderers[y, x].color = Color.red;
 

@@ -15,6 +15,7 @@ using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 
 namespace Algorithms
 {
@@ -70,11 +71,10 @@ namespace Algorithms
 		// lock key
 		private readonly object _lockObject = new object();
 
-		private List<PathFinderNodeFast>[] m_Nodes;
+		private List<PathFinderNodeFast>[] m_Nodes = null;
 		// 지나간 위치들 기억할 컨테이너(초기화 시 전체가 아닌 지나간 위치들만 초기화 하면 됨)
-		private Stack<int> m_TouchedLocations;
+		private Stack<int> m_TouchedLocations = null;
 
-		// Heap variables are initializated to default, but I like to do it anyway
 		private byte[,] m_Grid = null;
 		private PriorityQueue<Location> m_Open = null;
 		private List<Vector2Int> m_Close = null;
@@ -111,7 +111,7 @@ namespace Algorithms
 		private int m_EndLocation = 0;
 		private int m_NewG = 0;
 
-		private Map m_Map;
+		private Map m_Map = null;
 		#endregion
 
 		#region 생성자
@@ -255,7 +255,32 @@ namespace Algorithms
 				while (m_TouchedLocations.Count > 0)
 					m_Nodes[m_TouchedLocations.Pop()].Clear();
 
-				if (m_Grid[end.y, end.x] == Map.block)
+				bool inSolidTile = false;
+				for (int i = 0; i < characterWidth; ++i)
+				{
+					inSolidTile = false;
+					for (int w = 0; w < characterWidth; ++w)
+					{
+						for (int h = 0; h < characterHeight; ++h)
+						{
+							if (m_Grid[end.y + h, end.x + w] == 0)
+							{
+								inSolidTile = true;
+								break;
+							}
+						}
+
+						if (inSolidTile)
+							break;
+					}
+
+					if (inSolidTile)
+						--end.x;
+					else
+						break;
+				}
+
+				if (inSolidTile == true)
 					return null;
 
 				m_Found = false;
@@ -278,7 +303,18 @@ namespace Algorithms
 				firstNode.PZ = 0;
 				firstNode.Status = m_OpenNodeValue;
 
-				if (m_Map.IsGround(start.x, start.y - 1))
+				bool startsOnGround = false;
+
+				for (int x = start.x; x < start.x + characterWidth; ++x)
+				{
+					if (m_Map.IsGround(x, start.y - 1))
+					{
+						startsOnGround = true;
+						break;
+					}
+				}
+
+				if (startsOnGround)
 					firstNode.JumpLength = 0;
 				else
 					firstNode.JumpLength = (short)(maxCharacterJumpHeight * 2);
@@ -319,16 +355,37 @@ namespace Algorithms
 						m_NewLocationY = (ushort)(m_LocationY + m_Direction[i, 1]);
 						m_NewLocation = (m_NewLocationY << m_GridXLog2) + m_NewLocationX;
 
+						bool continueFlag = false;
 						bool onGround = false;
 						bool atCeiling = false;
 
-						if (m_Grid[m_NewLocationY, m_NewLocationX] == Map.block)
-							continue;
+						for (int w = 0; w < characterWidth; ++w)
+						{
+							if (m_Grid[m_NewLocationY, m_NewLocationX + w] == 0
+								|| m_Grid[m_NewLocationY + characterHeight - 1, m_NewLocationX + w] == 0)
+							{
+								continueFlag = true;
+								break;
+							}
 
-						if (m_Map.IsGround(m_NewLocationX, m_NewLocationY - 1))
-							onGround = true;
-						else if (m_Grid[m_NewLocationY + characterHeight, m_NewLocationX] == Map.block)
-							atCeiling = true;
+							if (m_Map.IsGround(m_NewLocationX + w, m_NewLocationY - 1))
+								onGround = true;
+							else if (m_Grid[m_NewLocationY + characterHeight, m_NewLocationX + w] == 0)
+								atCeiling = true;
+						}
+						if (continueFlag)
+							continue;
+						for (int h = 1; h < characterHeight - 1; ++h)
+						{
+							if (m_Grid[m_NewLocationY + h, m_NewLocationX] == 0
+								|| m_Grid[m_NewLocationY + h, m_NewLocationX + characterWidth - 1] == 0)
+							{
+								continueFlag = true;
+								break;
+							}
+						}
+						if (continueFlag)
+							continue;
 
 						// calculate a proper jumplength value for the successor
 						short jumpLength = m_Nodes[m_Location.xy][m_Location.z].JumpLength;
@@ -359,32 +416,29 @@ namespace Algorithms
 							else
 								newJumpLength = (short)Mathf.Max(maxCharacterJumpHeight * 2, jumpLength + 1);
 						}
-						else if (!onGround && m_NewLocationX != m_LocationX)
+						else if (!onGround && m_LocationX != m_NewLocationX)
 							newJumpLength = (short)(jumpLength + 1);
 
-						if (jumpLength >= 0 && jumpLength % 2 != 0 && m_LocationX != m_NewLocationX)
-							continue;
+						if (m_LocationX != m_NewLocationX)
+						{
+							if (jumpLength >= 0 && jumpLength % 2 != 0)
+								continue;
 
-						if (
-							(newJumpLength == 0 &&
-							m_NewLocationX != m_LocationX &&
-							jumpLength + 1 >= maxCharacterJumpHeight * 2 + 6 &&
-							(jumpLength + 1 - (maxCharacterJumpHeight * 2 + 6)) % 8 <= 1) ||
-							(newJumpLength >= maxCharacterJumpHeight * 2 + 6 &&
-							m_NewLocationX != m_LocationX &&
-							(newJumpLength - (maxCharacterJumpHeight * 2 + 6)) % 8 != 7))
-							continue;
+							if (newJumpLength == 0 &&
+								jumpLength + 1 >= maxCharacterJumpHeight * 2 + 6 &&
+								(jumpLength + 1 - (maxCharacterJumpHeight * 2 + 6)) % 8 <= 1)
+								continue;
 
-						//if (newJumpLength >= maxCharacterJumpHeight * 2 + 6 &&
-						//	m_NewLocationX != m_LocationX &&
-						//	(newJumpLength - (maxCharacterJumpHeight * 2 + 6)) % 8 != 3)
-						//	continue;
+							if (newJumpLength >= maxCharacterJumpHeight * 2 + 6 &&
+								(newJumpLength - (maxCharacterJumpHeight * 2 + 6)) % 8 != 7)
+								continue;
+						}
 
 						// if we're falling and succeor's height is bigger than ours, skip that successor
 						if (jumpLength >= maxCharacterJumpHeight * 2 && m_NewLocationY > m_LocationY)
 							continue;
 
-						m_NewG = m_Nodes[m_Location.xy][m_Location.z].G + 1/*m_Grid[m_NewLocationY, m_NewLocationX]*/ + newJumpLength / 4;
+						m_NewG = m_Nodes[m_Location.xy][m_Location.z].G + m_Grid[m_NewLocationY, m_NewLocationX] + newJumpLength / 4;
 
 						if (m_Nodes[m_NewLocation].Count > 0)
 						{
@@ -474,7 +528,7 @@ namespace Algorithms
 							// 단방향 플랫폼 노드 필터링
 							|| (m_Map.IsOneWayPlatform(node.x, node.y - 1))
 							// 지상 노드이면서 이전 노드가 단방향 플랫폼 노드 (또는 그 반대)
-							|| (m_Grid[node.y - 1, node.x] == Map.block && m_Map.IsOneWayPlatform(prevNode.x, prevNode.y - 1))
+							|| (m_Grid[node.y - 1, node.x] == 0 && m_Map.IsOneWayPlatform(prevNode.x, prevNode.y - 1))
 							// 점프 노드 필터링
 							|| (nodeTmp.JumpLength == 0 && prevNodeTmp.JumpLength != 0)
 							|| (nodeTmp.JumpLength == 3)
