@@ -118,7 +118,7 @@ public class JumpAStar : MonoBehaviour
 	[SerializeField]
 	private bool m_AllowDiagonal = true;
 
-	PriorityQueue<CustomNode> m_OpenList = new PriorityQueue<CustomNode>();
+	PriorityQueue<CustomNode> m_OpenList = new PriorityQueue<CustomNode>(new CustomNode());
 	List<CustomNode> m_CloseList = new List<CustomNode>();
 
 	float m_StartTime;

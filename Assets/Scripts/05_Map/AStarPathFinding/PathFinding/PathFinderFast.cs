@@ -94,7 +94,7 @@ namespace Algorithms
 		private byte m_OpenNodeValue = 1;
 		private byte m_CloseNodeValue = 2;
 
-		// Promoted local variables to member variables to avoid recreation between calls
+		// 호출 사이에 다시 생성되는 것을 피하기 위해 지역 변수를 멤버 변수로 바꿈
 		private int m_H = 0;
 		private Location m_Location;
 		private int m_NewLocation = 0;
@@ -348,7 +348,7 @@ namespace Algorithms
 						return null;
 					}
 
-					// Lets calculate each successors
+					// 각 자식 노드 계산하기
 					for (int i = 0; i < (m_Diagonals ? 8 : 4); ++i)
 					{
 						m_NewLocationX = (ushort)(m_LocationX + m_Direction[i, 0]);
@@ -387,7 +387,7 @@ namespace Algorithms
 						if (continueFlag)
 							continue;
 
-						// calculate a proper jumplength value for the successor
+						// 자식 노드에 대한 적절한 점프길이 값 계산
 						short jumpLength = m_Nodes[m_Location.xy][m_Location.z].JumpLength;
 						short newJumpLength = jumpLength;
 
@@ -402,7 +402,7 @@ namespace Algorithms
 						}
 						else if (m_NewLocationY > m_LocationY)
 						{
-							if (jumpLength < 2 && maxCharacterJumpHeight > 2) //first jump is always two block up instead of one up and optionally one to either right or left
+							if (jumpLength < 2 && maxCharacterJumpHeight > 2) // 첫 번째 점프는 항상 한 칸 위가 아닌 두 칸 위로 올라가고, 선택적으로 좌우로 한 칸 움직일 수 있음
 								newJumpLength = 3;
 							else if (jumpLength % 2 == 0)
 								newJumpLength = (short)(jumpLength + 2);
@@ -434,7 +434,7 @@ namespace Algorithms
 								continue;
 						}
 
-						// if we're falling and succeor's height is bigger than ours, skip that successor
+						// 만약 떨어지는 중이고, 자식 노드가 위에 있다면 해당 노드 무시
 						if (jumpLength >= maxCharacterJumpHeight * 2 && m_NewLocationY > m_LocationY)
 							continue;
 
@@ -454,11 +454,13 @@ namespace Algorithms
 								if (m_Nodes[m_NewLocation][j].G < lowestG)
 									lowestG = m_Nodes[m_NewLocation][j].G;
 
-								if (m_Nodes[m_NewLocation][j].JumpLength % 2 == 0 &&
+								if (couldMoveSideways == false &&
+									m_Nodes[m_NewLocation][j].JumpLength % 2 == 0 &&
 									m_Nodes[m_NewLocation][j].JumpLength < maxCharacterJumpHeight * 2 + 6)
 									couldMoveSideways = true;
 							}
 
+							// 현재 노드의 비용이 이전 것보다 작다면? 해당 노드 스킵
 							// The current node has smaller cost than the previous? then skip this node
 							if (lowestG <= m_NewG &&
 								lowestJump <= newJumpLength &&
@@ -524,23 +526,23 @@ namespace Algorithms
 						 */
 						bool filter =
 							// 끝 노드 필터링
-							(m_Close.Count == 0)
+							(m_Close.Count == 0) ||
 							// 단방향 플랫폼 노드 필터링
-							|| (m_Map.IsOneWayPlatform(node.x, node.y - 1))
+							(m_Map.IsOneWayPlatform(node.x, node.y - 1)) ||
 							// 지상 노드이면서 이전 노드가 단방향 플랫폼 노드 (또는 그 반대)
-							|| (m_Grid[node.y - 1, node.x] == 0 && m_Map.IsOneWayPlatform(prevNode.x, prevNode.y - 1))
+							(m_Grid[node.y - 1, node.x] == 0 && m_Map.IsOneWayPlatform(prevNode.x, prevNode.y - 1)) ||
 							// 점프 노드 필터링
-							|| (nodeTmp.JumpLength == 0 && prevNodeTmp.JumpLength != 0)
-							|| (nodeTmp.JumpLength == 3)
+							(nodeTmp.JumpLength == 0 && prevNodeTmp.JumpLength != 0) ||
+							(nodeTmp.JumpLength == 3) ||
 							// 착지 노드 필터링
-							|| (nextNodeTmp.JumpLength != 0 && nodeTmp.JumpLength == 0)
+							(nextNodeTmp.JumpLength != 0 && nodeTmp.JumpLength == 0) ||
 							// 최고점 노드 필터링
-							|| (node.y > m_Close[m_Close.Count - 1].y && node.y > nodeTmp.PY)
+							(node.y > m_Close[m_Close.Count - 1].y && node.y > nodeTmp.PY) ||
 							// 
-							|| (node.y < m_Close[m_Close.Count - 1].y && node.y < nodeTmp.PY)
+							(node.y < m_Close[m_Close.Count - 1].y && node.y < nodeTmp.PY) ||
 							// 장애물 우회 노드 필터링
-							|| ((m_Map.IsGround(node.x - 1, node.y) || m_Map.IsGround(node.x + 1, node.y))
-								&& node.y != m_Close[m_Close.Count - 1].y && node.x != m_Close[m_Close.Count - 1].x);
+							((m_Map.IsGround(node.x - 1, node.y) || m_Map.IsGround(node.x + 1, node.y)) &&
+								node.y != m_Close[m_Close.Count - 1].y && node.x != m_Close[m_Close.Count - 1].x);
 
 						if (filter)
 							m_Close.Add(node);
