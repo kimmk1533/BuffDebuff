@@ -4,7 +4,7 @@ using UnityEngine;
 
 public sealed class PlayerCharacter : Character<PlayerCharacterStat>
 {
-	[SerializeField, ReadOnly]
+	[SerializeField]
 	private UtilClass.Timer m_DashTimer;
 
 	private Dictionary<int, AbstractBuff> m_BuffList;
@@ -128,8 +128,10 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat>
 		return false;
 	}
 
-	public void AttackStart()
+	public override void AttackStart()
 	{
+		base.AttackStart();
+
 		foreach (var item in m_BuffList.Values)
 		{
 			(item as IOnBuffAttackStart)?.OnBuffAttackStart(this);
@@ -144,8 +146,10 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat>
 			(item as IOnBuffAttack)?.OnBuffAttack(this);
 		}
 	}
-	public void AttackEnd()
+	public override void AttackEnd()
 	{
+		base.AttackEnd();
+
 		foreach (var item in m_BuffList.Values)
 		{
 			(item as IOnBuffAttackEnd)?.OnBuffAttackEnd(this);

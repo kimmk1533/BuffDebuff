@@ -14,9 +14,9 @@ public abstract class Character<T> : MonoBehaviour where T : CharacterStat, new(
 	protected T m_CurrentStat;
 
 	[Header("===== 타이머 ====="), Space(10)]
-	[SerializeField, ReadOnly]
+	[SerializeField]
 	protected UtilClass.Timer m_HealTimer;
-	[SerializeField, ReadOnly]
+	[SerializeField]
 	protected UtilClass.Timer m_AttackTimer;
 
 	public T maxStat => m_MaxStat;
@@ -49,7 +49,13 @@ public abstract class Character<T> : MonoBehaviour where T : CharacterStat, new(
 	{
 		return m_AttackTimer.timeIsUp;
 	}
+	public virtual void AttackStart()
+	{
+	}
 	public virtual void Attack()
+	{
+	}
+	public virtual void AttackEnd()
 	{
 		m_AttackTimer.Use();
 	}

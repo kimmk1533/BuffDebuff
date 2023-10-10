@@ -46,22 +46,22 @@ public class Map : MonoBehaviour
 	// 테스트
 	public int testValue = 100;
 	public float pathShowTime;
-	private void Update()
-	{
-		if (Input.GetMouseButtonDown(0))
-		{
-			float startT, endT;
+	//private void Update()
+	//{
+	//	if (Input.GetMouseButtonDown(0))
+	//	{
+	//		float startT, endT;
 
-			startT = Time.realtimeSinceStartup;
-			for (int i = 0; i < testValue; ++i)
-				Test(i == 0);
-			endT = Time.realtimeSinceStartup;
+	//		startT = Time.realtimeSinceStartup;
+	//		for (int i = 0; i < testValue; ++i)
+	//			Test(i == 0);
+	//		endT = Time.realtimeSinceStartup;
 
-			float time = endT - startT;
+	//		float time = endT - startT;
 
-			Debug.Log("길을 " + testValue + "번 찾는 동안 걸린 시간: " + time);
-		}
-	}
+	//		Debug.Log("길을 " + testValue + "번 찾는 동안 걸린 시간: " + time);
+	//	}
+	//}
 	private void Test(bool showPath)
 	{
 		List<Vector2Int> path = m_PathFinder.FindPath(M_Grid.m_Start, M_Grid.m_End, 1, 1, 6);

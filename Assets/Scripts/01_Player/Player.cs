@@ -12,26 +12,43 @@ public sealed class Player : MonoBehaviour
 	private float m_VelocityXSmoothing;
 	private float m_AccelerationTimeAirborne = 0.2f;
 	private float m_AccelerationTimeGrounded = 0.1f;
+	[SerializeField]
+	private bool m_IsSimulating = true;
 
 	private Vector2 m_DirectionalInput;
 
 	private PlayerCharacter m_Character;
 
 	[SerializeField, ChildComponent("Renderer")]
-	private PlayerRenderer m_Renderer;
+	private PlayerAnimator m_Animator;
 
 	[SerializeField]
-	private Transform m_AttackSpot;
+	private List<Transform> m_AttackSpotList;
 
 	public int maxLevel => m_Character.maxStat.Level;
 	public int currentLevel => m_Character.currentStat.Level;
-	private bool checkDeath => m_Character.currentStat.Hp <= 0f;
 
 	private ProjectileManager M_Projectile => ProjectileManager.Instance;
 	private StageManager M_Stage => StageManager.Instance;
 
 	private void Update()
 	{
+		// 테스트
+		if (Input.GetKeyDown(KeyCode.F))
+		{
+			m_Character.AddBuff("체력 증가");
+		}
+		//
+
+		Debug.Log(m_Character.CanAttack());
+		if (Input.GetMouseButtonDown(0) && m_Character.CanAttack() == true)
+		{
+			m_Animator.Anim_Attack();
+		}
+
+		if (m_IsSimulating == false)
+			return;
+
 		Move();
 
 		if (Input.GetKeyDown(KeyCode.Space))
@@ -43,15 +60,6 @@ public sealed class Player : MonoBehaviour
 			JumpInputUp();
 		}
 
-		if (Input.GetKeyDown(KeyCode.F))
-		{
-			m_Character.AddBuff("체력 증가");
-		}
-
-		if (Input.GetMouseButtonDown(0))
-		{
-			Attack();
-		}
 		if (Input.GetMouseButtonDown(1))
 		{
 			Dash();
@@ -66,13 +74,13 @@ public sealed class Player : MonoBehaviour
 		m_Character = GetComponent<PlayerCharacter>();
 		m_Character.Initialize();
 
-		m_Renderer.Initialize();
+		m_Animator.Initialize();
 	}
 
 	private void SetDirectionalInput(Vector2 input)
 	{
 		m_DirectionalInput = input;
-		m_Renderer.SetDirectionalInput(input);
+		m_Animator.Anim_SetDirectionalInput(input);
 	}
 	private void CalculateVelocity()
 	{
@@ -106,33 +114,45 @@ public sealed class Player : MonoBehaviour
 			m_Velocity.y = 0;
 		}
 
-		m_Renderer.SetVelocity(m_Velocity);
-		m_Renderer.SetIsGround(m_Controller.collisions.grounded);
+		m_Animator.Anim_SetVelocity(m_Velocity);
+		m_Animator.Anim_SetIsGround(m_Controller.collisions.grounded);
 	}
 
 	public void AttackStart()
 	{
-		if (m_Character.CanAttack() == false)
-			return;
-
 		m_Character.AttackStart();
-	}
-	public void Attack()
-	{
-		if (m_Character.CanAttack() == false)
-			return;
 
+		m_IsSimulating = false;
+	}
+	public void Attack(int attackIndex)
+	{
 		m_Character.Attack();
 
-		CreateProjectile();
+		CreateProjectile(attackIndex);
 	}
 	public void AttackEnd()
 	{
 		m_Character.AttackEnd();
+
+		m_IsSimulating = true;
 	}
-	private void CreateProjectile()
+	public void AirAttackStart()
 	{
-		Vector3 position = m_AttackSpot.position;
+		m_IsSimulating = false;
+
+		m_Velocity = Vector2.zero;
+	}
+	public void AirAttackEnd()
+	{
+		m_IsSimulating = true;
+	}
+
+	private void CreateProjectile(int attackIndex)
+	{
+		if (attackIndex < 0 || attackIndex >= m_AttackSpotList.Count)
+			return;
+
+		Vector3 position = m_AttackSpotList[attackIndex].position;
 		Vector2 mousePos = UtilClass.GetMouseWorldPosition();
 		float angle = position.GetAngle(mousePos);
 		Quaternion quaternion = Quaternion.AngleAxis(angle - 90, Vector3.forward);
@@ -157,6 +177,7 @@ public sealed class Player : MonoBehaviour
 
 		projectile.gameObject.SetActive(true);
 	}
+
 	private void GiveDamage(Projectile projectile, Enemy enemy)
 	{
 		if (projectile == null || enemy == null)
@@ -172,7 +193,7 @@ public sealed class Player : MonoBehaviour
 	{
 		m_Character.currentStat.Hp -= damage;
 
-		if (checkDeath == true)
+		if (m_Character.currentStat.Hp <= 0f)
 			Death();
 	}
 	private void Death()
@@ -185,7 +206,7 @@ public sealed class Player : MonoBehaviour
 		if ((m_Controller.collisions.below && m_DirectionalInput.y != -1) == false)
 			return;
 
-		m_Renderer.Jump();
+		m_Animator.Anim_Jump();
 		m_Character.Jump();
 
 		m_Velocity.y = m_Controller.maxJumpVelocity;

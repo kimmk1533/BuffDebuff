@@ -76,17 +76,8 @@ public static class UtilClass
 					m_Time = m_Interval;
 			}
 		}
-		public float time
-		{
-			get { return m_Time; }
-		}
-		public bool timeIsUp
-		{
-			get
-			{
-				return time >= m_Interval;
-			}
-		}
+		public float time => m_Time;
+		public bool timeIsUp => m_Time >= m_Interval;
 
 		public Timer()
 		{
@@ -115,6 +106,9 @@ public static class UtilClass
 		public bool Update(bool autoUse = false, float timeScale = 1.0f)
 		{
 			if (autoUse && Use())
+				return true;
+
+			if (m_Time >= m_Interval)
 				return true;
 
 			m_Time += Time.deltaTime * timeScale;
