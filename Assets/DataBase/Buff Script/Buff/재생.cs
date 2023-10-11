@@ -13,7 +13,7 @@ public class 재생 : AbstractBuff, IOnBuffTimer
 
 	}
 	
-	public void OnBuffTimer<T>(Character<T> character) where T : CharacterStat, new()
+	public void OnBuffTimer<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator
 	{
 
 	}

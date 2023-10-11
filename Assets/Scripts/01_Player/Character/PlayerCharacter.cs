@@ -2,31 +2,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class PlayerCharacter : Character<PlayerCharacterStat>
+[RequireComponent(typeof(PlayerController2D))]
+public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerController2D, PlayerAnimator>
 {
+	private Vector2 m_DirectionalInput;
+
 	[SerializeField]
 	private UtilClass.Timer m_DashTimer;
 
-	private Dictionary<int, AbstractBuff> m_BuffList;
-
 	private BuffManager M_Buff => BuffManager.Instance;
+	private StageManager M_Stage => StageManager.Instance;
 
-	private void Update()
+	protected override void Update()
 	{
-		HpRegenTimer();
-		AttackTimer();
+		base.Update();
+
 		DashTimer();
 
-		foreach (var item in m_BuffList.Values)
+		if (m_IsSimulating == false)
+			return;
+
+		Move();
+
+		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			(item as IOnBuffUpdate)?.OnBuffUpdate(this);
+			JumpInputDown();
+		}
+		if (Input.GetKeyUp(KeyCode.Space))
+		{
+			JumpInputUp();
+		}
+
+		if (Input.GetMouseButtonDown(1))
+		{
+			Dash();
 		}
 	}
 
 	public override void Initialize()
 	{
+		m_Controller = GetComponent<PlayerController2D>();
+		m_Controller.Initialize();
+
+		m_Animator.Initialize();
+
 		// Stat Init
-		m_CurrentStat = new PlayerCharacterStat(m_MaxStat);
 		m_CurrentStat.Xp = 0.0f;
 		m_CurrentStat.Level = 0;
 
@@ -37,6 +57,50 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat>
 
 		// BuffList Init
 		m_BuffList = new Dictionary<int, AbstractBuff>();
+	}
+
+	private void SetDirectionalInput(Vector2 input)
+	{
+		m_DirectionalInput = input;
+		m_Animator.Anim_SetDirectionalInput(input);
+	}
+	protected override void CalculateVelocity()
+	{
+		float targetVelocityX = m_DirectionalInput.x * m_CurrentStat.MoveSpeed;
+
+		m_Velocity.x = Mathf.SmoothDamp(m_Velocity.x, targetVelocityX, ref m_VelocityXSmoothing, (m_Controller.collisions.grounded) ? m_AccelerationTimeGrounded : m_AccelerationTimeAirborne);
+
+		m_Velocity.y += m_Controller.gravity * Time.deltaTime;
+	}
+	protected override void Move()
+	{
+		Vector2 directionalInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+		SetDirectionalInput(directionalInput);
+
+		CalculateVelocity();
+
+		m_Controller.Move(m_Velocity * Time.deltaTime, m_DirectionalInput);
+		if (m_Controller.collisions.above || m_Controller.collisions.below)
+		{
+			m_Velocity.y = 0;
+		}
+
+		CheckPortal();
+
+		m_Animator.Anim_SetVelocity(m_Velocity);
+		m_Animator.Anim_SetIsGround(m_Controller.collisions.grounded);
+	}
+	private void CheckPortal()
+	{
+		RaycastHit2D hit = Physics2D.BoxCast(m_Controller.collider.bounds.center, m_Controller.collider.bounds.size, 0.0f, m_Velocity, 0.1f, LayerMask.GetMask("Portal"));
+
+		if (hit)
+		{
+			Transform spawnPoint = M_Stage.GetSpawnPoint(hit.collider);
+
+			if (spawnPoint != null)
+				transform.position = spawnPoint.position;
+		}
 	}
 
 	// Timer Func
@@ -128,32 +192,47 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat>
 		return false;
 	}
 
-	public override void AttackStart()
+	public override void AnimEvent_AttackStart()
 	{
-		base.AttackStart();
+		base.AnimEvent_AttackStart();
 
-		foreach (var item in m_BuffList.Values)
-		{
-			(item as IOnBuffAttackStart)?.OnBuffAttackStart(this);
-		}
+		m_IsSimulating = false;
 	}
-	public override void Attack()
+	public override void AnimEvent_Attacking()
 	{
-		base.Attack();
-
-		foreach (var item in m_BuffList.Values)
-		{
-			(item as IOnBuffAttack)?.OnBuffAttack(this);
-		}
+		base.AnimEvent_Attacking();
 	}
-	public override void AttackEnd()
+	public override void AnimEvent_AttackEnd()
 	{
-		base.AttackEnd();
+		base.AnimEvent_AttackEnd();
 
-		foreach (var item in m_BuffList.Values)
-		{
-			(item as IOnBuffAttackEnd)?.OnBuffAttackEnd(this);
-		}
+		m_IsSimulating = true;
+	}
+	public void AnimEvent_AirAttackStart()
+	{
+		m_IsSimulating = false;
+
+		m_Velocity = Vector2.zero;
+	}
+	public void AnimEvent_AirAttackEnd()
+	{
+		m_IsSimulating = true;
+	}
+
+	private void JumpInputDown()
+	{
+		if ((m_Controller.collisions.below && m_DirectionalInput.y != -1) == false)
+			return;
+
+		m_Animator.Anim_Jump();
+		Jump();
+
+		m_Velocity.y = m_Controller.maxJumpVelocity;
+	}
+	private void JumpInputUp()
+	{
+		if (m_Velocity.y > m_Controller.minJumpVelocity)
+			m_Velocity.y = m_Controller.minJumpVelocity;
 	}
 	public void Jump()
 	{
@@ -168,12 +247,23 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat>
 	}
 	public void Dash()
 	{
+		if (CanDash() == false)
+			return;
+
 		--m_CurrentStat.DashCount;
 
 		foreach (var item in m_BuffList.Values)
 		{
 			(item as IOnBuffDash)?.OnBuffDash(this);
 		}
+
+		Vector2 dir = UtilClass.GetMouseWorldPosition() - transform.position;
+
+		// 좌우 대쉬
+		m_Velocity.x = Mathf.Sign(dir.x) * m_CurrentStat.DashSpeed;
+
+		// 마우스 대쉬
+		//m_Velocity = dir.normalized * m_Character.currentStat.DashSpeed;
 	}
 
 	private void OnValidate()

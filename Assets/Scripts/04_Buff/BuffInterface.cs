@@ -1,70 +1,70 @@
 // 버프를 얻었을 때
 public interface IOnBuffAdded
 {
-	public void OnBuffAdded<T>(Character<T> character) where T : CharacterStat, new();
+	public void OnBuffAdded<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator;
 }
 // 버프를 잃었을 때
 public interface IOnBuffRemoved
 {
-	public void OnBuffRemoved<T>(Character<T> character) where T : CharacterStat, new();
+	public void OnBuffRemoved<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator;
 }
 // 매 프레임마다
 public interface IOnBuffUpdate
 {
-	public void OnBuffUpdate<T>(Character<T> character) where T : CharacterStat, new();
+	public void OnBuffUpdate<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator;
 }
 // 일정 시간마다
 public interface IOnBuffTimer
 {
-	public void OnBuffTimer<T>(Character<T> character) where T : CharacterStat, new();
+	public void OnBuffTimer<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator;
 }
 // 점프했을 때
 public interface IOnBuffJump
 {
-	public void OnBuffJump<T>(Character<T> character) where T : CharacterStat, new();
+	public void OnBuffJump<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator;
 }
 // 대쉬했을 때
 public interface IOnBuffDash
 {
-	public void OnBuffDash<T>(Character<T> character) where T : CharacterStat, new();
+	public void OnBuffDash<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator;
 }
 // 타격시
 public interface IOnBuffGiveDamage
 {
-	public void OnBuffGiveDamage<T>(Character<T> character) where T : CharacterStat, new();
+	public void OnBuffGiveDamage<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator;
 }
 // 피격 시
 public interface IOnBuffTakeDamage
 {
-	public void OnBuffTakeDamage<T>(Character<T> character) where T : CharacterStat, new();
+	public void OnBuffTakeDamage<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator;
 }
 // 공격 시작할 때
 public interface IOnBuffAttackStart
 {
-	public void OnBuffAttackStart<T>(Character<T> character) where T : CharacterStat, new();
+	public void OnBuffAttackStart<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator;
 }
 // 공격 시
 public interface IOnBuffAttack
 {
-	public void OnBuffAttack<T>(Character<T> character) where T : CharacterStat, new();
+	public void OnBuffAttack<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator;
 }
 // 공격을 끝낼 때
 public interface IOnBuffAttackEnd
 {
-	public void OnBuffAttackEnd<T>(Character<T> character) where T : CharacterStat, new();
+	public void OnBuffAttackEnd<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator;
 }
 // 적 처치 시
 public interface IOnBuffKillEnemy
 {
-	public void OnBuffKillEnemy<T>(Character<T> character) where T : CharacterStat, new();
+	public void OnBuffKillEnemy<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator;
 }
 // 사망 시
 public interface IOnBuffDeath
 {
-	public void OnBuffDeath<T>(Character<T> character) where T : CharacterStat, new();
+	public void OnBuffDeath<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator;
 }
 // 스테이지를 넘어갈 시
 public interface IOnBuffNextStage
 {
-	public void OnBuffNextStage<T>(Character<T> character) where T : CharacterStat, new();
+	public void OnBuffNextStage<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator;
 }

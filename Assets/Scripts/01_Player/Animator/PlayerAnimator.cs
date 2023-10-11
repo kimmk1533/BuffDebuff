@@ -18,30 +18,14 @@ public class PlayerAnimator : CharacterAnimator
 	#endregion
 
 	private Player m_Player;
-
-	private int direction
-	{
-		set
-		{
-			if (value == 0)
-				return;
-
-			Vector3 scale = transform.localScale;
-
-			if (value > 0)
-				scale.x = Mathf.Abs(scale.x);
-			else if (value < 0)
-				scale.x = -Mathf.Abs(scale.x);
-
-			transform.localScale = scale;
-		}
-	}
+	private PlayerCharacter m_PlayerCharacter;
 
 	public override void Initialize()
 	{
 		base.Initialize();
 
 		m_Player = GetComponentInParent<Player>();
+		m_PlayerCharacter = GetComponentInParent<PlayerCharacter>();
 	}
 
 	public void Anim_SetDirectionalInput(Vector2 input)
@@ -50,17 +34,6 @@ public class PlayerAnimator : CharacterAnimator
 			m_Animator.SetInteger("AnimState", (int)E_AnimState.Idle);
 		else
 			m_Animator.SetInteger("AnimState", (int)E_AnimState.Run);
-	}
-	public void Anim_SetVelocity(float x, float y)
-	{
-		direction = System.MathF.Sign(x);
-
-		m_Animator.SetFloat("VelocityX", x);
-		m_Animator.SetFloat("VelocityY", y);
-	}
-	public void Anim_SetVelocity(Vector2 speed)
-	{
-		Anim_SetVelocity(speed.x, speed.y);
 	}
 
 	private void AnimEvent_Attack1_CreateProjectile()
@@ -77,18 +50,18 @@ public class PlayerAnimator : CharacterAnimator
 	}
 	private void AnimEvent_Attack_Start()
 	{
-		m_Player.AttackStart();
+		m_PlayerCharacter.AnimEvent_AttackStart();
 	}
 	private void AnimEvent_Attack_End()
 	{
-		m_Player.AttackEnd();
+		m_PlayerCharacter.AnimEvent_AttackEnd();
 	}
 	private void AnimEvent_AirAttack_Start()
 	{
-		m_Player.AirAttackStart();
+		m_PlayerCharacter.AnimEvent_AirAttackStart();
 	}
 	private void AnimEvent_AirAttack_End()
 	{
-		m_Player.AirAttackEnd();
+		m_PlayerCharacter.AnimEvent_AirAttackEnd();
 	}
 }

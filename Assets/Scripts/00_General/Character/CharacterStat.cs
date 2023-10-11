@@ -69,6 +69,8 @@ public class CharacterStat
 	[field: SerializeField]
 	public float Sight { get; set; }
 
+	// 플레이어:	얻은 경험치
+	// 적:		얻을 경험치
 	[field: Header("경험치")]
 	// 경험치
 	[field: SerializeField]

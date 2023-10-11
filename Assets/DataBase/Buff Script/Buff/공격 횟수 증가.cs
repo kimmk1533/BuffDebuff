@@ -13,11 +13,11 @@ public class 공격_횟수_증가 : AbstractBuff, IOnBuffGiveDamage, IOnBuffTake
 
 	}
 	
-	public void OnBuffGiveDamage<T>(Character<T> character) where T : CharacterStat, new()
+	public void OnBuffGiveDamage<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator
 	{
 
 	}
-	public void OnBuffTakeDamage<T>(Character<T> character) where T : CharacterStat, new()
+	public void OnBuffTakeDamage<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator
 	{
 
 	}

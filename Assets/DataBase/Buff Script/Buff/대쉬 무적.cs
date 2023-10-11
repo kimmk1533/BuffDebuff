@@ -13,7 +13,7 @@ public class 대쉬_무적 : AbstractBuff, IOnBuffDash
 
 	}
 	
-	public void OnBuffDash<T>(Character<T> character) where T : CharacterStat, new()
+	public void OnBuffDash<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator
 	{
 
 	}

@@ -296,7 +296,6 @@ public sealed class BuffManager : Singleton<BuffManager>
 	}
 
 	#region Create File
-#if UNITY_EDITOR
 	public void CreateAllBuff(bool load, bool script, bool asset, bool switchCase)
 	{
 		if (Application.isEditor == false ||
@@ -330,7 +329,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 		{
 			if (switchCase)
 			{
-				sb.Append("#region ");
+				sb.Append("\t\t\t#region ");
 				sb.AppendLine(BuffEnumUtil.EnumToKorString<E_BuffType>(buffType));
 			}
 
@@ -357,7 +356,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 			if (switchCase)
 			{
-				sb.AppendLine("#endregion");
+				sb.AppendLine("\t\t\t#endregion");
 			}
 		}
 
@@ -375,17 +374,17 @@ public sealed class BuffManager : Singleton<BuffManager>
 	// 스크립트 생성
 	private void CreateBuffScript(BuffData buffData)
 	{
-		string path = Path.Combine(Application.dataPath, "DataBase", "Script", buffData.buffType.ToString());
+		string path = Path.Combine(Application.dataPath, "DataBase", "Buff Script", buffData.buffType.ToString());
 
 		if (Directory.Exists(path) == false)
 			Directory.CreateDirectory(path);
 
 		string file = Path.Combine(path, buffData.title + ".cs");
-		string template = Path.Combine(Application.dataPath, "DataBase", "Script", "Template", "BuffScriptTemplate.txt");
+		string template = Path.Combine(Application.dataPath, "DataBase", "Buff Script", "Template", "BuffScriptTemplate.txt");
 		string className = buffData.title.Replace(' ', '_');
 		string conditionInterface = "IOnBuff" + buffData.buffInvokeCondition.ToString();
 		string conditionFormat = @"
-	public void OnBuff{0}<T>(Character<T> character) where T : CharacterStat, new()
+	public void OnBuff{0}<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator
 	{
 
 	}";
@@ -555,12 +554,12 @@ public sealed class BuffManager : Singleton<BuffManager>
 	// 스크립터블 오브젝트 생성
 	private void CreateBuffScriptableObject(BuffData buffData)
 	{
-		string path = Path.Combine(Application.dataPath, "DataBase", "Scriptable Object", buffData.buffType.ToString());
+		string path = Path.Combine(Application.dataPath, "DataBase", "Buff SO", buffData.buffType.ToString());
 
 		if (Directory.Exists(path) == false)
 			Directory.CreateDirectory(path);
 
-		string file = Path.Combine("Assets", "DataBase", "Scriptable Object", buffData.buffType.ToString(), buffData.title + ".asset");
+		string file = Path.Combine("Assets", "DataBase", "Buff SO", buffData.buffType.ToString(), buffData.title + ".asset");
 
 		AssetDatabase.CreateAsset(buffData, file);
 	}
@@ -592,7 +591,6 @@ public sealed class BuffManager : Singleton<BuffManager>
 		sb.Append(className);
 		sb.AppendLine("(buffData);");
 	}
-#endif
 	#endregion
 
 	public AbstractBuff CreateBuff(int code)
@@ -684,7 +682,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 				return new 투사체_속도_감소(buffData);
 			case "패링 확률 감소":
 				return new 패링_확률_감소(buffData);
-				#endregion
+			#endregion
 		}
 		// $BuffFunc
 
