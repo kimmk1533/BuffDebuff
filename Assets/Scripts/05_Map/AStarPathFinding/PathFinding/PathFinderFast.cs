@@ -561,12 +561,344 @@ namespace Algorithms
 
 					m_Stopped = true;
 
-					return m_Close;
+					return new List<Vector2Int>(m_Close);
 				}
 
 				m_Stopped = true;
 
 				return null;
+			}
+			finally
+			{
+				Monitor.Exit(_lockObject);
+			}
+		}
+		public bool FindPath(ref List<Vector2Int> path, Vector2Int start, Vector2Int end, int characterWidth, int characterHeight, short maxCharacterJumpHeight)
+		{
+			Monitor.Enter(_lockObject);
+
+			try
+			{
+				while (m_TouchedLocations.Count > 0)
+					m_Nodes[m_TouchedLocations.Pop()].Clear();
+
+				bool inSolidTile = false;
+				for (int i = 0; i < characterWidth; ++i)
+				{
+					inSolidTile = false;
+					for (int w = 0; w < characterWidth; ++w)
+					{
+						for (int h = 0; h < characterHeight; ++h)
+						{
+							if (m_Grid[end.y + h, end.x + w] == 0)
+							{
+								inSolidTile = true;
+								break;
+							}
+						}
+
+						if (inSolidTile)
+							break;
+					}
+
+					if (inSolidTile)
+						--end.x;
+					else
+						break;
+				}
+
+				if (inSolidTile == true)
+					return false;
+
+				m_Found = false;
+				m_Stop = false;
+				m_Stopped = false;
+				m_CloseNodeCounter = 0;
+				m_OpenNodeValue += 2;
+				m_CloseNodeValue += 2;
+				m_Open.Clear();
+
+				m_Location.xy = (start.y << m_GridXLog2) + start.x;
+				m_Location.z = 0;
+				m_EndLocation = (end.y << m_GridXLog2) + end.x;
+
+				PathFinderNodeFast firstNode = new PathFinderNodeFast();
+				firstNode.G = 0;
+				firstNode.F = m_HEstimate;
+				firstNode.PX = (ushort)start.x;
+				firstNode.PY = (ushort)start.y;
+				firstNode.PZ = 0;
+				firstNode.Status = m_OpenNodeValue;
+
+				bool startsOnGround = false;
+
+				for (int x = start.x; x < start.x + characterWidth; ++x)
+				{
+					if (m_Map.IsGround(x, start.y - 1))
+					{
+						startsOnGround = true;
+						break;
+					}
+				}
+
+				if (startsOnGround)
+					firstNode.JumpLength = 0;
+				else
+					firstNode.JumpLength = (short)(maxCharacterJumpHeight * 2);
+
+				m_Nodes[m_Location.xy].Add(firstNode);
+				m_TouchedLocations.Push(m_Location.xy);
+
+				m_Open.Push(m_Location);
+
+				while (m_Open.Count > 0 && m_Stop == false)
+				{
+					m_Location = m_Open.Pop();
+
+					// 닫힌 리스트에 포함되어있는 지 확인. 만약 그렇다면 해당 노드는 이미 처리 완료
+					if (m_Nodes[m_Location.xy][m_Location.z].Status == m_CloseNodeValue)
+						continue;
+
+					m_LocationX = (ushort)(m_Location.xy & (m_GridX - 1));
+					m_LocationY = (ushort)(m_Location.xy >> m_GridXLog2);
+
+					if (m_Location.xy == m_EndLocation)
+					{
+						m_Nodes[m_Location.xy][m_Location.z] = m_Nodes[m_Location.xy][m_Location.z].UpdateStatus(m_CloseNodeValue);
+						m_Found = true;
+						break;
+					}
+
+					if (m_CloseNodeCounter > m_SearchLimit)
+					{
+						m_Stopped = true;
+						return false;
+					}
+
+					// 각 자식 노드 계산하기
+					for (int i = 0; i < (m_Diagonals ? 8 : 4); ++i)
+					{
+						m_NewLocationX = (ushort)(m_LocationX + m_Direction[i, 0]);
+						m_NewLocationY = (ushort)(m_LocationY + m_Direction[i, 1]);
+						m_NewLocation = (m_NewLocationY << m_GridXLog2) + m_NewLocationX;
+
+						bool continueFlag = false;
+						bool onGround = false;
+						bool atCeiling = false;
+
+						for (int w = 0; w < characterWidth; ++w)
+						{
+							if (m_Grid[m_NewLocationY, m_NewLocationX + w] == 0
+								|| m_Grid[m_NewLocationY + characterHeight - 1, m_NewLocationX + w] == 0)
+							{
+								continueFlag = true;
+								break;
+							}
+
+							if (m_Map.IsGround(m_NewLocationX + w, m_NewLocationY - 1))
+								onGround = true;
+							else if (m_Grid[m_NewLocationY + characterHeight, m_NewLocationX + w] == 0)
+								atCeiling = true;
+						}
+						if (continueFlag)
+							continue;
+						for (int h = 1; h < characterHeight - 1; ++h)
+						{
+							if (m_Grid[m_NewLocationY + h, m_NewLocationX] == 0
+								|| m_Grid[m_NewLocationY + h, m_NewLocationX + characterWidth - 1] == 0)
+							{
+								continueFlag = true;
+								break;
+							}
+						}
+						if (continueFlag)
+							continue;
+
+						// 자식 노드에 대한 적절한 점프길이 값 계산
+						short jumpLength = m_Nodes[m_Location.xy][m_Location.z].JumpLength;
+						short newJumpLength = jumpLength;
+
+						if (onGround)
+							newJumpLength = 0;
+						else if (atCeiling)
+						{
+							if (m_NewLocationX != m_LocationX)
+								newJumpLength = (short)Mathf.Max(maxCharacterJumpHeight * 2 + 1, jumpLength + 1);
+							else
+								newJumpLength = (short)Mathf.Max(maxCharacterJumpHeight * 2, jumpLength + 2);
+						}
+						else if (m_NewLocationY > m_LocationY)
+						{
+							if (jumpLength < 2 && maxCharacterJumpHeight > 2) // 첫 번째 점프는 항상 한 칸 위가 아닌 두 칸 위로 올라가고, 선택적으로 좌우로 한 칸 움직일 수 있음
+								newJumpLength = 3;
+							else if (jumpLength % 2 == 0)
+								newJumpLength = (short)(jumpLength + 2);
+							else
+								newJumpLength = (short)(jumpLength + 1);
+						}
+						else if (m_NewLocationY < m_LocationY)
+						{
+							if (jumpLength % 2 == 0)
+								newJumpLength = (short)Mathf.Max(maxCharacterJumpHeight * 2, jumpLength + 2);
+							else
+								newJumpLength = (short)Mathf.Max(maxCharacterJumpHeight * 2, jumpLength + 1);
+						}
+						else if (!onGround && m_LocationX != m_NewLocationX)
+							newJumpLength = (short)(jumpLength + 1);
+
+						if (m_LocationX != m_NewLocationX)
+						{
+							if (jumpLength >= 0 && jumpLength % 2 != 0)
+								continue;
+
+							if (newJumpLength == 0 &&
+								jumpLength + 1 >= maxCharacterJumpHeight * 2 + 6 &&
+								(jumpLength + 1 - (maxCharacterJumpHeight * 2 + 6)) % 8 <= 1)
+								continue;
+
+							if (newJumpLength >= maxCharacterJumpHeight * 2 + 6 &&
+								(newJumpLength - (maxCharacterJumpHeight * 2 + 6)) % 8 != 7)
+								continue;
+						}
+
+						// 만약 떨어지는 중이고, 자식 노드가 위에 있다면 해당 노드 무시
+						if (jumpLength >= maxCharacterJumpHeight * 2 && m_NewLocationY > m_LocationY)
+							continue;
+
+						m_NewG = m_Nodes[m_Location.xy][m_Location.z].G + m_Grid[m_NewLocationY, m_NewLocationX] + newJumpLength / 4;
+
+						if (m_Nodes[m_NewLocation].Count > 0)
+						{
+							short lowestJump = short.MaxValue;
+							int lowestG = int.MaxValue;
+							bool couldMoveSideways = false;
+
+							for (int j = 0; j < m_Nodes[m_NewLocation].Count; ++j)
+							{
+								if (m_Nodes[m_NewLocation][j].JumpLength < lowestJump)
+									lowestJump = m_Nodes[m_NewLocation][j].JumpLength;
+
+								if (m_Nodes[m_NewLocation][j].G < lowestG)
+									lowestG = m_Nodes[m_NewLocation][j].G;
+
+								if (couldMoveSideways == false &&
+									m_Nodes[m_NewLocation][j].JumpLength % 2 == 0 &&
+									m_Nodes[m_NewLocation][j].JumpLength < maxCharacterJumpHeight * 2 + 6)
+									couldMoveSideways = true;
+							}
+
+							// 현재 노드의 비용이 이전 것보다 작다면? 해당 노드 스킵
+							// The current node has smaller cost than the previous? then skip this node
+							if (lowestG <= m_NewG &&
+								lowestJump <= newJumpLength &&
+								(newJumpLength % 2 != 0 || newJumpLength >= maxCharacterJumpHeight * 2 + 6 || couldMoveSideways))
+								continue;
+						}
+
+						CalculateH(end);
+
+						PathFinderNodeFast newNode = new PathFinderNodeFast();
+						newNode.JumpLength = newJumpLength;
+						newNode.PX = m_LocationX;
+						newNode.PY = m_LocationY;
+						newNode.PZ = (byte)m_Location.z;
+						newNode.G = m_NewG;
+						newNode.F = m_NewG + m_H;
+						newNode.Status = m_OpenNodeValue;
+
+						if (m_Nodes[m_NewLocation].Count == 0)
+							m_TouchedLocations.Push(m_NewLocation);
+
+						m_Nodes[m_NewLocation].Add(newNode);
+						m_Open.Push(new Location(m_NewLocation, m_Nodes[m_NewLocation].Count - 1));
+					}
+
+					m_Nodes[m_Location.xy][m_Location.z] = m_Nodes[m_Location.xy][m_Location.z].UpdateStatus(m_CloseNodeValue);
+					++m_CloseNodeCounter;
+				}
+
+				// 경로 탐색 종료. 필터링 시작
+				if (m_Found)
+				{
+					// 닫힌 리스트 초기화
+					if (path == null)
+						path = new List<Vector2Int>();
+					else
+						path.Clear();
+
+					int posX = end.x;
+					int posY = end.y;
+
+					Vector2Int node = end;
+					Vector2Int prevNode = end;
+
+					PathFinderNodeFast prevNodeTmp = new PathFinderNodeFast();
+					PathFinderNodeFast nodeTmp = m_Nodes[m_EndLocation][0];
+
+					int loc = (nodeTmp.PY << m_GridXLog2) + nodeTmp.PX;
+
+					// 길 담을 리스트에 노드 담기
+					while (node.x != nodeTmp.PX || node.y != nodeTmp.PY)
+					{
+						PathFinderNodeFast nextNodeTmp = m_Nodes[loc][nodeTmp.PZ];
+
+						// 필터링 조건
+						/*
+						 * 1. 시작 노드
+						 * 2. 끝 노드
+						 * 3. 단방향 플랫폼 노드
+						 * 4. 지상 노드이면서 이전 노드가 단방향 플랫폼 노드 (또는 그 반대)
+						 * 5. 점프 노드
+						 * 6. 옆으로 이동하는 점프에서 첫 번째 공중 노드 (점프 값이 3 인 노드)
+						 * 7. 착지 노드 (점프 값이 0이 되는 노드)
+						 * 8. 점프의 최고점 (위로 이동하는 노드와 아래로 떨어지는 노드 사이의 노드)
+						 * 9. 장애물을 우회하는 노드﻿
+						 */
+						bool filter =
+							// 끝 노드 필터링
+							(path.Count == 0) ||
+							// 단방향 플랫폼 노드 필터링
+							(m_Map.IsOneWayPlatform(node.x, node.y - 1)) ||
+							// 지상 노드이면서 이전 노드가 단방향 플랫폼 노드 (또는 그 반대)
+							(m_Grid[node.y - 1, node.x] == 0 && m_Map.IsOneWayPlatform(prevNode.x, prevNode.y - 1)) ||
+							// 점프 노드 필터링
+							(nodeTmp.JumpLength == 0 && prevNodeTmp.JumpLength != 0) ||
+							(nodeTmp.JumpLength == 3) ||
+							// 착지 노드 필터링
+							(nextNodeTmp.JumpLength != 0 && nodeTmp.JumpLength == 0) ||
+							// 최고점 노드 필터링
+							(node.y > path[path.Count - 1].y && node.y > nodeTmp.PY) ||
+							// 
+							(node.y < path[path.Count - 1].y && node.y < nodeTmp.PY) ||
+							// 장애물 우회 노드 필터링
+							((m_Map.IsGround(node.x - 1, node.y) || m_Map.IsGround(node.x + 1, node.y)) &&
+								node.y != path[path.Count - 1].y && node.x != path[path.Count - 1].x);
+
+						if (filter)
+							path.Add(node);
+
+						prevNode = node;
+						posX = nodeTmp.PX;
+						posY = nodeTmp.PY;
+						prevNodeTmp = nodeTmp;
+						nodeTmp = nextNodeTmp;
+						loc = (nodeTmp.PY << m_GridXLog2) + nodeTmp.PX;
+						node = new Vector2Int(posX, posY);
+					}
+
+					// 시작 노드 필터링
+					path.Add(node);
+
+					path.Reverse();
+
+					m_Stopped = true;
+
+					return true;
+				}
+
+				m_Stopped = true;
+
+				return false;
 			}
 			finally
 			{

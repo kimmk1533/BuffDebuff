@@ -38,123 +38,6 @@ public class Map : MonoBehaviour
 	private GridManager M_Grid => GridManager.Instance;
 	private StageManager M_Stage => StageManager.Instance;
 
-	private void Awake()
-	{
-		Initialize();
-	}
-
-	// 테스트
-	public int testValue = 100;
-	public float pathShowTime;
-	//private void Update()
-	//{
-	//	if (Input.GetMouseButtonDown(0))
-	//	{
-	//		float startT, endT;
-
-	//		startT = Time.realtimeSinceStartup;
-	//		for (int i = 0; i < testValue; ++i)
-	//			Test(i == 0);
-	//		endT = Time.realtimeSinceStartup;
-
-	//		float time = endT - startT;
-
-	//		Debug.Log("길을 " + testValue + "번 찾는 동안 걸린 시간: " + time);
-	//	}
-	//}
-	private void Test(bool showPath)
-	{
-		List<Vector2Int> path = m_PathFinder.FindPath(M_Grid.m_Start, M_Grid.m_End, 1, 1, 6);
-
-		if (showPath == false)
-			return;
-
-		Vector3 offset = Vector3.one * 0.5f;
-
-		if (path != null)
-		{
-			for (int i = 0; i < path.Count - 1; ++i)
-			{
-				Vector3 start = new Vector3(path[i].x, path[i].y);
-				Vector3 end = new Vector3(path[i + 1].x, path[i + 1].y);
-
-				Debug.DrawLine(start + offset, end + offset, Color.white, pathShowTime);
-
-				DrawRect(start + offset, offset, Color.white, pathShowTime);
-				var text = UtilClass.CreateWorldText(path.Count - i, transform, start + offset, 0.1f, 40, Color.white, TextAnchor.MiddleCenter);
-				GameObject.Destroy(text.gameObject, pathShowTime);
-
-				if (i == path.Count - 2)
-				{
-					DrawRect(end + offset, offset, Color.white, pathShowTime);
-
-					text = UtilClass.CreateWorldText(1, transform, end + offset, 0.1f, 40, Color.white, TextAnchor.MiddleCenter);
-					GameObject.Destroy(text.gameObject, pathShowTime);
-				}
-			}
-		}
-	}
-
-	// MyDebug 클래스 만들어서 옮겨두자
-	private void DrawRect(Vector3 center, Vector3 size)
-	{
-		bool depthTest = true;
-		float duration = 0f;
-		Color color = Color.white;
-		DrawRect(center, size, color, duration, depthTest);
-	}
-	private void DrawRect(Vector3 center, Vector3 size, Color color)
-	{
-		bool depthTest = true;
-		float duration = 0f;
-		DrawRect(center, size, color, duration, depthTest);
-	}
-	private void DrawRect(Vector3 center, Vector3 size, Color color, float duration)
-	{
-		bool depthTest = true;
-		DrawRect(center, size, color, duration, depthTest);
-	}
-	private void DrawRect(Vector3 center, Vector3 size, Color color, float duration, bool depthTest)
-	{
-		#region 변수 선언
-		Vector3 left = Vector3.left * size.x * 0.5f;
-		Vector3 right = Vector3.right * size.x * 0.5f;
-		Vector3 top = Vector3.up * size.y * 0.5f;
-		Vector3 bottom = Vector3.down * size.y * 0.5f;
-		Vector3 front = Vector3.forward * size.z * 0.5f;
-		Vector3 back = Vector3.back * size.z * 0.5f;
-
-		Vector3 frontLeftTop, frontRightTop, frontLeftBottom, frontRightBottom;
-		Vector3 backLeftTop, backRightTop, backLeftBottom, backRightBottom;
-
-		frontLeftTop = center + front + left + top;
-		frontRightTop = center + front + right + top;
-		frontLeftBottom = center + front + left + bottom;
-		frontRightBottom = center + front + right + bottom;
-
-		backLeftTop = center + back + left + top;
-		backRightTop = center + back + right + top;
-		backLeftBottom = center + back + left + bottom;
-		backRightBottom = center + back + right + bottom;
-		#endregion
-
-		Debug.DrawLine(frontLeftTop, frontRightTop, color, duration, depthTest);
-		Debug.DrawLine(frontRightTop, frontRightBottom, color, duration, depthTest);
-		Debug.DrawLine(frontRightBottom, frontLeftBottom, color, duration, depthTest);
-		Debug.DrawLine(frontLeftBottom, frontLeftTop, color, duration, depthTest);
-
-		Debug.DrawLine(backLeftTop, backRightTop, color, duration, depthTest);
-		Debug.DrawLine(backRightTop, backRightBottom, color, duration, depthTest);
-		Debug.DrawLine(backRightBottom, backLeftBottom, color, duration, depthTest);
-		Debug.DrawLine(backLeftBottom, backLeftTop, color, duration, depthTest);
-
-		Debug.DrawLine(frontLeftTop, backLeftTop, color, duration, depthTest);
-		Debug.DrawLine(frontRightTop, backRightTop, color, duration, depthTest);
-		Debug.DrawLine(frontRightBottom, backRightBottom, color, duration, depthTest);
-		Debug.DrawLine(frontLeftBottom, backLeftBottom, color, duration, depthTest);
-	}
-	//
-
 	public void Initialize()
 	{
 		// 임시
@@ -213,45 +96,7 @@ public class Map : MonoBehaviour
 		m_PathFinder.DebugProgress = false;
 		m_PathFinder.DebugFoundPath = false;
 	}
-	private void SetTile(int x, int y, E_TileType type)
-	{
-		if (x <= 1 || x >= m_Width - 2 ||
-			y <= 1 || y >= m_Height - 2)
-			return;
 
-		switch (type)
-		{
-			default:
-			case E_TileType.Empty:
-				m_Grid[y, x] = 1;
-				m_TileRenderers[y, x].enabled = false;
-				break;
-			case E_TileType.Block:
-				m_Grid[y, x] = 0;
-				// AutoTile(type, x, y, 1, 8, 4, 4, 4, 4);
-				m_TileRenderers[y, x].enabled = true;
-				break;
-			case E_TileType.OneWay:
-				m_Grid[y, x] = 0;
-				m_TileRenderers[y, x].enabled = true;
-				m_TileRenderers[y, x].color = Color.red;
-
-				m_TileRenderers[y, x].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-				m_TileRenderers[y, x].transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
-				//m_TileRenderers[y, x].sprite = mDirtSprites[25];
-				break;
-			case E_TileType.Max:
-				throw new System.Exception("");
-		}
-
-		m_Tiles[y, x] = type;
-
-		// 주변 타일 Sprite 자동 변경
-		//AutoTile(type, x - 1, y, 1, 8, 4, 4, 4, 4);
-		//AutoTile(type, x + 1, y, 1, 8, 4, 4, 4, 4);
-		//AutoTile(type, x, y - 1, 1, 8, 4, 4, 4, 4);
-		//AutoTile(type, x, y + 1, 1, 8, 4, 4, 4, 4);
-	}
 	public bool CheckTile(int x, int y, E_TileType type)
 	{
 		if (x < 0 || x >= m_Width ||
@@ -291,13 +136,13 @@ public class Map : MonoBehaviour
 	{
 		return IsBlock(x, y) || IsOneWayPlatform(x, y);
 	}
-	public bool IsNotEmpty(int x, int y)
+	public bool IsEmpty(int x, int y)
 	{
 		if (x < 0 || x >= m_Width ||
 			y < 0 || y >= m_Height)
 			return true;
 
-		return (m_Tiles[y, x] != E_TileType.Empty);
+		return (m_Tiles[y, x] == E_TileType.Empty);
 	}
 
 	public void GetMapTileAtPoint(Vector2 point, out int tileIndexX, out int tileIndexY)
@@ -347,5 +192,102 @@ public class Map : MonoBehaviour
 		}
 
 		return false;
+	}
+
+	private void SetTile(int x, int y, E_TileType type)
+	{
+		if (x <= 1 || x >= m_Width - 2 ||
+			y <= 1 || y >= m_Height - 2)
+			return;
+
+		switch (type)
+		{
+			default:
+			case E_TileType.Empty:
+				m_Grid[y, x] = 1;
+				m_TileRenderers[y, x].enabled = false;
+				break;
+			case E_TileType.Block:
+				m_Grid[y, x] = 0;
+				// AutoTile(type, x, y, 1, 8, 4, 4, 4, 4);
+				m_TileRenderers[y, x].enabled = true;
+				break;
+			case E_TileType.OneWay:
+				m_Grid[y, x] = 0;
+				m_TileRenderers[y, x].enabled = true;
+				m_TileRenderers[y, x].color = Color.red;
+
+				m_TileRenderers[y, x].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+				m_TileRenderers[y, x].transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+				//m_TileRenderers[y, x].sprite = mDirtSprites[25];
+				break;
+			case E_TileType.Max:
+				throw new System.Exception("");
+		}
+
+		m_Tiles[y, x] = type;
+
+		// 주변 타일 Sprite 자동 변경
+		//AutoTile(type, x - 1, y, 1, 8, 4, 4, 4, 4);
+		//AutoTile(type, x + 1, y, 1, 8, 4, 4, 4, 4);
+		//AutoTile(type, x, y - 1, 1, 8, 4, 4, 4, 4);
+		//AutoTile(type, x, y + 1, 1, 8, 4, 4, 4, 4);
+	}
+
+	public List<Vector2Int> FindPath(Vector2Int start, Vector2Int end, int characterWidth, int characterHeight, short maxCharacterJumpHeight)
+	{
+		return m_PathFinder.FindPath(start, end, characterWidth, characterHeight, maxCharacterJumpHeight);
+	}
+
+	// 테스트
+	public int testValue = 100;
+	public float pathShowTime;
+	//private void Update()
+	//{
+	//	if (Input.GetMouseButtonDown(0))
+	//	{
+	//		float startT, endT;
+
+	//		startT = Time.realtimeSinceStartup;
+	//		for (int i = 0; i < testValue; ++i)
+	//			Test(i == 0);
+	//		endT = Time.realtimeSinceStartup;
+
+	//		float time = endT - startT;
+
+	//		Debug.Log("길을 " + testValue + "번 찾는 동안 걸린 시간: " + time);
+	//	}
+	//}
+	private void Test(bool showPath)
+	{
+		List<Vector2Int> path = m_PathFinder.FindPath(M_Grid.m_Start, M_Grid.m_End, 1, 1, 6);
+
+		if (showPath == false)
+			return;
+
+		//Vector3 offset = Vector3.one * 0.5f;
+
+		//if (path != null)
+		//{
+		//	for (int i = 0; i < path.Count - 1; ++i)
+		//	{
+		//		Vector3 start = new Vector3(path[i].x, path[i].y);
+		//		Vector3 end = new Vector3(path[i + 1].x, path[i + 1].y);
+
+		//		Debug.DrawLine(start + offset, end + offset, Color.white, pathShowTime);
+
+		//		DrawRect(start + offset, offset, Color.white, pathShowTime);
+		//		var text = UtilClass.CreateWorldText(path.Count - i, transform, start + offset, 0.1f, 40, Color.white, TextAnchor.MiddleCenter);
+		//		GameObject.Destroy(text.gameObject, pathShowTime);
+
+		//		if (i == path.Count - 2)
+		//		{
+		//			DrawRect(end + offset, offset, Color.white, pathShowTime);
+
+		//			text = UtilClass.CreateWorldText(1, transform, end + offset, 0.1f, 40, Color.white, TextAnchor.MiddleCenter);
+		//			GameObject.Destroy(text.gameObject, pathShowTime);
+		//		}
+		//	}
+		//}
 	}
 }

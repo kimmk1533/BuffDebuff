@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Algorithms;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -41,6 +42,9 @@ public class GridManager : Singleton<GridManager>
 	public bool m_ShowEndPoint;
 	public Vector2Int m_Start;
 	public Vector2Int m_End;
+
+	[SerializeField]
+	private Map m_Map;
 
 	protected StageManager M_Stage => StageManager.Instance;
 
@@ -122,6 +126,7 @@ public class GridManager : Singleton<GridManager>
 		//float e = Time.realtimeSinceStartup;
 		//Debug.Log(e - s);
 	}
+
 	public CustomNode PathFinding(Vector3 start, Vector3 end, int maxJump)
 	{
 		Vector2Int tileStart = (Vector2Int)m_Tilemap.WorldToCell(start);
@@ -164,6 +169,28 @@ public class GridManager : Singleton<GridManager>
 		}
 
 		return m_JumpRoad;
+	}
+	public List<Vector2Int> FindPath(Vector2Int start, Vector2Int end, int characterWidth, int characterHeight, short maxCharacterJumpHeight)
+	{
+		return m_Map.FindPath(start, end, characterWidth, characterHeight, maxCharacterJumpHeight);
+	}
+	public bool PathFinding(ref List<Vector2Int> path, Vector2Int start, Vector2Int end, int characterWidth, int characterHeight, short maxCharacterJumpHeight)
+	{
+		if (path == null)
+			return false;
+
+		if (start == end)
+			return true;
+
+		path.Clear();
+
+		List<Vector2Int> findingPath = m_Map.FindPath(start, end, characterWidth, characterHeight, maxCharacterJumpHeight);
+		if (findingPath == null)
+			return false;
+
+		path.AddRange(findingPath);
+
+		return true;
 	}
 
 	private void OnValidate()

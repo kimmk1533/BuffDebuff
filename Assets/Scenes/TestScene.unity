@@ -77115,8 +77115,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 391c0cf984af74f44b6e7dea94dcd561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Velocity: {x: 0, y: 0}
-  m_IsSimulating: 0
   m_Animator: {fileID: 0}
   m_AttackSpotList: []
 --- !u!114 &1230272635
@@ -77192,6 +77190,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1310be53b3c24f4ab74f068ba31de52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Animator: {fileID: 0}
+  m_Velocity: {x: 0, y: 0}
+  m_IsSimulating: 1
   m_MaxStat:
     <Hp>k__BackingField: 500
     <HpRegen>k__BackingField: 0
@@ -80342,6 +80343,7 @@ GameObject:
   - component: {fileID: 1276558578}
   - component: {fileID: 1276558577}
   - component: {fileID: 1276558579}
+  - component: {fileID: 1276558580}
   m_Layer: 8
   m_Name: Renderer
   m_TagString: Untagged
@@ -80450,6 +80452,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be33e0b13e91e424aa8fedef326c99dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1276558580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276558574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb96e643eaea15d4891e8bd01cd1dc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SpriteRenderer: {fileID: 0}
+  m_Animator: {fileID: 0}
 --- !u!1 &1278452057
 GameObject:
   m_ObjectHideFlags: 0
@@ -86236,10 +86252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 480706f9b17890f4c9e2be359b6a8480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MoveDir: 0
-  m_Velocity: {x: 0, y: 0}
   m_Renderer: {fileID: 1276558579}
-  m_TargetFinder: {fileID: 1869425814}
   m_AttackSpot: {fileID: 87201731}
 --- !u!114 &1359844120
 MonoBehaviour:
@@ -86298,6 +86311,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8375b2d74a36c034f813dcb044f9d7f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Animator: {fileID: 1276558580}
+  m_Velocity: {x: 0, y: 0}
+  m_IsSimulating: 1
   m_MaxStat:
     <Hp>k__BackingField: 100
     <HpRegen>k__BackingField: 0
@@ -86342,6 +86358,8 @@ MonoBehaviour:
   m_AttackTimer:
     m_Interval: 0
     m_Time: 0
+  m_MoveDir: 0
+  m_TargetFinder: {fileID: 1869425814}
 --- !u!1 &1363086233
 GameObject:
   m_ObjectHideFlags: 0
@@ -131415,6 +131433,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1310be53b3c24f4ab74f068ba31de52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Animator: {fileID: 437708018}
+  m_Velocity: {x: 0, y: 0}
+  m_IsSimulating: 1
   m_MaxStat:
     <Hp>k__BackingField: 500
     <HpRegen>k__BackingField: 0
@@ -131482,8 +131503,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 391c0cf984af74f44b6e7dea94dcd561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Velocity: {x: 0, y: 0}
-  m_IsSimulating: 1
   m_Animator: {fileID: 437708018}
   m_AttackSpotList:
   - {fileID: 1936674578}

@@ -108,7 +108,7 @@ public static class UtilClass
 			if (autoUse && Use())
 				return true;
 
-			if (m_Time >= m_Interval)
+			if (timeIsUp)
 				return true;
 
 			m_Time += Time.deltaTime * timeScale;
