@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, EnemyAnimator>
 {
@@ -91,7 +92,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	protected override void CalculateVelocity()
 	{
 		Vector2 dir = Vector2.zero;
-
+		
 		// 목표가 없을 때
 		if (target == null)
 		{
