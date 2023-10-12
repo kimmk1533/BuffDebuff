@@ -82,7 +82,8 @@ public class EnemyTargetFinder : MonoBehaviour
 	{
 		//Debug.Log("타겟 다시 찾는 중!");
 
-		if (m_ForgetTargetTimer.Update(true))
+		//m_ForgetTargetTimer.Update();
+		if (m_ForgetTargetTimer.TimeCheck(true))
 		{
 			//Debug.Log("타겟 잃어버림!");
 			m_Target = null;

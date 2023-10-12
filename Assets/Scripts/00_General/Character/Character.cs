@@ -48,6 +48,9 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 		if (m_Animator == null)
 			throw new Exception("Child Component(Animator) is null!");
 		m_Animator.Initialize();
+
+		// BuffList Init
+		m_BuffList = new Dictionary<int, AbstractBuff>();
 	}
 
 	protected virtual void Update()
@@ -113,7 +116,9 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 		if (m_CurrentStat.Hp >= m_MaxStat.Hp)
 			return;
 
-		if (m_HealTimer.Update(true))
+		m_HealTimer.Update();
+
+		if (m_HealTimer.TimeCheck(true))
 		{
 			float hp = m_CurrentStat.Hp + (m_CurrentStat.HpRegen * m_CurrentStat.HealScale) * m_CurrentStat.AntiHealScale;
 
@@ -135,7 +140,7 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 	}
 	protected virtual bool CanAttack()
 	{
-		return m_AttackTimer.timeIsUp;
+		return m_AttackTimer.TimeCheck();
 	}
 
 	// AnimEvent
@@ -151,7 +156,7 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 	{
 		OnBuffAttackEnd();
 
-		m_AttackTimer.Use();
+		m_AttackTimer.TimeCheck();
 	}
 
 }

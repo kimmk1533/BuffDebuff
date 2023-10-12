@@ -77115,7 +77115,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 391c0cf984af74f44b6e7dea94dcd561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Animator: {fileID: 0}
   m_AttackSpotList: []
 --- !u!114 &1230272635
 MonoBehaviour:
@@ -77191,8 +77190,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 0}
-  m_Velocity: {x: 0, y: 0}
   m_IsSimulating: 1
+  m_Velocity: {x: 0, y: 0}
   m_MaxStat:
     <Hp>k__BackingField: 500
     <HpRegen>k__BackingField: 0
@@ -80343,7 +80342,6 @@ GameObject:
   - component: {fileID: 1276558578}
   - component: {fileID: 1276558577}
   - component: {fileID: 1276558579}
-  - component: {fileID: 1276558580}
   m_Layer: 8
   m_Name: Renderer
   m_TagString: Untagged
@@ -80452,20 +80450,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be33e0b13e91e424aa8fedef326c99dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1276558580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1276558574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb96e643eaea15d4891e8bd01cd1dc14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SpriteRenderer: {fileID: 0}
-  m_Animator: {fileID: 0}
 --- !u!1 &1278452057
 GameObject:
   m_ObjectHideFlags: 0
@@ -86252,8 +86236,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 480706f9b17890f4c9e2be359b6a8480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Renderer: {fileID: 1276558579}
-  m_AttackSpot: {fileID: 87201731}
+  m_Animator: {fileID: 1276558579}
+  m_AttackSpotList: []
 --- !u!114 &1359844120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86311,9 +86295,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8375b2d74a36c034f813dcb044f9d7f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Animator: {fileID: 1276558580}
-  m_Velocity: {x: 0, y: 0}
+  m_Animator: {fileID: 1276558579}
   m_IsSimulating: 1
+  m_Velocity: {x: 0, y: 0}
   m_MaxStat:
     <Hp>k__BackingField: 100
     <HpRegen>k__BackingField: 0
@@ -86343,12 +86327,12 @@ MonoBehaviour:
     <Attack>k__BackingField: 0
     <AttackSpeed>k__BackingField: 0
     <AttackSize>k__BackingField: 0
-    <AttackRange>k__BackingField: 0
+    <AttackRange>k__BackingField: 1
     <MultiHitCount>k__BackingField: 0
     <CriticalRate>k__BackingField: 0
     <CriticalDamageScale>k__BackingField: 0
     <Avoidability>k__BackingField: 0
-    <MoveSpeed>k__BackingField: 0
+    <MoveSpeed>k__BackingField: 5
     <Sight>k__BackingField: 0
     <Xp>k__BackingField: 0
     <XpScale>k__BackingField: 0
@@ -86358,8 +86342,14 @@ MonoBehaviour:
   m_AttackTimer:
     m_Interval: 0
     m_Time: 0
-  m_MoveDir: 0
   m_TargetFinder: {fileID: 1869425814}
+  m_MoveDir: 0
+  m_MoveDirTimer:
+    m_Interval: 0
+    m_Time: 0
+  m_PathFindTimer:
+    m_Interval: 0
+    m_Time: 0
 --- !u!1 &1363086233
 GameObject:
   m_ObjectHideFlags: 0
@@ -94489,54 +94479,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5000
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &1497849481
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1497849482}
-  - component: {fileID: 1497849483}
-  m_Layer: 0
-  m_Name: Map
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1497849482
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1497849481}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1616040639}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1497849483
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1497849481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8da6262238d232b4e803b2377a957e7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TileParent: {fileID: 1858560808}
-  m_TilePrefab: {fileID: 957085025}
-  testValue: 100
-  pathShowTime: 10
 --- !u!1 &1501215822
 GameObject:
   m_ObjectHideFlags: 0
@@ -102321,6 +102263,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1616040639}
   - component: {fileID: 1616040641}
+  - component: {fileID: 1616040642}
   m_Layer: 0
   m_Name: Grid Manager
   m_TagString: Untagged
@@ -102341,7 +102284,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2133236831}
-  - {fileID: 1497849482}
   - {fileID: 1858560808}
   m_Father: {fileID: 0}
   m_RootOrder: 17
@@ -102367,14 +102309,28 @@ MonoBehaviour:
   m_AutoPathFinding: 0
   m_Tilemap: {fileID: 1822058640}
   m_ThroughMap: {fileID: 1822058639}
-  m_Jump: 0
-  m_ShowOpenList: 0
-  m_ShowCloseList: 0
   m_ShowPath: 1
   m_ShowStartPoint: 1
   m_ShowEndPoint: 1
   m_Start: {x: 2, y: 5}
   m_End: {x: 37, y: 29}
+  m_Map: {fileID: 0}
+--- !u!114 &1616040642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616040638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8da6262238d232b4e803b2377a957e7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TileParent: {fileID: 1858560808}
+  m_TilePrefab: {fileID: 957085025}
+  testValue: 100
+  pathShowTime: 10
 --- !u!1 &1617492636
 GameObject:
   m_ObjectHideFlags: 0
@@ -131434,8 +131390,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 437708018}
-  m_Velocity: {x: 0, y: 0}
   m_IsSimulating: 1
+  m_Velocity: {x: 0, y: 0}
   m_MaxStat:
     <Hp>k__BackingField: 500
     <HpRegen>k__BackingField: 0
@@ -131503,7 +131459,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 391c0cf984af74f44b6e7dea94dcd561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Animator: {fileID: 437708018}
   m_AttackSpotList:
   - {fileID: 1936674578}
   - {fileID: 896840620}

@@ -559,6 +559,8 @@ namespace Algorithms
 					// 시작 노드 필터링
 					m_Close.Add(node);
 
+					m_Close.Reverse();
+
 					m_Stopped = true;
 
 					return new List<Vector2Int>(m_Close);

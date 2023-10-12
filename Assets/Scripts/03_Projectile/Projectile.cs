@@ -53,7 +53,9 @@ public sealed class Projectile : MonoBehaviour
 
 	private void Update()
 	{
-		if (m_DespawnTimer.Update(true))
+		m_DespawnTimer.Update();
+
+		if (m_DespawnTimer.TimeCheck(true))
 		{
 			M_Projectile.Despawn("Projectile", this);
 			return;

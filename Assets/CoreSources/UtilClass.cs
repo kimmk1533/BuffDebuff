@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public static class UtilClass
 {
@@ -77,7 +78,6 @@ public static class UtilClass
 			}
 		}
 		public float time => m_Time;
-		public bool timeIsUp => m_Time >= m_Interval;
 
 		public Timer()
 		{
@@ -93,27 +93,31 @@ public static class UtilClass
 				m_Time = 0f;
 		}
 
-		public bool Use()
+		public bool TimeCheck(bool autoClear = false)
 		{
-			if (timeIsUp)
+			if (m_Time >= m_Interval)
 			{
-				m_Time = 0f;
+				if (autoClear)
+					Clear();
+
 				return true;
 			}
 
 			return false;
 		}
-		public bool Update(bool autoUse = false, float timeScale = 1.0f)
+		public void Update()
 		{
-			if (autoUse && Use())
-				return true;
+			if (m_Time >= m_Interval)
+				return;
 
-			if (timeIsUp)
-				return true;
+			m_Time += Time.deltaTime;
+		}
+		public void Update(float timeScale)
+		{
+			if (m_Time >= m_Interval)
+				return;
 
 			m_Time += Time.deltaTime * timeScale;
-
-			return false;
 		}
 		public void Clear()
 		{

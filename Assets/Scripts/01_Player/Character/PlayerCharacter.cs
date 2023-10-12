@@ -51,9 +51,6 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 		m_HealTimer = new UtilClass.Timer(m_CurrentStat.HpRegenTime);
 		m_AttackTimer = new UtilClass.Timer(1f / m_CurrentStat.AttackSpeed, true);
 		m_DashTimer = new UtilClass.Timer(m_CurrentStat.DashRechargeTime);
-
-		// BuffList Init
-		m_BuffList = new Dictionary<int, AbstractBuff>();
 	}
 
 	private void SetDirectionalInput(Vector2 input)
@@ -104,9 +101,14 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 	private void DashTimer()
 	{
 		if (m_CurrentStat.DashCount >= m_MaxStat.DashCount)
+		{
+			m_DashTimer.Clear();
 			return;
+		}
 
-		if (m_DashTimer.Update(true))
+		m_DashTimer.Update();
+
+		if (m_DashTimer.TimeCheck(true))
 		{
 			++m_CurrentStat.DashCount;
 		}

@@ -260,10 +260,10 @@ public class Map : MonoBehaviour
 	//}
 	private void Test(bool showPath)
 	{
-		List<Vector2Int> path = m_PathFinder.FindPath(M_Grid.m_Start, M_Grid.m_End, 1, 1, 6);
+		//List<Vector2Int> path = m_PathFinder.FindPath(M_Grid.m_Start, M_Grid.m_End, 1, 1, 6);
 
-		if (showPath == false)
-			return;
+		//if (showPath == false)
+		//	return;
 
 		//Vector3 offset = Vector3.one * 0.5f;
 
