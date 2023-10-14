@@ -7,10 +7,10 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 {
 	[SerializeField, ChildComponent("TargetFinder")]
 	protected EnemyTargetFinder m_TargetFinder;
-	protected Vector2Int m_TargetPos;
+	protected Vector2 m_TargetPos;
 
-	protected List<Vector2Int> m_RoadToTargetPath;
-	protected int m_RoadToTargetPathIndex;
+	protected List<Vector2Int> m_PathFinding_Path;
+	protected int m_PathFinding_NodeIndex;
 
 	protected bool m_Jumping;
 	protected Vector2Int? m_JumpEndPos = null;
@@ -21,7 +21,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	protected UtilClass.Timer m_MoveDirTimer;
 
 	[SerializeField]
-	protected UtilClass.Timer m_PathFindTimer;
+	protected UtilClass.Timer m_PathFinding_ReSearchTimer;
 
 	public GameObject target => m_TargetFinder.target;
 	protected Vector3 targetPos => (target == null) ? throw new System.Exception() : target.transform.position;
@@ -56,16 +56,16 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 		m_TargetFinder.Initialize();
 
-		m_RoadToTargetPath = null;
-		m_RoadToTargetPathIndex = -1;
+		m_PathFinding_Path = null;
+		m_PathFinding_NodeIndex = -1;
 
 		m_MoveDirTimer = new UtilClass.Timer();
 		m_MoveDirTimer.interval = Random.Range(0.2f, 1.0f);
 		m_MoveDirTimer.Clear();
 
-		m_PathFindTimer = new UtilClass.Timer();
-		m_PathFindTimer.interval = 3f;
-		m_PathFindTimer.Clear();
+		m_PathFinding_ReSearchTimer = new UtilClass.Timer();
+		m_PathFinding_ReSearchTimer.interval = 3f;
+		m_PathFinding_ReSearchTimer.Clear();
 
 		// Timer Init
 		m_HealTimer = new UtilClass.Timer(m_CurrentStat.HpRegenTime);
@@ -141,56 +141,102 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			return;
 		}
 
-		m_PathFindTimer.Update();
+		Vector2Int pos = new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y));
+		Vector2Int end = new Vector2Int(Mathf.FloorToInt(targetPos.x), Mathf.FloorToInt(targetPos.y));
 
-		Vector2Int start = new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.CeilToInt(transform.position.y)) + Vector2Int.up;
-		Vector2Int end = new Vector2Int(Mathf.RoundToInt(targetPos.x), Mathf.CeilToInt(targetPos.y)) + Vector2Int.up;
+		Vector2Int start_tempUp = pos + Vector2Int.up;
+		Vector2Int end_tempUp = end + Vector2Int.up;
 
-		if (m_RoadToTargetPath == null
-			|| m_RoadToTargetPath.Count == 0
+		m_PathFinding_ReSearchTimer.Update();
+
+		if (m_PathFinding_Path == null
+			|| m_PathFinding_Path.Count <= 0
 			|| m_TargetPos != end
-			|| m_PathFindTimer.TimeCheck() == true)
+			|| m_PathFinding_ReSearchTimer.TimeCheck() == true)
 		{
 			m_TargetPos = end;
 
-			FindPathToTarget(start, end);
+			PathFinding_FindPath(start_tempUp, end_tempUp);
 		}
 
-		if (m_RoadToTargetPath == null
-			|| m_RoadToTargetPath.Count == 0
-			|| m_RoadToTargetPathIndex < 0)
+		if (m_PathFinding_Path == null
+			|| m_PathFinding_Path.Count <= 1
+			|| m_PathFinding_NodeIndex < 0)
 			return;
 
-		Vector2Int pos = new Vector2Int((int)transform.position.x, (int)transform.position.y);
-		Vector2Int pathPos = m_RoadToTargetPath[m_RoadToTargetPathIndex] - Vector2Int.down;
+		Vector2 prevDest, curDest, nextDest;
+		bool reachedX, reachedY, destOnGround;
 
-		Vector2Int dir = pathPos - pos;
+		PathFinding_GetContext(out prevDest, out curDest, out nextDest, out destOnGround, out reachedX, out reachedY);
+
+		Vector2 dir = curDest - prevDest;
 
 		moveDir = System.MathF.Sign(dir.x);
-
-		float distanceToNextPos = Vector2Int.Distance(pos, pathPos);
-		if (dir.x == 0)
-		{
-			++m_RoadToTargetPathIndex;
-			if (m_RoadToTargetPathIndex >= m_RoadToTargetPath.Count)
-			{
-				m_RoadToTargetPath.Clear();
-				m_RoadToTargetPathIndex = -1;
-			}
-		}
 	}
-	private void FindPathToTarget(Vector2Int start, Vector2Int end)
+	private void PathFinding_FindPath(Vector2Int start, Vector2Int end)
 	{
 		// 땅에 붙어 있는지 확인
 		if (m_Controller.collisions.grounded == false)
 			return;
 
-		m_PathFindTimer.Clear();
+		m_PathFinding_ReSearchTimer.Clear();
 
 		Bounds bounds = m_Controller.collider.bounds;
 
-		m_RoadToTargetPath = M_Grid.FindPath(start, end, Mathf.CeilToInt(bounds.size.x), Mathf.CeilToInt(bounds.size.y), (short)m_Controller.maxJumpHeight);
-		m_RoadToTargetPathIndex = 0;
+		m_PathFinding_Path = M_Grid.FindPath(start, end, Mathf.CeilToInt(bounds.size.x), Mathf.CeilToInt(bounds.size.y), (short)m_Controller.maxJumpHeight);
+		m_PathFinding_NodeIndex = 1;
+	}
+	private void PathFinding_GetContext(out Vector2 prevDest, out Vector2 currentDest, out Vector2 nextDest, out bool destOnGround, out bool reachedX, out bool reachedY)
+	{
+		// 목적지 (이전, 현재, 다음)
+		prevDest = m_PathFinding_Path[m_PathFinding_NodeIndex - 1] + Vector2.down;
+		currentDest = m_PathFinding_Path[m_PathFinding_NodeIndex] + Vector2Int.down;
+		if (m_PathFinding_Path.Count > m_PathFinding_NodeIndex + 1)
+			nextDest = m_PathFinding_Path[m_PathFinding_NodeIndex + 1] + Vector2Int.down;
+		else
+			nextDest = currentDest;
+
+		Bounds bounds = m_Controller.collider.bounds;
+
+		// 목적지 (지상 여부)
+		destOnGround = false;
+		for (int x = m_PathFinding_Path[m_PathFinding_NodeIndex].x; x < m_PathFinding_Path[m_PathFinding_NodeIndex].x + Mathf.CeilToInt(bounds.size.x); ++x)
+		{
+			if (M_Grid.map.IsGround(x, m_PathFinding_Path[m_PathFinding_NodeIndex].y - 1))
+			{
+				destOnGround = true;
+				break;
+			}
+		}
+
+		Vector2 pathPosition = bounds.center - bounds.extents;
+
+		reachedX = (prevDest.x <= currentDest.x && currentDest.x <= pathPosition.x)
+			|| (prevDest.x >= currentDest.x && currentDest.x >= pathPosition.x);
+
+		// 스냅 부분 스킵
+
+		reachedY = (prevDest.y <= currentDest.y && currentDest.y <= pathPosition.y)
+			|| (prevDest.y >= currentDest.y && currentDest.y >= pathPosition.y)
+			|| (Mathf.Abs(pathPosition.y - currentDest.y) <= 1);
+	}
+	private void PathFinding_NextPath(bool reachedX, bool reachedY)
+	{
+		if (reachedX == false)
+			return;
+		if (reachedY == false)
+			return;
+
+		// 현재 목적지 도달. 다음 목적지로 인덱스 변경
+		++m_PathFinding_NodeIndex;
+
+		// 최종 목적지 도달
+		if (m_PathFinding_NodeIndex >= m_PathFinding_Path.Count)
+		{
+			m_PathFinding_Path.Clear();
+			m_PathFinding_Path = null;
+			m_PathFinding_NodeIndex = -1;
+		}
 	}
 	//// 목표로 향하는 움직임
 	//private void CalculateVelocity_ToTarget(ref Vector2 dir)
@@ -435,4 +481,39 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	//}
 	#endregion
 	#endregion
+
+	public bool showPath = true;
+	public float pathShowTime = 1f;
+	private void OnDrawGizmos()
+	{
+		if (m_PathFinding_Path == null)
+			return;
+
+		if (showPath == false)
+			return;
+
+		Vector3 offset = Vector3.one * 0.5f;
+
+		var path = m_PathFinding_Path;
+
+		for (int i = 0; i < path.Count - 1; ++i)
+		{
+			Vector3 start = new Vector3(path[i].x, path[i].y);
+			Vector3 end = new Vector3(path[i + 1].x, path[i + 1].y);
+
+			Debug.DrawLine(start + offset, end + offset, Color.white, pathShowTime);
+
+			MyDebug.DrawRect(start + offset, offset, Color.white, pathShowTime);
+			var text = UtilClass.CreateWorldText(i + 1, null, start + offset, 0.1f, 40, Color.white, TextAnchor.MiddleCenter);
+			GameObject.Destroy(text.gameObject, pathShowTime);
+
+			if (i == path.Count - 2)
+			{
+				MyDebug.DrawRect(end + offset, offset, Color.white, pathShowTime);
+
+				text = UtilClass.CreateWorldText(path.Count, null, end + offset, 0.1f, 40, Color.white, TextAnchor.MiddleCenter);
+				GameObject.Destroy(text.gameObject, pathShowTime);
+			}
+		}
+	}
 }

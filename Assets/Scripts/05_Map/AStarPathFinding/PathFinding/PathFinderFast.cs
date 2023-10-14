@@ -15,7 +15,6 @@ using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR;
 
 namespace Algorithms
 {
@@ -375,6 +374,7 @@ namespace Algorithms
 						}
 						if (continueFlag)
 							continue;
+
 						for (int h = 1; h < characterHeight - 1; ++h)
 						{
 							if (m_Grid[m_NewLocationY + h, m_NewLocationX] == 0

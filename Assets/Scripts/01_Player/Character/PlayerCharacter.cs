@@ -79,7 +79,7 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 			m_Velocity.y = 0;
 		}
 
-		CheckPortal();
+		//CheckPortal();
 
 		m_Animator.Anim_SetVelocity(m_Velocity);
 		m_Animator.Anim_SetIsGround(m_Controller.collisions.grounded);

@@ -35,7 +35,6 @@ public class Map : MonoBehaviour
 	private int m_Width;
 	private int m_Height;
 
-	private GridManager M_Grid => GridManager.Instance;
 	private StageManager M_Stage => StageManager.Instance;
 
 	public void Initialize()
@@ -202,18 +201,13 @@ public class Map : MonoBehaviour
 
 		switch (type)
 		{
-			default:
-			case E_TileType.Empty:
-				m_Grid[y, x] = 1;
-				m_TileRenderers[y, x].enabled = false;
-				break;
 			case E_TileType.Block:
 				m_Grid[y, x] = 0;
 				// AutoTile(type, x, y, 1, 8, 4, 4, 4, 4);
 				m_TileRenderers[y, x].enabled = true;
 				break;
 			case E_TileType.OneWay:
-				m_Grid[y, x] = 0;
+				m_Grid[y, x] = 1;
 				m_TileRenderers[y, x].enabled = true;
 				m_TileRenderers[y, x].color = Color.red;
 
@@ -221,6 +215,11 @@ public class Map : MonoBehaviour
 				m_TileRenderers[y, x].transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
 				//m_TileRenderers[y, x].sprite = mDirtSprites[25];
 				break;
+			case E_TileType.Empty:
+				m_Grid[y, x] = 1;
+				m_TileRenderers[y, x].enabled = false;
+				break;
+			default:
 			case E_TileType.Max:
 				throw new System.Exception("");
 		}
@@ -236,7 +235,9 @@ public class Map : MonoBehaviour
 
 	public List<Vector2Int> FindPath(Vector2Int start, Vector2Int end, int characterWidth, int characterHeight, short maxCharacterJumpHeight)
 	{
-		return m_PathFinder.FindPath(start, end, characterWidth, characterHeight, maxCharacterJumpHeight);
+		List<Vector2Int> result = m_PathFinder.FindPath(start, end, characterWidth, characterHeight, maxCharacterJumpHeight);
+
+		return result;
 	}
 
 	// 테스트

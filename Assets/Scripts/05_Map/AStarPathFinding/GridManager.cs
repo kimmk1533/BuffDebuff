@@ -4,55 +4,35 @@ using Algorithms;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-//[RequireComponent(typeof(JumpAStar))]
 public class GridManager : Singleton<GridManager>
 {
+	[SerializeField]
+	private Map m_Map;
+
 	[SerializeField]
 	private bool m_ShowGrid;
 	[SerializeField]
 	private Color m_GridColor;
 
 	[Space(10)]
-
+	[SerializeField]
+	private Transform m_GridTextParent;
 	[SerializeField]
 	private bool m_ShowGridText;
 	[SerializeField]
 	private Color m_GridTextColor;
-	[SerializeField]
-	private Transform m_GridTextParent;
 
 	[Space(10)]
-
-	[SerializeField]
-	private bool m_AutoPathFinding;
-
 	[SerializeField]
 	private Tilemap m_Tilemap;
-	[SerializeField]
-	private Tilemap m_ThroughMap;
 
-	[Space(10)]
-
-	[SerializeField]
-	private bool m_ShowPath;
-	[SerializeField]
-	private bool m_ShowStartPoint;
-	[SerializeField]
-	private bool m_ShowEndPoint;
-	[SerializeField]
-	private Vector2Int m_Start;
-	[SerializeField]
-	private Vector2Int m_End;
-
-	[SerializeField]
-	private Map m_Map;
+	public Map map => m_Map;
 
 	protected StageManager M_Stage => StageManager.Instance;
 
 	public void Initialize()
 	{
 		m_Tilemap = M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.TileMap);
-		m_ThroughMap = M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.ThroughMap);
 
 		m_Map = GetComponent<Map>();
 		m_Map.Initialize();
