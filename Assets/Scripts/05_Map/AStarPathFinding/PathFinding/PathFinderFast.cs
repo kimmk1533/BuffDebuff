@@ -106,7 +106,7 @@ namespace Algorithms
 		private ushort m_GridY = 0;
 		private ushort m_GridXLog2 = 0;
 		private bool m_Found = false;
-		private sbyte[,] m_Direction = new sbyte[8, 2] { { 0, -1 }, { 1, 0 }, { 0, 1 }, { -1, 0 }, { 1, -1 }, { 1, 1 }, { -1, 1 }, { -1, -1 } };
+		private sbyte[,] m_Direction = new sbyte[8, 2] { { 0, -1 }, { 1, 0 }, { -1, 0 }, { 0, 1 }, { 1, -1 }, { -1, -1 }, { 1, 1 }, { -1, 1 } };
 		private int m_EndLocation = 0;
 		private int m_NewG = 0;
 
@@ -162,9 +162,9 @@ namespace Algorithms
 			{
 				m_Diagonals = value;
 				if (m_Diagonals)
-					m_Direction = new sbyte[8, 2] { { 0, -1 }, { 1, 0 }, { 0, 1 }, { -1, 0 }, { 1, -1 }, { 1, 1 }, { -1, 1 }, { -1, -1 } };
+					m_Direction = new sbyte[8, 2] { { 0, -1 }, { 1, 0 }, { -1, 0 }, { 0, 1 }, { 1, -1 }, { -1, -1 }, { 1, 1 }, { -1, 1 } };
 				else
-					m_Direction = new sbyte[4, 2] { { 0, -1 }, { 1, 0 }, { 0, 1 }, { -1, 0 } };
+					m_Direction = new sbyte[4, 2] { { 0, -1 }, { 1, 0 }, { -1, 0 }, { 0, 1 } };
 			}
 		}
 		public bool HeavyDiagonals
@@ -247,7 +247,7 @@ namespace Algorithms
 		}
 		public List<Vector2Int> FindPath(Vector2Int start, Vector2Int end, int characterWidth, int characterHeight, short maxCharacterJumpHeight)
 		{
-			Monitor.Enter(_lockObject);
+			//Monitor.Enter(_lockObject);
 
 			try
 			{
@@ -360,8 +360,8 @@ namespace Algorithms
 
 						for (int w = 0; w < characterWidth; ++w)
 						{
-							if (m_Grid[m_NewLocationY, m_NewLocationX + w] == 0
-								|| m_Grid[m_NewLocationY + characterHeight - 1, m_NewLocationX + w] == 0)
+							if (m_Map.IsBlock(m_NewLocationX + w, m_NewLocationY)
+								|| m_Map.IsBlock(m_NewLocationX + w, m_NewLocationY + characterHeight - 1))
 							{
 								continueFlag = true;
 								break;
@@ -369,16 +369,16 @@ namespace Algorithms
 
 							if (m_Map.IsGround(m_NewLocationX + w, m_NewLocationY - 1))
 								onGround = true;
-							else if (m_Grid[m_NewLocationY + characterHeight, m_NewLocationX + w] == 0)
+							else if (m_Map.IsBlock(m_NewLocationX + w, m_NewLocationY + characterHeight))
 								atCeiling = true;
 						}
 						if (continueFlag)
 							continue;
 
-						for (int h = 1; h < characterHeight - 1; ++h)
+						for (int h = 0; h < characterHeight; ++h)
 						{
-							if (m_Grid[m_NewLocationY + h, m_NewLocationX] == 0
-								|| m_Grid[m_NewLocationY + h, m_NewLocationX + characterWidth - 1] == 0)
+							if (m_Map.IsBlock(m_NewLocationX, m_NewLocationY + h)
+								|| m_Map.IsBlock(m_NewLocationX + characterWidth - 1, m_NewLocationY + h))
 							{
 								continueFlag = true;
 								break;
@@ -572,7 +572,7 @@ namespace Algorithms
 			}
 			finally
 			{
-				Monitor.Exit(_lockObject);
+				//Monitor.Exit(_lockObject);
 			}
 		}
 		public bool FindPath(ref List<Vector2Int> path, Vector2Int start, Vector2Int end, int characterWidth, int characterHeight, short maxCharacterJumpHeight)

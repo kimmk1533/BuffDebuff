@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController2D : Controller2D
 {
 	Vector2 m_PlayerInput;
-	Collider2D m_FallingThroughPlatform;
+	Collider2D m_FallingOneWayPlatform;
 
 	public Vector2 playerInput => m_PlayerInput;
 
@@ -62,20 +62,20 @@ public class PlayerController2D : Controller2D
 
 			if (hit)
 			{
-				if (hit.collider.CompareTag("Through"))
+				if (hit.collider.CompareTag("OneWay"))
 				{
 					throughFlag = true;
 					if (directionY == 1 || hit.distance == 0)
 					{
 						continue;
 					}
-					if (hit.collider == m_FallingThroughPlatform)
+					if (hit.collider == m_FallingOneWayPlatform)
 					{
 						continue;
 					}
 					if (m_PlayerInput.y == -1 && Input.GetKeyDown(KeyCode.Space))
 					{
-						m_FallingThroughPlatform = hit.collider;
+						m_FallingOneWayPlatform = hit.collider;
 						continue;
 					}
 				}
@@ -102,7 +102,7 @@ public class PlayerController2D : Controller2D
 
 		if (!throughFlag)
 		{
-			m_FallingThroughPlatform = null;
+			m_FallingOneWayPlatform = null;
 		}
 
 		if (m_Collisions.climbingSlope)

@@ -61162,7 +61162,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &957085025
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -61170,7 +61170,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 957085024}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -86351,7 +86351,8 @@ MonoBehaviour:
     m_Interval: 0
     m_Time: 0
   showPath: 1
-  pathShowTime: 0.1
+  textColor: {r: 1, g: 1, b: 1, a: 1}
+  textObjectList: []
 --- !u!1 &1363086233
 GameObject:
   m_ObjectHideFlags: 0
@@ -102303,11 +102304,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flag: 1
-  m_Map: {fileID: 0}
-  m_ShowGrid: 0
-  m_GridColor: {r: 1, g: 1, b: 1, a: 0.23529412}
-  m_GridTextParent: {fileID: 2133236831}
+  m_ShowGrid: 1
+  m_GridColor: {r: 1, g: 1, b: 1, a: 0.25490198}
   m_ShowGridText: 1
+  m_GridTextParent: {fileID: 2133236831}
   m_GridTextColor: {r: 0.34069428, g: 0.8679245, b: 0.27566147, a: 0.5882353}
   m_Tilemap: {fileID: 1822058640}
 --- !u!114 &1616040642
@@ -102322,10 +102322,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8da6262238d232b4e803b2377a957e7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ShowTile: 0
   m_TileParent: {fileID: 1858560808}
   m_TilePrefab: {fileID: 957085025}
-  testValue: 100
-  pathShowTime: 10
 --- !u!1 &1617492636
 GameObject:
   m_ObjectHideFlags: 0
@@ -122638,7 +122637,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1858560808
 Transform:
   m_ObjectHideFlags: 0
@@ -123313,7 +123312,7 @@ MonoBehaviour:
     m_Bits: 8
   m_Target: {fileID: 0}
   m_ForgetTargetTimer:
-    m_Interval: 0
+    m_Interval: 1000
     m_Time: 0
 --- !u!1 &1870905775
 GameObject:

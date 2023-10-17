@@ -21,15 +21,35 @@ public class EnemyTargetFinder : MonoBehaviour
 
 	private bool m_Finding;
 
+	private event System.Action m_OnTargetEnter;
+	private event System.Action m_OnTargetExit;
+	private event System.Action m_OnTargetLost;
+
 	public GameObject target => m_Target;
 	protected int moveDir => (int)Mathf.Sign(transform.parent.lossyScale.x);
+	public event System.Action onTargetEnter
+	{
+		add { m_OnTargetEnter += value; }
+		remove { m_OnTargetEnter -= value; }
+	}
+	public event System.Action onTargetExit
+	{
+		add { m_OnTargetExit += value; }
+		remove { m_OnTargetExit -= value; }
+	}
+	public event System.Action onTargetLost
+	{
+		add { m_OnTargetLost += value; }
+		remove { m_OnTargetLost -= value; }
+	}
 
 	public virtual void Initialize()
 	{
 		m_Collider = GetComponent<BoxCollider2D>();
 		m_isLostTarget = false;
 
-		m_ForgetTargetTimer = new UtilClass.Timer(1.0f);
+		if (m_ForgetTargetTimer == null)
+			m_ForgetTargetTimer = new UtilClass.Timer(1.0f);
 	}
 
 	private void Update()
@@ -44,19 +64,28 @@ public class EnemyTargetFinder : MonoBehaviour
 
 	private void CollisionCheck()
 	{
-		Vector2 origin = (Vector2)transform.position + m_Collider.offset * moveDir;
+		Vector2 origin = m_Collider.bounds.center;
 		Vector2 size = m_Collider.size;
-		RaycastHit2D hit = Physics2D.BoxCast(origin, size, 0f, Vector2.right * moveDir, 0f, m_LayerMask);
+		RaycastHit2D[] hit = Physics2D.BoxCastAll(origin, size, 0f, Vector2.right * moveDir, 0f, m_LayerMask);
 
-		if (m_Finding == false && hit)
+		if (hit == null)
+			return;
+
+		if (hit.Length > 1)
+		{
+			Debug.LogError("Error: 적 공격 범위에 플레이어가 2명 이상 감지됨");
+			return;
+		}
+
+		if (m_Finding == false && hit.Length > 0)
 		{
 			m_Finding = true;
-			TargetEnter2D(hit.collider);
+			TargetEnter2D(hit[0].collider);
 		}
-		else if (m_Finding == true && !hit)
+		else if (m_Finding == true && hit.Length == 0)
 		{
 			m_Finding = false;
-			TargetExit2D(hit.collider);
+			TargetExit2D(null);
 		}
 	}
 	private void TargetEnter2D(Collider2D collider2D)
@@ -68,12 +97,16 @@ public class EnemyTargetFinder : MonoBehaviour
 
 		m_isLostTarget = false;
 
+		m_OnTargetEnter?.Invoke();
+
 		//Debug.Log("타겟 찾음!");
 	}
 	private void TargetExit2D(Collider2D collider2D)
 	{
 		m_isLostTarget = true;
 		m_ForgetTargetTimer.Clear();
+
+		m_OnTargetExit?.Invoke();
 
 		//Debug.Log("타겟 놓침!");
 	}
@@ -88,6 +121,8 @@ public class EnemyTargetFinder : MonoBehaviour
 			//Debug.Log("타겟 잃어버림!");
 			m_Target = null;
 			m_isLostTarget = false;
+
+			m_OnTargetLost?.Invoke();
 		}
 	}
 }

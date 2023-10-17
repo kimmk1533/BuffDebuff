@@ -25,6 +25,8 @@ public class Map : MonoBehaviour
 	private E_TileType[,] m_Tiles;
 	private SpriteRenderer[,] m_TileRenderers;
 
+	[SerializeField]
+	private bool m_ShowTile;
 	[SerializeField, ReadOnly(true)]
 	private Transform m_TileParent;
 	[SerializeField, ReadOnly(true)]
@@ -41,7 +43,7 @@ public class Map : MonoBehaviour
 	{
 		// 임시
 		Tilemap tileMap = M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.TileMap);
-		Tilemap throughMap = M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.ThroughMap);
+		Tilemap oneWayMap = M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.OneWayMap);
 
 		m_Width = (int)(tileMap.cellBounds.size.x);
 		m_Height = (int)(tileMap.cellBounds.size.y);
@@ -70,7 +72,7 @@ public class Map : MonoBehaviour
 				SetTile(x, y, tile == null ? E_TileType.Empty : E_TileType.Block);
 				//SetTile(x, y, mapRoom.tileData[y * m_Width + x]);
 
-				tile = throughMap.GetTile(index);
+				tile = oneWayMap.GetTile(index);
 				SetTile(x, y,
 					CheckTile(x, y, E_TileType.Block) == true
 					? E_TileType.Block
@@ -204,11 +206,11 @@ public class Map : MonoBehaviour
 			case E_TileType.Block:
 				m_Grid[y, x] = 0;
 				// AutoTile(type, x, y, 1, 8, 4, 4, 4, 4);
-				m_TileRenderers[y, x].enabled = true;
+				m_TileRenderers[y, x].gameObject.SetActive(true);
 				break;
 			case E_TileType.OneWay:
 				m_Grid[y, x] = 1;
-				m_TileRenderers[y, x].enabled = true;
+				m_TileRenderers[y, x].gameObject.SetActive(true);
 				m_TileRenderers[y, x].color = Color.red;
 
 				m_TileRenderers[y, x].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
@@ -217,7 +219,7 @@ public class Map : MonoBehaviour
 				break;
 			case E_TileType.Empty:
 				m_Grid[y, x] = 1;
-				m_TileRenderers[y, x].enabled = false;
+				m_TileRenderers[y, x].gameObject.SetActive(false);
 				break;
 			default:
 			case E_TileType.Max:
@@ -240,55 +242,8 @@ public class Map : MonoBehaviour
 		return result;
 	}
 
-	// 테스트
-	public int testValue = 100;
-	public float pathShowTime;
-	//private void Update()
-	//{
-	//	if (Input.GetMouseButtonDown(0))
-	//	{
-	//		float startT, endT;
-
-	//		startT = Time.realtimeSinceStartup;
-	//		for (int i = 0; i < testValue; ++i)
-	//			Test(i == 0);
-	//		endT = Time.realtimeSinceStartup;
-
-	//		float time = endT - startT;
-
-	//		Debug.Log("길을 " + testValue + "번 찾는 동안 걸린 시간: " + time);
-	//	}
-	//}
-	private void Test(bool showPath)
+	private void OnValidate()
 	{
-		//List<Vector2Int> path = m_PathFinder.FindPath(M_Grid.m_Start, M_Grid.m_End, 1, 1, 6);
-
-		//if (showPath == false)
-		//	return;
-
-		//Vector3 offset = Vector3.one * 0.5f;
-
-		//if (path != null)
-		//{
-		//	for (int i = 0; i < path.Count - 1; ++i)
-		//	{
-		//		Vector3 start = new Vector3(path[i].x, path[i].y);
-		//		Vector3 end = new Vector3(path[i + 1].x, path[i + 1].y);
-
-		//		Debug.DrawLine(start + offset, end + offset, Color.white, pathShowTime);
-
-		//		DrawRect(start + offset, offset, Color.white, pathShowTime);
-		//		var text = UtilClass.CreateWorldText(path.Count - i, transform, start + offset, 0.1f, 40, Color.white, TextAnchor.MiddleCenter);
-		//		GameObject.Destroy(text.gameObject, pathShowTime);
-
-		//		if (i == path.Count - 2)
-		//		{
-		//			DrawRect(end + offset, offset, Color.white, pathShowTime);
-
-		//			text = UtilClass.CreateWorldText(1, transform, end + offset, 0.1f, 40, Color.white, TextAnchor.MiddleCenter);
-		//			GameObject.Destroy(text.gameObject, pathShowTime);
-		//		}
-		//	}
-		//}
+		m_TileParent.gameObject.SetActive(m_ShowTile);
 	}
 }

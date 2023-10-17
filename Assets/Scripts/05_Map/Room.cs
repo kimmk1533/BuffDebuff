@@ -13,7 +13,7 @@ public class Room : MonoBehaviour
 		// 벽
 		TileMap,
 		// 점프 가능한 벽
-		ThroughMap,
+		OneWayMap,
 		// 앞 배경 (장식 등등)
 		Environment,
 

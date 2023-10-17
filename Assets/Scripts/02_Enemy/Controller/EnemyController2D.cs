@@ -5,14 +5,14 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class EnemyController2D : Controller2D
 {
-	Vector2 m_EnemyInput;
-	Collider2D m_FallingThroughPlatform;
+	bool[] m_EnemyInput;
+	Collider2D m_FallingOneWayPlatform;
 
 	public new void Move(Vector2 moveAmount, bool standingOnPlatform = false)
 	{
-		Move(moveAmount, Vector2.zero, standingOnPlatform);
+		Move(moveAmount, null, standingOnPlatform);
 	}
-	public void Move(Vector2 moveAmount, Vector2 input, bool standingOnPlatform = false)
+	public void Move(Vector2 moveAmount, bool[] input, bool standingOnPlatform = false)
 	{
 		UpdateRaycastOrigins();
 
@@ -61,21 +61,26 @@ public class EnemyController2D : Controller2D
 
 			if (hit)
 			{
-				if (hit.collider.CompareTag("Through"))
+				if (hit.collider.CompareTag("OneWay"))
 				{
 					grounded = false;
 					throughFlag = true;
+					if (directionY == -1)
+					{
+						m_Collisions.isOnOneWayPlatform = true;
+					}
 					if (directionY == 1 || hit.distance == 0)
 					{
 						continue;
 					}
-					if (hit.collider == m_FallingThroughPlatform)
+					if (hit.collider == m_FallingOneWayPlatform)
 					{
 						continue;
 					}
-					if (Mathf.Abs(m_EnemyInput.x) <= 0.1f && m_EnemyInput.y < -0.1f)
+					if (m_EnemyInput != null
+						&& m_EnemyInput[(int)EnemyCharacter.E_KeyInput.Down] == true)
 					{
-						m_FallingThroughPlatform = hit.collider;
+						m_FallingOneWayPlatform = hit.collider;
 						continue;
 					}
 				}
@@ -102,7 +107,7 @@ public class EnemyController2D : Controller2D
 
 		if (!throughFlag)
 		{
-			m_FallingThroughPlatform = null;
+			m_FallingOneWayPlatform = null;
 		}
 
 		if (m_Collisions.climbingSlope)

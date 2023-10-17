@@ -1,19 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, EnemyAnimator>
 {
+	const float cBotMaxPositionError = 0.0625f; // 1 ÷ 16(pixels per unit)
+
+	#region Enum
+	public enum E_EnemyState
+	{
+		Idle,
+		Chase,
+		Attack,
+
+		Max
+	}
+	public enum E_KeyInput
+	{
+		None = -1,
+
+		Left,
+		Right,
+		Down,
+		Up,
+
+		Max
+	}
+	#endregion
+
+	protected E_EnemyState m_State;
+
 	[SerializeField, ChildComponent("TargetFinder")]
 	protected EnemyTargetFinder m_TargetFinder;
-	protected Vector2 m_TargetPos;
+	protected Vector2Int m_TargetPos;
+
+	protected bool[] m_Inputs;
+	protected bool[] m_PrevInputs;
 
 	protected List<Vector2Int> m_PathFinding_Path;
 	protected int m_PathFinding_NodeIndex;
 
-	protected bool m_Jumping;
-	protected Vector2Int? m_JumpEndPos = null;
+	protected float m_JumpHeight;
 
 	[SerializeField]
 	protected int m_MoveDir;
@@ -24,24 +51,32 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	protected UtilClass.Timer m_PathFinding_ReSearchTimer;
 
 	public GameObject target => m_TargetFinder.target;
-	protected Vector3 targetPos => (target == null) ? throw new System.Exception() : target.transform.position;
-	protected float distanceToTarget => (target == null) ? 0f : Vector2.Distance(transform.position, target.transform.position);
+	protected Vector3 targetPos => (target == null) ? throw new System.Exception("targetPos: target is null.") : target.transform.position;
+	protected float distanceToTarget => (target == null) ? throw new System.Exception("distanceToTarget: target is null.") : Vector2.Distance(transform.position, target.transform.position);
+
 	protected int moveDir
 	{
-		get { return m_MoveDir; }
+		get => m_MoveDir;
 		set
 		{
-			m_MoveDir = value;
+			m_MoveDir = System.Math.Sign(value);
 
-			if (value != 0)
-				transform.localScale = new Vector3(value, 1.0f, 1.0f);
+			if (m_MoveDir == 0)
+				return;
+
+			Vector3 scale = transform.localScale;
+			scale.x = Mathf.Abs(scale.x) * m_MoveDir;
+			transform.localScale = scale;
 		}
 	}
+	protected Bounds bounds => m_Controller.collider.bounds;
 
 	private GridManager M_Grid => GridManager.Instance;
 
 	protected override void Update()
 	{
+		ResetInput();
+
 		base.Update();
 
 		if (target != null && CanAttack())
@@ -54,7 +89,18 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	{
 		base.Initialize();
 
+		m_Inputs = new bool[(int)E_KeyInput.Max];
+		m_PrevInputs = new bool[(int)E_KeyInput.Max];
+
 		m_TargetFinder.Initialize();
+		m_TargetFinder.onTargetEnter += () =>
+		{
+			SetState(E_EnemyState.Chase);
+		};
+		m_TargetFinder.onTargetLost += () =>
+		{
+			SetState(E_EnemyState.Idle);
+		};
 
 		m_PathFinding_Path = null;
 		m_PathFinding_NodeIndex = -1;
@@ -71,19 +117,29 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		m_HealTimer = new UtilClass.Timer(m_CurrentStat.HpRegenTime);
 		m_AttackTimer = new UtilClass.Timer(1f / m_CurrentStat.AttackSpeed, true);
 	}
+	private void ResetInput()
+	{
+		for (int i = 0; i < (int)E_KeyInput.Max; ++i)
+		{
+			m_PrevInputs[i] = m_Inputs[i];
+			m_Inputs[i] = false;
+		}
+	}
+
+	public void SetState(E_EnemyState state)
+	{
+		m_State = state;
+	}
 
 	#region 이동
 	// 이동
 	protected override void Move()
 	{
-		// 이동 방향
-		Vector2 dir = Vector2.zero;
-
 		// 속도 계산
 		CalculateVelocity();
 
 		// 이동
-		m_Controller.Move(m_Velocity * Time.deltaTime, dir);
+		m_Controller.Move(m_Velocity * Time.deltaTime, m_Inputs);
 
 		if (m_Controller.collisions.above || m_Controller.collisions.below)
 		{
@@ -93,31 +149,28 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	// 속도 계산
 	protected override void CalculateVelocity()
 	{
-		// 목표가 없을 때
-		if (target == null)
+		switch (m_State)
 		{
-			// 랜덤 움직임
-			CalculateVelocity_Random();
-		}
-		// 목표가 있을 때
-		else
-		{
-			// 목표로 향하는 움직임
-			CalculateVelocity_ToTarget();
+			// 목표가 없을 때
+			case E_EnemyState.Idle:
+				// 랜덤 움직임
+				CalculateVelocity_Random();
+				break;
+			// 목표가 있을 때
+			case E_EnemyState.Chase:
+				// 목표로 향하는 움직임
+				CalculateVelocity_ToTarget();
+				break;
 		}
 
 		m_Velocity.x = moveDir * m_CurrentStat.MoveSpeed;
+		// 중력 추가
 		m_Velocity.y += m_Controller.gravity * Time.deltaTime;
 	}
 
-	#region 랜덤 움직임
 	// 랜덤 움직임
 	private void CalculateVelocity_Random()
 	{
-		// 목표가 존재하는 경우 랜덤하게 움직이면 안됨. 예외처리
-		if (target != null)
-			return;
-
 		// 타이머 작동
 		m_MoveDirTimer.Update();
 
@@ -131,48 +184,47 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		// 랜덤 방향 움직임
 		moveDir = Random.Range(-1, 2);
 	}
-	#endregion
-	#region 목표로 향하는 움직임
 	private void CalculateVelocity_ToTarget()
 	{
-		if (distanceToTarget <= m_CurrentStat.AttackRange)
-		{
-			moveDir = 0;
-			return;
-		}
+		moveDir = 0;
 
-		Vector2Int pos = new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y));
-		Vector2Int end = new Vector2Int(Mathf.FloorToInt(targetPos.x), Mathf.FloorToInt(targetPos.y));
+		// 콜라이더 좌하단의 칸 중앙 위치
+		Vector2Int start = new Vector2Int((int)(bounds.center.x - bounds.extents.x + 0.5f), (int)(bounds.center.y - bounds.extents.y + 0.5f));
+		Vector2Int end = new Vector2Int(Mathf.FloorToInt(targetPos.x + 0.5f), Mathf.FloorToInt(targetPos.y + 0.5f));
 
-		Vector2Int start_tempUp = pos + Vector2Int.up;
+		Vector2Int start_tempUp = start + Vector2Int.up;
 		Vector2Int end_tempUp = end + Vector2Int.up;
 
 		m_PathFinding_ReSearchTimer.Update();
 
 		if (m_PathFinding_Path == null
-			|| m_PathFinding_Path.Count <= 0
-			|| m_TargetPos != end
+			|| m_PathFinding_Path.Count <= 1
+			|| m_PathFinding_Path.Contains(m_TargetPos) == false
 			|| m_PathFinding_ReSearchTimer.TimeCheck() == true)
 		{
-			m_TargetPos = end;
-
 			PathFinding_FindPath(start_tempUp, end_tempUp);
 		}
 
 		if (m_PathFinding_Path == null
-			|| m_PathFinding_Path.Count <= 1
-			|| m_PathFinding_NodeIndex < 0)
+			|| m_PathFinding_Path.Count <= 1)
 			return;
 
-		Vector2 prevDest, curDest, nextDest;
+		Vector2 pathPosition;
+		Vector2 prevDest, currentDest, nextDest;
 		bool reachedX, reachedY, destOnGround;
 
-		PathFinding_GetContext(out prevDest, out curDest, out nextDest, out destOnGround, out reachedX, out reachedY);
+		PathFinding_GetContext(out pathPosition, out prevDest, out currentDest, out nextDest, out destOnGround, out reachedX, out reachedY);
 
-		Vector2 dir = curDest - prevDest;
+		PathFinding_MoveX(ref pathPosition, ref prevDest, ref currentDest, ref nextDest, ref destOnGround, ref reachedX, ref reachedY);
+		PathFinding_MoveY(ref pathPosition, ref prevDest, ref currentDest, ref nextDest, ref destOnGround, ref reachedX, ref reachedY);
 
-		moveDir = System.MathF.Sign(dir.x);
+		PathFinding_NextPath(ref reachedX, ref reachedY);
 	}
+	/// <summary>
+	/// 패스파인딩 하는 함수
+	/// </summary>
+	/// <param name="start">출발점</param>
+	/// <param name="end">도착점</param>
 	private void PathFinding_FindPath(Vector2Int start, Vector2Int end)
 	{
 		// 땅에 붙어 있는지 확인
@@ -184,47 +236,208 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		Bounds bounds = m_Controller.collider.bounds;
 
 		m_PathFinding_Path = M_Grid.FindPath(start, end, Mathf.CeilToInt(bounds.size.x), Mathf.CeilToInt(bounds.size.y), (short)m_Controller.maxJumpHeight);
+
+		if (m_PathFinding_Path == null
+			|| m_PathFinding_Path.Count <= 1)
+			return;
+
+		for (int i = 0; i < m_PathFinding_Path.Count; ++i)
+		{
+			// 임시
+			m_PathFinding_Path[i] = m_PathFinding_Path[i] + Vector2Int.down;
+		}
+
 		m_PathFinding_NodeIndex = 1;
+		m_TargetPos = m_PathFinding_Path[m_PathFinding_NodeIndex];
+
+		// 점프 높이 계산
+		m_JumpHeight = PathFinding_GetJumpHeight(m_PathFinding_NodeIndex - 1);
+		Debug.Log(m_JumpHeight);
+
+		#region Debug_Text
+		for (int i = 0; i < textObjectList.Count; ++i)
+		{
+			GameObject.Destroy(textObjectList[i].gameObject);
+		}
+		textObjectList.Clear();
+
+		Vector3 offset = Vector3.one * 0.5f;
+		for (int i = 0; i < m_PathFinding_Path.Count; ++i)
+		{
+			Vector3 textPos = (Vector2)m_PathFinding_Path[i];
+			var text = UtilClass.CreateWorldText(i + 1, null, textPos + offset, 0.1f, 40, textColor, TextAnchor.MiddleCenter);
+
+			textObjectList.Add(text);
+		}
+		#endregion
 	}
-	private void PathFinding_GetContext(out Vector2 prevDest, out Vector2 currentDest, out Vector2 nextDest, out bool destOnGround, out bool reachedX, out bool reachedY)
+	/// <summary>
+	/// 목적지 관련 변수들 값 받아오는 함수
+	/// </summary>
+	/// <param name="pathPosition">현재 길 위 위치</param>
+	/// <param name="prevDest">이전 목적지</param>
+	/// <param name="currentDest">현재 목적지</param>
+	/// <param name="nextDest">다음 목적지</param>
+	/// <param name="destOnGround">목적지가 지상에 있는지</param>
+	/// <param name="reachedX">x축 도달 여부</param>
+	/// <param name="reachedY">y축 도달 여부</param>
+	private void PathFinding_GetContext(out Vector2 pathPosition, out Vector2 prevDest, out Vector2 currentDest, out Vector2 nextDest, out bool destOnGround, out bool reachedX, out bool reachedY)
 	{
 		// 목적지 (이전, 현재, 다음)
-		prevDest = m_PathFinding_Path[m_PathFinding_NodeIndex - 1] + Vector2.down;
-		currentDest = m_PathFinding_Path[m_PathFinding_NodeIndex] + Vector2Int.down;
+		prevDest = m_PathFinding_Path[m_PathFinding_NodeIndex - 1];
+		currentDest = m_PathFinding_Path[m_PathFinding_NodeIndex];
 		if (m_PathFinding_Path.Count > m_PathFinding_NodeIndex + 1)
-			nextDest = m_PathFinding_Path[m_PathFinding_NodeIndex + 1] + Vector2Int.down;
+			nextDest = m_PathFinding_Path[m_PathFinding_NodeIndex + 1];
 		else
 			nextDest = currentDest;
 
-		Bounds bounds = m_Controller.collider.bounds;
-
 		// 목적지 (지상 여부)
 		destOnGround = false;
-		for (int x = m_PathFinding_Path[m_PathFinding_NodeIndex].x; x < m_PathFinding_Path[m_PathFinding_NodeIndex].x + Mathf.CeilToInt(bounds.size.x); ++x)
+		for (int x = (int)currentDest.x; x < (int)currentDest.x + Mathf.CeilToInt(bounds.size.x); ++x)
 		{
-			if (M_Grid.map.IsGround(x, m_PathFinding_Path[m_PathFinding_NodeIndex].y - 1))
+			if (M_Grid.map.IsGround(x, (int)currentDest.y /*- 1*/))
 			{
 				destOnGround = true;
 				break;
 			}
 		}
 
-		Vector2 pathPosition = bounds.center - bounds.extents;
+		Vector2 offset = Vector2.one * 0.5f /* * Map.c_tileSize*/;
 
-		reachedX = (prevDest.x <= currentDest.x && currentDest.x <= pathPosition.x)
-			|| (prevDest.x >= currentDest.x && currentDest.x >= pathPosition.x);
+		// 콜라이더 좌하단의 칸 중앙 위치
+		//Vector2Int tempPos = new Vector2Int((int)(bounds.center.x - bounds.extents.x), (int)(bounds.center.y - bounds.extents.y));
+		Vector2 tempPos = transform.position;
+		pathPosition = tempPos + Vector2.up * 0.5f;
 
-		// 스냅 부분 스킵
+		// offset 적용
+		prevDest += offset;
+		currentDest += offset;
+		nextDest += offset;
 
-		reachedY = (prevDest.y <= currentDest.y && currentDest.y <= pathPosition.y)
-			|| (prevDest.y >= currentDest.y && currentDest.y >= pathPosition.y)
-			|| (Mathf.Abs(pathPosition.y - currentDest.y) <= 1);
+		// X 도착 확인
+		reachedX = (prevDest.x < currentDest.x && currentDest.x < pathPosition.x)
+			|| (prevDest.x > currentDest.x && currentDest.x > pathPosition.x)
+			|| Mathf.Abs(pathPosition.x - currentDest.x) <= cBotMaxPositionError;
+
+		// Y 도착 확인
+		reachedY = (prevDest.y < currentDest.y && currentDest.y < pathPosition.y)
+			|| (prevDest.y > currentDest.y && currentDest.y > pathPosition.y)
+			|| (Mathf.Abs(pathPosition.y - currentDest.y) <= cBotMaxPositionError);
+
+		if (destOnGround == true && m_Controller.collisions.grounded == false)
+			reachedY = false;
 	}
-	private void PathFinding_NextPath(bool reachedX, bool reachedY)
+	/// <summary>
+	/// X축 움직임 함수
+	/// </summary>
+	/// <param name="pathPosition">현재 길 위 위치</param>
+	/// <param name="prevDest">이전 목적지</param>
+	/// <param name="currentDest">현재 목적지</param>
+	/// <param name="nextDest">다음 목적지</param>
+	/// <param name="destOnGround">목적지가 지상에 있는지</param>
+	/// <param name="reachedX">x축 도달 여부</param>
+	private void PathFinding_MoveX(ref Vector2 pathPosition, ref Vector2 prevDest, ref Vector2 currentDest, ref Vector2 nextDest, ref bool destOnGround, ref bool reachedX, ref bool reachedY)
 	{
+		// 스냅
+		if (reachedX
+			&& Mathf.Abs(pathPosition.x - currentDest.x) > cBotMaxPositionError
+			&& Mathf.Abs(pathPosition.x - currentDest.x) < cBotMaxPositionError * 3.0f
+			&& m_PrevInputs[(int)E_KeyInput.Left] == false
+			&& m_PrevInputs[(int)E_KeyInput.Right] == false)
+		{
+			pathPosition.x = currentDest.x;
+			Vector3 pos = transform.position;
+			pos.x = pathPosition.x;
+			transform.position = pos;
+
+			moveDir = 0;
+		}
+
 		if (reachedX == false)
-			return;
-		if (reachedY == false)
+		{
+			if (currentDest.x - pathPosition.x > cBotMaxPositionError)
+			{
+				m_Inputs[(int)E_KeyInput.Right] = true;
+
+				moveDir = 1;
+			}
+			else if (pathPosition.x - currentDest.x > cBotMaxPositionError)
+			{
+				m_Inputs[(int)E_KeyInput.Left] = true;
+
+				moveDir = -1;
+			}
+		}
+	}
+	/// <summary>
+	/// Y축 움직임 함수
+	/// </summary>
+	/// <param name="pathPosition">현재 길 위 위치</param>
+	/// <param name="prevDest">이전 목적지</param>
+	/// <param name="currentDest">현재 목적지</param>
+	/// <param name="nextDest">다음 목적지</param>
+	/// <param name="destOnGround">목적지가 지상에 있는지</param>
+	/// <param name="reachedY">y축 도달 여부</param>
+	private void PathFinding_MoveY(ref Vector2 pathPosition, ref Vector2 prevDest, ref Vector2 currentDest, ref Vector2 nextDest, ref bool destOnGround, ref bool reachedX, ref bool reachedY)
+	{
+		if (pathPosition.y - currentDest.y > cBotMaxPositionError
+			&& m_Controller.collisions.isOnOneWayPlatform == true)
+			m_Inputs[(int)E_KeyInput.Down] = true;
+
+		if (m_JumpHeight > 0
+			&& (m_Controller.collisions.grounded == false
+				|| (reachedX == true && destOnGround == false)
+				|| (m_Controller.collisions.grounded == true && destOnGround == true))) // 1칸 짜리 점프
+			m_Inputs[(int)E_KeyInput.Up] = true;
+
+		if (m_Inputs[(int)E_KeyInput.Up] == true
+			&& m_Controller.collisions.grounded == true
+			&& m_JumpHeight > 0)
+		{
+			float g = Mathf.Abs(m_Controller.gravity);
+			float Vy = Mathf.Sqrt(2 * g * m_JumpHeight);
+			m_Velocity.y = Vy;
+		}
+	}
+	/// <summary>
+	/// Y축으로 움직일 때 얼마나 높게 점프해야하는지 계산하는 함수
+	/// </summary>
+	/// <param name="prevDest"></param>
+	/// <param name="currentDest"></param>
+	private int PathFinding_GetJumpHeight(int prevNodeId)
+	{
+		int currentNodeId = prevNodeId + 1;
+
+		Vector2Int currentNode = m_PathFinding_Path[currentNodeId];
+		Vector2Int prevNode = m_PathFinding_Path[prevNodeId];
+
+		if (currentNode.y <= prevNode.y
+			|| m_Controller.collisions.grounded == false)
+			return 0;
+
+		int jumpHeight = 1;
+		for (int i = currentNodeId; i < m_PathFinding_Path.Count; ++i)
+		{
+			int dy = m_PathFinding_Path[i].y - m_PathFinding_Path[prevNodeId].y;
+			if (dy >= jumpHeight)
+				jumpHeight = dy;
+
+			if (dy < jumpHeight || M_Grid.map.IsGround(m_PathFinding_Path[i].x, m_PathFinding_Path[i].y /*- 1*/) == true)
+				break;
+		}
+
+		if (jumpHeight + 2 > m_Controller.maxJumpHeight)
+			Debug.LogError("JumpHeight: " + (jumpHeight + 2));
+
+		return Mathf.Clamp(jumpHeight + 2, 1, (int)m_Controller.maxJumpHeight);
+	}
+	/// <summary>
+	/// 현재 목적지에 도착해서 목적지를 다음 목적지로 바꾸는 함수
+	/// </summary>
+	private void PathFinding_NextPath(ref bool reachedX, ref bool reachedY)
+	{
+		if (reachedX == false
+			|| reachedY == false)
 			return;
 
 		// 현재 목적지 도달. 다음 목적지로 인덱스 변경
@@ -236,254 +449,21 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			m_PathFinding_Path.Clear();
 			m_PathFinding_Path = null;
 			m_PathFinding_NodeIndex = -1;
+			return;
 		}
+
+		// 현재 목적지 위치 저장
+		m_TargetPos = m_PathFinding_Path[m_PathFinding_NodeIndex];
+
+		// 점프 높이 계산
+		m_JumpHeight = PathFinding_GetJumpHeight(m_PathFinding_NodeIndex - 1);
 	}
-	//// 목표로 향하는 움직임
-	//private void CalculateVelocity_ToTarget(ref Vector2 dir)
-	//{
-	//	#region 변수 생성
-	//	// 현재 타일 맨 위 칸과 겹치는 상황이므로 임시로 검색할 땐 한 칸 위로 검색함(임시)
-	//	// 현재 위치
-	//	Vector3 pos = transform.position + Vector3.up * (1f + float.Epsilon);
-	//	// 목표 위치
-	//	Vector3 targetPos = target.transform.position + Vector3.up * (1f + float.Epsilon);
-	//	// 현재 위치 정수 버전
-	//	Vector2Int posInt = new Vector2Int((int)pos.x, (int)pos.y);
-	//	// 목표 위치 정수 버전
-	//	Vector2Int targetPosInt = new Vector2Int((int)targetPos.x, (int)targetPos.y);
-	//	#endregion
 
-	//	// 경로 검색
-	//	FindPathToTarget(ref pos, ref targetPos, ref posInt, ref targetPosInt);
-
-	//	// 현재 타일 맨 위 칸과 겹치는 상황이므로 임시로 검색할 땐 한 칸 위로 검색함(임시)
-	//	// 한 칸 위로 설정한 것 다시 빼줌
-	//	pos -= Vector3.up;
-	//	posInt -= Vector2Int.up;
-
-	//	// 경로가 없는 경우
-	//	if (m_RoadToTarget == null)
-	//	{
-	//		// x 방향 움직임 봉인
-	//		moveDir = 0;
-	//		// 종료
-	//		return;
-	//	}
-
-	//	// 다음 경로로의 방향 계산
-	//	dir = new Vector3(m_RoadToTarget.x + 0.5f, m_RoadToTarget.y) - pos;
-
-	//	// x 방향 움직임
-	//	moveDir = System.MathF.Sign(dir.x);
-
-	//	// 착지1
-	//	// 땅에 닿은 경우
-	//	if (m_Controller.collisions.grounded)
-	//	{
-	//		// 점프 중 아님 설정
-	//		m_Jumping = false;
-	//	}
-
-	//	// 착지 조건2
-	//	if (m_Jumping &&                        // 점프 중인 경우
-	//		m_JumpEndPos.HasValue == true)      // 착지 지점이 있는 경우
-	//	{
-	//		Vector2 jumpEndPos = m_JumpEndPos.Value + Vector2.right * 0.5f - (Vector2)pos;
-	//		Vector2Int dirInt = m_JumpEndPos.Value - posInt;
-
-	//		// 착지 지점과 같은 칸에 도달한 경우
-	//		if (dirInt == Vector2Int.zero &&
-	//			Mathf.Abs(jumpEndPos.x) <= 0.15f)
-	//		{
-	//			// x 방향 움직임 봉인
-	//			moveDir = 0;
-
-	//			// 착지
-	//			// 땅에 닿은 경우
-	//			if (m_Controller.collisions.grounded)
-	//			{
-	//				// 착지 지점 날리고
-	//				m_JumpEndPos = null;
-
-	//				// 점프 중 아님 설정
-	//				m_Jumping = false;
-	//			}
-
-	//			if (jumpEndPos.y < -0.15f)
-	//				return;
-	//		}
-	//	}
-
-	//	// 점프
-	//	Jump(ref dir, ref pos);
-
-	//	// 다음 경로 찾는 조건
-	//	if (Mathf.Abs(dir.x) <= 0.1f &&     // x 좌표가 충분히 가까워졌고
-	//		(Mathf.Abs(dir.y) <= 0.1f ||    // y 좌표가 충분히 가까워졌거나
-	//		(m_Jumping && dir.y <= 0f)))    // 점프중이고 y 좌표가 아래에 있으면
-	//	{
-	//		m_PathFindTimer.Use();
-
-	//		m_RoadToTarget = m_RoadToTarget.parent as CustomNode;
-	//	}
-	//}
-
-	//// 경로 찾기
-	//private void FindPathToTarget(ref Vector3 pos, ref Vector3 targetPos, ref Vector2Int posInt, ref Vector2Int targetPosInt)
-	//{
-	//	m_PathFindTimer.Update();
-
-	//	#region 새로운 경로 찾는 조건 확인(예외 처리)
-	//	// 땅에 붙어 있는지 확인
-	//	if (m_Controller.collisions.grounded == false)
-	//		return;
-
-	//	if (!(m_RoadToTarget == null || // 경로가 아직 존재하는지 확인
-	//			Vector2Int.Distance(posInt, m_RoadToTarget.position) > 3f || // 찾은 경로와 너무 멀어지면 다시 찾는 임시 조건
-	//			m_TargetPos != targetPosInt || // 목표가 움직였는지 확인
-	//			m_PathFindTimer.timeIsUp == true)) // 정해진 시간이 지났는지 확인
-	//		return;
-	//	#endregion
-
-	//	m_PathFindTimer.Clear();
-
-	//	// 목표 위치 업데이트
-	//	m_TargetPos = targetPosInt;
-
-	//	// 경로 검색
-	//	m_RoadToTarget = M_Grid.PathFinding(pos, targetPos, (int)m_Controller.maxJumpHeight);
-
-	//	// 착지 지점 날리고
-	//	m_JumpEndPos = null;
-	//	// 점프 중 아님 설정
-	//	m_Jumping = false;
-
-	//	// 경로에 시작점(현재 위치)가 포함되어 시작점 다음 위치부터 검색하도록 수정
-	//	if (m_RoadToTarget != null)
-	//		m_RoadToTarget = m_RoadToTarget.parent as CustomNode;
-	//}
-	//// 점프
-	//private void Jump(ref Vector2 dir, ref Vector3 pos)
-	//{
-	//	#region 점프 조건 확인(예외 처리)
-	//	// 공중에 떠 있는 경우
-	//	if (m_Controller.collisions.isair == true)
-	//		return;
-	//	// 이미 점프 중인 경우
-	//	if (m_Jumping == true)
-	//		return;
-	//	#endregion
-
-	//	// 위로 점프 조건
-	//	// 방향이 위를 향하고 있으면
-	//	if (dir.y > 0f)
-	//	{
-	//		// 위로 점프
-	//		JumpToUp(ref pos);
-	//	}
-	//	// 아래로 점프 조건
-	//	// 방향이 아래를 향하고 있으면
-	//	else if (dir.y < 0f)
-	//	{
-	//		// 아래로 점프
-	//		JumpToDown();
-	//	}
-	//}
-	//// 위로 점프
-	//private void JumpToUp(ref Vector3 pos)
-	//{
-	//	CustomNode jumpNode = m_RoadToTarget;
-
-	//	if (jumpNode == null)
-	//		return;
-
-	//	if (jumpNode.jumpStartPos.HasValue == false)
-	//	{
-	//		m_Velocity.y = m_Controller.minJumpVelocity;
-	//		//Debug.Log("위로 점프 시작 좌표 없음");
-	//		return;
-	//	}
-
-	//	// 좌우 이동을 못하면 점프도 못함
-	//	if (m_CurrentStat.MoveSpeed == 0f)
-	//		return;
-
-	//	Vector2Int jumpStartPos = jumpNode.jumpStartPos.Value;
-
-	//	while (jumpNode != null)
-	//	{
-	//		if (jumpNode.jumpStartPos.HasValue == false)
-	//			break;
-
-	//		if (jumpStartPos != jumpNode.jumpStartPos)
-	//			break;
-
-	//		CustomNode jumpParent = jumpNode.parent as CustomNode;
-
-	//		if (jumpParent == null)
-	//			break;
-
-	//		jumpNode = jumpParent;
-	//	}
-
-	//	m_JumpEndPos = jumpNode.position;
-
-	//	{
-	//		// 최고점 (높이 차 + 1)
-	//		float height = jumpNode.y - (int)pos.y + 1;
-	//		// 중력 가속도
-	//		float g = Mathf.Abs(m_Controller.gravity);
-	//		// x축 전체 거리
-	//		float distanceX = jumpNode.x - pos.x;
-
-	//		// 가장 적절한 점프 높이 찾기
-	//		while (height <= m_Controller.maxJumpHeight)
-	//		{
-	//			// 최고점 x 위치
-	//			float Cx = pos.x + m_CurrentStat.MoveSpeed * distanceX * Mathf.Sqrt(2 * height / g) / Mathf.Abs(distanceX);
-	//			// 최고점 y 위치
-	//			float Cy = pos.y + height;
-
-	//			// 이동할 x 거리
-	//			float moveX = Mathf.Abs(Cx - jumpNode.x);
-	//			// 이동할 y 거리
-	//			float moveY = Mathf.Abs(Cy - jumpNode.y);
-
-	//			// 최고점에서 목표지점까지 x축 이동 시간
-	//			float xTime = moveX / m_CurrentStat.MoveSpeed;
-	//			// 최고점에서 목표지점까지 y축 이동 시간
-	//			float yTime = moveY / height;
-
-	//			// y축 이동 시간이 x축 이동 시간보다 길다면
-	//			// 시간 안에 목표 점에 도달하지 못한 것이므로
-	//			// 현재가 최적의 점프 높이
-	//			if (yTime > xTime)
-	//				break;
-
-	//			++height;
-	//		}
-
-	//		Debug.Log("점프 높이: " + height);
-	//		height = Mathf.Clamp(height, 0f, m_Controller.maxJumpHeight);
-	//		float Vy = Mathf.Sqrt(2 * g * height);
-
-	//		m_Velocity.y = Vy;
-	//	}
-
-	//	//m_Velocity.y = m_Controller.maxJumpVelocity;
-
-	//	m_Jumping = true;
-	//}
-	//// 아래로 점프
-	//private void JumpToDown()
-	//{
-
-	//}
-	#endregion
 	#endregion
 
 	public bool showPath = true;
-	public float pathShowTime = 1f;
+	public Color textColor = Color.white;
+	public List<TextMesh> textObjectList = new List<TextMesh>();
 	private void OnDrawGizmos()
 	{
 		if (m_PathFinding_Path == null)
@@ -496,24 +476,261 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 		var path = m_PathFinding_Path;
 
-		for (int i = 0; i < path.Count - 1; ++i)
+		for (int i = 1; i < path.Count; ++i)
 		{
-			Vector3 start = new Vector3(path[i].x, path[i].y);
-			Vector3 end = new Vector3(path[i + 1].x, path[i + 1].y);
+			Vector3 start = new Vector3(path[i - 1].x, path[i - 1].y);
+			Vector3 end = new Vector3(path[i].x, path[i].y);
 
-			Debug.DrawLine(start + offset, end + offset, Color.white, pathShowTime);
+			Debug.DrawLine(start + offset, end + offset, textColor);
 
-			MyDebug.DrawRect(start + offset, offset, Color.white, pathShowTime);
-			var text = UtilClass.CreateWorldText(i + 1, null, start + offset, 0.1f, 40, Color.white, TextAnchor.MiddleCenter);
-			GameObject.Destroy(text.gameObject, pathShowTime);
+			MyDebug.DrawRect(start + offset, offset, textColor);
 
-			if (i == path.Count - 2)
+			if (i == path.Count - 1)
 			{
-				MyDebug.DrawRect(end + offset, offset, Color.white, pathShowTime);
-
-				text = UtilClass.CreateWorldText(path.Count, null, end + offset, 0.1f, 40, Color.white, TextAnchor.MiddleCenter);
-				GameObject.Destroy(text.gameObject, pathShowTime);
+				MyDebug.DrawRect(end + offset, offset, textColor);
 			}
 		}
 	}
 }
+
+//// 목표로 향하는 움직임
+//private void CalculateVelocity_ToTarget(ref Vector2 dir)
+//{
+//	#region 변수 생성
+//	// 현재 타일 맨 위 칸과 겹치는 상황이므로 임시로 검색할 땐 한 칸 위로 검색함(임시)
+//	// 현재 위치
+//	Vector3 pos = transform.position + Vector3.up * (1f + float.Epsilon);
+//	// 목표 위치
+//	Vector3 targetPos = target.transform.position + Vector3.up * (1f + float.Epsilon);
+//	// 현재 위치 정수 버전
+//	Vector2Int posInt = new Vector2Int((int)pos.x, (int)pos.y);
+//	// 목표 위치 정수 버전
+//	Vector2Int targetPosInt = new Vector2Int((int)targetPos.x, (int)targetPos.y);
+//	#endregion
+
+//	// 경로 검색
+//	FindPathToTarget(ref pos, ref targetPos, ref posInt, ref targetPosInt);
+
+//	// 현재 타일 맨 위 칸과 겹치는 상황이므로 임시로 검색할 땐 한 칸 위로 검색함(임시)
+//	// 한 칸 위로 설정한 것 다시 빼줌
+//	pos -= Vector3.up;
+//	posInt -= Vector2Int.up;
+
+//	// 경로가 없는 경우
+//	if (m_RoadToTarget == null)
+//	{
+//		// x 방향 움직임 봉인
+//		moveDir = 0;
+//		// 종료
+//		return;
+//	}
+
+//	// 다음 경로로의 방향 계산
+//	dir = new Vector3(m_RoadToTarget.x + 0.5f, m_RoadToTarget.y) - pos;
+
+//	// x 방향 움직임
+//	moveDir = System.MathF.Sign(dir.x);
+
+//	// 착지1
+//	// 땅에 닿은 경우
+//	if (m_Controller.collisions.grounded)
+//	{
+//		// 점프 중 아님 설정
+//		m_Jumping = false;
+//	}
+
+//	// 착지 조건2
+//	if (m_Jumping &&                        // 점프 중인 경우
+//		m_JumpEndPos.HasValue == true)      // 착지 지점이 있는 경우
+//	{
+//		Vector2 jumpEndPos = m_JumpEndPos.Value + Vector2.right * 0.5f - (Vector2)pos;
+//		Vector2Int dirInt = m_JumpEndPos.Value - posInt;
+
+//		// 착지 지점과 같은 칸에 도달한 경우
+//		if (dirInt == Vector2Int.zero &&
+//			Mathf.Abs(jumpEndPos.x) <= 0.15f)
+//		{
+//			// x 방향 움직임 봉인
+//			moveDir = 0;
+
+//			// 착지
+//			// 땅에 닿은 경우
+//			if (m_Controller.collisions.grounded)
+//			{
+//				// 착지 지점 날리고
+//				m_JumpEndPos = null;
+
+//				// 점프 중 아님 설정
+//				m_Jumping = false;
+//			}
+
+//			if (jumpEndPos.y < -0.15f)
+//				return;
+//		}
+//	}
+
+//	// 점프
+//	Jump(ref dir, ref pos);
+
+//	// 다음 경로 찾는 조건
+//	if (Mathf.Abs(dir.x) <= 0.1f &&     // x 좌표가 충분히 가까워졌고
+//		(Mathf.Abs(dir.y) <= 0.1f ||    // y 좌표가 충분히 가까워졌거나
+//		(m_Jumping && dir.y <= 0f)))    // 점프중이고 y 좌표가 아래에 있으면
+//	{
+//		m_PathFindTimer.Use();
+
+//		m_RoadToTarget = m_RoadToTarget.parent as CustomNode;
+//	}
+//}
+
+//// 경로 찾기
+//private void FindPathToTarget(ref Vector3 pos, ref Vector3 targetPos, ref Vector2Int posInt, ref Vector2Int targetPosInt)
+//{
+//	m_PathFindTimer.Update();
+
+//	#region 새로운 경로 찾는 조건 확인(예외 처리)
+//	// 땅에 붙어 있는지 확인
+//	if (m_Controller.collisions.grounded == false)
+//		return;
+
+//	if (!(m_RoadToTarget == null || // 경로가 아직 존재하는지 확인
+//			Vector2Int.Distance(posInt, m_RoadToTarget.position) > 3f || // 찾은 경로와 너무 멀어지면 다시 찾는 임시 조건
+//			m_TargetPos != targetPosInt || // 목표가 움직였는지 확인
+//			m_PathFindTimer.timeIsUp == true)) // 정해진 시간이 지났는지 확인
+//		return;
+//	#endregion
+
+//	m_PathFindTimer.Clear();
+
+//	// 목표 위치 업데이트
+//	m_TargetPos = targetPosInt;
+
+//	// 경로 검색
+//	m_RoadToTarget = M_Grid.PathFinding(pos, targetPos, (int)m_Controller.maxJumpHeight);
+
+//	// 착지 지점 날리고
+//	m_JumpEndPos = null;
+//	// 점프 중 아님 설정
+//	m_Jumping = false;
+
+//	// 경로에 시작점(현재 위치)가 포함되어 시작점 다음 위치부터 검색하도록 수정
+//	if (m_RoadToTarget != null)
+//		m_RoadToTarget = m_RoadToTarget.parent as CustomNode;
+//}
+//// 점프
+//private void Jump(ref Vector2 dir, ref Vector3 pos)
+//{
+//	#region 점프 조건 확인(예외 처리)
+//	// 공중에 떠 있는 경우
+//	if (m_Controller.collisions.isair == true)
+//		return;
+//	// 이미 점프 중인 경우
+//	if (m_Jumping == true)
+//		return;
+//	#endregion
+
+//	// 위로 점프 조건
+//	// 방향이 위를 향하고 있으면
+//	if (dir.y > 0f)
+//	{
+//		// 위로 점프
+//		JumpToUp(ref pos);
+//	}
+//	// 아래로 점프 조건
+//	// 방향이 아래를 향하고 있으면
+//	else if (dir.y < 0f)
+//	{
+//		// 아래로 점프
+//		JumpToDown();
+//	}
+//}
+//// 위로 점프
+//private void JumpToUp(ref Vector3 pos)
+//{
+//	CustomNode jumpNode = m_RoadToTarget;
+
+//	if (jumpNode == null)
+//		return;
+
+//	if (jumpNode.jumpStartPos.HasValue == false)
+//	{
+//		m_Velocity.y = m_Controller.minJumpVelocity;
+//		//Debug.Log("위로 점프 시작 좌표 없음");
+//		return;
+//	}
+
+//	// 좌우 이동을 못하면 점프도 못함
+//	if (m_CurrentStat.MoveSpeed == 0f)
+//		return;
+
+//	Vector2Int jumpStartPos = jumpNode.jumpStartPos.Value;
+
+//	while (jumpNode != null)
+//	{
+//		if (jumpNode.jumpStartPos.HasValue == false)
+//			break;
+
+//		if (jumpStartPos != jumpNode.jumpStartPos)
+//			break;
+
+//		CustomNode jumpParent = jumpNode.parent as CustomNode;
+
+//		if (jumpParent == null)
+//			break;
+
+//		jumpNode = jumpParent;
+//	}
+
+//	m_JumpEndPos = jumpNode.position;
+
+//	{
+//		// 최고점 (높이 차 + 1)
+//		float height = jumpNode.y - (int)pos.y + 1;
+//		// 중력 가속도
+//		float g = Mathf.Abs(m_Controller.gravity);
+//		// x축 전체 거리
+//		float distanceX = jumpNode.x - pos.x;
+
+//		// 가장 적절한 점프 높이 찾기
+//		while (height <= m_Controller.maxJumpHeight)
+//		{
+//			// 최고점 x 위치
+//			float Cx = pos.x + m_CurrentStat.MoveSpeed * distanceX * Mathf.Sqrt(2 * height / g) / Mathf.Abs(distanceX);
+//			// 최고점 y 위치
+//			float Cy = pos.y + height;
+
+//			// 이동할 x 거리
+//			float moveX = Mathf.Abs(Cx - jumpNode.x);
+//			// 이동할 y 거리
+//			float moveY = Mathf.Abs(Cy - jumpNode.y);
+
+//			// 최고점에서 목표지점까지 x축 이동 시간
+//			float xTime = moveX / m_CurrentStat.MoveSpeed;
+//			// 최고점에서 목표지점까지 y축 이동 시간
+//			float yTime = moveY / height;
+
+//			// y축 이동 시간이 x축 이동 시간보다 길다면
+//			// 시간 안에 목표 점에 도달하지 못한 것이므로
+//			// 현재가 최적의 점프 높이
+//			if (yTime > xTime)
+//				break;
+
+//			++height;
+//		}
+
+//		Debug.Log("점프 높이: " + height);
+//		height = Mathf.Clamp(height, 0f, m_Controller.maxJumpHeight);
+//		float Vy = Mathf.Sqrt(2 * g * height);
+
+//		m_Velocity.y = Vy;
+//	}
+
+//	//m_Velocity.y = m_Controller.maxJumpVelocity;
+
+//	m_Jumping = true;
+//}
+//// 아래로 점프
+//private void JumpToDown()
+//{
+
+//}

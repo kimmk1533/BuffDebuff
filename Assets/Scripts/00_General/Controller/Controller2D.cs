@@ -179,27 +179,6 @@ public class Controller2D : RaycastController
 
 			if (hit)
 			{
-				// 아래 점프
-				{
-					//if (hit.collider.CompareTag("Through"))
-					//{
-					//	if (directionY == 1 || hit.distance == 0)
-					//	{
-					//		continue;
-					//	}
-					//	if (hit.collider == m_Collisions.fallingThroughPlatform)
-					//	{
-					//		continue;
-					//	}
-					//}
-					//if (m_PlayerInput.y == -1 && Input.GetKeyDown(KeyCode.Space))
-					//{
-					//	m_Collisions.fallingThroughPlatform = hit.collider;
-					//	Invoke("ResetFallingThroughPlatform", 0.1f);
-					//	continue;
-					//}
-				}
-
 				//moveAmount.y = (hit.distance - skinWidth) * directionY;
 				//rayLength = hit.distance;
 				moveAmount.y = Mathf.Min(Mathf.Abs(moveAmount.y), (hit.distance - skinWidth)) * directionY;
@@ -291,6 +270,8 @@ public class Controller2D : RaycastController
 
 		public bool isair, grounded;
 
+		public bool isOnOneWayPlatform;
+
 		public bool climbingSlope;
 		public bool descendingSlope;
 
@@ -306,10 +287,12 @@ public class Controller2D : RaycastController
 			isair = grounded = false;
 			climbingSlope = false;
 			descendingSlope = false;
-			slopeNormal = Vector2.zero;
+
+			isOnOneWayPlatform = false;
 
 			slopeAngleOld = slopeAngle;
 			slopeAngle = 0;
+			slopeNormal = Vector2.zero;
 		}
 	}
 }

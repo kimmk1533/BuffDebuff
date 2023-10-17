@@ -6,9 +6,9 @@ using UnityEngine.Tilemaps;
 
 public class GridManager : Singleton<GridManager>
 {
-	[SerializeField]
 	private Map m_Map;
 
+	[Space(10)]
 	[SerializeField]
 	private bool m_ShowGrid;
 	[SerializeField]
@@ -16,9 +16,9 @@ public class GridManager : Singleton<GridManager>
 
 	[Space(10)]
 	[SerializeField]
-	private Transform m_GridTextParent;
-	[SerializeField]
 	private bool m_ShowGridText;
+	[SerializeField]
+	private Transform m_GridTextParent;
 	[SerializeField]
 	private Color m_GridTextColor;
 
@@ -32,10 +32,10 @@ public class GridManager : Singleton<GridManager>
 
 	public void Initialize()
 	{
-		m_Tilemap = M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.TileMap);
-
 		m_Map = GetComponent<Map>();
 		m_Map.Initialize();
+
+		m_Tilemap = M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.TileMap);
 	}
 
 	[ContextMenu("Create Grid Text")]
@@ -46,12 +46,12 @@ public class GridManager : Singleton<GridManager>
 		if (m_GridTextParent == null)
 			return;
 
+		DestroyGridText();
+
 		BoundsInt boundsInt = m_Tilemap.cellBounds;
 
 		Vector3Int min = boundsInt.min;
 		Vector3Int max = boundsInt.max;
-
-		DestroyGridText();
 
 		for (int y = min.y; y < max.y; y++)
 		{
@@ -80,5 +80,47 @@ public class GridManager : Singleton<GridManager>
 	public List<Vector2Int> FindPath(Vector2Int start, Vector2Int end, int characterWidth, int characterHeight, short maxCharacterJumpHeight)
 	{
 		return m_Map.FindPath(start, end, characterWidth, characterHeight, maxCharacterJumpHeight);
+	}
+
+	private void OnValidate()
+	{
+		m_GridTextParent.gameObject.SetActive(m_ShowGridText);
+	}
+	private void OnDrawGizmos()
+	{
+		if (m_ShowGrid == false)
+			return;
+
+		if (m_Tilemap == null)
+			return;
+
+		BoundsInt boundsInt = m_Tilemap.cellBounds;
+
+		Vector3 from = new Vector3(), to = new Vector3();
+		Vector3Int min = boundsInt.min;
+		Vector3Int max = boundsInt.max;
+
+		Color color = Gizmos.color;
+
+		Gizmos.color = m_GridColor;
+
+		from.y = min.y;
+		to.y = max.y;
+		for (int x = min.x; x <= max.x; x++)
+		{
+			to.x = from.x = x;
+
+			Gizmos.DrawLine(from, to);
+		}
+		from.x = min.x;
+		to.x = max.x;
+		for (int y = min.y; y <= max.y; y++)
+		{
+			to.y = from.y = y;
+
+			Gizmos.DrawLine(from, to);
+		}
+
+		Gizmos.color = color;
 	}
 }
