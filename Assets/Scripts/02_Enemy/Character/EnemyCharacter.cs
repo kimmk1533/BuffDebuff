@@ -202,7 +202,10 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			|| m_PathFinding_Path.Contains(m_TargetPos) == false
 			|| m_PathFinding_ReSearchTimer.TimeCheck() == true)
 		{
-			PathFinding_FindPath(start_tempUp, end_tempUp);
+			if (M_Grid.map.IsEmpty(end.x, end.y) == false)
+			{
+				PathFinding_FindPath(start_tempUp, end_tempUp);
+			}
 		}
 
 		if (m_PathFinding_Path == null
@@ -215,10 +218,11 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 		PathFinding_GetContext(out pathPosition, out prevDest, out currentDest, out nextDest, out destOnGround, out reachedX, out reachedY);
 
+		if (PathFinding_NextPath(ref reachedX, ref reachedY) == true)
+			return;
+
 		PathFinding_MoveX(ref pathPosition, ref prevDest, ref currentDest, ref nextDest, ref destOnGround, ref reachedX, ref reachedY);
 		PathFinding_MoveY(ref pathPosition, ref prevDest, ref currentDest, ref nextDest, ref destOnGround, ref reachedX, ref reachedY);
-
-		PathFinding_NextPath(ref reachedX, ref reachedY);
 	}
 	/// <summary>
 	/// 패스파인딩 하는 함수
@@ -252,7 +256,6 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 		// 점프 높이 계산
 		m_JumpHeight = PathFinding_GetJumpHeight(m_PathFinding_NodeIndex - 1);
-		Debug.Log(m_JumpHeight);
 
 		#region Debug_Text
 		for (int i = 0; i < textObjectList.Count; ++i)
@@ -324,7 +327,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			|| (prevDest.y > currentDest.y && currentDest.y > pathPosition.y)
 			|| (Mathf.Abs(pathPosition.y - currentDest.y) <= cBotMaxPositionError);
 
-		if (destOnGround == true && m_Controller.collisions.grounded == false)
+		if (destOnGround == true && (m_Controller.collisions.grounded == false && m_Controller.collisions.isOnOneWayPlatform == false))
 			reachedY = false;
 	}
 	/// <summary>
@@ -434,14 +437,19 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	/// <summary>
 	/// 현재 목적지에 도착해서 목적지를 다음 목적지로 바꾸는 함수
 	/// </summary>
-	private void PathFinding_NextPath(ref bool reachedX, ref bool reachedY)
+	/// <param name="reachedX">X축 도착 여부</param>
+	/// <param name="reachedY">Y축 도착 여부</param>
+	/// <returns>다음 목적지로 바꾸었는가?</returns>
+	private bool PathFinding_NextPath(ref bool reachedX, ref bool reachedY)
 	{
 		if (reachedX == false
 			|| reachedY == false)
-			return;
+			return false;
 
 		// 현재 목적지 도달. 다음 목적지로 인덱스 변경
 		++m_PathFinding_NodeIndex;
+
+		Debug.Log(m_PathFinding_NodeIndex);
 
 		// 최종 목적지 도달
 		if (m_PathFinding_NodeIndex >= m_PathFinding_Path.Count)
@@ -449,7 +457,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			m_PathFinding_Path.Clear();
 			m_PathFinding_Path = null;
 			m_PathFinding_NodeIndex = -1;
-			return;
+			return true;
 		}
 
 		// 현재 목적지 위치 저장
@@ -457,6 +465,8 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 		// 점프 높이 계산
 		m_JumpHeight = PathFinding_GetJumpHeight(m_PathFinding_NodeIndex - 1);
+
+		return true;
 	}
 
 	#endregion

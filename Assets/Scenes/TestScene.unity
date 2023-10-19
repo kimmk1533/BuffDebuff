@@ -86332,7 +86332,7 @@ MonoBehaviour:
     <CriticalRate>k__BackingField: 0
     <CriticalDamageScale>k__BackingField: 0
     <Avoidability>k__BackingField: 0
-    <MoveSpeed>k__BackingField: 5
+    <MoveSpeed>k__BackingField: 0
     <Sight>k__BackingField: 0
     <Xp>k__BackingField: 0
     <XpScale>k__BackingField: 0
