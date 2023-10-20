@@ -192,9 +192,6 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		Vector2Int start = new Vector2Int((int)(bounds.center.x - bounds.extents.x + 0.5f), (int)(bounds.center.y - bounds.extents.y + 0.5f));
 		Vector2Int end = new Vector2Int(Mathf.FloorToInt(targetPos.x + 0.5f), Mathf.FloorToInt(targetPos.y + 0.5f));
 
-		Vector2Int start_tempUp = start + Vector2Int.up;
-		Vector2Int end_tempUp = end + Vector2Int.up;
-
 		m_PathFinding_ReSearchTimer.Update();
 
 		if (m_PathFinding_Path == null
@@ -202,9 +199,9 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			|| m_PathFinding_Path.Contains(m_TargetPos) == false
 			|| m_PathFinding_ReSearchTimer.TimeCheck() == true)
 		{
-			if (M_Grid.map.IsEmpty(end.x, end.y) == false)
+			if (M_Grid.map.IsEmpty(end.x, end.y - 1) == false)
 			{
-				PathFinding_FindPath(start_tempUp, end_tempUp);
+				PathFinding_FindPath(start, end);
 			}
 		}
 
@@ -218,11 +215,11 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 		PathFinding_GetContext(out pathPosition, out prevDest, out currentDest, out nextDest, out destOnGround, out reachedX, out reachedY);
 
-		if (PathFinding_NextPath(ref reachedX, ref reachedY) == true)
-			return;
-
 		PathFinding_MoveX(ref pathPosition, ref prevDest, ref currentDest, ref nextDest, ref destOnGround, ref reachedX, ref reachedY);
 		PathFinding_MoveY(ref pathPosition, ref prevDest, ref currentDest, ref nextDest, ref destOnGround, ref reachedX, ref reachedY);
+
+		if (PathFinding_NextPath(ref reachedX, ref reachedY) == true)
+			return;
 	}
 	/// <summary>
 	/// 패스파인딩 하는 함수
@@ -239,17 +236,11 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 		Bounds bounds = m_Controller.collider.bounds;
 
-		m_PathFinding_Path = M_Grid.FindPath(start, end, Mathf.CeilToInt(bounds.size.x), Mathf.CeilToInt(bounds.size.y), (short)m_Controller.maxJumpHeight);
+		m_PathFinding_Path = M_Grid.FindPath(start, end, Mathf.CeilToInt(bounds.size.x), Mathf.CeilToInt(bounds.size.y), (short)(m_Controller.maxJumpHeight - 1));
 
 		if (m_PathFinding_Path == null
 			|| m_PathFinding_Path.Count <= 1)
 			return;
-
-		for (int i = 0; i < m_PathFinding_Path.Count; ++i)
-		{
-			// 임시
-			m_PathFinding_Path[i] = m_PathFinding_Path[i] + Vector2Int.down;
-		}
 
 		m_PathFinding_NodeIndex = 1;
 		m_TargetPos = m_PathFinding_Path[m_PathFinding_NodeIndex];
@@ -298,7 +289,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		destOnGround = false;
 		for (int x = (int)currentDest.x; x < (int)currentDest.x + Mathf.CeilToInt(bounds.size.x); ++x)
 		{
-			if (M_Grid.map.IsGround(x, (int)currentDest.y /*- 1*/))
+			if (M_Grid.map.IsGround(x, (int)currentDest.y - 1))
 			{
 				destOnGround = true;
 				break;
@@ -354,22 +345,28 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			transform.position = pos;
 
 			moveDir = 0;
+			return;
 		}
 
-		if (reachedX == false)
+		if (reachedX == true)
+			return;
+
+		if (currentDest.x - pathPosition.x > cBotMaxPositionError)
 		{
-			if (currentDest.x - pathPosition.x > cBotMaxPositionError)
-			{
-				m_Inputs[(int)E_KeyInput.Right] = true;
+			m_Inputs[(int)E_KeyInput.Right] = true;
+		}
+		else if (pathPosition.x - currentDest.x > cBotMaxPositionError)
+		{
+			m_Inputs[(int)E_KeyInput.Left] = true;
+		}
 
-				moveDir = 1;
-			}
-			else if (pathPosition.x - currentDest.x > cBotMaxPositionError)
-			{
-				m_Inputs[(int)E_KeyInput.Left] = true;
-
-				moveDir = -1;
-			}
+		if (m_Inputs[(int)E_KeyInput.Left])
+		{
+			moveDir = -1;
+		}
+		else if (m_Inputs[(int)E_KeyInput.Right])
+		{
+			moveDir = 1;
 		}
 	}
 	/// <summary>
@@ -383,6 +380,9 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	/// <param name="reachedY">y축 도달 여부</param>
 	private void PathFinding_MoveY(ref Vector2 pathPosition, ref Vector2 prevDest, ref Vector2 currentDest, ref Vector2 nextDest, ref bool destOnGround, ref bool reachedX, ref bool reachedY)
 	{
+		if (reachedY)
+			return;
+
 		if (pathPosition.y - currentDest.y > cBotMaxPositionError
 			&& m_Controller.collisions.isOnOneWayPlatform == true)
 			m_Inputs[(int)E_KeyInput.Down] = true;
@@ -393,9 +393,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 				|| (m_Controller.collisions.grounded == true && destOnGround == true))) // 1칸 짜리 점프
 			m_Inputs[(int)E_KeyInput.Up] = true;
 
-		if (m_Inputs[(int)E_KeyInput.Up] == true
-			&& m_Controller.collisions.grounded == true
-			&& m_JumpHeight > 0)
+		if (m_Inputs[(int)E_KeyInput.Up] == true)
 		{
 			float g = Mathf.Abs(m_Controller.gravity);
 			float Vy = Mathf.Sqrt(2 * g * m_JumpHeight);
@@ -425,14 +423,16 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			if (dy >= jumpHeight)
 				jumpHeight = dy;
 
-			if (dy < jumpHeight || M_Grid.map.IsGround(m_PathFinding_Path[i].x, m_PathFinding_Path[i].y /*- 1*/) == true)
+			if (dy < jumpHeight || M_Grid.map.IsGround(m_PathFinding_Path[i].x, m_PathFinding_Path[i].y - 1) == true)
 				break;
 		}
 
-		if (jumpHeight + 2 > m_Controller.maxJumpHeight)
-			Debug.LogError("JumpHeight: " + (jumpHeight + 2));
+		if (jumpHeight > m_Controller.maxJumpHeight)
+			Debug.LogError("JumpHeight: " + jumpHeight);
 
-		return Mathf.Clamp(jumpHeight + 2, 1, (int)m_Controller.maxJumpHeight);
+		Debug.Log("JumpHeight: " + jumpHeight);
+
+		return Mathf.Clamp(jumpHeight, 1, (int)m_Controller.maxJumpHeight);
 	}
 	/// <summary>
 	/// 현재 목적지에 도착해서 목적지를 다음 목적지로 바꾸는 함수
@@ -449,7 +449,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		// 현재 목적지 도달. 다음 목적지로 인덱스 변경
 		++m_PathFinding_NodeIndex;
 
-		Debug.Log(m_PathFinding_NodeIndex);
+		Debug.Log("Current Node Index: " + m_PathFinding_NodeIndex);
 
 		// 최종 목적지 도달
 		if (m_PathFinding_NodeIndex >= m_PathFinding_Path.Count)
@@ -476,28 +476,29 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	public List<TextMesh> textObjectList = new List<TextMesh>();
 	private void OnDrawGizmos()
 	{
-		if (m_PathFinding_Path == null)
+		if (textObjectList == null)
 			return;
 
 		if (showPath == false)
 			return;
 
-		Vector3 offset = Vector3.one * 0.5f;
+		Vector3 offset = Vector3.zero; //Vector3.one * 0.5f;
+		Vector3 size = Vector3.one * 0.5f;
 
-		var path = m_PathFinding_Path;
+		var path = textObjectList;
 
 		for (int i = 1; i < path.Count; ++i)
 		{
-			Vector3 start = new Vector3(path[i - 1].x, path[i - 1].y);
-			Vector3 end = new Vector3(path[i].x, path[i].y);
+			Vector3 start = new Vector3(path[i - 1].transform.position.x, path[i - 1].transform.position.y);
+			Vector3 end = new Vector3(path[i].transform.position.x, path[i].transform.position.y);
 
 			Debug.DrawLine(start + offset, end + offset, textColor);
 
-			MyDebug.DrawRect(start + offset, offset, textColor);
+			MyDebug.DrawRect(start + offset, size, textColor);
 
 			if (i == path.Count - 1)
 			{
-				MyDebug.DrawRect(end + offset, offset, textColor);
+				MyDebug.DrawRect(end + offset, size, textColor);
 			}
 		}
 	}

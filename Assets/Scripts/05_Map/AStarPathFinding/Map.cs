@@ -32,6 +32,7 @@ public class Map : MonoBehaviour
 	[SerializeField, ReadOnly(true)]
 	private SpriteRenderer m_TilePrefab;
 
+	[SerializeField]
 	private PathFinderFast m_PathFinder;
 
 	private int m_Width;

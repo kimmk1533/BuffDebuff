@@ -30,6 +30,7 @@ namespace Algorithms
 	}
 	#endregion
 
+	[System.Serializable]
 	public class PathFinderFast
 	{
 		#region 구조체
@@ -80,6 +81,7 @@ namespace Algorithms
 
 		private bool m_Stop = false;
 		private bool m_Stopped = true;
+		[SerializeField]
 		private E_HeuristicFormula m_Formula = E_HeuristicFormula.Manhattan;
 		private bool m_Diagonals = true; // 대각선 이동 가능 여부
 		private int m_HEstimate = 2;
