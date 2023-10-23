@@ -51,6 +51,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	protected UtilClass.Timer m_PathFinding_ReSearchTimer;
 
 	public GameObject target => m_TargetFinder.target;
+	public Collider2D targetCollider => m_TargetFinder.targetCollider;
 	protected Vector3 targetPos => (target == null) ? throw new System.Exception("targetPos: target is null.") : target.transform.position;
 	protected float distanceToTarget => (target == null) ? throw new System.Exception("distanceToTarget: target is null.") : Vector2.Distance(transform.position, target.transform.position);
 
@@ -75,12 +76,15 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 	protected override void Update()
 	{
-		ResetInput();
-
 		base.Update();
 
 		if (target != null && CanAttack())
-			AnimEvent_Attacking();
+			AnimEvent_Attacking(); // 임시. 공격 애니메이션(Attack 함수)으로 수정해야 함
+
+		if (m_IsSimulating == false)
+			return;
+
+		ResetInput();
 
 		Move();
 	}
@@ -105,17 +109,18 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		m_PathFinding_Path = null;
 		m_PathFinding_NodeIndex = -1;
 
+		#region Timer
 		m_MoveDirTimer = new UtilClass.Timer();
 		m_MoveDirTimer.interval = Random.Range(0.2f, 1.0f);
 		m_MoveDirTimer.Clear();
 
 		m_PathFinding_ReSearchTimer = new UtilClass.Timer();
-		m_PathFinding_ReSearchTimer.interval = 3f;
+		m_PathFinding_ReSearchTimer.interval = 1f;
 		m_PathFinding_ReSearchTimer.Clear();
 
-		// Timer Init
 		m_HealTimer = new UtilClass.Timer(m_CurrentStat.HpRegenTime);
 		m_AttackTimer = new UtilClass.Timer(1f / m_CurrentStat.AttackSpeed, true);
+		#endregion
 	}
 	private void ResetInput()
 	{
@@ -190,7 +195,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 		// 콜라이더 좌하단의 칸 중앙 위치
 		Vector2Int start = new Vector2Int((int)(bounds.center.x - bounds.extents.x + 0.5f), (int)(bounds.center.y - bounds.extents.y + 0.5f));
-		Vector2Int end = new Vector2Int(Mathf.FloorToInt(targetPos.x + 0.5f), Mathf.FloorToInt(targetPos.y + 0.5f));
+		Vector2Int end = new Vector2Int(Mathf.FloorToInt(targetCollider.bounds.center.x), Mathf.FloorToInt(targetPos.y + 0.5f));
 
 		m_PathFinding_ReSearchTimer.Update();
 
@@ -199,7 +204,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			|| m_PathFinding_Path.Contains(m_TargetPos) == false
 			|| m_PathFinding_ReSearchTimer.TimeCheck() == true)
 		{
-			if (M_Grid.map.IsEmpty(end.x, end.y - 1) == false)
+			//if (M_Grid.map.IsEmpty(end.x, end.y - 1) == false)
 			{
 				PathFinding_FindPath(start, end);
 			}
@@ -215,11 +220,10 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 		PathFinding_GetContext(out pathPosition, out prevDest, out currentDest, out nextDest, out destOnGround, out reachedX, out reachedY);
 
-		PathFinding_MoveX(ref pathPosition, ref prevDest, ref currentDest, ref nextDest, ref destOnGround, ref reachedX, ref reachedY);
-		PathFinding_MoveY(ref pathPosition, ref prevDest, ref currentDest, ref nextDest, ref destOnGround, ref reachedX, ref reachedY);
+		PathFinding_MoveX(ref pathPosition, ref currentDest, ref reachedX);
+		PathFinding_MoveY(ref pathPosition, ref currentDest, ref destOnGround, ref reachedX, ref reachedY);
 
-		if (PathFinding_NextPath(ref reachedX, ref reachedY) == true)
-			return;
+		PathFinding_NextPath(ref pathPosition, ref reachedX, ref reachedY);
 	}
 	/// <summary>
 	/// 패스파인딩 하는 함수
@@ -233,8 +237,6 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			return;
 
 		m_PathFinding_ReSearchTimer.Clear();
-
-		Bounds bounds = m_Controller.collider.bounds;
 
 		m_PathFinding_Path = M_Grid.FindPath(start, end, Mathf.CeilToInt(bounds.size.x), Mathf.CeilToInt(bounds.size.y), (short)(m_Controller.maxJumpHeight - 1));
 
@@ -259,7 +261,9 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		for (int i = 0; i < m_PathFinding_Path.Count; ++i)
 		{
 			Vector3 textPos = (Vector2)m_PathFinding_Path[i];
-			var text = UtilClass.CreateWorldText(i + 1, null, textPos + offset, 0.1f, 40, textColor, TextAnchor.MiddleCenter);
+			textPos += offset;
+
+			var text = UtilClass.CreateWorldText(i + 1, textObjectParent.transform, textPos, 0.1f, 40, textColor, TextAnchor.MiddleCenter);
 
 			textObjectList.Add(text);
 		}
@@ -330,7 +334,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	/// <param name="nextDest">다음 목적지</param>
 	/// <param name="destOnGround">목적지가 지상에 있는지</param>
 	/// <param name="reachedX">x축 도달 여부</param>
-	private void PathFinding_MoveX(ref Vector2 pathPosition, ref Vector2 prevDest, ref Vector2 currentDest, ref Vector2 nextDest, ref bool destOnGround, ref bool reachedX, ref bool reachedY)
+	private void PathFinding_MoveX(ref Vector2 pathPosition, ref Vector2 currentDest, ref bool reachedX)
 	{
 		// 스냅
 		if (reachedX
@@ -378,7 +382,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	/// <param name="nextDest">다음 목적지</param>
 	/// <param name="destOnGround">목적지가 지상에 있는지</param>
 	/// <param name="reachedY">y축 도달 여부</param>
-	private void PathFinding_MoveY(ref Vector2 pathPosition, ref Vector2 prevDest, ref Vector2 currentDest, ref Vector2 nextDest, ref bool destOnGround, ref bool reachedX, ref bool reachedY)
+	private void PathFinding_MoveY(ref Vector2 pathPosition, ref Vector2 currentDest, ref bool destOnGround, ref bool reachedX, ref bool reachedY)
 	{
 		if (reachedY)
 			return;
@@ -419,7 +423,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		int jumpHeight = 1;
 		for (int i = currentNodeId; i < m_PathFinding_Path.Count; ++i)
 		{
-			int dy = m_PathFinding_Path[i].y - m_PathFinding_Path[prevNodeId].y;
+			int dy = m_PathFinding_Path[i].y - prevNode.y;
 			if (dy >= jumpHeight)
 				jumpHeight = dy;
 
@@ -434,17 +438,36 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 		return Mathf.Clamp(jumpHeight, 1, (int)m_Controller.maxJumpHeight);
 	}
+	private bool PathFinding_NextPath_IsJumpable(ref Vector2 pathPosition)
+	{
+		if (m_JumpHeight <= 0)
+			return false;
+
+		bool jumpFlag = true;
+		for (int y = (int)pathPosition.y; y < pathPosition.y + Mathf.CeilToInt(bounds.size.y) + m_JumpHeight; ++y)
+		{
+			if (M_Grid.map.IsBlock((int)pathPosition.x, y) == true)
+			{
+				jumpFlag = false;
+				break;
+			}
+		}
+
+		// X축 이동속도가 충분한 지 확인 해야 함.
+
+		return jumpFlag;
+	}
 	/// <summary>
 	/// 현재 목적지에 도착해서 목적지를 다음 목적지로 바꾸는 함수
 	/// </summary>
 	/// <param name="reachedX">X축 도착 여부</param>
 	/// <param name="reachedY">Y축 도착 여부</param>
 	/// <returns>다음 목적지로 바꾸었는가?</returns>
-	private bool PathFinding_NextPath(ref bool reachedX, ref bool reachedY)
+	private void PathFinding_NextPath(ref Vector2 pathPosition, ref bool reachedX, ref bool reachedY)
 	{
 		if (reachedX == false
 			|| reachedY == false)
-			return false;
+			return;
 
 		// 현재 목적지 도달. 다음 목적지로 인덱스 변경
 		++m_PathFinding_NodeIndex;
@@ -457,7 +480,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			m_PathFinding_Path.Clear();
 			m_PathFinding_Path = null;
 			m_PathFinding_NodeIndex = -1;
-			return true;
+			return;
 		}
 
 		// 현재 목적지 위치 저장
@@ -466,14 +489,23 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		// 점프 높이 계산
 		m_JumpHeight = PathFinding_GetJumpHeight(m_PathFinding_NodeIndex - 1);
 
-		return true;
+		if (PathFinding_NextPath_IsJumpable(ref pathPosition))
+		{
+			float g = Mathf.Abs(m_Controller.gravity);
+			float Vy = Mathf.Sqrt(2 * g * m_JumpHeight);
+			m_Velocity.y = Vy;
+		}
 	}
-
 	#endregion
 
-	public bool showPath = true;
-	public Color textColor = Color.white;
-	public List<TextMesh> textObjectList = new List<TextMesh>();
+	[SerializeField]
+	private bool showPath = true;
+	[SerializeField]
+	private Color textColor = Color.white;
+	[SerializeField, ReadOnly(true)]
+	private GameObject textObjectParent;
+	[SerializeField, ReadOnly]
+	private List<TextMesh> textObjectList = new List<TextMesh>();
 	private void OnDrawGizmos()
 	{
 		if (textObjectList == null)
@@ -501,6 +533,15 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 				MyDebug.DrawRect(end + offset, size, textColor);
 			}
 		}
+	}
+	private void OnDisable()
+	{
+		int count = textObjectList.Count;
+		for (int i = 0; i < count; ++i)
+		{
+			GameObject.Destroy(textObjectList[i].gameObject);
+		}
+		textObjectList.Clear();
 	}
 }
 

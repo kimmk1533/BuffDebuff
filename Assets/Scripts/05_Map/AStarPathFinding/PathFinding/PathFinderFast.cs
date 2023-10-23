@@ -90,6 +90,8 @@ namespace Algorithms
 		private bool m_HeavyDiagonals = false;
 		private int m_SearchLimit = 2000;
 		private double m_CompletedTime = 0;
+		[SerializeField]
+		private bool m_UseFiltering = true;
 		private bool m_DebugProgress = false;
 		private bool m_DebugFoundPath = false;
 		private byte m_OpenNodeValue = 1;
@@ -198,6 +200,11 @@ namespace Algorithms
 		{
 			get { return m_CompletedTime; }
 			set { m_CompletedTime = value; }
+		}
+		public bool UseFiltering
+		{
+			get { return m_UseFiltering; }
+			set { m_UseFiltering = value; }
 		}
 		public bool DebugProgress
 		{
@@ -514,39 +521,44 @@ namespace Algorithms
 					{
 						PathFinderNodeFast nextNodeTmp = m_Nodes[loc][nodeTmp.PZ];
 
-						// 필터링 조건
-						/*
-						 * 1. 시작 노드
-						 * 2. 끝 노드
-						 * 3. 단방향 플랫폼 노드
-						 * 4. 지상 노드이면서 이전 노드가 단방향 플랫폼 노드 (또는 그 반대)
-						 * 5. 점프 노드
-						 * 6. 옆으로 이동하는 점프에서 첫 번째 공중 노드 (점프 값이 3 인 노드)
-						 * 7. 착지 노드 (점프 값이 0이 되는 노드)
-						 * 8. 점프의 최고점 (위로 이동하는 노드와 아래로 떨어지는 노드 사이의 노드)
-						 * 9. 장애물을 우회하는 노드﻿
-						 */
-						bool filter =
-							// 끝 노드 필터링
-							(m_Close.Count == 0) ||
-							// 단방향 플랫폼 노드 필터링
-							(m_Map.IsOneWayPlatform(node.x, node.y - 1)) ||
-							// 지상 노드이면서 이전 노드가 단방향 플랫폼 노드 (또는 그 반대)
-							(m_Grid[node.y - 1, node.x] == 0 && m_Map.IsOneWayPlatform(prevNode.x, prevNode.y - 1)) ||
-							// 점프 노드 필터링
-							(nodeTmp.JumpLength == 0 && prevNodeTmp.JumpLength != 0) ||
-							(nodeTmp.JumpLength == 3) ||
-							// 착지 노드 필터링
-							(nextNodeTmp.JumpLength != 0 && nodeTmp.JumpLength == 0) ||
-							// 최고점 노드 필터링
-							(node.y > m_Close[m_Close.Count - 1].y && node.y > nodeTmp.PY) ||
-							// 
-							(node.y < m_Close[m_Close.Count - 1].y && node.y < nodeTmp.PY) ||
-							// 장애물 우회 노드 필터링
-							((m_Map.IsGround(node.x - 1, node.y) || m_Map.IsGround(node.x + 1, node.y)) &&
-								node.y != m_Close[m_Close.Count - 1].y && node.x != m_Close[m_Close.Count - 1].x);
+						if (m_UseFiltering)
+						{
+							// 필터링 조건
+							/*
+							 * 1. 시작 노드
+							 * 2. 끝 노드
+							 * 3. 단방향 플랫폼 노드
+							 * 4. 지상 노드이면서 이전 노드가 단방향 플랫폼 노드 (또는 그 반대)
+							 * 5. 점프 노드
+							 * 6. 옆으로 이동하는 점프에서 첫 번째 공중 노드 (점프 값이 3 인 노드)
+							 * 7. 착지 노드 (점프 값이 0이 되는 노드)
+							 * 8. 점프의 최고점 (위로 이동하는 노드와 아래로 떨어지는 노드 사이의 노드)
+							 * 9. 장애물을 우회하는 노드﻿
+							 */
+							bool filter =
+								// 끝 노드 필터링
+								(m_Close.Count == 0) ||
+								// 단방향 플랫폼 노드 필터링
+								(m_Map.IsOneWayPlatform(node.x, node.y - 1)) ||
+								// 지상 노드이면서 이전 노드가 단방향 플랫폼 노드 (또는 그 반대)
+								(m_Grid[node.y - 1, node.x] == 0 && m_Map.IsOneWayPlatform(prevNode.x, prevNode.y - 1)) ||
+								// 점프 노드 필터링
+								(nodeTmp.JumpLength == 0 && prevNodeTmp.JumpLength != 0) ||
+								(nodeTmp.JumpLength == 3) ||
+								// 착지 노드 필터링
+								(nextNodeTmp.JumpLength != 0 && nodeTmp.JumpLength == 0) ||
+								// 최고점 노드 필터링
+								(node.y > m_Close[m_Close.Count - 1].y && node.y > nodeTmp.PY) ||
+								// 
+								(node.y < m_Close[m_Close.Count - 1].y && node.y < nodeTmp.PY) ||
+								// 장애물 우회 노드 필터링
+								((m_Map.IsGround(node.x - 1, node.y) || m_Map.IsGround(node.x + 1, node.y)) &&
+									node.y != m_Close[m_Close.Count - 1].y && node.x != m_Close[m_Close.Count - 1].x);
 
-						if (filter)
+							if (filter)
+								m_Close.Add(node);
+						}
+						else
 							m_Close.Add(node);
 
 						prevNode = node;

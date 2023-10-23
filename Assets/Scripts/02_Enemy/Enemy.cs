@@ -37,7 +37,7 @@ public class Enemy : MonoBehaviour
 			return;
 
 		Vector3 position = m_AttackSpotList[attackIndex].position;
-		Vector3 targetPos = m_Character.target.GetComponent<Collider2D>().bounds.center;
+		Vector3 targetPos = m_Character.targetCollider.bounds.center;
 		float angle = position.GetAngle(targetPos);
 		Quaternion quaternion = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 

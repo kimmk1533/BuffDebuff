@@ -13,7 +13,7 @@ public class EnemyTargetFinder : MonoBehaviour
 	protected BoxCollider2D m_Collider;
 
 	[SerializeField, ReadOnly]
-	protected GameObject m_Target;
+	protected Collider2D m_Target;
 
 	protected bool m_isLostTarget;
 	[SerializeField]
@@ -25,7 +25,9 @@ public class EnemyTargetFinder : MonoBehaviour
 	private event System.Action m_OnTargetExit;
 	private event System.Action m_OnTargetLost;
 
-	public GameObject target => m_Target;
+	public GameObject target => (m_Target == null) ? null : m_Target.gameObject;
+	public Collider2D targetCollider => m_Target;
+
 	protected int moveDir => (int)Mathf.Sign(transform.parent.lossyScale.x);
 	public event System.Action onTargetEnter
 	{
@@ -90,7 +92,7 @@ public class EnemyTargetFinder : MonoBehaviour
 	}
 	private void TargetEnter2D(Collider2D collider2D)
 	{
-		m_Target = collider2D.gameObject;
+		m_Target = collider2D;
 
 		//if (m_isLostTarget)
 		//	Debug.Log("타겟 다시 찾음!");

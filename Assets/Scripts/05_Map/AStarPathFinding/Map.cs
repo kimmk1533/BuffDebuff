@@ -95,6 +95,7 @@ public class Map : MonoBehaviour
 		m_PathFinder.PunishChangeDirection = false;
 		m_PathFinder.TieBreaker = false;
 		m_PathFinder.SearchLimit = 10000;
+		m_PathFinder.UseFiltering = true;
 		m_PathFinder.DebugProgress = false;
 		m_PathFinder.DebugFoundPath = false;
 	}
