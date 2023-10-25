@@ -7,21 +7,21 @@ public class CharacterAnimator : MonoBehaviour
 	protected SpriteRenderer m_SpriteRenderer;
 	protected Animator m_Animator;
 
-	private int direction
+	protected int direction
 	{
 		set
 		{
 			if (value == 0)
 				return;
 
-			Vector3 scale = transform.localScale;
+			Vector3 scale = transform.parent.localScale;
 
 			if (value > 0)
 				scale.x = Mathf.Abs(scale.x);
 			else if (value < 0)
 				scale.x = -Mathf.Abs(scale.x);
 
-			transform.localScale = scale;
+			transform.parent.localScale = scale;
 		}
 	}
 

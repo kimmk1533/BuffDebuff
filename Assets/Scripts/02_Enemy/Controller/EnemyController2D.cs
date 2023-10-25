@@ -63,7 +63,7 @@ public class EnemyController2D : Controller2D
 			{
 				if (hit.collider.CompareTag("OneWay"))
 				{
-					grounded = false;
+					//grounded = false;
 					throughFlag = true;
 					if (directionY == -1)
 					{

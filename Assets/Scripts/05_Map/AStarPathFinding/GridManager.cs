@@ -77,11 +77,6 @@ public class GridManager : Singleton<GridManager>
 		}
 	}
 
-	public List<Vector2Int> FindPath(Vector2Int start, Vector2Int end, int characterWidth, int characterHeight, short maxCharacterJumpHeight)
-	{
-		return m_Map.FindPath(start, end, characterWidth, characterHeight, maxCharacterJumpHeight);
-	}
-
 	private void OnValidate()
 	{
 		m_GridTextParent.gameObject.SetActive(m_ShowGridText);

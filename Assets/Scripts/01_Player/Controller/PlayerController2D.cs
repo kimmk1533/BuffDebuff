@@ -64,7 +64,12 @@ public class PlayerController2D : Controller2D
 			{
 				if (hit.collider.CompareTag("OneWay"))
 				{
+					//grounded = false;
 					throughFlag = true;
+					if (directionY == -1)
+					{
+						m_Collisions.isOnOneWayPlatform = true;
+					}
 					if (directionY == 1 || hit.distance == 0)
 					{
 						continue;

@@ -84,8 +84,6 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		if (m_IsSimulating == false)
 			return;
 
-		ResetInput();
-
 		Move();
 	}
 
@@ -150,6 +148,9 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		{
 			m_Velocity.y = 0;
 		}
+
+		m_Animator.Anim_SetVelocity(m_Velocity);
+		m_Animator.Anim_SetIsGround(m_Controller.collisions.grounded);
 	}
 	// 속도 계산
 	protected override void CalculateVelocity()
@@ -193,16 +194,16 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	{
 		moveDir = 0;
 
+		m_PathFinding_ReSearchTimer.Update();
+
 		// 콜라이더 좌하단의 칸 중앙 위치
 		Vector2Int start = new Vector2Int((int)(bounds.center.x - bounds.extents.x + 0.5f), (int)(bounds.center.y - bounds.extents.y + 0.5f));
 		Vector2Int end = new Vector2Int(Mathf.FloorToInt(targetCollider.bounds.center.x), Mathf.FloorToInt(targetPos.y + 0.5f));
 
-		m_PathFinding_ReSearchTimer.Update();
-
-		if (m_PathFinding_Path == null
-			|| m_PathFinding_Path.Count <= 1
-			|| m_PathFinding_Path.Contains(m_TargetPos) == false
-			|| m_PathFinding_ReSearchTimer.TimeCheck() == true)
+		if (m_PathFinding_Path == null ||
+			m_PathFinding_Path.Count <= 1 ||
+			m_PathFinding_Path.Contains(m_TargetPos) == false ||
+			m_PathFinding_ReSearchTimer.TimeCheck() == true)
 		{
 			//if (M_Grid.map.IsEmpty(end.x, end.y - 1) == false)
 			{
@@ -220,10 +221,65 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 		PathFinding_GetContext(out pathPosition, out prevDest, out currentDest, out nextDest, out destOnGround, out reachedX, out reachedY);
 
+		ResetInput();
+
+		if (pathPosition.y - currentDest.y > cBotMaxPositionError
+			&& m_Controller.collisions.isOnOneWayPlatform == true)
+			m_Inputs[(int)E_KeyInput.Down] = true;
+
+		if (reachedX && reachedY)
+		{
+			PathFinding_NextPath(ref pathPosition, ref reachedX, ref reachedY);
+			return;
+		}
+		else if (reachedX == false)
+		{
+			if (currentDest.x - pathPosition.x > cBotMaxPositionError)
+			{
+				m_Inputs[(int)E_KeyInput.Right] = true;
+			}
+			else if (pathPosition.x - currentDest.x > cBotMaxPositionError)
+			{
+				m_Inputs[(int)E_KeyInput.Left] = true;
+			}
+		}
+		else if (reachedY == false && m_PathFinding_Path.Count > m_PathFinding_NodeIndex + 1 && destOnGround == false)
+		{
+			int checkedX = 0;
+			int tileX = Mathf.RoundToInt(pathPosition.x);
+			int tileY = Mathf.RoundToInt(pathPosition.y);
+
+			if (nextDest.x != currentDest.x)
+			{
+				//M_Grid.map.GetMapTileAtPoint(pathPosition, out tileX, out tileY);
+
+				if (nextDest.x > currentDest.x)
+					checkedX = Mathf.RoundToInt(tileX + bounds.extents.x);
+				else
+					checkedX = Mathf.RoundToInt(tileX - bounds.extents.x);
+			}
+
+			if (checkedX != 0 && M_Grid.map.AnySolidBlockInStripe(checkedX, tileY, Mathf.RoundToInt(nextDest.y)) == false)
+			{
+				if (nextDest.x - pathPosition.x > cBotMaxPositionError)
+					m_Inputs[(int)E_KeyInput.Right] = true;
+				else if (pathPosition.x - nextDest.x > cBotMaxPositionError)
+					m_Inputs[(int)E_KeyInput.Left] = true;
+
+				bool temp_reachedX = PathFinding_ReachedNodeOnXAxis(ref pathPosition, ref prevDest, ref currentDest);
+				bool temp_reachedY = PathFinding_ReachedNodeOnYAxis(ref pathPosition, ref prevDest, ref currentDest);
+
+				if (reachedX && reachedY)
+				{
+					PathFinding_NextPath(ref pathPosition, ref temp_reachedX, ref temp_reachedY);
+					return;
+				}
+			}
+		}
+
 		PathFinding_MoveX(ref pathPosition, ref currentDest, ref reachedX);
 		PathFinding_MoveY(ref pathPosition, ref currentDest, ref destOnGround, ref reachedX, ref reachedY);
 
-		PathFinding_NextPath(ref pathPosition, ref reachedX, ref reachedY);
 	}
 	/// <summary>
 	/// 패스파인딩 하는 함수
@@ -238,7 +294,11 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 		m_PathFinding_ReSearchTimer.Clear();
 
-		m_PathFinding_Path = M_Grid.FindPath(start, end, Mathf.CeilToInt(bounds.size.x), Mathf.CeilToInt(bounds.size.y), (short)(m_Controller.maxJumpHeight - 1));
+		int width = Mathf.CeilToInt(bounds.size.x);
+		int height = Mathf.CeilToInt(bounds.size.y);
+		short maxJumpHeight = (short)((short)m_Controller.maxJumpHeight - 1);
+
+		m_PathFinding_Path = M_Grid.map.FindPath(start, end, width, height, maxJumpHeight);
 
 		if (m_PathFinding_Path == null
 			|| m_PathFinding_Path.Count <= 1)
@@ -312,31 +372,12 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		currentDest += offset;
 		nextDest += offset;
 
-		// X 도착 확인
-		reachedX = (prevDest.x < currentDest.x && currentDest.x < pathPosition.x)
-			|| (prevDest.x > currentDest.x && currentDest.x > pathPosition.x)
-			|| Mathf.Abs(pathPosition.x - currentDest.x) <= cBotMaxPositionError;
+		// X축 도착 확인
+		reachedX = PathFinding_ReachedNodeOnXAxis(ref pathPosition, ref prevDest, ref currentDest);
+		// Y축 도착 확인
+		reachedY = PathFinding_ReachedNodeOnYAxis(ref pathPosition, ref prevDest, ref currentDest);
 
-		// Y 도착 확인
-		reachedY = (prevDest.y < currentDest.y && currentDest.y < pathPosition.y)
-			|| (prevDest.y > currentDest.y && currentDest.y > pathPosition.y)
-			|| (Mathf.Abs(pathPosition.y - currentDest.y) <= cBotMaxPositionError);
-
-		if (destOnGround == true && (m_Controller.collisions.grounded == false && m_Controller.collisions.isOnOneWayPlatform == false))
-			reachedY = false;
-	}
-	/// <summary>
-	/// X축 움직임 함수
-	/// </summary>
-	/// <param name="pathPosition">현재 길 위 위치</param>
-	/// <param name="prevDest">이전 목적지</param>
-	/// <param name="currentDest">현재 목적지</param>
-	/// <param name="nextDest">다음 목적지</param>
-	/// <param name="destOnGround">목적지가 지상에 있는지</param>
-	/// <param name="reachedX">x축 도달 여부</param>
-	private void PathFinding_MoveX(ref Vector2 pathPosition, ref Vector2 currentDest, ref bool reachedX)
-	{
-		// 스냅
+		// X축 스냅
 		if (reachedX
 			&& Mathf.Abs(pathPosition.x - currentDest.x) > cBotMaxPositionError
 			&& Mathf.Abs(pathPosition.x - currentDest.x) < cBotMaxPositionError * 3.0f
@@ -349,20 +390,36 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			transform.position = pos;
 
 			moveDir = 0;
-			return;
 		}
 
+		if (destOnGround == true && (m_Controller.collisions.grounded == false && m_Controller.collisions.isOnOneWayPlatform == false))
+			reachedY = false;
+	}
+	private bool PathFinding_ReachedNodeOnXAxis(ref Vector2 pathPosition, ref Vector2 prevDest, ref Vector2 currentDest)
+	{
+		return (prevDest.x < currentDest.x && currentDest.x < pathPosition.x)
+			|| (prevDest.x > currentDest.x && currentDest.x > pathPosition.x)
+			|| Mathf.Abs(pathPosition.x - currentDest.x) <= cBotMaxPositionError;
+	}
+	private bool PathFinding_ReachedNodeOnYAxis(ref Vector2 pathPosition, ref Vector2 prevDest, ref Vector2 currentDest)
+	{
+		return (prevDest.y < currentDest.y && currentDest.y < pathPosition.y)
+			|| (prevDest.y > currentDest.y && currentDest.y > pathPosition.y)
+			|| (Mathf.Abs(pathPosition.y - currentDest.y) <= cBotMaxPositionError);
+	}
+	/// <summary>
+	/// X축 움직임 함수
+	/// </summary>
+	/// <param name="pathPosition">현재 길 위 위치</param>
+	/// <param name="prevDest">이전 목적지</param>
+	/// <param name="currentDest">현재 목적지</param>
+	/// <param name="nextDest">다음 목적지</param>
+	/// <param name="destOnGround">목적지가 지상에 있는지</param>
+	/// <param name="reachedX">x축 도달 여부</param>
+	private void PathFinding_MoveX(ref Vector2 pathPosition, ref Vector2 currentDest, ref bool reachedX)
+	{
 		if (reachedX == true)
 			return;
-
-		if (currentDest.x - pathPosition.x > cBotMaxPositionError)
-		{
-			m_Inputs[(int)E_KeyInput.Right] = true;
-		}
-		else if (pathPosition.x - currentDest.x > cBotMaxPositionError)
-		{
-			m_Inputs[(int)E_KeyInput.Left] = true;
-		}
 
 		if (m_Inputs[(int)E_KeyInput.Left])
 		{
@@ -391,10 +448,10 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			&& m_Controller.collisions.isOnOneWayPlatform == true)
 			m_Inputs[(int)E_KeyInput.Down] = true;
 
-		if (m_JumpHeight > 0
-			&& (m_Controller.collisions.grounded == false
-				|| (reachedX == true && destOnGround == false)
-				|| (m_Controller.collisions.grounded == true && destOnGround == true))) // 1칸 짜리 점프
+		if (m_JumpHeight > 0 &&
+				(m_Controller.collisions.grounded == false ||
+				(reachedX == true && destOnGround == false) ||
+				(m_Controller.collisions.grounded == true && destOnGround == true))) // 1칸 짜리 점프
 			m_Inputs[(int)E_KeyInput.Up] = true;
 
 		if (m_Inputs[(int)E_KeyInput.Up] == true)
@@ -402,6 +459,8 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			float g = Mathf.Abs(m_Controller.gravity);
 			float Vy = Mathf.Sqrt(2 * g * m_JumpHeight);
 			m_Velocity.y = Vy;
+
+			m_JumpHeight = 0;
 		}
 	}
 	/// <summary>
@@ -430,6 +489,8 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			if (dy < jumpHeight || M_Grid.map.IsGround(m_PathFinding_Path[i].x, m_PathFinding_Path[i].y - 1) == true)
 				break;
 		}
+
+		++jumpHeight;
 
 		if (jumpHeight > m_Controller.maxJumpHeight)
 			Debug.LogError("JumpHeight: " + jumpHeight);
@@ -463,11 +524,11 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	/// <param name="reachedX">X축 도착 여부</param>
 	/// <param name="reachedY">Y축 도착 여부</param>
 	/// <returns>다음 목적지로 바꾸었는가?</returns>
-	private void PathFinding_NextPath(ref Vector2 pathPosition, ref bool reachedX, ref bool reachedY)
+	private bool PathFinding_NextPath(ref Vector2 pathPosition, ref bool reachedX, ref bool reachedY)
 	{
 		if (reachedX == false
 			|| reachedY == false)
-			return;
+			return false;
 
 		// 현재 목적지 도달. 다음 목적지로 인덱스 변경
 		++m_PathFinding_NodeIndex;
@@ -480,21 +541,26 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			m_PathFinding_Path.Clear();
 			m_PathFinding_Path = null;
 			m_PathFinding_NodeIndex = -1;
-			return;
+			return true;
 		}
 
 		// 현재 목적지 위치 저장
 		m_TargetPos = m_PathFinding_Path[m_PathFinding_NodeIndex];
 
 		// 점프 높이 계산
-		m_JumpHeight = PathFinding_GetJumpHeight(m_PathFinding_NodeIndex - 1);
-
-		if (PathFinding_NextPath_IsJumpable(ref pathPosition))
+		if (m_Controller.collisions.grounded == true)
 		{
-			float g = Mathf.Abs(m_Controller.gravity);
-			float Vy = Mathf.Sqrt(2 * g * m_JumpHeight);
-			m_Velocity.y = Vy;
+			m_JumpHeight = PathFinding_GetJumpHeight(m_PathFinding_NodeIndex - 1);
+
+			//if (PathFinding_NextPath_IsJumpable(ref pathPosition))
+			//{
+			//	float g = Mathf.Abs(m_Controller.gravity);
+			//	float Vy = Mathf.Sqrt(2 * g * m_JumpHeight);
+			//	m_Velocity.y = Vy;
+			//}
 		}
+
+		return true;
 	}
 	#endregion
 

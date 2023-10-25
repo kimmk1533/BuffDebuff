@@ -196,6 +196,19 @@ public class Map : MonoBehaviour
 
 		return false;
 	}
+	public bool AnySolidBlockInStripe(int x, int y0, int y1)
+	{
+		int startY = Mathf.Min(y0, y1);
+		int endY = Mathf.Max(y0, y1);
+
+		for (int y = startY; y <= endY; ++y)
+		{
+			if (IsBlock(x, y) == true)
+				return true;
+		}
+
+		return false;
+	}
 
 	private void SetTile(int x, int y, E_TileType type)
 	{
