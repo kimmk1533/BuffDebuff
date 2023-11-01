@@ -98,6 +98,10 @@ public class Map : MonoBehaviour
 		m_PathFinder.UseFiltering = true;
 		m_PathFinder.DebugProgress = false;
 		m_PathFinder.DebugFoundPath = false;
+		m_PathFinder.TestValue1 = 2;
+		m_PathFinder.TestValue2 = 8;
+		m_PathFinder.TestValue3 = 1;
+		m_PathFinder.TestValue4 = 7;
 	}
 
 	public bool CheckTile(int x, int y, E_TileType type)

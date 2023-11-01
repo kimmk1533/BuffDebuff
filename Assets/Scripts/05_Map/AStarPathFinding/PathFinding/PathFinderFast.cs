@@ -224,6 +224,26 @@ namespace Algorithms
 			get { return m_DebugFoundPath; }
 			set { m_DebugFoundPath = value; }
 		}
+		public int TestValue1
+		{
+			get { return m_TestValue1; }
+			set { m_TestValue1 = value; }
+		}
+		public int TestValue2
+		{
+			get { return m_TestValue2; }
+			set { m_TestValue2 = value; }
+		}
+		public int TestValue3
+		{
+			get { return m_TestValue3; }
+			set { m_TestValue3 = value; }
+		}
+		public int TestValue4
+		{
+			get { return m_TestValue4; }
+			set { m_TestValue4 = value; }
+		}
 		#endregion
 
 		#region 메서드
@@ -375,6 +395,7 @@ namespace Algorithms
 						bool onGround = false;
 						bool atCeiling = false;
 
+						#region 사전 검사
 						for (int w = 0; w < characterWidth; ++w)
 						{
 							if (m_Map.IsBlock(m_NewLocationX + w, m_NewLocationY)
@@ -403,49 +424,70 @@ namespace Algorithms
 						}
 						if (continueFlag)
 							continue;
+						#endregion
 
 						// 자식 노드에 대한 적절한 점프길이 값 계산
 						short jumpLength = m_Nodes[m_Location.xy][m_Location.z].JumpLength;
 						short newJumpLength = jumpLength;
 
+						#region 점프 값 계산
+						// 지상에 있는 경우
 						if (onGround)
 							newJumpLength = 0;
+						// 천장에 닿은 경우
 						else if (atCeiling)
 						{
+							// x축 이동을 한 경우
 							if (m_NewLocationX != m_LocationX)
 								newJumpLength = (short)Mathf.Max(maxCharacterJumpHeight * 2 + 1, jumpLength + 1);
+							// y축 이동을 한 경우
 							else
 								newJumpLength = (short)Mathf.Max(maxCharacterJumpHeight * 2, jumpLength + 2);
 						}
+						// 위로 움직인 경우
 						else if (m_NewLocationY > m_LocationY)
 						{
+							// 첫 번째 점프
 							if (jumpLength < 2 && maxCharacterJumpHeight > 2) // 첫 번째 점프는 항상 한 칸 위가 아닌 두 칸 위로 올라가고, 선택적으로 좌우로 한 칸 움직일 수 있음
 								newJumpLength = 3;
+							// 점프 값이 짝수인 경우 (x축 이동이 가능한 경우)
 							else if (jumpLength % 2 == 0)
 								newJumpLength = (short)(jumpLength + 2);
+							// 점프 값이 홀수인 경우 (x축 이동이 불가능한 경우)
 							else
 								newJumpLength = (short)(jumpLength + 1);
 						}
+						// 아래로 움직인 경우
 						else if (m_NewLocationY < m_LocationY)
 						{
+							// 점프 값이 짝수인 경우 (x축 이동이 가능한 경우)
 							if (jumpLength % 2 == 0)
 								newJumpLength = (short)Mathf.Max(maxCharacterJumpHeight * 2, jumpLength + 2);
+							// 점프 값이 홀수인 경우 (x축 이동이 불가능한 경우)
 							else
 								newJumpLength = (short)Mathf.Max(maxCharacterJumpHeight * 2, jumpLength + 1);
 						}
+						// 공중에서 좌우로 움직인 경우
 						else if (!onGround && m_LocationX != m_NewLocationX)
 							newJumpLength = (short)(jumpLength + 1);
+						#endregion
 
+						#region 예외처리
+						// x축으로 움직였을 경우
 						if (m_LocationX != m_NewLocationX)
 						{
+							// 기존에 이미 x축으로 움직인 경우
 							if (jumpLength >= 0 && jumpLength % 2 != 0)
 								continue;
 
+							// x축으로 너무 빠르게 이동한 경우 예외처리
+							// 착지한 경우
 							if (newJumpLength == 0 &&
 								jumpLength + 1 >= maxCharacterJumpHeight * 2 + m_TestValue1 &&
 								(jumpLength + 1 - (maxCharacterJumpHeight * 2 + m_TestValue1)) % m_TestValue2 <= m_TestValue3)
 								continue;
 
+							// 공중인 경우
 							if (newJumpLength >= maxCharacterJumpHeight * 2 + m_TestValue1 &&
 								(newJumpLength - (maxCharacterJumpHeight * 2 + m_TestValue1)) % m_TestValue2 != m_TestValue4)
 								continue;
@@ -454,9 +496,11 @@ namespace Algorithms
 						// 만약 떨어지는 중이고, 자식 노드가 위에 있다면 해당 노드 무시
 						if (jumpLength >= maxCharacterJumpHeight * 2 && m_NewLocationY > m_LocationY)
 							continue;
+						#endregion
 
 						m_NewG = m_Nodes[m_Location.xy][m_Location.z].G + m_Grid[m_NewLocationY, m_NewLocationX] + newJumpLength / 4;
 
+						// 해당 노드 위치에 이미 방문한 적이 있는 경우
 						if (m_Nodes[m_NewLocation].Count > 0)
 						{
 							short lowestJump = short.MaxValue;

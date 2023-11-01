@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BuffData", menuName = "Scriptable Object/Buff Data", order = int.MinValue)]
+[CreateAssetMenu(fileName = "New Buff Data", menuName = "Scriptable Object/Buff Data", order = int.MinValue)]
 public class BuffData : ScriptableObject
 {
 	[SerializeField, ReadOnly]

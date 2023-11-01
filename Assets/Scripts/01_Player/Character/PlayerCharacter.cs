@@ -84,18 +84,18 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 		m_Animator.Anim_SetVelocity(m_Velocity);
 		m_Animator.Anim_SetIsGround(m_Controller.collisions.grounded);
 	}
-	private void CheckPortal()
-	{
-		RaycastHit2D hit = Physics2D.BoxCast(m_Controller.collider.bounds.center, m_Controller.collider.bounds.size, 0.0f, m_Velocity, 0.1f, LayerMask.GetMask("Portal"));
+	//private void CheckPortal()
+	//{
+	//	RaycastHit2D hit = Physics2D.BoxCast(m_Controller.collider.bounds.center, m_Controller.collider.bounds.size, 0.0f, m_Velocity, 0.1f, LayerMask.GetMask("Portal"));
 
-		if (hit)
-		{
-			Transform spawnPoint = M_Stage.GetSpawnPoint(hit.collider);
+	//	if (hit)
+	//	{
+	//		Transform spawnPoint = M_Stage.GetSpawnPoint(hit.collider);
 
-			if (spawnPoint != null)
-				transform.position = spawnPoint.position;
-		}
-	}
+	//		if (spawnPoint != null)
+	//			transform.position = spawnPoint.position;
+	//	}
+	//}
 
 	// Timer Func
 	private void DashTimer()

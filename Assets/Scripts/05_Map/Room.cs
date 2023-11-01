@@ -19,26 +19,16 @@ public class Room : MonoBehaviour
 
 		Max
 	}
-	public enum E_RoomDir
-	{
-		Left = 0,
-		Right = 1,
-		Top = 2,
-		Bottom = 3,
-
-		Max
-	} 
 	#endregion
 
 	[SerializeField]
-	Vector2 m_ClampOffset;
+	private Vector2 m_ClampOffset;
 	[SerializeField]
-	Vector2 m_ClampAreaSize;
+	private Vector2 m_ClampAreaSize;
 
-	[SerializeField]
-	Dictionary<E_RoomTilemapLayer, Tilemap> m_TilemapMap;
-	[SerializeField]
-	Dictionary<E_RoomDir, Transform> m_WarpPointMap;
+	private Dictionary<E_RoomTilemapLayer, Tilemap> m_TilemapMap;
+	private List<WarpPoint> m_WarpPointMap;
+	private Dictionary<WarpPoint.E_WarpPointPos, List<WarpPoint>> m_DirWarpPointMap;
 
 	public Vector2 clampOffset
 	{
@@ -53,9 +43,8 @@ public class Room : MonoBehaviour
 
 	public void Initialize()
 	{
+		// Init Tilemap Map
 		m_TilemapMap = new Dictionary<E_RoomTilemapLayer, Tilemap>();
-		m_WarpPointMap = new Dictionary<E_RoomDir, Transform>();
-
 		Transform tilemapLayer = transform.Find("TileMapLayer");
 		for (E_RoomTilemapLayer layer = E_RoomTilemapLayer.BackGround; layer != E_RoomTilemapLayer.Max; ++layer)
 		{
@@ -63,12 +52,19 @@ public class Room : MonoBehaviour
 			m_TilemapMap.Add(layer, tileMap);
 		}
 
-		Transform portal = transform.Find("Portal");
-		for (E_RoomDir dir = E_RoomDir.Left; dir != E_RoomDir.Max; ++dir)
-		{
-			Transform warpPoint = portal.Find(dir.ToString()).Find("WarpPoint");
+		// Init WarpPoint Map
+		m_WarpPointMap = new List<WarpPoint>();
+		GetComponentsInChildren<WarpPoint>(m_WarpPointMap);
 
-			m_WarpPointMap.Add(dir, warpPoint);
+		// Init DirWarpPoint Map
+		m_DirWarpPointMap = new Dictionary<WarpPoint.E_WarpPointPos, List<WarpPoint>>();
+		for (WarpPoint.E_WarpPointPos dir = 0; dir < WarpPoint.E_WarpPointPos.Max; ++dir)
+		{
+			m_DirWarpPointMap.Add(dir, new List<WarpPoint>());
+		}
+		foreach (var item in m_WarpPointMap)
+		{
+			m_DirWarpPointMap[item.warpPointPos].Add(item);
 		}
 	}
 	public Tilemap GetTilemap(E_RoomTilemapLayer layer)
@@ -78,10 +74,10 @@ public class Room : MonoBehaviour
 
 		return m_TilemapMap[layer];
 	}
-	public Transform GetWarpPoint(E_RoomDir dir)
-	{
-		return m_WarpPointMap[dir];
-	}
+	//public WarpPoint GetWarpPoint(WarpPoint.E_WarpPointPos warpPointPos)
+	//{
+
+	//}
 
 	private void OnDrawGizmosSelected()
 	{

@@ -13,6 +13,7 @@ public class GameManager : Singleton<GameManager>
 	private BuffManager M_Buff => BuffManager.Instance;
 
 	private StageManager M_Stage => StageManager.Instance;
+	private WarpManager M_Warp => WarpManager.Instance;
 	private GridManager M_Grid => GridManager.Instance;
 
 	// UI Managers
@@ -36,6 +37,7 @@ public class GameManager : Singleton<GameManager>
 		M_Buff.Initialize();
 
 		M_Stage.Initialize();
+		M_Warp.Initialize();
 		M_Grid.Initialize();
 
 		// UI Init

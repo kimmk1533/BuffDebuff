@@ -205,7 +205,8 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			m_PathFinding_Path.Contains(m_TargetPos) == false ||
 			m_PathFinding_ReSearchTimer.TimeCheck() == true)
 		{
-			//if (M_Grid.map.IsEmpty(end.x, end.y - 1) == false)
+			if (M_Grid.map.IsEmpty(start.x, start.y - 1) == false &&
+				M_Grid.map.IsEmpty(end.x, end.y - 1) == false)
 			{
 				PathFinding_FindPath(start, end);
 			}
