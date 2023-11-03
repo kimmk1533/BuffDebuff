@@ -96,11 +96,6 @@ public sealed class Player : MonoBehaviour
 		Debug.LogError("Game Over!");
 	}
 
-	public void Dash()
-	{
-		m_Character.Dash();
-	}
-
 	public bool AddBuff(BuffData buffData)
 	{
 		return m_Character.AddBuff(buffData);

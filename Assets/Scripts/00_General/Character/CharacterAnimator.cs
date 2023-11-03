@@ -7,24 +7,6 @@ public class CharacterAnimator : MonoBehaviour
 	protected SpriteRenderer m_SpriteRenderer;
 	protected Animator m_Animator;
 
-	protected int direction
-	{
-		set
-		{
-			if (value == 0)
-				return;
-
-			Vector3 scale = transform.parent.localScale;
-
-			if (value > 0)
-				scale.x = Mathf.Abs(scale.x);
-			else if (value < 0)
-				scale.x = -Mathf.Abs(scale.x);
-
-			transform.parent.localScale = scale;
-		}
-	}
-
 	public virtual void Initialize()
 	{
 		m_SpriteRenderer = GetComponent<SpriteRenderer>();
@@ -33,8 +15,6 @@ public class CharacterAnimator : MonoBehaviour
 
 	public virtual void Anim_SetVelocity(float x, float y)
 	{
-		direction = System.MathF.Sign(x);
-
 		m_Animator.SetFloat("VelocityX", x);
 		m_Animator.SetFloat("VelocityY", y);
 	}

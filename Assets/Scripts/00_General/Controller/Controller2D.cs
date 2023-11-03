@@ -148,7 +148,7 @@ public class Controller2D : RaycastController
 				{
 					//moveAmount.x = (hit.distance - skinWidth) * directionX;
 					//rayLength = hit.distance;
-					moveAmount.x = Mathf.Min(Mathf.Abs(moveAmount.x), (hit.distance - skinWidth)) * directionX;
+					moveAmount.x = Mathf.Min(Mathf.Abs(moveAmount.x), hit.distance - skinWidth) * directionX;
 					rayLength = Mathf.Min(Mathf.Abs(moveAmount.x) + skinWidth, hit.distance);
 
 					if (m_Collisions.climbingSlope)
