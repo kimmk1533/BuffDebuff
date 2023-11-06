@@ -21243,9 +21243,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flag: 1
   m_Origins:
-  - <Key>k__BackingField: Enemy
-    <PoolSize>k__BackingField: 10
-    origin: {fileID: 1359844119}
+  - <key>k__BackingField: Enemy
+    <poolSize>k__BackingField: 10
+    <origin>k__BackingField: {fileID: 1359844119}
 --- !u!4 &348969213
 Transform:
   m_ObjectHideFlags: 0
@@ -84084,9 +84084,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flag: 1
   m_Origins:
-  - <Key>k__BackingField: Projectile
-    <PoolSize>k__BackingField: 20
-    origin: {fileID: 2065416260}
+  - <key>k__BackingField: Projectile
+    <poolSize>k__BackingField: 20
+    <origin>k__BackingField: {fileID: 2065416260}
 --- !u!4 &1335781044
 Transform:
   m_ObjectHideFlags: 0
@@ -88082,8 +88082,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flag: 1
-  m_RoomList:
-  - {fileID: 1751971823}
+  m_Origins:
+  - <key>k__BackingField: Room 0
+    <poolSize>k__BackingField: 10
+    <origin>k__BackingField: {fileID: 1751971823}
 --- !u!4 &1391079940
 Transform:
   m_ObjectHideFlags: 0
@@ -89294,18 +89296,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flag: 1
   m_Origins:
-  - <Key>k__BackingField: Buff Rewards
-    <PoolSize>k__BackingField: 5
-    origin: {fileID: 487578106}
-  - <Key>k__BackingField: Buff Inventory
-    <PoolSize>k__BackingField: 10
-    origin: {fileID: 1018214662}
-  - <Key>k__BackingField: Buff Combine Inventory
-    <PoolSize>k__BackingField: 10
-    origin: {fileID: 1167867720}
-  - <Key>k__BackingField: Buff Combine
-    <PoolSize>k__BackingField: 2
-    origin: {fileID: 1098432374}
+  - <key>k__BackingField: Buff Rewards
+    <poolSize>k__BackingField: 5
+    <origin>k__BackingField: {fileID: 487578106}
+  - <key>k__BackingField: Buff Inventory
+    <poolSize>k__BackingField: 10
+    <origin>k__BackingField: {fileID: 1018214662}
+  - <key>k__BackingField: Buff Combine Inventory
+    <poolSize>k__BackingField: 10
+    <origin>k__BackingField: {fileID: 1167867720}
+  - <key>k__BackingField: Buff Combine
+    <poolSize>k__BackingField: 2
+    <origin>k__BackingField: {fileID: 1098432374}
   m_FirstCombineBuffUIPanel: {fileID: 16366002}
   m_SecondCombineBuffUIPanel: {fileID: 1967104226}
   m_CombineButton: {fileID: 1470603669}
@@ -92219,7 +92221,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1464964194}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.37, y: 12, z: -10}
+  m_LocalPosition: {x: 22.800001, y: 12, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

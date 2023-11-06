@@ -41,44 +41,14 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	private BuffManager M_Buff => BuffManager.Instance;
 	private PlayerManager M_Player => PlayerManager.Instance;
 
-	private void Update()
+	public override void Initialize()
 	{
-		foreach (var item in m_BuffPanelList)
-		{
-			if (Input.GetKeyDown(item.keyCode))
-			{
-				m_CurrentBuffPanel = item;
-				break;
-			}
-		}
-		if (m_CurrentBuffPanel != null)
-		{
-			if (m_CurrentBuffPanel.active)
-			{
-				m_CurrentBuffPanel.active = false;
-			}
-			else
-			{
-				foreach (var item in m_BuffPanelMap)
-				{
-					item.Value.active = false;
-				}
-
-				m_CurrentBuffPanel.active = true;
-			}
-
-			m_CurrentBuffPanel = null;
-		}
-	}
-
-	public override void Initialize(bool autoInit = false)
-	{
-		base.Initialize(autoInit);
+		base.Initialize();
 
 		foreach (var originInfo in m_Origins)
 		{
-			var pool = GetPool(originInfo.Key);
-			switch (originInfo.Key)
+			var pool = GetPool(originInfo.key);
+			switch (originInfo.key)
 			{
 				case "Buff Rewards":
 					pool.onInstantiated += (BuffUI buffUI) =>
@@ -122,7 +92,7 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 					};
 					break;
 				default:
-					Debug.LogError("Object Manager`s Origin Info key is not exist. key = " + originInfo.Key);
+					Debug.LogError("Object Manager`s Origin Info key is not exist. key = " + originInfo.key);
 					break;
 			}
 
@@ -177,6 +147,36 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		M_Buff.onBuffAdded += AddBuff_CombineInventory;
 		M_Buff.onBuffRemoved += RemoveBuff_Inventory;
 		M_Buff.onBuffRemoved += RemoveBuff_CombineInventory;
+	}
+
+	private void Update()
+	{
+		foreach (var item in m_BuffPanelList)
+		{
+			if (Input.GetKeyDown(item.keyCode))
+			{
+				m_CurrentBuffPanel = item;
+				break;
+			}
+		}
+		if (m_CurrentBuffPanel != null)
+		{
+			if (m_CurrentBuffPanel.active)
+			{
+				m_CurrentBuffPanel.active = false;
+			}
+			else
+			{
+				foreach (var item in m_BuffPanelMap)
+				{
+					item.Value.active = false;
+				}
+
+				m_CurrentBuffPanel.active = true;
+			}
+
+			m_CurrentBuffPanel = null;
+		}
 	}
 
 	public void RerollBuffRewards()

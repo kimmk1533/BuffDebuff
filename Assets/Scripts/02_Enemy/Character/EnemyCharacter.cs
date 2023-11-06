@@ -606,6 +606,9 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		int count = textObjectList.Count;
 		for (int i = 0; i < count; ++i)
 		{
+			if (textObjectList[i] == null)
+				continue;
+
 			GameObject.Destroy(textObjectList[i].gameObject);
 		}
 		textObjectList.Clear();

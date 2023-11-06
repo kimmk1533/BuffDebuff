@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EnemyManager : ObjectManager<EnemyManager, Enemy>
 {
-	public override void Initialize(bool autoInit = true)
+	public override void Initialize()
 	{
-		base.Initialize(autoInit);
+		base.Initialize();
 
 
 	}

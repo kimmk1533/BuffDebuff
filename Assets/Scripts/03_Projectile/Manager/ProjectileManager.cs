@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ProjectileManager : ObjectManager<ProjectileManager, Projectile>
 {
-	public override void Initialize(bool autoInit = true)
+	public override void Initialize()
 	{
-		base.Initialize(autoInit);
+		base.Initialize();
 	}
 }

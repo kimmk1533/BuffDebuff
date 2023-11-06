@@ -43,9 +43,9 @@ public class StageGenerator : MonoBehaviour
 		stage = new GameObject("Stage " + M_Stage.currentStageLevel).AddComponent<Stage>();
 		stage.transform.SetParent(M_Stage.stageParent);
 
-		ResetRoomCheck(M_Stage.currentStageLevel, ref stage);
-
 		Vector2Int current;
+
+		ResetRoomCheck(M_Stage.currentStageLevel, ref stage);
 
 		while (m_StageRoomCount < m_MaxRoomCount)
 		{
@@ -173,14 +173,17 @@ public class StageGenerator : MonoBehaviour
 			conditionList.Add((direction, nearRoom.GetWarpPointCount(direction)));
 		}
 
-		Room origin = M_Room.GetRandomRoom(conditionList.ToArray());
-		if (origin == null)
+		Room room = M_Room.GetRandomRoom(conditionList.ToArray());
+		if (room == null)
 			Debug.LogError("Error: 조건에 맞는 방을 불러올 수 없음");
 
 		Vector2Int center = M_Stage.stageSize / 2;
-		Vector3 pos = new Vector3((x - center.x) * origin.roomSize.x, (y - center.y) * origin.roomSize.y);
+		Vector3 pos = new Vector3((x - center.x) * room.roomSize.x, (y - center.y) * room.roomSize.y);
 
-		Room room = Room.Instantiate(origin, pos, Quaternion.identity, stage.transform);
+		room.transform.SetParent(stage.transform);
+		room.transform.position = (Vector2)pos;
+		room.gameObject.name += "_" + (m_StageRoomCount - 1).ToString();
+		room.gameObject.SetActive(true);
 		room.Initialize();
 
 		m_GeneratedRoomMap.Add(check, room);
@@ -199,22 +202,25 @@ public class StageGenerator : MonoBehaviour
 		m_StageRoomCheck[center.y, center.x] = true;
 		++m_StageRoomCount;
 
-		m_GeneratedRoomMap.Clear();
-
-		Room originRoom = M_Room.GetRandomRoom();
-		if (originRoom == null)
-			Debug.LogError("Error: 시작 방이 null 임");
-
-		Room startRoom = Room.Instantiate(originRoom, Vector3.zero, Quaternion.identity, stage.transform);
-		startRoom.Initialize();
-
-		m_GeneratedRoomMap.Add(center, startRoom);
-
 		int roomCount = stage.transform.childCount;
 		for (int i = 0; i < roomCount; ++i)
 		{
 			GameObject.Destroy(stage.transform.GetChild(0).gameObject);
 		}
+
+		m_GeneratedRoomMap.Clear();
+
+		Room room = M_Room.SpawnRandomRoom();
+		if (room == null)
+			Debug.LogError("Error: 시작 방이 null 임");
+
+		room.transform.SetParent(stage.transform);
+		room.transform.position = Vector3.zero;
+		room.gameObject.name += "_0";
+		room.gameObject.SetActive(true);
+		room.Initialize();
+
+		m_GeneratedRoomMap.Add(center, room);
 	}
 
 	#region Debuging Info
