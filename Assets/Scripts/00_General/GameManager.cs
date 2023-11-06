@@ -12,6 +12,7 @@ public class GameManager : Singleton<GameManager>
 	private SpreadSheet.SpreadSheetManager M_SpreadSheet => SpreadSheet.SpreadSheetManager.Instance;
 	private BuffManager M_Buff => BuffManager.Instance;
 
+	private RoomManager M_Room => RoomManager.Instance;
 	private StageManager M_Stage => StageManager.Instance;
 	private WarpManager M_Warp => WarpManager.Instance;
 	private GridManager M_Grid => GridManager.Instance;
@@ -36,6 +37,7 @@ public class GameManager : Singleton<GameManager>
 		//M_SpreadSheet.Initialize();
 		M_Buff.Initialize();
 
+		M_Room.Initialize();
 		M_Stage.Initialize();
 		M_Warp.Initialize();
 		M_Grid.Initialize();

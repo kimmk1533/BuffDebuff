@@ -35,7 +35,7 @@ public class GridManager : Singleton<GridManager>
 		m_Map = GetComponent<Map>();
 		m_Map.Initialize();
 
-		m_Tilemap = M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.TileMap);
+		m_Tilemap = M_Stage.currentStage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.TileMap);
 	}
 
 	[ContextMenu("Create Grid Text")]

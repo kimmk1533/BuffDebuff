@@ -6,24 +6,6 @@ public class WarpPoint : MonoBehaviour
 {
 	private static readonly Color colliderColor = new Color(145 / 255f, 244 / 255f, 139 / 255f, 192 / 255f);
 
-	public enum E_WarpPointPos
-	{
-		None,
-
-		TopLeft,
-		Top,
-		TopRight,
-
-		Left,
-		Center,
-		Right,
-
-		BottomLeft,
-		Bottom,
-		BottomRight,
-
-		Max
-	}
 	public enum E_Direction
 	{
 		Up,
@@ -43,11 +25,8 @@ public class WarpPoint : MonoBehaviour
 
 	[Space(10)]
 	[SerializeField]
-	private E_WarpPointPos m_WarpPointPos;
-	[SerializeField]
 	private E_Direction m_Direction;
 
-	public E_WarpPointPos warpPointPos => m_WarpPointPos;
 	public E_Direction direction => m_Direction;
 
 	public void Initialize(Room room)

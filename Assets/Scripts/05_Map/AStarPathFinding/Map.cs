@@ -43,8 +43,8 @@ public class Map : MonoBehaviour
 	public void Initialize()
 	{
 		// 임시
-		Tilemap tileMap = M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.TileMap);
-		Tilemap oneWayMap = M_Stage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.OneWayMap);
+		Tilemap tileMap = M_Stage.currentStage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.TileMap);
+		Tilemap oneWayMap = M_Stage.currentStage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.OneWayMap);
 
 		m_Width = (int)(tileMap.cellBounds.size.x);
 		m_Height = (int)(tileMap.cellBounds.size.y);
