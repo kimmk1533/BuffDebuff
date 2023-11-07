@@ -19,6 +19,9 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 
 		foreach (var originInfo in m_Origins)
 		{
+			if (originInfo.useFlag == false)
+				continue;
+
 			AddPool(originInfo, transform, autoInit);
 		}
 	}
@@ -132,21 +135,25 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 	{
 		[field: SerializeField, ReadOnly(true)]
 		public string key { get; set; }
-		[field: SerializeField, ReadOnly(true)]
-		public int poolSize { get; set; }
 
 		[field: Space]
+		[field: SerializeField, ReadOnly(true)]
+		public bool useFlag { get; set; }
+		[field: SerializeField, ReadOnly(true)]
+		public int poolSize { get; set; }
 		[field: SerializeField, ReadOnly(true)]
 		public Origin origin { get; set; }
 
 		public OriginInfo(string key, Origin item)
 		{
+			this.useFlag = true;
 			this.key = key;
 			this.poolSize = 100;
 			this.origin = item;
 		}
 		public OriginInfo(string key, int poolSize, Origin item)
 		{
+			this.useFlag = true;
 			this.key = key;
 			this.poolSize = poolSize;
 			this.origin = item;

@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 1881156132602979255}
   - component: {fileID: 4119264829664003254}
   m_Layer: 7
-  m_Name: Collider
+  m_Name: WarpPoint 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18344,7 +18344,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2094046425600255043}
   m_Layer: 0
-  m_Name: Portal
+  m_Name: WarpPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18381,7 +18381,7 @@ GameObject:
   - component: {fileID: 280306223535927448}
   - component: {fileID: 6430489690383192441}
   m_Layer: 7
-  m_Name: Collider
+  m_Name: WarpPoint 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18455,7 +18455,7 @@ GameObject:
   - component: {fileID: 2570597177339321766}
   - component: {fileID: 8237503503349383298}
   m_Layer: 7
-  m_Name: Collider
+  m_Name: WarpPoint 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18564,7 +18564,7 @@ GameObject:
   - component: {fileID: 7665106105293830834}
   - component: {fileID: 3371426707748572697}
   m_Layer: 7
-  m_Name: Collider
+  m_Name: WarpPoint 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

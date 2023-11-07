@@ -19,7 +19,7 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 			for (E_Direction direction = 0; direction < E_Direction.Max; ++direction)
 			{
 				int count = originInfo.origin.GetWarpPointCount(direction);
-				if (count <= 0)
+				if (count < 0)
 					continue;
 
 				if (m_Room_Dir_Count_Map.ContainsKey((direction, count)) == false)
@@ -83,8 +83,11 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 			// 현재 조건
 			var curCondition = conditions[i];
 
+			if (m_Room_Dir_Count_Map.TryGetValue(curCondition, out List<ObjectPool<Room>> curConditionRoomList) == false)
+				return null;
+
 			// 현재 조건의 방들 추가
-			poolList.AddRange(m_Room_Dir_Count_Map[curCondition]);
+			poolList.AddRange(curConditionRoomList);
 
 			for (int j = 0; j < i; ++j)
 			{

@@ -60,6 +60,7 @@ public class Room : MonoBehaviour
 		m_WarpPointCountMap = new Dictionary<E_Direction, int>();
 
 		WarpPoint[] warpPointArray = GetComponentsInChildren<WarpPoint>();
+
 		foreach (WarpPoint warpPoint in warpPointArray)
 		{
 			E_Direction direction = warpPoint.direction;
@@ -95,6 +96,9 @@ public class Room : MonoBehaviour
 	}
 	public List<WarpPoint> GetWarpPointList(E_Direction direction)
 	{
+		if (m_WarpPointMap.ContainsKey(direction) == false)
+			return null;
+
 		List<WarpPoint> result = new List<WarpPoint>();
 
 		result.AddRange(m_WarpPointMap[direction]);
@@ -103,6 +107,9 @@ public class Room : MonoBehaviour
 	}
 	public int GetWarpPointCount(E_Direction direction)
 	{
+		if (m_WarpPointCountMap.ContainsKey(direction) == false)
+			return -1;
+
 		return m_WarpPointCountMap[direction];
 	}
 
