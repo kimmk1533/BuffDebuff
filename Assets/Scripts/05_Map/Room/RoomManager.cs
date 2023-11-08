@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using E_Direction = WarpPoint.E_Direction;
 
@@ -19,8 +20,6 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 			for (E_Direction direction = 0; direction < E_Direction.Max; ++direction)
 			{
 				int count = originInfo.origin.GetWarpPointCount(direction);
-				if (count < 0)
-					continue;
 
 				if (m_Room_Dir_Count_Map.ContainsKey((direction, count)) == false)
 					m_Room_Dir_Count_Map.Add((direction, count), new List<ObjectPool<Room>>());
@@ -34,7 +33,7 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 	/// 모든 방들 중 랜덤한 방을 리턴하는 함수
 	/// </summary>
 	/// <returns>모든 방들 중 랜덤한 방</returns>
-	public Room SpawnRandomRoom()
+	public Room SpawnRandomRoom_All()
 	{
 		List<ObjectPool<Room>> poolList = new List<ObjectPool<Room>>();
 
@@ -43,8 +42,7 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 			poolList.Add(item.Value);
 		}
 
-		if (poolList == null ||
-			poolList.Count <= 0)
+		if (poolList.Count <= 0)
 			return null;
 
 		var randomPool = poolList[Random.Range(0, poolList.Count)];
@@ -57,7 +55,7 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 	/// <param name="direction">조건: 방향</param>
 	/// <param name="count">조건: 포탈 갯수</param>
 	/// <returns>조건을 만족하는 방들 중 랜덤한 방</returns>
-	public Room GetRandomRoom(E_Direction direction, int count)
+	public Room SpawnRandomRoom(E_Direction direction, int count)
 	{
 		List<ObjectPool<Room>> poolList = m_Room_Dir_Count_Map[(direction, count)];
 
@@ -74,8 +72,11 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 	/// </summary>
 	/// <param name="conditions"></param>
 	/// <returns>조건을 만족하는 방들 중 랜덤한 방</returns>
-	public Room GetRandomRoom(params (E_Direction direction, int count)[] conditions)
+	public Room SpawnRandomRoom(params (E_Direction direction, int count)[] conditions)
 	{
+		if (conditions.Length <= 0)
+			return SpawnRandomRoom_All();
+
 		List<ObjectPool<Room>> poolList = new List<ObjectPool<Room>>();
 
 		for (int i = 0; i < conditions.Length; ++i)
@@ -88,27 +89,44 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 
 			// 현재 조건의 방들 추가
 			poolList.AddRange(curConditionRoomList);
+			poolList = poolList.Distinct().ToList();
 
 			for (int j = 0; j < i; ++j)
 			{
 				// 이전 조건
 				var prevCondition = conditions[j];
 
-				// 이전 조건들을 반복하며 충족하지 않는 방들 제외
-				// 임시로 현재 풀에서 하나 생성해서 확인하는 방식을 쓰는데
-				// 최적화면에서 너무 안좋을 것 같음
-				poolList.RemoveAll((pool) =>
+				//// 이전 조건들을 반복하며 충족하지 않는 방들 제외
+				//// 임시로 현재 풀에서 하나 생성해서 확인하는 방식을 쓰는데
+				//// 최적화면에서 너무 안좋을 것 같음
+				//poolList.RemoveAll((pool) =>
+				//{
+				//	Room room = pool.Spawn();
+				//	room.Initialize();
+				//	int count = room.GetWarpPointCount(prevCondition.direction);
+				//	pool.Despawn(room);
+
+				//	if (count != prevCondition.count)
+				//		return true;
+
+				//	return false;
+				//});
+
+				for (int poolListIndex = 0; poolListIndex < poolList.Count; ++poolListIndex)
 				{
+					ObjectPool<Room> pool = poolList[poolListIndex];
+
 					Room room = pool.Spawn();
 					room.Initialize();
 					int count = room.GetWarpPointCount(prevCondition.direction);
 					pool.Despawn(room);
 
 					if (count != prevCondition.count)
-						return true;
-
-					return false;
-				});
+					{
+						poolList.RemoveAt(poolListIndex);
+						--poolListIndex;
+					}
+				}
 			}
 		}
 
@@ -119,5 +137,10 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 		var randomPool = poolList[Random.Range(0, poolList.Count)];
 
 		return randomPool.Spawn();
+	}
+	
+	public class RandomRoomBuilder
+	{
+
 	}
 }

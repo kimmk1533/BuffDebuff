@@ -6,20 +6,30 @@ using UnityEngine;
 [RequireComponent(typeof(StageGenerator))]
 public class StageManager : Singleton<StageManager>
 {
+	private static readonly Vector2Int[] c_StageSize =
+	{
+		new Vector2Int(5, 4),	// stage 1
+		new Vector2Int(6, 5),	// stage 2
+		new Vector2Int(7, 6),	// stage 3
+		new Vector2Int(8, 7),	// stage 4
+		new Vector2Int(9, 8),	// stage 5
+		new Vector2Int(10, 9),	// stage 6
+	};
 	#region Variables
-	private StageGenerator m_StageGenerator;
-
-	private Stage m_CurrentStage;
 
 	[SerializeField]
 	private GameObject m_StageParent;
 
-	[SerializeField, Min(1)]
+	[SerializeField, Range(1, 6)]
 	private int m_CurrentStageLevel;
 	[SerializeField]
 	private Vector2Int m_StageSize;
 	[SerializeField, ReadOnly]
 	private Vector2Int m_CurrentRoomIndex;
+
+	private Stage m_CurrentStage;
+
+	private StageGenerator m_StageGenerator;
 	#endregion
 
 	#region Property
@@ -33,9 +43,11 @@ public class StageManager : Singleton<StageManager>
 
 	public void Initialize()
 	{
+		m_StageSize = c_StageSize[m_CurrentStageLevel - 1];
+
 		m_StageGenerator = GetComponent<StageGenerator>();
-		m_StageGenerator.Initialize();
-		m_StageGenerator.GenerateStage(out m_CurrentStage);
+		m_StageGenerator.Initialize(m_StageSize);
+		m_CurrentStage = m_StageGenerator.GenerateStage();
 
 		//m_CurrentStageLevel = 1;
 
@@ -113,6 +125,7 @@ public class StageManager : Singleton<StageManager>
 
 	private void OnValidate()
 	{
+		m_StageSize = c_StageSize[m_CurrentStageLevel - 1];
 		GetComponent<StageGenerator>().OnValidate();
 	}
 }

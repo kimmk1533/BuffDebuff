@@ -108,7 +108,7 @@ public class Room : MonoBehaviour
 	public int GetWarpPointCount(E_Direction direction)
 	{
 		if (m_WarpPointCountMap.ContainsKey(direction) == false)
-			return -1;
+			return 0;
 
 		return m_WarpPointCountMap[direction];
 	}
