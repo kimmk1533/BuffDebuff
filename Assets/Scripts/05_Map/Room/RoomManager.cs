@@ -2,17 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using RoomPool = ObjectPool<Room>;
 using E_Direction = WarpPoint.E_Direction;
 
 public class RoomManager : ObjectManager<RoomManager, Room>
 {
-	private Dictionary<(E_Direction direction, int count), List<ObjectPool<Room>>> m_Room_Dir_Count_Map;
+	public enum E_Condition
+	{
+		// 초과
+		Over,
+		// 이상
+		More,
+		// 항등
+		Equal,
+		// 
+		NotEqual,
+		// 이하
+		Less,
+		// 미만
+		Under,
+
+		Max
+	}
+
+	private List<RoomPool> m_AllRoomPool;
+	private Dictionary<(E_Direction direction, int count), List<RoomPool>> m_DirCountMap;
 
 	public override void Initialize()
 	{
 		base.Initialize();
 
-		m_Room_Dir_Count_Map = new Dictionary<(E_Direction direction, int count), List<ObjectPool<Room>>>();
+		m_AllRoomPool = new List<RoomPool>();
+		foreach (var item in m_Pools)
+		{
+			m_AllRoomPool.Add(item.Value);
+		}
+		m_AllRoomPool = m_AllRoomPool.Distinct().ToList();
+
+		m_DirCountMap = new Dictionary<(E_Direction direction, int count), List<RoomPool>>();
 		foreach (var originInfo in m_Origins)
 		{
 			originInfo.origin.Initialize();
@@ -21,10 +48,10 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 			{
 				int count = originInfo.origin.GetWarpPointCount(direction);
 
-				if (m_Room_Dir_Count_Map.ContainsKey((direction, count)) == false)
-					m_Room_Dir_Count_Map.Add((direction, count), new List<ObjectPool<Room>>());
+				if (m_DirCountMap.ContainsKey((direction, count)) == false)
+					m_DirCountMap.Add((direction, count), new List<RoomPool>());
 
-				m_Room_Dir_Count_Map[(direction, count)].Add(GetPool(originInfo.key));
+				m_DirCountMap[(direction, count)].Add(GetPool(originInfo.key));
 			}
 		}
 	}
@@ -35,35 +62,12 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 	/// <returns>모든 방들 중 랜덤한 방</returns>
 	public Room SpawnRandomRoom_All()
 	{
-		List<ObjectPool<Room>> poolList = new List<ObjectPool<Room>>();
-
-		foreach (var item in m_Pools)
-		{
-			poolList.Add(item.Value);
-		}
+		List<RoomPool> poolList = new List<RoomPool>(m_AllRoomPool);
 
 		if (poolList.Count <= 0)
 			return null;
 
-		var randomPool = poolList[Random.Range(0, poolList.Count)];
-
-		return randomPool.Spawn();
-	}
-	/// <summary>
-	/// 하나의 조건을 만족하는 방들 중 랜덤한 방을 리턴하는 함수
-	/// </summary>
-	/// <param name="direction">조건: 방향</param>
-	/// <param name="count">조건: 포탈 갯수</param>
-	/// <returns>조건을 만족하는 방들 중 랜덤한 방</returns>
-	public Room SpawnRandomRoom(E_Direction direction, int count)
-	{
-		List<ObjectPool<Room>> poolList = m_Room_Dir_Count_Map[(direction, count)];
-
-		if (poolList == null ||
-			poolList.Count <= 0)
-			return null;
-
-		var randomPool = poolList[Random.Range(0, poolList.Count)];
+		RoomPool randomPool = poolList[Random.Range(0, poolList.Count)];
 
 		return randomPool.Spawn();
 	}
@@ -72,60 +76,56 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 	/// </summary>
 	/// <param name="conditions"></param>
 	/// <returns>조건을 만족하는 방들 중 랜덤한 방</returns>
-	public Room SpawnRandomRoom(params (E_Direction direction, int count)[] conditions)
+	public Room SpawnRandomRoom(params (E_Condition condition, E_Direction direction, int count)[] conditions)
 	{
 		if (conditions.Length <= 0)
 			return SpawnRandomRoom_All();
 
-		List<ObjectPool<Room>> poolList = new List<ObjectPool<Room>>();
+		List<RoomPool> poolList = new List<RoomPool>(m_AllRoomPool);
 
 		for (int i = 0; i < conditions.Length; ++i)
 		{
-			// 현재 조건
-			var curCondition = conditions[i];
+			(E_Condition condition, E_Direction direction, int count) condition = conditions[i];
 
-			if (m_Room_Dir_Count_Map.TryGetValue(curCondition, out List<ObjectPool<Room>> curConditionRoomList) == false)
-				return null;
-
-			// 현재 조건의 방들 추가
-			poolList.AddRange(curConditionRoomList);
-			poolList = poolList.Distinct().ToList();
-
-			for (int j = 0; j < i; ++j)
+			for (int poolListIndex = 0; poolListIndex < poolList.Count; ++poolListIndex)
 			{
-				// 이전 조건
-				var prevCondition = conditions[j];
+				RoomPool pool = poolList[poolListIndex];
 
-				//// 이전 조건들을 반복하며 충족하지 않는 방들 제외
-				//// 임시로 현재 풀에서 하나 생성해서 확인하는 방식을 쓰는데
-				//// 최적화면에서 너무 안좋을 것 같음
-				//poolList.RemoveAll((pool) =>
-				//{
-				//	Room room = pool.Spawn();
-				//	room.Initialize();
-				//	int count = room.GetWarpPointCount(prevCondition.direction);
-				//	pool.Despawn(room);
+				Room room = pool.Spawn();
+				room.Initialize();
+				int count = room.GetWarpPointCount(condition.direction);
+				pool.Despawn(room);
 
-				//	if (count != prevCondition.count)
-				//		return true;
+				bool flag;
 
-				//	return false;
-				//});
-
-				for (int poolListIndex = 0; poolListIndex < poolList.Count; ++poolListIndex)
+				switch (condition.condition)
 				{
-					ObjectPool<Room> pool = poolList[poolListIndex];
+					case E_Condition.Over:
+						flag = !(count > condition.count);
+						break;
+					case E_Condition.More:
+						flag = !(count >= condition.count);
+						break;
+					case E_Condition.Equal:
+						flag = !(count == condition.count);
+						break;
+					case E_Condition.NotEqual:
+						flag = !(count != condition.count);
+						break;
+					case E_Condition.Less:
+						flag = !(count <= condition.count);
+						break;
+					case E_Condition.Under:
+						flag = !(count < condition.count);
+						break;
+					default:
+						throw new System.Exception("prevCondition.condition value is strange.");
+				}
 
-					Room room = pool.Spawn();
-					room.Initialize();
-					int count = room.GetWarpPointCount(prevCondition.direction);
-					pool.Despawn(room);
-
-					if (count != prevCondition.count)
-					{
-						poolList.RemoveAt(poolListIndex);
-						--poolListIndex;
-					}
+				if (flag)
+				{
+					poolList.RemoveAt(poolListIndex);
+					--poolListIndex;
 				}
 			}
 		}
@@ -134,13 +134,8 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 			poolList.Count <= 0)
 			return null;
 
-		var randomPool = poolList[Random.Range(0, poolList.Count)];
+		RoomPool randomPool = poolList[Random.Range(0, poolList.Count)];
 
 		return randomPool.Spawn();
-	}
-	
-	public class RandomRoomBuilder
-	{
-
 	}
 }
