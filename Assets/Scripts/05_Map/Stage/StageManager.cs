@@ -15,10 +15,10 @@ public class StageManager : Singleton<StageManager>
 		new Vector2Int(9, 8),	// stage 5
 		new Vector2Int(10, 9),	// stage 6
 	};
-	#region Variables
 
+	#region 변수
 	[SerializeField]
-	private GameObject m_StageParent;
+	private Transform m_StageParent;
 
 	[SerializeField, Range(1, 6)]
 	private int m_CurrentStageLevel;
@@ -32,7 +32,7 @@ public class StageManager : Singleton<StageManager>
 	private StageGenerator m_StageGenerator;
 	#endregion
 
-	#region Property
+	#region 프로퍼티
 	public Stage currentStage => m_CurrentStage;
 	public Transform stageParent => m_StageParent.transform;
 	public int currentStageLevel => m_CurrentStageLevel;
@@ -43,13 +43,33 @@ public class StageManager : Singleton<StageManager>
 
 	public void Initialize()
 	{
+		//m_CurrentStageLevel = 1;
+
 		m_StageSize = c_StageSize[m_CurrentStageLevel - 1];
 
 		m_StageGenerator = GetComponent<StageGenerator>();
-		m_StageGenerator.Initialize(m_StageSize);
-		m_CurrentStage = m_StageGenerator.GenerateStage();
+		m_StageGenerator.Initialize();
+		m_CurrentStage = m_StageGenerator.GenerateStage(new StageGenerator.StageGeneratorArg()
+		{
+			stageParent = m_StageParent,
+			currentStageLevel = m_CurrentStageLevel,
+			stageSize = m_StageSize
+		});
 
-		//m_CurrentStageLevel = 1;
+		m_CurrentRoomIndex = m_StageSize / 2;
+	}
+
+	public void NextStage()
+	{
+		++m_CurrentStageLevel;
+
+		m_StageSize = c_StageSize[m_CurrentStageLevel - 1];
+
+		m_CurrentStage = m_StageGenerator.GenerateStage(new StageGenerator.StageGeneratorArg()
+		{
+			currentStageLevel = m_CurrentStageLevel,
+			stageSize = m_StageSize
+		});
 
 		m_CurrentRoomIndex = m_StageSize / 2;
 	}

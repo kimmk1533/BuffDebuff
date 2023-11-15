@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using SpreadSheet;
 using UnityEngine;
+using Enum;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -73,7 +74,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 		LoadAllBuff();
 	}
-	public void InitializeEvent()
+	public void InitializeBuffEvent()
 	{
 		m_OnBuffAdded = null;
 		m_OnBuffRemoved = null;

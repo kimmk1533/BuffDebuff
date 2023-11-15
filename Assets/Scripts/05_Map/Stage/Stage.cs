@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Enum;
+using System;
 
 public class Stage : MonoBehaviour
 {
@@ -29,19 +31,5 @@ public class Stage : MonoBehaviour
 		}
 
 		m_CurrentRoomIndex = M_Stage.stageSize / 2;
-
-		//int index = 0;
-		//for (int y = 0; y < m_StageSize.y; ++y)
-		//{
-		//	for (int x = 0; x < m_StageSize.x; ++x)
-		//	{
-		//		if (CheckRoomGenerated(x, y))
-		//		{
-		//			m_GeneratedRooms[y, x] = m_RoomParent.GetChild(index++).GetComponent<Room>();
-		//			m_GeneratedRooms[y, x].Initialize();
-		//		}
-		//	}
-		//}
-
 	}
 }

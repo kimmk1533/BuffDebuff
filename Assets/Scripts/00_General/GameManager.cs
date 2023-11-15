@@ -37,9 +37,9 @@ public class GameManager : Singleton<GameManager>
 		//M_SpreadSheet.Initialize();
 		M_Buff.Initialize();
 
+		M_Warp.Initialize();
 		M_Room.Initialize();
 		M_Stage.Initialize();
-		M_Warp.Initialize();
 		M_Grid.Initialize();
 
 		// UI Init
@@ -47,10 +47,14 @@ public class GameManager : Singleton<GameManager>
 	}
 	public void InitializeEvent()
 	{
-		M_Buff.InitializeEvent();
+		#region Buff Event
+		M_Buff.InitializeBuffEvent();
+		M_Player.InitializeBuffEvent();
+		M_BuffUI.InitializeBuffEvent();
+		#endregion
 
-		M_Player.InitializeEvent();
-
-		M_BuffUI.InitializeEvent();
+		#region RoomMoved
+		M_Warp.InitializeRoomMovedEvent();
+		#endregion
 	}
 }

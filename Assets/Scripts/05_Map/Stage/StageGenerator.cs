@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Enum;
 using E_Condition = RoomManager.E_Condition;
-using E_Direction = WarpPoint.E_Direction;
+using RoomCondition = System.ValueTuple<RoomManager.E_Condition, Enum.E_Direction, int>;
 
 // 아이작 방식 맵 생성
 // 참고: https://minpro-tech.tistory.com/106
 public class StageGenerator : MonoBehaviour
 {
-	// 워프 이후의 방향
-	private static readonly E_Direction[] c_DirectionAfterWarp = { E_Direction.Down, E_Direction.Up, E_Direction.Right, E_Direction.Left };
-	// WarpPoint.E_Direction 의 순서로 고정
-	private static readonly Vector2Int[] c_Direction = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
 
+	#region 변수
 	[SerializeField, Min(1.0f)]
 	private float m_StageMagnification = 2.6f;
 
@@ -23,6 +21,8 @@ public class StageGenerator : MonoBehaviour
 	private int m_StageRoomCount;
 	private int m_GeneratedRoomCount;
 
+	private Transform m_StageParent;
+	private int m_CurrentStageLevel;
 	private Vector2Int m_StageSize;
 
 	private bool[,] m_StageRoomCheck;
@@ -30,22 +30,24 @@ public class StageGenerator : MonoBehaviour
 	private Dictionary<Vector2Int, Room> m_GeneratedRoomMap;
 
 	private CameraFollow m_CameraFollow;
+	#endregion
 
-	private StageManager M_Stage => StageManager.Instance;
+	#region 프로퍼티
+	private Transform stageParent => m_StageParent;
+	private int currStageLevel => m_CurrentStageLevel;
+	private Vector2Int stageSize => m_StageSize;
+	#endregion
+
+	#region 매니저
 	private RoomManager M_Room => RoomManager.Instance;
+	private StageManager M_Stage => StageManager.Instance;
+	#endregion
 
-	public void Initialize(int width, int height)
+	public void Initialize()
 	{
-		Initialize(new Vector2Int(width, height));
-	}
-	public void Initialize(Vector2Int size)
-	{
-		m_StageSize = size;
-
 		m_StageRoomCount = 0;
 		m_GeneratedRoomCount = 0;
 
-		m_StageRoomCheck = new bool[size.y, size.x];
 		m_StageRoomQueue = new Queue<Vector2Int>();
 		m_GeneratedRoomMap = new Dictionary<Vector2Int, Room>();
 
@@ -54,33 +56,38 @@ public class StageGenerator : MonoBehaviour
 		ClearStage();
 	}
 
-	[ContextMenu("스테이지 생성")]
-	public Stage GenerateStage()
+	public Stage GenerateStage(StageGeneratorArg arg)
 	{
+		m_StageParent = arg.stageParent;
+		m_CurrentStageLevel = arg.currentStageLevel;
+		m_StageSize = arg.stageSize;
+
+		m_StageRoomCheck = new bool[m_StageSize.y, m_StageSize.x];
+
 		if (m_AutoClear)
 			ClearStage();
 
-		Stage stage = new GameObject("Stage " + M_Stage.currentStageLevel.ToString("00")).AddComponent<Stage>();
-		stage.transform.SetParent(M_Stage.stageParent);
+		Stage stage = new GameObject("Stage " + currStageLevel.ToString("00")).AddComponent<Stage>();
+		stage.transform.SetParent(stageParent);
 
 		Vector2Int checkPos;
 		Vector2Int current;
 
-		ResetRoomCheck(M_Stage.currentStageLevel, ref stage);
+		ResetRoomCheck(currStageLevel, ref stage);
 
 		while (m_StageRoomCount < m_MaxRoomCount)
 		{
 			if (m_StageRoomQueue.Count == 0)
 			{
-				ResetRoomCheck(M_Stage.currentStageLevel, ref stage);
+				ResetRoomCheck(currStageLevel, ref stage);
 				Debug.Log("맵 재생성");
 			}
 
 			current = m_StageRoomQueue.Dequeue();
 
-			for (int i = 0; i < c_Direction.Length; ++i)
+			for (E_Direction direction = 0; direction < E_Direction.Max; ++direction)
 			{
-				checkPos = current + c_Direction[i];
+				checkPos = current + Enum.DirEnumUtil.ConvertToVector2Int(direction);
 
 				UpdateRoomCheck(checkPos);
 			}
@@ -123,23 +130,25 @@ public class StageGenerator : MonoBehaviour
 			}
 		}
 
+		#region 카메라 설정
 		Vector2Int center = m_StageSize / 2;
 
 		Room room = m_GeneratedRoomMap[center];
 
 		m_CameraFollow.clampOffset = room.offset;
 		m_CameraFollow.clampAreaSize = room.roomSize;
+		#endregion
 
-		stage.Initialize(M_Stage.currentStageLevel, M_Stage.stageSize, m_GeneratedRoomMap);
+		stage.Initialize(currStageLevel, stageSize, m_GeneratedRoomMap);
+
 		return stage;
 	}
-	[ContextMenu("스테이지 제거")]
 	public void ClearStage()
 	{
-		int count = M_Stage.stageParent.childCount;
+		int count = stageParent.childCount;
 		for (int i = 0; i < count; ++i)
 		{
-			GameObject.Destroy(M_Stage.stageParent.GetChild(0).gameObject);
+			GameObject.Destroy(stageParent.GetChild(0).gameObject);
 		}
 	}
 
@@ -159,8 +168,8 @@ public class StageGenerator : MonoBehaviour
 			return false;
 
 		// 인덱스 체크
-		if (roomPos.x < 0 || roomPos.x >= M_Stage.stageSize.x ||
-			roomPos.y < 0 || roomPos.y >= M_Stage.stageSize.y)
+		if (roomPos.x < 0 || roomPos.x >= stageSize.x ||
+			roomPos.y < 0 || roomPos.y >= stageSize.y)
 			return false;
 
 		// 이미 채워져 있으면 포기
@@ -171,8 +180,8 @@ public class StageGenerator : MonoBehaviour
 		int count = 0;
 		Vector2Int check = roomPos + Vector2Int.left;
 		if (!(
-			check.x < 0 || check.x >= M_Stage.stageSize.x ||
-			check.y < 0 || check.y >= M_Stage.stageSize.y
+			check.x < 0 || check.x >= stageSize.x ||
+			check.y < 0 || check.y >= stageSize.y
 			) &&
 			m_StageRoomCheck[check.y, check.x])
 		{
@@ -181,8 +190,8 @@ public class StageGenerator : MonoBehaviour
 		}
 		check = roomPos + Vector2Int.right;
 		if (!(
-			check.x < 0 || check.x >= M_Stage.stageSize.x ||
-			check.y < 0 || check.y >= M_Stage.stageSize.y
+			check.x < 0 || check.x >= stageSize.x ||
+			check.y < 0 || check.y >= stageSize.y
 			) &&
 			m_StageRoomCheck[check.y, check.x])
 		{
@@ -191,8 +200,8 @@ public class StageGenerator : MonoBehaviour
 		}
 		check = roomPos + Vector2Int.up;
 		if (!(
-			check.x < 0 || check.x >= M_Stage.stageSize.x ||
-			check.y < 0 || check.y >= M_Stage.stageSize.y
+			check.x < 0 || check.x >= stageSize.x ||
+			check.y < 0 || check.y >= stageSize.y
 			) &&
 			m_StageRoomCheck[check.y, check.x])
 		{
@@ -201,8 +210,8 @@ public class StageGenerator : MonoBehaviour
 		}
 		check = roomPos + Vector2Int.down;
 		if (!(
-			check.x < 0 || check.x >= M_Stage.stageSize.x ||
-			check.y < 0 || check.y >= M_Stage.stageSize.y
+			check.x < 0 || check.x >= stageSize.x ||
+			check.y < 0 || check.y >= stageSize.y
 			) &&
 			m_StageRoomCheck[check.y, check.x])
 		{
@@ -233,20 +242,19 @@ public class StageGenerator : MonoBehaviour
 	private void GenerateRoom(Vector2Int roomPos, ref Stage stage)
 	{
 		// 이미 생성한 곳
-		if (m_GeneratedRoomMap.TryGetValue(roomPos, out Room curRoom) == true &&
-			curRoom != null)
+		if (m_GeneratedRoomMap.TryGetValue(roomPos, out Room currRoom) == true &&
+			currRoom != null)
 			return;
 
-		#region 조건 확인
-		List<(E_Condition condition, E_Direction direction, int count)> conditionList = new List<(E_Condition condition, E_Direction direction, int count)>();
+		List<RoomCondition> conditionList = new List<RoomCondition>();
 
-		for (int i = 0; i < c_Direction.Length; ++i)
+		#region 조건 확인
+		for (E_Direction direction = 0; direction < E_Direction.Max; ++direction)
 		{
 			E_Condition condition;
-			E_Direction direction = (E_Direction)i;
 			int count;
 
-			Vector2Int nearRoomPos = roomPos + c_Direction[i];
+			Vector2Int nearRoomPos = roomPos + DirEnumUtil.ConvertToVector2Int(direction);
 
 			if (m_GeneratedRoomMap.TryGetValue(nearRoomPos, out Room nearRoom) == false)
 			{
@@ -258,7 +266,7 @@ public class StageGenerator : MonoBehaviour
 			{
 				condition = E_Condition.Equal;
 
-				E_Direction nearRoomWarpDir = c_DirectionAfterWarp[i];
+				E_Direction nearRoomWarpDir = DirEnumUtil.GetOtherDir(direction);
 				count = nearRoom.GetWarpPointCount(nearRoomWarpDir);
 			}
 			else
@@ -270,12 +278,12 @@ public class StageGenerator : MonoBehaviour
 
 			conditionList.Add((condition, direction, count));
 		}
+		#endregion
 
 		for (int i = 0; i < conditionList.Count; ++i)
 		{
 			Debug.Log((m_GeneratedRoomCount + 1).ToString("00_") + i.ToString("00: ") + conditionList[i].ToString());
 		}
-		#endregion
 
 		Room room = M_Room.SpawnRandomRoom(conditionList.ToArray());
 		if (room == null)
@@ -286,7 +294,7 @@ public class StageGenerator : MonoBehaviour
 		int x = roomPos.x;
 		int y = roomPos.y;
 
-		Vector2Int center = M_Stage.stageSize / 2;
+		Vector2Int center = stageSize / 2;
 		Vector3 pos = new Vector3((x - center.x) * 100, (y - center.y) * 100);
 
 		room.transform.SetParent(stage.transform);
@@ -296,6 +304,11 @@ public class StageGenerator : MonoBehaviour
 		room.Initialize();
 
 		m_GeneratedRoomMap[roomPos] = room;
+
+		for (E_Direction direction = 0; direction < E_Direction.Max; ++direction)
+		{
+			room.SetNearRoom(direction, m_GeneratedRoomMap[roomPos + DirEnumUtil.ConvertToVector2Int(direction)]);
+		}
 	}
 	private void ResetRoomCheck(int stageLevel, ref Stage stage)
 	{
@@ -328,6 +341,15 @@ public class StageGenerator : MonoBehaviour
 
 		m_GeneratedRoomMap.Clear();
 		m_GeneratedRoomMap.Add(center, null);
+	}
+
+	public struct StageGeneratorArg
+	{
+		public Transform stageParent;
+
+		public int currentStageLevel;
+
+		public Vector2Int stageSize;
 	}
 
 	#region Debuging Info

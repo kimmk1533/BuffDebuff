@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using RoomPool = ObjectPool<Room>;
-using E_Direction = WarpPoint.E_Direction;
+using Enum;
 
 public class RoomManager : ObjectManager<RoomManager, Room>
 {

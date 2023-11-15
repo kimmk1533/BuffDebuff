@@ -42,7 +42,7 @@ public class PlayerManager : Singleton<PlayerManager>
 		m_Player = players[0];
 		m_Player.Initialize();
 	}
-	public void InitializeEvent()
+	public void InitializeBuffEvent()
 	{
 		M_Buff.onBuffAdded += AddBuff;
 		M_Buff.onBuffRemoved += RemoveBuff;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using E_Direction = WarpPoint.E_Direction;
+using Enum;
 
 public class Room : MonoBehaviour
 {
@@ -23,20 +23,23 @@ public class Room : MonoBehaviour
 	}
 	#endregion
 
-	#region Variables
-	// Room Size
+	#region 변수
+	// 방 크기
 	[SerializeField]
 	private Vector2 m_RoomSize;
 
-	// Tilemap
+	// 주변 방
+	private Dictionary<E_Direction, Room> m_NearRoomMap;
+
+	// 타일맵
 	private Dictionary<E_RoomTilemapLayer, Tilemap> m_TilemapMap;
 
-	// WarpPoint
-	private Dictionary<WarpPoint.E_Direction, List<WarpPoint>> m_WarpPointMap;
-	private Dictionary<WarpPoint.E_Direction, int> m_WarpPointCountMap;
+	// 워프포인트
+	private Dictionary<E_Direction, List<WarpPoint>> m_WarpPointMap;
+	private Dictionary<E_Direction, int> m_WarpPointCountMap;
 	#endregion
 
-	#region Property
+	#region 프로퍼티
 	public Vector2 roomSize
 	{
 		get { return m_RoomSize; }
@@ -44,9 +47,16 @@ public class Room : MonoBehaviour
 	}
 	#endregion
 
+	#region 매니저
+
+	#endregion
+
 	public void Initialize()
 	{
-		// Init Tilemap Map
+		// 주변 방 딕셔너리 초기화
+		m_NearRoomMap = new Dictionary<E_Direction, Room>();
+
+		// 타일맵 딕셔너리 초기화
 		m_TilemapMap = new Dictionary<E_RoomTilemapLayer, Tilemap>();
 		Transform tilemapLayer = transform.Find("TileMapLayer");
 		for (E_RoomTilemapLayer layer = E_RoomTilemapLayer.BackGround; layer < E_RoomTilemapLayer.Max; ++layer)
@@ -55,7 +65,7 @@ public class Room : MonoBehaviour
 			m_TilemapMap.Add(layer, tileMap);
 		}
 
-		// Init WarpPoint, WarpPointCount Map
+		// 워프포인트, 워프포인트 갯수 딕셔너리 초기화
 		m_WarpPointMap = new Dictionary<E_Direction, List<WarpPoint>>();
 		m_WarpPointCountMap = new Dictionary<E_Direction, int>();
 
@@ -63,6 +73,8 @@ public class Room : MonoBehaviour
 
 		foreach (WarpPoint warpPoint in warpPointArray)
 		{
+			warpPoint.Initialize(this);
+
 			E_Direction direction = warpPoint.direction;
 
 			if (m_WarpPointMap.ContainsKey(direction) == false)
@@ -74,6 +86,23 @@ public class Room : MonoBehaviour
 			m_WarpPointMap[direction].Add(warpPoint);
 			m_WarpPointCountMap[direction]++;
 		}
+	}
+
+	public Room GetNearRoom(E_Direction direction)
+	{
+		return m_NearRoomMap[direction];
+	}
+	public void SetNearRoom(E_Direction direction, Room nearRoom)
+	{
+		if (m_NearRoomMap.TryGetValue(direction, out Room room) == true)
+		{
+			if (room == null)
+				m_NearRoomMap[direction] = nearRoom;
+
+			return;
+		}
+
+		m_NearRoomMap.Add(direction, nearRoom);
 	}
 
 	public Tilemap GetTilemap(E_RoomTilemapLayer layer)

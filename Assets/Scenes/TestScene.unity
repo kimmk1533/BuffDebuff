@@ -39898,7 +39898,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flag: 1
-  m_StageParent: {fileID: 1680343246}
+  m_StageParent: {fileID: 1680343248}
   m_CurrentStageLevel: 1
   m_StageSize: {x: 5, y: 4}
   m_CurrentRoomIndex: {x: 0, y: 0}
@@ -129962,10 +129962,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2015794575}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bd1cd62eb650d04a9adabbfe356921f, type: 3}
+  m_Script: {fileID: 11500000, guid: e333a522204e4234fb1e6987d6bee2a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   flag: 1
+  m_WarpLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!4 &2015794577
 Transform:
   m_ObjectHideFlags: 0

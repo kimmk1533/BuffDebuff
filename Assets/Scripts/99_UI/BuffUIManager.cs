@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Enum;
 
 public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 {
@@ -141,7 +142,7 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		else
 			m_BuffCombineInventoryMap.Clear();
 	}
-	public void InitializeEvent()
+	public void InitializeBuffEvent()
 	{
 		M_Buff.onBuffAdded += AddBuff_Inventory;
 		M_Buff.onBuffAdded += AddBuff_CombineInventory;
