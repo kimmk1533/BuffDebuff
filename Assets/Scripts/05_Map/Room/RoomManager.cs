@@ -7,6 +7,8 @@ using Enum;
 
 public class RoomManager : ObjectManager<RoomManager, Room>
 {
+	// E_Condition
+	#region Enum
 	public enum E_Condition
 	{
 		// 초과
@@ -24,9 +26,12 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 
 		Max
 	}
+	#endregion
 
+	#region 변수
 	private List<RoomPool> m_AllRoomPool;
 	private Dictionary<(E_Direction direction, int count), List<RoomPool>> m_DirCountMap;
+	#endregion
 
 	public override void Initialize()
 	{

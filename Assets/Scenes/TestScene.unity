@@ -86980,22 +86980,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Room 2
       objectReference: {fileID: 0}
-    - target: {fileID: 3831175076842576157, guid: 6f0f58e3e9b2d1b448b8ba13ab798c19, type: 3}
-      propertyPath: m_Offset.x
-      value: 19.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3831175076842576157, guid: 6f0f58e3e9b2d1b448b8ba13ab798c19, type: 3}
-      propertyPath: m_Offset.y
-      value: 10.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3831175076842576157, guid: 6f0f58e3e9b2d1b448b8ba13ab798c19, type: 3}
-      propertyPath: m_RoomSize.x
-      value: 39
-      objectReference: {fileID: 0}
-    - target: {fileID: 3831175076842576157, guid: 6f0f58e3e9b2d1b448b8ba13ab798c19, type: 3}
-      propertyPath: m_RoomSize.y
-      value: 21
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f0f58e3e9b2d1b448b8ba13ab798c19, type: 3}
@@ -129035,14 +129019,6 @@ PrefabInstance:
     - target: {fileID: 853564448785711045, guid: 2c4e3a299916a254a98e3d9d841836a3, type: 3}
       propertyPath: m_Name
       value: Room 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3831175076842576157, guid: 2c4e3a299916a254a98e3d9d841836a3, type: 3}
-      propertyPath: m_Offset.y
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 3831175076842576157, guid: 2c4e3a299916a254a98e3d9d841836a3, type: 3}
-      propertyPath: m_RoomSize.y
-      value: 22
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

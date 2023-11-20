@@ -9,8 +9,9 @@ public class WarpPoint : MonoBehaviour
 
 	#region 변수
 	private Room m_Room;
-	private Room m_NearRoom;
 
+	[SerializeField]
+	private int m_Index;
 	[SerializeField]
 	private E_Direction m_Direction;
 
@@ -22,6 +23,7 @@ public class WarpPoint : MonoBehaviour
 	#endregion
 
 	#region 프로퍼티
+	public int index => m_Index;
 	public E_Direction direction => m_Direction;
 	#endregion
 
@@ -33,7 +35,6 @@ public class WarpPoint : MonoBehaviour
 	public void Initialize(Room room)
 	{
 		m_Room = room;
-		m_NearRoom = room.GetNearRoom(m_Direction);
 
 		M_Warp.AddWarpPoint(room, this);
 	}
@@ -65,7 +66,16 @@ public class WarpPoint : MonoBehaviour
 		if (M_Warp.CheckLayerMask(collisionObject) == false)
 			return;
 
-		m_NearRoom.GetWarpPointList(DirEnumUtil.GetOtherDir(m_Direction));
+		Room nearRoom = m_Room.GetNearRoom(m_Direction);
+
+		Dictionary<int, WarpPoint> index_WarpPointMap = nearRoom.GetIndexWarpPointMap(DirEnumUtil.GetOtherDir(m_Direction));
+		WarpPoint warpPoint = index_WarpPointMap[m_Index];
+
+		Vector3 offset = transform.position - collisionObject.transform.position;
+
+		collisionObject.transform.position = warpPoint.transform.position + offset;
+
+		M_Stage.currentStage.MoveRoom(DirEnumUtil.ConvertToVector2Int(m_Direction));
 	}
 
 	private void OnDrawGizmosSelected()

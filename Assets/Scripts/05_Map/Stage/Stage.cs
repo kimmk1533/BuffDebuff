@@ -32,4 +32,8 @@ public class Stage : MonoBehaviour
 
 		m_CurrentRoomIndex = M_Stage.stageSize / 2;
 	}
+	public void MoveRoom(Vector2Int moveIndex)
+	{
+		m_CurrentRoomIndex += moveIndex;
+	}
 }

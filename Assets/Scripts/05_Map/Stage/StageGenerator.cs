@@ -9,7 +9,6 @@ using RoomCondition = System.ValueTuple<RoomManager.E_Condition, Enum.E_Directio
 // 참고: https://minpro-tech.tistory.com/106
 public class StageGenerator : MonoBehaviour
 {
-
 	#region 변수
 	[SerializeField, Min(1.0f)]
 	private float m_StageMagnification = 2.6f;
@@ -52,15 +51,11 @@ public class StageGenerator : MonoBehaviour
 		m_GeneratedRoomMap = new Dictionary<Vector2Int, Room>();
 
 		m_CameraFollow = Camera.main.GetComponent<CameraFollow>();
-
-		ClearStage();
 	}
 
 	public Stage GenerateStage(StageGeneratorArg arg)
 	{
-		m_StageParent = arg.stageParent;
-		m_CurrentStageLevel = arg.currentStageLevel;
-		m_StageSize = arg.stageSize;
+		SetStageGeneratorArg(arg);
 
 		m_StageRoomCheck = new bool[m_StageSize.y, m_StageSize.x];
 
@@ -87,7 +82,7 @@ public class StageGenerator : MonoBehaviour
 
 			for (E_Direction direction = 0; direction < E_Direction.Max; ++direction)
 			{
-				checkPos = current + Enum.DirEnumUtil.ConvertToVector2Int(direction);
+				checkPos = current + DirEnumUtil.ConvertToVector2Int(direction);
 
 				UpdateRoomCheck(checkPos);
 			}
@@ -307,7 +302,12 @@ public class StageGenerator : MonoBehaviour
 
 		for (E_Direction direction = 0; direction < E_Direction.Max; ++direction)
 		{
-			room.SetNearRoom(direction, m_GeneratedRoomMap[roomPos + DirEnumUtil.ConvertToVector2Int(direction)]);
+			Vector2Int nearRoomPos = roomPos + DirEnumUtil.ConvertToVector2Int(direction);
+
+			if (m_GeneratedRoomMap.ContainsKey(nearRoomPos) == false)
+				continue;
+
+			room.SetNearRoom(direction, m_GeneratedRoomMap[nearRoomPos]);
 		}
 	}
 	private void ResetRoomCheck(int stageLevel, ref Stage stage)
@@ -341,6 +341,13 @@ public class StageGenerator : MonoBehaviour
 
 		m_GeneratedRoomMap.Clear();
 		m_GeneratedRoomMap.Add(center, null);
+	}
+
+	private void SetStageGeneratorArg(StageGeneratorArg arg)
+	{
+		m_StageParent = arg.stageParent;
+		m_CurrentStageLevel = arg.currentStageLevel;
+		m_StageSize = arg.stageSize;
 	}
 
 	public struct StageGeneratorArg

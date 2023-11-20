@@ -35,7 +35,7 @@ public class Room : MonoBehaviour
 	private Dictionary<E_RoomTilemapLayer, Tilemap> m_TilemapMap;
 
 	// 워프포인트
-	private Dictionary<E_Direction, List<WarpPoint>> m_WarpPointMap;
+	private Dictionary<E_Direction, Dictionary<int, WarpPoint>> m_WarpPointMap;
 	private Dictionary<E_Direction, int> m_WarpPointCountMap;
 	#endregion
 
@@ -59,14 +59,14 @@ public class Room : MonoBehaviour
 		// 타일맵 딕셔너리 초기화
 		m_TilemapMap = new Dictionary<E_RoomTilemapLayer, Tilemap>();
 		Transform tilemapLayer = transform.Find("TileMapLayer");
-		for (E_RoomTilemapLayer layer = E_RoomTilemapLayer.BackGround; layer < E_RoomTilemapLayer.Max; ++layer)
+		for (E_RoomTilemapLayer layer = 0; layer < E_RoomTilemapLayer.Max; ++layer)
 		{
 			Tilemap tileMap = tilemapLayer.Find(layer.ToString()).GetComponent<Tilemap>();
 			m_TilemapMap.Add(layer, tileMap);
 		}
 
 		// 워프포인트, 워프포인트 갯수 딕셔너리 초기화
-		m_WarpPointMap = new Dictionary<E_Direction, List<WarpPoint>>();
+		m_WarpPointMap = new Dictionary<E_Direction, Dictionary<int, WarpPoint>>();
 		m_WarpPointCountMap = new Dictionary<E_Direction, int>();
 
 		WarpPoint[] warpPointArray = GetComponentsInChildren<WarpPoint>();
@@ -78,31 +78,51 @@ public class Room : MonoBehaviour
 			E_Direction direction = warpPoint.direction;
 
 			if (m_WarpPointMap.ContainsKey(direction) == false)
-				m_WarpPointMap.Add(direction, new List<WarpPoint>());
+				m_WarpPointMap.Add(direction, new Dictionary<int, WarpPoint>());
 
 			if (m_WarpPointCountMap.ContainsKey(direction) == false)
 				m_WarpPointCountMap.Add(direction, 0);
 
-			m_WarpPointMap[direction].Add(warpPoint);
+			m_WarpPointMap[direction].Add(warpPoint.index, warpPoint);
 			m_WarpPointCountMap[direction]++;
 		}
 	}
 
 	public Room GetNearRoom(E_Direction direction)
 	{
+		if (m_NearRoomMap.ContainsKey(direction) == false)
+			return null;
+
 		return m_NearRoomMap[direction];
 	}
 	public void SetNearRoom(E_Direction direction, Room nearRoom)
 	{
-		if (m_NearRoomMap.TryGetValue(direction, out Room room) == true)
-		{
-			if (room == null)
-				m_NearRoomMap[direction] = nearRoom;
-
+		if (nearRoom == null)
 			return;
-		}
 
-		m_NearRoomMap.Add(direction, nearRoom);
+		Room room = null;
+
+		if (m_NearRoomMap.TryGetValue(direction, out room) == true)
+			m_NearRoomMap[direction] = nearRoom;
+		else
+			m_NearRoomMap.Add(direction, nearRoom);
+
+		E_Direction otherDir = DirEnumUtil.GetOtherDir(direction);
+
+		if (nearRoom.m_NearRoomMap.TryGetValue(otherDir, out room) == true)
+			nearRoom.m_NearRoomMap[otherDir] = this;
+		else
+			nearRoom.m_NearRoomMap.Add(otherDir, this);
+
+		//if (m_NearRoomMap.TryGetValue(direction, out Room room) == true)
+		//{
+		//	if (room == null)
+		//		m_NearRoomMap[direction] = nearRoom;
+
+		//	return;
+		//}
+
+		//m_NearRoomMap.Add(direction, nearRoom);
 	}
 
 	public Tilemap GetTilemap(E_RoomTilemapLayer layer)
@@ -112,27 +132,25 @@ public class Room : MonoBehaviour
 
 		return m_TilemapMap[layer];
 	}
-	public List<WarpPoint> GetWarpPointList()
+	public List<WarpPoint> GetAllWarpPoint()
 	{
 		List<WarpPoint> result = new List<WarpPoint>();
 
 		foreach (var item in m_WarpPointMap)
 		{
-			result.AddRange(item.Value);
+			Dictionary<int, WarpPoint> index_WarpPointMap = item.Value;
+
+			result.AddRange(index_WarpPointMap.Values);
 		}
 
 		return result;
 	}
-	public List<WarpPoint> GetWarpPointList(E_Direction direction)
+	public Dictionary<int, WarpPoint> GetIndexWarpPointMap(E_Direction direction)
 	{
 		if (m_WarpPointMap.ContainsKey(direction) == false)
 			return null;
 
-		List<WarpPoint> result = new List<WarpPoint>();
-
-		result.AddRange(m_WarpPointMap[direction]);
-
-		return result;
+		return m_WarpPointMap[direction];
 	}
 	public int GetWarpPointCount(E_Direction direction)
 	{
