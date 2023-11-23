@@ -91,25 +91,25 @@ public class StageGenerator : MonoBehaviour
 		}
 
 		#region Debug
-		string debugingLine = "";
+		//string debugingLine = "";
 
-		for (int i = 0; i < m_StageRoomCheck.GetLength(1) + 2; ++i)
-			debugingLine += "＝";
-		debugingLine += "\n";
+		//for (int i = 0; i < m_StageRoomCheck.GetLength(1) + 2; ++i)
+		//	debugingLine += "＝";
+		//debugingLine += "\n";
 
-		for (int y = m_StageRoomCheck.GetLength(0) - 1; y >= 0; --y)
-		{
-			debugingLine += "＝";
-			for (int x = 0; x < m_StageRoomCheck.GetLength(1); ++x)
-			{
-				debugingLine += (m_StageRoomCheck[y, x] == true) ? "ㅁ" : "　";
-			}
-			debugingLine += "＝\n";
-		}
+		//for (int y = m_StageRoomCheck.GetLength(0) - 1; y >= 0; --y)
+		//{
+		//	debugingLine += "＝";
+		//	for (int x = 0; x < m_StageRoomCheck.GetLength(1); ++x)
+		//	{
+		//		debugingLine += (m_StageRoomCheck[y, x] == true) ? "ㅁ" : "　";
+		//	}
+		//	debugingLine += "＝\n";
+		//}
 
-		for (int i = 0; i < m_StageRoomCheck.GetLength(1) + 2; ++i)
-			debugingLine += "＝";
-		Debug.Log(debugingLine);
+		//for (int i = 0; i < m_StageRoomCheck.GetLength(1) + 2; ++i)
+		//	debugingLine += "＝";
+		//Debug.Log(debugingLine);
 		#endregion
 
 		for (int y = 0; y < m_StageRoomCheck.GetLength(0); ++y)
@@ -130,8 +130,7 @@ public class StageGenerator : MonoBehaviour
 
 		Room room = m_GeneratedRoomMap[center];
 
-		m_CameraFollow.clampOffset = room.offset;
-		m_CameraFollow.clampAreaSize = room.roomSize;
+		m_CameraFollow.UpdateClamp(room.offset, room.roomSize);
 		#endregion
 
 		stage.Initialize(currStageLevel, stageSize, m_GeneratedRoomMap);
@@ -275,10 +274,10 @@ public class StageGenerator : MonoBehaviour
 		}
 		#endregion
 
-		for (int i = 0; i < conditionList.Count; ++i)
-		{
-			Debug.Log((m_GeneratedRoomCount + 1).ToString("00_") + i.ToString("00: ") + conditionList[i].ToString());
-		}
+		//for (int i = 0; i < conditionList.Count; ++i)
+		//{
+		//	Debug.Log((m_GeneratedRoomCount + 1).ToString("00_") + i.ToString("00: ") + conditionList[i].ToString());
+		//}
 
 		Room room = M_Room.SpawnRandomRoom(conditionList.ToArray());
 		if (room == null)

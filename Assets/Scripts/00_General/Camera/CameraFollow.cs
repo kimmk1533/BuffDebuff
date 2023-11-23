@@ -6,46 +6,41 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
 	[Space(10)]
-	public PlayerController2D m_Player;
-
-	[Space(10)]
-	public float m_VerticalOffset;
-	public float m_LookAheadDstX;
-	public float m_LookSmoothTimeX;
-	public float m_VerticalSmoothTime;
-	public Vector2 m_FocusAreaSize;
+	[SerializeField]
+	private PlayerController2D m_Player;
 
 	[Space(10)]
 	[SerializeField]
-	Vector2 m_ClampOffset;
+	private float m_VerticalOffset;
 	[SerializeField]
-	Vector2 m_ClampAreaSize;
+	private float m_LookAheadDstX;
+	[SerializeField]
+	private float m_LookSmoothTimeX;
+	[SerializeField]
+	private float m_VerticalSmoothTime;
+	[SerializeField]
+	private Vector2 m_FocusAreaSize;
 
-	public Vector2 clampOffset
-	{
-		get { return m_ClampOffset; }
-		set { m_ClampOffset = value; }
-	}
-	public Vector2 clampAreaSize
-	{
-		get { return m_ClampAreaSize; }
-		set { m_ClampAreaSize = value; }
-	}
+	[Space(10)]
+	[SerializeField]
+	private Vector2 m_ClampOffset;
+	[SerializeField]
+	private Vector2 m_ClampAreaSize;
 
-	Camera m_Camera;
+	private Camera m_Camera;
 
-	FocusArea m_FocusArea;
+	private FocusArea m_FocusArea;
 
-	float m_CurrentLookAheadX;
-	float m_TargetLookAheadX;
-	float m_LookAheadDirX;
-	float m_SmoothLookVelocityX;
-	float m_SmoothVelocityY;
+	private float m_CurrentLookAheadX;
+	private float m_TargetLookAheadX;
+	private float m_LookAheadDirX;
+	private float m_SmoothLookVelocityX;
+	private float m_SmoothVelocityY;
 
-	bool m_LookAheadStopped;
+	private bool m_LookAheadStopped;
 
-	Vector2 m_Screen;
-	Vector2 m_MapSize;
+	private Vector2 m_Screen;
+	private Vector2 m_MapSize;
 
 	private void Start()
 	{
@@ -69,23 +64,24 @@ public class CameraFollow : MonoBehaviour
 
 		transform.position = (Vector3)focusPosition + Vector3.forward * -10;
 	}
-	private void OnDrawGizmos()
-	{
-		Gizmos.color = new Color(1, 0, 0, 0.5f);
-		Gizmos.DrawCube((Application.isPlaying) ? m_FocusArea.center : m_Player.transform.position + Vector3.up * (m_FocusAreaSize.y / 2), m_FocusAreaSize);
 
-		Gizmos.color = new Color(0, 1, 0.5f, 0.1f);
-		Gizmos.DrawCube(m_ClampOffset, m_ClampAreaSize);
+	public void UpdateClamp(Vector2 offset, Vector2 size)
+	{
+		m_ClampOffset = offset;
+		m_ClampAreaSize = size;
+
+		Vector2 focusPosition = m_FocusArea.center + Vector2.up * m_VerticalOffset;
+		transform.position = focusPosition;
 	}
 
-	void CameraMove(ref Vector2 focusPosition)
+	private void CameraMove(ref Vector2 focusPosition)
 	{
-		if (m_FocusArea.velocity.x != 0)
+		if (m_FocusArea.velocity.x != 0f)
 		{
 			m_LookAheadDirX = Mathf.Sign(m_FocusArea.velocity.x);
 
 			//if (Mathf.Sign(m_Player.playerInput.x) == Mathf.Sign(m_FocusArea.velocity.x) && m_Player.playerInput.x != 0)
-			
+
 			if (System.MathF.Sign(m_Player.playerInput.x) == Mathf.Sign(m_FocusArea.velocity.x))
 			{
 				m_LookAheadStopped = false;
@@ -106,7 +102,7 @@ public class CameraFollow : MonoBehaviour
 		focusPosition.y = Mathf.SmoothDamp(transform.position.y, focusPosition.y, ref m_SmoothVelocityY, m_VerticalSmoothTime);
 		focusPosition += Vector2.right * m_CurrentLookAheadX;
 	}
-	void Clamp(ref Vector2 focusPosition)
+	private void Clamp(ref Vector2 focusPosition)
 	{
 		float lx = m_MapSize.x - m_Screen.x;
 		float ly = m_MapSize.y - m_Screen.y;
@@ -115,12 +111,20 @@ public class CameraFollow : MonoBehaviour
 		focusPosition.y = Mathf.Clamp(focusPosition.y, m_ClampOffset.y - ly, m_ClampOffset.y + ly);
 	}
 
-	public void UpdateClampAreaSize(float x, float y)
+	private void OnDrawGizmos()
 	{
-		//m_Cl
+		Color color = Gizmos.color;
+
+		Gizmos.color = new Color(1.0f, 0.0f, 0.0f, 0.5f);
+		Gizmos.DrawCube((Application.isPlaying) ? m_FocusArea.center : m_Player.transform.position + Vector3.up * (m_FocusAreaSize.y / 2), m_FocusAreaSize);
+
+		Gizmos.color = new Color(0.0f, 1.0f, 0.5f, 0.1f);
+		Gizmos.DrawCube(m_ClampOffset, m_ClampAreaSize);
+
+		Gizmos.color = color;
 	}
 
-	struct FocusArea
+	private struct FocusArea
 	{
 		public Vector2 center;
 		public Vector2 velocity;

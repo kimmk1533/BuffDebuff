@@ -12,8 +12,9 @@ public class Stage : MonoBehaviour
 	private Vector2Int m_StageSize;
 
 	private Vector2Int m_CurrentRoomIndex;
-
 	private Dictionary<Vector2Int, Room> m_GeneratedRooms;
+
+	private CameraFollow m_CameraFollow;
 
 	public Room currentRoom => m_GeneratedRooms[m_CurrentRoomIndex];
 
@@ -24,16 +25,25 @@ public class Stage : MonoBehaviour
 		m_StageLevel = stageLevel;
 		m_StageSize = stageSize;
 
+		m_CurrentRoomIndex = m_StageSize / 2;
+
 		m_GeneratedRooms = new Dictionary<Vector2Int, Room>();
 		foreach (var item in generatedRooms)
 		{
 			m_GeneratedRooms.Add(item.Key, item.Value);
 		}
 
-		m_CurrentRoomIndex = M_Stage.stageSize / 2;
+		m_CameraFollow = Camera.main.GetComponent<CameraFollow>();
 	}
 	public void MoveRoom(Vector2Int moveIndex)
 	{
 		m_CurrentRoomIndex += moveIndex;
+
+		Room room = currentRoom;
+
+		Vector2 offset = (Vector2)room.transform.position + room.offset;
+		Vector2 size = room.roomSize;
+
+		m_CameraFollow.UpdateClamp(offset, size);
 	}
 }

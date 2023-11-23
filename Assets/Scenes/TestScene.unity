@@ -39899,8 +39899,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flag: 1
   m_StageParent: {fileID: 1680343248}
-  m_CurrentStageLevel: 1
-  m_StageSize: {x: 5, y: 4}
+  m_CurrentStageLevel: 6
+  m_StageSize: {x: 10, y: 9}
   m_CurrentRoomIndex: {x: 0, y: 0}
 --- !u!4 &638952477
 Transform:
@@ -39932,8 +39932,8 @@ MonoBehaviour:
   m_StageMagnification: 2.6
   m_AutoClear: 1
   m_Info:
-    MinExpectedRoomCount: 7
-    MaxExpectedRoomCount: 8
+    MinExpectedRoomCount: 20
+    MaxExpectedRoomCount: 21
     MaxRoomCount: 0
 --- !u!1 &639244468
 GameObject:

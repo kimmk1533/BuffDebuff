@@ -10,6 +10,8 @@ public class WarpPoint : MonoBehaviour
 	#region 변수
 	private Room m_Room;
 
+	private Queue<GameObject> m_TouchedObjectQueue;
+
 	[SerializeField]
 	private int m_Index;
 	[SerializeField]
@@ -36,6 +38,8 @@ public class WarpPoint : MonoBehaviour
 	{
 		m_Room = room;
 
+		m_TouchedObjectQueue = new Queue<GameObject>();
+
 		M_Warp.AddWarpPoint(room, this);
 	}
 	private void Update()
@@ -56,26 +60,44 @@ public class WarpPoint : MonoBehaviour
 
 		foreach (var item in hits)
 		{
-			MoveCollisionObject(item.gameObject);
+			MoveCollisionObject(item);
 		}
 	}
-	private void MoveCollisionObject(GameObject collisionObject)
+	private void MoveCollisionObject(Collider2D collisionObject)
 	{
-		Debug.Log(collisionObject.name);
+		//Debug.Log(collisionObject.name);
 
-		if (M_Warp.CheckLayerMask(collisionObject) == false)
+		if (M_Warp.CheckLayerMask(collisionObject.gameObject) == false)
 			return;
 
 		Room nearRoom = m_Room.GetNearRoom(m_Direction);
+		E_Direction otherDir = DirEnumUtil.GetOtherDir(m_Direction);
+		Vector2Int dirVec = DirEnumUtil.ConvertToVector2Int(m_Direction);
 
-		Dictionary<int, WarpPoint> index_WarpPointMap = nearRoom.GetIndexWarpPointMap(DirEnumUtil.GetOtherDir(m_Direction));
+		Dictionary<int, WarpPoint> index_WarpPointMap = nearRoom.GetIndexWarpPointMap(otherDir);
 		WarpPoint warpPoint = index_WarpPointMap[m_Index];
 
 		Vector3 offset = transform.position - collisionObject.transform.position;
 
-		collisionObject.transform.position = warpPoint.transform.position + offset;
+		switch (m_Direction)
+		{
+			case E_Direction.Up:
+			case E_Direction.Down:
+				offset.y = Mathf.Sign(offset.y) * Mathf.Max(Mathf.Abs(offset.y), collisionObject.bounds.size.y);
+				offset.y += m_Size.y * 0.5f * dirVec.y;
+				offset.y *= -1f;
+				break;
+			case E_Direction.Left:
+			case E_Direction.Right:
+				offset.x = Mathf.Sign(offset.x) * Mathf.Max(Mathf.Abs(offset.x), collisionObject.bounds.size.x);
+				offset.x += m_Size.x * 0.5f * dirVec.x;
+				offset.x *= -1f;
+				break;
+		}
 
-		M_Stage.currentStage.MoveRoom(DirEnumUtil.ConvertToVector2Int(m_Direction));
+		collisionObject.transform.position = warpPoint.transform.position - offset;
+
+		M_Stage.currentStage.MoveRoom(dirVec);
 	}
 
 	private void OnDrawGizmosSelected()
