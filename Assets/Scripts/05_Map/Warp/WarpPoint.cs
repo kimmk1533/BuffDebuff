@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Enum;
+using static UnityEditor.Progress;
 
 public class WarpPoint : MonoBehaviour
 {
@@ -10,7 +11,12 @@ public class WarpPoint : MonoBehaviour
 	#region 변수
 	private Room m_Room;
 
-	private Queue<GameObject> m_TouchedObjectQueue;
+	[SerializeField]
+	private List<Collider2D> m_CollisionObjectList;
+	[SerializeField]
+	private List<Collider2D> m_OldCollisionObjectList;
+	[SerializeField]
+	private List<Collider2D> m_WarpedObjectList;
 
 	[SerializeField]
 	private int m_Index;
@@ -38,7 +44,9 @@ public class WarpPoint : MonoBehaviour
 	{
 		m_Room = room;
 
-		m_TouchedObjectQueue = new Queue<GameObject>();
+		m_CollisionObjectList = new List<Collider2D>();
+		m_OldCollisionObjectList = new List<Collider2D>();
+		m_WarpedObjectList = new List<Collider2D>();
 
 		M_Warp.AddWarpPoint(room, this);
 	}
@@ -56,20 +64,30 @@ public class WarpPoint : MonoBehaviour
 		Vector2 origin = (Vector2)transform.position + m_Offset;
 		Vector2 size = m_Size;
 
-		Collider2D[] hits = Physics2D.OverlapBoxAll(origin, size, 0f, M_Warp.layerMask);
+		m_OldCollisionObjectList.Clear();
+		m_OldCollisionObjectList.AddRange(m_CollisionObjectList);
+		m_CollisionObjectList.Clear();
+		m_CollisionObjectList.AddRange(Physics2D.OverlapBoxAll(origin, size, 0f, M_Warp.layerMask));
 
-		foreach (var item in hits)
+		foreach (var item in m_OldCollisionObjectList)
 		{
+			if (m_WarpedObjectList.Contains(item) == true &&
+				m_CollisionObjectList.Contains(item) == false)
+			{
+				m_WarpedObjectList.Remove(item);
+			}
+		}
+
+		foreach (var item in m_CollisionObjectList)
+		{
+			if (m_WarpedObjectList.Contains(item) == true)
+				continue;
+
 			MoveCollisionObject(item);
 		}
 	}
 	private void MoveCollisionObject(Collider2D collisionObject)
 	{
-		//Debug.Log(collisionObject.name);
-
-		if (M_Warp.CheckLayerMask(collisionObject.gameObject) == false)
-			return;
-
 		Room nearRoom = m_Room.GetNearRoom(m_Direction);
 		E_Direction otherDir = DirEnumUtil.GetOtherDir(m_Direction);
 		Vector2Int dirVec = DirEnumUtil.ConvertToVector2Int(m_Direction);
@@ -77,27 +95,38 @@ public class WarpPoint : MonoBehaviour
 		Dictionary<int, WarpPoint> index_WarpPointMap = nearRoom.GetIndexWarpPointMap(otherDir);
 		WarpPoint warpPoint = index_WarpPointMap[m_Index];
 
-		Vector3 offset = transform.position - collisionObject.transform.position;
+		Vector3 offset = (transform.position + (Vector3)m_Offset) - collisionObject.transform.position;
 
 		switch (m_Direction)
 		{
 			case E_Direction.Up:
 			case E_Direction.Down:
-				offset.y = Mathf.Sign(offset.y) * Mathf.Max(Mathf.Abs(offset.y), collisionObject.bounds.size.y);
-				offset.y += m_Size.y * 0.5f * dirVec.y;
+				offset.y = Mathf.Sign(offset.y) * Mathf.Min(Mathf.Abs(offset.y), collisionObject.bounds.extents.y);
+				offset.y = dirVec.y * Mathf.Max(Mathf.Abs(offset.y), m_Size.y * 0.5f);
 				offset.y *= -1f;
 				break;
 			case E_Direction.Left:
 			case E_Direction.Right:
-				offset.x = Mathf.Sign(offset.x) * Mathf.Max(Mathf.Abs(offset.x), collisionObject.bounds.size.x);
-				offset.x += m_Size.x * 0.5f * dirVec.x;
+				offset.x = Mathf.Sign(offset.x) * Mathf.Max(Mathf.Abs(offset.x), m_Size.x * 0.5f);
 				offset.x *= -1f;
 				break;
 		}
 
-		collisionObject.transform.position = warpPoint.transform.position - offset;
+		collisionObject.transform.position = (warpPoint.transform.position + (Vector3)warpPoint.m_Offset) - offset;
+
+		warpPoint.m_WarpedObjectList.Add(collisionObject);
+		warpPoint.m_CollisionObjectList.RemoveAll((obj) => true);
+		warpPoint.m_OldCollisionObjectList.RemoveAll((obj) => true);
+
+		StartCoroutine(warpPoint.ClearWarpedObject());
 
 		M_Stage.currentStage.MoveRoom(dirVec);
+	}
+	IEnumerator ClearWarpedObject()
+	{
+		yield return new WaitForSeconds(1.0f);
+
+		m_WarpedObjectList.Clear();
 	}
 
 	private void OnDrawGizmosSelected()
