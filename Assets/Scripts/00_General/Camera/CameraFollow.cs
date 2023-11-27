@@ -69,9 +69,13 @@ public class CameraFollow : MonoBehaviour
 	{
 		m_ClampOffset = offset;
 		m_ClampAreaSize = size;
+		m_MapSize = m_ClampAreaSize / 2;
+
+		m_FocusArea.Update(m_Player.collider.bounds);
 
 		Vector2 focusPosition = m_FocusArea.center + Vector2.up * m_VerticalOffset;
-		transform.position = focusPosition;
+
+		transform.position = (Vector3)focusPosition + Vector3.forward * -10;
 	}
 
 	private void CameraMove(ref Vector2 focusPosition)
