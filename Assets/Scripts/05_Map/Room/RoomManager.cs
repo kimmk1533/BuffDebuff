@@ -143,4 +143,25 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 
 		return randomPool.Spawn();
 	}
+
+	[ContextMenu("All Flag On")]
+	private void TurnOnFlagAll()
+	{
+		for (int i = 0; i < m_Origins.Count; ++i)
+		{
+			var temp = m_Origins[i];
+			temp.useFlag = true;
+			m_Origins[i] = temp;
+		}
+	}
+	[ContextMenu("All Flag Off")]
+	private void TurnOffFlagAll()
+	{
+		for (int i = 0; i < m_Origins.Count; ++i)
+		{
+			var temp = m_Origins[i];
+			temp.useFlag = false;
+			m_Origins[i] = temp;
+		}
+	}
 }
