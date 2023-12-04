@@ -16,10 +16,6 @@ public abstract class AbstractBuff : IEquatable<AbstractBuff>
 		get { return m_Count; }
 		set { m_Count = value; }
 	}
-	public BuffData data
-	{
-		get { return m_BuffData; }
-	}
 
 	public AbstractBuff(BuffData buffData)
 	{
@@ -43,10 +39,10 @@ public abstract class AbstractBuff : IEquatable<AbstractBuff>
 		if (other == null)
 			return false;
 
-		return this.data.code == other.data.code;
+		return this.m_BuffData.code == other.m_BuffData.code;
 	}
 	public override int GetHashCode()
 	{
-		return data.code.GetHashCode();
+		return m_BuffData.code.GetHashCode();
 	}
 }

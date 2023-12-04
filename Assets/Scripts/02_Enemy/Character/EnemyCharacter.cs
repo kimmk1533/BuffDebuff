@@ -74,19 +74,6 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 	private GridManager M_Grid => GridManager.Instance;
 
-	protected override void Update()
-	{
-		base.Update();
-
-		if (target != null && CanAttack())
-			AnimEvent_Attacking(); // 임시. 공격 애니메이션(Attack 함수)으로 수정해야 함
-
-		if (m_IsSimulating == false)
-			return;
-
-		Move();
-	}
-
 	public override void Initialize()
 	{
 		base.Initialize();
@@ -120,6 +107,19 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		m_AttackTimer = new UtilClass.Timer(1f / m_CurrentStat.AttackSpeed, true);
 		#endregion
 	}
+	protected override void Update()
+	{
+		base.Update();
+
+		if (target != null && CanAttack())
+			AnimEvent_Attacking(); // 임시. 공격 애니메이션(Attack 함수)으로 수정해야 함
+
+		if (m_IsSimulating == false)
+			return;
+
+		Move();
+	}
+
 	private void ResetInput()
 	{
 		for (int i = 0; i < (int)E_KeyInput.Max; ++i)

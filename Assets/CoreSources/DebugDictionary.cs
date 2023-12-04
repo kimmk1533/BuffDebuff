@@ -10,9 +10,9 @@ using UnityEngine;
 [System.Serializable]
 public class DebugDictionary<TKey, TValue>
 {
-	[SerializeField, ReadOnly]
+	[SerializeField, ReadOnly(true)]
 	List<TKey> m_Keys;
-	[SerializeField, ReadOnly]
+	[SerializeField, ReadOnly(true)]
 	List<TValue> m_Values;
 
 	public DebugDictionary()

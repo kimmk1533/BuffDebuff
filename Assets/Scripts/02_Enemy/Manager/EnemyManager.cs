@@ -15,9 +15,9 @@ public class EnemyManager : ObjectManager<EnemyManager, Enemy>
 	{
 		if (Input.GetKeyDown(KeyCode.Tab))
 		{
-			Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-			Enemy enemy = Spawn("Enemy");
+			Vector2 position = UtilClass.GetMouseWorldPosition();
+			
+			Enemy enemy = Spawn("Golem");
 
 			enemy.gameObject.SetActive(true);
 

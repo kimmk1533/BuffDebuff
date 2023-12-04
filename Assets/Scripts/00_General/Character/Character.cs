@@ -34,11 +34,13 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 	[SerializeField]
 	protected UtilClass.Timer m_HealTimer;
 	[SerializeField]
-	protected UtilClass.Timer m_AttackTimer; 
+	protected UtilClass.Timer m_AttackTimer;
 	#endregion
 
 	public TStat maxStat => m_MaxStat;
 	public TStat currentStat => m_CurrentStat;
+
+	private BuffManager M_Buff => BuffManager.Instance;
 
 	public virtual void Initialize()
 	{
@@ -79,6 +81,83 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 	}
 
 	// Buff Func
+	public bool AddBuff(string name)
+	{
+		if (name == null || name == string.Empty)
+			return false;
+
+		BuffData buffData = M_Buff.GetBuffData(name);
+
+		return this.AddBuff(buffData);
+	}
+	public bool AddBuff(BuffData buffData)
+	{
+		if (buffData == null)
+			return false;
+
+		if (m_BuffList.TryGetValue(buffData.code, out AbstractBuff buff) &&
+			buff != null)
+		{
+			if (buff.count < buffData.maxStack)
+			{
+				++buff.count;
+				(buff as IOnBuffAdded)?.OnBuffAdded(this);
+			}
+			else
+			{
+				Debug.Log("Buff Count is Max. title =" + buffData.title + ", maxStack = " + buffData.maxStack.ToString());
+
+				return false;
+			}
+
+			return true;
+		}
+
+		buff = M_Buff.CreateBuff(buffData);
+
+		m_BuffList.Add(buffData.code, buff);
+
+		(buff as IOnBuffAdded)?.OnBuffAdded(this);
+
+		return true;
+	}
+	public bool RemoveBuff(string name)
+	{
+		if (name == null || name == string.Empty)
+			return false;
+
+		BuffData buff = M_Buff.GetBuffData(name);
+
+		return this.RemoveBuff(buff);
+	}
+	public bool RemoveBuff(BuffData buffData)
+	{
+		if (buffData == null)
+			return false;
+
+		if (m_BuffList.TryGetValue(buffData.code, out AbstractBuff buff) &&
+			buff != null)
+		{
+			if (buff.count > 0)
+			{
+				--buff.count;
+			}
+			else
+			{
+				m_BuffList.Remove(buffData.code);
+			}
+
+			(buff as IOnBuffRemoved)?.OnBuffRemoved(this);
+
+			return true;
+		}
+
+		Debug.Log("버프 없는데 제거");
+
+		return false;
+	}
+
+	// BuffEvent
 	protected virtual void OnBuffUpdate()
 	{
 		foreach (AbstractBuff item in m_BuffList.Values)

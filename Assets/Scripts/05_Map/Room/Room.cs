@@ -6,8 +6,7 @@ using Enum;
 
 public class Room : MonoBehaviour
 {
-	// E_RoomTilemapLayer
-	#region Enum
+	// 타일맵 레이어
 	public enum E_RoomTilemapLayer
 	{
 		// 뒷 배경
@@ -21,12 +20,23 @@ public class Room : MonoBehaviour
 
 		Max
 	}
-	#endregion
 
 	#region 변수
 	// 방 크기
 	[SerializeField]
 	private Vector2 m_RoomSize;
+
+	// 방 위치 오프셋
+	[SerializeField]
+	private Vector2 m_Offset;
+
+	// 이 방 클리어 여부
+	private bool m_IsClear;
+
+	// 적 생성 리스트
+	[SerializeField]
+	private List<EnemyWave> m_EnemyWaveList; // 인스펙터 용도
+	private Dictionary<EnemyWave.E_InitCondition, List<EnemyWave>> m_EnemyWaveMap;
 
 	// 주변 방
 	private Dictionary<E_Direction, Room> m_NearRoomMap;
@@ -45,6 +55,11 @@ public class Room : MonoBehaviour
 		get { return m_RoomSize; }
 		set { m_RoomSize = value; }
 	}
+	public Vector2 offset
+	{
+		get { return m_Offset; }
+		set { m_Offset = value; }
+	}
 	#endregion
 
 	#region 매니저
@@ -53,6 +68,16 @@ public class Room : MonoBehaviour
 
 	public void Initialize()
 	{
+		// 적 생성 정보 딕셔너리 초기화
+		m_EnemyWaveMap = new Dictionary<EnemyWave.E_InitCondition, List<EnemyWave>>();
+		foreach (var item in m_EnemyWaveList)
+		{
+			if (m_EnemyWaveMap.ContainsKey(item.initCondition) == false)
+				m_EnemyWaveMap.Add(item.initCondition, new List<EnemyWave>());
+
+			m_EnemyWaveMap[item.initCondition].Add(item);
+		}
+
 		// 주변 방 딕셔너리 초기화
 		m_NearRoomMap = new Dictionary<E_Direction, Room>();
 
@@ -161,15 +186,6 @@ public class Room : MonoBehaviour
 	}
 
 	#region Draw Gizmo
-	[SerializeField]
-	private Vector2 m_Offset;
-
-	public Vector2 offset
-	{
-		get { return m_Offset; }
-		set { m_Offset = value; }
-	}
-
 	private void OnDrawGizmosSelected()
 	{
 		Color color = Gizmos.color;

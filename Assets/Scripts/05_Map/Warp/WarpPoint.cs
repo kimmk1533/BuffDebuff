@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Enum;
-using static UnityEditor.Progress;
 
 public class WarpPoint : MonoBehaviour
 {
@@ -33,6 +32,23 @@ public class WarpPoint : MonoBehaviour
 	#region 프로퍼티
 	public int index => m_Index;
 	public E_Direction direction => m_Direction;
+	#endregion
+
+	#region 이벤트
+	public struct WarpArg
+	{
+		public Room prevRoom;
+		public Room currRoom;
+		public E_Direction direction;
+	}
+	public delegate void OnWarpHandler(WarpArg arg);
+
+	private event OnWarpHandler m_OnWarp;
+	public event OnWarpHandler onWarp
+	{
+		add { m_OnWarp += value; }
+		remove { m_OnWarp -= value; }
+	}
 	#endregion
 
 	#region 매니저
@@ -119,6 +135,13 @@ public class WarpPoint : MonoBehaviour
 		warpPoint.m_OldCollisionObjectList.RemoveAll((obj) => true);
 
 		StartCoroutine(warpPoint.ClearWarpedObject());
+
+		m_OnWarp?.Invoke(new WarpArg()
+		{
+			prevRoom = m_Room,
+			currRoom = nearRoom,
+			direction = m_Direction,
+		});
 
 		M_Stage.currentStage.MoveRoom(dirVec);
 	}

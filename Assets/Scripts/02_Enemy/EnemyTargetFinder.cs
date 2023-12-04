@@ -27,8 +27,8 @@ public class EnemyTargetFinder : MonoBehaviour
 
 	public GameObject target => (m_Target == null) ? null : m_Target.gameObject;
 	public Collider2D targetCollider => m_Target;
-
 	protected int moveDir => (int)Mathf.Sign(transform.parent.lossyScale.x);
+
 	public event System.Action onTargetEnter
 	{
 		add { m_OnTargetEnter += value; }

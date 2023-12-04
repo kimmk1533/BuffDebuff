@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class CameraFollow : MonoBehaviour
 {
+	#region 변수
 	[Space(10)]
 	[SerializeField]
 	private PlayerController2D m_Player;
@@ -41,6 +42,7 @@ public class CameraFollow : MonoBehaviour
 
 	private Vector2 m_Screen;
 	private Vector2 m_MapSize;
+	#endregion
 
 	private void Start()
 	{

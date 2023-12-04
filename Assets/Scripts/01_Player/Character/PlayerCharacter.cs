@@ -12,7 +12,6 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 	private UtilClass.Timer m_DashTimer;
 
 	private BuffManager M_Buff => BuffManager.Instance;
-	private StageManager M_Stage => StageManager.Instance;
 
 	protected override void Update()
 	{
@@ -87,23 +86,9 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 			m_Velocity.y = 0;
 		}
 
-		//CheckPortal();
-
 		m_Animator.Anim_SetVelocity(m_Velocity);
 		m_Animator.Anim_SetIsGround(m_Controller.collisions.grounded);
 	}
-	//private void CheckPortal()
-	//{
-	//	RaycastHit2D hit = Physics2D.BoxCast(m_Controller.collider.bounds.center, m_Controller.collider.bounds.size, 0.0f, m_Velocity, 0.1f, LayerMask.GetMask("Portal"));
-
-	//	if (hit)
-	//	{
-	//		Transform spawnPoint = M_Stage.GetSpawnPoint(hit.collider);
-
-	//		if (spawnPoint != null)
-	//			transform.position = spawnPoint.position;
-	//	}
-	//}
 
 	// Timer Func
 	private void DashTimer()
@@ -122,83 +107,6 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 		}
 	}
 
-	// Buff Func
-	public bool AddBuff(string name)
-	{
-		if (name == null || name == string.Empty)
-			return false;
-
-		BuffData buffData = M_Buff.GetBuffData(name);
-
-		return this.AddBuff(buffData);
-	}
-	public bool AddBuff(BuffData buffData)
-	{
-		if (buffData == null)
-			return false;
-
-		if (m_BuffList.TryGetValue(buffData.code, out AbstractBuff buff) &&
-			buff != null)
-		{
-			if (buff.count < buffData.maxStack)
-			{
-				++buff.count;
-				(buff as IOnBuffAdded)?.OnBuffAdded(this);
-			}
-			else
-			{
-				Debug.Log("Buff Count is Max. title =" + buffData.title + ", maxStack = " + buffData.maxStack.ToString());
-
-				return false;
-			}
-
-			return true;
-		}
-
-		buff = M_Buff.CreateBuff(buffData);
-
-		m_BuffList.Add(buffData.code, buff);
-
-		(buff as IOnBuffAdded)?.OnBuffAdded(this);
-
-		return true;
-	}
-	public bool RemoveBuff(string name)
-	{
-		if (name == null || name == string.Empty)
-			return false;
-
-		BuffData buff = M_Buff.GetBuffData(name);
-
-		return this.RemoveBuff(buff);
-	}
-	public bool RemoveBuff(BuffData buffData)
-	{
-		if (buffData == null)
-			return false;
-
-		if (m_BuffList.TryGetValue(buffData.code, out AbstractBuff buff) &&
-			buff != null)
-		{
-			if (buff.count > 0)
-			{
-				--buff.count;
-			}
-			else
-			{
-				m_BuffList.Remove(buffData.code);
-			}
-
-			(buff as IOnBuffRemoved)?.OnBuffRemoved(this);
-
-			return true;
-		}
-
-		Debug.Log("버프 없는데 제거");
-
-		return false;
-	}
-
 	public override void AnimEvent_AttackStart()
 	{
 		base.AnimEvent_AttackStart();
@@ -214,6 +122,7 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 		base.AnimEvent_AttackEnd();
 
 		m_IsSimulating = true;
+		m_Velocity.x = 0.0f;
 	}
 	public void AnimEvent_AirAttackStart()
 	{
@@ -266,11 +175,16 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 
 		Vector2 dir = UtilClass.GetMouseWorldPosition() - transform.position;
 
-		// 좌우 대쉬
-		m_Velocity.x = Mathf.Sign(dir.x) * m_CurrentStat.DashSpeed;
-
-		// 마우스 대쉬
-		//m_Velocity = dir.normalized * m_Character.currentStat.DashSpeed;
+		//if (m_BuffList.ContainsKey(M_Buff.GetBuffData("마우스 대쉬").code) == true)
+		//{
+		//	// 마우스 대쉬
+		//	m_Velocity = dir.normalized * m_CurrentStat.DashSpeed;
+		//}
+		//else
+		{
+			// 좌우 대쉬
+			m_Velocity.x = Mathf.Sign(dir.x) * m_CurrentStat.DashSpeed;
+		}
 	}
 
 	private void OnValidate()
