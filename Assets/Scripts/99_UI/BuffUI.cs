@@ -5,8 +5,9 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class BuffUI : MonoBehaviour
+public class BuffUI : MonoBehaviour, IPoolItem<BuffUI>
 {
+	#region 변수
 	[SerializeField]
 	private int m_BuffCount;
 	private BuffData m_BuffData;
@@ -27,7 +28,9 @@ public class BuffUI : MonoBehaviour
 
 	[SerializeField]
 	private Button m_Button;
+	#endregion
 
+	#region 프로퍼티
 	public int buffCount
 	{
 		get { return m_BuffCount; }
@@ -49,6 +52,11 @@ public class BuffUI : MonoBehaviour
 		}
 	}
 	public BuffData buffData => m_BuffData;
+
+	public string itemName { get; set; }
+	#endregion
+
+	#region 이벤트
 	public event UnityAction onClick
 	{
 		add
@@ -60,6 +68,7 @@ public class BuffUI : MonoBehaviour
 			m_Button.onClick.RemoveListener(value);
 		}
 	}
+	#endregion
 
 	private void Awake()
 	{

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Enum;
 
-public class Room : MonoBehaviour
+public class Room : MonoBehaviour, IPoolItem<Room>
 {
 	// 타일맵 레이어
 	public enum E_RoomTilemapLayer
@@ -37,6 +37,7 @@ public class Room : MonoBehaviour
 	[SerializeField]
 	private List<EnemyWave> m_EnemyWaveList; // 인스펙터 용도
 	private Dictionary<EnemyWave.E_InitCondition, List<EnemyWave>> m_EnemyWaveMap;
+	private List<Enemy> m_CreatedEnemyList;
 
 	// 주변 방
 	private Dictionary<E_Direction, Room> m_NearRoomMap;
@@ -45,8 +46,8 @@ public class Room : MonoBehaviour
 	private Dictionary<E_RoomTilemapLayer, Tilemap> m_TilemapMap;
 
 	// 워프포인트
-	private Dictionary<E_Direction, Dictionary<int, WarpPoint>> m_WarpPointMap;
-	private Dictionary<E_Direction, int> m_WarpPointCountMap;
+	private Dictionary<E_Direction, Dictionary<int, WarpPoint>> m_WarpPointMap; // 방향, 인덱스, 워프포인트
+	private Dictionary<E_Direction, int> m_WarpPointCountMap; // 방향, 갯수
 	#endregion
 
 	#region 프로퍼티
@@ -60,10 +61,12 @@ public class Room : MonoBehaviour
 		get { return m_Offset; }
 		set { m_Offset = value; }
 	}
+
+	public string itemName { get; set; }
 	#endregion
 
 	#region 매니저
-
+	private EnemyManager M_Enemy => EnemyManager.Instance;
 	#endregion
 
 	public void Initialize()
@@ -77,6 +80,9 @@ public class Room : MonoBehaviour
 
 			m_EnemyWaveMap[item.initCondition].Add(item);
 		}
+
+		// 생성된 적 리스트 초기화
+		m_CreatedEnemyList = new List<Enemy>();
 
 		// 주변 방 딕셔너리 초기화
 		m_NearRoomMap = new Dictionary<E_Direction, Room>();
@@ -109,7 +115,74 @@ public class Room : MonoBehaviour
 				m_WarpPointCountMap.Add(direction, 0);
 
 			m_WarpPointMap[direction].Add(warpPoint.index, warpPoint);
-			m_WarpPointCountMap[direction]++;
+			++m_WarpPointCountMap[direction];
+		}
+	}
+	public void InitializeEvent()
+	{
+		foreach (var item in m_WarpPointMap)
+		{
+			foreach (var item2 in item.Value)
+			{
+				item2.Value.onWarp += OnEnterRoom;
+				item2.Value.onWarp += OnExitRoom;
+			}
+		}
+	}
+
+	private void OnEnterRoom(WarpPoint.WarpArg arg)
+	{
+		if (arg.currRoom != this)
+			return;
+
+		if (arg.warpObject.gameObject.layer != LayerMask.NameToLayer("Player"))
+			return;
+
+		EnemyWave.E_InitCondition condition = EnemyWave.E_InitCondition.EnterRoom;
+
+		if (m_EnemyWaveMap.ContainsKey(condition) == false ||
+			m_EnemyWaveMap[condition].Count <= 0)
+			return;
+
+		List<EnemyWave> waveList = m_EnemyWaveMap[condition];
+
+		for (int i = 0; i < waveList.Count; ++i)
+		{
+			EnemyWave wave = waveList[i];
+
+			m_CreatedEnemyList.AddRange(wave.CreateEnemy(this));
+
+			waveList[i] = wave;
+		}
+	}
+	private void OnExitRoom(WarpPoint.WarpArg arg)
+	{
+		if (arg.prevRoom != this)
+			return;
+
+		if (arg.warpObject.gameObject.layer != LayerMask.NameToLayer("Player"))
+			return;
+
+		if (m_IsClear == true)
+			return;
+
+		foreach (var item in m_EnemyWaveMap)
+		{
+			List<EnemyWave> waveList = item.Value;
+
+			for (int i = 0; i < waveList.Count; ++i)
+			{
+				EnemyWave wave = waveList[i];
+
+				wave.Reset();
+
+				waveList[i] = wave;
+			}
+		}
+
+		foreach (var item in m_CreatedEnemyList)
+		{
+			M_Enemy.Despawn(item.itemName, item);
 		}
 	}
 

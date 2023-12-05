@@ -40,6 +40,8 @@ public class WarpPoint : MonoBehaviour
 		public Room prevRoom;
 		public Room currRoom;
 		public E_Direction direction;
+
+		public Collider2D warpObject;
 	}
 	public delegate void OnWarpHandler(WarpArg arg);
 
@@ -136,14 +138,18 @@ public class WarpPoint : MonoBehaviour
 
 		StartCoroutine(warpPoint.ClearWarpedObject());
 
-		m_OnWarp?.Invoke(new WarpArg()
+		M_Stage.currentStage.MoveRoom(dirVec);
+
+		WarpArg warpArg = new WarpArg()
 		{
 			prevRoom = m_Room,
 			currRoom = nearRoom,
 			direction = m_Direction,
-		});
+			warpObject = collisionObject,
+		};
 
-		M_Stage.currentStage.MoveRoom(dirVec);
+		m_OnWarp?.Invoke(warpArg);
+		warpPoint.m_OnWarp?.Invoke(warpArg);
 	}
 	IEnumerator ClearWarpedObject()
 	{

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -8,22 +10,28 @@ using UnityEngine;
 /// <typeparam name="TKey">키</typeparam>
 /// <typeparam name="TValue">값</typeparam>
 [System.Serializable]
-public class DebugDictionary<TKey, TValue>
+public class DebugDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerator<KeyValuePair<TKey, TValue>>
 {
 	[SerializeField, ReadOnly(true)]
-	List<TKey> m_Keys;
+	private List<TKey> m_Keys;
 	[SerializeField, ReadOnly(true)]
-	List<TValue> m_Values;
+	private List<TValue> m_Values;
+
+	private int m_Position;
 
 	public DebugDictionary()
 	{
 		m_Keys = new List<TKey>();
 		m_Values = new List<TValue>();
+
+		m_Position = -1;
 	}
 	public DebugDictionary(Dictionary<TKey, TValue> dictionary)
 	{
 		m_Keys = new List<TKey>(dictionary.Keys);
 		m_Values = new List<TValue>(dictionary.Values);
+
+		m_Position = -1;
 	}
 
 	public TValue this[TKey key]
@@ -97,5 +105,41 @@ public class DebugDictionary<TKey, TValue>
 		m_Values.RemoveAt(index);
 
 		return true;
+	}
+
+	public KeyValuePair<TKey, TValue> Current => new KeyValuePair<TKey, TValue>(m_Keys[m_Position], m_Values[m_Position]);
+	object IEnumerator.Current => new KeyValuePair<TKey, TValue>(m_Keys[m_Position], m_Values[m_Position]);
+
+	public IEnumerator GetEnumerator()
+	{
+		for (int i = 0; i < Count; ++i)
+			yield return new KeyValuePair<TKey, TValue>(m_Keys[i], m_Values[i]);
+	}
+	IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
+	{
+		for (int i = 0; i < Count; ++i)
+			yield return new KeyValuePair<TKey, TValue>(m_Keys[i], m_Values[i]);
+	}
+
+	public bool MoveNext()
+	{
+		if (m_Position == Count - 1)
+		{
+			Reset();
+			return false;
+		}
+
+		++m_Position;
+
+		return m_Position < Count;
+	}
+	public void Reset()
+	{
+		m_Position = -1;
+	}
+
+	public void Dispose()
+	{
+
 	}
 }

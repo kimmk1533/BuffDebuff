@@ -76,6 +76,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e1f2e00f151c34c99a7e1655329da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_CollisionObjectList: []
+  m_OldCollisionObjectList: []
+  m_WarpedObjectList: []
   m_Index: 0
   m_Direction: 3
   m_Offset: {x: 0, y: 0}
@@ -111,6 +114,7 @@ Transform:
   m_Children:
   - {fileID: 311258600453048534}
   - {fileID: 2094046425600255043}
+  - {fileID: 8066647133876301587}
   m_Father: {fileID: 0}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -128,6 +132,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RoomSize: {x: 40, y: 34}
   m_Offset: {x: 20, y: 17}
+  m_EnemyWaveList:
+  - m_InitCondition: 0
+    m_EnemyList:
+      m_Keys:
+      - {fileID: 5233513895871477016}
+      - {fileID: 3752346578906473850}
+      m_Values:
+      - Golem
+      - Enemy
+    m_CreateEnemyTimer:
+      m_Interval: 0
+      m_Time: 0
 --- !u!1 &853564449544585189
 GameObject:
   m_ObjectHideFlags: 0
@@ -9288,7 +9304,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 77629871
-  m_SortingLayer: -6
+  m_SortingLayer: -7
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -10191,7 +10207,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1846654981
-  m_SortingLayer: -4
+  m_SortingLayer: -5
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -15763,7 +15779,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1846654981
-  m_SortingLayer: -4
+  m_SortingLayer: -5
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -18202,7 +18218,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2091122079
-  m_SortingLayer: -3
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -18242,6 +18258,68 @@ Transform:
   m_Children:
   - {fileID: 1192746271449449590}
   m_Father: {fileID: 2094046425600255043}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1059989027158665379
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3752346578906473850}
+  m_Layer: 0
+  m_Name: SpawnPoint (02)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3752346578906473850
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059989027158665379}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 29, y: 4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8066647133876301587}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1350447916863058857
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5233513895871477016}
+  m_Layer: 0
+  m_Name: SpawnPoint (01)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5233513895871477016
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350447916863058857}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11, y: 4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8066647133876301587}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1992394810594209980
@@ -18387,6 +18465,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e1f2e00f151c34c99a7e1655329da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_CollisionObjectList: []
+  m_OldCollisionObjectList: []
+  m_WarpedObjectList: []
   m_Index: 0
   m_Direction: 0
   m_Offset: {x: 0, y: 0}
@@ -18435,6 +18516,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e1f2e00f151c34c99a7e1655329da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_CollisionObjectList: []
+  m_OldCollisionObjectList: []
+  m_WarpedObjectList: []
   m_Index: 0
   m_Direction: 1
   m_Offset: {x: 0, y: 0}
@@ -18471,6 +18555,39 @@ Transform:
   - {fileID: 853564449986947897}
   - {fileID: 853564450256860609}
   - {fileID: 853564450674883061}
+  m_Father: {fileID: 853564448785711044}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6462834584915761717
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8066647133876301587}
+  m_Layer: 0
+  m_Name: EnemySpawnPoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8066647133876301587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6462834584915761717}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5233513895871477016}
+  - {fileID: 3752346578906473850}
   m_Father: {fileID: 853564448785711044}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -18518,6 +18635,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e1f2e00f151c34c99a7e1655329da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_CollisionObjectList: []
+  m_OldCollisionObjectList: []
+  m_WarpedObjectList: []
   m_Index: 0
   m_Direction: 2
   m_Offset: {x: 0, y: 0}

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ProjectileController))]
-public sealed class Projectile : MonoBehaviour
+public sealed class Projectile : MonoBehaviour, IPoolItem<Projectile>
 {
+	#region 변수
 	private ProjectileController m_Controller;
 	private IMovingStrategy m_MovingStrategy;
 
@@ -17,19 +18,15 @@ public sealed class Projectile : MonoBehaviour
 	[SerializeField, ReadOnly]
 	private UtilClass.Timer m_DespawnTimer;
 
-	public float moveSpeed => m_MoveSpeed;
-
-	private ProjectileManager M_Projectile => ProjectileManager.Instance;
-
-	public delegate void OnTriggerHandler(Collider2D collider);
-	public class Trigger
-	{
-		public OnTriggerHandler OnEnter2D;
-		public OnTriggerHandler OnStay2D;
-		public OnTriggerHandler OnExit2D;
-	}
 	private Dictionary<int, Trigger> m_CollisionMap;
+	#endregion
 
+	#region 프로퍼티
+	public float moveSpeed => m_MoveSpeed;
+	public string itemName { get; set; }
+	#endregion
+
+	#region 인덱서
 	public Trigger this[int layer]
 	{
 		get
@@ -50,19 +47,21 @@ public sealed class Projectile : MonoBehaviour
 			return this[LayerMask.NameToLayer(layer)];
 		}
 	}
+	#endregion
 
-	private void Update()
+	#region 이벤트
+	public delegate void OnTriggerHandler(Collider2D collider);
+	public class Trigger
 	{
-		m_DespawnTimer.Update();
-
-		if (m_DespawnTimer.TimeCheck(true))
-		{
-			M_Projectile.Despawn("Projectile", this);
-			return;
-		}
-
-		Move();
+		public OnTriggerHandler OnEnter2D;
+		public OnTriggerHandler OnStay2D;
+		public OnTriggerHandler OnExit2D;
 	}
+	#endregion
+
+	#region 매니저
+	private ProjectileManager M_Projectile => ProjectileManager.Instance;
+	#endregion
 
 	public void Initialize(float moveSpeed, float lifeTime)
 	{
@@ -84,6 +83,19 @@ public sealed class Projectile : MonoBehaviour
 			m_CollisionMap = new Dictionary<int, Trigger>();
 		else
 			m_CollisionMap.Clear();
+	}
+
+	private void Update()
+	{
+		m_DespawnTimer.Update();
+
+		if (m_DespawnTimer.TimeCheck(true))
+		{
+			M_Projectile.Despawn("Projectile", this);
+			return;
+		}
+
+		Move();
 	}
 
 	private void Move()

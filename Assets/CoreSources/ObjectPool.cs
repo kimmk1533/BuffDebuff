@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ObjectPool<T> : System.IDisposable where T : MonoBehaviour
+public interface IPoolItem<T> where T : MonoBehaviour
+{
+	public string itemName { get; set; }
+}
+
+public class ObjectPool<T> : System.IDisposable where T : MonoBehaviour, IPoolItem<T>
 {
 	// 풀에 담을 원본
 	private T m_Origin;

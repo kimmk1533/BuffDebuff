@@ -9,6 +9,7 @@ using Enum;
 
 public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 {
+	#region 변수
 	// Buff Rewards
 	private int m_RewardsCount = 3;
 
@@ -32,15 +33,18 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	private Dictionary<int, BuffUI> m_BuffInventoryMap;
 	private List<BuffUI> m_BuffCombineInventoryList;
 	private Dictionary<int, BuffUI> m_BuffCombineInventoryMap;
+	#endregion
 
-	// property
+	#region 프로퍼티
 	private BuffPanel rewardsPanel => m_BuffPanelMap["Buff Rewards"];
 	private BuffPanel inventoryPanel => m_BuffPanelMap["Buff Inventory"];
 	private BuffPanel combineInventoryPanel => m_BuffPanelMap["Buff Combine"];
+	#endregion
 
-	// Manager
+	#region 매니저
 	private BuffManager M_Buff => BuffManager.Instance;
 	private PlayerManager M_Player => PlayerManager.Instance;
+	#endregion
 
 	public override void Initialize()
 	{
@@ -48,7 +52,8 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 		foreach (var originInfo in m_Origins)
 		{
-			var pool = GetPool(originInfo.key);
+			ObjectPool<BuffUI> pool = GetPool(originInfo.key);
+
 			switch (originInfo.key)
 			{
 				case "Buff Rewards":

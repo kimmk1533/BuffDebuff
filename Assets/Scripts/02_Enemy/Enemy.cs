@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IPoolItem<Enemy>
 {
+	#region 변수
 	protected EnemyCharacter m_Character;
 
 	[SerializeField, ChildComponent("Renderer")]
@@ -11,10 +12,18 @@ public class Enemy : MonoBehaviour
 
 	[SerializeField]
 	private List<Transform> m_AttackSpotList;
+	#endregion
 
+	#region 프로퍼티
+	[field: SerializeField, ReadOnly(true)]
+	public string itemName { get; set; }
+	#endregion
+
+	#region 매니저
 	private PlayerManager M_Player => PlayerManager.Instance;
 	private EnemyManager M_Enemy => EnemyManager.Instance;
 	private ProjectileManager M_Projectile => ProjectileManager.Instance;
+	#endregion
 
 	// 초기화
 	public virtual void Initialize()

@@ -56109,6 +56109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1754298150}
   m_AttackSpotList: []
+  <itemName>k__BackingField: Golem
 --- !u!114 &870225827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87025,6 +87026,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1276558579}
   m_AttackSpotList: []
+  <itemName>k__BackingField: Enemy
 --- !u!114 &1359844120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116435,42 +116437,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Room 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3831175076842576157, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
-      propertyPath: m_EnemyWaveList.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3831175076842576157, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
-      propertyPath: m_EnemyWaveList.Array.data[0].m_EnemyList.m_Keys.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3831175076842576157, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
-      propertyPath: m_EnemyWaveList.Array.data[1].m_EnemyList.m_Keys.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3831175076842576157, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
-      propertyPath: m_EnemyWaveList.Array.data[0].m_EnemyList.m_Values.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3831175076842576157, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
-      propertyPath: m_EnemyWaveList.Array.data[1].m_EnemyList.m_Values.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3831175076842576157, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
-      propertyPath: m_EnemyWaveList.Array.data[0].m_EnemyList.m_Keys.Array.data[0]
-      value: 
-      objectReference: {fileID: 870225829}
-    - target: {fileID: 3831175076842576157, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
-      propertyPath: m_EnemyWaveList.Array.data[1].m_EnemyList.m_Keys.Array.data[0]
-      value: 
-      objectReference: {fileID: 870225829}
-    - target: {fileID: 3831175076842576157, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
-      propertyPath: m_EnemyWaveList.Array.data[0].m_EnemyList.m_Values.Array.data[0]
-      value: 
-      objectReference: {fileID: 870225826}
-    - target: {fileID: 3831175076842576157, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
-      propertyPath: m_EnemyWaveList.Array.data[1].m_EnemyList.m_Values.Array.data[0]
-      value: 
-      objectReference: {fileID: 870225826}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 61848e317d8d79e49af82964dff81f69, type: 3}

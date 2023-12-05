@@ -75,7 +75,7 @@ public class StageGenerator : MonoBehaviour
 			if (m_StageRoomQueue.Count == 0)
 			{
 				ResetRoomCheck(currStageLevel, ref stage);
-				Debug.Log("맵 재생성");
+				//Debug.Log("맵 재생성");
 			}
 
 			current = m_StageRoomQueue.Dequeue();
@@ -296,6 +296,7 @@ public class StageGenerator : MonoBehaviour
 		room.name = m_GeneratedRoomCount.ToString("00_") + room.name;
 		room.gameObject.SetActive(true);
 		room.Initialize();
+		room.InitializeEvent();
 
 		m_GeneratedRoomMap[roomPos] = room;
 
