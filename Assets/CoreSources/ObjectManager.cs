@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [DefaultExecutionOrder(-97)]
-public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool : MonoBehaviour where Origin : MonoBehaviour, IPoolItem<Origin>
+public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool : MonoBehaviour where Origin : PoolItemBase
 {
 	[SerializeField]
 	protected List<OriginInfo> m_Origins = new List<OriginInfo>();
@@ -13,7 +13,7 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 	{
 		Initialize(true);
 	}
-	public virtual void Initialize(bool autoInit)
+	public virtual void Initialize(bool autoInit = true)
 	{
 		m_Pools = new Dictionary<string, ObjectPool<Origin>>();
 
@@ -33,14 +33,10 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 	protected void AddPool(string key, int poolSize, Origin origin, Transform parent, bool autoInit = true)
 	{
 		if (origin == null)
-		{
 			throw new System.ArgumentNullException(transform.name + ": origin이 null 입니다. key는 \"" + key + "\" 였습니다.");
-		}
 
 		if (origin.gameObject.scene.buildIndex == -1)
-		{
 			throw new System.Exception(transform.name + ": Object Manager의 Origin은 씬에 존재하는 오브젝트여야 합니다.");
-		}
 
 		origin.name = key;
 		origin.transform.SetParent(transform);
@@ -59,58 +55,85 @@ public abstract class ObjectManager<Pool, Origin> : Singleton<Pool> where Pool :
 		m_Pools.Add(key, pool);
 	}
 
-	public Origin Spawn(string key, Transform parent = null)
+	public ObjectPool<Origin>.ItemBuilder GetBuilder(string key)
 	{
 		ObjectPool<Origin> pool = GetPool(key);
+
 		if (pool == null)
-		{
 			throw new System.NullReferenceException(transform.name + ": Pool이 null 입니다. key는 \"" + key + "\" 였습니다.");
-		}
 
-		Origin item = pool.Spawn();
-
-		item.transform.SetParent(parent);
-
-		return item;
+		return pool.GetBuilder();
 	}
-	public Origin Spawn(string key, Vector3 position, Quaternion rotation)
-	{
-		Origin item = Spawn(key);
+	//public Origin Spawn(string key, Transform parent = null, bool autoInit = true)
+	//{
+	//	ObjectPool<Origin> pool = GetPool(key);
 
-		item.transform.position = position;
-		item.transform.rotation = rotation;
+	//	if (pool == null)
+	//		throw new System.NullReferenceException(transform.name + ": Pool이 null 입니다. key는 \"" + key + "\" 였습니다.");
 
-		return item;
-	}
-	public Origin Spawn(string key, Vector3 position, Quaternion rotation, Transform parent)
-	{
-		Origin item = Spawn(key);
+	//	Origin item = pool.GetBuilder()
+	//		.SetActive(true)
+	//		.SetAutoInit(autoInit)
+	//		.SetParent(parent)
+	//		.Spawn();
 
-		item.transform.SetParent(parent);
-		item.transform.position = position;
-		item.transform.rotation = rotation;
+	//	return item;
+	//}
+	//public Origin Spawn(string key, Vector3 position, Transform parent = null, bool autoInit = true)
+	//{
+	//	ObjectPool<Origin> pool = GetPool(key);
 
-		return item;
-	}
-	public bool Despawn(Origin item)
+	//	if (pool == null)
+	//		throw new System.NullReferenceException(transform.name + ": Pool이 null 입니다. key는 \"" + key + "\" 였습니다.");
+
+	//	Origin item = pool.GetBuilder()
+	//		.SetActive(true)
+	//		.SetAutoInit(autoInit)
+	//		.SetParent(parent)
+	//		.SetPosition(position)
+	//		.Spawn();
+
+	//	item.transform.position = position;
+
+	//	return item;
+	//}
+	//public Origin Spawn(string key, Vector3 position, Quaternion rotation, Transform parent = null, bool autoInit = true)
+	//{
+	//	ObjectPool<Origin> pool = GetPool(key);
+
+	//	if (pool == null)
+	//		throw new System.NullReferenceException(transform.name + ": Pool이 null 입니다. key는 \"" + key + "\" 였습니다.");
+
+	//	Origin item = pool.GetBuilder()
+	//		.SetActive(true)
+	//		.SetAutoInit(autoInit)
+	//		.SetParent(parent)
+	//		.SetPosition(position)
+	//		.SetRotation(rotation)
+	//		.Spawn();
+
+	//	item.transform.position = position;
+
+	//	return item;
+	//}
+	public bool Despawn(Origin item, bool autoFinal = true)
 	{
 		foreach (var pool in m_Pools.Values)
 		{
-			if (pool.Despawn(item))
+			if (pool.Despawn(item, autoFinal))
 				return true;
 		}
 
 		return false;
 	}
-	public bool Despawn(string key, Origin item)
+	public bool Despawn(string key, Origin item, bool autoFinal = true)
 	{
 		ObjectPool<Origin> pool = GetPool(key);
-		if (pool == null)
-		{
-			throw new System.NullReferenceException(transform.name + ": Pool이 null 입니다. key는 \"" + key + "\" 였습니다.");
-		}
 
-		return pool.Despawn(item);
+		if (pool == null)
+			throw new System.NullReferenceException(transform.name + ": Pool이 null 입니다. key는 \"" + key + "\" 였습니다.");
+
+		return pool.Despawn(item, autoFinal);
 	}
 
 	protected virtual ObjectPool<Origin> GetPool(string key)

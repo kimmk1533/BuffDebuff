@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using RoomPool = ObjectPool<Room>;
 using Enum;
+using RoomPool = ObjectPool<Room>;
 
 public class RoomManager : ObjectManager<RoomManager, Room>
 {
@@ -74,7 +74,10 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 
 		RoomPool randomPool = poolList[Random.Range(0, poolList.Count)];
 
-		return randomPool.Spawn();
+		return randomPool.GetBuilder()
+			.SetActive(true)
+			.SetAutoInit(true)
+			.Spawn();
 	}
 	/// <summary>
 	/// 여러 조건을 만족하는 방들 중 랜덤한 방을 리턴하는 함수
@@ -96,9 +99,12 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 			{
 				RoomPool pool = poolList[poolListIndex];
 
-				Room room = pool.Spawn();
-				room.Initialize();
+				Room room = pool.GetBuilder()
+					.SetAutoInit(true)
+					.Spawn();
+
 				int count = room.GetWarpPointCount(condition.direction);
+
 				pool.Despawn(room);
 
 				bool flag;
@@ -141,7 +147,10 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 
 		RoomPool randomPool = poolList[Random.Range(0, poolList.Count)];
 
-		return randomPool.Spawn();
+		return randomPool.GetBuilder()
+			.SetActive(true)
+			.SetAutoInit(true)
+			.Spawn();
 	}
 
 	[ContextMenu("All Flag On")]

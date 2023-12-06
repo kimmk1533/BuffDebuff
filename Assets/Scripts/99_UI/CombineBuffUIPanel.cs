@@ -25,8 +25,12 @@ public class CombineBuffUIPanel : MonoBehaviour
 
 	public void Initialize()
 	{
-		m_BuffUI = M_BuffUI.Spawn("Buff Combine");
-		m_BuffUI.transform.SetParent(transform);
+		m_BuffUI = M_BuffUI.GetBuilder("Buff Combine")
+			.SetActive(true)
+			.SetAutoInit(true)
+			.SetParent(transform)
+			.Spawn();
+
 		m_BuffUI.transform.localPosition = Vector3.zero;
 		m_BuffUI.transform.localScale = Vector3.one;
 	}

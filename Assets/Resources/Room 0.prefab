@@ -130,10 +130,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c4c28d80a4e3ba4da6acd23dbdebc16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <itemName>k__BackingField: Room 0
   m_RoomSize: {x: 40, y: 34}
   m_Offset: {x: 20, y: 17}
   m_EnemyWaveList:
   - m_InitCondition: 0
+    m_EnemyList:
+      m_Keys:
+      - {fileID: 5233513895871477016}
+      - {fileID: 3752346578906473850}
+      m_Values:
+      - Golem
+      - Enemy
+    m_CreateEnemyTimer:
+      m_Interval: 0
+      m_Time: 0
+  - m_InitCondition: 1
     m_EnemyList:
       m_Keys:
       - {fileID: 5233513895871477016}

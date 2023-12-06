@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class BuffUI : MonoBehaviour, IPoolItem<BuffUI>
+public class BuffUI : PoolItemBase
 {
 	#region 변수
 	[SerializeField]
@@ -52,8 +52,6 @@ public class BuffUI : MonoBehaviour, IPoolItem<BuffUI>
 		}
 	}
 	public BuffData buffData => m_BuffData;
-
-	public string itemName { get; set; }
 	#endregion
 
 	#region 이벤트

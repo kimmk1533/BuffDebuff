@@ -57,13 +57,13 @@ public struct EnemyWave
 		{
 			string itemName = item.Value;
 
-			Enemy enemy = M_Enemy.Spawn(itemName);
+			Enemy enemy = M_Enemy.GetBuilder(itemName)
+				.SetActive(true)
+				.SetAutoInit(true)
+				.SetPosition(item.Key.localPosition + positionOffset)
+				.Spawn();
 
-			enemy.gameObject.SetActive(true);
-
-			enemy.Initialize();
-
-			enemy.transform.position = item.Key.localPosition + positionOffset;
+			enemy.onDeath += currentRoom.OnCreatedEnemyDeath;
 
 			createdEnemyList.Add(enemy);
 		}

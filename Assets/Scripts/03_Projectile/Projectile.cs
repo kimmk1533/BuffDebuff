@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ProjectileController))]
-public sealed class Projectile : MonoBehaviour, IPoolItem<Projectile>
+public sealed class Projectile : PoolItemBase
 {
 	#region 변수
 	private ProjectileController m_Controller;
@@ -23,7 +23,6 @@ public sealed class Projectile : MonoBehaviour, IPoolItem<Projectile>
 
 	#region 프로퍼티
 	public float moveSpeed => m_MoveSpeed;
-	public string itemName { get; set; }
 	#endregion
 
 	#region 인덱서

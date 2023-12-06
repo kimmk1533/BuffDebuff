@@ -214,13 +214,15 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 		foreach (var buffData in buffDataList)
 		{
-			BuffUI buffUI = Spawn("Buff Rewards");
-			buffUI.Initialize(buffData);
-			buffUI.transform.SetParent(rewardsPanel.content.transform);
-			buffUI.name = buffData.title;
-			buffUI.transform.localScale = Vector3.one;
+			BuffUI buffUI = GetBuilder("Buff Rewards")
+				.SetName(buffData.title)
+				.SetActive(true)
+				.SetAutoInit(false)
+				.SetParent(rewardsPanel.content.transform)
+				.Spawn();
 
-			buffUI.gameObject.SetActive(true);
+			buffUI.Initialize(buffData);
+			buffUI.transform.localScale = Vector3.one;
 		}
 	}
 	private bool AddBuff_Inventory(BuffData buffData)
@@ -236,13 +238,16 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		}
 
 		// 버프가 인벤에 안들어감. 디버깅 해야함.
-		buffUI = Spawn("Buff Inventory");
+		buffUI = GetBuilder("Buff Inventory")
+			.SetName(buffData.title)
+			.SetActive(true)
+			.SetAutoInit(false)
+			.SetParent(inventoryPanel.content.transform)
+			.Spawn();
+
 		buffUI.Initialize(buffData);
-		buffUI.name = buffData.title;
-		buffUI.transform.SetParent(inventoryPanel.content.transform);
 		buffUI.transform.localPosition = Vector3.zero;
 		buffUI.transform.localScale = Vector3.one * 0.75f;
-		buffUI.gameObject.SetActive(true);
 
 		m_BuffInventoryList.Add(buffUI);
 		m_BuffInventoryMap.Add(buffData.code, buffUI);
@@ -263,13 +268,16 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 			return true;
 		}
 
-		buffUI = Spawn("Buff Combine Inventory");
+		buffUI = GetBuilder("Buff Combine Inventory")
+			.SetName(buffData.title)
+			.SetActive(true)
+			.SetAutoInit(false)
+			.SetParent(combineInventoryPanel.content.transform)
+			.Spawn();
+
 		buffUI.Initialize(buffData);
-		buffUI.name = buffData.title;
-		buffUI.transform.SetParent(combineInventoryPanel.content.transform);
 		buffUI.transform.localPosition = Vector3.zero;
 		buffUI.transform.localScale = Vector3.one * 0.75f;
-		buffUI.gameObject.SetActive(true);
 
 		m_BuffCombineInventoryList.Add(buffUI);
 		m_BuffCombineInventoryMap.Add(buffData.code, buffUI);

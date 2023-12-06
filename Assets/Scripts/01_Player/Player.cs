@@ -48,11 +48,18 @@ public sealed class Player : MonoBehaviour
 			return;
 
 		Vector3 position = m_AttackSpotList[attackIndex].position;
+
 		Vector2 mousePos = UtilClass.GetMouseWorldPosition();
 		float angle = position.GetAngle(mousePos);
 		Quaternion quaternion = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
-		Projectile projectile = M_Projectile.Spawn("Projectile", position, quaternion);
+		Projectile projectile = M_Projectile.GetBuilder("Projectile")
+			.SetActive(true)
+			.SetAutoInit(false)
+			.SetParent(null)
+			.SetPosition(position)
+			.SetRotation(quaternion)
+			.Spawn();
 
 		projectile.Initialize(5.0f, m_Character.currentStat.AttackRange);
 
@@ -61,7 +68,12 @@ public sealed class Player : MonoBehaviour
 		{
 			Enemy enemy = collider.GetComponent<Enemy>();
 
-			GiveDamage(projectile, enemy);
+			GiveDamage(new DamageArg<Player, Enemy>()
+			{
+				damageGiver = this,
+				damageTaker = enemy,
+				projectile = projectile,
+			});
 
 			M_Projectile.Despawn("Projectile", projectile);
 		};
@@ -69,19 +81,13 @@ public sealed class Player : MonoBehaviour
 		{
 			M_Projectile.Despawn("Projectile", projectile);
 		};
-
-		projectile.gameObject.SetActive(true);
 	}
 
-	public void TakeDamage(float damage)
+	private void GiveDamage(DamageArg<Player, Enemy> arg)
 	{
-		m_Character.currentStat.Hp -= damage;
+		Enemy enemy = arg.damageTaker;
+		Projectile projectile = arg.projectile;
 
-		if (m_Character.currentStat.Hp <= 0f)
-			Death();
-	}
-	private void GiveDamage(Projectile projectile, Enemy enemy)
-	{
 		if (projectile == null || enemy == null)
 			return;
 
@@ -90,6 +96,13 @@ public sealed class Player : MonoBehaviour
 			return;
 
 		enemy.TakeDamage(m_Character.currentStat.Attack);
+	}
+	public void TakeDamage(float damage)
+	{
+		m_Character.currentStat.Hp -= damage;
+
+		if (m_Character.currentStat.Hp <= 0f)
+			Death();
 	}
 	private void Death()
 	{

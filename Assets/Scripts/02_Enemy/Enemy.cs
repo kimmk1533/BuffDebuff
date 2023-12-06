@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IPoolItem<Enemy>
+public class Enemy : PoolItemBase
 {
 	#region 변수
 	protected EnemyCharacter m_Character;
@@ -16,7 +16,28 @@ public class Enemy : MonoBehaviour, IPoolItem<Enemy>
 
 	#region 프로퍼티
 	[field: SerializeField, ReadOnly(true)]
-	public string itemName { get; set; }
+	#endregion
+
+	#region 이벤트
+	private System.Action<OnDeathArg> m_OnDeath;
+
+	public event System.Action<OnDeathArg> onDeath
+	{
+		add
+		{
+			m_OnDeath += value;
+		}
+		remove
+		{
+			m_OnDeath -= value;
+		}
+	}
+
+	public struct OnDeathArg
+	{
+		public Enemy enemy;
+
+	}
 	#endregion
 
 	#region 매니저
@@ -26,8 +47,10 @@ public class Enemy : MonoBehaviour, IPoolItem<Enemy>
 	#endregion
 
 	// 초기화
-	public virtual void Initialize()
+	public override void Initialize()
 	{
+		base.Initialize();
+
 		m_Character = GetComponent<EnemyCharacter>();
 		m_Character.Initialize();
 
@@ -46,11 +69,18 @@ public class Enemy : MonoBehaviour, IPoolItem<Enemy>
 			return;
 
 		Vector3 position = m_AttackSpotList[attackIndex].position;
+
 		Vector3 targetPos = m_Character.targetCollider.bounds.center;
 		float angle = position.GetAngle(targetPos);
 		Quaternion quaternion = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
-		Projectile projectile = M_Projectile.Spawn("Projectile", position, quaternion);
+		Projectile projectile = M_Projectile.GetBuilder("Projectile")
+			.SetActive(true)
+			.SetAutoInit(false)
+			.SetParent(null)
+			.SetPosition(position)
+			.SetRotation(quaternion)
+			.Spawn();
 
 		projectile.Initialize(5.0f, m_Character.currentStat.AttackRange);
 
@@ -59,7 +89,12 @@ public class Enemy : MonoBehaviour, IPoolItem<Enemy>
 		{
 			Player player = collider.GetComponent<Player>();
 
-			GiveDamage(projectile, player);
+			GiveDamage(new DamageArg<Enemy, Player>()
+			{
+				damageGiver = this,
+				damageTaker = player,
+				projectile = projectile,
+			});
 
 			M_Projectile.Despawn("Projectile", projectile);
 		};
@@ -67,12 +102,13 @@ public class Enemy : MonoBehaviour, IPoolItem<Enemy>
 		{
 			M_Projectile.Despawn("Projectile", projectile);
 		};
-
-		projectile.gameObject.SetActive(true);
 	}
 
-	protected virtual void GiveDamage(Projectile projectile, Player player)
+	protected virtual void GiveDamage(DamageArg<Enemy, Player> damageArg)
 	{
+		Player player = damageArg.damageTaker;
+		Projectile projectile = damageArg.projectile;
+
 		if (projectile == null || player == null)
 			return;
 
@@ -94,6 +130,18 @@ public class Enemy : MonoBehaviour, IPoolItem<Enemy>
 		float xp = m_Character.currentStat.Xp * m_Character.currentStat.XpScale;
 		M_Player.AddXp(xp);
 
+		m_OnDeath?.Invoke(new OnDeathArg()
+		{
+			enemy = this,
+		});
+
 		M_Enemy.Despawn(this);
 	}
+}
+
+public struct DamageArg<DamageGiver, DamageTaker>
+{
+	public DamageGiver damageGiver;
+	public DamageTaker damageTaker;
+	public Projectile projectile;
 }

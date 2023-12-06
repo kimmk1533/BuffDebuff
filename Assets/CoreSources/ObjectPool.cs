@@ -1,29 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.Events;
 
-public interface IPoolItem<T> where T : MonoBehaviour
+public interface IPoolItem
 {
+	public void Initialize();
+	public void Finallize();
+}
+public class PoolItemBase : MonoBehaviour, IPoolItem
+{
+	[field: SerializeField]
 	public string itemName { get; set; }
+	public bool isSpawning { get; set; }
+
+	public virtual void Initialize()
+	{
+
+	}
+	public virtual void Finallize()
+	{
+		if (isSpawning == true)
+			isSpawning = false;
+	}
 }
 
-public class ObjectPool<T> : System.IDisposable where T : MonoBehaviour, IPoolItem<T>
+public class ObjectPool<PoolItem> : System.IDisposable where PoolItem : PoolItemBase
 {
+	#region 변수
 	// 풀에 담을 원본
-	private T m_Origin;
+	private PoolItem m_Origin;
 	// 초기 풀 사이즈
 	private int m_PoolSize;
 	// 오브젝트들을 담을 실제 풀
-	private Queue<T> m_Queue;
+	private Queue<PoolItem> m_Queue;
 	// 생성한 오브젝트를 기억하고 있다가 디스폰 시 확인할 리스트
-	private List<T> m_DespawnCheckList;
+	private List<PoolItem> m_DespawnCheckList;
 	// 하이어라키 창에서 관리하기 쉽도록 parent 지정
 	private Transform m_Parent = null;
 
+	private ItemBuilder m_ItemBuilder;
+	#endregion
+
+	#region 프로퍼티
+	public bool autoExpandPool { get; set; }
+	#endregion
+
+	#region 이벤트
 	// 오브젝트가 복제될 때 실행될 이벤트
-	private UnityEvent<T> m_OnInstantiated;
-	public event UnityAction<T> onInstantiated
+	private UnityEvent<PoolItem> m_OnInstantiated;
+	public event UnityAction<PoolItem> onInstantiated
 	{
 		add
 		{
@@ -34,27 +61,38 @@ public class ObjectPool<T> : System.IDisposable where T : MonoBehaviour, IPoolIt
 			m_OnInstantiated.RemoveListener(value);
 		}
 	}
+	#endregion
 
+	#region 생성자
 	// 부모 지정 안하고 생성하는 경우
-	public ObjectPool(T origin, int poolSize)
+	public ObjectPool(PoolItem origin, int poolSize)
 	{
 		m_Origin = origin;
 		m_PoolSize = poolSize;
-		m_Queue = new Queue<T>(poolSize);
-		m_DespawnCheckList = new List<T>(poolSize);
+		m_Queue = new Queue<PoolItem>(poolSize);
+		m_DespawnCheckList = new List<PoolItem>(poolSize);
 		m_Parent = null;
-		m_OnInstantiated = new UnityEvent<T>();
+		m_OnInstantiated = new UnityEvent<PoolItem>();
+
+		m_ItemBuilder = new ItemBuilder(this);
+
+		autoExpandPool = true;
 	}
 	// 부모 지정하여 생성하는 경우
-	public ObjectPool(T origin, int poolSize, Transform parent)
+	public ObjectPool(PoolItem origin, int poolSize, Transform parent)
 	{
 		m_Origin = origin;
 		m_PoolSize = poolSize;
-		m_Queue = new Queue<T>(poolSize);
-		m_DespawnCheckList = new List<T>(poolSize);
+		m_Queue = new Queue<PoolItem>(poolSize);
+		m_DespawnCheckList = new List<PoolItem>(poolSize);
 		m_Parent = parent;
-		m_OnInstantiated = new UnityEvent<T>();
+		m_OnInstantiated = new UnityEvent<PoolItem>();
+
+		m_ItemBuilder = new ItemBuilder(this);
+
+		autoExpandPool = true;
 	}
+	#endregion
 
 	/// <summary>
 	/// 초기 풀 세팅
@@ -63,19 +101,20 @@ public class ObjectPool<T> : System.IDisposable where T : MonoBehaviour, IPoolIt
 	{
 		ExpandPool(m_PoolSize);
 	}
+
 	// 오브젝트 풀이 빌 경우 선택적으로 call
 	// 절반만큼 증가
-	void ExpandPool()
+	private void ExpandPool()
 	{
 		int newSize = m_PoolSize + Mathf.RoundToInt(m_PoolSize * 1.5f);
 
 		ExpandPool(newSize);
 	}
-	void ExpandPool(int size)
+	private void ExpandPool(int size)
 	{
 		for (int i = 0; i < size; ++i)
 		{
-			T newItem = Object.Instantiate<T>(m_Origin);
+			PoolItem newItem = GameObject.Instantiate<PoolItem>(m_Origin);
 			newItem.name = m_Origin.name;
 
 			m_OnInstantiated?.Invoke(newItem);
@@ -85,70 +124,68 @@ public class ObjectPool<T> : System.IDisposable where T : MonoBehaviour, IPoolIt
 				newItem.transform.SetParent(m_Parent);
 
 			m_Queue.Enqueue(newItem);
-			m_DespawnCheckList.Add(newItem);
 		}
 
 		m_PoolSize += size;
 	}
 
+	public ItemBuilder GetBuilder()
+	{
+		return m_ItemBuilder;
+	}
 	// 모든 오브젝트 사용시 추가로 생성할 경우 
 	// expand 를 true 로 설정
-	public T Spawn(bool expand = true)
+	private PoolItem Spawn()
 	{
-		if (expand && m_Queue.Count <= 0)
-		{
+		if (autoExpandPool && m_Queue.Count <= 0)
 			ExpandPool();
-		}
 
-		if (m_Queue.Count > 0)
-		{
-			T item = m_Queue.Dequeue();
-			return item;
-		}
+		PoolItem item = m_Queue.Dequeue();
 
-		Debug.LogError("Pool Size Over");
-		return null;
+		item.isSpawning = true;
+
+		m_DespawnCheckList.Add(item);
+
+		return item;
 	}
 	// 회수 작업
-	public bool Despawn(T obj)
+	public bool Despawn(PoolItem item, bool autoFinal = true)
 	{
-		if (obj == null)
-		{
-			return false;
+		if (item == null)
 			throw new System.NullReferenceException();
-		}
 
-		if (m_DespawnCheckList.Contains(obj) == false)
-		{
+		if (m_DespawnCheckList.Contains(item) == false)
 			return false;
-			throw new System.Exception("obj is not ObjectPool_Mono Object");
-		}
 
-		if (m_Queue.Contains(obj) == true)
-		{
+		if (m_Queue.Contains(item) == true)
 			return false;
-		}
 
-		obj.gameObject.SetActive(false);
+		item.isSpawning = false;
+		item.gameObject.SetActive(false);
 		if (m_Parent != null)
-			obj.transform.SetParent(m_Parent);
-		obj.transform.localPosition = Vector3.zero;
+			item.transform.SetParent(m_Parent);
+		item.transform.localPosition = Vector3.zero;
 
-		m_Queue.Enqueue(obj);
+		if (autoFinal)
+			item.Finallize();
+
+		m_DespawnCheckList.Remove(item);
+
+		m_Queue.Enqueue(item);
 
 		return true;
 	}
 
 	// foreach 문을 위한 반복자
-	public IEnumerator<T> GetEnumerator()
+	public IEnumerator<PoolItem> GetEnumerator()
 	{
-		foreach (T item in m_Queue)
+		foreach (PoolItem item in m_Queue)
 			yield return item;
 	}
 	// 메모리 해제
 	public void Dispose()
 	{
-		foreach (T item in m_Queue)
+		foreach (PoolItem item in m_Queue)
 		{
 			GameObject.DestroyImmediate(item);
 		}
@@ -159,5 +196,137 @@ public class ObjectPool<T> : System.IDisposable where T : MonoBehaviour, IPoolIt
 
 		m_OnInstantiated.RemoveAllListeners();
 		m_OnInstantiated = null;
+	}
+
+	public class ItemBuilder
+	{
+		private ObjectPool<PoolItem> m_Pool;
+
+		private ItemProperty<string> m_Name;
+		private ItemProperty<bool> m_Active;
+		private ItemProperty<bool> m_AutoInit;
+		private ItemProperty<Transform> m_Parent;
+		private ItemProperty<Vector3> m_Position;
+		private ItemProperty<Quaternion> m_Rotation;
+		private ItemProperty<Vector3> m_Scale;
+
+		public ItemBuilder(ObjectPool<PoolItem> pool)
+		{
+			m_Pool = pool;
+
+			m_Name = new ItemProperty<string>();
+			m_Active = new ItemProperty<bool>();
+			m_AutoInit = new ItemProperty<bool>();
+			m_Parent = new ItemProperty<Transform>();
+			m_Position = new ItemProperty<Vector3>();
+			m_Rotation = new ItemProperty<Quaternion>();
+			m_Scale = new ItemProperty<Vector3>();
+
+			Clear();
+		}
+
+		public ItemBuilder SetName(string name)
+		{
+			m_Name.isUse = true;
+			m_Name.value = name;
+
+			return this;
+		}
+		public ItemBuilder SetActive(bool active)
+		{
+			m_Active.isUse = true;
+			m_Active.value = active;
+
+			return this;
+		}
+		public ItemBuilder SetAutoInit(bool autoInit)
+		{
+			m_AutoInit.isUse = true;
+			m_AutoInit.value = autoInit;
+
+			return this;
+		}
+		public ItemBuilder SetParent(Transform parent)
+		{
+			m_Parent.isUse = true;
+			m_Parent.value = parent;
+
+			return this;
+		}
+		public ItemBuilder SetPosition(Vector3 position)
+		{
+			m_Position.isUse = true;
+			m_Position.value = position;
+
+			return this;
+		}
+		public ItemBuilder SetRotation(Quaternion rotation)
+		{
+			m_Rotation.isUse = true;
+			m_Rotation.value = rotation;
+
+			return this;
+		}
+		public ItemBuilder SetScale(Vector3 scale)
+		{
+			m_Scale.isUse = true;
+			m_Scale.value = scale;
+
+			return this;
+		}
+
+		public PoolItem Spawn()
+		{
+			PoolItem item = m_Pool.Spawn();
+
+			if (m_Name.isUse)
+				item.name = m_Name.value;
+
+			if (m_Parent.isUse)
+				item.transform.SetParent(m_Parent.value);
+
+			if (m_Position.isUse)
+				item.transform.position = m_Position.value;
+			if (m_Rotation.isUse)
+				item.transform.rotation = m_Rotation.value;
+			if (m_Scale.isUse)
+				item.transform.localScale = m_Scale.value;
+
+			if (m_Active.isUse)
+				item.gameObject.SetActive(m_Active.value);
+
+			if (m_AutoInit.isUse &&
+				m_AutoInit.value)
+				item.Initialize();
+
+			Clear();
+
+			return item;
+		}
+
+		public void Clear()
+		{
+			m_Name.isUse = false;
+			m_Active.isUse = false;
+			m_AutoInit.isUse = false;
+			m_Parent.isUse = false;
+			m_Position.isUse = false;
+			m_Rotation.isUse = false;
+			m_Scale.isUse = false;
+
+			m_Name.value = string.Empty;
+			m_Active.value = false;
+			m_AutoInit.value = false;
+			m_Parent.value = null;
+			m_Position.value = Vector3.zero;
+			m_Rotation.value = Quaternion.identity;
+			m_Scale.value = Vector3.one;
+		}
+
+		public class ItemProperty<T>
+		{
+			public bool isUse { get; set; }
+			public T value { get; set; }
+		}
 	}
 }

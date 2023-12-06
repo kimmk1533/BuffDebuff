@@ -294,8 +294,6 @@ public class StageGenerator : MonoBehaviour
 		room.transform.SetParent(stage.transform);
 		room.transform.position = pos;
 		room.name = m_GeneratedRoomCount.ToString("00_") + room.name;
-		room.gameObject.SetActive(true);
-		room.Initialize();
 		room.InitializeEvent();
 
 		m_GeneratedRoomMap[roomPos] = room;

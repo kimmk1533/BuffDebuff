@@ -16,14 +16,13 @@ public class EnemyManager : ObjectManager<EnemyManager, Enemy>
 		if (Input.GetKeyDown(KeyCode.Tab))
 		{
 			Vector2 position = UtilClass.GetMouseWorldPosition();
-			
-			Enemy enemy = Spawn("Golem");
 
-			enemy.gameObject.SetActive(true);
-
-			enemy.Initialize();
-
-			enemy.transform.position = position;
+			Enemy enemy = GetBuilder("Golem")
+				.SetActive(true)
+				.SetAutoInit(true)
+				.SetParent(null)
+				.SetPosition(position)
+				.Spawn();
 		}
 	}
 }
