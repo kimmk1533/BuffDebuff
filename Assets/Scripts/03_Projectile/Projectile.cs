@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ProjectileController))]
-public sealed class Projectile : PoolItemBase
+public sealed class Projectile : ObjectPoolItemBase
 {
 	#region 변수
 	private ProjectileController m_Controller;

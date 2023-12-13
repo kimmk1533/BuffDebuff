@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class BuffUI : PoolItemBase
+public class BuffUI : ObjectPoolItemBase
 {
 	#region 변수
 	[SerializeField]

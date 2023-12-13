@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : PoolItemBase
+public class Enemy : ObjectPoolItemBase
 {
 	#region 변수
 	protected EnemyCharacter m_Character;

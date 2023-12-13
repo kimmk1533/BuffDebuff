@@ -1,42 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.Events;
 
-public interface IPoolItem
-{
-	public void Initialize();
-	public void Finallize();
-}
-public class PoolItemBase : MonoBehaviour, IPoolItem
-{
-	[field: SerializeField]
-	public string itemName { get; set; }
-	public bool isSpawning { get; set; }
-
-	public virtual void Initialize()
-	{
-
-	}
-	public virtual void Finallize()
-	{
-		if (isSpawning == true)
-			isSpawning = false;
-	}
-}
-
-public class ObjectPool<PoolItem> : System.IDisposable where PoolItem : PoolItemBase
+public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBase
 {
 	#region 변수
 	// 풀에 담을 원본
-	private PoolItem m_Origin;
+	private Item m_Origin;
 	// 초기 풀 사이즈
 	private int m_PoolSize;
 	// 오브젝트들을 담을 실제 풀
-	private Queue<PoolItem> m_Queue;
+	private Queue<Item> m_Queue;
 	// 생성한 오브젝트를 기억하고 있다가 디스폰 시 확인할 리스트
-	private List<PoolItem> m_DespawnCheckList;
+	private List<Item> m_DespawnCheckList;
 	// 하이어라키 창에서 관리하기 쉽도록 parent 지정
 	private Transform m_Parent = null;
 
@@ -49,8 +26,8 @@ public class ObjectPool<PoolItem> : System.IDisposable where PoolItem : PoolItem
 
 	#region 이벤트
 	// 오브젝트가 복제될 때 실행될 이벤트
-	private UnityEvent<PoolItem> m_OnInstantiated;
-	public event UnityAction<PoolItem> onInstantiated
+	private UnityEvent<Item> m_OnInstantiated;
+	public event UnityAction<Item> onInstantiated
 	{
 		add
 		{
@@ -65,28 +42,28 @@ public class ObjectPool<PoolItem> : System.IDisposable where PoolItem : PoolItem
 
 	#region 생성자
 	// 부모 지정 안하고 생성하는 경우
-	public ObjectPool(PoolItem origin, int poolSize)
+	public ObjectPool(Item origin, int poolSize)
 	{
 		m_Origin = origin;
 		m_PoolSize = poolSize;
-		m_Queue = new Queue<PoolItem>(poolSize);
-		m_DespawnCheckList = new List<PoolItem>(poolSize);
+		m_Queue = new Queue<Item>(poolSize);
+		m_DespawnCheckList = new List<Item>(poolSize);
 		m_Parent = null;
-		m_OnInstantiated = new UnityEvent<PoolItem>();
+		m_OnInstantiated = new UnityEvent<Item>();
 
 		m_ItemBuilder = new ItemBuilder(this);
 
 		autoExpandPool = true;
 	}
 	// 부모 지정하여 생성하는 경우
-	public ObjectPool(PoolItem origin, int poolSize, Transform parent)
+	public ObjectPool(Item origin, int poolSize, Transform parent)
 	{
 		m_Origin = origin;
 		m_PoolSize = poolSize;
-		m_Queue = new Queue<PoolItem>(poolSize);
-		m_DespawnCheckList = new List<PoolItem>(poolSize);
+		m_Queue = new Queue<Item>(poolSize);
+		m_DespawnCheckList = new List<Item>(poolSize);
 		m_Parent = parent;
-		m_OnInstantiated = new UnityEvent<PoolItem>();
+		m_OnInstantiated = new UnityEvent<Item>();
 
 		m_ItemBuilder = new ItemBuilder(this);
 
@@ -114,7 +91,7 @@ public class ObjectPool<PoolItem> : System.IDisposable where PoolItem : PoolItem
 	{
 		for (int i = 0; i < size; ++i)
 		{
-			PoolItem newItem = GameObject.Instantiate<PoolItem>(m_Origin);
+			Item newItem = GameObject.Instantiate<Item>(m_Origin);
 			newItem.name = m_Origin.name;
 
 			m_OnInstantiated?.Invoke(newItem);
@@ -135,21 +112,19 @@ public class ObjectPool<PoolItem> : System.IDisposable where PoolItem : PoolItem
 	}
 	// 모든 오브젝트 사용시 추가로 생성할 경우 
 	// expand 를 true 로 설정
-	private PoolItem Spawn()
+	private Item Spawn()
 	{
 		if (autoExpandPool && m_Queue.Count <= 0)
 			ExpandPool();
 
-		PoolItem item = m_Queue.Dequeue();
-
-		item.isSpawning = true;
+		Item item = m_Queue.Dequeue();
 
 		m_DespawnCheckList.Add(item);
 
 		return item;
 	}
 	// 회수 작업
-	public bool Despawn(PoolItem item, bool autoFinal = true)
+	public bool Despawn(Item item, bool autoFinal = true)
 	{
 		if (item == null)
 			throw new System.NullReferenceException();
@@ -160,7 +135,6 @@ public class ObjectPool<PoolItem> : System.IDisposable where PoolItem : PoolItem
 		if (m_Queue.Contains(item) == true)
 			return false;
 
-		item.isSpawning = false;
 		item.gameObject.SetActive(false);
 		if (m_Parent != null)
 			item.transform.SetParent(m_Parent);
@@ -177,15 +151,15 @@ public class ObjectPool<PoolItem> : System.IDisposable where PoolItem : PoolItem
 	}
 
 	// foreach 문을 위한 반복자
-	public IEnumerator<PoolItem> GetEnumerator()
+	public IEnumerator<Item> GetEnumerator()
 	{
-		foreach (PoolItem item in m_Queue)
+		foreach (Item item in m_Queue)
 			yield return item;
 	}
 	// 메모리 해제
 	public void Dispose()
 	{
-		foreach (PoolItem item in m_Queue)
+		foreach (Item item in m_Queue)
 		{
 			GameObject.DestroyImmediate(item);
 		}
@@ -200,7 +174,7 @@ public class ObjectPool<PoolItem> : System.IDisposable where PoolItem : PoolItem
 
 	public class ItemBuilder
 	{
-		private ObjectPool<PoolItem> m_Pool;
+		private ObjectPool<Item> m_Pool;
 
 		private ItemProperty<string> m_Name;
 		private ItemProperty<bool> m_Active;
@@ -210,7 +184,7 @@ public class ObjectPool<PoolItem> : System.IDisposable where PoolItem : PoolItem
 		private ItemProperty<Quaternion> m_Rotation;
 		private ItemProperty<Vector3> m_Scale;
 
-		public ItemBuilder(ObjectPool<PoolItem> pool)
+		public ItemBuilder(ObjectPool<Item> pool)
 		{
 			m_Pool = pool;
 
@@ -275,9 +249,9 @@ public class ObjectPool<PoolItem> : System.IDisposable where PoolItem : PoolItem
 			return this;
 		}
 
-		public PoolItem Spawn()
+		public Item Spawn()
 		{
-			PoolItem item = m_Pool.Spawn();
+			Item item = m_Pool.Spawn();
 
 			if (m_Name.isUse)
 				item.name = m_Name.value;

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Enum
 {
 	#region 방향
-	public enum E_Direction
+	public enum E_Direction : byte
 	{
 		Up,
 		Down,
@@ -35,7 +35,7 @@ namespace Enum
 
 	#region 버프
 	// 버프 종류
-	public enum E_BuffType
+	public enum E_BuffType : byte
 	{
 		// 버프
 		Buff,
@@ -47,7 +47,7 @@ namespace Enum
 		Max
 	}
 	// 버프 효과 종류
-	public enum E_BuffEffectType
+	public enum E_BuffEffectType : byte
 	{
 		// 스탯형
 		Stat,
@@ -59,7 +59,7 @@ namespace Enum
 		Max
 	}
 	// 버프 등급
-	public enum E_BuffGrade
+	public enum E_BuffGrade : byte
 	{
 		Normal = 0,
 		Uncommon,
@@ -72,7 +72,7 @@ namespace Enum
 		Max
 	}
 	// 적용되는 무기
-	public enum E_BuffWeapon
+	public enum E_BuffWeapon : byte
 	{
 		// 모두
 		All,
@@ -84,7 +84,7 @@ namespace Enum
 		Max
 	}
 	// 버프 발동 조건
-	public enum E_BuffInvokeCondition
+	public enum E_BuffInvokeCondition : byte
 	{
 		// 버프를 얻을 때
 		Added,

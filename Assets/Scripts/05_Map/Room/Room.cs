@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Enum;
+using AYellowpaper.SerializedCollections;
 
-public class Room : PoolItemBase
+public class Room : ObjectPoolItemBase
 {
 	// 타일맵 레이어
 	public enum E_RoomTilemapLayer
@@ -30,25 +31,29 @@ public class Room : PoolItemBase
 	[SerializeField]
 	private Vector2 m_Offset;
 
-	// 이 방 클리어 여부
-	private bool m_IsClear;
-
-	// 적 생성 리스트
-	[SerializeField]
-	private List<EnemyWave> m_EnemyWaveList; // 인스펙터 용도
-	private Dictionary<EnemyWave.E_InitCondition, List<EnemyWave>> m_EnemyWaveMap;
-	// 생성된 적 리스트
-	private List<Enemy> m_CreatedEnemyList;
-
-	// 주변 방
-	private Dictionary<E_Direction, Room> m_NearRoomMap;
-
 	// 타일맵
 	private Dictionary<E_RoomTilemapLayer, Tilemap> m_TilemapMap;
 
+	#region 적 생성 관련
+	// 이 방 클리어 여부
+	private bool m_IsClear;
+
+	// 적 생성 정보
+	[SerializeField]
+	private EnemyWave m_EnemyWave;
+
+	// 생성된 적 리스트
+	private List<Enemy> m_CreatedEnemyList;
+	#endregion
+
+	#region 워프 관련
+	// 주변 방
+	private Dictionary<E_Direction, Room> m_NearRoomMap;
+
 	// 워프포인트
 	private Dictionary<E_Direction, Dictionary<int, WarpPoint>> m_WarpPointMap; // 방향, 인덱스, 워프포인트
-	private Dictionary<E_Direction, int> m_WarpPointCountMap; // 방향, 갯수
+	private Dictionary<E_Direction, int> m_WarpPointCountMap; // 방향, 갯수 
+	#endregion
 	#endregion
 
 	#region 프로퍼티
@@ -73,22 +78,6 @@ public class Room : PoolItemBase
 	{
 		base.Initialize();
 
-		// 적 생성 정보 딕셔너리 초기화
-		m_EnemyWaveMap = new Dictionary<EnemyWave.E_InitCondition, List<EnemyWave>>();
-		foreach (var item in m_EnemyWaveList)
-		{
-			if (m_EnemyWaveMap.ContainsKey(item.initCondition) == false)
-				m_EnemyWaveMap.Add(item.initCondition, new List<EnemyWave>());
-
-			m_EnemyWaveMap[item.initCondition].Add(item);
-		}
-
-		// 생성된 적 리스트 초기화
-		m_CreatedEnemyList = new List<Enemy>();
-
-		// 주변 방 딕셔너리 초기화
-		m_NearRoomMap = new Dictionary<E_Direction, Room>();
-
 		// 타일맵 딕셔너리 초기화
 		m_TilemapMap = new Dictionary<E_RoomTilemapLayer, Tilemap>();
 		Transform tilemapLayer = transform.Find("TileMapLayer");
@@ -97,6 +86,22 @@ public class Room : PoolItemBase
 			Tilemap tileMap = tilemapLayer.Find(layer.ToString()).GetComponent<Tilemap>();
 			m_TilemapMap.Add(layer, tileMap);
 		}
+
+		//// 적 생성 정보 딕셔너리 초기화
+		//m_EnemyWaveMap = new Dictionary<EnemyWave.E_SpawnCondition, List<EnemyWave>>();
+		//foreach (var item in m_EnemyWaveList)
+		//{
+		//	if (m_EnemyWaveMap.ContainsKey(item.spawnCondition) == false)
+		//		m_EnemyWaveMap.Add(item.spawnCondition, new List<EnemyWave>());
+
+		//	m_EnemyWaveMap[item.spawnCondition].Add(item);
+		//}
+
+		// 생성된 적 리스트 초기화
+		m_CreatedEnemyList = new List<Enemy>();
+
+		// 주변 방 딕셔너리 초기화
+		m_NearRoomMap = new Dictionary<E_Direction, Room>();
 
 		// 워프포인트, 워프포인트 갯수 딕셔너리 초기화
 		m_WarpPointMap = new Dictionary<E_Direction, Dictionary<int, WarpPoint>>();
@@ -132,27 +137,9 @@ public class Room : PoolItemBase
 		}
 	}
 
-	// 추후 이벤트로 변경할 것.
 	private void Update()
 	{
-		if (M_Stage.currentStage.currentRoom != this)
-			return;
-
-		for (int i = 0; i < m_CreatedEnemyList.Count; ++i)
-		{
-			Enemy enemy = m_CreatedEnemyList[i];
-
-			if (enemy.gameObject.activeSelf == false)
-			{
-				m_CreatedEnemyList.Remove(enemy);
-				--i;
-
-				if (m_CreatedEnemyList.Count == 0)
-				{
-					OnClearRoom();
-				}
-			}
-		}
+		m_EnemyWave.TimerUpdate();
 	}
 
 	public void OnCreatedEnemyDeath(Enemy.OnDeathArg arg)
@@ -175,22 +162,30 @@ public class Room : PoolItemBase
 		if (arg.warpObject.gameObject.layer != LayerMask.NameToLayer("Player"))
 			return;
 
-		EnemyWave.E_InitCondition condition = EnemyWave.E_InitCondition.EnterRoom;
+		EnemyWave.E_SpawnCondition condition = EnemyWave.E_SpawnCondition.EnterRoom;
 
-		if (m_EnemyWaveMap.ContainsKey(condition) == false ||
-			m_EnemyWaveMap[condition].Count <= 0)
+		List<Enemy> createdEnemyList = m_EnemyWave.CreateEnemy(condition, this, 0);
+
+		if (createdEnemyList == null ||
+			createdEnemyList.Count <= 0)
 			return;
 
-		List<EnemyWave> waveList = m_EnemyWaveMap[condition];
+		m_CreatedEnemyList.AddRange(createdEnemyList);
 
-		for (int i = 0; i < waveList.Count; ++i)
-		{
-			EnemyWave wave = waveList[i];
+		//if (m_EnemyWaveMap.ContainsKey(condition) == false ||
+		//	m_EnemyWaveMap[condition].Count <= 0)
+		//	return;
 
-			m_CreatedEnemyList.AddRange(wave.CreateEnemy(this));
+		//List<EnemyWave> waveList = m_EnemyWaveMap[condition];
 
-			waveList[i] = wave;
-		}
+		//for (int i = 0; i < waveList.Count; ++i)
+		//{
+		//	EnemyWave wave = waveList[i];
+
+		//	m_CreatedEnemyList.AddRange(wave.CreateEnemy(this));
+
+		//	waveList[i] = wave;
+		//}
 	}
 	private void OnExitRoom(WarpPoint.WarpArg arg)
 	{
@@ -203,19 +198,23 @@ public class Room : PoolItemBase
 		if (m_IsClear == true)
 			return;
 
-		foreach (var item in m_EnemyWaveMap)
-		{
-			List<EnemyWave> waveList = item.Value;
+		//foreach (var item in m_EnemyWaveMap)
+		//{
+		//	List<EnemyWave> waveList = item.Value;
 
-			for (int i = 0; i < waveList.Count; ++i)
-			{
-				EnemyWave wave = waveList[i];
+		//	for (int i = 0; i < waveList.Count; ++i)
+		//	{
+		//		EnemyWave wave = waveList[i];
 
-				wave.Reset();
+		//		wave.Reset();
 
-				waveList[i] = wave;
-			}
-		}
+		//		waveList[i] = wave;
+		//	}
+		//}
+
+		m_EnemyWave.Reset();
+
+		StopAllCoroutines();
 
 		foreach (var item in m_CreatedEnemyList)
 		{
@@ -224,22 +223,24 @@ public class Room : PoolItemBase
 	}
 	private void OnClearRoom()
 	{
-		EnemyWave.E_InitCondition condition = EnemyWave.E_InitCondition.ClearRoom;
+		EnemyWave.E_SpawnCondition condition = EnemyWave.E_SpawnCondition.ClearRoom;
 
-		if (m_EnemyWaveMap.ContainsKey(condition) == false ||
-			m_EnemyWaveMap[condition].Count <= 0)
-			return;
+		m_EnemyWave.CreateEnemy(condition, this, 0);
 
-		List<EnemyWave> waveList = m_EnemyWaveMap[condition];
+		//if (m_EnemyWaveMap.ContainsKey(condition) == false ||
+		//	m_EnemyWaveMap[condition].Count <= 0)
+		//	return;
 
-		for (int i = 0; i < waveList.Count; ++i)
-		{
-			EnemyWave wave = waveList[i];
+		//List<EnemyWave> waveList = m_EnemyWaveMap[condition];
 
-			m_CreatedEnemyList.AddRange(wave.CreateEnemy(this));
+		//for (int i = 0; i < waveList.Count; ++i)
+		//{
+		//	EnemyWave wave = waveList[i];
 
-			waveList[i] = wave;
-		}
+		//	m_CreatedEnemyList.AddRange(wave.CreateEnemy(this));
+
+		//	waveList[i] = wave;
+		//}
 	}
 
 	public Room GetNearRoom(E_Direction direction)
