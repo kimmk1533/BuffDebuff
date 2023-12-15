@@ -38,8 +38,8 @@ public class StageGenerator : MonoBehaviour
 	#endregion
 
 	#region 매니저
-	private RoomManager M_Room => RoomManager.Instance;
-	private StageManager M_Stage => StageManager.Instance;
+	private static RoomManager M_Room => RoomManager.Instance;
+	private static StageManager M_Stage => StageManager.Instance;
 	#endregion
 
 	public void Initialize()
@@ -47,10 +47,18 @@ public class StageGenerator : MonoBehaviour
 		m_StageRoomCount = 0;
 		m_GeneratedRoomCount = 0;
 
-		m_StageRoomQueue = new Queue<Vector2Int>();
-		m_GeneratedRoomMap = new Dictionary<Vector2Int, Room>();
+		if (m_StageRoomQueue == null)
+			m_StageRoomQueue = new Queue<Vector2Int>();
+		else
+			m_StageRoomQueue.Clear();
 
-		m_CameraFollow = Camera.main.GetComponent<CameraFollow>();
+		if (m_GeneratedRoomMap == null)
+			m_GeneratedRoomMap = new Dictionary<Vector2Int, Room>();
+		else
+			m_GeneratedRoomMap.Clear();
+
+		if (m_CameraFollow == null)
+			m_CameraFollow = Camera.main.GetComponent<CameraFollow>();
 	}
 
 	public Stage GenerateStage(StageGeneratorArg arg)
@@ -279,22 +287,22 @@ public class StageGenerator : MonoBehaviour
 		//	Debug.Log((m_GeneratedRoomCount + 1).ToString("00_") + i.ToString("00: ") + conditionList[i].ToString());
 		//}
 
-		Room room = M_Room.SpawnRandomRoom(conditionList.ToArray());
-		if (room == null)
-			throw new System.Exception("Error: 조건에 맞는 방이 없음");
-
-		++m_GeneratedRoomCount;
-
 		int x = roomPos.x;
 		int y = roomPos.y;
 
 		Vector2Int center = stageSize / 2;
 		Vector3 pos = new Vector3((x - center.x) * 100, (y - center.y) * 100);
 
-		room.transform.SetParent(stage.transform);
-		room.transform.position = pos;
+		Room room = M_Room.GetBuilder(conditionList.ToArray()) //M_Room.SpawnRandomRoom(conditionList.ToArray());
+			.SetActive(true)
+			.SetAutoInit(true)
+			.SetParent(stage.transform)
+			.SetPosition(pos)
+			.Spawn();
+
 		room.name = m_GeneratedRoomCount.ToString("00_") + room.name;
-		room.InitializeEvent();
+
+		++m_GeneratedRoomCount;
 
 		m_GeneratedRoomMap[roomPos] = room;
 

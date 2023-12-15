@@ -75,11 +75,11 @@ public sealed class Player : MonoBehaviour
 				projectile = projectile,
 			});
 
-			M_Projectile.Despawn("Projectile", projectile);
+			M_Projectile.Despawn(projectile);
 		};
 		projectile["Obstacle"].OnEnter2D += (Collider2D collider) =>
 		{
-			M_Projectile.Despawn("Projectile", projectile);
+			M_Projectile.Despawn(projectile);
 		};
 	}
 

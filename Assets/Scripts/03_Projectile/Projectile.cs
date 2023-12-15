@@ -59,7 +59,7 @@ public sealed class Projectile : ObjectPoolItemBase
 	#endregion
 
 	#region 매니저
-	private ProjectileManager M_Projectile => ProjectileManager.Instance;
+	private static ProjectileManager M_Projectile => ProjectileManager.Instance;
 	#endregion
 
 	public void Initialize(float moveSpeed, float lifeTime)
@@ -90,7 +90,7 @@ public sealed class Projectile : ObjectPoolItemBase
 
 		if (m_DespawnTimer.TimeCheck(true))
 		{
-			M_Projectile.Despawn("Projectile", this);
+			M_Projectile.Despawn(this);
 			return;
 		}
 

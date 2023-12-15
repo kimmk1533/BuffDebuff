@@ -15,35 +15,15 @@ public class Enemy : ObjectPoolItemBase
 	#endregion
 
 	#region 프로퍼티
-	[field: SerializeField, ReadOnly(true)]
 	#endregion
 
 	#region 이벤트
-	private System.Action<OnDeathArg> m_OnDeath;
-
-	public event System.Action<OnDeathArg> onDeath
-	{
-		add
-		{
-			m_OnDeath += value;
-		}
-		remove
-		{
-			m_OnDeath -= value;
-		}
-	}
-
-	public struct OnDeathArg
-	{
-		public Enemy enemy;
-
-	}
 	#endregion
 
 	#region 매니저
-	private PlayerManager M_Player => PlayerManager.Instance;
-	private EnemyManager M_Enemy => EnemyManager.Instance;
-	private ProjectileManager M_Projectile => ProjectileManager.Instance;
+	private static PlayerManager M_Player => PlayerManager.Instance;
+	private static EnemyManager M_Enemy => EnemyManager.Instance;
+	private static ProjectileManager M_Projectile => ProjectileManager.Instance;
 	#endregion
 
 	// 초기화
@@ -96,11 +76,11 @@ public class Enemy : ObjectPoolItemBase
 				projectile = projectile,
 			});
 
-			M_Projectile.Despawn("Projectile", projectile);
+			M_Projectile.Despawn(projectile);
 		};
 		projectile["Obstacle"].OnEnter2D += (Collider2D collider) =>
 		{
-			M_Projectile.Despawn("Projectile", projectile);
+			M_Projectile.Despawn(projectile);
 		};
 	}
 
@@ -129,11 +109,6 @@ public class Enemy : ObjectPoolItemBase
 	{
 		float xp = m_Character.currentStat.Xp * m_Character.currentStat.XpScale;
 		M_Player.AddXp(xp);
-
-		m_OnDeath?.Invoke(new OnDeathArg()
-		{
-			enemy = this,
-		});
 
 		M_Enemy.Despawn(this);
 	}

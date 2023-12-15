@@ -13,7 +13,7 @@ public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBa
 	// 오브젝트들을 담을 실제 풀
 	private Queue<Item> m_Queue;
 	// 생성한 오브젝트를 기억하고 있다가 디스폰 시 확인할 리스트
-	private List<Item> m_DespawnCheckList;
+	private List<Item> m_SpawnedItemList;
 	// 하이어라키 창에서 관리하기 쉽도록 parent 지정
 	private Transform m_Parent = null;
 
@@ -47,7 +47,7 @@ public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBa
 		m_Origin = origin;
 		m_PoolSize = poolSize;
 		m_Queue = new Queue<Item>(poolSize);
-		m_DespawnCheckList = new List<Item>(poolSize);
+		m_SpawnedItemList = new List<Item>(poolSize);
 		m_Parent = null;
 		m_OnInstantiated = new UnityEvent<Item>();
 
@@ -61,7 +61,7 @@ public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBa
 		m_Origin = origin;
 		m_PoolSize = poolSize;
 		m_Queue = new Queue<Item>(poolSize);
-		m_DespawnCheckList = new List<Item>(poolSize);
+		m_SpawnedItemList = new List<Item>(poolSize);
 		m_Parent = parent;
 		m_OnInstantiated = new UnityEvent<Item>();
 
@@ -119,17 +119,17 @@ public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBa
 
 		Item item = m_Queue.Dequeue();
 
-		m_DespawnCheckList.Add(item);
+		m_SpawnedItemList.Add(item);
 
 		return item;
 	}
 	// 회수 작업
-	public bool Despawn(Item item, bool autoFinal = true)
+	public bool Despawn(Item item, bool autoFinal)
 	{
 		if (item == null)
 			throw new System.NullReferenceException();
 
-		if (m_DespawnCheckList.Contains(item) == false)
+		if (m_SpawnedItemList.Contains(item) == false)
 			return false;
 
 		if (m_Queue.Contains(item) == true)
@@ -143,7 +143,7 @@ public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBa
 		if (autoFinal)
 			item.Finallize();
 
-		m_DespawnCheckList.Remove(item);
+		m_SpawnedItemList.Remove(item);
 
 		m_Queue.Enqueue(item);
 
@@ -165,8 +165,8 @@ public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBa
 		}
 		m_Queue.Clear();
 		m_Queue = null;
-		m_DespawnCheckList.Clear();
-		m_DespawnCheckList = null;
+		m_SpawnedItemList.Clear();
+		m_SpawnedItemList = null;
 
 		m_OnInstantiated.RemoveAllListeners();
 		m_OnInstantiated = null;

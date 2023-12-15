@@ -45,40 +45,50 @@ public class WarpPoint : MonoBehaviour
 	}
 	public delegate void OnWarpHandler(WarpArg arg);
 
-	private event OnWarpHandler m_OnWarp;
-	public event OnWarpHandler onWarp
-	{
-		add { m_OnWarp += value; }
-		remove { m_OnWarp -= value; }
-	}
+	public event OnWarpHandler onWarp;
 	#endregion
 
 	#region 매니저
-	private WarpManager M_Warp => WarpManager.Instance;
-	private StageManager M_Stage => StageManager.Instance;
+	private static WarpManager M_Warp => WarpManager.Instance;
+	private static StageManager M_Stage => StageManager.Instance;
 	#endregion
 
 	public void Initialize(Room room)
 	{
 		m_Room = room;
 
-		m_CollisionObjectList = new List<Collider2D>();
-		m_OldCollisionObjectList = new List<Collider2D>();
-		m_WarpedObjectList = new List<Collider2D>();
+		if (m_CollisionObjectList == null)
+			m_CollisionObjectList = new List<Collider2D>();
+		else
+			m_CollisionObjectList.Clear();
+
+		if (m_OldCollisionObjectList == null)
+			m_OldCollisionObjectList = new List<Collider2D>();
+		else
+			m_OldCollisionObjectList.Clear();
+
+		if (m_WarpedObjectList == null)
+			m_WarpedObjectList = new List<Collider2D>();
+		else
+			m_WarpedObjectList.Clear();
 
 		M_Warp.AddWarpPoint(room, this);
 	}
-	private void Update()
+	public void Finallize()
 	{
-		CheckCollision();
+		onWarp = null;
 	}
-
-	private void CheckCollision()
+	private void Update()
 	{
 		// 현재 방의 워프포인트만 확인하도록 예외처리
 		if (m_Room != M_Stage.currentStage.currentRoom)
 			return;
 
+		CheckCollision();
+	}
+
+	private void CheckCollision()
+	{
 		Vector2 origin = (Vector2)transform.position + m_Offset;
 		Vector2 size = m_Size;
 
@@ -148,8 +158,7 @@ public class WarpPoint : MonoBehaviour
 			warpObject = collisionObject,
 		};
 
-		m_OnWarp?.Invoke(warpArg);
-		warpPoint.m_OnWarp?.Invoke(warpArg);
+		warpPoint.onWarp?.Invoke(warpArg);
 	}
 	IEnumerator ClearWarpedObject()
 	{

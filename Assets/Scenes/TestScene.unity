@@ -103381,7 +103381,7 @@ MonoBehaviour:
   flag: 1
   m_ShowGrid: 0
   m_GridColor: {r: 1, g: 1, b: 1, a: 0.25490198}
-  m_ShowGridText: 1
+  m_ShowGridText: 0
   m_GridTextParent: {fileID: 2133236831}
   m_GridTextColor: {r: 0.34069428, g: 0.8679245, b: 0.27566147, a: 0.5882353}
   m_Tilemap: {fileID: 1822058640}
@@ -144386,7 +144386,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2133236831
 Transform:
   m_ObjectHideFlags: 0

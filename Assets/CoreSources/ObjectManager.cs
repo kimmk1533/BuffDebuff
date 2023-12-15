@@ -113,20 +113,13 @@ public abstract class ObjectManager<T, Item> : Singleton<T> where T : MonoBehavi
 	}
 	public bool Despawn(Item item, bool autoFinal = true)
 	{
-		foreach (var pool in m_Pools.Values)
-		{
-			if (pool.Despawn(item, autoFinal))
-				return true;
-		}
+		if (item.itemName == string.Empty)
+			throw new System.Exception(item.ToString() + "에는 값이 있어야 합니다.");
 
-		return false;
-	}
-	public bool Despawn(string key, Item item, bool autoFinal = true)
-	{
-		ObjectPool<Item> pool = GetPool(key);
+		ObjectPool<Item> pool = GetPool(item.itemName);
 
 		if (pool == null)
-			throw new System.NullReferenceException(transform.name + ": Pool이 null 입니다. key는 \"" + key + "\" 였습니다.");
+			throw new System.NullReferenceException(name + ": Pool이 null 입니다. itemName은 \"" + item.itemName + "\" 였습니다.");
 
 		return pool.Despawn(item, autoFinal);
 	}

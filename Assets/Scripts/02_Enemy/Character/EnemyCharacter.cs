@@ -72,7 +72,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	}
 	protected Bounds bounds => m_Controller.collider.bounds;
 
-	private GridManager M_Grid => GridManager.Instance;
+	private static GridManager M_Grid => GridManager.Instance;
 
 	public override void Initialize()
 	{

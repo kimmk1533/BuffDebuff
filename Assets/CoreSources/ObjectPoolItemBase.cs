@@ -22,8 +22,8 @@ public class ObjectPoolItemBase : MonoBehaviour, IPoolItem
 	#endregion
 
 	#region 이벤트
-	public event System.Action onSpawn;
-	public event System.Action onDespawn;
+	public event System.Action<ObjectPoolItemBase> onSpawn;
+	public event System.Action<ObjectPoolItemBase> onDespawn;
 	#endregion
 
 	#region 매니저
@@ -33,13 +33,16 @@ public class ObjectPoolItemBase : MonoBehaviour, IPoolItem
 	{
 		m_IsSpawning = true;
 
-		onSpawn?.Invoke();
+		onSpawn?.Invoke(this);
 	}
 	public virtual void Finallize()
 	{
 		if (m_IsSpawning == true)
 			m_IsSpawning = false;
 
-		onDespawn?.Invoke();
+		onDespawn?.Invoke(this);
+
+		onSpawn = null;
+		onDespawn = null;
 	}
 }

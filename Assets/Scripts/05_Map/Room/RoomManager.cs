@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Enum;
 using RoomPool = ObjectPool<Room>;
+using static UnityEditor.Progress;
 
 public class RoomManager : ObjectManager<RoomManager, Room>
 {
@@ -30,37 +31,82 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 
 	#region 변수
 	private List<RoomPool> m_AllRoomPool;
-	private Dictionary<(E_Direction direction, int count), List<RoomPool>> m_DirCountMap;
 	#endregion
 
 	public override void Initialize()
 	{
 		base.Initialize();
 
-		m_AllRoomPool = new List<RoomPool>();
+		if (m_AllRoomPool == null)
+			m_AllRoomPool = new List<RoomPool>();
+		else
+			m_AllRoomPool.Clear();
+
 		foreach (var item in m_Pools)
 		{
 			m_AllRoomPool.Add(item.Value);
 		}
 		m_AllRoomPool = m_AllRoomPool.Distinct().ToList();
+	}
+	public RoomPool.ItemBuilder GetBuilder(params (E_Condition condition, E_Direction direction, int count)[] conditions)
+	{
+		List<RoomPool> poolList = new List<RoomPool>(m_AllRoomPool);
 
-		m_DirCountMap = new Dictionary<(E_Direction direction, int count), List<RoomPool>>();
-		foreach (var originInfo in m_Origins)
+		for (int i = 0; i < conditions.Length; ++i)
 		{
-			originInfo.origin.Initialize();
+			(E_Condition condition, E_Direction direction, int count) condition = conditions[i];
 
-			for (E_Direction direction = 0; direction < E_Direction.Max; ++direction)
+			for (int poolListIndex = 0; poolListIndex < poolList.Count; ++poolListIndex)
 			{
-				int count = originInfo.origin.GetWarpPointCount(direction);
+				RoomPool pool = poolList[poolListIndex];
 
-				if (m_DirCountMap.ContainsKey((direction, count)) == false)
-					m_DirCountMap.Add((direction, count), new List<RoomPool>());
+				Room room = pool.GetBuilder()
+					.SetAutoInit(true)
+					.Spawn();
 
-				m_DirCountMap[(direction, count)].Add(GetPool(originInfo.key));
+				int count = room.GetWarpPointCount(condition.direction);
+
+				pool.Despawn(room, true);
+
+				bool flag;
+
+				switch (condition.condition)
+				{
+					case E_Condition.Over:
+						flag = !(count > condition.count);
+						break;
+					case E_Condition.More:
+						flag = !(count >= condition.count);
+						break;
+					case E_Condition.Equal:
+						flag = !(count == condition.count);
+						break;
+					case E_Condition.NotEqual:
+						flag = !(count != condition.count);
+						break;
+					case E_Condition.Less:
+						flag = !(count <= condition.count);
+						break;
+					case E_Condition.Under:
+						flag = !(count < condition.count);
+						break;
+					default:
+						throw new System.Exception("prevCondition.condition value is strange.");
+				}
+
+				if (flag)
+				{
+					poolList.RemoveAt(poolListIndex);
+					--poolListIndex;
+				}
 			}
 		}
-	}
 
+		if (poolList.Count <= 0)
+			throw new System.Exception("Error: 조건에 맞는 방이 없음");
+
+		return poolList[Random.Range(0, poolList.Count)].GetBuilder();
+	}
 	/// <summary>
 	/// 모든 방들 중 랜덤한 방을 리턴하는 함수
 	/// </summary>
@@ -105,7 +151,7 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 
 				int count = room.GetWarpPointCount(condition.direction);
 
-				pool.Despawn(room);
+				pool.Despawn(room, true);
 
 				bool flag;
 
@@ -150,6 +196,7 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 		return randomPool.GetBuilder()
 			.SetActive(true)
 			.SetAutoInit(true)
+			.SetParent(null)
 			.Spawn();
 	}
 

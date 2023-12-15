@@ -17,40 +17,14 @@ public class WarpManager : Singleton<WarpManager>
 	#endregion
 
 	#region 이벤트
-	public struct OnRoomMovedArg
-	{
-		public Room prevRoom;
-		public Room currRoom;
-
-		public Vector2Int prevPos;
-		public Vector2Int currPos;
-	}
-	public delegate void OnRoomMovedHandler(OnRoomMovedArg arg);
-
-	private OnRoomMovedHandler m_OnRoomMoved;
-
-	public event OnRoomMovedHandler onRoomMoved
-	{
-		add
-		{
-			m_OnRoomMoved += value;
-		}
-		remove
-		{
-			m_OnRoomMoved -= value;
-		}
-	}
 	#endregion
 
 	public void Initialize()
 	{
-		m_WarpPointMap = new Dictionary<Room, Dictionary<E_Direction, List<WarpPoint>>>();
-
-
-	}
-	public void InitializeRoomMovedEvent()
-	{
-		m_OnRoomMoved = null;
+		if (m_WarpPointMap == null)
+			m_WarpPointMap = new Dictionary<Room, Dictionary<E_Direction, List<WarpPoint>>>();
+		else
+			m_WarpPointMap.Clear();
 	}
 
 	public void AddWarpPoint(Room room, WarpPoint warpPoint)

@@ -26,7 +26,6 @@ public class Room : ObjectPoolItemBase
 	// 방 크기
 	[SerializeField]
 	private Vector2 m_RoomSize;
-
 	// 방 위치 오프셋
 	[SerializeField]
 	private Vector2 m_Offset;
@@ -41,9 +40,6 @@ public class Room : ObjectPoolItemBase
 	// 적 생성 정보
 	[SerializeField]
 	private EnemyWave m_EnemyWave;
-
-	// 생성된 적 리스트
-	private List<Enemy> m_CreatedEnemyList;
 	#endregion
 
 	#region 워프 관련
@@ -67,11 +63,11 @@ public class Room : ObjectPoolItemBase
 		get { return m_Offset; }
 		set { m_Offset = value; }
 	}
+
+	public bool isClear => m_IsClear;
 	#endregion
 
 	#region 매니저
-	private EnemyManager M_Enemy => EnemyManager.Instance;
-	private StageManager M_Stage => StageManager.Instance;
 	#endregion
 
 	public override void Initialize()
@@ -79,7 +75,39 @@ public class Room : ObjectPoolItemBase
 		base.Initialize();
 
 		// 타일맵 딕셔너리 초기화
-		m_TilemapMap = new Dictionary<E_RoomTilemapLayer, Tilemap>();
+		if (m_TilemapMap == null)
+			m_TilemapMap = new Dictionary<E_RoomTilemapLayer, Tilemap>();
+		else
+			m_TilemapMap.Clear();
+
+		// 적 생성 정보 초기화
+		m_IsClear = false;
+		m_EnemyWave.Initialize(this);
+
+		// 주변 방 딕셔너리 초기화
+		if (m_NearRoomMap == null)
+			m_NearRoomMap = new Dictionary<E_Direction, Room>();
+		else
+			m_NearRoomMap.Clear();
+
+		// 워프포인트 딕셔너리 초기화
+		if (m_WarpPointMap == null)
+			m_WarpPointMap = new Dictionary<E_Direction, Dictionary<int, WarpPoint>>();
+		else
+		{
+			foreach (var item in m_WarpPointMap)
+			{
+				item.Value.Clear();
+			}
+			m_WarpPointMap.Clear();
+		}
+
+		// 워프포인트 갯수 딕셔너리 초기화
+		if (m_WarpPointCountMap == null)
+			m_WarpPointCountMap = new Dictionary<E_Direction, int>();
+		else
+			m_WarpPointCountMap.Clear();
+
 		Transform tilemapLayer = transform.Find("TileMapLayer");
 		for (E_RoomTilemapLayer layer = 0; layer < E_RoomTilemapLayer.Max; ++layer)
 		{
@@ -87,31 +115,12 @@ public class Room : ObjectPoolItemBase
 			m_TilemapMap.Add(layer, tileMap);
 		}
 
-		//// 적 생성 정보 딕셔너리 초기화
-		//m_EnemyWaveMap = new Dictionary<EnemyWave.E_SpawnCondition, List<EnemyWave>>();
-		//foreach (var item in m_EnemyWaveList)
-		//{
-		//	if (m_EnemyWaveMap.ContainsKey(item.spawnCondition) == false)
-		//		m_EnemyWaveMap.Add(item.spawnCondition, new List<EnemyWave>());
-
-		//	m_EnemyWaveMap[item.spawnCondition].Add(item);
-		//}
-
-		// 생성된 적 리스트 초기화
-		m_CreatedEnemyList = new List<Enemy>();
-
-		// 주변 방 딕셔너리 초기화
-		m_NearRoomMap = new Dictionary<E_Direction, Room>();
-
-		// 워프포인트, 워프포인트 갯수 딕셔너리 초기화
-		m_WarpPointMap = new Dictionary<E_Direction, Dictionary<int, WarpPoint>>();
-		m_WarpPointCountMap = new Dictionary<E_Direction, int>();
-
 		WarpPoint[] warpPointArray = GetComponentsInChildren<WarpPoint>();
 
 		foreach (WarpPoint warpPoint in warpPointArray)
 		{
 			warpPoint.Initialize(this);
+			warpPoint.onWarp += OnWarp;
 
 			E_Direction direction = warpPoint.direction;
 
@@ -125,122 +134,50 @@ public class Room : ObjectPoolItemBase
 			++m_WarpPointCountMap[direction];
 		}
 	}
-	public void InitializeEvent()
+	public override void Finallize()
 	{
+		base.Finallize();
+
 		foreach (var item in m_WarpPointMap)
 		{
 			foreach (var item2 in item.Value)
 			{
-				item2.Value.onWarp += OnEnterRoom;
-				item2.Value.onWarp += OnExitRoom;
+				item2.Value.Finallize();
 			}
 		}
 	}
 
-	private void Update()
+	private void OnWarp(WarpPoint.WarpArg arg)
 	{
-		m_EnemyWave.TimerUpdate();
-	}
-
-	public void OnCreatedEnemyDeath(Enemy.OnDeathArg arg)
-	{
-		Enemy enemy = arg.enemy;
-
-		m_CreatedEnemyList.Remove(enemy);
-
-		if (m_CreatedEnemyList.Count == 0)
-		{
-			OnClearRoom();
-		}
-	}
-
-	private void OnEnterRoom(WarpPoint.WarpArg arg)
-	{
-		if (arg.currRoom != this)
+		if (m_IsClear == true)
 			return;
-
 		if (arg.warpObject.gameObject.layer != LayerMask.NameToLayer("Player"))
 			return;
 
-		EnemyWave.E_SpawnCondition condition = EnemyWave.E_SpawnCondition.EnterRoom;
-
-		List<Enemy> createdEnemyList = m_EnemyWave.CreateEnemy(condition, this, 0);
-
-		if (createdEnemyList == null ||
-			createdEnemyList.Count <= 0)
-			return;
-
-		m_CreatedEnemyList.AddRange(createdEnemyList);
-
-		//if (m_EnemyWaveMap.ContainsKey(condition) == false ||
-		//	m_EnemyWaveMap[condition].Count <= 0)
-		//	return;
-
-		//List<EnemyWave> waveList = m_EnemyWaveMap[condition];
-
-		//for (int i = 0; i < waveList.Count; ++i)
-		//{
-		//	EnemyWave wave = waveList[i];
-
-		//	m_CreatedEnemyList.AddRange(wave.CreateEnemy(this));
-
-		//	waveList[i] = wave;
-		//}
+		arg.currRoom.OnEnterRoom();
+		arg.prevRoom.OnExitRoom();
 	}
-	private void OnExitRoom(WarpPoint.WarpArg arg)
+	private void OnEnterRoom()
 	{
-		if (arg.prevRoom != this)
-			return;
-
-		if (arg.warpObject.gameObject.layer != LayerMask.NameToLayer("Player"))
-			return;
-
 		if (m_IsClear == true)
 			return;
 
-		//foreach (var item in m_EnemyWaveMap)
-		//{
-		//	List<EnemyWave> waveList = item.Value;
-
-		//	for (int i = 0; i < waveList.Count; ++i)
-		//	{
-		//		EnemyWave wave = waveList[i];
-
-		//		wave.Reset();
-
-		//		waveList[i] = wave;
-		//	}
-		//}
+		m_EnemyWave.CreateEnemy();
+	}
+	private void OnExitRoom()
+	{
+		if (m_IsClear == true)
+			return;
 
 		m_EnemyWave.Reset();
 
 		StopAllCoroutines();
-
-		foreach (var item in m_CreatedEnemyList)
-		{
-			M_Enemy.Despawn(item.itemName, item);
-		}
 	}
-	private void OnClearRoom()
+	public void ClearRoom()
 	{
-		EnemyWave.E_SpawnCondition condition = EnemyWave.E_SpawnCondition.ClearRoom;
+		m_IsClear = true;
 
-		m_EnemyWave.CreateEnemy(condition, this, 0);
-
-		//if (m_EnemyWaveMap.ContainsKey(condition) == false ||
-		//	m_EnemyWaveMap[condition].Count <= 0)
-		//	return;
-
-		//List<EnemyWave> waveList = m_EnemyWaveMap[condition];
-
-		//for (int i = 0; i < waveList.Count; ++i)
-		//{
-		//	EnemyWave wave = waveList[i];
-
-		//	m_CreatedEnemyList.AddRange(wave.CreateEnemy(this));
-
-		//	waveList[i] = wave;
-		//}
+		Debug.Log("방 클리어");
 	}
 
 	public Room GetNearRoom(E_Direction direction)

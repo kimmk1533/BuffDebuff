@@ -4,7 +4,7 @@ using UnityEngine;
 using AYellowpaper.SerializedCollections;
 
 [System.Serializable]
-public struct EnemyWave
+public class EnemyWave
 {
 	// 몬스터 생성 조건
 	public enum E_SpawnCondition : byte
@@ -15,85 +15,144 @@ public struct EnemyWave
 		// 방에 존재하던 모든 적을 처치했을 시
 		ClearRoom,
 
-		// 일정 시간이 흐를 시
-		Timer,
-
-		// 랜덤 확률로
-		Random,
-
 		Max
 	}
 
 	#region 변수
+	private Room m_Spawner;
+
+	private bool m_IsInProgress;
+
+	private int m_SpawnIndex;
+	private int m_MaxSpawnIndex;
+
 	[Space(10)]
 	[SerializeField]
 	[SerializedDictionary("조건", "적 정보")]
 	private SerializedDictionary<E_SpawnCondition, List<EnemyWaveInfo>> m_EnemyWaveInfoMap;
+
 	private List<Enemy> m_SpawnedEnemyList;
-
-	private bool m_IsSpawned;
-
-	[Space(10)]
-	[SerializeField]
-	private UtilClass.Timer m_SpawnEnemyTimer;
 	#endregion
 
 	#region 프로퍼티
-	//public E_SpawnCondition spawnCondition => m_SpawnCondition;
 	#endregion
 
 	#region 매니저
+	private static EnemyManager M_Enemy => EnemyManager.Instance;
 	#endregion
 
-	public List<Enemy> CreateEnemy(E_SpawnCondition condition, Room currentRoom, int index = 0)
+	public void Initialize(Room spawner)
 	{
+		m_Spawner = spawner;
+
+		m_IsInProgress = false;
+
+		m_SpawnIndex = 0;
+		m_MaxSpawnIndex = 0;
+		if (m_EnemyWaveInfoMap.TryGetValue(E_SpawnCondition.ClearRoom, out List<EnemyWaveInfo> waveInfoList) == true)
+		{
+			foreach (var item in waveInfoList)
+			{
+				m_MaxSpawnIndex = Mathf.Max(m_MaxSpawnIndex, item.index);
+			}
+		}
+
+		m_SpawnedEnemyList = new List<Enemy>();
+	}
+
+	public void CreateEnemy()
+	{
+		m_IsInProgress = true;
+
+		CreateEnemy(E_SpawnCondition.EnterRoom);
+	}
+	private void CreateEnemy(E_SpawnCondition condition)
+	{
+		if (m_Spawner == null)
+			return;
 		if (m_EnemyWaveInfoMap.ContainsKey(condition) == false)
-			return null;
-
-		if (m_IsSpawned == true)
-			return m_SpawnedEnemyList;
-
-		if (m_SpawnedEnemyList == null)
-			m_SpawnedEnemyList = new List<Enemy>();
-		else
-			m_SpawnedEnemyList.Clear();
+			return;
 
 		List<EnemyWaveInfo> waveInfoList = m_EnemyWaveInfoMap[condition];
-		EnemyWaveInfo info = waveInfoList[index];
 
-		//foreach (var info in waveInfoList)
-		//{
-		float delay = info.delayTime;
+		bool spawnAnyEnemy = false;
 
-		if (condition == E_SpawnCondition.Timer)
-			delay += info.waitTimerTime;
+		foreach (var info in waveInfoList)
+		{
+			if (condition == E_SpawnCondition.ClearRoom &&
+				info.index != m_SpawnIndex)
+				continue;
 
-		currentRoom.StartCoroutine(SpawnEnemyCoroutine(info, currentRoom, delay));
-		//}
+			if (info.CheckRandom() == false)
+				continue;
 
-		m_IsSpawned = true;
+			spawnAnyEnemy = true;
 
-		return m_SpawnedEnemyList;
+			float delay = info.delayTime;
+
+			if (delay > 0f)
+				m_Spawner.StartCoroutine(Spawn_Delay(info, delay));
+			else
+				Spawn(info);
+		}
+
+		if (spawnAnyEnemy == false)
+			OnClearRoom();
+	}
+	private void OnClearRoom()
+	{
+		if (m_IsInProgress == false)
+			return;
+		if (m_SpawnIndex > m_MaxSpawnIndex)
+		{
+			m_Spawner.ClearRoom();
+			return;
+		}
+
+		++m_SpawnIndex;
+
+		CreateEnemy(E_SpawnCondition.ClearRoom);
 	}
 	public void Reset()
 	{
-		m_IsSpawned = false;
+		m_IsInProgress = false;
 
-		m_SpawnEnemyTimer.Clear();
+		m_SpawnIndex = 0;
+
+		int count = m_SpawnedEnemyList.Count;
+		for (int i = 0; i < count; ++i)
+		{
+			M_Enemy.Despawn(m_SpawnedEnemyList[0]);
+		}
+		m_SpawnedEnemyList.Clear();
 	}
-	public void TimerUpdate()
+
+	private void OnEnemyDespawn(ObjectPoolItemBase arg)
 	{
-		m_SpawnEnemyTimer.Update();
+		Enemy enemy = arg as Enemy;
+		if (enemy == null)
+			throw new System.NullReferenceException();
+
+		m_SpawnedEnemyList.Remove(enemy);
+
+		if (m_SpawnedEnemyList.Count == 0)
+		{
+			OnClearRoom();
+		}
 	}
 
-	private IEnumerator SpawnEnemyCoroutine(EnemyWaveInfo info, Room currentRoom, float delay)
+	private void Spawn(EnemyWaveInfo info)
+	{
+		Enemy enemy = info.Spawn(m_Spawner.transform.position);
+
+		enemy.onDespawn += OnEnemyDespawn;
+
+		m_SpawnedEnemyList.Add(enemy);
+	}
+	private IEnumerator Spawn_Delay(EnemyWaveInfo info, float delay)
 	{
 		yield return new WaitForSeconds(delay);
 
-		Enemy enemy = info.Spawn(currentRoom);
-
-		enemy.onDeath += currentRoom.OnCreatedEnemyDeath;
-
-		m_SpawnedEnemyList.Add(enemy);
+		Spawn(info);
 	}
 }

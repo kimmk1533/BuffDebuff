@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerController2D : Controller2D
 {
-	Vector2 m_PlayerInput;
-	Collider2D m_FallingOneWayPlatform;
+	private Vector2 m_PlayerInput;
+	private Collider2D m_FallingOneWayPlatform;
 
 	public Vector2 playerInput => m_PlayerInput;
 

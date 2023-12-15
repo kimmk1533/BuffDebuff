@@ -42,8 +42,8 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	#endregion
 
 	#region 매니저
-	private BuffManager M_Buff => BuffManager.Instance;
-	private PlayerManager M_Player => PlayerManager.Instance;
+	private static BuffManager M_Buff => BuffManager.Instance;
+	private static PlayerManager M_Player => PlayerManager.Instance;
 	#endregion
 
 	public override void Initialize()
@@ -194,7 +194,7 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 			BuffUI buffUI = rewardsPanel.content.transform.GetChild<BuffUI>(offset);
 
 			if (buffUI == null ||
-				Despawn("Buff Rewards", buffUI) == false)
+				Despawn(buffUI) == false)
 				++offset;
 		}
 
@@ -303,7 +303,7 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 		if (--buffUI.buffCount == 0)
 		{
-			Despawn("Buff Inventory", buffUI);
+			Despawn(buffUI);
 
 			m_BuffInventoryList.Remove(buffUI);
 			m_BuffInventoryMap.Remove(buffData.code);
@@ -318,7 +318,7 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 		if (--buffUI.buffCount == 0)
 		{
-			Despawn("Buff Combine Inventory", buffUI);
+			Despawn(buffUI);
 
 			m_BuffCombineInventoryList.Remove(buffUI);
 			m_BuffCombineInventoryMap.Remove(buffData.code);
