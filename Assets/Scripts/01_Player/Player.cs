@@ -5,22 +5,35 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public sealed class Player : MonoBehaviour
 {
+	#region 변수
 	private PlayerCharacter m_Character;
 
 	[SerializeField]
 	private List<Transform> m_AttackSpotList;
+	#endregion
 
+	#region 프로퍼티
 	public int maxLevel => m_Character.maxStat.Level;
 	public int currentLevel => m_Character.currentStat.Level;
+	#endregion
 
-	private ProjectileManager M_Projectile => ProjectileManager.Instance;
+	#region 매니저
+	private static ProjectileManager M_Projectile => ProjectileManager.Instance;
+	#endregion
+
+	public void Initialize()
+	{
+		if (m_Character == null)
+			m_Character = GetComponent<PlayerCharacter>();
+		m_Character.Initialize();
+	}
 
 	private void Update()
 	{
 		// 테스트
 		if (Input.GetKeyDown(KeyCode.F))
 		{
-			m_Character.AddBuff("체력 증가");
+			m_Character.AddBuff("전방향 대쉬");
 		}
 		//
 
@@ -28,12 +41,19 @@ public sealed class Player : MonoBehaviour
 		{
 			m_Character.Attack();
 		}
-	}
+		if (Input.GetMouseButtonDown(1))
+		{
+			m_Character.Dash();
+		}
 
-	public void Initialize()
-	{
-		m_Character = GetComponent<PlayerCharacter>();
-		m_Character.Initialize();
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			m_Character.JumpInputDown();
+		}
+		if (Input.GetKeyUp(KeyCode.Space))
+		{
+			m_Character.JumpInputUp();
+		}
 	}
 
 	public void Attack(int attackIndex)

@@ -6,12 +6,55 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerController2D))]
 public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerController2D, PlayerAnimator>
 {
+	#region 변수
+	[Header("===== 플레이어 전용 변수 ====="), Space(10)]
 	private Vector2 m_DirectionalInput;
 
-	[SerializeField]
-	private UtilClass.Timer m_DashTimer;
+	[SerializeField, ReadOnly]
+	private bool m_IsAttacking;
+	[SerializeField, ReadOnly]
+	private bool m_CanComboAttack;
 
-	private BuffManager M_Buff => BuffManager.Instance;
+	[SerializeField, ReadOnly]
+	private UtilClass.Timer m_DashTimer;
+	#endregion
+
+	#region 프로퍼티
+	public float attackSpeed
+	{
+		get
+		{
+			return m_CurrentStat.AttackSpeed;
+		}
+		set
+		{
+			m_CurrentStat.AttackSpeed = value;
+			m_Animator.Anim_SetAttackSpeed(value);
+		}
+	}
+	#endregion
+
+	#region 매니저
+	private static BuffManager M_Buff => BuffManager.Instance;
+	#endregion
+
+	public override void Initialize()
+	{
+		base.Initialize();
+
+		m_IsAttacking = false;
+		m_CanComboAttack = false;
+
+		// 스탯 초기화
+		attackSpeed = 2.0f;
+		m_CurrentStat.Xp = 0.0f;
+		m_CurrentStat.Level = 0;
+
+		// 타이머 초기화
+		m_HealTimer = new UtilClass.Timer(m_CurrentStat.HpRegenTime);
+		m_AttackTimer = new UtilClass.Timer(1f / attackSpeed, true);
+		m_DashTimer = new UtilClass.Timer(m_CurrentStat.DashRechargeTime);
+	}
 
 	protected override void Update()
 	{
@@ -22,35 +65,7 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 		if (m_IsSimulating == false)
 			return;
 
-		if (Input.GetMouseButtonDown(1))
-		{
-			Dash();
-		}
-
 		Move();
-
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			JumpInputDown();
-		}
-		if (Input.GetKeyUp(KeyCode.Space))
-		{
-			JumpInputUp();
-		}
-	}
-
-	public override void Initialize()
-	{
-		base.Initialize();
-
-		// Stat Init
-		m_CurrentStat.Xp = 0.0f;
-		m_CurrentStat.Level = 0;
-
-		// Timer Init
-		m_HealTimer = new UtilClass.Timer(m_CurrentStat.HpRegenTime);
-		m_AttackTimer = new UtilClass.Timer(1f / m_CurrentStat.AttackSpeed, true);
-		m_DashTimer = new UtilClass.Timer(m_CurrentStat.DashRechargeTime);
 	}
 
 	private void SetDirectionalInput(Vector2 input)
@@ -90,6 +105,72 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 		m_Animator.Anim_SetIsGround(m_Controller.collisions.grounded);
 	}
 
+	// Jump Func
+	public void JumpInputDown()
+	{
+		if (m_IsSimulating == false)
+			return;
+
+		if ((m_Controller.collisions.below && m_DirectionalInput.y != -1) == false)
+			return;
+
+		m_Animator.Anim_Jump();
+		OnBuffJump();
+
+		m_Velocity.y = m_Controller.maxJumpVelocity;
+	}
+	public void JumpInputUp()
+	{
+		if (m_IsSimulating == false)
+			return;
+
+		if (m_Velocity.y > m_Controller.minJumpVelocity)
+			m_Velocity.y = m_Controller.minJumpVelocity;
+	}
+
+	// Dash Func
+	public bool CanDash()
+	{
+		return m_CurrentStat.DashCount > 0;
+	}
+	public void Dash()
+	{
+		if (CanDash() == false)
+			return;
+
+		--m_CurrentStat.DashCount;
+
+		OnBuffDash();
+
+		Vector2 dir = UtilClass.GetMouseWorldPosition() - transform.position;
+
+		if (m_BuffList.ContainsSubKey("전방향 대쉬") == true)
+		{
+			// 마우스 대쉬
+			m_Velocity = dir.normalized * m_CurrentStat.DashSpeed;
+		}
+		else
+		{
+			// 좌우 대쉬
+			m_Velocity.x = Mathf.Sign(dir.x) * m_CurrentStat.DashSpeed;
+		}
+	}
+
+	// Attack Func
+	public override bool Attack()
+	{
+		if (base.Attack() == false)
+			return false;
+
+		m_IsAttacking = true;
+
+		return true;
+	}
+	protected override bool CanAttack()
+	{
+		return base.CanAttack() && (m_IsAttacking ? m_CanComboAttack : true);
+	}
+
 	// Timer Func
 	private void DashTimer()
 	{
@@ -107,11 +188,29 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 		}
 	}
 
+	// Buff Event
+	public void OnBuffJump()
+	{
+		foreach (var item in m_BuffList.Values)
+		{
+			(item as IOnBuffJump)?.OnBuffJump(this);
+		}
+	}
+	private void OnBuffDash()
+	{
+		foreach (var item in m_BuffList.Values)
+		{
+			(item as IOnBuffDash)?.OnBuffDash(this);
+		}
+	}
+
+	// Anim Event
 	public override void AnimEvent_AttackStart()
 	{
 		base.AnimEvent_AttackStart();
 
 		m_IsSimulating = false;
+		m_Velocity.x = System.MathF.Sign(m_Velocity.x) * float.Epsilon;
 	}
 	public override void AnimEvent_Attacking()
 	{
@@ -122,7 +221,7 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 		base.AnimEvent_AttackEnd();
 
 		m_IsSimulating = true;
-		m_Velocity.x = 0.0f;
+		m_IsAttacking = false;
 	}
 	public void AnimEvent_AirAttackStart()
 	{
@@ -133,58 +232,15 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 	public void AnimEvent_AirAttackEnd()
 	{
 		m_IsSimulating = true;
+		m_IsAttacking = false;
 	}
-
-	private void JumpInputDown()
+	public void AnimEvent_StartCombo()
 	{
-		if ((m_Controller.collisions.below && m_DirectionalInput.y != -1) == false)
-			return;
-
-		m_Animator.Anim_Jump();
-		Jump();
-
-		m_Velocity.y = m_Controller.maxJumpVelocity;
+		m_CanComboAttack = true;
 	}
-	private void JumpInputUp()
+	public void AnimEvent_EndCombo()
 	{
-		if (m_Velocity.y > m_Controller.minJumpVelocity)
-			m_Velocity.y = m_Controller.minJumpVelocity;
-	}
-	public void Jump()
-	{
-		foreach (var item in m_BuffList.Values)
-		{
-			(item as IOnBuffJump)?.OnBuffJump(this);
-		}
-	}
-	public bool CanDash()
-	{
-		return m_CurrentStat.DashCount > 0;
-	}
-	public void Dash()
-	{
-		if (CanDash() == false)
-			return;
-
-		--m_CurrentStat.DashCount;
-
-		foreach (var item in m_BuffList.Values)
-		{
-			(item as IOnBuffDash)?.OnBuffDash(this);
-		}
-
-		Vector2 dir = UtilClass.GetMouseWorldPosition() - transform.position;
-
-		//if (m_BuffList.ContainsKey(M_Buff.GetBuffData("마우스 대쉬").code) == true)
-		//{
-		//	// 마우스 대쉬
-		//	m_Velocity = dir.normalized * m_CurrentStat.DashSpeed;
-		//}
-		//else
-		{
-			// 좌우 대쉬
-			m_Velocity.x = Mathf.Sign(dir.x) * m_CurrentStat.DashSpeed;
-		}
+		m_CanComboAttack = false;
 	}
 
 	private void OnValidate()

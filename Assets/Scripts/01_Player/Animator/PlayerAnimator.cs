@@ -24,16 +24,18 @@ public class PlayerAnimator : CharacterAnimator
 	{
 		base.Initialize();
 
-		m_Player = GetComponentInParent<Player>();
-		m_PlayerCharacter = GetComponentInParent<PlayerCharacter>();
+		if (m_Player == null)
+			m_Player = GetComponentInParent<Player>();
+		if (m_PlayerCharacter == null)
+			m_PlayerCharacter = GetComponentInParent<PlayerCharacter>();
 	}
 
 	public void Anim_SetDirectionalInput(Vector2 input)
 	{
-		if (input.x == 0)
-			m_Animator.SetInteger("AnimState", (int)E_AnimState.Idle);
-		else
+		if (input.x != 0f)
 			m_Animator.SetInteger("AnimState", (int)E_AnimState.Run);
+		else
+			m_Animator.SetInteger("AnimState", (int)E_AnimState.Idle);
 	}
 
 	private void AnimEvent_Attack1_CreateProjectile()
@@ -55,6 +57,14 @@ public class PlayerAnimator : CharacterAnimator
 	private void AnimEvent_Attack_End()
 	{
 		m_PlayerCharacter.AnimEvent_AttackEnd();
+	}
+	private void AnimEvent_Attack_ComboStart()
+	{
+		m_PlayerCharacter.AnimEvent_StartCombo();
+	}
+	private void AnimEvent_Attack_ComboEnd()
+	{
+		m_PlayerCharacter.AnimEvent_EndCombo();
 	}
 	private void AnimEvent_AirAttack_Start()
 	{

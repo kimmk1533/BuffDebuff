@@ -64,6 +64,8 @@ public sealed class Projectile : ObjectPoolItemBase
 
 	public void Initialize(float moveSpeed, float lifeTime)
 	{
+		base.Initialize();
+
 		m_MoveSpeed = moveSpeed;
 
 		if (m_DespawnTimer == null)

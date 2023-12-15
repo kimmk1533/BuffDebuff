@@ -5,12 +5,14 @@ using UnityEngine;
 
 public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator
 {
+	#region 변수
 	protected TController m_Controller;
 	[SerializeField, ChildComponent("Renderer")]
 	protected TAnimator m_Animator;
 
-	protected Dictionary<int, AbstractBuff> m_BuffList;
+	protected DoubleKeyDictionary<int, string, AbstractBuff> m_BuffList;
 
+	#region 이동 관련
 	[SerializeField]
 	protected bool m_IsSimulating = true;
 	[SerializeField, ReadOnly]
@@ -18,8 +20,10 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 	protected float m_VelocityXSmoothing;
 	protected float m_AccelerationTimeAirborne = 0.2f;
 	protected float m_AccelerationTimeGrounded = 0.1f;
+	#endregion
 
-	#region Stat
+	#region 스탯 관련
+	[Header("===== 스탯 ====="), Space(10)]
 	// 최대 스탯
 	[SerializeField]
 	protected TStat m_MaxStat;
@@ -29,22 +33,32 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 	protected TStat m_CurrentStat;
 	#endregion
 
-	#region Timer
+	#region 타이머 관련
 	[Header("===== 타이머 ====="), Space(10)]
-	[SerializeField]
+	[SerializeField, ReadOnly]
 	protected UtilClass.Timer m_HealTimer;
-	[SerializeField]
+	[SerializeField, ReadOnly]
 	protected UtilClass.Timer m_AttackTimer;
 	#endregion
+	#endregion
 
+	#region 프로퍼티
 	public TStat maxStat => m_MaxStat;
 	public TStat currentStat => m_CurrentStat;
+	#endregion
 
-	private BuffManager M_Buff => BuffManager.Instance;
+	#region 이벤트
+
+	#endregion
+
+	#region 매니저
+	private static BuffManager M_Buff => BuffManager.Instance;
+	#endregion
 
 	public virtual void Initialize()
 	{
-		m_Controller = GetComponent<TController>();
+		if (m_Controller == null)
+			m_Controller = GetComponent<TController>();
 		m_Controller.Initialize();
 
 		if (m_Animator == null)
@@ -52,7 +66,10 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 		m_Animator.Initialize();
 
 		// BuffList Init
-		m_BuffList = new Dictionary<int, AbstractBuff>();
+		if (m_BuffList == null)
+			m_BuffList = new DoubleKeyDictionary<int, string, AbstractBuff>();
+		else
+			m_BuffList.Clear();
 	}
 
 	protected virtual void Update()
@@ -115,7 +132,7 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 
 		buff = M_Buff.CreateBuff(buffData);
 
-		m_BuffList.Add(buffData.code, buff);
+		m_BuffList.Add(buffData.code, buffData.title, buff);
 
 		(buff as IOnBuffAdded)?.OnBuffAdded(this);
 
@@ -126,9 +143,9 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 		if (name == null || name == string.Empty)
 			return false;
 
-		BuffData buff = M_Buff.GetBuffData(name);
+		BuffData buffData = M_Buff.GetBuffData(name);
 
-		return this.RemoveBuff(buff);
+		return this.RemoveBuff(buffData);
 	}
 	public bool RemoveBuff(BuffData buffData)
 	{
@@ -144,7 +161,7 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 			}
 			else
 			{
-				m_BuffList.Remove(buffData.code);
+				m_BuffList.Remove(buffData.title);
 			}
 
 			(buff as IOnBuffRemoved)?.OnBuffRemoved(this);
@@ -157,7 +174,44 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 		return false;
 	}
 
-	// BuffEvent
+	// Attack Func
+	public virtual bool Attack()
+	{
+		if (CanAttack() == false)
+			return false;
+
+		m_Animator.Anim_Attack();
+
+		return true;
+	}
+	protected virtual bool CanAttack()
+	{
+		return m_AttackTimer.TimeCheck();
+	}
+
+	// Timer Func
+	protected void HpRegenTimer()
+	{
+		if (Mathf.Abs(m_CurrentStat.HpRegen) <= float.Epsilon)
+			return;
+		if (m_CurrentStat.Hp >= m_MaxStat.Hp)
+			return;
+
+		m_HealTimer.Update();
+
+		if (m_HealTimer.TimeCheck(true))
+		{
+			float hp = m_CurrentStat.Hp + (m_CurrentStat.HpRegen * m_CurrentStat.HealScale) * m_CurrentStat.AntiHealScale;
+
+			m_CurrentStat.Hp = Mathf.Clamp(hp, 0f, m_MaxStat.Hp);
+		}
+	}
+	protected void AttackTimer()
+	{
+		m_AttackTimer.Update();
+	}
+
+	// Buff Event
 	protected virtual void OnBuffUpdate()
 	{
 		foreach (AbstractBuff item in m_BuffList.Values)
@@ -187,42 +241,7 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 		}
 	}
 
-	// Timer Func
-	protected void HpRegenTimer()
-	{
-		if (Mathf.Abs(m_CurrentStat.HpRegen) <= float.Epsilon)
-			return;
-		if (m_CurrentStat.Hp >= m_MaxStat.Hp)
-			return;
-
-		m_HealTimer.Update();
-
-		if (m_HealTimer.TimeCheck(true))
-		{
-			float hp = m_CurrentStat.Hp + (m_CurrentStat.HpRegen * m_CurrentStat.HealScale) * m_CurrentStat.AntiHealScale;
-
-			m_CurrentStat.Hp = Mathf.Clamp(hp, 0f, m_MaxStat.Hp);
-		}
-	}
-	protected void AttackTimer()
-	{
-		m_AttackTimer.Update();
-	}
-
-	// Attack Func
-	public virtual void Attack()
-	{
-		if (CanAttack() == false)
-			return;
-
-		m_Animator.Anim_Attack();
-	}
-	protected virtual bool CanAttack()
-	{
-		return m_AttackTimer.TimeCheck();
-	}
-
-	// AnimEvent
+	// Anim Event
 	public virtual void AnimEvent_AttackStart()
 	{
 		OnBuffAttackStart();
@@ -235,7 +254,6 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 	{
 		OnBuffAttackEnd();
 
-		m_AttackTimer.TimeCheck();
+		m_AttackTimer.Clear();
 	}
-
 }

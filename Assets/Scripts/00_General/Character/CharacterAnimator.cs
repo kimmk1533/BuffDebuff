@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class CharacterAnimator : MonoBehaviour
 {
+	#region 변수
 	protected SpriteRenderer m_SpriteRenderer;
 	protected Animator m_Animator;
+	#endregion
 
 	public virtual void Initialize()
 	{
-		m_SpriteRenderer = GetComponent<SpriteRenderer>();
-		m_Animator = GetComponent<Animator>();
+		if (m_SpriteRenderer == null)
+			m_SpriteRenderer = GetComponent<SpriteRenderer>();
+		if (m_Animator == null)
+			m_Animator = GetComponent<Animator>();
 	}
 
 	public virtual void Anim_SetVelocity(float x, float y)
@@ -25,6 +29,10 @@ public class CharacterAnimator : MonoBehaviour
 	public virtual void Anim_SetIsGround(bool isGround)
 	{
 		m_Animator.SetBool("isGround", isGround);
+	}
+	public virtual void Anim_SetAttackSpeed(float attackSpeed)
+	{
+		m_Animator.SetFloat("Attack Speed", attackSpeed);
 	}
 	public virtual void Anim_Attack()
 	{

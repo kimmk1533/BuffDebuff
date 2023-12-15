@@ -31,7 +31,8 @@ public class Enemy : ObjectPoolItemBase
 	{
 		base.Initialize();
 
-		m_Character = GetComponent<EnemyCharacter>();
+		if (m_Character == null)
+			m_Character = GetComponent<EnemyCharacter>();
 		m_Character.Initialize();
 
 		m_Animator.Initialize();

@@ -783,6 +783,33 @@ public sealed class BuffManager : Singleton<BuffManager>
 		return true;
 	}
 
+	public bool TryGetBuffData(E_BuffType buffType, E_BuffGrade grade, int code, out BuffData buffData)
+	{
+		if (grade == E_BuffGrade.Max)
+		{
+			Debug.LogError("Random Grade should be not E_BuffGrade.Max!");
+			buffData = null;
+			return false;
+		}
+
+		buffData = GetBuffData(buffType, grade, code);
+
+		return buffData != null;
+	}
+	public bool TryGetBuffData(E_BuffType buffType, E_BuffGrade grade, string title, out BuffData buffData)
+	{
+		if (grade == E_BuffGrade.Max)
+		{
+			Debug.LogError("Random Grade should be not E_BuffGrade.Max!");
+			buffData = null;
+			return false;
+		}
+
+		buffData = GetBuffData(buffType, grade, title);
+
+		return buffData != null;
+	}
+
 	public BuffData GetBuffData(int code)
 	{
 		string codeStr = code.ToString();
@@ -793,38 +820,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 		string gradeStr = codeStr[2].ToString();
 		E_BuffGrade grade = (E_BuffGrade)(int.Parse(gradeStr) - 1);
 
-		TryGetBuffData(buffType, grade, code, out BuffData buffData);
-
-		return buffData;
-	}
-	public bool TryGetBuffData(E_BuffType buffType, E_BuffGrade grade, int code, out BuffData buffData)
-	{
-		if (grade == E_BuffGrade.Max)
-		{
-			Debug.LogError("Random Grade should be not E_BuffGrade.Max!");
-			buffData = null;
-			return false;
-		}
-
-		BuffDictionary buffDictionary = m_BuffMap[buffType][grade];
-
-		if (buffDictionary == null)
-		{
-			buffData = null;
-
-			Debug.LogError("버프 목록 생성 안됨");
-			return false;
-		}
-
-		if (buffDictionary.TryGetValue(code, out buffData) == false)
-		{
-			buffData = null;
-
-			Debug.LogError("버프 가져오기 실패");
-			return false;
-		}
-
-		return true;
+		return GetBuffData(buffType, grade, code);
 	}
 	public BuffData GetBuffData(string title)
 	{
@@ -842,6 +838,23 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 		return buffData;
 	}
+	private BuffData GetBuffData(E_BuffType buffType, E_BuffGrade grade, int code)
+	{
+		if (grade == E_BuffGrade.Max)
+		{
+			Debug.LogError("Random Grade should be not E_BuffGrade.Max!");
+			return null;
+		}
+
+		BuffDictionary buffDictionary = m_BuffMap[buffType][grade];
+
+		if (buffDictionary == null)
+			return null;
+		if (buffDictionary.TryGetValue(code, out BuffData buffData) == false)
+			return null;
+
+		return buffData;
+	}
 	private BuffData GetBuffData(E_BuffType buffType, E_BuffGrade grade, string title)
 	{
 		if (grade == E_BuffGrade.Max)
@@ -850,39 +863,16 @@ public sealed class BuffManager : Singleton<BuffManager>
 			return null;
 		}
 
-		TryGetBuffData(buffType, grade, title, out BuffData buffData);
-
-		return buffData;
-	}
-	public bool TryGetBuffData(E_BuffType buffType, E_BuffGrade grade, string title, out BuffData buffData)
-	{
-		if (grade == E_BuffGrade.Max)
-		{
-			Debug.LogError("Random Grade should be not E_BuffGrade.Max!");
-			buffData = null;
-			return false;
-		}
-
 		BuffDictionary buffDictionary = m_BuffMap[buffType][grade];
 
 		if (buffDictionary == null)
-		{
-			buffData = null;
+			return null;
+		if (buffDictionary.TryGetValue(title, out BuffData buffData) == false)
+			return null;
 
-			Debug.LogError("버프 목록 생성 안됨");
-			return false;
-		}
-
-		if (buffDictionary.TryGetValue(title, out buffData) == false)
-		{
-			buffData = null;
-
-			Debug.LogError("버프 가져오기 실패");
-			return false;
-		}
-
-		return true;
+		return buffData;
 	}
+
 	public BuffData GetRandomBuffData()
 	{
 		E_BuffType buffType = (E_BuffType)Random.Range(0, (int)E_BuffType.Max);

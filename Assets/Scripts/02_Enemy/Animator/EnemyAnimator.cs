@@ -23,7 +23,10 @@ public class EnemyAnimator : CharacterAnimator
 	{
 		base.Initialize();
 
-		m_Enemy = GetComponentInParent<Enemy>();
-		m_EnemyCharacter = GetComponentInParent<EnemyCharacter>();
+		if (m_Enemy == null)
+			m_Enemy = GetComponentInParent<Enemy>();
+
+		if (m_EnemyCharacter == null)
+			m_EnemyCharacter = GetComponentInParent<EnemyCharacter>();
 	}
 }
