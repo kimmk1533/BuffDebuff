@@ -203,8 +203,7 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		List<BuffData> buffDataList = new List<BuffData>();
 		for (int i = 0; i < count; ++i)
 		{
-			E_BuffGrade grade = M_Buff.GetRandomGrade(M_Player.currentLevel);
-			BuffData buffData = M_Buff.GetRandomBuffData(E_BuffType.Buff, grade);
+			BuffData buffData = M_Buff.GetRandomBuffData(E_BuffType.Buff);
 
 			if (buffData == null)
 				continue;

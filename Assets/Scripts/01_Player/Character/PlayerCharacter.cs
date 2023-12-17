@@ -35,7 +35,7 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 	#endregion
 
 	#region 매니저
-	private static BuffManager M_Buff => BuffManager.Instance;
+
 	#endregion
 
 	public override void Initialize()
@@ -241,10 +241,5 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 	public void AnimEvent_EndCombo()
 	{
 		m_CanComboAttack = false;
-	}
-
-	private void OnValidate()
-	{
-		M_Buff.OnValidate();
 	}
 }

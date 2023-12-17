@@ -256,6 +256,9 @@ public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBa
 			if (m_Name.isUse)
 				item.name = m_Name.value;
 
+			if (m_Active.isUse)
+				item.gameObject.SetActive(m_Active.value);
+
 			if (m_Parent.isUse)
 				item.transform.SetParent(m_Parent.value);
 
@@ -265,9 +268,6 @@ public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBa
 				item.transform.rotation = m_Rotation.value;
 			if (m_Scale.isUse)
 				item.transform.localScale = m_Scale.value;
-
-			if (m_Active.isUse)
-				item.gameObject.SetActive(m_Active.value);
 
 			if (m_AutoInit.isUse &&
 				m_AutoInit.value)
