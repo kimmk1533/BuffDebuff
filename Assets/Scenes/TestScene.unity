@@ -29812,10 +29812,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 1410744814}
     m_Modifications:
-    - target: {fileID: 118013973844950667, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
-      propertyPath: m_ItemName
-      value: Buff Rewards
-      objectReference: {fileID: 0}
     - target: {fileID: 7226590036843107204, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -29903,10 +29899,6 @@ PrefabInstance:
     - target: {fileID: 7226590036843107205, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
       propertyPath: m_Name
       value: Buff Rewards
-      objectReference: {fileID: 0}
-    - target: {fileID: 7226590036843107205, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -56111,7 +56103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 480706f9b17890f4c9e2be359b6a8480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ItemName: Golem
+  m_PoolKey: 
   m_Animator: {fileID: 1754298150}
   m_AttackSpotList: []
 --- !u!114 &870225827
@@ -65414,10 +65406,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 1410744814}
     m_Modifications:
-    - target: {fileID: 118013973844950667, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
-      propertyPath: m_ItemName
-      value: Buff Inventory
-      objectReference: {fileID: 0}
     - target: {fileID: 7226590036843107204, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -65505,10 +65493,6 @@ PrefabInstance:
     - target: {fileID: 7226590036843107205, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
       propertyPath: m_Name
       value: Buff Inventory
-      objectReference: {fileID: 0}
-    - target: {fileID: 7226590036843107205, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -69538,10 +69522,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 1410744814}
     m_Modifications:
-    - target: {fileID: 118013973844950667, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
-      propertyPath: m_ItemName
-      value: Buff Combine
-      objectReference: {fileID: 0}
     - target: {fileID: 7226590036843107204, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -69629,10 +69609,6 @@ PrefabInstance:
     - target: {fileID: 7226590036843107205, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
       propertyPath: m_Name
       value: Buff Combine
-      objectReference: {fileID: 0}
-    - target: {fileID: 7226590036843107205, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -73870,10 +73846,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 1410744814}
     m_Modifications:
-    - target: {fileID: 118013973844950667, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
-      propertyPath: m_ItemName
-      value: Buff Combine Inventory
-      objectReference: {fileID: 0}
     - target: {fileID: 7226590036843107204, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -73961,10 +73933,6 @@ PrefabInstance:
     - target: {fileID: 7226590036843107205, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
       propertyPath: m_Name
       value: Buff Combine Inventory
-      objectReference: {fileID: 0}
-    - target: {fileID: 7226590036843107205, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -87042,7 +87010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 480706f9b17890f4c9e2be359b6a8480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ItemName: Enemy
+  m_PoolKey: 
   m_Animator: {fileID: 1276558579}
   m_AttackSpotList: []
 --- !u!114 &1359844120
@@ -140396,7 +140364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51f865a8169aca42b35b4b149ece23b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ItemName: Projectile
+  m_PoolKey: 
   m_MoveSpeed: 0
   m_Velocity: {x: 0, y: 0}
   m_DespawnTimer:

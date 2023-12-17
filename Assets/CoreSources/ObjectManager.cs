@@ -43,7 +43,7 @@ public abstract class ObjectManager<T, Item> : Singleton<T> where T : MonoBehavi
 		poolParent.transform.SetParent(parent);
 		poolParent.SetActive(true);
 
-		ObjectPool<Item> pool = new ObjectPool<Item>(origin, poolSize, poolParent.transform);
+		ObjectPool<Item> pool = new ObjectPool<Item>(key, origin, poolSize, poolParent.transform);
 		pool.Initialize();
 
 		m_Pools.Add(key, pool);
@@ -113,13 +113,13 @@ public abstract class ObjectManager<T, Item> : Singleton<T> where T : MonoBehavi
 	}
 	public bool Despawn(Item item, bool autoFinal = true)
 	{
-		if (item.itemName == string.Empty)
+		if (item.poolKey == string.Empty)
 			throw new System.Exception(item.ToString() + "에는 값이 있어야 합니다.");
 
-		ObjectPool<Item> pool = GetPool(item.itemName);
+		ObjectPool<Item> pool = GetPool(item.poolKey);
 
 		if (pool == null)
-			throw new System.NullReferenceException(name + ": Pool이 null 입니다. itemName은 \"" + item.itemName + "\" 였습니다.");
+			throw new System.NullReferenceException(name + ": Pool이 null 입니다. itemName은 \"" + item.poolKey + "\" 였습니다.");
 
 		return pool.Despawn(item, autoFinal);
 	}

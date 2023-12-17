@@ -6,6 +6,8 @@ using UnityEngine.Events;
 public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBase
 {
 	#region 변수
+	// 키
+	private string m_PoolKey;
 	// 풀에 담을 원본
 	private Item m_Origin;
 	// 초기 풀 사이즈
@@ -42,8 +44,9 @@ public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBa
 
 	#region 생성자
 	// 부모 지정 안하고 생성하는 경우
-	public ObjectPool(Item origin, int poolSize)
+	public ObjectPool(string key, Item origin, int poolSize)
 	{
+		m_PoolKey = key;
 		m_Origin = origin;
 		m_PoolSize = poolSize;
 		m_Queue = new Queue<Item>(poolSize);
@@ -56,8 +59,9 @@ public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBa
 		autoExpandPool = true;
 	}
 	// 부모 지정하여 생성하는 경우
-	public ObjectPool(Item origin, int poolSize, Transform parent)
+	public ObjectPool(string key, Item origin, int poolSize, Transform parent)
 	{
+		m_PoolKey = key;
 		m_Origin = origin;
 		m_PoolSize = poolSize;
 		m_Queue = new Queue<Item>(poolSize);
@@ -93,6 +97,7 @@ public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBa
 		{
 			Item newItem = GameObject.Instantiate<Item>(m_Origin);
 			newItem.name = m_Origin.name;
+			newItem.poolKey = m_PoolKey;
 
 			m_OnInstantiated?.Invoke(newItem);
 

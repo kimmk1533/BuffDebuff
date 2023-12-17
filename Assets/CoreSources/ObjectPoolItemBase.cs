@@ -11,13 +11,16 @@ public interface IPoolItem
 public class ObjectPoolItemBase : MonoBehaviour, IPoolItem
 {
 	#region 변수
-	[SerializeField]
-	protected string m_ItemName;
+	protected string m_PoolKey;
 	protected bool m_IsSpawning;
 	#endregion
 
 	#region 프로퍼티
-	public string itemName => m_ItemName;
+	public string poolKey
+	{
+		get => m_PoolKey;
+		set => m_PoolKey = value;
+	}
 	public bool isSpawning => m_IsSpawning;
 	#endregion
 
@@ -41,8 +44,5 @@ public class ObjectPoolItemBase : MonoBehaviour, IPoolItem
 			m_IsSpawning = false;
 
 		onDespawn?.Invoke(this);
-
-		onSpawn = null;
-		onDespawn = null;
 	}
 }

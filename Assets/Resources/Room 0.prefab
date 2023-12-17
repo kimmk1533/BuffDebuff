@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c4c28d80a4e3ba4da6acd23dbdebc16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ItemName: Room 0
+  m_PoolKey: 
   m_RoomSize: {x: 40, y: 34}
   m_Offset: {x: 20, y: 17}
   m_EnemyWave:

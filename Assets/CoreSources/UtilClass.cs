@@ -8,6 +8,20 @@ using UnityEngine.SocialPlatforms;
 
 public static class UtilClass
 {
+	public static void Initialize<T>(this List<T> list, ref List<T> result)
+	{
+		if (list == null)
+			result = new List<T>();
+		else
+			result.Clear();
+	}
+	public static void Initialize<T, V>(ref T my) where T : ICollection<V>, new()
+	{
+		if (my == null)
+			my = new T();
+		else
+			my.Clear();
+	}
 	public static Vector3 GetMouseWorldPosition()
 	{
 		Vector3 vector = GetMouseWorldPositionZ(Input.mousePosition, Camera.main);
