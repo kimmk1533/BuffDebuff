@@ -31,8 +31,7 @@ public class Enemy : ObjectPoolItemBase
 	{
 		base.Initialize();
 
-		if (m_Character == null)
-			m_Character = GetComponent<EnemyCharacter>();
+		this.Safe_GetComponent<EnemyCharacter>(ref m_Character);
 		m_Character.Initialize();
 
 		m_Animator.Initialize();
@@ -66,7 +65,7 @@ public class Enemy : ObjectPoolItemBase
 		projectile.Initialize(5.0f, m_Character.currentStat.AttackRange);
 
 		projectile.SetMovingStrategy(new Projectile.StraightMove());
-		projectile["Player"].OnEnter2D += (Collider2D collider) =>
+		projectile["Player"].onEnter2D += (Collider2D collider) =>
 		{
 			Player player = collider.GetComponent<Player>();
 
@@ -79,7 +78,7 @@ public class Enemy : ObjectPoolItemBase
 
 			M_Projectile.Despawn(projectile);
 		};
-		projectile["Obstacle"].OnEnter2D += (Collider2D collider) =>
+		projectile["Obstacle"].onEnter2D += (Collider2D collider) =>
 		{
 			M_Projectile.Despawn(projectile);
 		};

@@ -6,25 +6,15 @@ using Enum;
 public class WarpManager : Singleton<WarpManager>
 {
 	#region 변수
-	[SerializeField]
-	private LayerMask m_WarpLayerMask;
-
 	private Dictionary<Room, Dictionary<E_Direction, List<WarpPoint>>> m_WarpPointMap;
-	#endregion
-
-	#region 프로퍼티
-	public int layerMask => m_WarpLayerMask.value;
-	#endregion
-
-	#region 이벤트
 	#endregion
 
 	public void Initialize()
 	{
-		if (m_WarpPointMap == null)
-			m_WarpPointMap = new Dictionary<Room, Dictionary<E_Direction, List<WarpPoint>>>();
-		else
+		if (m_WarpPointMap != null)
 			m_WarpPointMap.Clear();
+		else
+			m_WarpPointMap = new Dictionary<Room, Dictionary<E_Direction, List<WarpPoint>>>();
 	}
 
 	public void AddWarpPoint(Room room, WarpPoint warpPoint)
@@ -47,10 +37,10 @@ public class WarpManager : Singleton<WarpManager>
 		m_WarpPointMap[room][direction].Add(warpPoint);
 	}
 
-	public bool CheckLayerMask(GameObject checkObject)
-	{
-		int layerMask = 1 << checkObject.layer;
+	//public bool CheckLayerMask(GameObject checkObject)
+	//{
+	//	int layerMask = 1 << checkObject.layer;
 
-		return (m_WarpLayerMask.value & layerMask) == layerMask;
-	}
+	//	return (m_WarpLayerMask.value & layerMask) == layerMask;
+	//}
 }

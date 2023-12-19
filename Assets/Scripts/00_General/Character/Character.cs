@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,10 +44,9 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 	#region 프로퍼티
 	public TStat maxStat => m_MaxStat;
 	public TStat currentStat => m_CurrentStat;
-	#endregion
 
-	#region 이벤트
-
+	public TController controller => m_Controller;
+	public TAnimator animator => m_Animator;
 	#endregion
 
 	#region 매니저
@@ -57,12 +55,11 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 
 	public virtual void Initialize()
 	{
-		if (m_Controller == null)
-			m_Controller = GetComponent<TController>();
+		this.Safe_GetComponent<TController>(ref m_Controller);
 		m_Controller.Initialize();
 
 		if (m_Animator == null)
-			throw new Exception("Child Component(Animator) is null!");
+			throw new System.Exception("Child Component(Animator) is null!");
 		m_Animator.Initialize();
 
 		// BuffList Init

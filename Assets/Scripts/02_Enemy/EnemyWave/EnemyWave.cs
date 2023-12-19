@@ -6,6 +6,7 @@ using AYellowpaper.SerializedCollections;
 [System.Serializable]
 public class EnemyWave
 {
+	#region Enum
 	// 몬스터 생성 조건
 	public enum E_SpawnCondition : byte
 	{
@@ -17,6 +18,7 @@ public class EnemyWave
 
 		Max
 	}
+	#endregion
 
 	#region 변수
 	private Room m_Spawner;
@@ -31,6 +33,7 @@ public class EnemyWave
 	[SerializedDictionary("조건", "적 정보")]
 	private SerializedDictionary<E_SpawnCondition, List<EnemyWaveInfo>> m_EnemyWaveInfoMap;
 
+	[SerializeField, ReadOnly]
 	private List<Enemy> m_SpawnedEnemyList;
 	#endregion
 

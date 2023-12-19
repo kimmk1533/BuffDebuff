@@ -1,21 +1,24 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AbstractBuff : IEquatable<AbstractBuff>
+public abstract class AbstractBuff : System.IEquatable<AbstractBuff>
 {
+	#region 변수
 	[SerializeField]
 	protected int m_Count;
 	[SerializeField]
 	protected BuffData m_DebugBuffData;
 	protected readonly BuffData m_BuffData;
+	#endregion
 
+	#region 프로퍼티
 	public int count
 	{
 		get { return m_Count; }
 		set { m_Count = value; }
 	}
+	#endregion
 
 	public AbstractBuff(BuffData buffData)
 	{

@@ -101,12 +101,12 @@ public class BuffUI : ObjectPoolItemBase
 		}
 		#endregion
 	}
-
 	public void Initialize(BuffData buffData)
 	{
 		m_BuffCount = 1;
 		UpdateBuffUIData(buffData);
 	}
+
 	public void UpdateBuffUIData()
 	{
 		m_BuffCountText.text = "x" + m_BuffCount.ToString();

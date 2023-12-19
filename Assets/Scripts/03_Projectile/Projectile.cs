@@ -7,8 +7,11 @@ public sealed class Projectile : ObjectPoolItemBase
 {
 	#region 변수
 	private ProjectileController m_Controller;
-	private IMovingStrategy m_MovingStrategy;
 
+	[SerializeField, ReadOnly]
+	private BoxCollisionChecker2D m_CollisionChecker2D;
+
+	private IMovingStrategy m_MovingStrategy;
 	[SerializeField, ReadOnly]
 	private float m_MoveSpeed;
 
@@ -17,45 +20,15 @@ public sealed class Projectile : ObjectPoolItemBase
 
 	[SerializeField, ReadOnly]
 	private UtilClass.Timer m_DespawnTimer;
-
-	private Dictionary<int, Trigger> m_CollisionMap;
 	#endregion
 
 	#region 프로퍼티
 	public float moveSpeed => m_MoveSpeed;
-	#endregion
 
 	#region 인덱서
-	public Trigger this[int layer]
-	{
-		get
-		{
-			if (m_CollisionMap.ContainsKey(layer) == false)
-			{
-				m_Controller.collisionMask |= 1 << layer;
-				m_CollisionMap.Add(layer, new Trigger());
-			}
-
-			return m_CollisionMap[layer];
-		}
-	}
-	public Trigger this[string layer]
-	{
-		get
-		{
-			return this[LayerMask.NameToLayer(layer)];
-		}
-	}
+	public CollisionChecker2D.Trigger this[int layer] => m_CollisionChecker2D[layer];
+	public CollisionChecker2D.Trigger this[string layer] => m_CollisionChecker2D[layer];
 	#endregion
-
-	#region 이벤트
-	public delegate void OnTriggerHandler(Collider2D collider);
-	public class Trigger
-	{
-		public OnTriggerHandler OnEnter2D;
-		public OnTriggerHandler OnStay2D;
-		public OnTriggerHandler OnExit2D;
-	}
 	#endregion
 
 	#region 매니저
@@ -68,22 +41,21 @@ public sealed class Projectile : ObjectPoolItemBase
 
 		m_MoveSpeed = moveSpeed;
 
-		if (m_DespawnTimer == null)
-			m_DespawnTimer = new UtilClass.Timer(lifeTime);
-		else
+		#region SAFE_INIT
+		this.Safe_GetComponent<ProjectileController>(ref m_Controller);
+		m_Controller.Initialize();
+
+		this.Safe_GetComponent<BoxCollisionChecker2D>(ref m_CollisionChecker2D);
+		m_CollisionChecker2D.Initialize();
+
+		if (m_DespawnTimer != null)
 		{
 			m_DespawnTimer.interval = lifeTime;
 			m_DespawnTimer.Clear();
 		}
-
-		if (m_Controller == null)
-			m_Controller = GetComponent<ProjectileController>();
-		m_Controller.Initialize(this);
-
-		if (m_CollisionMap == null)
-			m_CollisionMap = new Dictionary<int, Trigger>();
 		else
-			m_CollisionMap.Clear();
+			m_DespawnTimer = new UtilClass.Timer(lifeTime);
+		#endregion
 	}
 
 	private void Update()

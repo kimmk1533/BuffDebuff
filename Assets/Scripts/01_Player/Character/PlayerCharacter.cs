@@ -34,10 +34,6 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 	}
 	#endregion
 
-	#region 매니저
-
-	#endregion
-
 	public override void Initialize()
 	{
 		base.Initialize();
@@ -76,9 +72,6 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 	protected override void CalculateVelocity()
 	{
 		float targetVelocityX = m_DirectionalInput.x * m_CurrentStat.MoveSpeed;
-
-		m_Velocity.x = Mathf.SmoothDamp(m_Velocity.x, targetVelocityX, ref m_VelocityXSmoothing, (m_Controller.collisions.grounded) ? m_AccelerationTimeGrounded : m_AccelerationTimeAirborne);
-
 		Vector3 scale = transform.localScale;
 		if (m_Velocity.x > 0)
 			scale.x = Mathf.Abs(scale.x);
@@ -86,6 +79,8 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 			scale.x = -Mathf.Abs(scale.x);
 		transform.localScale = scale;
 
+
+		m_Velocity.x = Mathf.SmoothDamp(m_Velocity.x, targetVelocityX, ref m_VelocityXSmoothing, (m_Controller.collisions.grounded) ? m_AccelerationTimeGrounded : m_AccelerationTimeAirborne);
 		m_Velocity.y += m_Controller.gravity * Time.deltaTime;
 	}
 	protected override void Move()

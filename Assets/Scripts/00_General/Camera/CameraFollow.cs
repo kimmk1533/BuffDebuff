@@ -8,7 +8,7 @@ public class CameraFollow : MonoBehaviour
 	#region 변수
 	[Space(10)]
 	[SerializeField]
-	private PlayerController2D m_Player;
+	private PlayerController2D m_PlayerController;
 
 	[Space(10)]
 	[SerializeField]
@@ -44,11 +44,16 @@ public class CameraFollow : MonoBehaviour
 	private Vector2 m_MapSize;
 	#endregion
 
-	private void Start()
-	{
-		m_Camera = GetComponent<Camera>();
+	#region 매니저
+	private static PlayerManager M_Player => PlayerManager.Instance;
+	#endregion
 
-		m_FocusArea = new FocusArea(m_Player.collider.bounds, m_FocusAreaSize);
+	public void Initialize()
+	{
+		this.Safe_GetComponentInChilderen<Camera>(ref m_Camera);
+		m_PlayerController = M_Player.player.character.controller;
+
+		m_FocusArea = new FocusArea(m_PlayerController.collider.bounds, m_FocusAreaSize);
 
 		float height = m_Camera.orthographicSize;
 		float width = height * Screen.width / Screen.height;
@@ -57,7 +62,7 @@ public class CameraFollow : MonoBehaviour
 	}
 	private void LateUpdate()
 	{
-		m_FocusArea.Update(m_Player.collider.bounds);
+		m_FocusArea.Update(m_PlayerController.collider.bounds);
 
 		Vector2 focusPosition = m_FocusArea.center + Vector2.up * m_VerticalOffset;
 
@@ -73,7 +78,7 @@ public class CameraFollow : MonoBehaviour
 		m_ClampAreaSize = size;
 		m_MapSize = m_ClampAreaSize / 2;
 
-		m_FocusArea.Update(m_Player.collider.bounds);
+		m_FocusArea.Update(m_PlayerController.collider.bounds);
 
 		Vector2 focusPosition = m_FocusArea.center + Vector2.up * m_VerticalOffset;
 
@@ -84,11 +89,11 @@ public class CameraFollow : MonoBehaviour
 	{
 		if (m_FocusArea.velocity.x != 0f)
 		{
-			m_LookAheadDirX = Mathf.Sign(m_FocusArea.velocity.x);
+			m_LookAheadDirX = System.MathF.Sign(m_FocusArea.velocity.x);
 
 			//if (Mathf.Sign(m_Player.playerInput.x) == Mathf.Sign(m_FocusArea.velocity.x) && m_Player.playerInput.x != 0)
 
-			if (System.MathF.Sign(m_Player.playerInput.x) == Mathf.Sign(m_FocusArea.velocity.x))
+			if (System.MathF.Sign(m_PlayerController.playerInput.x) == System.MathF.Sign(m_FocusArea.velocity.x))
 			{
 				m_LookAheadStopped = false;
 				m_TargetLookAheadX = m_LookAheadDirX * m_LookAheadDstX;
@@ -122,7 +127,7 @@ public class CameraFollow : MonoBehaviour
 		Color color = Gizmos.color;
 
 		Gizmos.color = new Color(1.0f, 0.0f, 0.0f, 0.5f);
-		Gizmos.DrawCube((Application.isPlaying) ? m_FocusArea.center : m_Player.transform.position + Vector3.up * (m_FocusAreaSize.y / 2), m_FocusAreaSize);
+		Gizmos.DrawCube((Application.isPlaying) ? m_FocusArea.center : m_PlayerController.transform.position + Vector3.up * (m_FocusAreaSize.y / 2), m_FocusAreaSize);
 
 		Gizmos.color = new Color(0.0f, 1.0f, 0.5f, 0.1f);
 		Gizmos.DrawCube(m_ClampOffset, m_ClampAreaSize);

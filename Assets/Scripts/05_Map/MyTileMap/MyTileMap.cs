@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class MyTileMap : MonoBehaviour
 {
+	#region 변수
 	// 추후 Value는 Scriptable Object로 수정하여 메모리를 절약할 것
 	// 또는 유니티의 스프라이트처럼 한 장의 전체 텍스쳐와 범위만 가지고 있는 것은 어떨까?
 	private Dictionary<int, Dictionary<Vector2, Sprite>> m_SpriteDictionary = null;
@@ -25,7 +26,9 @@ public class MyTileMap : MonoBehaviour
 
 	// 배경 색
 	private Color m_AlphaColor = Color.clear;
+	#endregion
 
+	#region 프로퍼티
 	public int width => Mathf.RoundToInt(m_Rect.width);
 	public int height => Mathf.RoundToInt(m_Rect.height);
 	public int sortingLayerID
@@ -39,6 +42,7 @@ public class MyTileMap : MonoBehaviour
 			m_SelectedSortingLayerID = value;
 		}
 	}
+	#endregion
 
 	[ContextMenu("Init")]
 	public void Initialize()

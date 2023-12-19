@@ -9,7 +9,7 @@ public class ResourcesManager : Singleton<ResourcesManager>
 {
 	[SerializeField]
 	protected List<ResourcesType> m_TypeInfos;
-	//                   타입               경로                이름
+	//                    타입                경로               이름
 	protected Dictionary<string, Dictionary<string, Dictionary<string, GameObject>>> m_GameObjects;
 	protected Dictionary<string, Dictionary<string, Dictionary<string, Sprite[]>>> m_Sprites;
 	protected Dictionary<string, Dictionary<string, Dictionary<string, ScriptableObject>>> m_ScriptableObjects;

@@ -11,10 +11,8 @@ public class CharacterAnimator : MonoBehaviour
 
 	public virtual void Initialize()
 	{
-		if (m_SpriteRenderer == null)
-			m_SpriteRenderer = GetComponent<SpriteRenderer>();
-		if (m_Animator == null)
-			m_Animator = GetComponent<Animator>();
+		this.Safe_GetComponent<SpriteRenderer>(ref m_SpriteRenderer);
+		this.Safe_GetComponent<Animator>(ref m_Animator);
 	}
 
 	public virtual void Anim_SetVelocity(float x, float y)

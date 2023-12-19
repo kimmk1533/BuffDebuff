@@ -21,10 +21,12 @@ public sealed class BuffManager : Singleton<BuffManager>
 	[SerializeField]
 	[SerializedDictionary("코드", "버프 카운터")]
 	private SerializedDictionary<int, BuffCounter> m_BuffCounterMap;
-	// < 타입, 등급, 버프 >
-	private Dictionary<E_BuffType, Dictionary<E_BuffGrade, BuffDictionary>> m_BuffMap;
+
 	[SerializeField]
 	private BuffGradeInfo m_BuffGradeInfo;
+
+	// < 타입, 등급, 버프 >
+	private Dictionary<E_BuffType, Dictionary<E_BuffGrade, BuffDictionary>> m_BuffMap;
 	#endregion
 
 	#region 프로퍼티
@@ -42,29 +44,47 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 	public void Initialize()
 	{
-		if (m_BuffCounterMap == null)
-			m_BuffCounterMap = new SerializedDictionary<int, BuffCounter>();
-		else
+		#region SAFE_INIT
+		// m_BuffCounterMap
+		if (m_BuffCounterMap != null)
 			m_BuffCounterMap.Clear();
-
-		if (m_BuffMap == null)
-			m_BuffMap = new Dictionary<E_BuffType, Dictionary<E_BuffGrade, BuffDictionary>>();
 		else
-			m_BuffMap.Clear();
+			m_BuffCounterMap = new SerializedDictionary<int, BuffCounter>();
 
+		// m_BuffGradeInfo
 		if (m_BuffGradeInfo == null)
 			m_BuffGradeInfo = new BuffGradeInfo();
 
-		for (E_BuffType i = E_BuffType.Buff; i < E_BuffType.Max; ++i)
+		m_BuffGradeInfo.UpdateBuffGradeCurve();
+
+		// m_BuffMap
+		if (m_BuffMap != null)
 		{
-			m_BuffMap[i] = new Dictionary<E_BuffGrade, BuffDictionary>();
-			for (E_BuffGrade j = E_BuffGrade.Normal; j < E_BuffGrade.Max; ++j)
+			foreach (Dictionary<E_BuffGrade, BuffDictionary> buffTypeMap in m_BuffMap.Values)
 			{
-				m_BuffMap[i][j] = new BuffDictionary();
+				foreach (BuffDictionary buffMap in buffTypeMap.Values)
+				{
+					buffMap.Clear();
+				}
+				buffTypeMap.Clear();
+			}
+			m_BuffMap.Clear();
+		}
+		else
+		{
+			m_BuffMap = new Dictionary<E_BuffType, Dictionary<E_BuffGrade, BuffDictionary>>();
+
+			for (E_BuffType i = E_BuffType.Buff; i < E_BuffType.Max; ++i)
+			{
+				m_BuffMap[i] = new Dictionary<E_BuffGrade, BuffDictionary>();
+
+				for (E_BuffGrade j = E_BuffGrade.Normal; j < E_BuffGrade.Max; ++j)
+				{
+					m_BuffMap[i][j] = new BuffDictionary();
+				}
 			}
 		}
-
-		m_BuffGradeInfo.UpdateBuffGradeCurve();
+		#endregion
 
 		LoadAllBuff();
 	}
@@ -288,7 +308,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 		}
 	}
 
-	#region Create File
+	#region 파일 관련
 	public void CreateAllBuff(bool load, bool script, bool asset, bool switchCase)
 	{
 		if (Application.isEditor == false ||
@@ -955,7 +975,8 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 	public void OnValidate()
 	{
-		m_BuffGradeInfo.OnValidate();
+		if (m_BuffGradeInfo != null)
+			m_BuffGradeInfo.OnValidate();
 	}
 
 	[System.Serializable]

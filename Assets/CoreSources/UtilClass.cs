@@ -1,27 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
+using AYellowpaper.SerializedCollections;
 
 public static class UtilClass
 {
-	public static void Initialize<T>(this List<T> list, ref List<T> result)
+	public static void Safe_GetComponent<T>(this Component com, ref T obj) where T : Component
 	{
-		if (list == null)
-			result = new List<T>();
-		else
-			result.Clear();
+		if (obj == null)
+			obj = com.GetComponent<T>();
 	}
-	public static void Initialize<T, V>(ref T my) where T : ICollection<V>, new()
+	public static void Safe_GetComponentInParent<T>(this Component com, ref T obj) where T : Component
 	{
-		if (my == null)
-			my = new T();
-		else
-			my.Clear();
+		if (obj == null)
+			obj = com.GetComponentInParent<T>();
 	}
+	public static void Safe_GetComponentInChilderen<T>(this Component com, ref T obj) where T : Component
+	{
+		if (obj == null)
+			obj = com.GetComponentInChildren<T>();
+	}
+
 	public static Vector3 GetMouseWorldPosition()
 	{
 		Vector3 vector = GetMouseWorldPositionZ(Input.mousePosition, Camera.main);

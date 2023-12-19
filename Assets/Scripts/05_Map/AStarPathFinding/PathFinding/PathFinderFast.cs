@@ -67,7 +67,7 @@ namespace Algorithms
 		}
 		#endregion
 
-		#region 변수 선언
+		#region 변수
 		// lock key
 		private readonly object _lockObject = new object();
 
@@ -76,7 +76,7 @@ namespace Algorithms
 		private Stack<int> m_TouchedLocations = null;
 
 		private byte[,] m_Grid = null;
-		private PriorityQueue<Location> m_Open = null;
+		private PriorityQueueB<Location> m_Open = null;
 		private List<Vector2Int> m_Close = null;
 
 		private bool m_Stop = false;
@@ -153,7 +153,7 @@ namespace Algorithms
 			for (var i = 0; i < m_Nodes.Length; ++i)
 				m_Nodes[i] = new List<PathFinderNodeFast>(1);
 
-			m_Open = new PriorityQueue<Location>(new ComparePFNodeMatrix(m_Nodes));
+			m_Open = new PriorityQueueB<Location>(new ComparePFNodeMatrix(m_Nodes));
 		}
 		#endregion
 

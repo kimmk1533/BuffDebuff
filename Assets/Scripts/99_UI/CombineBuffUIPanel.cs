@@ -5,8 +5,11 @@ using UnityEngine.EventSystems;
 
 public class CombineBuffUIPanel : MonoBehaviour
 {
+	#region 변수
 	private BuffUI m_BuffUI;
+	#endregion
 
+	#region 프로퍼티
 	public BuffData buffData
 	{
 		get
@@ -20,8 +23,11 @@ public class CombineBuffUIPanel : MonoBehaviour
 			return m_BuffUI.buffData;
 		}
 	}
+	#endregion
 
-	private BuffUIManager M_BuffUI => BuffUIManager.Instance;
+	#region 매니저
+	private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
+	#endregion
 
 	public void Initialize()
 	{

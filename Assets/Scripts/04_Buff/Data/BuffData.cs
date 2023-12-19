@@ -6,6 +6,7 @@ using Enum;
 [CreateAssetMenu(fileName = "New Buff Data", menuName = "Scriptable Object/Buff Data", order = int.MinValue)]
 public class BuffData : ScriptableObject
 {
+	#region 변수
 	[SerializeField, ReadOnly]
 	private int m_Code;
 	[SerializeField, ReadOnly]
@@ -30,7 +31,9 @@ public class BuffData : ScriptableObject
 	private string m_Description;
 	[SerializeField, ReadOnly]
 	private Sprite m_Sprite;
+	#endregion
 
+	#region 프로퍼티
 	public int code => m_Code;
 	public string title => m_Title;
 	public E_BuffType buffType => m_BuffType;
@@ -43,6 +46,7 @@ public class BuffData : ScriptableObject
 	public float buffTime => m_BuffTime;
 	public string description => m_Description;
 	public Sprite sprite => m_Sprite;
+	#endregion
 
 	public BuffData(string _title, int _code, E_BuffType _buffType, E_BuffEffectType _buffEffectType, E_BuffGrade _buffGrade, int _maxStack, E_BuffWeapon _buffWeapon, E_BuffInvokeCondition _buffInvokeCondition, float _value, float _time, string _description, Sprite _sprite)
 	{

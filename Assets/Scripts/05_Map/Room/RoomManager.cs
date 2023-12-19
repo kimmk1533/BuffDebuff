@@ -33,18 +33,6 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 	private List<RoomPool> m_AllRoomPool;
 	#endregion
 
-	#region 프로퍼티
-
-	#endregion
-
-	#region 이벤트
-
-	#endregion
-
-	#region 매니저
-
-	#endregion
-
 	public override void Initialize()
 	{
 		base.Initialize();

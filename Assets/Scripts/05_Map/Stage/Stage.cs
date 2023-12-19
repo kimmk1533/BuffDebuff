@@ -6,8 +6,7 @@ using System;
 
 public class Stage : MonoBehaviour
 {
-	[SerializeField, ReadOnly]
-	private int m_StageLevel;
+	#region 변수
 	[SerializeField]
 	private Vector2Int m_StageSize;
 
@@ -15,14 +14,14 @@ public class Stage : MonoBehaviour
 	private Dictionary<Vector2Int, Room> m_GeneratedRooms;
 
 	private CameraFollow m_CameraFollow;
+	#endregion
 
+	#region 프로퍼티
 	public Room currentRoom => m_GeneratedRooms[m_CurrentRoomIndex];
+	#endregion
 
-	private StageManager M_Stage => StageManager.Instance;
-
-	public void Initialize(int stageLevel, Vector2Int stageSize, Dictionary<Vector2Int, Room> generatedRooms)
+	public void Initialize(Vector2Int stageSize, Dictionary<Vector2Int, Room> generatedRooms)
 	{
-		m_StageLevel = stageLevel;
 		m_StageSize = stageSize;
 
 		m_CurrentRoomIndex = m_StageSize / 2;
@@ -35,6 +34,7 @@ public class Stage : MonoBehaviour
 
 		m_CameraFollow = Camera.main.GetComponent<CameraFollow>();
 	}
+
 	public void MoveRoom(Vector2Int moveIndex)
 	{
 		m_CurrentRoomIndex += moveIndex;

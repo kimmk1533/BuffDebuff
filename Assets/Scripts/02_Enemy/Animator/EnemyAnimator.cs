@@ -16,17 +16,16 @@ public class EnemyAnimator : CharacterAnimator
 	}
 	#endregion
 
+	#region 변수
 	private Enemy m_Enemy;
 	private EnemyCharacter m_EnemyCharacter;
+	#endregion
 
 	public override void Initialize()
 	{
 		base.Initialize();
 
-		if (m_Enemy == null)
-			m_Enemy = GetComponentInParent<Enemy>();
-
-		if (m_EnemyCharacter == null)
-			m_EnemyCharacter = GetComponentInParent<EnemyCharacter>();
+		this.Safe_GetComponentInParent<Enemy>(ref m_Enemy);
+		this.Safe_GetComponentInParent<EnemyCharacter>(ref m_EnemyCharacter);
 	}
 }

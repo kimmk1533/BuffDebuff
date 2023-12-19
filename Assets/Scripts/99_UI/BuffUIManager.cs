@@ -43,7 +43,6 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 	#region 매니저
 	private static BuffManager M_Buff => BuffManager.Instance;
-	private static PlayerManager M_Player => PlayerManager.Instance;
 	#endregion
 
 	public override void Initialize()
@@ -120,32 +119,37 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 				}
 			});
 
-		if (m_BuffPanelMap == null)
-		{
+		#region SAFE_INIT
+		if (m_BuffPanelMap != null)
+			m_BuffPanelMap.Clear();
+		else
 			m_BuffPanelMap = new Dictionary<string, BuffPanel>();
-			foreach (var item in m_BuffPanelList)
-			{
-				m_BuffPanelMap.Add(item.name, item);
-			}
+
+		foreach (var item in m_BuffPanelList)
+		{
+			m_BuffPanelMap.Add(item.name, item);
 		}
 
-		if (m_BuffInventoryList == null)
-			m_BuffInventoryList = new List<BuffUI>();
-		else
+		if (m_BuffInventoryList != null)
 			m_BuffInventoryList.Clear();
-		if (m_BuffInventoryMap == null)
-			m_BuffInventoryMap = new Dictionary<int, BuffUI>();
 		else
-			m_BuffInventoryMap.Clear();
+			m_BuffInventoryList = new List<BuffUI>();
 
-		if (m_BuffCombineInventoryList == null)
-			m_BuffCombineInventoryList = new List<BuffUI>();
+		if (m_BuffInventoryMap != null)
+			m_BuffInventoryMap.Clear();
 		else
+			m_BuffInventoryMap = new Dictionary<int, BuffUI>();
+
+		if (m_BuffCombineInventoryList != null)
 			m_BuffCombineInventoryList.Clear();
-		if (m_BuffCombineInventoryMap == null)
-			m_BuffCombineInventoryMap = new Dictionary<int, BuffUI>();
 		else
+			m_BuffCombineInventoryList = new List<BuffUI>();
+
+		if (m_BuffCombineInventoryMap != null)
 			m_BuffCombineInventoryMap.Clear();
+		else
+			m_BuffCombineInventoryMap = new Dictionary<int, BuffUI>();
+		#endregion
 	}
 	public void InitializeBuffEvent()
 	{

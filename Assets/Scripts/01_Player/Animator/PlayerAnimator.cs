@@ -17,17 +17,17 @@ public class PlayerAnimator : CharacterAnimator
 	}
 	#endregion
 
+	#region 변수
 	private Player m_Player;
 	private PlayerCharacter m_PlayerCharacter;
+	#endregion
 
 	public override void Initialize()
 	{
 		base.Initialize();
 
-		if (m_Player == null)
-			m_Player = GetComponentInParent<Player>();
-		if (m_PlayerCharacter == null)
-			m_PlayerCharacter = GetComponentInParent<PlayerCharacter>();
+		this.Safe_GetComponentInParent<Player>(ref m_Player);
+		this.Safe_GetComponentInParent<PlayerCharacter>(ref m_PlayerCharacter);
 	}
 
 	public void Anim_SetDirectionalInput(Vector2 input)

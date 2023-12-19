@@ -7,6 +7,7 @@ using AYellowpaper.SerializedCollections;
 
 public class Room : ObjectPoolItemBase
 {
+	#region Enum
 	// 타일맵 레이어
 	public enum E_RoomTilemapLayer
 	{
@@ -20,7 +21,8 @@ public class Room : ObjectPoolItemBase
 		Environment,
 
 		Max
-	}
+	} 
+	#endregion
 
 	#region 변수
 	// 방 크기
@@ -65,9 +67,6 @@ public class Room : ObjectPoolItemBase
 	}
 
 	public bool isClear => m_IsClear;
-	#endregion
-
-	#region 매니저
 	#endregion
 
 	public override void Initialize()

@@ -5,9 +5,18 @@ using System.Linq;
 
 public class DoubleKeyDictionary<TPrimaryKey, TSubKey, TValue> : IEnumerable<KeyValuePair<TPrimaryKey, TValue>>
 {
+	#region 변수
 	private Dictionary<TSubKey, TPrimaryKey> m_SubDictionary = new Dictionary<TSubKey, TPrimaryKey>();
 	private Dictionary<TPrimaryKey, TValue> m_PrimaryDictionary = new Dictionary<TPrimaryKey, TValue>();
+	#endregion
 
+	#region 프로퍼티
+	public Dictionary<TSubKey, TPrimaryKey>.KeyCollection SubKeys => m_SubDictionary.Keys;
+	public Dictionary<TPrimaryKey, TValue>.KeyCollection PrimaryKeys => m_PrimaryDictionary.Keys;
+	public Dictionary<TPrimaryKey, TValue>.ValueCollection Values => m_PrimaryDictionary.Values;
+	public int Count => m_PrimaryDictionary.Count;
+
+	#region 인덱서
 	public TValue this[TPrimaryKey primaryKey]
 	{
 		get
@@ -39,34 +48,8 @@ public class DoubleKeyDictionary<TPrimaryKey, TSubKey, TValue> : IEnumerable<Key
 			this[primaryKey] = value;
 		}
 	}
-	public Dictionary<TSubKey, TPrimaryKey>.KeyCollection SubKeys
-	{
-		get
-		{
-			return m_SubDictionary.Keys;
-		}
-	}
-	public Dictionary<TPrimaryKey, TValue>.KeyCollection PrimaryKeys
-	{
-		get
-		{
-			return m_PrimaryDictionary.Keys;
-		}
-	}
-	public Dictionary<TPrimaryKey, TValue>.ValueCollection Values
-	{
-		get
-		{
-			return m_PrimaryDictionary.Values;
-		}
-	}
-	public int Count
-	{
-		get
-		{
-			return m_PrimaryDictionary.Count;
-		}
-	}
+	#endregion
+	#endregion
 
 	public void Add((TPrimaryKey primary, TSubKey sub) key, TValue value)
 	{

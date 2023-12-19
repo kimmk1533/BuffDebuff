@@ -42,6 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2539160574509444455}
   - component: {fileID: 232304600327290747}
+  - component: {fileID: 1040987723832158589}
   m_Layer: 7
   m_Name: WarpPoint 0
   m_TagString: Untagged
@@ -76,11 +77,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e1f2e00f151c34c99a7e1655329da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CollisionObjectList: []
-  m_OldCollisionObjectList: []
-  m_WarpedObjectList: []
   m_Index: 0
   m_Direction: 3
+--- !u!114 &1040987723832158589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770134914516221882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e22d05f101dd04aaf9137631035a70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ColliderType: 0
+  m_IsSimulating: 1
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 2, y: 4}
 --- !u!1 &853564448785711045
@@ -129,12 +141,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c4c28d80a4e3ba4da6acd23dbdebc16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ItemName: Room 2
   m_RoomSize: {x: 39, y: 21}
   m_Offset: {x: 19.5, y: 10.5}
   m_EnemyWave:
     m_EnemyWaveInfoMap:
       _serializedList: []
+    m_SpawnedEnemyList: []
 --- !u!1 &853564449544585189
 GameObject:
   m_ObjectHideFlags: 0
@@ -3277,6 +3289,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2018898460985750173}
   - component: {fileID: 1293966365232572596}
+  - component: {fileID: 760622994607466652}
   m_Layer: 7
   m_Name: WarpPoint 0
   m_TagString: Untagged
@@ -3311,11 +3324,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e1f2e00f151c34c99a7e1655329da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CollisionObjectList: []
-  m_OldCollisionObjectList: []
-  m_WarpedObjectList: []
   m_Index: 0
   m_Direction: 1
+--- !u!114 &760622994607466652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2732659081202442444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e22d05f101dd04aaf9137631035a70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ColliderType: 0
+  m_IsSimulating: 1
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 4, y: 2}
 --- !u!1 &4803885891232834391
@@ -3363,6 +3387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8396540719022137475}
   - component: {fileID: 7872490585157421303}
+  - component: {fileID: 6151811865805093346}
   m_Layer: 7
   m_Name: WarpPoint 0
   m_TagString: Untagged
@@ -3397,10 +3422,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e1f2e00f151c34c99a7e1655329da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CollisionObjectList: []
-  m_OldCollisionObjectList: []
-  m_WarpedObjectList: []
   m_Index: 0
   m_Direction: 2
+--- !u!114 &6151811865805093346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8595017146737287296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e22d05f101dd04aaf9137631035a70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ColliderType: 0
+  m_IsSimulating: 1
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 2, y: 4}

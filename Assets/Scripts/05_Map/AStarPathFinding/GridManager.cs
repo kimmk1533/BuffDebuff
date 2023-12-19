@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 
 public class GridManager : Singleton<GridManager>
 {
+	#region 변수
 	private Map m_Map;
 
 	[Space(10)]
@@ -25,10 +26,15 @@ public class GridManager : Singleton<GridManager>
 	[Space(10)]
 	[SerializeField]
 	private Tilemap m_Tilemap;
+	#endregion
 
+	#region 프로퍼티
 	public Map map => m_Map;
+	#endregion
 
-	protected StageManager M_Stage => StageManager.Instance;
+	#region 매니저
+	protected static StageManager M_Stage => StageManager.Instance;
+	#endregion
 
 	public void Initialize()
 	{

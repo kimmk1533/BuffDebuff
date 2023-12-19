@@ -6,6 +6,9 @@ using UnityEngine.Tilemaps;
 
 public class Map : MonoBehaviour
 {
+	public const int c_tileSize = 16;
+	public const int c_halfSize = c_tileSize / 2;
+
 	#region Enum
 	public enum E_TileType : byte
 	{
@@ -18,9 +21,7 @@ public class Map : MonoBehaviour
 
 	#endregion
 
-	public const int c_tileSize = 16;
-	public const int halfSize = c_tileSize / 2;
-
+	#region 변수
 	private byte[,] m_Grid;
 	private E_TileType[,] m_Tiles;
 	private SpriteRenderer[,] m_TileRenderers;
@@ -37,8 +38,11 @@ public class Map : MonoBehaviour
 
 	private int m_Width;
 	private int m_Height;
+	#endregion
 
-	private StageManager M_Stage => StageManager.Instance;
+	#region 매니저
+	private static StageManager M_Stage => StageManager.Instance;
+	#endregion
 
 	public void Initialize()
 	{
@@ -154,8 +158,8 @@ public class Map : MonoBehaviour
 
 	public void GetMapTileAtPoint(Vector2 point, out int tileIndexX, out int tileIndexY)
 	{
-		tileIndexX = (int)((point.x - transform.position.x + halfSize) / (float)(c_tileSize));
-		tileIndexY = (int)((point.y - transform.position.y + halfSize) / (float)(c_tileSize));
+		tileIndexX = (int)((point.x - transform.position.x + c_halfSize) / (float)(c_tileSize));
+		tileIndexY = (int)((point.y - transform.position.y + c_halfSize) / (float)(c_tileSize));
 	}
 	public Vector2Int GetMapTileAtPoint(Vector2 point)
 	{

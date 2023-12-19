@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, EnemyAnimator>
 {
-	const float cBotMaxPositionError = 0.0625f; // 1 ÷ 16(pixels per unit)
+	const float c_BotMaxPositionError = 0.0625f; // 1 ÷ 16 (pixels per unit)
 
 	#region Enum
 	public enum E_EnemyState
@@ -28,6 +28,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	}
 	#endregion
 
+	#region 변수
 	protected E_EnemyState m_State;
 
 	[SerializeField, ChildComponent("TargetFinder")]
@@ -43,36 +44,24 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	protected float m_JumpHeight;
 
 	[SerializeField]
-	protected int m_MoveDir;
-	[SerializeField]
 	protected UtilClass.Timer m_MoveDirTimer;
 
 	[SerializeField]
 	protected UtilClass.Timer m_PathFinding_ReSearchTimer;
+	#endregion
 
+	#region 프로퍼티
 	public GameObject target => m_TargetFinder.target;
 	public Collider2D targetCollider => m_TargetFinder.targetCollider;
 	protected Vector3 targetPos => (target == null) ? throw new System.Exception("targetPos: target is null.") : target.transform.position;
 	protected float distanceToTarget => (target == null) ? throw new System.Exception("distanceToTarget: target is null.") : Vector2.Distance(transform.position, target.transform.position);
 
-	protected int moveDir
-	{
-		get => m_MoveDir;
-		set
-		{
-			m_MoveDir = System.Math.Sign(value);
-
-			if (m_MoveDir == 0)
-				return;
-
-			Vector3 scale = transform.localScale;
-			scale.x = Mathf.Abs(scale.x) * m_MoveDir;
-			transform.localScale = scale;
-		}
-	}
 	protected Bounds bounds => m_Controller.collider.bounds;
+	#endregion
 
+	#region 매니저
 	private static GridManager M_Grid => GridManager.Instance;
+	#endregion
 
 	public override void Initialize()
 	{
@@ -82,11 +71,11 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		m_PrevInputs = new bool[(int)E_KeyInput.Max];
 
 		m_TargetFinder.Initialize();
-		m_TargetFinder.onTargetEnter += () =>
+		m_TargetFinder.onTargetEnter2D += (target) =>
 		{
 			SetState(E_EnemyState.Chase);
 		};
-		m_TargetFinder.onTargetLost += () =>
+		m_TargetFinder.onTargetLost2D += (target) =>
 		{
 			SetState(E_EnemyState.Idle);
 		};
@@ -169,6 +158,24 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 				break;
 		}
 
+		int moveDir;
+
+		if (m_Inputs[(int)E_KeyInput.Left] == true &&
+			m_Inputs[(int)E_KeyInput.Right] == false)
+			moveDir = -1;
+		else if (m_Inputs[(int)E_KeyInput.Right] == true &&
+			m_Inputs[(int)E_KeyInput.Left] == false)
+			moveDir = 1;
+		else
+			moveDir = 0;
+
+		if (moveDir != 0)
+		{
+			Vector3 scale = transform.localScale;
+			scale.x = Mathf.Abs(scale.x) * moveDir;
+			transform.localScale = scale;
+		}
+
 		m_Velocity.x = moveDir * m_CurrentStat.MoveSpeed;
 		// 중력 추가
 		m_Velocity.y += m_Controller.gravity * Time.deltaTime;
@@ -188,11 +195,20 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		m_MoveDirTimer.interval = Random.Range(0.2f, 1.0f);
 
 		// 랜덤 방향 움직임
-		moveDir = Random.Range(-1, 2);
+		int moveDir = Random.Range(-1, 2);
+		if (moveDir == -1)
+			m_Inputs[(int)E_KeyInput.Left] = true;
+		else if (moveDir == 1)
+			m_Inputs[(int)E_KeyInput.Right] = true;
+		else
+		{
+			m_Inputs[(int)E_KeyInput.Left] = false;
+			m_Inputs[(int)E_KeyInput.Right] = false;
+		}
 	}
 	private void CalculateVelocity_ToTarget()
 	{
-		moveDir = 0;
+		ResetInput();
 
 		m_PathFinding_ReSearchTimer.Update();
 
@@ -222,9 +238,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 		PathFinding_GetContext(out pathPosition, out prevDest, out currentDest, out nextDest, out destOnGround, out reachedX, out reachedY);
 
-		ResetInput();
-
-		if (pathPosition.y - currentDest.y > cBotMaxPositionError
+		if (pathPosition.y - currentDest.y > c_BotMaxPositionError
 			&& m_Controller.collisions.isOnOneWayPlatform == true)
 			m_Inputs[(int)E_KeyInput.Down] = true;
 
@@ -235,11 +249,11 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		}
 		else if (reachedX == false)
 		{
-			if (currentDest.x - pathPosition.x > cBotMaxPositionError)
+			if (currentDest.x - pathPosition.x > c_BotMaxPositionError)
 			{
 				m_Inputs[(int)E_KeyInput.Right] = true;
 			}
-			else if (pathPosition.x - currentDest.x > cBotMaxPositionError)
+			else if (pathPosition.x - currentDest.x > c_BotMaxPositionError)
 			{
 				m_Inputs[(int)E_KeyInput.Left] = true;
 			}
@@ -262,9 +276,9 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 			if (checkedX != 0 && M_Grid.map.AnySolidBlockInStripe(checkedX, tileY, Mathf.RoundToInt(nextDest.y)) == false)
 			{
-				if (nextDest.x - pathPosition.x > cBotMaxPositionError)
+				if (nextDest.x - pathPosition.x > c_BotMaxPositionError)
 					m_Inputs[(int)E_KeyInput.Right] = true;
-				else if (pathPosition.x - nextDest.x > cBotMaxPositionError)
+				else if (pathPosition.x - nextDest.x > c_BotMaxPositionError)
 					m_Inputs[(int)E_KeyInput.Left] = true;
 
 				bool temp_reachedX = PathFinding_ReachedNodeOnXAxis(ref pathPosition, ref prevDest, ref currentDest);
@@ -278,7 +292,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			}
 		}
 
-		PathFinding_MoveX(ref pathPosition, ref currentDest, ref reachedX);
+		PathFinding_MoveX(ref reachedX);
 		PathFinding_MoveY(ref pathPosition, ref currentDest, ref destOnGround, ref reachedX, ref reachedY);
 
 	}
@@ -380,8 +394,8 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 		// X축 스냅
 		if (reachedX
-			&& Mathf.Abs(pathPosition.x - currentDest.x) > cBotMaxPositionError
-			&& Mathf.Abs(pathPosition.x - currentDest.x) < cBotMaxPositionError * 3.0f
+			&& Mathf.Abs(pathPosition.x - currentDest.x) > c_BotMaxPositionError
+			&& Mathf.Abs(pathPosition.x - currentDest.x) < c_BotMaxPositionError * 3.0f
 			&& m_PrevInputs[(int)E_KeyInput.Left] == false
 			&& m_PrevInputs[(int)E_KeyInput.Right] == false)
 		{
@@ -389,8 +403,6 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			Vector3 pos = transform.position;
 			pos.x = pathPosition.x;
 			transform.position = pos;
-
-			moveDir = 0;
 		}
 
 		if (destOnGround == true && (m_Controller.collisions.grounded == false && m_Controller.collisions.isOnOneWayPlatform == false))
@@ -400,44 +412,37 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	{
 		return (prevDest.x < currentDest.x && currentDest.x < pathPosition.x)
 			|| (prevDest.x > currentDest.x && currentDest.x > pathPosition.x)
-			|| Mathf.Abs(pathPosition.x - currentDest.x) <= cBotMaxPositionError;
+			|| Mathf.Abs(pathPosition.x - currentDest.x) <= c_BotMaxPositionError;
 	}
 	private bool PathFinding_ReachedNodeOnYAxis(ref Vector2 pathPosition, ref Vector2 prevDest, ref Vector2 currentDest)
 	{
 		return (prevDest.y < currentDest.y && currentDest.y < pathPosition.y)
 			|| (prevDest.y > currentDest.y && currentDest.y > pathPosition.y)
-			|| (Mathf.Abs(pathPosition.y - currentDest.y) <= cBotMaxPositionError);
+			|| (Mathf.Abs(pathPosition.y - currentDest.y) <= c_BotMaxPositionError);
 	}
 	/// <summary>
 	/// X축 움직임 함수
 	/// </summary>
-	/// <param name="pathPosition">현재 길 위 위치</param>
-	/// <param name="prevDest">이전 목적지</param>
-	/// <param name="currentDest">현재 목적지</param>
-	/// <param name="nextDest">다음 목적지</param>
-	/// <param name="destOnGround">목적지가 지상에 있는지</param>
 	/// <param name="reachedX">x축 도달 여부</param>
-	private void PathFinding_MoveX(ref Vector2 pathPosition, ref Vector2 currentDest, ref bool reachedX)
+	private void PathFinding_MoveX(ref bool reachedX)
 	{
 		if (reachedX == true)
 			return;
 
-		if (m_Inputs[(int)E_KeyInput.Left])
-		{
-			moveDir = -1;
-		}
-		else if (m_Inputs[(int)E_KeyInput.Right])
-		{
-			moveDir = 1;
-		}
+		//if (m_Inputs[(int)E_KeyInput.Left])
+		//{
+		//	moveDir = -1;
+		//}
+		//else if (m_Inputs[(int)E_KeyInput.Right])
+		//{
+		//	moveDir = 1;
+		//}
 	}
 	/// <summary>
 	/// Y축 움직임 함수
 	/// </summary>
 	/// <param name="pathPosition">현재 길 위 위치</param>
-	/// <param name="prevDest">이전 목적지</param>
 	/// <param name="currentDest">현재 목적지</param>
-	/// <param name="nextDest">다음 목적지</param>
 	/// <param name="destOnGround">목적지가 지상에 있는지</param>
 	/// <param name="reachedY">y축 도달 여부</param>
 	private void PathFinding_MoveY(ref Vector2 pathPosition, ref Vector2 currentDest, ref bool destOnGround, ref bool reachedX, ref bool reachedY)
@@ -445,7 +450,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		if (reachedY)
 			return;
 
-		if (pathPosition.y - currentDest.y > cBotMaxPositionError
+		if (pathPosition.y - currentDest.y > c_BotMaxPositionError
 			&& m_Controller.collisions.isOnOneWayPlatform == true)
 			m_Inputs[(int)E_KeyInput.Down] = true;
 
@@ -467,8 +472,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	/// <summary>
 	/// Y축으로 움직일 때 얼마나 높게 점프해야하는지 계산하는 함수
 	/// </summary>
-	/// <param name="prevDest"></param>
-	/// <param name="currentDest"></param>
+	/// <param name="prevNodeId">이전 노드 인덱스</param>
 	private int PathFinding_GetJumpHeight(int prevNodeId)
 	{
 		int currentNodeId = prevNodeId + 1;

@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class PlayerManager : Singleton<PlayerManager>
 {
+	#region 변수
 	private Player m_Player;
+	#endregion
 
+	#region 프로퍼티
+	public Player player => m_Player;
 	public int maxLevel
 	{
 		get
@@ -26,12 +30,15 @@ public class PlayerManager : Singleton<PlayerManager>
 			return m_Player.currentLevel;
 		}
 	}
+	#endregion
 
-	private BuffManager M_Buff => BuffManager.Instance;
+	#region 매니저
+	private static BuffManager M_Buff => BuffManager.Instance;
+	#endregion
 
 	public void Initialize()
 	{
-		var players = FindObjectsOfType<Player>();
+		Player[] players = FindObjectsOfType<Player>();
 
 		if (players.Length > 1)
 		{

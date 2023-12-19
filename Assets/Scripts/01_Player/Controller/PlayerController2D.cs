@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class PlayerController2D : Controller2D
 {
+	#region 변수
 	private Vector2 m_PlayerInput;
 	private Collider2D m_FallingOneWayPlatform;
+	#endregion
 
-	public Vector2 playerInput => m_PlayerInput;
+	#region 프로퍼티
+	public Vector2 playerInput => m_PlayerInput; 
+	#endregion
 
 	public new void Move(Vector2 moveAmount, bool standingOnPlatform = false)
 	{
@@ -47,7 +51,7 @@ public class PlayerController2D : Controller2D
 	protected override void VerticalCollisions(ref Vector2 moveAmount)
 	{
 		float directionY = Mathf.Sign(moveAmount.y);
-		float rayLength = Mathf.Abs(moveAmount.y) + skinWidth * 2.5f; // 레이가 안 닿는 경우가 생김 임시로 2.5배 곱해줌으로 해결
+		float rayLength = Mathf.Abs(moveAmount.y) + c_SkinWidth * 2.5f; // 레이가 안 닿는 경우가 생김 임시로 2.5배 곱해줌으로 해결
 
 		bool grounded = false;
 		bool throughFlag = false;
@@ -87,8 +91,8 @@ public class PlayerController2D : Controller2D
 
 				//moveAmount.y = (hit.distance - skinWidth) * directionY;
 				//rayLength = hit.distance;
-				moveAmount.y = Mathf.Min(Mathf.Abs(moveAmount.y), (hit.distance - skinWidth)) * directionY;
-				rayLength = Mathf.Min(Mathf.Abs(moveAmount.y) + skinWidth, hit.distance);
+				moveAmount.y = Mathf.Min(Mathf.Abs(moveAmount.y), (hit.distance - c_SkinWidth)) * directionY;
+				rayLength = Mathf.Min(Mathf.Abs(moveAmount.y) + c_SkinWidth, hit.distance);
 
 				if (m_Collisions.climbingSlope)
 				{
@@ -113,7 +117,7 @@ public class PlayerController2D : Controller2D
 		if (m_Collisions.climbingSlope)
 		{
 			float directionX = Mathf.Sign(moveAmount.x);
-			rayLength = Mathf.Abs(moveAmount.x) + skinWidth;
+			rayLength = Mathf.Abs(moveAmount.x) + c_SkinWidth;
 			Vector2 rayOrigin = ((directionX == -1) ? m_RaycastOrigins.bottomLeft : m_RaycastOrigins.bottomRight) + Vector2.up * moveAmount.y;
 			RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, m_CollisionMask);
 
@@ -122,7 +126,7 @@ public class PlayerController2D : Controller2D
 				float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
 				if (slopeAngle != m_Collisions.slopeAngle)
 				{
-					moveAmount.x = (hit.distance - skinWidth) * directionX;
+					moveAmount.x = (hit.distance - c_SkinWidth) * directionX;
 					m_Collisions.slopeAngle = slopeAngle;
 					m_Collisions.slopeNormal = hit.normal;
 				}

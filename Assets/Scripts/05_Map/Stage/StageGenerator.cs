@@ -141,7 +141,7 @@ public class StageGenerator : MonoBehaviour
 		m_CameraFollow.UpdateClamp(room.offset, room.roomSize);
 		#endregion
 
-		stage.Initialize(currStageLevel, stageSize, m_GeneratedRoomMap);
+		stage.Initialize(stageSize, m_GeneratedRoomMap);
 
 		return stage;
 	}

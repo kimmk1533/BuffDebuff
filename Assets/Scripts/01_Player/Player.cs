@@ -13,6 +13,7 @@ public sealed class Player : MonoBehaviour
 	#endregion
 
 	#region 프로퍼티
+	public PlayerCharacter character => m_Character;
 	public int maxLevel => m_Character.maxStat.Level;
 	public int currentLevel => m_Character.currentStat.Level;
 	#endregion
@@ -23,8 +24,8 @@ public sealed class Player : MonoBehaviour
 
 	public void Initialize()
 	{
-		if (m_Character == null)
-			m_Character = GetComponent<PlayerCharacter>();
+		this.Safe_GetComponentInChilderen<PlayerCharacter>(ref m_Character);
+
 		m_Character.Initialize();
 	}
 
@@ -84,7 +85,7 @@ public sealed class Player : MonoBehaviour
 		projectile.Initialize(5.0f, m_Character.currentStat.AttackRange);
 
 		projectile.SetMovingStrategy(new Projectile.StraightMove());
-		projectile["Enemy"].OnEnter2D += (Collider2D collider) =>
+		projectile["Enemy"].onEnter2D += (Collider2D collider) =>
 		{
 			Enemy enemy = collider.GetComponent<Enemy>();
 
@@ -97,7 +98,7 @@ public sealed class Player : MonoBehaviour
 
 			M_Projectile.Despawn(projectile);
 		};
-		projectile["Obstacle"].OnEnter2D += (Collider2D collider) =>
+		projectile["Obstacle"].onEnter2D += (Collider2D collider) =>
 		{
 			M_Projectile.Despawn(projectile);
 		};

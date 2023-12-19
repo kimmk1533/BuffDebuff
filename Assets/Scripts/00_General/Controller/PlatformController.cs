@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class PlatformController : RaycastController
 {
-	public LayerMask m_PassengerMask;
+	#region 변수
+	private LayerMask m_PassengerMask;
 
-	public Vector3[] m_LocalWaypoints;
-	Vector3[] m_GlobalWaypoints;
+	private Vector3[] m_LocalWaypoints;
+	private Vector3[] m_GlobalWaypoints;
 
-	public float m_Speed;
-	public bool m_Cyclic;
-	public float m_WaitTime;
+	private float m_Speed;
+	private bool m_Cyclic;
+	private float m_WaitTime;
 	[Range(0, 2)]
-	public float m_EaseAmount;
+	private float m_EaseAmount;
 
-	int m_FromWaypointIndex;
-	float m_PercentBetweenWaypoints;
-	float m_NextMoveTime;
+	private int m_FromWaypointIndex;
+	private float m_PercentBetweenWaypoints;
+	private float m_NextMoveTime;
 
-	List<PassengerMovement> m_PassengerMovement;
-	Dictionary<Transform, Controller2D> m_PassengerDictionary = new Dictionary<Transform, Controller2D>();
+	private List<PassengerMovement> m_PassengerMovement;
+	private Dictionary<Transform, Controller2D> m_PassengerDictionary = new Dictionary<Transform, Controller2D>();
+	#endregion
 
 	public override void Initialize()
 	{
@@ -46,14 +48,14 @@ public class PlatformController : RaycastController
 		MovePassengers(false);
 	}
 
-	float Ease(float x)
+	private float Ease(float x)
 	{
 		float a = m_EaseAmount + 1;
 
 		return Mathf.Pow(x, a) / (Mathf.Pow(x, a) + Mathf.Pow(1 - x, a));
 	}
 
-	Vector3 CalculatePlatformMovement()
+	private Vector3 CalculatePlatformMovement()
 	{
 		if (Time.time < m_NextMoveTime)
 		{
@@ -88,7 +90,7 @@ public class PlatformController : RaycastController
 
 		return newPos - transform.position;
 	}
-	void MovePassengers(bool beforeMovePlatform)
+	private void MovePassengers(bool beforeMovePlatform)
 	{
 		foreach (PassengerMovement passenger in m_PassengerMovement)
 		{
@@ -102,7 +104,7 @@ public class PlatformController : RaycastController
 			}
 		}
 	}
-	void CalculatePassengerMovement(Vector3 velocity)
+	private void CalculatePassengerMovement(Vector3 velocity)
 	{
 		HashSet<Transform> movedPassengers = new HashSet<Transform>();
 		m_PassengerMovement = new List<PassengerMovement>();
@@ -113,7 +115,7 @@ public class PlatformController : RaycastController
 		// Vertically moving platform
 		if (velocity.y != 0)
 		{
-			float rayLength = Mathf.Abs(velocity.y) + skinWidth;
+			float rayLength = Mathf.Abs(velocity.y) + c_SkinWidth;
 
 			for (int i = 0; i < m_VerticalRayCount; ++i)
 			{
@@ -128,7 +130,7 @@ public class PlatformController : RaycastController
 						movedPassengers.Add(hit.transform);
 
 						float pushX = (directionY == 1) ? velocity.x : 0;
-						float pushY = velocity.y - (hit.distance - skinWidth) * directionY;
+						float pushY = velocity.y - (hit.distance - c_SkinWidth) * directionY;
 
 						m_PassengerMovement.Add(new PassengerMovement(hit.transform, new Vector3(pushX, pushY), directionY == 1, true));
 					}
@@ -139,7 +141,7 @@ public class PlatformController : RaycastController
 		// Horizontally moving platform
 		if (velocity.x != 0)
 		{
-			float rayLength = Mathf.Abs(velocity.x) + skinWidth;
+			float rayLength = Mathf.Abs(velocity.x) + c_SkinWidth;
 
 			for (int i = 0; i < m_HorizontalRayCount; ++i)
 			{
@@ -153,8 +155,8 @@ public class PlatformController : RaycastController
 					{
 						movedPassengers.Add(hit.transform);
 
-						float pushX = velocity.x - (hit.distance - skinWidth) * directionX;
-						float pushY = -skinWidth;
+						float pushX = velocity.x - (hit.distance - c_SkinWidth) * directionX;
+						float pushY = -c_SkinWidth;
 
 						m_PassengerMovement.Add(new PassengerMovement(hit.transform, new Vector3(pushX, pushY), false, true));
 					}
@@ -165,7 +167,7 @@ public class PlatformController : RaycastController
 		// Passenger on top of a horizontally or downward moving platform
 		if (directionY == -1 || velocity.y == 0 && velocity.x != 0)
 		{
-			float rayLength = skinWidth * 2;
+			float rayLength = c_SkinWidth * 2;
 
 			for (int i = 0; i < m_VerticalRayCount; ++i)
 			{
@@ -188,7 +190,7 @@ public class PlatformController : RaycastController
 		}
 	}
 
-	struct PassengerMovement
+	private struct PassengerMovement
 	{
 		public Transform transform;
 		public Vector3 velocity;
