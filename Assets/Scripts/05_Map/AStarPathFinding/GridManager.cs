@@ -38,7 +38,7 @@ public class GridManager : Singleton<GridManager>
 
 	public void Initialize()
 	{
-		m_Map = GetComponent<Map>();
+		this.Safe_GetComponent<Map>(ref m_Map);
 		m_Map.Initialize();
 	}
 

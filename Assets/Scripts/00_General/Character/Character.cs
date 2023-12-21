@@ -76,6 +76,13 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 
 		OnBuffUpdate();
 	}
+	protected virtual void LateUpdate()
+	{
+		if (m_IsSimulating == false)
+			return;
+
+		Move();
+	}
 
 	// Move Func
 	protected abstract void CalculateVelocity();

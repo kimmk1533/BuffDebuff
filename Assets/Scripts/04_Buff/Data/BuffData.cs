@@ -48,7 +48,7 @@ public class BuffData : ScriptableObject
 	public Sprite sprite => m_Sprite;
 	#endregion
 
-	public BuffData(string _title, int _code, E_BuffType _buffType, E_BuffEffectType _buffEffectType, E_BuffGrade _buffGrade, int _maxStack, E_BuffWeapon _buffWeapon, E_BuffInvokeCondition _buffInvokeCondition, float _value, float _time, string _description, Sprite _sprite)
+	public void Initialize(string _title, int _code, E_BuffType _buffType, E_BuffEffectType _buffEffectType, E_BuffGrade _buffGrade, int _maxStack, E_BuffWeapon _buffWeapon, E_BuffInvokeCondition _buffInvokeCondition, float _value, float _time, string _description, Sprite _sprite)
 	{
 		m_Title = _title;
 		m_Code = _code;

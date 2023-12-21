@@ -57,11 +57,6 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 		base.Update();
 
 		DashTimer();
-
-		if (m_IsSimulating == false)
-			return;
-
-		Move();
 	}
 
 	private void SetDirectionalInput(Vector2 input)

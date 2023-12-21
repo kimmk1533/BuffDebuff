@@ -297,7 +297,8 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 			#endregion
 
-			BuffData buffData = new BuffData(title, code, buffType, effectType, grade, maxStack, weapon, condition, buffValue, buffTime, description, null);
+			BuffData buffData = ScriptableObject.CreateInstance<BuffData>();
+			buffData.Initialize(title, code, buffType, effectType, grade, maxStack, weapon, condition, buffValue, buffTime, description, null);
 
 			m_BuffMap[buffType][grade].Add((code, title), buffData);
 
@@ -309,6 +310,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 	}
 
 	#region 파일 관련
+#if UNITY_EDITOR
 	public void CreateAllBuff(bool load, bool script, bool asset, bool switchCase)
 	{
 		if (Application.isEditor == false ||
@@ -604,6 +606,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 		sb.Append(className);
 		sb.AppendLine("(buffData);");
 	}
+#endif
 	#endregion
 
 	public AbstractBuff CreateBuff(int code)

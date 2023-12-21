@@ -20,7 +20,7 @@ namespace SpreadSheet
 
 			EditorGUILayout.Separator();
 
-			const int LabelWidth = 90;
+			//const int LabelWidth = 90;
 
 			//using (new GUILayout.HorizontalScope())
 			//{

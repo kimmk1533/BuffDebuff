@@ -29,7 +29,7 @@ namespace SpreadSheet
 #if UNITY_EDITOR
 			MakeSheetDataset(m_DataBase);
 #else
-			LoadJSonData(m_DataBase);
+			LoadJsonData(m_DataBase);
 #endif
 		}
 

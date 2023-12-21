@@ -220,8 +220,8 @@ public class Map : MonoBehaviour
 
 	private void SetTile(int x, int y, E_TileType type)
 	{
-		if (x <= 1 || x >= m_Width - 2 ||
-			y <= 1 || y >= m_Height - 2)
+		if (x < 0 || x >= m_Width ||
+			y < 0 || y >= m_Height)
 			return;
 
 		switch (type)

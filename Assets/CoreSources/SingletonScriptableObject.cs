@@ -19,10 +19,11 @@ public abstract class SingletonScriptableObject<T> : ScriptableObject where T : 
 	{
 		get
 		{
-			if (!instance)
+			if (instance == null)
 			{
 				instance = Resources.FindObjectsOfTypeAll<T>().FirstOrDefault();
-				if (!instance)
+#if UNITY_EDITOR
+				if (instance == null)
 				{
 					string filter = "t:" + typeof(T);
 					var guids = AssetDatabase.FindAssets(filter);
@@ -41,6 +42,7 @@ public abstract class SingletonScriptableObject<T> : ScriptableObject where T : 
 						Debug.LogWarning("No instance of " + typeof(T).Name + " is loaded. Please create a " + typeof(T).Name + " asset file.");
 					}
 				}
+#endif
 			}
 
 			return instance;

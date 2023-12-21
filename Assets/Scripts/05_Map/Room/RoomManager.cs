@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using Enum;
 using RoomPool = ObjectPool<Room>;
-using static UnityEditor.Progress;
 
 public class RoomManager : ObjectManager<RoomManager, Room>
 {

@@ -25,6 +25,7 @@ namespace SpreadSheet
 		//public string refreshToken = "";
 		//public string accessToken = "";
 
+#if UNITY_EDITOR
 		/// <summary>
 		/// Select currently exist account setting asset file.
 		/// </summary>
@@ -39,5 +40,6 @@ namespace SpreadSheet
 
 			Selection.activeObject = Instance;
 		}
+#endif
 	}
 }

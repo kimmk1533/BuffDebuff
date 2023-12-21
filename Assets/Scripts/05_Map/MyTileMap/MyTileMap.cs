@@ -110,7 +110,9 @@ public class MyTileMap : MonoBehaviour
 			{
 				m_TextureMap.Add(item.id, new Texture2D(size, size)
 				{
+#if UNITY_EDITOR
 					alphaIsTransparency = true,
+#endif
 					filterMode = FilterMode.Point,
 				});
 			}
