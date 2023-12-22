@@ -80,13 +80,24 @@ public class EnemyTargetFinder : MonoBehaviour
 			m_ForgetTargetTimer = new UtilClass.Timer(3.0f);
 		#endregion
 	}
+	public virtual void Finallize()
+	{
+		m_Target = null;
+
+		m_Finder.Fianllize();
+		onTargetLost2D = null;
+
+		m_ForgetTargetTimer.Clear();
+	}
 
 	private void Update()
 	{
-		if (m_isLostTarget)
-		{
-			FindTarget();
-		}
+		if (m_Target == null)
+			return;
+		if (m_isLostTarget == false)
+			return;
+
+		FindTarget();
 	}
 
 	protected virtual void FindTarget()

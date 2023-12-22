@@ -23,6 +23,8 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 
 	#region 스탯 관련
 	[Header("===== 스탯 ====="), Space(10)]
+	protected TStat m_InitMaxStat;
+	protected TStat m_InitStat;
 	// 최대 스탯
 	[SerializeField]
 	protected TStat m_MaxStat;
@@ -63,10 +65,37 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 		m_Animator.Initialize();
 
 		// BuffList Init
-		if (m_BuffList == null)
-			m_BuffList = new DoubleKeyDictionary<int, string, AbstractBuff>();
-		else
+		if (m_BuffList != null)
 			m_BuffList.Clear();
+		else
+			m_BuffList = new DoubleKeyDictionary<int, string, AbstractBuff>();
+
+		#region Stat
+		m_InitMaxStat = m_MaxStat;
+		m_InitStat = m_CurrentStat;
+		#endregion
+
+		#region Timer
+		if (m_HealTimer != null)
+			m_HealTimer.Clear();
+		else
+			m_HealTimer = new UtilClass.Timer();
+		m_HealTimer.interval = m_CurrentStat.HpRegenTime;
+
+		if (m_AttackTimer != null)
+			m_AttackTimer.Clear();
+		else
+			m_AttackTimer = new UtilClass.Timer();
+		m_AttackTimer.interval = 1f / m_CurrentStat.AttackSpeed;
+		#endregion
+	}
+	public virtual void Finallize()
+	{
+		m_MaxStat = m_InitMaxStat;
+		m_CurrentStat = m_InitStat;
+
+		m_HealTimer.Clear();
+		m_AttackTimer.Clear();
 	}
 
 	protected virtual void Update()

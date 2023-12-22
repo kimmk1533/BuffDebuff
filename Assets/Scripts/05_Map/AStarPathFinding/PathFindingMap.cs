@@ -4,7 +4,7 @@ using Algorithms;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Map : MonoBehaviour
+public class PathFindingMap : MonoBehaviour
 {
 	public const int c_tileSize = 16;
 	public const int c_halfSize = c_tileSize / 2;
@@ -22,43 +22,50 @@ public class Map : MonoBehaviour
 	#endregion
 
 	#region 변수
+	private Room m_Room;
+
 	private byte[,] m_Grid;
 	private E_TileType[,] m_Tiles;
-	private SpriteRenderer[,] m_TileRenderers;
 
-	[SerializeField]
-	private bool m_ShowTile;
-	[SerializeField, ReadOnly(true)]
-	private Transform m_TileParent;
-	[SerializeField, ReadOnly(true)]
-	private SpriteRenderer m_TilePrefab;
+	[SerializeField, ReadOnly]
+	private int m_Width;
+	[SerializeField, ReadOnly]
+	private int m_Height;
 
 	[SerializeField]
 	private PathFinderFast m_PathFinder;
 
-	private int m_Width;
-	private int m_Height;
-	#endregion
-
-	#region 매니저
-	private static StageManager M_Stage => StageManager.Instance;
+	[SerializeField, ReadOnly(true)]
+	private bool m_Debug;
+	[SerializeField]
+	private bool m_Debug_ShowTile;
+	[SerializeField, ReadOnly(true)]
+	private Transform m_Debug_TileParent;
+	private SpriteRenderer[,] m_Debug_TileRenderers;
+	[SerializeField, ReadOnly(true)]
+	private SpriteRenderer m_Debug_TilePrefab;
 	#endregion
 
 	public void Initialize()
 	{
+		// 추후에 MyTilemap완성 후 MyTilemap으로 수정
 		// 임시
-		Tilemap tileMap = M_Stage.currentStage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.TileMap);
-		Tilemap oneWayMap = M_Stage.currentStage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.OneWayMap);
+		this.Safe_GetComponent<Room>(ref m_Room);
 
-		m_Width = (int)(tileMap.cellBounds.size.x);
-		m_Height = (int)(tileMap.cellBounds.size.y);
+		Tilemap tileMap = m_Room.GetTilemap(Room.E_RoomTilemapLayer.TileMap);
+		Tilemap oneWayMap = m_Room.GetTilemap(Room.E_RoomTilemapLayer.OneWayMap);
+
+		m_Width = tileMap.cellBounds.size.x;
+		m_Height = tileMap.cellBounds.size.y;
 		//
 
 		m_Grid = new byte[Mathf.NextPowerOfTwo(m_Height), Mathf.NextPowerOfTwo(m_Width)];
+		m_Tiles = new E_TileType[m_Height, m_Width];
+
 		InitPathFinder();
 
-		m_Tiles = new E_TileType[m_Height, m_Width];
-		m_TileRenderers = new SpriteRenderer[m_Height, m_Width];
+		if (m_Debug)
+			m_Debug_TileRenderers = new SpriteRenderer[m_Height, m_Width];
 
 		Vector3 offset = new Vector3(0.5f, 0.5f);
 		for (int y = 0; y < m_Height; ++y)
@@ -66,22 +73,24 @@ public class Map : MonoBehaviour
 			for (int x = 0; x < m_Width; ++x)
 			{
 				Vector3 position = transform.position + new Vector3(x, y, 10.0f);
-
-				m_TileRenderers[y, x] = Instantiate<SpriteRenderer>(m_TilePrefab);
-				m_TileRenderers[y, x].transform.SetParent(m_TileParent == null ? transform : m_TileParent);
-				m_TileRenderers[y, x].transform.position = position + offset;
-
 				Vector3Int index = new Vector3Int(x, y);
 
 				TileBase tile = tileMap.GetTile(index);
-				SetTile(x, y, tile == null ? E_TileType.Empty : E_TileType.Block);
-				//SetTile(x, y, mapRoom.tileData[y * m_Width + x]);
+				TileBase oneWay = oneWayMap.GetTile(index);
 
-				tile = oneWayMap.GetTile(index);
-				SetTile(x, y,
-					CheckTile(x, y, E_TileType.Block) == true
-					? E_TileType.Block
-					: tile == null ? E_TileType.Empty : E_TileType.OneWay);
+				if (m_Debug)
+				{
+					m_Debug_TileRenderers[y, x] = Instantiate<SpriteRenderer>(m_Debug_TilePrefab);
+					m_Debug_TileRenderers[y, x].transform.SetParent(m_Debug_TileParent == null ? transform : m_Debug_TileParent);
+					m_Debug_TileRenderers[y, x].transform.position = position + offset;
+				}
+
+				if (tile != null)
+					SetTile(x, y, E_TileType.Block);
+				else if (oneWay != null)
+					SetTile(x, y, E_TileType.OneWay);
+				else if (tile == null && oneWay == null)
+					SetTile(x, y, E_TileType.Empty);
 			}
 		}
 	}
@@ -229,20 +238,28 @@ public class Map : MonoBehaviour
 			case E_TileType.Block:
 				m_Grid[y, x] = 0;
 				// AutoTile(type, x, y, 1, 8, 4, 4, 4, 4);
-				m_TileRenderers[y, x].gameObject.SetActive(true);
+
+				if (m_Debug)
+					m_Debug_TileRenderers[y, x].gameObject.SetActive(true);
 				break;
 			case E_TileType.OneWay:
 				m_Grid[y, x] = 1;
-				m_TileRenderers[y, x].gameObject.SetActive(true);
-				m_TileRenderers[y, x].color = Color.red;
 
-				m_TileRenderers[y, x].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-				m_TileRenderers[y, x].transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+				if (m_Debug)
+				{
+					m_Debug_TileRenderers[y, x].gameObject.SetActive(true);
+					m_Debug_TileRenderers[y, x].color = Color.red;
+
+					m_Debug_TileRenderers[y, x].transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+					m_Debug_TileRenderers[y, x].transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+				}
 				//m_TileRenderers[y, x].sprite = mDirtSprites[25];
 				break;
 			case E_TileType.Empty:
 				m_Grid[y, x] = 1;
-				m_TileRenderers[y, x].gameObject.SetActive(false);
+
+				if (m_Debug)
+					m_Debug_TileRenderers[y, x].gameObject.SetActive(false);
 				break;
 			default:
 			case E_TileType.Max:
@@ -267,6 +284,11 @@ public class Map : MonoBehaviour
 
 	private void OnValidate()
 	{
-		m_TileParent.gameObject.SetActive(m_ShowTile);
+		if (m_Debug == false)
+			return;
+		if (m_Debug_TileParent == null)
+			return;
+
+		m_Debug_TileParent.gameObject.SetActive(m_Debug_ShowTile);
 	}
 }

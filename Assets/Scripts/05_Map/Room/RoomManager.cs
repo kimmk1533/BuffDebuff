@@ -47,6 +47,7 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 		}
 		m_AllRoomPool = m_AllRoomPool.Distinct().ToList();
 	}
+
 	public RoomPool.ItemBuilder GetBuilder(params (E_Condition condition, E_Direction direction, int count)[] conditions)
 	{
 		List<RoomPool> poolList = new List<RoomPool>(m_AllRoomPool);

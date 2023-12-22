@@ -294,7 +294,7 @@ public class StageGenerator : MonoBehaviour
 		Vector3 pos = new Vector3((x - center.x) * 100, (y - center.y) * 100);
 
 		Room room = M_Room.GetBuilder(conditionList.ToArray()) //M_Room.SpawnRandomRoom(conditionList.ToArray());
-			.SetActive(true)
+			.SetActive(false)
 			.SetAutoInit(true)
 			.SetParent(stage.transform)
 			.SetPosition(pos)

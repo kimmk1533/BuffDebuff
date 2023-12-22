@@ -32,12 +32,16 @@ public class Stage : MonoBehaviour
 			m_GeneratedRooms.Add(item.Key, item.Value);
 		}
 
-		m_CameraFollow = Camera.main.GetComponent<CameraFollow>();
+		currentRoom.gameObject.SetActive(true);
+
+		Camera.main.Safe_GetComponent<CameraFollow>(ref m_CameraFollow);
 	}
 
 	public void MoveRoom(Vector2Int moveIndex)
 	{
+		currentRoom.gameObject.SetActive(false);
 		m_CurrentRoomIndex += moveIndex;
+		currentRoom.gameObject.SetActive(true);
 
 		Room room = currentRoom;
 

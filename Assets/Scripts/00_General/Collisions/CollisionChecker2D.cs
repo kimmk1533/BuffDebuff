@@ -104,6 +104,18 @@ public abstract class CollisionChecker2D : MonoBehaviour
 			m_TriggerMap = new Dictionary<int, Trigger>();
 		#endregion
 	}
+	public virtual void Fianllize()
+	{
+		Clear();
+
+		foreach (var item in m_TriggerMap)
+		{
+			item.Value.onEnter2D = null;
+			item.Value.onStay2D = null;
+			item.Value.onExit2D = null;
+		}
+		m_TriggerMap.Clear();
+	}
 
 	protected virtual void Update()
 	{

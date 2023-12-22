@@ -42,14 +42,24 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 		m_CanComboAttack = false;
 
 		// 스탯 초기화
+		#region Stat
 		attackSpeed = 2.0f;
 		m_CurrentStat.Xp = 0.0f;
 		m_CurrentStat.Level = 0;
+		#endregion
 
 		// 타이머 초기화
-		m_HealTimer = new UtilClass.Timer(m_CurrentStat.HpRegenTime);
-		m_AttackTimer = new UtilClass.Timer(1f / attackSpeed, true);
-		m_DashTimer = new UtilClass.Timer(m_CurrentStat.DashRechargeTime);
+		if (m_DashTimer != null)
+			m_DashTimer.Clear();
+		else
+			m_DashTimer = new UtilClass.Timer();
+		m_DashTimer.interval = m_CurrentStat.DashRechargeTime;
+	}
+	public override void Finallize()
+	{
+		base.Finallize();
+
+		m_DashTimer.Clear();
 	}
 
 	protected override void Update()

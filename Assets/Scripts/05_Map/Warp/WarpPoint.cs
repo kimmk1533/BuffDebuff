@@ -122,12 +122,11 @@ public class WarpPoint : MonoBehaviour
 
 		collisionObject.transform.position = (warpPoint.transform.position + (Vector3)warpPoint.m_CollisionChecker2D.offset) - offset;
 
+		M_Stage.currentStage.MoveRoom(dirVec);
+
 		warpPoint.m_CollisionChecker2D.isSimulating = false;
 		warpPoint.m_CollisionChecker2D.Clear();
-
-		StartCoroutine(warpPoint.TurnOnCollisionChecker());
-
-		M_Stage.currentStage.MoveRoom(dirVec);
+		warpPoint.StartCoroutine(warpPoint.TurnOnCollisionChecker());
 
 		WarpArg warpArg = new WarpArg()
 		{
@@ -139,7 +138,7 @@ public class WarpPoint : MonoBehaviour
 
 		warpPoint.onWarp?.Invoke(warpArg);
 	}
-	IEnumerator TurnOnCollisionChecker()
+	private IEnumerator TurnOnCollisionChecker()
 	{
 		yield return new WaitForSeconds(1.0f);
 

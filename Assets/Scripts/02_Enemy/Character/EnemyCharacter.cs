@@ -38,29 +38,27 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	protected bool[] m_Inputs;
 	protected bool[] m_PrevInputs;
 
+	protected float m_JumpHeight;
+
 	protected List<Vector2Int> m_PathFinding_Path;
 	protected int m_PathFinding_NodeIndex;
 
-	protected float m_JumpHeight;
-
 	[SerializeField]
 	protected UtilClass.Timer m_MoveDirTimer;
-
 	[SerializeField]
 	protected UtilClass.Timer m_PathFinding_ReSearchTimer;
 	#endregion
 
 	#region 프로퍼티
+	protected Room currentRoom => M_Stage.currentStage.currentRoom;
 	public GameObject target => m_TargetFinder.target;
 	public Collider2D targetCollider => m_TargetFinder.targetCollider;
 	protected Vector3 targetPos => (target == null) ? throw new System.Exception("targetPos: target is null.") : target.transform.position;
-	protected float distanceToTarget => (target == null) ? throw new System.Exception("distanceToTarget: target is null.") : Vector2.Distance(transform.position, target.transform.position);
 
 	protected Bounds bounds => m_Controller.collider.bounds;
 	#endregion
 
 	#region 매니저
-	private static GridManager M_Grid => GridManager.Instance;
 	private static StageManager M_Stage => StageManager.Instance;
 	#endregion
 
@@ -79,24 +77,45 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		m_TargetFinder.onTargetLost2D += (target) =>
 		{
 			SetState(E_EnemyState.Idle);
+
+			int count = textObjectList.Count;
+			for (int i = 0; i < count; ++i)
+			{
+				if (textObjectList[i] == null)
+					continue;
+
+				GameObject.Destroy(textObjectList[i].gameObject);
+			}
+			textObjectList.Clear();
 		};
 
 		m_PathFinding_Path = null;
 		m_PathFinding_NodeIndex = -1;
 
 		#region Timer
-		m_MoveDirTimer = new UtilClass.Timer();
+		if (m_MoveDirTimer != null)
+			m_MoveDirTimer.Clear();
+		else
+			m_MoveDirTimer = new UtilClass.Timer();
 		m_MoveDirTimer.interval = Random.Range(0.2f, 1.0f);
-		m_MoveDirTimer.Clear();
 
-		m_PathFinding_ReSearchTimer = new UtilClass.Timer();
+		if (m_PathFinding_ReSearchTimer != null)
+			m_PathFinding_ReSearchTimer.Clear();
+		else
+			m_PathFinding_ReSearchTimer = new UtilClass.Timer();
 		m_PathFinding_ReSearchTimer.interval = 1f;
-		m_PathFinding_ReSearchTimer.Clear();
-
-		m_HealTimer = new UtilClass.Timer(m_CurrentStat.HpRegenTime);
-		m_AttackTimer = new UtilClass.Timer(1f / m_CurrentStat.AttackSpeed, true);
 		#endregion
 	}
+	public override void Finallize()
+	{
+		base.Finallize();
+
+		m_TargetFinder.Finallize();
+
+		m_MoveDirTimer.Clear();
+		m_PathFinding_ReSearchTimer.Clear();
+	}
+
 	protected override void Update()
 	{
 		base.Update();
@@ -217,7 +236,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 		m_PathFinding_ReSearchTimer.Update();
 
-		Vector2 offset = -M_Stage.currentStage.currentRoom.transform.position;
+		Vector2 offset = -currentRoom.transform.position;
 
 		// 콜라이더 좌하단의 칸 중앙 위치
 		Vector2Int start = new Vector2Int((int)(bounds.center.x - bounds.extents.x + 0.5f + offset.x), (int)(bounds.center.y - bounds.extents.y + 0.5f + offset.y));
@@ -228,8 +247,8 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			m_PathFinding_Path.Contains(m_TargetPos) == false ||
 			m_PathFinding_ReSearchTimer.TimeCheck() == true)
 		{
-			if (M_Grid.map.IsEmpty(start.x, start.y - 1) == false &&
-				M_Grid.map.IsEmpty(end.x, end.y - 1) == false)
+			if (currentRoom.pathFindingMap.IsEmpty(start.x, start.y - 1) == false &&
+				currentRoom.pathFindingMap.IsEmpty(end.x, end.y - 1) == false)
 			{
 				Vector2Int offset_int = new Vector2Int((int)offset.x, (int)offset.y);
 
@@ -253,7 +272,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 		if (reachedX && reachedY)
 		{
-			PathFinding_NextPath(ref pathPosition, ref reachedX, ref reachedY);
+			PathFinding_NextPath(ref reachedX, ref reachedY);
 			return;
 		}
 		else if (reachedX == false)
@@ -268,7 +287,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 			if (nextDest.x != currentDest.x)
 			{
-				//M_Grid.map.GetMapTileAtPoint(pathPosition, out tileX, out tileY);
+				//currentRoom.pathFindingMap.GetMapTileAtPoint(pathPosition, out tileX, out tileY);
 
 				if (nextDest.x > currentDest.x)
 					checkedX = Mathf.RoundToInt(tileX + bounds.extents.x);
@@ -276,7 +295,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 					checkedX = Mathf.RoundToInt(tileX - bounds.extents.x);
 			}
 
-			if (checkedX != 0 && M_Grid.map.AnySolidBlockInStripe(checkedX, tileY, Mathf.RoundToInt(nextDest.y)) == false)
+			if (checkedX != 0 && currentRoom.pathFindingMap.AnySolidBlockInStripe(checkedX, tileY, Mathf.RoundToInt(nextDest.y)) == false)
 			{
 				PathFinding_MoveX(ref pathPosition, ref nextDest);
 
@@ -285,7 +304,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 				if (reachedX && reachedY)
 				{
-					PathFinding_NextPath(ref pathPosition, ref temp_reachedX, ref temp_reachedY);
+					PathFinding_NextPath(ref temp_reachedX, ref temp_reachedY);
 					return;
 				}
 			}
@@ -310,16 +329,11 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		int height = Mathf.CeilToInt(bounds.size.y);
 		short maxJumpHeight = (short)((short)m_Controller.maxJumpHeight - 1);
 
-		m_PathFinding_Path = M_Grid.map.FindPath(start, end, width, height, maxJumpHeight);
+		m_PathFinding_Path = currentRoom.pathFindingMap.FindPath(start, end, width, height, maxJumpHeight);
 
 		if (m_PathFinding_Path == null
 			|| m_PathFinding_Path.Count <= 1)
 			return;
-
-		for (int i = 0; i < m_PathFinding_Path.Count; ++i)
-		{
-			m_PathFinding_Path[i] = m_PathFinding_Path[i] + offset;
-		}
 
 		m_PathFinding_NodeIndex = 1;
 		m_TargetPos = m_PathFinding_Path[m_PathFinding_NodeIndex];
@@ -337,7 +351,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		Vector3 debug_offset = Vector3.one * 0.5f;
 		for (int i = 0; i < m_PathFinding_Path.Count; ++i)
 		{
-			Vector3 debug_textPos = (Vector2)m_PathFinding_Path[i];
+			Vector3 debug_textPos = (Vector2)(m_PathFinding_Path[i] + offset);
 			debug_textPos += debug_offset;
 
 			var debug_text = UtilClass.CreateWorldText(i + 1, textObjectParent.transform, debug_textPos, 0.1f, 40, textColor, TextAnchor.MiddleCenter);
@@ -370,14 +384,14 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		destOnGround = false;
 		for (int x = (int)currentDest.x; x < (int)currentDest.x + Mathf.CeilToInt(bounds.size.x); ++x)
 		{
-			if (M_Grid.map.IsGround(x, (int)currentDest.y - 1))
+			if (currentRoom.pathFindingMap.IsGround(x, (int)currentDest.y - 1))
 			{
 				destOnGround = true;
 				break;
 			}
 		}
 
-		Vector2 offset = Vector2.one * 0.5f /* * Map.c_tileSize*/;
+		Vector2 offset = (Vector2)currentRoom.transform.position + Vector2.one * 0.5f /* * Map.c_tileSize*/;
 
 		// 콜라이더 좌하단의 칸 중앙 위치
 		//Vector2Int tempPos = new Vector2Int((int)(bounds.center.x - bounds.extents.x), (int)(bounds.center.y - bounds.extents.y));
@@ -464,6 +478,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	{
 		int currentNodeId = prevNodeId + 1;
 
+		Vector2Int checkNode;
 		Vector2Int currentNode = m_PathFinding_Path[currentNodeId];
 		Vector2Int prevNode = m_PathFinding_Path[prevNodeId];
 
@@ -474,11 +489,13 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		int jumpHeight = 1;
 		for (int i = currentNodeId; i < m_PathFinding_Path.Count; ++i)
 		{
-			int dy = m_PathFinding_Path[i].y - prevNode.y;
+			checkNode = m_PathFinding_Path[i];
+
+			int dy = checkNode.y - prevNode.y;
 			if (dy >= jumpHeight)
 				jumpHeight = dy;
 
-			if (dy < jumpHeight || M_Grid.map.IsGround(m_PathFinding_Path[i].x, m_PathFinding_Path[i].y - 1) == true)
+			if (dy < jumpHeight || currentRoom.pathFindingMap.IsGround(checkNode.x, checkNode.y - 1) == true)
 				break;
 		}
 
@@ -487,28 +504,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		if (jumpHeight > m_Controller.maxJumpHeight)
 			Debug.LogError("JumpHeight: " + jumpHeight);
 
-		Debug.Log("JumpHeight: " + jumpHeight);
-
 		return Mathf.Clamp(jumpHeight, 1, (int)m_Controller.maxJumpHeight);
-	}
-	private bool PathFinding_NextPath_IsJumpable(ref Vector2 pathPosition)
-	{
-		if (m_JumpHeight <= 0)
-			return false;
-
-		bool jumpFlag = true;
-		for (int y = (int)pathPosition.y; y < pathPosition.y + Mathf.CeilToInt(bounds.size.y) + m_JumpHeight; ++y)
-		{
-			if (M_Grid.map.IsBlock((int)pathPosition.x, y) == true)
-			{
-				jumpFlag = false;
-				break;
-			}
-		}
-
-		// X축 이동속도가 충분한 지 확인 해야 함.
-
-		return jumpFlag;
 	}
 	/// <summary>
 	/// 현재 목적지에 도착해서 목적지를 다음 목적지로 바꾸는 함수
@@ -516,7 +512,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	/// <param name="reachedX">X축 도착 여부</param>
 	/// <param name="reachedY">Y축 도착 여부</param>
 	/// <returns>다음 목적지로 바꾸었는가?</returns>
-	private bool PathFinding_NextPath(ref Vector2 pathPosition, ref bool reachedX, ref bool reachedY)
+	private bool PathFinding_NextPath(ref bool reachedX, ref bool reachedY)
 	{
 		if (reachedX == false
 			|| reachedY == false)
@@ -524,8 +520,6 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 
 		// 현재 목적지 도달. 다음 목적지로 인덱스 변경
 		++m_PathFinding_NodeIndex;
-
-		Debug.Log("Current Node Index: " + m_PathFinding_NodeIndex);
 
 		// 최종 목적지 도달
 		if (m_PathFinding_NodeIndex >= m_PathFinding_Path.Count)
@@ -543,13 +537,6 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		if (m_Controller.collisions.grounded == true)
 		{
 			m_JumpHeight = PathFinding_GetJumpHeight(m_PathFinding_NodeIndex - 1);
-
-			//if (PathFinding_NextPath_IsJumpable(ref pathPosition))
-			//{
-			//	float g = Mathf.Abs(m_Controller.gravity);
-			//	float Vy = Mathf.Sqrt(2 * g * m_JumpHeight);
-			//	m_Velocity.y = Vy;
-			//}
 		}
 
 		return true;

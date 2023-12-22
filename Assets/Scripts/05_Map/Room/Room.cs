@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 using Enum;
 using AYellowpaper.SerializedCollections;
 
+[RequireComponent(typeof(PathFindingMap))]
 public class Room : ObjectPoolItemBase
 {
 	#region Enum
@@ -21,7 +22,7 @@ public class Room : ObjectPoolItemBase
 		Environment,
 
 		Max
-	} 
+	}
 	#endregion
 
 	#region 변수
@@ -33,7 +34,9 @@ public class Room : ObjectPoolItemBase
 	private Vector2 m_Offset;
 
 	// 타일맵
-	private Dictionary<E_RoomTilemapLayer, Tilemap> m_TilemapMap;
+	private SerializedDictionary<E_RoomTilemapLayer, Tilemap> m_TilemapMap;
+	// 길 찾기 정보
+	private PathFindingMap m_PathFindingMap;
 
 	#region 적 생성 관련
 	// 이 방 클리어 여부
@@ -66,6 +69,8 @@ public class Room : ObjectPoolItemBase
 		set { m_Offset = value; }
 	}
 
+	public PathFindingMap pathFindingMap => m_PathFindingMap;
+
 	public bool isClear => m_IsClear;
 	#endregion
 
@@ -73,26 +78,28 @@ public class Room : ObjectPoolItemBase
 	{
 		base.Initialize();
 
+		#region SAFE_INIT
 		// 타일맵 딕셔너리 초기화
-		if (m_TilemapMap == null)
-			m_TilemapMap = new Dictionary<E_RoomTilemapLayer, Tilemap>();
-		else
+		if (m_TilemapMap != null)
 			m_TilemapMap.Clear();
+		else
+			m_TilemapMap = new SerializedDictionary<E_RoomTilemapLayer, Tilemap>();
+
+		// 길 찾기 정보 초기화
+		this.Safe_GetComponent<PathFindingMap>(ref m_PathFindingMap);
 
 		// 적 생성 정보 초기화
 		m_IsClear = false;
 		m_EnemyWave.Initialize(this);
 
 		// 주변 방 딕셔너리 초기화
-		if (m_NearRoomMap == null)
-			m_NearRoomMap = new Dictionary<E_Direction, Room>();
-		else
+		if (m_NearRoomMap != null)
 			m_NearRoomMap.Clear();
+		else
+			m_NearRoomMap = new Dictionary<E_Direction, Room>();
 
 		// 워프포인트 딕셔너리 초기화
-		if (m_WarpPointMap == null)
-			m_WarpPointMap = new Dictionary<E_Direction, Dictionary<int, WarpPoint>>();
-		else
+		if (m_WarpPointMap != null)
 		{
 			foreach (var item in m_WarpPointMap)
 			{
@@ -100,12 +107,15 @@ public class Room : ObjectPoolItemBase
 			}
 			m_WarpPointMap.Clear();
 		}
+		else
+			m_WarpPointMap = new Dictionary<E_Direction, Dictionary<int, WarpPoint>>();
 
 		// 워프포인트 갯수 딕셔너리 초기화
-		if (m_WarpPointCountMap == null)
-			m_WarpPointCountMap = new Dictionary<E_Direction, int>();
-		else
+		if (m_WarpPointCountMap != null)
 			m_WarpPointCountMap.Clear();
+		else
+			m_WarpPointCountMap = new Dictionary<E_Direction, int>();
+		#endregion
 
 		Transform tilemapLayer = transform.Find("TileMapLayer");
 		for (E_RoomTilemapLayer layer = 0; layer < E_RoomTilemapLayer.Max; ++layer)
@@ -114,8 +124,9 @@ public class Room : ObjectPoolItemBase
 			m_TilemapMap.Add(layer, tileMap);
 		}
 
-		WarpPoint[] warpPointArray = GetComponentsInChildren<WarpPoint>();
+		m_PathFindingMap.Initialize();
 
+		WarpPoint[] warpPointArray = GetComponentsInChildren<WarpPoint>();
 		foreach (WarpPoint warpPoint in warpPointArray)
 		{
 			warpPoint.Initialize(this);

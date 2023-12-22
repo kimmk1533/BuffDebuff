@@ -7,8 +7,6 @@ using UnityEngine.Tilemaps;
 public class GridManager : Singleton<GridManager>
 {
 	#region 변수
-	private Map m_Map;
-
 	[Space(10)]
 	[SerializeField]
 	private bool m_ShowGrid;
@@ -28,18 +26,13 @@ public class GridManager : Singleton<GridManager>
 	private Tilemap m_Tilemap;
 	#endregion
 
-	#region 프로퍼티
-	public Map map => m_Map;
-	#endregion
-
 	#region 매니저
 	protected static StageManager M_Stage => StageManager.Instance;
 	#endregion
 
 	public void Initialize()
 	{
-		this.Safe_GetComponent<Map>(ref m_Map);
-		m_Map.Initialize();
+
 	}
 
 	[ContextMenu("Create Grid Text")]

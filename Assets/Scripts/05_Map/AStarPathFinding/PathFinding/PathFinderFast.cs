@@ -122,11 +122,11 @@ namespace Algorithms
 		private int m_EndLocation = 0;
 		private int m_NewG = 0;
 
-		private Map m_Map = null;
+		private PathFindingMap m_Map = null;
 		#endregion
 
 		#region 생성자
-		public PathFinderFast(byte[,] grid, Map map)
+		public PathFinderFast(byte[,] grid, PathFindingMap map)
 		{
 			if (map == null)
 				throw new Exception("Map can`t be null");

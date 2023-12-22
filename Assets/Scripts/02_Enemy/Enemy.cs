@@ -14,12 +14,6 @@ public class Enemy : ObjectPoolItemBase
 	private List<Transform> m_AttackSpotList;
 	#endregion
 
-	#region 프로퍼티
-	#endregion
-
-	#region 이벤트
-	#endregion
-
 	#region 매니저
 	private static PlayerManager M_Player => PlayerManager.Instance;
 	private static EnemyManager M_Enemy => EnemyManager.Instance;
@@ -35,6 +29,12 @@ public class Enemy : ObjectPoolItemBase
 		m_Character.Initialize();
 
 		m_Animator.Initialize();
+	}
+	public override void Finallize()
+	{
+		base.Finallize();
+
+		m_Character.Finallize();
 	}
 
 	protected void Attack()
