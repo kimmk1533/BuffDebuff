@@ -33,11 +33,7 @@ public class EnemyWave
 	[SerializedDictionary("조건", "적 정보")]
 	private SerializedDictionary<E_SpawnCondition, List<EnemyWaveInfo>> m_EnemyWaveInfoMap;
 
-	[SerializeField, ReadOnly]
 	private List<Enemy> m_SpawnedEnemyList;
-	#endregion
-
-	#region 프로퍼티
 	#endregion
 
 	#region 매니저
@@ -60,7 +56,10 @@ public class EnemyWave
 			}
 		}
 
-		m_SpawnedEnemyList = new List<Enemy>();
+		if (m_SpawnedEnemyList != null)
+			m_SpawnedEnemyList.Clear();
+		else
+			m_SpawnedEnemyList = new List<Enemy>();
 	}
 
 	public void CreateEnemy()
@@ -148,6 +147,7 @@ public class EnemyWave
 	{
 		Enemy enemy = info.Spawn(m_Spawner.transform.position);
 
+		enemy.onDespawn -= OnEnemyDespawn;
 		enemy.onDespawn += OnEnemyDespawn;
 
 		m_SpawnedEnemyList.Add(enemy);

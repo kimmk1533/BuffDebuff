@@ -178,7 +178,7 @@ MonoBehaviour:
   m_RoomSize: {x: 40, y: 34}
   m_Offset: {x: 20, y: 17}
   m_EnemyWave:
-    m_EnemyWaveInfoMap:
+  - m_EnemyWaveInfoMap:
       _serializedList:
       - Key: 0
         Value:
@@ -193,6 +193,10 @@ MonoBehaviour:
           m_RandomPercent: 100
           m_Index: 0
       - Key: 1
+        Value: []
+  - m_EnemyWaveInfoMap:
+      _serializedList:
+      - Key: 0
         Value:
         - m_Key: Golem
           m_SpawnPoint: {fileID: 5233513895871477016}
@@ -204,17 +208,9 @@ MonoBehaviour:
           m_DelayTime: 0
           m_RandomPercent: 100
           m_Index: 0
-        - m_Key: Enemy
-          m_SpawnPoint: {fileID: 5205051685297627010}
-          m_DelayTime: 0
-          m_RandomPercent: 100
-          m_Index: 1
-        - m_Key: Enemy
-          m_SpawnPoint: {fileID: 6744368143072035241}
-          m_DelayTime: 0
-          m_RandomPercent: 100
-          m_Index: 1
-    m_SpawnedEnemyList: []
+      - Key: 1
+        Value: []
+  m_EnemyWaveIndex: 0
 --- !u!114 &7619147777779338615
 MonoBehaviour:
   m_ObjectHideFlags: 0

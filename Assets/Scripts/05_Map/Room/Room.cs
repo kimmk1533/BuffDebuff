@@ -44,7 +44,9 @@ public class Room : ObjectPoolItemBase
 
 	// 적 생성 정보
 	[SerializeField]
-	private EnemyWave m_EnemyWave;
+	private List<EnemyWave> m_EnemyWave;
+	[SerializeField, ReadOnly]
+	private int m_EnemyWaveIndex;
 	#endregion
 
 	#region 워프 관련
@@ -88,9 +90,13 @@ public class Room : ObjectPoolItemBase
 		// 길 찾기 정보 초기화
 		this.Safe_GetComponent<PathFindingMap>(ref m_PathFindingMap);
 
-		// 적 생성 정보 초기화
+		// 방 클리어 여부 초기화
 		m_IsClear = false;
-		m_EnemyWave.Initialize(this);
+		// 적 생성 정보 초기화
+		//for (int i = 0; i < m_EnemyWave.Count; ++i)
+		//	m_EnemyWave[i].Initialize(this);
+		m_EnemyWaveIndex = Random.Range(0, m_EnemyWave.Count);
+		m_EnemyWave[m_EnemyWaveIndex].Initialize(this);
 
 		// 주변 방 딕셔너리 초기화
 		if (m_NearRoomMap != null)
@@ -172,17 +178,18 @@ public class Room : ObjectPoolItemBase
 		if (m_IsClear == true)
 			return;
 
-		m_EnemyWave.CreateEnemy();
+		m_EnemyWave[m_EnemyWaveIndex].CreateEnemy();
 	}
 	private void OnExitRoom()
 	{
 		if (m_IsClear == true)
 			return;
 
-		m_EnemyWave.Reset();
+		m_EnemyWave[m_EnemyWaveIndex].Reset();
 
 		StopAllCoroutines();
 	}
+
 	public void ClearRoom()
 	{
 		m_IsClear = true;

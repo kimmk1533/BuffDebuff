@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct EnemyWaveInfo
+public class EnemyWaveInfo
 {
 	#region 변수
 	// 생성할 적 key
@@ -18,7 +18,7 @@ public struct EnemyWaveInfo
 	// 생성 확률
 	[Space(10)]
 	[SerializeField, Range(0, 100)]
-	private int m_RandomPercent;
+	private int m_RandomPercent = 100;
 
 	// ClearRoom 조건에 필요한 변수
 	// 생성 인덱스
