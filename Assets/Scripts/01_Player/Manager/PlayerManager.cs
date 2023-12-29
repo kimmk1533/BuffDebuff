@@ -5,54 +5,83 @@ using UnityEngine;
 public class PlayerManager : Singleton<PlayerManager>
 {
 	#region 변수
+	[SerializeField]
+	private string m_Path;
+	[SerializeField]
+	private string m_PlayerCharacterName;
+
 	private Player m_Player;
+	private CameraFollow m_PlayerCamera;
 	#endregion
 
 	#region 프로퍼티
-	public Player player => m_Player;
+	public Player player
+	{
+		get
+		{
+			if (Application.isPlaying == false)
+				return Resources.Load<Player>(System.IO.Path.Combine(m_Path, m_PlayerCharacterName));
+
+			return m_Player;
+		}
+	}
 	public int maxLevel
 	{
 		get
 		{
-			if (Application.isEditor)
-				return FindObjectOfType<PlayerCharacter>().maxStat.Level;
-
-			return m_Player.maxLevel;
+			return player.maxLevel;
 		}
 	}
 	public int currentLevel
 	{
 		get
 		{
-			if (Application.isEditor)
-				return FindObjectOfType<PlayerCharacter>().currentStat.Level;
-
-			return m_Player.currentLevel;
+			return player.currentLevel;
 		}
 	}
 	#endregion
 
 	#region 매니저
 	private static BuffManager M_Buff => BuffManager.Instance;
+	private static StageManager M_Stage => StageManager.Instance;
 	#endregion
 
 	public void Initialize()
 	{
-		Player[] players = FindObjectsOfType<Player>();
 
-		if (players.Length > 1)
-		{
-			Debug.LogError("There can be no more than one Player.");
-			return;
-		}
+	}
+	public void InitializeGame()
+	{
+		//Player[] players = FindObjectsOfType<Player>();
 
-		m_Player = players[0];
+		//if (players.Length > 1)
+		//{
+		//	Debug.LogError("There can be no more than one Player.");
+		//	return;
+		//}
+
+		//m_Player = players[0];
+
+		if (m_Player == null)
+			m_Player = GameObject.Instantiate(Resources.Load<Player>(System.IO.Path.Combine(m_Path, m_PlayerCharacterName)));
 		m_Player.Initialize();
+
+		Camera.main.Safe_GetComponent<CameraFollow>(ref m_PlayerCamera);
+		m_PlayerCamera.Initialize();
+
+		InitializeStageGenEvent();
 	}
 	public void InitializeBuffEvent()
 	{
 		M_Buff.onBuffAdded += AddBuff;
 		M_Buff.onBuffRemoved += RemoveBuff;
+	}
+	public void InitializeStageGenEvent()
+	{
+		M_Stage.onStageGenerated += () =>
+		{
+			m_Player.transform.position = (M_Stage.currentStage.currentRoom as StartRoom).startPos;
+		};
 	}
 
 	public void AddXp(float xp)

@@ -29,6 +29,9 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 	#endregion
 
 	#region 변수
+	[SerializeField]
+	protected List<OriginInfo> m_StartRoomOrigins = new List<OriginInfo>();
+
 	private List<RoomPool> m_AllRoomPool;
 	#endregion
 
@@ -36,10 +39,20 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 	{
 		base.Initialize();
 
-		if (m_AllRoomPool == null)
-			m_AllRoomPool = new List<RoomPool>();
-		else
+		if (m_AllRoomPool != null)
+		{
+			foreach (var item in m_AllRoomPool)
+			{
+				item.Dispose();
+			}
 			m_AllRoomPool.Clear();
+		}
+		else
+			m_AllRoomPool = new List<RoomPool>();
+	}
+	public override void InitializeGame()
+	{
+		base.InitializeGame();
 
 		foreach (var item in m_Pools)
 		{
@@ -107,99 +120,26 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 
 		return poolList[Random.Range(0, poolList.Count)].GetBuilder();
 	}
-	/// <summary>
-	/// 모든 방들 중 랜덤한 방을 리턴하는 함수
-	/// </summary>
-	/// <returns>모든 방들 중 랜덤한 방</returns>
-	public Room SpawnRandomRoom_All()
+
+	public StartRoom SpawnStartRoom(string key)
 	{
-		List<RoomPool> poolList = new List<RoomPool>(m_AllRoomPool);
+		StartRoom startRoom = null;
 
-		if (poolList.Count <= 0)
-			return null;
-
-		RoomPool randomPool = poolList[Random.Range(0, poolList.Count)];
-
-		return randomPool.GetBuilder()
-			.SetActive(true)
-			.SetAutoInit(true)
-			.Spawn();
-	}
-	/// <summary>
-	/// 여러 조건을 만족하는 방들 중 랜덤한 방을 리턴하는 함수
-	/// </summary>
-	/// <param name="conditions"></param>
-	/// <returns>조건을 만족하는 방들 중 랜덤한 방</returns>
-	public Room SpawnRandomRoom(params (E_Condition condition, E_Direction direction, int count)[] conditions)
-	{
-		if (conditions.Length <= 0)
-			return SpawnRandomRoom_All();
-
-		List<RoomPool> poolList = new List<RoomPool>(m_AllRoomPool);
-
-		for (int i = 0; i < conditions.Length; ++i)
+		foreach (var item in m_StartRoomOrigins)
 		{
-			(E_Condition condition, E_Direction direction, int count) condition = conditions[i];
+			if (item.key.Equals(key) == false)
+				continue;
 
-			for (int poolListIndex = 0; poolListIndex < poolList.Count; ++poolListIndex)
-			{
-				RoomPool pool = poolList[poolListIndex];
-
-				Room room = pool.GetBuilder()
-					.SetAutoInit(true)
-					.Spawn();
-
-				int count = room.GetWarpPointCount(condition.direction);
-
-				pool.Despawn(room, true);
-
-				bool flag;
-
-				switch (condition.condition)
-				{
-					case E_Condition.Over:
-						flag = !(count > condition.count);
-						break;
-					case E_Condition.More:
-						flag = !(count >= condition.count);
-						break;
-					case E_Condition.Equal:
-						flag = !(count == condition.count);
-						break;
-					case E_Condition.NotEqual:
-						flag = !(count != condition.count);
-						break;
-					case E_Condition.Less:
-						flag = !(count <= condition.count);
-						break;
-					case E_Condition.Under:
-						flag = !(count < condition.count);
-						break;
-					default:
-						throw new System.Exception("prevCondition.condition value is strange.");
-				}
-
-				if (flag)
-				{
-					poolList.RemoveAt(poolListIndex);
-					--poolListIndex;
-				}
-			}
+			startRoom = item.origin as StartRoom;
 		}
 
-		if (poolList == null ||
-			poolList.Count <= 0)
+		if (startRoom == null)
 			return null;
 
-		RoomPool randomPool = poolList[Random.Range(0, poolList.Count)];
-
-		return randomPool.GetBuilder()
-			.SetActive(true)
-			.SetAutoInit(true)
-			.SetParent(null)
-			.Spawn();
+		return GameObject.Instantiate(startRoom);
 	}
 
+#if UNITY_EDITOR
 	[ContextMenu("All Flag On")]
 	private void TurnOnFlagAll()
 	{
@@ -220,4 +160,18 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 			m_Origins[i] = temp;
 		}
 	}
+
+	[ContextMenu("Load Origin")]
+	protected override void LoadOrigin()
+	{
+		base.LoadOrigin_Inner();
+
+		for (int i = 0; i < m_StartRoomOrigins.Count; ++i)
+		{
+			OriginInfo info = m_StartRoomOrigins[i];
+			info.origin = Resources.Load<StartRoom>(System.IO.Path.Combine(m_Path, info.path, info.key));
+			m_StartRoomOrigins[i] = info;
+		}
+	}
+#endif
 }

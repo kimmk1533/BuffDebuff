@@ -56,9 +56,10 @@ public class StageGenerator : MonoBehaviour
 			m_GeneratedRoomMap = new Dictionary<Vector2Int, Room>();
 		else
 			m_GeneratedRoomMap.Clear();
-
-		if (m_CameraFollow == null)
-			m_CameraFollow = Camera.main.GetComponent<CameraFollow>();
+	}
+	public void InitializeGame()
+	{
+		Camera.main.Safe_GetComponent(ref m_CameraFollow);
 	}
 
 	public Stage GenerateStage(StageGeneratorArg arg)
@@ -70,7 +71,8 @@ public class StageGenerator : MonoBehaviour
 		if (m_AutoClear)
 			ClearStage();
 
-		Stage stage = new GameObject("Stage " + currStageLevel.ToString("00")).AddComponent<Stage>();
+		Stage stage = new GameObject(currStageLevel.ToString("Stage 00")).AddComponent<Stage>();
+		stage.gameObject.isStatic = true;
 		stage.transform.SetParent(stageParent);
 
 		Vector2Int checkPos;
@@ -136,9 +138,9 @@ public class StageGenerator : MonoBehaviour
 		#region 카메라 설정
 		Vector2Int center = m_StageSize / 2;
 
-		Room room = m_GeneratedRoomMap[center];
+		Room startRoom = m_GeneratedRoomMap[center];
 
-		m_CameraFollow.UpdateClamp(room.offset, room.roomSize);
+		m_CameraFollow.UpdateClamp(startRoom.offset, startRoom.roomSize);
 		#endregion
 
 		stage.Initialize(stageSize, m_GeneratedRoomMap);
@@ -248,59 +250,74 @@ public class StageGenerator : MonoBehaviour
 			currRoom != null)
 			return;
 
-		List<RoomCondition> conditionList = new List<RoomCondition>();
-
-		#region 조건 확인
-		for (E_Direction direction = 0; direction < E_Direction.Max; ++direction)
-		{
-			E_Condition condition;
-			int count;
-
-			Vector2Int nearRoomPos = roomPos + DirEnumUtil.ConvertToVector2Int(direction);
-
-			if (m_GeneratedRoomMap.TryGetValue(nearRoomPos, out Room nearRoom) == false)
-			{
-				condition = E_Condition.Equal;
-
-				count = 0;
-			}
-			else if (nearRoom != null)
-			{
-				condition = E_Condition.Equal;
-
-				E_Direction nearRoomWarpDir = DirEnumUtil.GetOtherDir(direction);
-				count = nearRoom.GetWarpPointCount(nearRoomWarpDir);
-			}
-			else
-			{
-				condition = E_Condition.More;
-
-				count = 1;
-			}
-
-			conditionList.Add((condition, direction, count));
-		}
-		#endregion
-
-		//for (int i = 0; i < conditionList.Count; ++i)
-		//{
-		//	Debug.Log((m_GeneratedRoomCount + 1).ToString("00_") + i.ToString("00: ") + conditionList[i].ToString());
-		//}
-
-		int x = roomPos.x;
-		int y = roomPos.y;
-
+		Room room;
 		Vector2Int center = stageSize / 2;
-		Vector3 pos = new Vector3((x - center.x) * 100, (y - center.y) * 100);
 
-		Room room = M_Room.GetBuilder(conditionList.ToArray()) //M_Room.SpawnRandomRoom(conditionList.ToArray());
-			.SetActive(false)
-			.SetAutoInit(true)
-			.SetParent(stage.transform)
-			.SetPosition(pos)
-			.Spawn();
+		if (roomPos == center)
+		{
+			room = M_Room.SpawnStartRoom("StartRoom");
+			room.gameObject.SetActive(false);
+			room.transform.SetParent(stage.transform);
+			room.transform.position = Vector3.zero;
+			room.Initialize();
 
-		room.name = m_GeneratedRoomCount.ToString("00_") + room.name;
+			room.name = m_GeneratedRoomCount.ToString("00_StartRoom");
+		}
+		else
+		{
+			List<RoomCondition> conditionList = new List<RoomCondition>();
+
+			#region 조건 확인
+			for (E_Direction direction = 0; direction < E_Direction.Max; ++direction)
+			{
+				E_Condition condition;
+				int count;
+
+				Vector2Int nearRoomPos = roomPos + DirEnumUtil.ConvertToVector2Int(direction);
+
+				if (m_GeneratedRoomMap.TryGetValue(nearRoomPos, out Room nearRoom) == false)
+				{
+					condition = E_Condition.Equal;
+
+					count = 0;
+				}
+				else if (nearRoom != null)
+				{
+					condition = E_Condition.Equal;
+
+					E_Direction nearRoomWarpDir = DirEnumUtil.GetOtherDir(direction);
+					count = nearRoom.GetWarpPointCount(nearRoomWarpDir);
+				}
+				else
+				{
+					condition = E_Condition.More;
+
+					count = 1;
+				}
+
+				conditionList.Add((condition, direction, count));
+			}
+			#endregion
+
+			//for (int i = 0; i < conditionList.Count; ++i)
+			//{
+			//	Debug.Log((m_GeneratedRoomCount + 1).ToString("00_") + i.ToString("00: ") + conditionList[i].ToString());
+			//}
+
+			int x = roomPos.x;
+			int y = roomPos.y;
+
+			Vector3 pos = new Vector3((x - center.x) * 100, (y - center.y) * 100);
+
+			room = M_Room.GetBuilder(conditionList.ToArray())
+				.SetActive(false)
+				.SetAutoInit(true)
+				.SetParent(stage.transform)
+				.SetPosition(pos)
+				.Spawn();
+
+			room.name = m_GeneratedRoomCount.ToString("00_") + room.name;
+		}
 
 		++m_GeneratedRoomCount;
 

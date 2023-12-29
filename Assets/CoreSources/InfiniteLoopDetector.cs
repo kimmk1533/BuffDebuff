@@ -17,6 +17,10 @@ public static class InfiniteLoopDetector
 		[System.Runtime.CompilerServices.CallerLineNumber] int lineNumber = 0
 	)
 	{
+#if !UNITY_EDITOR
+		return;
+#endif
+
 		string currentPoint = $"{filePath}:{lineNumber}, {memberName}()";
 
 		if (m_PrevPoint == currentPoint)

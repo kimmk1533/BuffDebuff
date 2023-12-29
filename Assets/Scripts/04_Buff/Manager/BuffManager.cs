@@ -44,7 +44,6 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 	public void Initialize()
 	{
-		#region SAFE_INIT
 		// m_BuffCounterMap
 		if (m_BuffCounterMap != null)
 			m_BuffCounterMap.Clear();
@@ -54,8 +53,6 @@ public sealed class BuffManager : Singleton<BuffManager>
 		// m_BuffGradeInfo
 		if (m_BuffGradeInfo == null)
 			m_BuffGradeInfo = new BuffGradeInfo();
-
-		m_BuffGradeInfo.UpdateBuffGradeCurve();
 
 		// m_BuffMap
 		if (m_BuffMap != null)
@@ -84,7 +81,10 @@ public sealed class BuffManager : Singleton<BuffManager>
 				}
 			}
 		}
-		#endregion
+	}
+	public void InitializeGame()
+	{
+		m_BuffGradeInfo.UpdateBuffGradeCurve();
 
 		LoadAllBuff();
 	}
@@ -328,7 +328,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 			SpreadSheetManager.Instance.Initialize();
 		}
 
-		Initialize();
+		InitializeGame();
 
 		StringBuilder sb = null;
 
@@ -976,11 +976,16 @@ public sealed class BuffManager : Singleton<BuffManager>
 		return dataList.GetRange(0, count);
 	}
 
+#if UNITY_EDITOR
 	public void OnValidate()
 	{
+		if (Application.isPlaying == true)
+			return;
+
 		if (m_BuffGradeInfo != null)
 			m_BuffGradeInfo.OnValidate();
 	}
+#endif
 
 	[System.Serializable]
 	private class BuffCounter

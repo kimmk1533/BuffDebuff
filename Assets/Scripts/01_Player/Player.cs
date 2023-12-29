@@ -14,17 +14,40 @@ public sealed class Player : MonoBehaviour
 
 	#region 프로퍼티
 	public PlayerCharacter character => m_Character;
-	public int maxLevel => m_Character.maxStat.Level;
-	public int currentLevel => m_Character.currentStat.Level;
+	public int maxLevel
+	{
+		get
+		{
+			if (Application.isPlaying == false)
+				return GetComponent<PlayerCharacter>().maxStat.Level;
+
+			return m_Character.maxStat.Level;
+		}
+	}
+	public int currentLevel
+	{
+		get
+		{
+			if (Application.isPlaying == false)
+				return GetComponent<PlayerCharacter>().currentStat.Level;
+
+			return m_Character.currentStat.Level;
+		}
+	}
 	#endregion
 
 	#region 매니저
 	private static ProjectileManager M_Projectile => ProjectileManager.Instance;
 	#endregion
 
+	//private void Awake()
+	//{
+	//	Initialize();
+	//}
+
 	public void Initialize()
 	{
-		this.Safe_GetComponentInChilderen<PlayerCharacter>(ref m_Character);
+		this.Safe_GetComponent<PlayerCharacter>(ref m_Character);
 
 		m_Character.Initialize();
 	}
@@ -147,8 +170,14 @@ public sealed class Player : MonoBehaviour
 		{
 			Xp -= m_Character.maxStat.Xp;
 			++m_Character.currentStat.Level;
+
+			InfiniteLoopDetector.Run();
 		}
 
 		m_Character.currentStat.Xp = Xp;
+	}
+	private void LevelUp()
+	{
+
 	}
 }

@@ -17,15 +17,12 @@ public class StageManager : Singleton<StageManager>
 	};
 
 	#region 변수
-	[SerializeField]
 	private Transform m_StageParent;
 
 	[SerializeField, Range(1, 6)]
 	private int m_CurrentStageLevel;
 	[SerializeField]
 	private Vector2Int m_StageSize;
-	[SerializeField, ReadOnly]
-	private Vector2Int m_CurrentRoomIndex;
 
 	private Stage m_CurrentStage;
 
@@ -41,22 +38,35 @@ public class StageManager : Singleton<StageManager>
 	public int stageHeight => m_StageSize.y;
 	#endregion
 
+	#region 이벤트
+	public event System.Action onStageGenerated;
+	#endregion
+
 	public void Initialize()
 	{
-		//m_CurrentStageLevel = 1;
+		this.Safe_GetComponent<StageGenerator>(ref m_StageGenerator);
+		m_StageGenerator.Initialize();
+	}
+	public void InitializeGame()
+	{
+		if (m_StageParent == null)
+		{
+			m_StageParent = new GameObject("Stages").transform;
+			m_StageParent.gameObject.isStatic = true;
+			m_StageParent.AddComponent<Grid>();
+		}
 
+		//m_CurrentStageLevel = 1;
 		m_StageSize = c_StageSize[m_CurrentStageLevel - 1];
 
-		m_StageGenerator = GetComponent<StageGenerator>();
-		m_StageGenerator.Initialize();
+		m_StageGenerator.InitializeGame();
 		m_CurrentStage = m_StageGenerator.GenerateStage(new StageGenerator.StageGeneratorArg()
 		{
 			stageParent = m_StageParent,
 			currentStageLevel = m_CurrentStageLevel,
 			stageSize = m_StageSize
 		});
-
-		m_CurrentRoomIndex = m_StageSize / 2;
+		onStageGenerated?.Invoke();
 	}
 
 	public void NextStage()
@@ -67,11 +77,11 @@ public class StageManager : Singleton<StageManager>
 
 		m_CurrentStage = m_StageGenerator.GenerateStage(new StageGenerator.StageGeneratorArg()
 		{
+			stageParent = m_StageParent,
 			currentStageLevel = m_CurrentStageLevel,
 			stageSize = m_StageSize
 		});
-
-		m_CurrentRoomIndex = m_StageSize / 2;
+		onStageGenerated?.Invoke();
 	}
 
 	//public Transform GetSpawnPoint(Collider2D collider)

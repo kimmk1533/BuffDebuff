@@ -93,10 +93,11 @@ public class Room : ObjectPoolItemBase
 		// 방 클리어 여부 초기화
 		m_IsClear = false;
 		// 적 생성 정보 초기화
-		//for (int i = 0; i < m_EnemyWave.Count; ++i)
-		//	m_EnemyWave[i].Initialize(this);
-		m_EnemyWaveIndex = Random.Range(0, m_EnemyWave.Count);
-		m_EnemyWave[m_EnemyWaveIndex].Initialize(this);
+		if (m_EnemyWave.Count > 0)
+		{
+			m_EnemyWaveIndex = Random.Range(0, m_EnemyWave.Count);
+			m_EnemyWave[m_EnemyWaveIndex].Initialize(this);
+		}
 
 		// 주변 방 딕셔너리 초기화
 		if (m_NearRoomMap != null)
@@ -128,6 +129,13 @@ public class Room : ObjectPoolItemBase
 		{
 			Tilemap tileMap = tilemapLayer.Find(layer.ToString()).GetComponent<Tilemap>();
 			m_TilemapMap.Add(layer, tileMap);
+
+			if (layer == E_RoomTilemapLayer.OneWayMap ||
+				layer == E_RoomTilemapLayer.TileMap)
+			{
+				TilemapCollider2D tilemapCollider2D = tileMap.GetComponent<TilemapCollider2D>();
+				tilemapCollider2D?.ProcessTilemapChanges();
+			}
 		}
 
 		m_PathFindingMap.Initialize();
@@ -177,6 +185,10 @@ public class Room : ObjectPoolItemBase
 	{
 		if (m_IsClear == true)
 			return;
+		//if (m_EnemyWave.Count <= 0)
+		//	return;
+		//if (m_EnemyWaveIndex < 0 || m_EnemyWaveIndex >= m_EnemyWave.Count)
+		//	throw new System.ArgumentOutOfRangeException();
 
 		m_EnemyWave[m_EnemyWaveIndex].CreateEnemy();
 	}
@@ -184,6 +196,10 @@ public class Room : ObjectPoolItemBase
 	{
 		if (m_IsClear == true)
 			return;
+		//if (m_EnemyWave.Count <= 0)
+		//	return;
+		//if (m_EnemyWaveIndex < 0 || m_EnemyWaveIndex >= m_EnemyWave.Count)
+		//	throw new System.ArgumentOutOfRangeException();
 
 		m_EnemyWave[m_EnemyWaveIndex].Reset();
 
@@ -209,9 +225,7 @@ public class Room : ObjectPoolItemBase
 		if (nearRoom == null)
 			return;
 
-		Room room = null;
-
-		if (m_NearRoomMap.TryGetValue(direction, out room) == true)
+		if (m_NearRoomMap.TryGetValue(direction, out Room room) == true)
 			m_NearRoomMap[direction] = nearRoom;
 		else
 			m_NearRoomMap.Add(direction, nearRoom);
@@ -222,16 +236,6 @@ public class Room : ObjectPoolItemBase
 			nearRoom.m_NearRoomMap[otherDir] = this;
 		else
 			nearRoom.m_NearRoomMap.Add(otherDir, this);
-
-		//if (m_NearRoomMap.TryGetValue(direction, out Room room) == true)
-		//{
-		//	if (room == null)
-		//		m_NearRoomMap[direction] = nearRoom;
-
-		//	return;
-		//}
-
-		//m_NearRoomMap.Add(direction, nearRoom);
 	}
 
 	public Tilemap GetTilemap(E_RoomTilemapLayer layer)

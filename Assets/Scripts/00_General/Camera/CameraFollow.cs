@@ -6,6 +6,8 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
 	#region 변수
+	private Camera m_Camera;
+
 	[Space(10)]
 	[SerializeField]
 	private PlayerController2D m_PlayerController;
@@ -28,8 +30,6 @@ public class CameraFollow : MonoBehaviour
 	[SerializeField]
 	private Vector2 m_ClampAreaSize;
 
-	private Camera m_Camera;
-
 	private FocusArea m_FocusArea;
 
 	private float m_CurrentLookAheadX;
@@ -44,6 +44,45 @@ public class CameraFollow : MonoBehaviour
 	private Vector2 m_MapSize;
 	#endregion
 
+	#region 프로퍼티
+	public float verticalOffset
+	{
+		get => m_VerticalOffset;
+		set => m_VerticalOffset = value;
+	}
+	public float lookAheadDstX
+	{
+		get => m_LookAheadDstX;
+		set => m_LookAheadDstX = value;
+	}
+	public float lookSmoothTimeX
+	{
+		get => m_LookSmoothTimeX;
+		set => m_LookSmoothTimeX = value;
+	}
+	public float verticalSmoothTime
+	{
+		get => m_VerticalSmoothTime;
+		set => m_VerticalSmoothTime = value;
+	}
+	public Vector2 focusAreaSize
+	{
+		get => m_FocusAreaSize;
+		set => m_FocusAreaSize = value;
+	}
+
+	public Vector2 clampOffset
+	{
+		get => m_ClampOffset;
+		set => m_ClampOffset = value;
+	}
+	public Vector2 clampAreaSize
+	{
+		get => m_ClampAreaSize;
+		set => m_ClampAreaSize = value;
+	}
+	#endregion
+
 	#region 매니저
 	private static PlayerManager M_Player => PlayerManager.Instance;
 	#endregion
@@ -52,6 +91,7 @@ public class CameraFollow : MonoBehaviour
 	{
 		this.Safe_GetComponentInChilderen<Camera>(ref m_Camera);
 		m_PlayerController = M_Player.player.character.controller;
+		transform.position = m_PlayerController.transform.position + transform.forward * -10f;
 
 		m_FocusArea = new FocusArea(m_PlayerController.collider.bounds, m_FocusAreaSize);
 
@@ -60,8 +100,16 @@ public class CameraFollow : MonoBehaviour
 		m_Screen = new Vector2(width, height);
 		m_MapSize = m_ClampAreaSize / 2;
 	}
+	//private void Awake()
+	//{
+	//	Initialize();
+	//}
+
 	private void LateUpdate()
 	{
+		if (m_PlayerController == null)
+			return;
+
 		m_FocusArea.Update(m_PlayerController.collider.bounds);
 
 		Vector2 focusPosition = m_FocusArea.center + Vector2.up * m_VerticalOffset;

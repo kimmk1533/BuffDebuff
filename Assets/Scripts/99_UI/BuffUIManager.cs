@@ -49,6 +49,35 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	{
 		base.Initialize();
 
+		if (m_BuffPanelMap != null)
+			m_BuffPanelMap.Clear();
+		else
+			m_BuffPanelMap = new Dictionary<string, BuffPanel>();
+
+		if (m_BuffInventoryList != null)
+			m_BuffInventoryList.Clear();
+		else
+			m_BuffInventoryList = new List<BuffUI>();
+
+		if (m_BuffInventoryMap != null)
+			m_BuffInventoryMap.Clear();
+		else
+			m_BuffInventoryMap = new Dictionary<int, BuffUI>();
+
+		if (m_BuffCombineInventoryList != null)
+			m_BuffCombineInventoryList.Clear();
+		else
+			m_BuffCombineInventoryList = new List<BuffUI>();
+
+		if (m_BuffCombineInventoryMap != null)
+			m_BuffCombineInventoryMap.Clear();
+		else
+			m_BuffCombineInventoryMap = new Dictionary<int, BuffUI>();
+	}
+	public override void InitializeGame()
+	{
+		base.InitializeGame();
+
 		foreach (var originInfo in m_Origins)
 		{
 			ObjectPool<BuffUI> pool = GetPool(originInfo.key);
@@ -119,37 +148,10 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 				}
 			});
 
-		#region SAFE_INIT
-		if (m_BuffPanelMap != null)
-			m_BuffPanelMap.Clear();
-		else
-			m_BuffPanelMap = new Dictionary<string, BuffPanel>();
-
 		foreach (var item in m_BuffPanelList)
 		{
 			m_BuffPanelMap.Add(item.name, item);
 		}
-
-		if (m_BuffInventoryList != null)
-			m_BuffInventoryList.Clear();
-		else
-			m_BuffInventoryList = new List<BuffUI>();
-
-		if (m_BuffInventoryMap != null)
-			m_BuffInventoryMap.Clear();
-		else
-			m_BuffInventoryMap = new Dictionary<int, BuffUI>();
-
-		if (m_BuffCombineInventoryList != null)
-			m_BuffCombineInventoryList.Clear();
-		else
-			m_BuffCombineInventoryList = new List<BuffUI>();
-
-		if (m_BuffCombineInventoryMap != null)
-			m_BuffCombineInventoryMap.Clear();
-		else
-			m_BuffCombineInventoryMap = new Dictionary<int, BuffUI>();
-		#endregion
 	}
 	public void InitializeBuffEvent()
 	{
@@ -157,6 +159,13 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		M_Buff.onBuffAdded += AddBuff_CombineInventory;
 		M_Buff.onBuffRemoved += RemoveBuff_Inventory;
 		M_Buff.onBuffRemoved += RemoveBuff_CombineInventory;
+	}
+	public void FinallizeBuffEvent()
+	{
+		M_Buff.onBuffAdded -= AddBuff_Inventory;
+		M_Buff.onBuffAdded -= AddBuff_CombineInventory;
+		M_Buff.onBuffRemoved -= RemoveBuff_Inventory;
+		M_Buff.onBuffRemoved -= RemoveBuff_CombineInventory;
 	}
 
 	private void Update()
@@ -357,6 +366,14 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 			buffUI.transform.localPosition = Vector3.zero;
 		}
 	}
+
+#if UNITY_EDITOR
+	[ContextMenu("Load Origin")]
+	protected override void LoadOrigin()
+	{
+		base.LoadOrigin_Inner();
+	}
+#endif
 
 	[System.Serializable]
 	private class BuffPanel

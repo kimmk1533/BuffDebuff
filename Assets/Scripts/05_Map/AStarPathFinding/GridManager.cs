@@ -22,7 +22,7 @@ public class GridManager : Singleton<GridManager>
 	private Color m_GridTextColor;
 
 	[Space(10)]
-	[SerializeField]
+	[SerializeField, ReadOnly]
 	private Tilemap m_Tilemap;
 	#endregion
 
@@ -31,6 +31,10 @@ public class GridManager : Singleton<GridManager>
 	#endregion
 
 	public void Initialize()
+	{
+
+	}
+	public void InitializeGame()
 	{
 
 	}

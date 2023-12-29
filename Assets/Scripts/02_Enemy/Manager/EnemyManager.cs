@@ -7,8 +7,10 @@ public class EnemyManager : ObjectManager<EnemyManager, Enemy>
 	public override void Initialize()
 	{
 		base.Initialize();
-
-
+	}
+	public override void InitializeGame()
+	{
+		base.InitializeGame();
 	}
 
 	private void Update()
@@ -25,4 +27,13 @@ public class EnemyManager : ObjectManager<EnemyManager, Enemy>
 				.Spawn();
 		}
 	}
+
+#if UNITY_EDITOR
+	[ContextMenu("Load Origin")]
+	protected override void LoadOrigin()
+	{
+		base.LoadOrigin_Inner();
+	}
+#endif
+
 }

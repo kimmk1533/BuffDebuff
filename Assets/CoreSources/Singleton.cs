@@ -2,45 +2,74 @@ using System.Linq;
 using UnityEngine;
 
 [DefaultExecutionOrder(-98)]
-public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class Singleton<TSelf> : MonoBehaviour where TSelf : Singleton<TSelf>
 {
 	#region 변수
 	[SerializeField]
-	protected bool flag;
+	protected bool m_IsMainScene;
+	[SerializeField]
+	protected bool m_DontDestroyOnLoad;
 
-	private static T instance;
+	private static TSelf m_Instance;
 	#endregion
 
 	#region 프로퍼티
-	public static T Instance
+	public static TSelf Instance
 	{
 		get
 		{
-			if (instance == null)
+			if (m_Instance != null)
+				return m_Instance;
+
+			Singleton<TSelf>[] objs = FindObjectsOfType<Singleton<TSelf>>(true);
+
+			Singleton<TSelf> obj = objs
+				.Where(item => item.m_IsMainScene == true)
+				.FirstOrDefault(); //GameObject.Find(typeof(T).Name);
+
+			if (obj == null)
 			{
-				Singleton<T>[] objs = FindObjectsOfType<Singleton<T>>(true);
-
-				GameObject obj = objs
-					.Where(item => item.flag == true)
-					.FirstOrDefault()?.gameObject; //GameObject.Find(typeof(T).Name);
-
-				if (obj == null)
-				{
-					if (objs.Length > 0)
-						return objs[0].GetComponent<T>();
-					obj = new GameObject(typeof(T).Name);
-					instance = obj.AddComponent<T>();
-				}
+				if (objs.Length > 0)
+					m_Instance = objs[0].GetComponent<TSelf>();
 				else
 				{
-					instance = obj.GetComponent<T>();
+					GameObject t = new GameObject(typeof(TSelf).Name + "_New");
+					obj = m_Instance = t.AddComponent<TSelf>();
+					obj.m_IsMainScene = true;
+					obj.m_DontDestroyOnLoad = true;
+				}
+			}
+			else
+			{
+				m_Instance = obj.GetComponent<TSelf>();
+			}
+
+			if (Application.isPlaying)
+			{
+				foreach (var item in objs)
+				{
+					if (obj == item)
+						continue;
+
+					GameObject.Destroy(item.gameObject);
 				}
 			}
 
-			return instance;
+			if (Application.isPlaying == true &&
+				obj.m_DontDestroyOnLoad)
+				DontDestroyOnLoad(obj.gameObject);
+
+			return m_Instance;
 		}
 	}
 	#endregion
+
+	private void Awake()
+	{
+		if (Application.isPlaying == true &&
+			m_DontDestroyOnLoad)
+			DontDestroyOnLoad(gameObject);
+	}
 }
 
 public abstract class SingletonBasic<T> where T : new()
@@ -61,6 +90,6 @@ public abstract class SingletonBasic<T> where T : new()
 
 			return instance;
 		}
-	} 
+	}
 	#endregion
 }

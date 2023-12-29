@@ -3,16 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [DefaultExecutionOrder(-97)]
-public abstract class ObjectManager<T, Item> : Singleton<T> where T : MonoBehaviour where Item : ObjectPoolItemBase
+public abstract class ObjectManager<TSelf, TItem> : Singleton<TSelf> where TSelf : Singleton<TSelf> where TItem : ObjectPoolItemBase
 {
 	[SerializeField]
+	protected string m_Path;
+	[SerializeField]
 	protected List<OriginInfo> m_Origins = new List<OriginInfo>();
-	protected Dictionary<string, ObjectPool<Item>> m_Pools = null;
+	protected Dictionary<string, ObjectPool<TItem>> m_Pools = null;
 
 	public virtual void Initialize()
 	{
-		m_Pools = new Dictionary<string, ObjectPool<Item>>();
-
+		if (m_Pools != null)
+		{
+			foreach (var item in m_Pools)
+			{
+				item.Value.Dispose();
+			}
+			m_Pools.Clear();
+		}
+		else
+			m_Pools = new Dictionary<string, ObjectPool<TItem>>();
+	}
+	public virtual void InitializeGame()
+	{
 		foreach (var originInfo in m_Origins)
 		{
 			if (originInfo.useFlag == false)
@@ -26,32 +39,32 @@ public abstract class ObjectManager<T, Item> : Singleton<T> where T : MonoBehavi
 	{
 		AddPool(info.key, info.poolSize, info.origin, parent);
 	}
-	protected void AddPool(string key, int poolSize, Item origin, Transform parent)
+	protected void AddPool(string key, int poolSize, TItem origin, Transform parent)
 	{
 		if (origin == null)
 			throw new System.ArgumentNullException(transform.name + ": origin이 null 입니다. key는 \"" + key + "\" 였습니다.");
 
-		if (origin.gameObject.scene.buildIndex == -1)
-			throw new System.Exception(transform.name + ": Object Manager의 origin은 씬에 존재하는 오브젝트여야 합니다.");
-
-		origin.name = key;
-		origin.transform.SetParent(transform);
-		origin.gameObject.SetActive(false);
+		if (origin.gameObject.scene.buildIndex != -1)
+		{
+			origin.name = key;
+			origin.transform.SetParent(transform);
+			origin.gameObject.SetActive(false);
+		}
 
 		GameObject poolParent = new GameObject();
 		poolParent.name = key + "_Pool";
 		poolParent.transform.SetParent(parent);
 		poolParent.SetActive(true);
 
-		ObjectPool<Item> pool = new ObjectPool<Item>(key, origin, poolSize, poolParent.transform);
+		ObjectPool<TItem> pool = new ObjectPool<TItem>(key, origin, poolSize, poolParent.transform);
 		pool.Initialize();
 
 		m_Pools.Add(key, pool);
 	}
 
-	public ObjectPool<Item>.ItemBuilder GetBuilder(string key)
+	public ObjectPool<TItem>.ItemBuilder GetBuilder(string key)
 	{
-		ObjectPool<Item> pool = GetPool(key);
+		ObjectPool<TItem> pool = GetPool(key);
 
 		if (pool == null)
 			throw new System.NullReferenceException(transform.name + ": Pool이 null 입니다. key는 \"" + key + "\" 였습니다.");
@@ -59,14 +72,14 @@ public abstract class ObjectManager<T, Item> : Singleton<T> where T : MonoBehavi
 		return pool.GetBuilder();
 	}
 
-	public Item Spawn(string key, Transform parent = null, bool autoInit = true)
+	public TItem Spawn(string key, Transform parent = null, bool autoInit = true)
 	{
-		ObjectPool<Item> pool = GetPool(key);
+		ObjectPool<TItem> pool = GetPool(key);
 
 		if (pool == null)
 			throw new System.NullReferenceException(transform.name + ": Pool이 null 입니다. key는 \"" + key + "\" 였습니다.");
 
-		Item item = pool.GetBuilder()
+		TItem item = pool.GetBuilder()
 			.SetActive(true)
 			.SetAutoInit(autoInit)
 			.SetParent(parent)
@@ -74,14 +87,14 @@ public abstract class ObjectManager<T, Item> : Singleton<T> where T : MonoBehavi
 
 		return item;
 	}
-	public Item Spawn(string key, Vector3 position, Transform parent = null, bool autoInit = true)
+	public TItem Spawn(string key, Vector3 position, Transform parent = null, bool autoInit = true)
 	{
-		ObjectPool<Item> pool = GetPool(key);
+		ObjectPool<TItem> pool = GetPool(key);
 
 		if (pool == null)
 			throw new System.NullReferenceException(transform.name + ": Pool이 null 입니다. key는 \"" + key + "\" 였습니다.");
 
-		Item item = pool.GetBuilder()
+		TItem item = pool.GetBuilder()
 			.SetActive(true)
 			.SetAutoInit(autoInit)
 			.SetParent(parent)
@@ -92,14 +105,14 @@ public abstract class ObjectManager<T, Item> : Singleton<T> where T : MonoBehavi
 
 		return item;
 	}
-	public Item Spawn(string key, Vector3 position, Quaternion rotation, Transform parent = null, bool autoInit = true)
+	public TItem Spawn(string key, Vector3 position, Quaternion rotation, Transform parent = null, bool autoInit = true)
 	{
-		ObjectPool<Item> pool = GetPool(key);
+		ObjectPool<TItem> pool = GetPool(key);
 
 		if (pool == null)
 			throw new System.NullReferenceException(transform.name + ": Pool이 null 입니다. key는 \"" + key + "\" 였습니다.");
 
-		Item item = pool.GetBuilder()
+		TItem item = pool.GetBuilder()
 			.SetActive(true)
 			.SetAutoInit(autoInit)
 			.SetParent(parent)
@@ -111,12 +124,12 @@ public abstract class ObjectManager<T, Item> : Singleton<T> where T : MonoBehavi
 
 		return item;
 	}
-	public bool Despawn(Item item, bool autoFinal = true)
+	public bool Despawn(TItem item, bool autoFinal = true)
 	{
 		if (item.poolKey == string.Empty)
 			throw new System.Exception(item.ToString() + "에는 값이 있어야 합니다.");
 
-		ObjectPool<Item> pool = GetPool(item.poolKey);
+		ObjectPool<TItem> pool = GetPool(item.poolKey);
 
 		if (pool == null)
 			throw new System.NullReferenceException(name + ": Pool이 null 입니다. itemName은 \"" + item.poolKey + "\" 였습니다.");
@@ -124,7 +137,7 @@ public abstract class ObjectManager<T, Item> : Singleton<T> where T : MonoBehavi
 		return pool.Despawn(item, autoFinal);
 	}
 
-	protected virtual ObjectPool<Item> GetPool(string key)
+	protected virtual ObjectPool<TItem> GetPool(string key)
 	{
 		// 예외 처리: 초기화 안함
 		if (m_Pools == null)
@@ -141,34 +154,34 @@ public abstract class ObjectManager<T, Item> : Singleton<T> where T : MonoBehavi
 		return m_Pools[key];
 	}
 
+#if UNITY_EDITOR
+	protected abstract void LoadOrigin();
+	protected void LoadOrigin_Inner()
+	{
+		for (int i = 0; i < m_Origins.Count; ++i)
+		{
+			OriginInfo info = m_Origins[i];
+			info.origin = Resources.Load<TItem>(System.IO.Path.Combine(m_Path, info.path, info.key));
+			m_Origins[i] = info;
+		}
+	}
+#endif
+
 	[System.Serializable]
 	public struct OriginInfo : IEqualityComparer<OriginInfo>
 	{
 		[field: SerializeField, ReadOnly(true)]
 		public string key { get; set; }
+		[field: SerializeField, ReadOnly(true)]
+		public string path { get; set; }
 
 		[field: Space]
 		[field: SerializeField, ReadOnly(true)]
 		public bool useFlag { get; set; }
-		[field: SerializeField, ReadOnly(true)]
+		[field: SerializeField, ReadOnly(true), Min(1)]
 		public int poolSize { get; set; }
 		[field: SerializeField, ReadOnly(true)]
-		public Item origin { get; set; }
-
-		public OriginInfo(string key, Item item)
-		{
-			this.useFlag = true;
-			this.key = key;
-			this.poolSize = 100;
-			this.origin = item;
-		}
-		public OriginInfo(string key, int poolSize, Item item)
-		{
-			this.useFlag = true;
-			this.key = key;
-			this.poolSize = poolSize;
-			this.origin = item;
-		}
+		public TItem origin { get; set; }
 
 		public static bool operator ==(OriginInfo x, OriginInfo y)
 		{

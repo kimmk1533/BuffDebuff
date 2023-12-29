@@ -5,8 +5,7 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
 	#region 변수
-	[SerializeField]
-	private CameraFollow m_PlayerCamera;
+	private static UICamera M_UICamera => UICamera.Instance;
 	#endregion
 
 	#region 매니저
@@ -27,27 +26,27 @@ public class GameManager : Singleton<GameManager>
 	private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
 	#endregion
 
-	private void Awake()
-	{
-		Initialize();
-
-		InitializeEvent();
-	}
+	//private void Awake()
+	//{
+	//	Initialize();
+	//	InitializeGame();
+	//	InitializeEvent();
+	//}
 
 	public void Initialize()
 	{
+		// UI 카메라 초기화
+		M_UICamera.Initialize();
+
+		// 스프레드시트 매니저 초기화
+		//M_SpreadSheet.Initialize();
+
 		// 플레이어 매니저 초기화
 		M_Player.Initialize();
-		// 플레이어 카메라 초기화
-		m_PlayerCamera.Initialize();
-
 		// 적 매니저 초기화
 		M_Enemy.Initialize();
 		// 투사체 매니저 초기화
 		M_Projectile.Initialize();
-
-		// 스프레드시트 매니저 초기화
-		//M_SpreadSheet.Initialize();
 		// 버프 매니저 초기화
 		M_Buff.Initialize();
 
@@ -59,8 +58,27 @@ public class GameManager : Singleton<GameManager>
 		M_Stage.Initialize();
 		// 그리드 매니저 초기화
 		M_Grid.Initialize();
+	}
+	public void InitializeGame()
+	{
+		// 플레이어 매니저 초기화
+		M_Player.InitializeGame();
+		// 적 매니저 초기화
+		M_Enemy.InitializeGame();
+		// 투사체 매니저 초기화
+		M_Projectile.InitializeGame();
+		// 버프 매니저 초기화
+		M_Buff.InitializeGame();
 
-		// UI 관련
+		// 워프 매니저 초기화
+		M_Warp.InitializeGame();
+		// 방 매니저 초기화
+		M_Room.InitializeGame();
+		// 스테이지 매니저 초기화
+		M_Stage.InitializeGame();
+		// 그리드 매니저 초기화
+		M_Grid.InitializeGame();
+
 		// 버프 UI 매니저 초기화
 		M_BuffUI.Initialize();
 	}

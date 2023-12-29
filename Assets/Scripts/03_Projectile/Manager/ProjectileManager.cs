@@ -8,4 +8,16 @@ public class ProjectileManager : ObjectManager<ProjectileManager, Projectile>
 	{
 		base.Initialize();
 	}
+	public override void InitializeGame()
+	{
+		base.InitializeGame();
+	}
+
+#if UNITY_EDITOR
+	[ContextMenu("Load Origin")]
+	protected override void LoadOrigin()
+	{
+		base.LoadOrigin_Inner();
+	}
+#endif
 }

@@ -12,9 +12,22 @@ public class WarpManager : Singleton<WarpManager>
 	public void Initialize()
 	{
 		if (m_WarpPointMap != null)
+		{
+			foreach (var item in m_WarpPointMap)
+			{
+				foreach (var item2 in item.Value)
+				{
+					item2.Value.Clear();
+				}
+				item.Value.Clear();
+			}
 			m_WarpPointMap.Clear();
+		}
 		else
 			m_WarpPointMap = new Dictionary<Room, Dictionary<E_Direction, List<WarpPoint>>>();
+	}
+	public void InitializeGame()
+	{
 	}
 
 	public void AddWarpPoint(Room room, WarpPoint warpPoint)
