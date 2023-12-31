@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-[DefaultExecutionOrder(-99)]
 public class LoadingSceneManager : MonoBehaviour
 {
 	#region 변수
-	private static string m_NextScene;
+	protected static string m_PrevScene;
+	protected static string m_NextScene;
 
 	[SerializeField]
 	private TextMeshProUGUI m_Percent;
@@ -16,36 +17,35 @@ public class LoadingSceneManager : MonoBehaviour
 	private Image m_ProgressBar;
 	#endregion
 
-	#region 이벤트
-	public static event System.Action onLoadSceneCompleted;
-	#endregion
-
 	private void Awake()
 	{
 		Initialize();
 	}
-
-	public void Initialize()
+	private void Initialize()
 	{
 		StartCoroutine(LoadScene());
 	}
-	public void Finallize()
+	private void Finallize()
 	{
 
 	}
 
 	public static void LoadScene(string sceneName)
 	{
+		m_PrevScene = SceneManager.GetActiveScene().name;
 		m_NextScene = sceneName;
-		UnityEngine.SceneManagement.SceneManager.LoadScene("Loading Scene");
+
+		LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Additive, LocalPhysicsMode.None);
+		SceneManager.LoadScene("Loading Scene", sceneParameters);
 	}
 	private IEnumerator LoadScene()
 	{
 		yield return null;
 
-		AsyncOperation op = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(m_NextScene);
+		LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Additive, LocalPhysicsMode.None);
+		AsyncOperation op = SceneManager.LoadSceneAsync(m_NextScene, sceneParameters);
 		op.allowSceneActivation = false;
-		op.completed += OnLoadCompleted;
+		op.completed += OnSceneLoadCompleted;
 
 		while (!op.isDone)
 		{
@@ -64,15 +64,16 @@ public class LoadingSceneManager : MonoBehaviour
 				if (m_ProgressBar.fillAmount >= 1.0f)
 				{
 					op.allowSceneActivation = true;
-
-					yield break;
+					break;
 				}
 			}
 		}
 	}
-	private void OnLoadCompleted(AsyncOperation op)
+	private void OnSceneLoadCompleted(AsyncOperation op)
 	{
-		onLoadSceneCompleted?.Invoke();
-		onLoadSceneCompleted = null;
+		SceneManager.UnloadSceneAsync(m_PrevScene);
+
+		m_PrevScene = m_NextScene;
+		m_NextScene = "";
 	}
 }

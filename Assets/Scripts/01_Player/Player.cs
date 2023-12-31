@@ -40,10 +40,10 @@ public sealed class Player : MonoBehaviour
 	private static ProjectileManager M_Projectile => ProjectileManager.Instance;
 	#endregion
 
-	//private void Awake()
-	//{
-	//	Initialize();
-	//}
+	private void Awake()
+	{
+		Initialize();
+	}
 
 	public void Initialize()
 	{

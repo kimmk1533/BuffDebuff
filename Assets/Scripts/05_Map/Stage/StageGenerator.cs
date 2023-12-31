@@ -299,10 +299,10 @@ public class StageGenerator : MonoBehaviour
 			}
 			#endregion
 
-			//for (int i = 0; i < conditionList.Count; ++i)
-			//{
-			//	Debug.Log((m_GeneratedRoomCount + 1).ToString("00_") + i.ToString("00: ") + conditionList[i].ToString());
-			//}
+			for (int i = 0; i < conditionList.Count; ++i)
+			{
+				Debug.Log((m_GeneratedRoomCount + 1).ToString("00_") + i.ToString("00: ") + conditionList[i].ToString());
+			}
 
 			int x = roomPos.x;
 			int y = roomPos.y;

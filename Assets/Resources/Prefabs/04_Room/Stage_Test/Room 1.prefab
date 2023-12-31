@@ -303,8 +303,6 @@ GameObject:
   - component: {fileID: 853564449986947902}
   - component: {fileID: 853564449986947903}
   - component: {fileID: 853564449986947896}
-  - component: {fileID: 853564449986947900}
-  - component: {fileID: 853564449986947901}
   m_Layer: 6
   m_Name: OneWayMap
   m_TagString: OneWay
@@ -431,52 +429,6 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
---- !u!50 &853564449986947900
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 853564449986947898}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!66 &853564449986947901
-CompositeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 853564449986947898}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_GeometryType: 1
-  m_GenerationType: 0
-  m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 853564449986947896}
-    m_ColliderPaths: []
-  m_CompositePaths:
-    m_Paths: []
-  m_VertexDistance: 0.0005
-  m_OffsetDistance: 0
-  m_UseDelaunayMesh: 0
 --- !u!1 &853564450256860610
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,8 +441,6 @@ GameObject:
   - component: {fileID: 853564450256860615}
   - component: {fileID: 853564450256860608}
   - component: {fileID: 853564450256860614}
-  - component: {fileID: 853564450256860612}
-  - component: {fileID: 853564450256860613}
   m_Layer: 6
   m_Name: TileMap
   m_TagString: Untagged
@@ -3444,100 +3394,6 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
-  m_UseDelaunayMesh: 0
---- !u!50 &853564450256860612
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 853564450256860610}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!66 &853564450256860613
-CompositeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 853564450256860610}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_GeometryType: 1
-  m_GenerationType: 0
-  m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 853564450256860614}
-    m_ColliderPaths:
-    - - X: 280000000
-        Y: 150000000
-      - X: 160000000
-        Y: 150000000
-      - X: 160000000
-        Y: 130000000
-      - X: 280000000
-        Y: 130000000
-    - - X: 370000000
-        Y: 100000000
-      - X: 300000000
-        Y: 100000000
-      - X: 300000000
-        Y: 80000000
-      - X: 370000000
-        Y: 80000000
-    - - X: 140000000
-        Y: 100000000
-      - X: 70000000
-        Y: 100000000
-      - X: 70000000
-        Y: 80000000
-      - X: 140000000
-        Y: 80000000
-    - - X: 450000000
-        Y: 50000000
-      - X: 0
-        Y: 50000000
-      - X: 0
-        Y: 0
-      - X: 450000000
-        Y: 0
-  m_CompositePaths:
-    m_Paths:
-    - - {x: 28, y: 15}
-      - {x: 16, y: 15}
-      - {x: 16, y: 13}
-      - {x: 28, y: 13}
-    - - {x: 37, y: 10}
-      - {x: 30, y: 10}
-      - {x: 30, y: 8}
-      - {x: 37, y: 8}
-    - - {x: 14, y: 10}
-      - {x: 7, y: 10}
-      - {x: 7, y: 8}
-      - {x: 14, y: 8}
-    - - {x: 45, y: 5}
-      - {x: 0, y: 5}
-      - {x: 0, y: 0}
-      - {x: 45, y: 0}
-  m_VertexDistance: 0.0005
-  m_OffsetDistance: 0
   m_UseDelaunayMesh: 0
 --- !u!1 &853564450674883062
 GameObject:

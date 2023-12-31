@@ -354,7 +354,7 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 			Vector3 debug_textPos = (Vector2)(m_PathFinding_Path[i] + offset);
 			debug_textPos += debug_offset;
 
-			var debug_text = UtilClass.CreateWorldText(i + 1, textObjectParent.transform, debug_textPos, 0.1f, 40, textColor, TextAnchor.MiddleCenter);
+			var debug_text = UtilClass.CreateWorldText(i + 1, null, debug_textPos, 0.1f, 40, textColor, TextAnchor.MiddleCenter);
 
 			textObjectList.Add(debug_text);
 		}

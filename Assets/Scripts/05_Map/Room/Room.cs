@@ -134,7 +134,17 @@ public class Room : ObjectPoolItemBase
 				layer == E_RoomTilemapLayer.TileMap)
 			{
 				TilemapCollider2D tilemapCollider2D = tileMap.GetComponent<TilemapCollider2D>();
-				tilemapCollider2D?.ProcessTilemapChanges();
+				tilemapCollider2D.usedByComposite = true;
+				tilemapCollider2D.offset = Vector2.zero;
+				tilemapCollider2D.ProcessTilemapChanges();
+
+				Rigidbody2D rigidbody2D = tileMap.GetOrAddComponent<Rigidbody2D>();
+				rigidbody2D.bodyType = RigidbodyType2D.Static;
+
+				CompositeCollider2D compositeCollider2D = tileMap.GetOrAddComponent<CompositeCollider2D>();
+				compositeCollider2D.geometryType = CompositeCollider2D.GeometryType.Polygons;
+				compositeCollider2D.generationType = CompositeCollider2D.GenerationType.Synchronous;
+				compositeCollider2D.GenerateGeometry();
 			}
 		}
 
@@ -185,10 +195,10 @@ public class Room : ObjectPoolItemBase
 	{
 		if (m_IsClear == true)
 			return;
-		//if (m_EnemyWave.Count <= 0)
-		//	return;
-		//if (m_EnemyWaveIndex < 0 || m_EnemyWaveIndex >= m_EnemyWave.Count)
-		//	throw new System.ArgumentOutOfRangeException();
+		if (m_EnemyWave.Count <= 0)
+			return;
+		if (m_EnemyWaveIndex < 0 || m_EnemyWaveIndex >= m_EnemyWave.Count)
+			throw new System.ArgumentOutOfRangeException();
 
 		m_EnemyWave[m_EnemyWaveIndex].CreateEnemy();
 	}
@@ -196,10 +206,10 @@ public class Room : ObjectPoolItemBase
 	{
 		if (m_IsClear == true)
 			return;
-		//if (m_EnemyWave.Count <= 0)
-		//	return;
-		//if (m_EnemyWaveIndex < 0 || m_EnemyWaveIndex >= m_EnemyWave.Count)
-		//	throw new System.ArgumentOutOfRangeException();
+		if (m_EnemyWave.Count <= 0)
+			return;
+		if (m_EnemyWaveIndex < 0 || m_EnemyWaveIndex >= m_EnemyWave.Count)
+			throw new System.ArgumentOutOfRangeException();
 
 		m_EnemyWave[m_EnemyWaveIndex].Reset();
 
