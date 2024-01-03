@@ -8,6 +8,22 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4603876541900733853, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4603876541900733853, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4603876541900733853, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7505054503472051762}
+    - target: {fileID: 4603876541900733853, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7226590036843107204, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -99,3 +115,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
+--- !u!1 &7505054503472051762 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7226590036843107205, guid: 765ed12a9d1f9ed4c8f2daed0ce46d34, type: 3}
+  m_PrefabInstance: {fileID: 895457761608639927}
+  m_PrefabAsset: {fileID: 0}

@@ -10,6 +10,8 @@ public class InitSceneLoader : SceneLoader
 
 	protected override void Initialize()
 	{
+		m_OnSceneLoadCompleted.AddListener(M_Game.InitializeGame);
+		m_OnSceneLoadCompleted.AddListener(M_Game.InitializeEvent);
 		m_OnSceneLoadCompleted.AddListener(Physics2D.SyncTransforms);
 
 		LoadingSceneManager.LoadScene("Game Scene");

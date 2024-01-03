@@ -9,25 +9,25 @@ public class BuffUI : ObjectPoolItemBase
 {
 	#region 변수
 	[SerializeField]
-	private int m_BuffCount;
-	private BuffData m_BuffData;
+	protected int m_BuffCount;
+	protected BuffData m_BuffData;
 
 	[Space(10)]
 	[SerializeField]
-	private TextMeshProUGUI m_BuffCountText;
+	protected TextMeshProUGUI m_BuffCountText;
 	[SerializeField]
-	private TextMeshProUGUI m_BuffCode;
+	protected TextMeshProUGUI m_BuffCode;
 	[SerializeField]
-	private TextMeshProUGUI m_TitleText;
+	protected TextMeshProUGUI m_TitleText;
 	[SerializeField]
-	private Image m_SpriteImage;
+	protected Image m_SpriteImage;
 	[SerializeField]
-	private TextMeshProUGUI m_BuffGradeText;
+	protected TextMeshProUGUI m_BuffGradeText;
 	[SerializeField]
-	private TextMeshProUGUI m_DescriptionText;
+	protected TextMeshProUGUI m_DescriptionText;
 
 	[SerializeField]
-	private Button m_Button;
+	protected Button m_Button;
 	#endregion
 
 	#region 프로퍼티
@@ -101,10 +101,18 @@ public class BuffUI : ObjectPoolItemBase
 		}
 		#endregion
 	}
-	public void Initialize(BuffData buffData)
+	public virtual void Initialize(BuffData buffData)
 	{
+		base.Initialize();
+
 		m_BuffCount = 1;
 		UpdateBuffUIData(buffData);
+	}
+	public override void Finallize()
+	{
+		base.Finallize();
+
+		m_Button.onClick.RemoveAllListeners();
 	}
 
 	public void UpdateBuffUIData()

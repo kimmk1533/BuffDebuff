@@ -50,10 +50,14 @@ public class Room : ObjectPoolItemBase
 	#endregion
 
 	#region 워프 관련
+	// 워프 시뮬 여부
+	private bool m_IsSimulating;
+
 	// 주변 방
 	private Dictionary<E_Direction, Room> m_NearRoomMap;
 
 	// 워프포인트
+	private List<WarpPoint> m_WarpPointList;
 	private Dictionary<E_Direction, Dictionary<int, WarpPoint>> m_WarpPointMap; // 방향, 인덱스, 워프포인트
 	private Dictionary<E_Direction, int> m_WarpPointCountMap; // 방향, 갯수 
 	#endregion
@@ -74,6 +78,17 @@ public class Room : ObjectPoolItemBase
 	public PathFindingMap pathFindingMap => m_PathFindingMap;
 
 	public bool isClear => m_IsClear;
+	public bool isSimulating
+	{
+		get => m_IsSimulating;
+		set
+		{
+			for (int i = 0; i < m_WarpPointList.Count; ++i)
+			{
+				m_WarpPointList[i].isSimulating = value;
+			}
+		}
+	}
 	#endregion
 
 	public override void Initialize()
@@ -104,6 +119,12 @@ public class Room : ObjectPoolItemBase
 			m_NearRoomMap.Clear();
 		else
 			m_NearRoomMap = new Dictionary<E_Direction, Room>();
+
+		// 워프포인트 리스트 초기화
+		if (m_WarpPointList != null)
+			m_WarpPointList.Clear();
+		else
+			m_WarpPointList = new List<WarpPoint>();
 
 		// 워프포인트 딕셔너리 초기화
 		if (m_WarpPointMap != null)
@@ -150,9 +171,10 @@ public class Room : ObjectPoolItemBase
 
 		m_PathFindingMap.Initialize();
 
-		WarpPoint[] warpPointArray = GetComponentsInChildren<WarpPoint>();
-		foreach (WarpPoint warpPoint in warpPointArray)
+		GetComponentsInChildren<WarpPoint>(m_WarpPointList);
+		for (int i = 0; i < m_WarpPointList.Count; ++i)
 		{
+			WarpPoint warpPoint = m_WarpPointList[i];
 			warpPoint.Initialize(this);
 			warpPoint.onWarp += OnWarp;
 
@@ -235,14 +257,14 @@ public class Room : ObjectPoolItemBase
 		if (nearRoom == null)
 			return;
 
-		if (m_NearRoomMap.TryGetValue(direction, out Room room) == true)
+		if (m_NearRoomMap.ContainsKey(direction) == true)
 			m_NearRoomMap[direction] = nearRoom;
 		else
 			m_NearRoomMap.Add(direction, nearRoom);
 
 		E_Direction otherDir = DirEnumUtil.GetOtherDir(direction);
 
-		if (nearRoom.m_NearRoomMap.TryGetValue(otherDir, out room) == true)
+		if (nearRoom.m_NearRoomMap.ContainsKey(otherDir) == true)
 			nearRoom.m_NearRoomMap[otherDir] = this;
 		else
 			nearRoom.m_NearRoomMap.Add(otherDir, this);

@@ -82,6 +82,8 @@ public class StageGenerator : MonoBehaviour
 
 		while (m_StageRoomCount < m_MaxRoomCount)
 		{
+			InfiniteLoopDetector.Run();
+
 			if (m_StageRoomQueue.Count == 0)
 			{
 				ResetRoomCheck(currStageLevel, ref stage);
@@ -96,8 +98,6 @@ public class StageGenerator : MonoBehaviour
 
 				UpdateRoomCheck(checkPos);
 			}
-
-			InfiniteLoopDetector.Run();
 		}
 
 		#region Debug
@@ -253,17 +253,17 @@ public class StageGenerator : MonoBehaviour
 		Room room;
 		Vector2Int center = stageSize / 2;
 
-		if (roomPos == center)
-		{
-			room = M_Room.SpawnStartRoom("StartRoom");
-			room.gameObject.SetActive(false);
-			room.transform.SetParent(stage.transform);
-			room.transform.position = Vector3.zero;
-			room.Initialize();
+		//if (roomPos == center)
+		//{
+		//	room = M_Room.SpawnStartRoom("StartRoom");
+		//	room.gameObject.SetActive(false);
+		//	room.transform.SetParent(stage.transform);
+		//	room.transform.position = Vector3.zero;
+		//	room.Initialize();
 
-			room.name = m_GeneratedRoomCount.ToString("00_StartRoom");
-		}
-		else
+		//	room.name = m_GeneratedRoomCount.ToString("00_StartRoom");
+		//}
+		//else
 		{
 			List<RoomCondition> conditionList = new List<RoomCondition>();
 
@@ -299,10 +299,10 @@ public class StageGenerator : MonoBehaviour
 			}
 			#endregion
 
-			for (int i = 0; i < conditionList.Count; ++i)
-			{
-				Debug.Log((m_GeneratedRoomCount + 1).ToString("00_") + i.ToString("00: ") + conditionList[i].ToString());
-			}
+			//for (int i = 0; i < conditionList.Count; ++i)
+			//{
+			//	Debug.Log((m_GeneratedRoomCount + 1).ToString("00_") + i.ToString("00: ") + conditionList[i].ToString());
+			//}
 
 			int x = roomPos.x;
 			int y = roomPos.y;
@@ -310,7 +310,7 @@ public class StageGenerator : MonoBehaviour
 			Vector3 pos = new Vector3((x - center.x) * 100, (y - center.y) * 100);
 
 			room = M_Room.GetBuilder(conditionList.ToArray())
-				.SetActive(false)
+				.SetActive(true)
 				.SetAutoInit(true)
 				.SetParent(stage.transform)
 				.SetPosition(pos)

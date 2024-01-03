@@ -80,7 +80,13 @@ public class PlayerManager : Singleton<PlayerManager>
 	{
 		M_Stage.onStageGenerated += () =>
 		{
-			m_Player.transform.position = (M_Stage.currentStage.currentRoom as StartRoom).startPos;
+			Room room = M_Stage.currentStage.currentRoom;
+			StartRoom startRoom = room as StartRoom;
+
+			if (startRoom != null)
+				m_Player.transform.position = startRoom.startPos;
+			else
+				m_Player.transform.position = new Vector3(20f, 4f);
 		};
 	}
 

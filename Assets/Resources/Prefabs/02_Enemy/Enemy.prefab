@@ -380,7 +380,7 @@ MonoBehaviour:
   m_PathFinding_ReSearchTimer:
     m_Interval: 0
     m_Time: 0
-  showPath: 1
+  showPath: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textObjectParent: {fileID: 0}
   textObjectList: []

@@ -20,6 +20,11 @@ public class WarpPoint : MonoBehaviour
 	#region 프로퍼티
 	public int index => m_Index;
 	public E_Direction direction => m_Direction;
+	public bool isSimulating
+	{
+		get => m_CollisionChecker2D.isSimulating;
+		set => m_CollisionChecker2D.isSimulating = value;
+	}
 	#endregion
 
 	#region 이벤트
@@ -49,6 +54,7 @@ public class WarpPoint : MonoBehaviour
 		this.Safe_GetComponent<BoxCollisionChecker2D>(ref m_CollisionChecker2D);
 		m_CollisionChecker2D.Initialize();
 		m_CollisionChecker2D["Player"].onEnter2D += MoveCollisionObject;
+		m_CollisionChecker2D.isSimulating = false;
 		#endregion
 
 		M_Warp.AddWarpPoint(room, this);

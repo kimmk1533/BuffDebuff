@@ -28,16 +28,16 @@ public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBa
 
 	#region 이벤트
 	// 오브젝트가 복제될 때 실행될 이벤트
-	private UnityEvent<Item> m_OnInstantiated;
-	public event UnityAction<Item> onInstantiated
+	private UnityEvent<Item> m_OnItemInstantiated;
+	public event UnityAction<Item> onItemInstantiated
 	{
 		add
 		{
-			m_OnInstantiated.AddListener(value);
+			m_OnItemInstantiated.AddListener(value);
 		}
 		remove
 		{
-			m_OnInstantiated.RemoveListener(value);
+			m_OnItemInstantiated.RemoveListener(value);
 		}
 	}
 	#endregion
@@ -52,7 +52,7 @@ public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBa
 		m_Queue = new Queue<Item>(poolSize);
 		m_SpawnedItemList = new List<Item>(poolSize);
 		m_Parent = null;
-		m_OnInstantiated = new UnityEvent<Item>();
+		m_OnItemInstantiated = new UnityEvent<Item>();
 
 		m_ItemBuilder = new ItemBuilder(this);
 
@@ -67,7 +67,7 @@ public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBa
 		m_Queue = new Queue<Item>(poolSize);
 		m_SpawnedItemList = new List<Item>(poolSize);
 		m_Parent = parent;
-		m_OnInstantiated = new UnityEvent<Item>();
+		m_OnItemInstantiated = new UnityEvent<Item>();
 
 		m_ItemBuilder = new ItemBuilder(this);
 
@@ -99,7 +99,7 @@ public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBa
 			newItem.name = m_Origin.name;
 			newItem.poolKey = m_PoolKey;
 
-			m_OnInstantiated?.Invoke(newItem);
+			m_OnItemInstantiated?.Invoke(newItem);
 
 			newItem.gameObject.SetActive(false);
 			if (m_Parent != null)
@@ -173,8 +173,8 @@ public class ObjectPool<Item> : System.IDisposable where Item : ObjectPoolItemBa
 		m_SpawnedItemList.Clear();
 		m_SpawnedItemList = null;
 
-		m_OnInstantiated.RemoveAllListeners();
-		m_OnInstantiated = null;
+		m_OnItemInstantiated.RemoveAllListeners();
+		m_OnItemInstantiated = null;
 	}
 
 	public class ItemBuilder

@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class CombineBuffUIPanel : MonoBehaviour
@@ -25,6 +27,20 @@ public class CombineBuffUIPanel : MonoBehaviour
 	}
 	#endregion
 
+	#region 이벤트
+	public event UnityAction onClick
+	{
+		add
+		{
+			m_BuffUI.onClick += value;
+		}
+		remove
+		{
+			m_BuffUI.onClick -= value;
+		}
+	}
+	#endregion
+
 	#region 매니저
 	private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
 	#endregion
@@ -32,7 +48,7 @@ public class CombineBuffUIPanel : MonoBehaviour
 	public void Initialize()
 	{
 		m_BuffUI = M_BuffUI.GetBuilder("Buff Combine")
-			.SetActive(true)
+			.SetActive(false)
 			.SetAutoInit(true)
 			.SetParent(transform)
 			.Spawn();
@@ -40,6 +56,7 @@ public class CombineBuffUIPanel : MonoBehaviour
 		m_BuffUI.transform.localPosition = Vector3.zero;
 		m_BuffUI.transform.localScale = Vector3.one;
 	}
+
 	public bool SetBuffData(BuffData buffData)
 	{
 		if (m_BuffUI == null)

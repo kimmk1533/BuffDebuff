@@ -26,12 +26,12 @@ public class GameManager : Singleton<GameManager>
 	private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
 	#endregion
 
-	//private void Awake()
-	//{
-	//	Initialize();
-	//	InitializeGame();
-	//	InitializeEvent();
-	//}
+	private void Awake()
+	{
+		Initialize();
+		//InitializeGame();
+		//InitializeEvent();
+	}
 
 	public void Initialize()
 	{
@@ -79,8 +79,7 @@ public class GameManager : Singleton<GameManager>
 		// 그리드 매니저 초기화
 		M_Grid.InitializeGame();
 
-		// 버프 UI 매니저 초기화
-		M_BuffUI.Initialize();
+		M_BuffUI.InitializeGame();
 	}
 	public void InitializeEvent()
 	{

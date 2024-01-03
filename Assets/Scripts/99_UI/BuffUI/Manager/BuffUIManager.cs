@@ -76,65 +76,80 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	}
 	public override void InitializeGame()
 	{
+		Initialize();
 		base.InitializeGame();
 
-		foreach (var originInfo in m_Origins)
-		{
-			ObjectPool<BuffUI> pool = GetPool(originInfo.key);
+		//foreach (var originInfo in m_Origins)
+		//{
+		//	if (originInfo.useFlag == false)
+		//		continue;
 
-			switch (originInfo.key)
-			{
-				case "Buff Rewards":
-					pool.onInstantiated += (BuffUI buffUI) =>
-					{
-						buffUI.onClick += () =>
-						{
-							M_Buff.AddBuff(buffUI.buffData);
-							rewardsPanel.active = false;
-						};
-					};
-					break;
-				case "Buff Inventory":
-					//	pool.onInstantiated += (BuffUI buffUI) =>
-					//	{
-					//		buffUI.onClick += () =>
-					//		{
-					//			Debug.Log("설명 추가");
-					//		};
-					//	};
-					break;
-				case "Buff Combine Inventory":
-					pool.onInstantiated += (BuffUI buffUI) =>
-					{
-						buffUI.onClick += () =>
-						{
-							if (AddBuff_Combine(buffUI.buffData))
-							{
-								RemoveBuff_CombineInventory(buffUI.buffData);
-							}
-						};
-					};
-					break;
-				case "Buff Combine":
-					pool.onInstantiated += (BuffUI buffUI) =>
-					{
-						buffUI.onClick += () =>
-						{
-							AddBuff_CombineInventory(buffUI.buffData);
-							RemoveBuff_Combine(buffUI.buffData);
-						};
-					};
-					break;
-				default:
-					Debug.LogError("Object Manager`s Origin Info key is not exist. key = " + originInfo.key);
-					break;
-			}
+		//	ObjectPool<BuffUI> pool = GetPool(originInfo.key);
 
-			pool.Initialize();
-		}
+		//	switch (originInfo.key)
+		//	{
+		//		case "Buff Rewards":
+		//			pool.onItemInstantiated += (BuffUI buffUI) =>
+		//			{
+		//				buffUI.onClick += () =>
+		//				{
+		//					Debug.Log("Buff Rewards Clicked.");
+		//					M_Buff.AddBuff(buffUI.buffData);
+		//					rewardsPanel.active = false;
+		//				};
+		//			};
+		//			break;
+		//		case "Buff Inventory":
+		//			//	pool.onInstantiated += (BuffUI buffUI) =>
+		//			//	{
+		//			//		buffUI.onClick += () =>
+		//			//		{
+		//			//			Debug.Log("설명 추가");
+		//			//		};
+		//			//	};
+		//			break;
+		//		case "Buff Combine Inventory":
+		//			pool.onItemInstantiated += (BuffUI buffUI) =>
+		//			{
+		//				buffUI.onClick += () =>
+		//				{
+		//					if (AddBuff_Combine(buffUI.buffData))
+		//					{
+		//						RemoveBuff_CombineInventory(buffUI.buffData);
+		//					}
+		//				};
+		//			};
+		//			break;
+		//		case "Buff Combine":
+		//			pool.onItemInstantiated += (BuffUI buffUI) =>
+		//			{
+		//				buffUI.onClick += () =>
+		//				{
+		//					AddBuff_CombineInventory(buffUI.buffData);
+		//					RemoveBuff_Combine(buffUI.buffData);
+		//				};
+		//			};
+		//			break;
+		//		default:
+		//			Debug.LogError("Object Manager`s Origin Info key is not exist. key = " + originInfo.key);
+		//			break;
+		//	}
+		//}
 
 		m_FirstCombineBuffUIPanel.Initialize();
 		m_SecondCombineBuffUIPanel.Initialize();
+
+		m_FirstCombineBuffUIPanel.onClick += () =>
+		{
+			AddBuff_CombineInventory(m_FirstCombineBuffUIPanel.buffData);
+			RemoveBuff_Combine(m_FirstCombineBuffUIPanel.buffData);
+		};
+		m_SecondCombineBuffUIPanel.onClick += () =>
+		{
+			AddBuff_CombineInventory(m_SecondCombineBuffUIPanel.buffData);
+			RemoveBuff_Combine(m_SecondCombineBuffUIPanel.buffData);
+		};
+
 		m_CombineButton.onClick.AddListener(
 			() =>
 			{
@@ -170,14 +185,18 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 	private void Update()
 	{
-		foreach (var item in m_BuffPanelList)
+		BuffPanel buffPanel;
+		for (int i = 0; i < m_BuffPanelList.Count; ++i)
 		{
-			if (Input.GetKeyDown(item.keyCode))
+			buffPanel = m_BuffPanelList[i];
+
+			if (Input.GetKeyDown(buffPanel.keyCode))
 			{
-				m_CurrentBuffPanel = item;
+				m_CurrentBuffPanel = buffPanel;
 				break;
 			}
 		}
+
 		if (m_CurrentBuffPanel != null)
 		{
 			if (m_CurrentBuffPanel.active)
@@ -186,12 +205,15 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 			}
 			else
 			{
-				foreach (var item in m_BuffPanelMap)
+				for (int i = 0; i < m_BuffPanelList.Count; ++i)
 				{
-					item.Value.active = false;
-				}
+					buffPanel = m_BuffPanelList[i];
 
-				m_CurrentBuffPanel.active = true;
+					if (m_CurrentBuffPanel == buffPanel)
+						buffPanel.active = true;
+					else
+						buffPanel.active = false;
+				}
 			}
 
 			m_CurrentBuffPanel = null;
@@ -202,31 +224,43 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	{
 		int childCount = rewardsPanel.content.transform.childCount;
 		int offset = 0;
+		BuffUI buffUI;
 		for (int i = 0; i < childCount; ++i)
 		{
-			BuffUI buffUI = rewardsPanel.content.transform.GetChild<BuffUI>(offset);
+			buffUI = rewardsPanel.content.transform.GetChild<BuffUI>(offset);
 
 			if (buffUI == null ||
 				Despawn(buffUI) == false)
 				++offset;
 		}
 
-		int count = m_RewardsCount;
-
 		List<BuffData> buffDataList = new List<BuffData>();
+
+		int count = m_RewardsCount;
+		BuffData buffData;
 		for (int i = 0; i < count; ++i)
 		{
-			BuffData buffData = M_Buff.GetRandomBuffData(E_BuffType.Buff);
+			InfiniteLoopDetector.Run();
+
+			buffData = M_Buff.GetRandomBuffData(E_BuffType.Buff);
 
 			if (buffData == null)
+				throw new System.NullReferenceException("BuffData is null.");
+
+			if (buffDataList.Contains(buffData) == true)
+			{
+				--i;
 				continue;
+			}
 
 			buffDataList.Add(buffData);
 		}
 
-		foreach (var buffData in buffDataList)
+		for (int i = 0; i < buffDataList.Count; ++i)
 		{
-			BuffUI buffUI = GetBuilder("Buff Rewards")
+			buffData = buffDataList[i];
+
+			buffUI = GetBuilder("Buff Rewards")
 				.SetName(buffData.title)
 				.SetActive(true)
 				.SetAutoInit(false)
@@ -235,6 +269,13 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 			buffUI.Initialize(buffData);
 			buffUI.transform.localScale = Vector3.one;
+			buffUI.transform.localPosition = Vector3.zero;
+
+			buffUI.onClick += () =>
+			{
+				M_Buff.AddBuff(buffUI.buffData);
+				rewardsPanel.active = false;
+			};
 		}
 	}
 	private bool AddBuff_Inventory(BuffData buffData)
@@ -249,7 +290,6 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 			return true;
 		}
 
-		// 버프가 인벤에 안들어감. 디버깅 해야함.
 		buffUI = GetBuilder("Buff Inventory")
 			.SetName(buffData.title)
 			.SetActive(true)
@@ -260,6 +300,11 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		buffUI.Initialize(buffData);
 		buffUI.transform.localPosition = Vector3.zero;
 		buffUI.transform.localScale = Vector3.one * 0.75f;
+
+		buffUI.onClick += () =>
+		{
+			Debug.Log("설명 추가");
+		};
 
 		m_BuffInventoryList.Add(buffUI);
 		m_BuffInventoryMap.Add(buffData.code, buffUI);
@@ -290,6 +335,14 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		buffUI.Initialize(buffData);
 		buffUI.transform.localPosition = Vector3.zero;
 		buffUI.transform.localScale = Vector3.one * 0.75f;
+
+		buffUI.onClick += () =>
+		{
+			if (AddBuff_Combine(buffUI.buffData))
+			{
+				RemoveBuff_CombineInventory(buffUI.buffData);
+			}
+		};
 
 		m_BuffCombineInventoryList.Add(buffUI);
 		m_BuffCombineInventoryMap.Add(buffData.code, buffUI);

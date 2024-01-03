@@ -32,21 +32,22 @@ public class Stage : MonoBehaviour
 			m_GeneratedRooms.Add(item.Key, item.Value);
 		}
 
-		currentRoom.gameObject.SetActive(true);
+		//currentRoom.gameObject.SetActive(true);
+		currentRoom.isSimulating = true;
 
 		Camera.main.Safe_GetComponent<CameraFollow>(ref m_CameraFollow);
 	}
 
 	public void MoveRoom(Vector2Int moveIndex)
 	{
-		currentRoom.gameObject.SetActive(false);
+		//currentRoom.gameObject.SetActive(false);
+		currentRoom.isSimulating = false;
 		m_CurrentRoomIndex += moveIndex;
-		currentRoom.gameObject.SetActive(true);
+		//currentRoom.gameObject.SetActive(true);
+		currentRoom.isSimulating = true;
 
-		Room room = currentRoom;
-
-		Vector2 offset = (Vector2)room.transform.position + room.offset;
-		Vector2 size = room.roomSize;
+		Vector2 offset = (Vector2)currentRoom.transform.position + currentRoom.offset;
+		Vector2 size = currentRoom.roomSize;
 
 		m_CameraFollow.UpdateClamp(offset, size);
 	}

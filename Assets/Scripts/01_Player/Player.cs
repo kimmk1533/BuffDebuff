@@ -168,10 +168,10 @@ public sealed class Player : MonoBehaviour
 
 		while (Xp >= m_Character.maxStat.Xp)
 		{
+			InfiniteLoopDetector.Run();
+
 			Xp -= m_Character.maxStat.Xp;
 			++m_Character.currentStat.Level;
-
-			InfiniteLoopDetector.Run();
 		}
 
 		m_Character.currentStat.Xp = Xp;

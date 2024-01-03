@@ -342,22 +342,22 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 		m_JumpHeight = PathFinding_GetJumpHeight(m_PathFinding_NodeIndex - 1);
 
 		#region Debug_Text
-		for (int i = 0; i < textObjectList.Count; ++i)
-		{
-			GameObject.Destroy(textObjectList[i].gameObject);
-		}
-		textObjectList.Clear();
+		//for (int i = 0; i < textObjectList.Count; ++i)
+		//{
+		//	GameObject.Destroy(textObjectList[i].gameObject);
+		//}
+		//textObjectList.Clear();
 
-		Vector3 debug_offset = Vector3.one * 0.5f;
-		for (int i = 0; i < m_PathFinding_Path.Count; ++i)
-		{
-			Vector3 debug_textPos = (Vector2)(m_PathFinding_Path[i] + offset);
-			debug_textPos += debug_offset;
+		//Vector3 debug_offset = Vector3.one * 0.5f;
+		//for (int i = 0; i < m_PathFinding_Path.Count; ++i)
+		//{
+		//	Vector3 debug_textPos = (Vector2)(m_PathFinding_Path[i] + offset);
+		//	debug_textPos += debug_offset;
 
-			var debug_text = UtilClass.CreateWorldText(i + 1, null, debug_textPos, 0.1f, 40, textColor, TextAnchor.MiddleCenter);
+		//	var debug_text = UtilClass.CreateWorldText(i + 1, null, debug_textPos, 0.1f, 40, textColor, TextAnchor.MiddleCenter);
 
-			textObjectList.Add(debug_text);
-		}
+		//	textObjectList.Add(debug_text);
+		//}
 		#endregion
 	}
 	/// <summary>
