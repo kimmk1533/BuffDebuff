@@ -49,17 +49,26 @@ public class StageGenerator : MonoBehaviour
 
 		if (m_StageRoomQueue == null)
 			m_StageRoomQueue = new Queue<Vector2Int>();
-		else
-			m_StageRoomQueue.Clear();
 
 		if (m_GeneratedRoomMap == null)
 			m_GeneratedRoomMap = new Dictionary<Vector2Int, Room>();
-		else
+	}
+	public void Finallize()
+	{
+		if (m_StageRoomQueue != null)
+			m_StageRoomQueue.Clear();
+
+		if (m_GeneratedRoomMap != null)
 			m_GeneratedRoomMap.Clear();
 	}
+
 	public void InitializeGame()
 	{
 		Camera.main.Safe_GetComponent(ref m_CameraFollow);
+	}
+	public void FinallizeGame()
+	{
+
 	}
 
 	public Stage GenerateStage(StageGeneratorArg arg)

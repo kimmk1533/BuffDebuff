@@ -62,34 +62,45 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	{
 		base.Initialize();
 
+		if (m_BuffPanelMap == null)
+			m_BuffPanelMap = new Dictionary<string, BuffPanel>();
+
+		if (m_BuffInventoryList == null)
+			m_BuffInventoryList = new List<BuffUI>();
+
+		if (m_BuffInventoryMap == null)
+			m_BuffInventoryMap = new Dictionary<int, BuffUI>();
+
+		if (m_BuffCombineInventoryList == null)
+			m_BuffCombineInventoryList = new List<BuffUI>();
+
+		if (m_BuffCombineInventoryMap == null)
+			m_BuffCombineInventoryMap = new Dictionary<int, BuffUI>();
+	}
+	public override void Finallize()
+	{
+		base.Finallize();
+
 		if (m_BuffPanelMap != null)
 			m_BuffPanelMap.Clear();
-		else
-			m_BuffPanelMap = new Dictionary<string, BuffPanel>();
 
 		if (m_BuffInventoryList != null)
 			m_BuffInventoryList.Clear();
-		else
-			m_BuffInventoryList = new List<BuffUI>();
 
 		if (m_BuffInventoryMap != null)
 			m_BuffInventoryMap.Clear();
-		else
-			m_BuffInventoryMap = new Dictionary<int, BuffUI>();
 
 		if (m_BuffCombineInventoryList != null)
 			m_BuffCombineInventoryList.Clear();
-		else
-			m_BuffCombineInventoryList = new List<BuffUI>();
 
 		if (m_BuffCombineInventoryMap != null)
 			m_BuffCombineInventoryMap.Clear();
-		else
-			m_BuffCombineInventoryMap = new Dictionary<int, BuffUI>();
 	}
+
 	public override void InitializeGame()
 	{
 		Initialize();
+
 		base.InitializeGame();
 
 		m_FirstCombineBuffUIPanel.Initialize();
@@ -124,18 +135,25 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 			m_BuffPanelMap.Add(item.name, item);
 		}
 	}
+	public override void FinallizeGame()
+	{
+		base.FinallizeGame();
+	}
+
 	public void InitializeBuffEvent()
 	{
 		M_Buff.onBuffAdded += AddBuff_Inventory;
-		M_Buff.onBuffAdded += AddBuff_CombineInventory;
 		M_Buff.onBuffRemoved += RemoveBuff_Inventory;
+
+		M_Buff.onBuffAdded += AddBuff_CombineInventory;
 		M_Buff.onBuffRemoved += RemoveBuff_CombineInventory;
 	}
 	public void FinallizeBuffEvent()
 	{
 		M_Buff.onBuffAdded -= AddBuff_Inventory;
-		M_Buff.onBuffAdded -= AddBuff_CombineInventory;
 		M_Buff.onBuffRemoved -= RemoveBuff_Inventory;
+
+		M_Buff.onBuffAdded -= AddBuff_CombineInventory;
 		M_Buff.onBuffRemoved -= RemoveBuff_CombineInventory;
 	}
 

@@ -6,33 +6,37 @@ using UnityEngine;
 public abstract class ObjectManager<TSelf, TItem> : Singleton<TSelf> where TSelf : Singleton<TSelf> where TItem : ObjectPoolItemBase
 {
 	[SerializeField]
-	protected string m_Path;
+	protected string m_Path = null;
 	[SerializeField]
-	protected List<OriginInfo> m_Origins = new List<OriginInfo>();
-	protected Dictionary<string, ObjectPool<TItem>> m_Pools = null;
+	protected List<OriginInfo> m_Origins = null;
+	protected Dictionary<string, ObjectPool<TItem>> m_ObjectPoolMap = null;
 
 	public virtual void Initialize()
 	{
-		if (m_Pools != null)
-		{
-			foreach (var item in m_Pools)
-			{
-				item.Value.Dispose();
-			}
-			m_Pools.Clear();
-		}
-		else
-			m_Pools = new Dictionary<string, ObjectPool<TItem>>();
+		if (m_Origins == null)
+			m_Origins = new List<OriginInfo>();
+		if (m_ObjectPoolMap == null)
+			m_ObjectPoolMap = new Dictionary<string, ObjectPool<TItem>>();
 	}
+	public virtual void Finallize()
+	{
+	}
+
 	public virtual void InitializeGame()
 	{
-		foreach (var originInfo in m_Origins)
+		for (int i = 0; i < m_Origins.Count; ++i)
 		{
+			OriginInfo originInfo = m_Origins[i];
+
 			if (originInfo.useFlag == false)
 				continue;
 
 			AddPool(originInfo, transform);
 		}
+	}
+	public virtual void FinallizeGame()
+	{
+		
 	}
 
 	protected void AddPool(OriginInfo info, Transform parent)
@@ -41,9 +45,19 @@ public abstract class ObjectManager<TSelf, TItem> : Singleton<TSelf> where TSelf
 	}
 	protected void AddPool(string key, int poolSize, TItem origin, Transform parent)
 	{
-		if (origin == null)
-			throw new System.ArgumentNullException(transform.name + ": origin이 null 입니다. key는 \"" + key + "\" 였습니다.");
+		// 예외 처리
+		if (ReferenceEquals(origin, null))
+		{
+			string errorMsg = name + ": origin이 null 입니다. key는 \"" + key + "\"였습니다.";
+			throw new System.ArgumentNullException(errorMsg);
+		}
+		if (m_ObjectPoolMap.ContainsKey(key) == true)
+		{
+			string errorMsg = name + ": 이미 존재하는 key 입니다. key는 \"" + key + "\"였습니다.";
+			throw new System.ArgumentException(errorMsg);
+		}
 
+		// origin이 현재 존재하는 씬 내의 오브젝트인 경우
 		if (origin.gameObject.scene.buildIndex != -1)
 		{
 			origin.name = key;
@@ -51,15 +65,18 @@ public abstract class ObjectManager<TSelf, TItem> : Singleton<TSelf> where TSelf
 			origin.gameObject.SetActive(false);
 		}
 
+		// Pool 부모 생성
 		GameObject poolParent = new GameObject();
 		poolParent.name = key + "_Pool";
 		poolParent.transform.SetParent(parent);
 		poolParent.SetActive(true);
 
+		// Pool 생성
 		ObjectPool<TItem> pool = new ObjectPool<TItem>(key, origin, poolSize, poolParent.transform);
 		pool.Initialize();
 
-		m_Pools.Add(key, pool);
+		// Pool 추가
+		m_ObjectPoolMap.Add(key, pool);
 	}
 
 	public ObjectPool<TItem>.ItemBuilder GetBuilder(string key)
@@ -70,59 +87,6 @@ public abstract class ObjectManager<TSelf, TItem> : Singleton<TSelf> where TSelf
 			throw new System.NullReferenceException(transform.name + ": Pool이 null 입니다. key는 \"" + key + "\" 였습니다.");
 
 		return pool.GetBuilder();
-	}
-
-	public TItem Spawn(string key, Transform parent = null, bool autoInit = true)
-	{
-		ObjectPool<TItem> pool = GetPool(key);
-
-		if (pool == null)
-			throw new System.NullReferenceException(transform.name + ": Pool이 null 입니다. key는 \"" + key + "\" 였습니다.");
-
-		TItem item = pool.GetBuilder()
-			.SetActive(true)
-			.SetAutoInit(autoInit)
-			.SetParent(parent)
-			.Spawn();
-
-		return item;
-	}
-	public TItem Spawn(string key, Vector3 position, Transform parent = null, bool autoInit = true)
-	{
-		ObjectPool<TItem> pool = GetPool(key);
-
-		if (pool == null)
-			throw new System.NullReferenceException(transform.name + ": Pool이 null 입니다. key는 \"" + key + "\" 였습니다.");
-
-		TItem item = pool.GetBuilder()
-			.SetActive(true)
-			.SetAutoInit(autoInit)
-			.SetParent(parent)
-			.SetPosition(position)
-			.Spawn();
-
-		item.transform.position = position;
-
-		return item;
-	}
-	public TItem Spawn(string key, Vector3 position, Quaternion rotation, Transform parent = null, bool autoInit = true)
-	{
-		ObjectPool<TItem> pool = GetPool(key);
-
-		if (pool == null)
-			throw new System.NullReferenceException(transform.name + ": Pool이 null 입니다. key는 \"" + key + "\" 였습니다.");
-
-		TItem item = pool.GetBuilder()
-			.SetActive(true)
-			.SetAutoInit(autoInit)
-			.SetParent(parent)
-			.SetPosition(position)
-			.SetRotation(rotation)
-			.Spawn();
-
-		item.transform.position = position;
-
-		return item;
 	}
 	public bool Despawn(TItem item, bool autoFinal = true)
 	{
@@ -140,7 +104,7 @@ public abstract class ObjectManager<TSelf, TItem> : Singleton<TSelf> where TSelf
 	protected virtual ObjectPool<TItem> GetPool(string key)
 	{
 		// 예외 처리: 초기화 안함
-		if (m_Pools == null)
+		if (m_ObjectPoolMap == null)
 			return null;
 
 		// 예외 처리: key가 null임
@@ -148,13 +112,16 @@ public abstract class ObjectManager<TSelf, TItem> : Singleton<TSelf> where TSelf
 			return null;
 
 		// 예외 처리: Pool에 올바른 key가 없음
-		if (m_Pools.ContainsKey(key) == false)
+		if (m_ObjectPoolMap.ContainsKey(key) == false)
 			return null;
 
-		return m_Pools[key];
+		return m_ObjectPoolMap[key];
 	}
 
 #if UNITY_EDITOR
+	/// <summary>
+	/// Use [ContextMenu("Load Origin")] and base.LoadOrigin_Inner
+	/// </summary>
 	protected abstract void LoadOrigin();
 	protected void LoadOrigin_Inner()
 	{

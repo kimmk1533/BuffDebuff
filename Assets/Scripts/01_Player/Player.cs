@@ -6,10 +6,10 @@ using UnityEngine;
 public sealed class Player : MonoBehaviour
 {
 	#region 변수
-	private PlayerCharacter m_Character;
+	private PlayerCharacter m_Character = null;
 
 	[SerializeField]
-	private List<Transform> m_AttackSpotList;
+	private List<Transform> m_AttackSpotList = null;
 	#endregion
 
 	#region 프로퍼티
@@ -41,16 +41,15 @@ public sealed class Player : MonoBehaviour
 	private static ProjectileManager M_Projectile => ProjectileManager.Instance;
 	#endregion
 
-	private void Awake()
-	{
-		Initialize();
-	}
-
 	public void Initialize()
 	{
 		this.Safe_GetComponent<PlayerCharacter>(ref m_Character);
 
 		m_Character.Initialize();
+	}
+	public void Finallize()
+	{
+		m_Character.Finallize();
 	}
 
 	private void Update()

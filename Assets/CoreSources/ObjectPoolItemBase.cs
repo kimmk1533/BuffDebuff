@@ -8,7 +8,7 @@ public interface IPoolItem
 	public void Finallize();
 }
 
-public class ObjectPoolItemBase : MonoBehaviour, IPoolItem
+public abstract class ObjectPoolItemBase : MonoBehaviour, IPoolItem
 {
 	#region 변수
 	protected string m_PoolKey;
@@ -21,7 +21,10 @@ public class ObjectPoolItemBase : MonoBehaviour, IPoolItem
 		get => m_PoolKey;
 		set => m_PoolKey = value;
 	}
-	public bool isSpawning => m_IsSpawning;
+	public bool isSpawning
+	{
+		get => m_IsSpawning;
+	}
 	#endregion
 
 	#region 이벤트
@@ -35,14 +38,10 @@ public class ObjectPoolItemBase : MonoBehaviour, IPoolItem
 	public virtual void Initialize()
 	{
 		m_IsSpawning = true;
-
-		onSpawn?.Invoke(this);
 	}
 	public virtual void Finallize()
 	{
 		if (m_IsSpawning == true)
 			m_IsSpawning = false;
-
-		onDespawn?.Invoke(this);
 	}
 }

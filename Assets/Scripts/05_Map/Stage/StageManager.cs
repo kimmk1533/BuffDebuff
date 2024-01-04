@@ -17,16 +17,14 @@ public class StageManager : Singleton<StageManager>
 	};
 
 	#region 변수
-	private Transform m_StageParent;
+	private Transform m_StageParent = null;
 
 	[SerializeField, Range(1, 6)]
-	private int m_CurrentStageLevel;
+	private int m_CurrentStageLevel = 1;
 	[SerializeField]
-	private Vector2Int m_StageSize;
-
-	private Stage m_CurrentStage;
-
-	private StageGenerator m_StageGenerator;
+	private Vector2Int m_StageSize = c_StageSize[0];
+	private Stage m_CurrentStage = null;
+	private StageGenerator m_StageGenerator = null;
 	#endregion
 
 	#region 프로퍼티
@@ -47,11 +45,16 @@ public class StageManager : Singleton<StageManager>
 		this.Safe_GetComponent<StageGenerator>(ref m_StageGenerator);
 		m_StageGenerator.Initialize();
 	}
+	public void Finallize()
+	{
+		m_StageGenerator.Finallize();
+	}
+
 	public void InitializeGame()
 	{
 		if (m_StageParent == null)
 		{
-			m_StageParent = new GameObject("Stages").transform;
+			m_StageParent = new GameObject(m_CurrentStageLevel.ToString("Stage 00")).transform;
 			m_StageParent.gameObject.isStatic = true;
 			m_StageParent.AddComponent<Grid>();
 		}
@@ -67,6 +70,10 @@ public class StageManager : Singleton<StageManager>
 			stageSize = m_StageSize
 		});
 		onStageGenerated?.Invoke();
+	}
+	public void FinallizeGame()
+	{
+
 	}
 
 	public void NextStage()

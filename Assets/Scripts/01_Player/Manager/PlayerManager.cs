@@ -6,12 +6,13 @@ public class PlayerManager : Singleton<PlayerManager>
 {
 	#region 변수
 	[SerializeField]
-	private string m_Path;
+	private string m_Path = null;
 	[SerializeField]
-	private string m_PlayerCharacterName;
+	private string m_PlayerCharacterName = null;
 
-	private Player m_Player;
-	private CameraFollow m_PlayerCamera;
+	private Player m_Origin = null;
+	private Player m_Player = null;
+	private CameraFollow m_PlayerCamera = null;
 	#endregion
 
 	#region 프로퍼티
@@ -48,8 +49,33 @@ public class PlayerManager : Singleton<PlayerManager>
 
 	public void Initialize()
 	{
-
+		m_Path = "Prefabs/01_Player";
+		m_PlayerCharacterName = "fire_knight";
 	}
+	public void Finallize()
+	{
+	}
+
+	public void InitializeBuffEvent()
+	{
+		M_Buff.onBuffAdded += AddBuff;
+		M_Buff.onBuffRemoved += RemoveBuff;
+	}
+	public void FinallizeBuffEvent()
+	{
+		M_Buff.onBuffAdded -= AddBuff;
+		M_Buff.onBuffRemoved -= RemoveBuff;
+	}
+
+	public void InitializeStageGenEvent()
+	{
+		M_Stage.onStageGenerated += OnStageGenerated;
+	}
+	public void FinallizeStageGenEvent()
+	{
+		M_Stage.onStageGenerated -= OnStageGenerated;
+	}
+
 	public void InitializeGame()
 	{
 		//Player[] players = FindObjectsOfType<Player>();
@@ -62,32 +88,19 @@ public class PlayerManager : Singleton<PlayerManager>
 
 		//m_Player = players[0];
 
+		if (m_Origin == null)
+			m_Origin = Resources.Load<Player>(System.IO.Path.Combine(m_Path, m_PlayerCharacterName));
 		if (m_Player == null)
-			m_Player = GameObject.Instantiate(Resources.Load<Player>(System.IO.Path.Combine(m_Path, m_PlayerCharacterName)));
-		m_Player.Initialize();
-
+			m_Player = GameObject.Instantiate(m_Origin);
 		Camera.main.Safe_GetComponent<CameraFollow>(ref m_PlayerCamera);
+
+		m_Player.Initialize();
 		m_PlayerCamera.Initialize();
-
-		InitializeStageGenEvent();
 	}
-	public void InitializeBuffEvent()
+	public void FinallizeGame()
 	{
-		M_Buff.onBuffAdded += AddBuff;
-		M_Buff.onBuffRemoved += RemoveBuff;
-	}
-	public void InitializeStageGenEvent()
-	{
-		M_Stage.onStageGenerated += () =>
-		{
-			Room room = M_Stage.currentStage.currentRoom;
-			StartRoom startRoom = room as StartRoom;
-
-			if (startRoom != null)
-				m_Player.transform.position = startRoom.startPos;
-			else
-				m_Player.transform.position = new Vector3(20f, 4f);
-		};
+		m_PlayerCamera.Finallize();
+		m_Player.Finallize();
 	}
 
 	public void AddXp(float xp)
@@ -102,5 +115,16 @@ public class PlayerManager : Singleton<PlayerManager>
 	private bool RemoveBuff(BuffData buffData)
 	{
 		return m_Player.RemoveBuff(buffData);
+	}
+
+	private void OnStageGenerated()
+	{
+		Room room = M_Stage.currentStage.currentRoom;
+		StartRoom startRoom = room as StartRoom;
+
+		if (startRoom != null)
+			m_Player.transform.position = startRoom.startPos;
+		else
+			m_Player.transform.position = new Vector3(20f, 4f);
 	}
 }

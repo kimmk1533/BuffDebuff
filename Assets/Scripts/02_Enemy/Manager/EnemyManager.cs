@@ -8,9 +8,18 @@ public class EnemyManager : ObjectManager<EnemyManager, Enemy>
 	{
 		base.Initialize();
 	}
+	public override void Finallize()
+	{
+		base.Finallize();
+	}
+
 	public override void InitializeGame()
 	{
 		base.InitializeGame();
+	}
+	public override void FinallizeGame()
+	{
+		base.FinallizeGame();
 	}
 
 	private void Update()
@@ -35,5 +44,4 @@ public class EnemyManager : ObjectManager<EnemyManager, Enemy>
 		base.LoadOrigin_Inner();
 	}
 #endif
-
 }

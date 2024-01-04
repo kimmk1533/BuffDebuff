@@ -30,14 +30,21 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 
 	#region 변수
 	[SerializeField]
-	protected List<OriginInfo> m_StartRoomOrigins = new List<OriginInfo>();
+	protected List<OriginInfo> m_StartRoomOrigins = null;
 
-	private List<RoomPool> m_AllRoomPool;
+	private List<RoomPool> m_AllRoomPool = null;
 	#endregion
 
 	public override void Initialize()
 	{
 		base.Initialize();
+
+		if (m_AllRoomPool == null)
+			m_AllRoomPool = new List<RoomPool>();
+	}
+	public override void Finallize()
+	{
+		base.Finallize();
 
 		if (m_AllRoomPool != null)
 		{
@@ -47,18 +54,21 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 			}
 			m_AllRoomPool.Clear();
 		}
-		else
-			m_AllRoomPool = new List<RoomPool>();
 	}
+
 	public override void InitializeGame()
 	{
 		base.InitializeGame();
 
-		foreach (var item in m_Pools)
+		foreach (var item in m_ObjectPoolMap)
 		{
 			m_AllRoomPool.Add(item.Value);
 		}
 		m_AllRoomPool = m_AllRoomPool.Distinct().ToList();
+	}
+	public override void FinallizeGame()
+	{
+		base.FinallizeGame();
 	}
 
 	public RoomPool.ItemBuilder GetBuilder(params (E_Condition condition, E_Direction direction, int count)[] conditions)

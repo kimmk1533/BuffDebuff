@@ -8,9 +8,18 @@ public class ProjectileManager : ObjectManager<ProjectileManager, Projectile>
 	{
 		base.Initialize();
 	}
+	public override void Finallize()
+	{
+		base.Finallize();
+	}
+
 	public override void InitializeGame()
 	{
 		base.InitializeGame();
+	}
+	public override void FinallizeGame()
+	{
+		base.FinallizeGame();
 	}
 
 #if UNITY_EDITOR

@@ -20,13 +20,13 @@ public sealed class BuffManager : Singleton<BuffManager>
 	[Space(10)]
 	[SerializeField]
 	[SerializedDictionary("코드", "버프 카운터")]
-	private SerializedDictionary<int, BuffCounter> m_BuffCounterMap;
+	private SerializedDictionary<int, BuffCounter> m_BuffCounterMap = null;
 
 	[SerializeField]
-	private BuffGradeInfo m_BuffGradeInfo;
+	private BuffGradeInfo m_BuffGradeInfo = null;
 
 	// < 타입, 등급, 버프 >
-	private Dictionary<E_BuffType, Dictionary<E_BuffGrade, BuffDictionary>> m_BuffMap;
+	private Dictionary<E_BuffType, Dictionary<E_BuffGrade, BuffDictionary>> m_BuffMap = null;
 	#endregion
 
 	#region 프로퍼티
@@ -34,8 +34,8 @@ public sealed class BuffManager : Singleton<BuffManager>
 	#endregion
 
 	#region 이벤트
-	public event System.Func<BuffData, bool> onBuffAdded;
-	public event System.Func<BuffData, bool> onBuffRemoved;
+	public event System.Func<BuffData, bool> onBuffAdded = null;
+	public event System.Func<BuffData, bool> onBuffRemoved = null;
 	#endregion
 
 	#region 매니저
@@ -45,9 +45,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 	public void Initialize()
 	{
 		// m_BuffCounterMap
-		if (m_BuffCounterMap != null)
-			m_BuffCounterMap.Clear();
-		else
+		if (m_BuffCounterMap == null)
 			m_BuffCounterMap = new SerializedDictionary<int, BuffCounter>();
 
 		// m_BuffGradeInfo
@@ -55,19 +53,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 			m_BuffGradeInfo = new BuffGradeInfo();
 
 		// m_BuffMap
-		if (m_BuffMap != null)
-		{
-			foreach (Dictionary<E_BuffGrade, BuffDictionary> buffTypeMap in m_BuffMap.Values)
-			{
-				foreach (BuffDictionary buffMap in buffTypeMap.Values)
-				{
-					buffMap.Clear();
-				}
-				buffTypeMap.Clear();
-			}
-			m_BuffMap.Clear();
-		}
-		else
+		if (m_BuffMap == null)
 		{
 			m_BuffMap = new Dictionary<E_BuffType, Dictionary<E_BuffGrade, BuffDictionary>>();
 
@@ -82,16 +68,36 @@ public sealed class BuffManager : Singleton<BuffManager>
 			}
 		}
 	}
+	public void Finallize()
+	{
+		// m_BuffCounterMap
+		if (m_BuffCounterMap != null)
+			m_BuffCounterMap.Clear();
+
+		// m_BuffMap
+		if (m_BuffMap != null)
+		{
+			foreach (var buffTypeMap in m_BuffMap.Values)
+			{
+				foreach (BuffDictionary buffMap in buffTypeMap.Values)
+				{
+					buffMap.Clear();
+				}
+				buffTypeMap.Clear();
+			}
+			m_BuffMap.Clear();
+		}
+	}
+
 	public void InitializeGame()
 	{
 		m_BuffGradeInfo.UpdateBuffGradeCurve();
 
 		LoadAllBuff();
 	}
-	public void InitializeBuffEvent()
+	public void FinallizeGame()
 	{
-		onBuffAdded = null;
-		onBuffRemoved = null;
+
 	}
 
 	public void LoadAllBuff()

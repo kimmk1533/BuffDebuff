@@ -90,7 +90,7 @@ public class CameraFollow : MonoBehaviour
 
 	public void Initialize()
 	{
-		this.Safe_GetComponentInChilderen<Camera>(ref m_Camera);
+		this.Safe_GetComponent<Camera>(ref m_Camera);
 		m_PlayerController = M_Player.player.character.controller;
 		transform.position = m_PlayerController.transform.position + transform.forward * -10f;
 
@@ -101,10 +101,10 @@ public class CameraFollow : MonoBehaviour
 		m_Screen = new Vector2(width, height);
 		m_MapSize = m_ClampAreaSize / 2;
 	}
-	//private void Awake()
-	//{
-	//	Initialize();
-	//}
+	public void Finallize()
+	{
+		transform.position = new Vector3(22f, 12f, -10f);
+	}
 
 	private void LateUpdate()
 	{
