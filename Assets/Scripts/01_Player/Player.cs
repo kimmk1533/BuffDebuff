@@ -37,6 +37,7 @@ public sealed class Player : MonoBehaviour
 	#endregion
 
 	#region 매니저
+	private static InputManager M_Input => InputManager.Instance;
 	private static ProjectileManager M_Projectile => ProjectileManager.Instance;
 	#endregion
 
@@ -55,26 +56,28 @@ public sealed class Player : MonoBehaviour
 	private void Update()
 	{
 		// 테스트
-		if (Input.GetKeyDown(KeyCode.F))
-		{
-			m_Character.AddBuff("전방향 대쉬");
-		}
+		//if (Input.GetKeyDown(KeyCode.F))
+		//{
+		//	m_Character.AddBuff("전방향 대쉬");
+		//}
 		//
+		Vector2 directionalInput = new Vector2(M_Input.GetAxisRaw("PlayerMoveHorizontal"), M_Input.GetAxisRaw("PlayerMoveVertical"));
+		m_Character.SetDirectionalInput(directionalInput);
 
-		if (Input.GetMouseButtonDown(0))
+		if (M_Input.GetKeyDown(E_InputType.PlayerAttack))
 		{
 			m_Character.Attack();
 		}
-		if (Input.GetMouseButtonDown(1))
+		if (M_Input.GetKeyDown(E_InputType.PlayerDash))
 		{
 			m_Character.Dash();
 		}
 
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (M_Input.GetKeyDown(E_InputType.PlayerJump))
 		{
 			m_Character.JumpInputDown();
 		}
-		if (Input.GetKeyUp(KeyCode.Space))
+		if (M_Input.GetKeyUp(E_InputType.PlayerJump))
 		{
 			m_Character.JumpInputUp();
 		}

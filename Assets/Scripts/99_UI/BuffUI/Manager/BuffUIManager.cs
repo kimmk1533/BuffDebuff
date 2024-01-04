@@ -36,6 +36,19 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	#endregion
 
 	#region 프로퍼티
+	public bool isUIOpened
+	{
+		get
+		{
+			for (int i = 0; i < m_BuffPanelList.Count; ++i)
+			{
+				if (m_BuffPanelList[i].active)
+					return true;
+			}
+
+			return false;
+		}
+	}
 	private BuffPanel rewardsPanel => m_BuffPanelMap["Buff Rewards"];
 	private BuffPanel inventoryPanel => m_BuffPanelMap["Buff Inventory"];
 	private BuffPanel combineInventoryPanel => m_BuffPanelMap["Buff Combine"];
@@ -78,63 +91,6 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	{
 		Initialize();
 		base.InitializeGame();
-
-		//foreach (var originInfo in m_Origins)
-		//{
-		//	if (originInfo.useFlag == false)
-		//		continue;
-
-		//	ObjectPool<BuffUI> pool = GetPool(originInfo.key);
-
-		//	switch (originInfo.key)
-		//	{
-		//		case "Buff Rewards":
-		//			pool.onItemInstantiated += (BuffUI buffUI) =>
-		//			{
-		//				buffUI.onClick += () =>
-		//				{
-		//					Debug.Log("Buff Rewards Clicked.");
-		//					M_Buff.AddBuff(buffUI.buffData);
-		//					rewardsPanel.active = false;
-		//				};
-		//			};
-		//			break;
-		//		case "Buff Inventory":
-		//			//	pool.onInstantiated += (BuffUI buffUI) =>
-		//			//	{
-		//			//		buffUI.onClick += () =>
-		//			//		{
-		//			//			Debug.Log("설명 추가");
-		//			//		};
-		//			//	};
-		//			break;
-		//		case "Buff Combine Inventory":
-		//			pool.onItemInstantiated += (BuffUI buffUI) =>
-		//			{
-		//				buffUI.onClick += () =>
-		//				{
-		//					if (AddBuff_Combine(buffUI.buffData))
-		//					{
-		//						RemoveBuff_CombineInventory(buffUI.buffData);
-		//					}
-		//				};
-		//			};
-		//			break;
-		//		case "Buff Combine":
-		//			pool.onItemInstantiated += (BuffUI buffUI) =>
-		//			{
-		//				buffUI.onClick += () =>
-		//				{
-		//					AddBuff_CombineInventory(buffUI.buffData);
-		//					RemoveBuff_Combine(buffUI.buffData);
-		//				};
-		//			};
-		//			break;
-		//		default:
-		//			Debug.LogError("Object Manager`s Origin Info key is not exist. key = " + originInfo.key);
-		//			break;
-		//	}
-		//}
 
 		m_FirstCombineBuffUIPanel.Initialize();
 		m_SecondCombineBuffUIPanel.Initialize();

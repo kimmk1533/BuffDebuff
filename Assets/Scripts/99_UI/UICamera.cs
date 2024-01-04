@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-99)]
 [RequireComponent(typeof(Camera))]
 public class UICamera : Singleton<UICamera>
 {
@@ -13,6 +14,10 @@ public class UICamera : Singleton<UICamera>
 	public Camera uiCamera => m_Camera;
 	#endregion
 
+	private void Awake()
+	{
+		Initialize();
+	}
 	public void Initialize()
 	{
 		this.Safe_GetComponent<Camera>(ref m_Camera);

@@ -5,25 +5,19 @@ using UnityEngine;
 public class PlayerController2D : Controller2D
 {
 	#region 변수
-	private Vector2 m_PlayerInput;
 	private Collider2D m_FallingOneWayPlatform;
 	#endregion
 
-	#region 프로퍼티
-	public Vector2 playerInput => m_PlayerInput; 
+	#region 매니저
+	private static InputManager M_Input => InputManager.Instance;
 	#endregion
 
 	public new void Move(Vector2 moveAmount, bool standingOnPlatform = false)
-	{
-		Move(moveAmount, Vector2.zero, standingOnPlatform);
-	}
-	public void Move(Vector2 moveAmount, Vector2 input, bool standingOnPlatform = false)
 	{
 		UpdateRaycastOrigins();
 
 		m_Collisions.Reset();
 		m_Collisions.moveAmountOld = moveAmount;
-		m_PlayerInput = input;
 
 		if (moveAmount.y < 0)
 		{
@@ -82,7 +76,7 @@ public class PlayerController2D : Controller2D
 					{
 						continue;
 					}
-					if (m_PlayerInput.y == -1 && Input.GetKeyDown(KeyCode.Space))
+					if (M_Input.GetKey(E_InputType.PlayerMoveDown) && M_Input.GetKeyDown(E_InputType.PlayerJump))
 					{
 						m_FallingOneWayPlatform = hit.collider;
 						continue;

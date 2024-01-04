@@ -5,10 +5,16 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
 	#region 변수
-	private static UICamera M_UICamera => UICamera.Instance;
+	private bool m_IsInGame;
+	#endregion
+
+	#region 프로퍼티
+	public bool isInGame => m_IsInGame;
 	#endregion
 
 	#region 매니저
+	private static InputManager M_Input => InputManager.Instance;
+
 	// Game Managers
 	private static PlayerManager M_Player => PlayerManager.Instance;
 	private static EnemyManager M_Enemy => EnemyManager.Instance;
@@ -29,14 +35,13 @@ public class GameManager : Singleton<GameManager>
 	private void Awake()
 	{
 		Initialize();
-		//InitializeGame();
-		//InitializeEvent();
 	}
 
 	public void Initialize()
 	{
-		// UI 카메라 초기화
-		M_UICamera.Initialize();
+		m_IsInGame = false;
+
+		M_Input.Initialize();
 
 		// 스프레드시트 매니저 초기화
 		//M_SpreadSheet.Initialize();
@@ -80,6 +85,8 @@ public class GameManager : Singleton<GameManager>
 		M_Grid.InitializeGame();
 
 		M_BuffUI.InitializeGame();
+
+		m_IsInGame = true;
 	}
 	public void InitializeEvent()
 	{

@@ -84,6 +84,7 @@ public class CameraFollow : MonoBehaviour
 	#endregion
 
 	#region 매니저
+	private static InputManager M_Input => InputManager.Instance;
 	private static PlayerManager M_Player => PlayerManager.Instance;
 	#endregion
 
@@ -141,7 +142,7 @@ public class CameraFollow : MonoBehaviour
 
 			//if (Mathf.Sign(m_Player.playerInput.x) == Mathf.Sign(m_FocusArea.velocity.x) && m_Player.playerInput.x != 0)
 
-			if (System.MathF.Sign(m_PlayerController.playerInput.x) == System.MathF.Sign(m_FocusArea.velocity.x))
+			if (System.MathF.Sign(M_Input.GetAxisRaw("PlayerMoveHorizontal")) == System.MathF.Sign(m_FocusArea.velocity.x))
 			{
 				m_LookAheadStopped = false;
 				m_TargetLookAheadX = m_LookAheadDirX * m_LookAheadDstX;

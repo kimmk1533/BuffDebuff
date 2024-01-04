@@ -69,7 +69,7 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 		DashTimer();
 	}
 
-	private void SetDirectionalInput(Vector2 input)
+	public void SetDirectionalInput(Vector2 input)
 	{
 		m_DirectionalInput = input;
 		m_Animator.Anim_SetDirectionalInput(input);
@@ -77,25 +77,22 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 	protected override void CalculateVelocity()
 	{
 		float targetVelocityX = m_DirectionalInput.x * m_CurrentStat.MoveSpeed;
+
+		m_Velocity.x = Mathf.SmoothDamp(m_Velocity.x, targetVelocityX, ref m_VelocityXSmoothing, (m_Controller.collisions.grounded) ? m_AccelerationTimeGrounded : m_AccelerationTimeAirborne);
+		m_Velocity.y += m_Controller.gravity * Time.deltaTime;
+
 		Vector3 scale = transform.localScale;
 		if (m_Velocity.x > 0)
 			scale.x = Mathf.Abs(scale.x);
 		else if (m_Velocity.x < 0)
 			scale.x = -Mathf.Abs(scale.x);
 		transform.localScale = scale;
-
-
-		m_Velocity.x = Mathf.SmoothDamp(m_Velocity.x, targetVelocityX, ref m_VelocityXSmoothing, (m_Controller.collisions.grounded) ? m_AccelerationTimeGrounded : m_AccelerationTimeAirborne);
-		m_Velocity.y += m_Controller.gravity * Time.deltaTime;
 	}
 	protected override void Move()
 	{
-		Vector2 directionalInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-		SetDirectionalInput(directionalInput);
-
 		CalculateVelocity();
 
-		m_Controller.Move(m_Velocity * Time.deltaTime, m_DirectionalInput);
+		m_Controller.Move(m_Velocity * Time.deltaTime);
 		if (m_Controller.collisions.above || m_Controller.collisions.below)
 		{
 			m_Velocity.y = 0;
@@ -111,7 +108,7 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 		if (m_IsSimulating == false)
 			return;
 
-		if ((m_Controller.collisions.below && m_DirectionalInput.y != -1) == false)
+		if ((m_Controller.collisions.below && m_DirectionalInput.y != -1f) == false)
 			return;
 
 		m_Animator.Anim_Jump();

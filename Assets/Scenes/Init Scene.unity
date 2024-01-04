@@ -114989,6 +114989,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IsMainScene: 1
   m_DontDestroyOnLoad: 1
+  m_Setting: {fileID: 11400000, guid: 6e9204e34d850494fb394042728df24b, type: 2}
+  m_InputMap:
+    _serializedList: []
 --- !u!4 &1874430851
 Transform:
   m_ObjectHideFlags: 0
@@ -116184,7 +116187,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1886384476
 Transform:
   m_ObjectHideFlags: 0
