@@ -110,6 +110,8 @@ public class EnemyCharacter : Character<EnemyCharacterStat, EnemyController2D, E
 	{
 		base.Finallize();
 
+		m_State = E_EnemyState.Idle;
+
 		m_TargetFinder.Finallize();
 
 		m_MoveDirTimer.Clear();

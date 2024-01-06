@@ -10,29 +10,30 @@ using Enum;
 public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 {
 	#region 변수
+	// Panels
+	[Space(10)]
+	private BuffPanel m_CurrentBuffPanel = null;
+	[SerializeField]
+	private List<BuffPanel> m_BuffPanelList = null;
+	private Dictionary<string, BuffPanel> m_BuffPanelMap = null;
+
 	// Buff Rewards
 	private int m_RewardsCount = 3;
 
 	// Buff Combine
 	[Space(10)]
 	[SerializeField]
-	private CombineBuffUIPanel m_FirstCombineBuffUIPanel;
+	private CombineBuffUIPanel m_FirstCombineBuffUIPanel = null;
 	[SerializeField]
-	private CombineBuffUIPanel m_SecondCombineBuffUIPanel;
+	private CombineBuffUIPanel m_SecondCombineBuffUIPanel = null;
 	[SerializeField]
-	private Button m_CombineButton;
-
-	// Panels
-	private BuffPanel m_CurrentBuffPanel;
-	[SerializeField]
-	private List<BuffPanel> m_BuffPanelList;
-	private Dictionary<string, BuffPanel> m_BuffPanelMap;
+	private Button m_CombineButton = null;
 
 	// Buff Inventory
-	private List<BuffUI> m_BuffInventoryList;
-	private Dictionary<int, BuffUI> m_BuffInventoryMap;
-	private List<BuffUI> m_BuffCombineInventoryList;
-	private Dictionary<int, BuffUI> m_BuffCombineInventoryMap;
+	private List<BuffUI> m_BuffInventoryList = null;
+	private Dictionary<int, BuffUI> m_BuffInventoryMap = null;
+	private List<BuffUI> m_BuffCombineInventoryList = null;
+	private Dictionary<int, BuffUI> m_BuffCombineInventoryMap = null;
 	#endregion
 
 	#region 프로퍼티
@@ -103,6 +104,11 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 		base.InitializeGame();
 
+		foreach (var item in m_BuffPanelList)
+		{
+			m_BuffPanelMap.Add(item.name, item);
+		}
+
 		m_FirstCombineBuffUIPanel.Initialize();
 		m_SecondCombineBuffUIPanel.Initialize();
 
@@ -129,11 +135,6 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 					m_SecondCombineBuffUIPanel.RemoveBuffData(second);
 				}
 			});
-
-		foreach (var item in m_BuffPanelList)
-		{
-			m_BuffPanelMap.Add(item.name, item);
-		}
 	}
 	public override void FinallizeGame()
 	{
@@ -194,7 +195,7 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		}
 	}
 
-	public void RerollBuffRewards()
+	private void RerollBuffRewards()
 	{
 		int childCount = rewardsPanel.content.transform.childCount;
 		int offset = 0;

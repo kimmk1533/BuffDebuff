@@ -8,19 +8,20 @@ using UnityEngine.SceneManagement;
 public class LoadingSceneManager : MonoBehaviour
 {
 	#region 변수
-	protected static string m_PrevScene;
-	protected static string m_NextScene;
+	protected static string m_PrevScene = null;
+	protected static string m_NextScene = null;
 
 	[SerializeField]
-	private TextMeshProUGUI m_Percent;
+	private TextMeshProUGUI m_Percent = null;
 	[SerializeField]
-	private Image m_ProgressBar;
+	private Image m_ProgressBar = null;
 	#endregion
 
 	private void Awake()
 	{
 		Initialize();
 	}
+
 	private void Initialize()
 	{
 		StartCoroutine(LoadScene());
