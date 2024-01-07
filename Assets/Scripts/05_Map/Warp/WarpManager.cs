@@ -40,6 +40,8 @@ public class WarpManager : Singleton<WarpManager>
 
 	public void AddWarpPoint(Room room, WarpPoint warpPoint)
 	{
+		if (room == null || warpPoint == null)
+			throw new System.ArgumentNullException();
 		if (m_WarpPointMap == null)
 			throw new System.NullReferenceException("m_WarpPointMap is null.");
 

@@ -84,7 +84,7 @@ public class EnemyTargetFinder : MonoBehaviour
 	{
 		m_Target = null;
 
-		m_Finder.Fianllize();
+		m_Finder.Finallize();
 		onTargetLost2D = null;
 
 		m_ForgetTargetTimer.Clear();

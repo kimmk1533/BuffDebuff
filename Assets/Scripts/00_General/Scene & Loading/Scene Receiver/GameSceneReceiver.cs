@@ -24,7 +24,7 @@ public class GameSceneReceiver : SceneReceiver
 			objs[i].GetSceneEvent("Game Scene")?.Invoke();
 		}
 
-		SceneManager.UnloadSceneAsync("Loading Scene");
+		base.Initialize();
 	}
 	protected override void Finallize()
 	{

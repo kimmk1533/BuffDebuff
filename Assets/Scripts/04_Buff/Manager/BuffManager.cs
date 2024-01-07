@@ -133,6 +133,23 @@ public sealed class BuffManager : Singleton<BuffManager>
 			// 명칭 불러오기
 			string title = row[1] as string;
 			#endregion
+			#region 등급
+			// 등급 불러오기
+			string gradeStr = row[3] as string;
+
+			// 자료형 파싱
+			if (System.Enum.TryParse(gradeStr, out E_BuffGrade grade) == false)
+			{
+				Debug.LogError("버프 등급 전환 오류! | 버프 등급: " + gradeStr);
+				return;
+			}
+			#endregion
+
+			if (m_BuffMap.ContainsKey(buffType) == true &&
+				m_BuffMap[buffType].ContainsKey(grade) == true &&
+				m_BuffMap[buffType][grade].ContainsPrimaryKey(code) == true)
+				continue;
+
 			#region 효과 종류
 			// 효과 종류 불러오기
 			string effectTypeStr = row[2] as string;
@@ -158,17 +175,6 @@ public sealed class BuffManager : Singleton<BuffManager>
 			if (System.Enum.TryParse(effectTypeStr, out E_BuffEffectType effectType) == false)
 			{
 				Debug.LogError("버프 효과 종류 전환 오류! | 버프 효과 종류: " + effectTypeStr);
-				return;
-			}
-			#endregion
-			#region 등급
-			// 등급 불러오기
-			string gradeStr = row[3] as string;
-
-			// 자료형 파싱
-			if (System.Enum.TryParse(gradeStr, out E_BuffGrade grade) == false)
-			{
-				Debug.LogError("버프 등급 전환 오류! | 버프 등급: " + gradeStr);
 				return;
 			}
 			#endregion

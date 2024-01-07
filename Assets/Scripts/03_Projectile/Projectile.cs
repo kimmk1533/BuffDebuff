@@ -48,14 +48,19 @@ public sealed class Projectile : ObjectPoolItemBase
 		this.Safe_GetComponent<BoxCollisionChecker2D>(ref m_CollisionChecker2D);
 		m_CollisionChecker2D.Initialize();
 
+		if (m_DespawnTimer == null)
+			m_DespawnTimer = new UtilClass.Timer();
+		m_DespawnTimer.interval = lifeTime;
+		#endregion
+	}
+	public override void Finallize()
+	{
+		m_CollisionChecker2D.Finallize();
+
 		if (m_DespawnTimer != null)
 		{
-			m_DespawnTimer.interval = lifeTime;
 			m_DespawnTimer.Clear();
 		}
-		else
-			m_DespawnTimer = new UtilClass.Timer(lifeTime);
-		#endregion
 	}
 
 	private void Update()

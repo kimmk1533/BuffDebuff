@@ -57,6 +57,7 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 	#region 매니저
 	private static BuffManager M_Buff => BuffManager.Instance;
+	private static RoomManager M_Room => RoomManager.Instance;
 	#endregion
 
 	public override void Initialize()
@@ -158,6 +159,15 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		M_Buff.onBuffRemoved -= RemoveBuff_CombineInventory;
 	}
 
+	public void InitializeRoomClearEvent()
+	{
+		M_Room.onRoomClear += TurnOnBuffRewardsPanel;
+	}
+	public void FinallizeRoomClearEvent()
+	{
+		M_Room.onRoomClear -= TurnOnBuffRewardsPanel;
+	}
+
 	private void Update()
 	{
 		BuffPanel buffPanel;
@@ -195,14 +205,20 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		}
 	}
 
+	private void TurnOnBuffRewardsPanel(Room room)
+	{
+		RerollBuffRewards();
+
+		rewardsPanel.active = true;
+	}
 	private void RerollBuffRewards()
 	{
 		int childCount = rewardsPanel.content.transform.childCount;
 		int offset = 0;
-		BuffUI buffUI;
+
 		for (int i = 0; i < childCount; ++i)
 		{
-			buffUI = rewardsPanel.content.transform.GetChild<BuffUI>(offset);
+			BuffUI buffUI = rewardsPanel.content.transform.GetChild<BuffUI>(offset);
 
 			if (buffUI == null ||
 				Despawn(buffUI) == false)
@@ -235,14 +251,14 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		{
 			buffData = buffDataList[i];
 
-			buffUI = GetBuilder("Buff Rewards")
+			BuffUI buffUI = GetBuilder("Buff Rewards")
 				.SetName(buffData.title)
 				.SetActive(true)
-				.SetAutoInit(false)
+				.SetAutoInit(true)
 				.SetParent(rewardsPanel.content.transform)
 				.Spawn();
 
-			buffUI.Initialize(buffData);
+			buffUI.UpdateBuffUIData(buffData);
 			buffUI.transform.localScale = Vector3.one;
 			buffUI.transform.localPosition = Vector3.zero;
 
@@ -268,11 +284,11 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		buffUI = GetBuilder("Buff Inventory")
 			.SetName(buffData.title)
 			.SetActive(true)
-			.SetAutoInit(false)
+			.SetAutoInit(true)
 			.SetParent(inventoryPanel.content.transform)
 			.Spawn();
 
-		buffUI.Initialize(buffData);
+		buffUI.UpdateBuffUIData(buffData);
 		buffUI.transform.localPosition = Vector3.zero;
 		buffUI.transform.localScale = Vector3.one * 0.75f;
 
@@ -303,11 +319,11 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		buffUI = GetBuilder("Buff Combine Inventory")
 			.SetName(buffData.title)
 			.SetActive(true)
-			.SetAutoInit(false)
+			.SetAutoInit(true)
 			.SetParent(combineInventoryPanel.content.transform)
 			.Spawn();
 
-		buffUI.Initialize(buffData);
+		buffUI.UpdateBuffUIData(buffData);
 		buffUI.transform.localPosition = Vector3.zero;
 		buffUI.transform.localScale = Vector3.one * 0.75f;
 

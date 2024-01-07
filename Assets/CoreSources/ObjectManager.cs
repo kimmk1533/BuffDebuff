@@ -17,6 +17,16 @@ public abstract class ObjectManager<TSelf, TItem> : Singleton<TSelf> where TSelf
 			m_Origins = new List<OriginInfo>();
 		if (m_ObjectPoolMap == null)
 			m_ObjectPoolMap = new Dictionary<string, ObjectPool<TItem>>();
+
+		for (int i = 0; i < m_Origins.Count; ++i)
+		{
+			OriginInfo originInfo = m_Origins[i];
+
+			if (originInfo.useFlag == false)
+				continue;
+
+			AddPool(originInfo, transform);
+		}
 	}
 	public virtual void Finallize()
 	{
@@ -31,12 +41,12 @@ public abstract class ObjectManager<TSelf, TItem> : Singleton<TSelf> where TSelf
 			if (originInfo.useFlag == false)
 				continue;
 
-			AddPool(originInfo, transform);
+			GetPool(originInfo.key).Initialize();
 		}
 	}
 	public virtual void FinallizeGame()
 	{
-		
+
 	}
 
 	protected void AddPool(OriginInfo info, Transform parent)
@@ -71,9 +81,8 @@ public abstract class ObjectManager<TSelf, TItem> : Singleton<TSelf> where TSelf
 		poolParent.transform.SetParent(parent);
 		poolParent.SetActive(true);
 
-		// Pool 생성
+		// Pool 생성 (오브젝트 생성 X)
 		ObjectPool<TItem> pool = new ObjectPool<TItem>(key, origin, poolSize, poolParent.transform);
-		pool.Initialize();
 
 		// Pool 추가
 		m_ObjectPoolMap.Add(key, pool);

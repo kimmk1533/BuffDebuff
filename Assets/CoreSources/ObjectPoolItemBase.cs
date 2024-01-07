@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public interface IPoolItem
 {
@@ -38,10 +39,17 @@ public abstract class ObjectPoolItemBase : MonoBehaviour, IPoolItem
 	public virtual void Initialize()
 	{
 		m_IsSpawning = true;
+
+		onSpawn?.Invoke(this);
 	}
 	public virtual void Finallize()
 	{
 		if (m_IsSpawning == true)
 			m_IsSpawning = false;
+
+		onDespawn?.Invoke(this);
+
+		onSpawn = null;
+		onDespawn = null;
 	}
 }

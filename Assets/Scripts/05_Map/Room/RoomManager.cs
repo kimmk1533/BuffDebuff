@@ -35,6 +35,10 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 	private List<RoomPool> m_AllRoomPool = null;
 	#endregion
 
+	#region 이벤트
+	public System.Action<Room> onRoomClear;
+	#endregion
+
 	public override void Initialize()
 	{
 		base.Initialize();

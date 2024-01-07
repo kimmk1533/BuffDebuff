@@ -116,6 +116,7 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 		m_PoolSize = newSize;
 	}
 
+	private int m_Count = 0;
 	public ItemBuilder GetBuilder()
 	{
 		return m_ItemBuilder;
@@ -135,6 +136,10 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 		m_SpawnedItemList.Add(item);
 
 		onSpawned?.Invoke(item);
+
+		++m_Count;
+
+		item.name = item.name + m_Count.ToString("_00");
 
 		return item;
 	}
@@ -290,8 +295,6 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 			if (m_AutoInit.isUse &&
 				m_AutoInit.value)
 				item.Initialize();
-
-			m_Pool.onSpawned?.Invoke(item);
 
 			Clear();
 

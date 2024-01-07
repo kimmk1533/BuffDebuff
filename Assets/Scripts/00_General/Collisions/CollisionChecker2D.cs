@@ -27,6 +27,7 @@ public abstract class CollisionChecker2D : MonoBehaviour
 	protected List<Collider2D> m_CollisionObjectList;
 	protected List<Collider2D> m_OldCollisionObjectList;
 
+	[SerializeField, ReadOnly]
 	protected LayerMask m_LayerMask;
 	protected Dictionary<int, Trigger> m_TriggerMap;
 
@@ -87,7 +88,6 @@ public abstract class CollisionChecker2D : MonoBehaviour
 	{
 		m_LayerMask = LayerMask.GetMask();
 
-		#region SAFE_INIT
 		if (m_CollisionObjectList != null)
 			m_CollisionObjectList.Clear();
 		else
@@ -98,16 +98,11 @@ public abstract class CollisionChecker2D : MonoBehaviour
 		else
 			m_OldCollisionObjectList = new List<Collider2D>();
 
-		if (m_TriggerMap != null)
-			m_TriggerMap.Clear();
-		else
+		if (m_TriggerMap == null)
 			m_TriggerMap = new Dictionary<int, Trigger>();
-		#endregion
 	}
-	public virtual void Fianllize()
+	public virtual void Finallize()
 	{
-		Clear();
-
 		foreach (var item in m_TriggerMap)
 		{
 			item.Value.onEnter2D = null;

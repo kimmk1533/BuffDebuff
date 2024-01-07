@@ -65,7 +65,7 @@ public class CombineBuffUIPanel : MonoBehaviour
 		if (m_BuffUI.gameObject.activeSelf == true)
 			return false;
 
-		m_BuffUI.Initialize(buffData);
+		m_BuffUI.UpdateBuffUIData(buffData);
 		m_BuffUI.name = buffData.title;
 		m_BuffUI.gameObject.SetActive(true);
 

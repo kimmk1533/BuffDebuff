@@ -68,45 +68,28 @@ public class BuffUI : ObjectPoolItemBase
 	}
 	#endregion
 
-	private void Awake()
-	{
-		#region Null Check
-		if (m_Button == null)
-		{
-			m_Button = transform.Find<Button>("BackGround");
-		}
-		if (m_BuffCountText == null)
-		{
-			m_BuffCountText = transform.Find<TextMeshProUGUI>("BuffCount");
-		}
-		if (m_BuffCode == null)
-		{
-			m_BuffCode = transform.Find<TextMeshProUGUI>("BuffCode");
-		}
-		if (m_TitleText == null)
-		{
-			m_TitleText = transform.Find<TextMeshProUGUI>("Title");
-		}
-		if (m_SpriteImage == null)
-		{
-			m_SpriteImage = transform.Find<Image>("Sprite");
-		}
-		if (m_BuffGradeText == null)
-		{
-			m_BuffGradeText = transform.Find<TextMeshProUGUI>("Grade");
-		}
-		if (m_DescriptionText == null)
-		{
-			m_DescriptionText = transform.Find<TextMeshProUGUI>("Description");
-		}
-		#endregion
-	}
-	public virtual void Initialize(BuffData buffData)
+	public override void Initialize()
 	{
 		base.Initialize();
 
+		#region Null Check
+		if (m_Button == null)
+			m_Button = transform.Find<Button>("BackGround");
+		if (m_BuffCountText == null)
+			m_BuffCountText = transform.Find<TextMeshProUGUI>("BuffCount");
+		if (m_BuffCode == null)
+			m_BuffCode = transform.Find<TextMeshProUGUI>("BuffCode");
+		if (m_TitleText == null)
+			m_TitleText = transform.Find<TextMeshProUGUI>("Title");
+		if (m_SpriteImage == null)
+			m_SpriteImage = transform.Find<Image>("Sprite");
+		if (m_BuffGradeText == null)
+			m_BuffGradeText = transform.Find<TextMeshProUGUI>("Grade");
+		if (m_DescriptionText == null)
+			m_DescriptionText = transform.Find<TextMeshProUGUI>("Description");
+		#endregion
+
 		m_BuffCount = 1;
-		UpdateBuffUIData(buffData);
 	}
 	public override void Finallize()
 	{
@@ -129,5 +112,11 @@ public class BuffUI : ObjectPoolItemBase
 		m_BuffData = buffData;
 
 		UpdateBuffUIData();
+	}
+	public void UpdateBuffUIData(BuffData buffData, int buffCount)
+	{
+		m_BuffCount = buffCount;
+
+		UpdateBuffUIData(buffData);
 	}
 }

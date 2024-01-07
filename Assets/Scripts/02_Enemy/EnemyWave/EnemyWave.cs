@@ -50,16 +50,21 @@ public class EnemyWave
 		m_MaxSpawnIndex = 0;
 		if (m_EnemyWaveInfoMap.TryGetValue(E_SpawnCondition.ClearRoom, out List<EnemyWaveInfo> waveInfoList) == true)
 		{
-			foreach (var item in waveInfoList)
+			for (int i = 0; i < waveInfoList.Count; ++i)
 			{
+				EnemyWaveInfo item = waveInfoList[i];
+
 				m_MaxSpawnIndex = Mathf.Max(m_MaxSpawnIndex, item.index);
 			}
 		}
 
+		if (m_SpawnedEnemyList == null)
+			m_SpawnedEnemyList = new List<Enemy>();
+	}
+	public void Finallize()
+	{
 		if (m_SpawnedEnemyList != null)
 			m_SpawnedEnemyList.Clear();
-		else
-			m_SpawnedEnemyList = new List<Enemy>();
 	}
 
 	public void CreateEnemy()
@@ -79,8 +84,10 @@ public class EnemyWave
 
 		bool spawnAnyEnemy = false;
 
-		foreach (var info in waveInfoList)
+		for (int i = 0; i < waveInfoList.Count; ++i)
 		{
+			EnemyWaveInfo info = waveInfoList[i];
+
 			if (condition == E_SpawnCondition.ClearRoom &&
 				info.index != m_SpawnIndex)
 				continue;

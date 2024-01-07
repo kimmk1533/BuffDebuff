@@ -46,60 +46,27 @@ public class WarpPoint : MonoBehaviour
 	private static StageManager M_Stage => StageManager.Instance;
 	#endregion
 
-	public void Initialize(Room room)
+	public void Initialize()
 	{
-		m_Room = room;
-
-		#region SAFE_INIT
 		this.Safe_GetComponent<BoxCollisionChecker2D>(ref m_CollisionChecker2D);
 		m_CollisionChecker2D.Initialize();
+
 		m_CollisionChecker2D["Player"].onEnter2D += MoveCollisionObject;
 		m_CollisionChecker2D.isSimulating = false;
-		#endregion
-
-		M_Warp.AddWarpPoint(room, this);
 	}
 	public void Finallize()
 	{
+		m_CollisionChecker2D.Finallize();
+
 		onWarp = null;
 	}
 
-	//private void Update()
-	//{
-	//	// 현재 방의 워프포인트만 확인하도록 예외처리
-	//	if (m_Room != M_Stage.currentStage.currentRoom)
-	//		return;
+	public void Initialize_SetRoom(Room room)
+	{
+		m_Room = room;
 
-	//	CheckCollision();
-	//}
-
-	//private void CheckCollision()
-	//{
-	//	Vector2 origin = (Vector2)transform.position + m_Offset;
-	//	Vector2 size = m_Size;
-
-	//	m_OldCollisionObjectList.Clear();
-	//	m_OldCollisionObjectList.AddRange(m_CollisionObjectList);
-	//	m_CollisionObjectList.Clear();
-	//	m_CollisionObjectList.AddRange(Physics2D.OverlapBoxAll(origin, size, 0f, M_Warp.layerMask));
-
-	//	foreach (var item in m_OldCollisionObjectList)
-	//	{
-	//		if (m_WarpedObjectList.Contains(item) == true &&
-	//			m_CollisionObjectList.Contains(item) == false)
-	//		{
-	//			m_WarpedObjectList.Remove(item);
-	//		}
-	//	}
-
-	//	foreach (var item in m_CollisionObjectList)
-	//	{
-	//		if (m_WarpedObjectList.Contains(item) == true)
-	//			continue;
-
-	//		MoveCollisionObject(item);
-	//	}
-	//}
+		M_Warp.AddWarpPoint(room, this);
+	}
 	private void MoveCollisionObject(Collider2D collisionObject)
 	{
 		Room nearRoom = m_Room.GetNearRoom(m_Direction);

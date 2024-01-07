@@ -7,10 +7,10 @@ public class MainSceneReceiver : SceneReceiver
 {
 	protected override void Initialize()
 	{
-		SceneManager.UnloadSceneAsync("Loading Scene");
+		base.Initialize();
 	}
 	protected override void Finallize()
 	{
-		
+
 	}
 }

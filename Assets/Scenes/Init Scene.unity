@@ -20761,12 +20761,12 @@ MonoBehaviour:
   - <key>k__BackingField: Enemy
     <path>k__BackingField: 
     <useFlag>k__BackingField: 1
-    <poolSize>k__BackingField: 10
+    <poolSize>k__BackingField: 2
     <origin>k__BackingField: {fileID: 4592944753570199520, guid: fcef39ccf1b775c49864f310ab473fab, type: 3}
   - <key>k__BackingField: Golem
     <path>k__BackingField: 
     <useFlag>k__BackingField: 1
-    <poolSize>k__BackingField: 10
+    <poolSize>k__BackingField: 2
     <origin>k__BackingField: {fileID: 507329788138445553, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
 --- !u!4 &348969213
 Transform:
@@ -38611,8 +38611,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IsMainScene: 1
   m_DontDestroyOnLoad: 1
-  m_CurrentStageLevel: 1
-  m_StageSize: {x: 5, y: 4}
+  m_CurrentStageLevel: 6
+  m_StageSize: {x: 10, y: 9}
 --- !u!4 &638952477
 Transform:
   m_ObjectHideFlags: 0
@@ -38643,8 +38643,8 @@ MonoBehaviour:
   m_StageMagnification: 2.6
   m_AutoClear: 1
   m_Info:
-    MinExpectedRoomCount: 7
-    MaxExpectedRoomCount: 8
+    MinExpectedRoomCount: 20
+    MaxExpectedRoomCount: 21
     MaxRoomCount: 0
 --- !u!1 &639244468
 GameObject:

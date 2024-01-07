@@ -38,6 +38,15 @@ public class GameManager : Singleton<GameManager>
 	{
 		Initialize();
 	}
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			FinallizeGame();
+
+			LoadingSceneManager.LoadScene("Main Menu Scene");
+		}
+	}
 	private void OnApplicationQuit()
 	{
 		Finallize();
@@ -99,6 +108,9 @@ public class GameManager : Singleton<GameManager>
 		// 버프 추가 제거 이벤트
 		M_Player.InitializeBuffEvent();
 		M_BuffUI.InitializeBuffEvent();
+
+		// 방 클리어 이벤트
+		M_BuffUI.InitializeRoomClearEvent();
 	}
 	public void FinallizeEvent()
 	{
@@ -108,6 +120,9 @@ public class GameManager : Singleton<GameManager>
 		// 버프 추가 제거 이벤트
 		M_Player.FinallizeBuffEvent();
 		M_BuffUI.FinallizeBuffEvent();
+
+		// 방 클리어 이벤트
+		M_BuffUI.FinallizeRoomClearEvent();
 	}
 
 	public void InitializeGame()
