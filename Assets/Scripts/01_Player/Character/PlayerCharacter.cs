@@ -34,6 +34,10 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 	}
 	#endregion
 
+	#region 매니저
+	private static PlayerManager M_Player => PlayerManager.Instance;
+	#endregion
+
 	public override void Initialize()
 	{
 		base.Initialize();
@@ -141,7 +145,7 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 
 		Vector2 dir = UtilClass.GetMouseWorldPosition() - transform.position;
 
-		if (m_BuffList.ContainsSubKey("전방향 대쉬") == true)
+		if (M_Player.HasBuff("전방향 대쉬") == true)
 		{
 			// 마우스 대쉬
 			m_Velocity = dir.normalized * m_CurrentStat.DashSpeed;
@@ -188,17 +192,17 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 	// Buff Event
 	public void OnBuffJump()
 	{
-		foreach (var item in m_BuffList.Values)
-		{
-			(item as IOnBuffJump)?.OnBuffJump(this);
-		}
+		//foreach (var item in m_BuffList.Values)
+		//{
+		//	(item as IOnBuffJump)?.OnBuffJump(this);
+		//}
 	}
 	private void OnBuffDash()
 	{
-		foreach (var item in m_BuffList.Values)
-		{
-			(item as IOnBuffDash)?.OnBuffDash(this);
-		}
+		//foreach (var item in m_BuffList.Values)
+		//{
+		//	(item as IOnBuffDash)?.OnBuffDash(this);
+		//}
 	}
 
 	// Anim Event

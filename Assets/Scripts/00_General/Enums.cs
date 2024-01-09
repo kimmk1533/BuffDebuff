@@ -120,7 +120,7 @@ namespace Enum
 
 	public static class BuffEnumUtil
 	{
-		public static string EnumToKorString<T>(T value) where T : struct, System.Enum
+		public static string ToKorString<T>(T value) where T : struct, System.Enum
 		{
 			string str = value.ToString();
 

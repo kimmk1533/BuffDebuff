@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public interface IPoolItem
 {
-	public void Initialize();
+	public void InitializePoolItem();
 	public void Finallize();
 }
 
@@ -36,7 +35,7 @@ public abstract class ObjectPoolItemBase : MonoBehaviour, IPoolItem
 	#region 매니저
 	#endregion
 
-	public virtual void Initialize()
+	public virtual void InitializePoolItem()
 	{
 		m_IsSpawning = true;
 

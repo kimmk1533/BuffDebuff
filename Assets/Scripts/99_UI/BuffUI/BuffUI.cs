@@ -68,9 +68,9 @@ public class BuffUI : ObjectPoolItemBase
 	}
 	#endregion
 
-	public override void Initialize()
+	public override void InitializePoolItem()
 	{
-		base.Initialize();
+		base.InitializePoolItem();
 
 		#region Null Check
 		if (m_Button == null)

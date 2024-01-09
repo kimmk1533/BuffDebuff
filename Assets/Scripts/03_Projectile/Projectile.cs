@@ -37,7 +37,7 @@ public sealed class Projectile : ObjectPoolItemBase
 
 	public void Initialize(float moveSpeed, float lifeTime)
 	{
-		base.Initialize();
+		base.InitializePoolItem();
 
 		m_MoveSpeed = moveSpeed;
 

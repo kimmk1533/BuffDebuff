@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(BuffManager))]
-public class BuffManagerEditor : Editor
+[CustomEditor(typeof(BuffFileManager))]
+public class BuffFileManagerEditor : Editor
 {
 	static bool m_LoadBuff;
-	static bool m_CreateScript;
+	//static bool m_CreateScript;
 	static bool m_CreateAsset;
 	static bool m_UpdateBuffManager;
 
@@ -15,7 +15,7 @@ public class BuffManagerEditor : Editor
 	{
 		base.OnInspectorGUI();
 
-		BuffManager buffManager = target as BuffManager;
+		BuffFileManager buffFileManager = target as BuffFileManager;
 
 		EditorGUILayout.Space();
 
@@ -23,7 +23,7 @@ public class BuffManagerEditor : Editor
 
 		m_LoadBuff = GUILayout.Toggle(m_LoadBuff, " Update BuffData from SpreadSheet");
 		//GUILayout.Space(5.0f);
-		m_CreateScript = GUILayout.Toggle(m_CreateScript, " Create Script");
+		//m_CreateScript = GUILayout.Toggle(m_CreateScript, " Create Script");
 		//GUILayout.Space(5.0f);
 		m_CreateAsset = GUILayout.Toggle(m_CreateAsset, " Create ScriptableObject");
 		m_UpdateBuffManager = GUILayout.Toggle(m_UpdateBuffManager, " Update Buff Manager(switch case)");
@@ -32,7 +32,7 @@ public class BuffManagerEditor : Editor
 
 		if (GUILayout.Button("Create Buff"))
 		{
-			buffManager.CreateAllBuff(m_LoadBuff, m_CreateScript, m_CreateAsset, m_UpdateBuffManager);
+			buffFileManager.CreateAllBuff(m_LoadBuff, /*m_CreateScript, */m_CreateAsset, m_UpdateBuffManager);
 		}
 	}
 }

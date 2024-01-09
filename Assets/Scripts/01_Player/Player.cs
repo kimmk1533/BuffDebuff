@@ -155,15 +155,6 @@ public sealed class Player : MonoBehaviour
 		Debug.LogError("Game Over!");
 	}
 
-	public bool AddBuff(BuffData buffData)
-	{
-		return m_Character.AddBuff(buffData);
-	}
-	public bool RemoveBuff(BuffData buffData)
-	{
-		return m_Character.RemoveBuff(buffData);
-	}
-
 	public void AddXp(float xp)
 	{
 		float Xp = m_Character.currentStat.Xp + xp * m_Character.currentStat.XpScale;

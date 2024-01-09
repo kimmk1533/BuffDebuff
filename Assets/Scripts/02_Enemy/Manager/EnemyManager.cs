@@ -2,15 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BuffInventory))]
 public class EnemyManager : ObjectManager<EnemyManager, Enemy>
 {
+	#region 변수
+	private BuffInventory m_BuffInventory = null;
+	#endregion
+
 	public override void Initialize()
 	{
 		base.Initialize();
+
+		this.Safe_GetComponent<BuffInventory>(ref m_BuffInventory);
+		m_BuffInventory.Initialize();
 	}
 	public override void Finallize()
 	{
 		base.Finallize();
+
+		m_BuffInventory.Finallize();
 	}
 
 	public override void InitializeGame()

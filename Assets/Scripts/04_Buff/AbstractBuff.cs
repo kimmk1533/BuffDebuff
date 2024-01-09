@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AbstractBuff : System.IEquatable<AbstractBuff>
+[System.Serializable]
+public class AbstractBuff : System.IEquatable<AbstractBuff>
 {
 	#region 변수
 	[SerializeField]

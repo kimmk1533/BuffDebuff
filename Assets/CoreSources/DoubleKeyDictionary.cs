@@ -1,48 +1,55 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using AYellowpaper.SerializedCollections;
 
-public class DoubleKeyDictionary<TPrimaryKey, TSubKey, TValue> : IEnumerable<KeyValuePair<TPrimaryKey, TValue>>
+[System.Serializable]
+public class DoubleKeyDictionary<TKey1, TKey2, TValue> : IEnumerable<KeyValuePair<TKey1, TValue>>
 {
-	#region 변수
-	private Dictionary<TSubKey, TPrimaryKey> m_SubDictionary = new Dictionary<TSubKey, TPrimaryKey>();
-	private Dictionary<TPrimaryKey, TValue> m_PrimaryDictionary = new Dictionary<TPrimaryKey, TValue>();
+	#region 변수	
+	[SerializeField]
+	[SerializedDictionary("key1", "value")]
+	private SerializedDictionary<TKey1, TValue> m_Key1Dictionary = null;
+
+	[SerializeField]
+	[SerializedDictionary("key2", "key1")]
+	private SerializedDictionary<TKey2, TKey1> m_ForwardKey2Dictionary = null;
+	private Dictionary<TKey1, TKey2> m_ReverseKey2Dictionary = null;
 	#endregion
 
 	#region 프로퍼티
-	public Dictionary<TSubKey, TPrimaryKey>.KeyCollection SubKeys => m_SubDictionary.Keys;
-	public Dictionary<TPrimaryKey, TValue>.KeyCollection PrimaryKeys => m_PrimaryDictionary.Keys;
-	public Dictionary<TPrimaryKey, TValue>.ValueCollection Values => m_PrimaryDictionary.Values;
-	public int Count => m_PrimaryDictionary.Count;
+	public SerializedDictionary<TKey2, TKey1>.KeyCollection Keys2 => m_ForwardKey2Dictionary.Keys;
+	public SerializedDictionary<TKey1, TValue>.KeyCollection Keys1 => m_Key1Dictionary.Keys;
+	public SerializedDictionary<TKey1, TValue>.ValueCollection Values => m_Key1Dictionary.Values;
 
 	#region 인덱서
-	public TValue this[TPrimaryKey primaryKey]
+	public TValue this[TKey1 key1]
 	{
 		get
 		{
-			if (m_PrimaryDictionary.TryGetValue(primaryKey, out TValue value) == false)
+			if (m_Key1Dictionary.TryGetValue(key1, out TValue value) == false)
 				return default(TValue);
 
 			return value;
 		}
 		set
 		{
-			m_PrimaryDictionary[primaryKey] = value;
+			m_Key1Dictionary[key1] = value;
 		}
 	}
-	public TValue this[TSubKey subKey]
+	public TValue this[TKey2 key2]
 	{
 		get
 		{
-			if (m_SubDictionary.TryGetValue(subKey, out TPrimaryKey primaryKey) == false)
+			if (m_ForwardKey2Dictionary.TryGetValue(key2, out TKey1 primaryKey) == false)
 				return default(TValue);
 
 			return this[primaryKey];
 		}
 		set
 		{
-			if (m_SubDictionary.TryGetValue(subKey, out TPrimaryKey primaryKey) == false)
+			if (m_ForwardKey2Dictionary.TryGetValue(key2, out TKey1 primaryKey) == false)
 				return;
 
 			this[primaryKey] = value;
@@ -51,42 +58,41 @@ public class DoubleKeyDictionary<TPrimaryKey, TSubKey, TValue> : IEnumerable<Key
 	#endregion
 	#endregion
 
-	public void Add((TPrimaryKey primary, TSubKey sub) key, TValue value)
+	public DoubleKeyDictionary()
 	{
-		m_SubDictionary.Add(key.sub, key.primary);
-		m_PrimaryDictionary.Add(key.primary, value);
-	}
-	public void Add(TPrimaryKey primaryKey, TSubKey subKey, TValue value)
-	{
-		m_SubDictionary.Add(subKey, primaryKey);
-		m_PrimaryDictionary.Add(primaryKey, value);
+		m_Key1Dictionary = new SerializedDictionary<TKey1, TValue>();
+
+		m_ForwardKey2Dictionary = new SerializedDictionary<TKey2, TKey1>();
+		m_ReverseKey2Dictionary = new Dictionary<TKey1, TKey2>();
 	}
 
-	public bool TryAdd((TPrimaryKey primary, TSubKey sub) key, TValue value)
+	public void Add(TKey1 key1, TKey2 key2, TValue value)
 	{
-		if (m_SubDictionary.TryAdd(key.sub, key.primary) == false)
+		m_Key1Dictionary.Add(key1, value);
+
+		m_ForwardKey2Dictionary.Add(key2, key1);
+		m_ReverseKey2Dictionary.Add(key1, key2);
+	}
+
+	public bool TryAdd(TKey1 key1, TKey2 key2, TValue value)
+	{
+		if (m_ForwardKey2Dictionary.TryAdd(key2, key1) == false)
 			return false;
-		if (m_PrimaryDictionary.TryAdd(key.primary, value) == false)
+		if (m_ReverseKey2Dictionary.TryAdd(key1, key2) == false)
+			return false;
+
+		if (m_Key1Dictionary.TryAdd(key1, value) == false)
 			return false;
 
 		return true;
 	}
-	public bool TryAdd(TPrimaryKey primaryKey, TSubKey subKey, TValue value)
+	public bool TryGetValue(TKey1 key1, out TValue value)
 	{
-		if (m_SubDictionary.TryAdd(subKey, primaryKey) == false)
-			return false;
-		if (m_PrimaryDictionary.TryAdd(primaryKey, value) == false)
-			return false;
-
-		return true;
+		return m_Key1Dictionary.TryGetValue(key1, out value);
 	}
-	public bool TryGetValue(TPrimaryKey primaryKey, out TValue value)
+	public bool TryGetValue(TKey2 key2, out TValue value)
 	{
-		return m_PrimaryDictionary.TryGetValue(primaryKey, out value);
-	}
-	public bool TryGetValue(TSubKey subKey, out TValue value)
-	{
-		if (m_SubDictionary.TryGetValue(subKey, out TPrimaryKey primaryKey) == false)
+		if (m_ForwardKey2Dictionary.TryGetValue(key2, out TKey1 primaryKey) == false)
 		{
 			value = default(TValue);
 			return false;
@@ -97,27 +103,38 @@ public class DoubleKeyDictionary<TPrimaryKey, TSubKey, TValue> : IEnumerable<Key
 
 	public void Clear()
 	{
-		m_SubDictionary.Clear();
-		m_PrimaryDictionary.Clear();
+		m_Key1Dictionary.Clear();
+
+		m_ForwardKey2Dictionary.Clear();
+		m_ReverseKey2Dictionary.Clear();
 	}
 
-	public bool ContainsPrimaryKey(TPrimaryKey primaryKey)
+	public bool ContainsKey1(TKey1 key1)
 	{
-		return m_PrimaryDictionary.ContainsKey(primaryKey);
+		return m_Key1Dictionary.ContainsKey(key1);
 	}
-	public bool ContainsSubKey(TSubKey subKey)
+	public bool ContainsKey2(TKey2 key2)
 	{
-		return m_SubDictionary.ContainsKey(subKey);
+		return m_ForwardKey2Dictionary.ContainsKey(key2);
 	}
 	public bool ContainsValue(TValue value)
 	{
-		return m_PrimaryDictionary.ContainsValue(value);
+		return m_Key1Dictionary.ContainsValue(value);
 	}
 
-	public void Remove(TSubKey subKey)
+	public void Remove(TKey1 key1)
 	{
-		m_SubDictionary.Remove(subKey, out TPrimaryKey primaryKey);
-		m_PrimaryDictionary.Remove(primaryKey);
+		m_ReverseKey2Dictionary.Remove(key1, out TKey2 key2);
+		m_ForwardKey2Dictionary.Remove(key2);
+
+		m_Key1Dictionary.Remove(key1);
+	}
+	public void Remove(TKey2 key2)
+	{
+		m_ForwardKey2Dictionary.Remove(key2, out TKey1 key1);
+		m_ReverseKey2Dictionary.Remove(key1);
+
+		m_Key1Dictionary.Remove(key1);
 	}
 
 	#region Enumerator
@@ -134,9 +151,9 @@ public class DoubleKeyDictionary<TPrimaryKey, TSubKey, TValue> : IEnumerable<Key
 				{
 					return elementList[index];
 				}
-				catch (IndexOutOfRangeException)
+				catch (System.IndexOutOfRangeException)
 				{
-					throw new InvalidOperationException();
+					throw new System.InvalidOperationException();
 				}
 			}
 		}
@@ -148,9 +165,9 @@ public class DoubleKeyDictionary<TPrimaryKey, TSubKey, TValue> : IEnumerable<Key
 				{
 					return elementList[index];
 				}
-				catch (IndexOutOfRangeException)
+				catch (System.IndexOutOfRangeException)
 				{
-					throw new InvalidOperationException();
+					throw new System.InvalidOperationException();
 				}
 			}
 		}
@@ -180,13 +197,13 @@ public class DoubleKeyDictionary<TPrimaryKey, TSubKey, TValue> : IEnumerable<Key
 		}
 	}
 
-	public IEnumerator<KeyValuePair<TPrimaryKey, TValue>> GetEnumerator()
+	public IEnumerator<KeyValuePair<TKey1, TValue>> GetEnumerator()
 	{
-		return new Enumerator<TPrimaryKey, TValue>(m_PrimaryDictionary);
+		return new Enumerator<TKey1, TValue>(m_Key1Dictionary);
 	}
 	IEnumerator IEnumerable.GetEnumerator()
 	{
-		return new Enumerator<TPrimaryKey, TValue>(m_PrimaryDictionary);
+		return new Enumerator<TKey1, TValue>(m_Key1Dictionary);
 	}
 	#endregion
 }

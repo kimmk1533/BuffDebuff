@@ -262,16 +262,16 @@ public class StageGenerator : MonoBehaviour
 		Room room;
 		Vector2Int center = stageSize / 2;
 
-		if (roomPos == center)
-		{
-			room = M_Room.SpawnStartRoom("StartRoom");
-			room.name = m_GeneratedRoomCount.ToString("00_StartRoom");
-			room.transform.SetParent(stage.transform);
-			room.transform.position = Vector3.zero;
+		//if (roomPos == center)
+		//{
+		//	room = M_Room.SpawnStartRoom("StartRoom");
+		//	room.name = m_GeneratedRoomCount.ToString("00_StartRoom");
+		//	room.transform.SetParent(stage.transform);
+		//	room.transform.position = Vector3.zero;
 
-			room.Initialize();
-		}
-		else
+		//	room.Initialize();
+		//}
+		//else
 		{
 			List<RoomCondition> conditionList = new List<RoomCondition>();
 

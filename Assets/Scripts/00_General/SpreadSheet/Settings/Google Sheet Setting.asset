@@ -35,7 +35,7 @@ MonoBehaviour:
     endCell:
       column: M
       row: 0
-  - enabled: 1
+  - enabled: 0
     sheetName: "\uC591\uBA74\uBC84\uD504 \uBAA9\uB85D"
     fileName: "\uC591\uBA74\uBC84\uD504 \uBAA9\uB85D"
     startCell:

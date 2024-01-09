@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BuffInventory))]
 public class PlayerManager : Singleton<PlayerManager>
 {
 	#region 변수
@@ -13,6 +14,8 @@ public class PlayerManager : Singleton<PlayerManager>
 	private Player m_Origin = null;
 	private Player m_Player = null;
 	private CameraFollow m_PlayerCamera = null;
+
+	private BuffInventory m_BuffInventory = null;
 	#endregion
 
 	#region 프로퍼티
@@ -51,9 +54,13 @@ public class PlayerManager : Singleton<PlayerManager>
 	{
 		m_Path = "Prefabs/01_Player";
 		m_PlayerCharacterName = "fire_knight";
+
+		this.Safe_GetComponent<BuffInventory>(ref m_BuffInventory);
+		m_BuffInventory.Initialize();
 	}
 	public void Finallize()
 	{
+		m_BuffInventory.Finallize();
 	}
 
 	public void InitializeBuffEvent()
@@ -110,11 +117,16 @@ public class PlayerManager : Singleton<PlayerManager>
 
 	private bool AddBuff(BuffData buffData)
 	{
-		return m_Player.AddBuff(buffData);
+		return m_BuffInventory.AddBuff(buffData);
 	}
 	private bool RemoveBuff(BuffData buffData)
 	{
-		return m_Player.RemoveBuff(buffData);
+		return m_BuffInventory.RemoveBuff(buffData);
+	}
+
+	public bool HasBuff(string buffName)
+	{
+		return m_BuffInventory.Contains(buffName);
 	}
 
 	private void OnStageGenerated()

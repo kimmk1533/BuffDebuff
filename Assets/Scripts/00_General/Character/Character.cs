@@ -9,8 +9,6 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 	[SerializeField, ChildComponent("Renderer")]
 	protected TAnimator m_Animator;
 
-	protected DoubleKeyDictionary<int, string, AbstractBuff> m_BuffList;
-
 	#region 이동 관련
 	[SerializeField]
 	protected bool m_IsSimulating = true;
@@ -51,10 +49,6 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 	public TAnimator animator => m_Animator;
 	#endregion
 
-	#region 매니저
-	private static BuffManager M_Buff => BuffManager.Instance;
-	#endregion
-
 	public virtual void Initialize()
 	{
 		this.Safe_GetComponent<TController>(ref m_Controller);
@@ -64,27 +58,17 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 			throw new System.Exception("Child Component(Animator) is null!");
 		m_Animator.Initialize();
 
-		// BuffList Init
-		if (m_BuffList != null)
-			m_BuffList.Clear();
-		else
-			m_BuffList = new DoubleKeyDictionary<int, string, AbstractBuff>();
-
 		#region Stat
 		m_InitMaxStat = m_MaxStat;
 		m_InitStat = m_CurrentStat;
 		#endregion
 
 		#region Timer
-		if (m_HealTimer != null)
-			m_HealTimer.Clear();
-		else
+		if (m_HealTimer == null)
 			m_HealTimer = new UtilClass.Timer();
 		m_HealTimer.interval = m_CurrentStat.HpRegenTime;
 
-		if (m_AttackTimer != null)
-			m_AttackTimer.Clear();
-		else
+		if (m_AttackTimer == null)
 			m_AttackTimer = new UtilClass.Timer();
 		m_AttackTimer.interval = 1f / m_CurrentStat.AttackSpeed;
 		#endregion
@@ -94,8 +78,11 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 		m_MaxStat = m_InitMaxStat;
 		m_CurrentStat = m_InitStat;
 
-		m_HealTimer.Clear();
-		m_AttackTimer.Clear();
+		if (m_HealTimer != null)
+			m_HealTimer.Clear();
+
+		if (m_AttackTimer != null)
+			m_AttackTimer.Clear();
 	}
 
 	protected virtual void Update()
@@ -128,83 +115,6 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 
 		m_Animator.Anim_SetVelocity(m_Velocity);
 		m_Animator.Anim_SetIsGround(m_Controller.collisions.grounded);
-	}
-
-	// Buff Func
-	public bool AddBuff(string name)
-	{
-		if (name == null || name == string.Empty)
-			return false;
-
-		BuffData buffData = M_Buff.GetBuffData(name);
-
-		return this.AddBuff(buffData);
-	}
-	public bool AddBuff(BuffData buffData)
-	{
-		if (buffData == null)
-			return false;
-
-		if (m_BuffList.TryGetValue(buffData.code, out AbstractBuff buff) &&
-			buff != null)
-		{
-			if (buff.count < buffData.maxStack)
-			{
-				++buff.count;
-				(buff as IOnBuffAdded)?.OnBuffAdded(this);
-			}
-			else
-			{
-				Debug.Log("Buff Count is Max. title =" + buffData.title + ", maxStack = " + buffData.maxStack.ToString());
-
-				return false;
-			}
-
-			return true;
-		}
-
-		buff = M_Buff.CreateBuff(buffData);
-
-		m_BuffList.Add(buffData.code, buffData.title, buff);
-
-		(buff as IOnBuffAdded)?.OnBuffAdded(this);
-
-		return true;
-	}
-	public bool RemoveBuff(string name)
-	{
-		if (name == null || name == string.Empty)
-			return false;
-
-		BuffData buffData = M_Buff.GetBuffData(name);
-
-		return this.RemoveBuff(buffData);
-	}
-	public bool RemoveBuff(BuffData buffData)
-	{
-		if (buffData == null)
-			return false;
-
-		if (m_BuffList.TryGetValue(buffData.code, out AbstractBuff buff) &&
-			buff != null)
-		{
-			if (buff.count > 0)
-			{
-				--buff.count;
-			}
-			else
-			{
-				m_BuffList.Remove(buffData.title);
-			}
-
-			(buff as IOnBuffRemoved)?.OnBuffRemoved(this);
-
-			return true;
-		}
-
-		Debug.Log("버프 없는데 제거");
-
-		return false;
 	}
 
 	// Attack Func
@@ -247,31 +157,31 @@ public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour w
 	// Buff Event
 	protected virtual void OnBuffUpdate()
 	{
-		foreach (AbstractBuff item in m_BuffList.Values)
-		{
-			(item as IOnBuffUpdate)?.OnBuffUpdate(this);
-		}
+		//foreach (AbstractBuff item in m_BuffList.Values)
+		//{
+		//	(item as IOnBuffUpdate)?.OnBuffUpdate(this);
+		//}
 	}
 	protected virtual void OnBuffAttackStart()
 	{
-		foreach (AbstractBuff item in m_BuffList.Values)
-		{
-			(item as IOnBuffAttackStart)?.OnBuffAttackStart(this);
-		}
+		//foreach (AbstractBuff item in m_BuffList.Values)
+		//{
+		//	(item as IOnBuffAttackStart)?.OnBuffAttackStart(this);
+		//}
 	}
 	protected virtual void OnBuffAttack()
 	{
-		foreach (AbstractBuff item in m_BuffList.Values)
-		{
-			(item as IOnBuffAttack)?.OnBuffAttack(this);
-		}
+		//foreach (AbstractBuff item in m_BuffList.Values)
+		//{
+		//	(item as IOnBuffAttack)?.OnBuffAttack(this);
+		//}
 	}
 	protected virtual void OnBuffAttackEnd()
 	{
-		foreach (AbstractBuff item in m_BuffList.Values)
-		{
-			(item as IOnBuffAttackEnd)?.OnBuffAttackEnd(this);
-		}
+		//foreach (AbstractBuff item in m_BuffList.Values)
+		//{
+		//	(item as IOnBuffAttackEnd)?.OnBuffAttackEnd(this);
+		//}
 	}
 
 	// Anim Event

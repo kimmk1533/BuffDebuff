@@ -22,7 +22,6 @@ public class GameManager : Singleton<GameManager>
 	private static EnemyManager M_Enemy => EnemyManager.Instance;
 	private static ProjectileManager M_Projectile => ProjectileManager.Instance;
 
-	private static SpreadSheet.SpreadSheetManager M_SpreadSheet => SpreadSheet.SpreadSheetManager.Instance;
 	private static BuffManager M_Buff => BuffManager.Instance;
 
 	private static RoomManager M_Room => RoomManager.Instance;
@@ -56,8 +55,6 @@ public class GameManager : Singleton<GameManager>
 	{
 		// 인풋 매니저 초기화
 		M_Input.Initialize();
-		// 스프레드시트 매니저 초기화
-		//M_SpreadSheet.Initialize();
 
 		// 플레이어 매니저 초기화
 		M_Player.Initialize();
@@ -74,8 +71,6 @@ public class GameManager : Singleton<GameManager>
 		M_Warp.Initialize();
 		// 스테이지 매니저 초기화
 		M_Stage.Initialize();
-		//// 그리드 매니저 초기화
-		//M_Grid.Initialize();
 	}
 	public void Finallize()
 	{
@@ -143,8 +138,6 @@ public class GameManager : Singleton<GameManager>
 		M_Warp.InitializeGame();
 		// 스테이지 매니저 초기화
 		M_Stage.InitializeGame();
-		//// 그리드 매니저 초기화
-		//M_Grid.InitializeGame();
 
 		// 버프 UI 매니저 초기화
 		M_BuffUI.InitializeGame();

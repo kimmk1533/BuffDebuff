@@ -22,7 +22,9 @@ public class WorkSheetData
 	[System.Serializable]
 	public class Cell
 	{
+		// 행
 		public string column;
+		// 열
 		public int row;
 
 		public override string ToString()

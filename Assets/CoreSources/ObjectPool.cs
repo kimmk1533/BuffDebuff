@@ -294,7 +294,7 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 
 			if (m_AutoInit.isUse &&
 				m_AutoInit.value)
-				item.Initialize();
+				item.InitializePoolItem();
 
 			Clear();
 

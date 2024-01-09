@@ -99,9 +99,9 @@ public class Room : ObjectPoolItemBase
 	private static RoomManager M_Room => RoomManager.Instance;
 	#endregion
 
-	public override void Initialize()
+	public override void InitializePoolItem()
 	{
-		base.Initialize();
+		base.InitializePoolItem();
 
 		#region NULL Check New
 		// 타일맵 딕셔너리 초기화

@@ -264,7 +264,7 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 			buffUI.onClick += () =>
 			{
-				M_Buff.AddBuff(buffUI.buffData);
+				M_Buff.AddBuffCount(buffUI.buffData);
 				rewardsPanel.active = false;
 			};
 		}

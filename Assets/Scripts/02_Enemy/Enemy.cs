@@ -21,9 +21,9 @@ public class Enemy : ObjectPoolItemBase
 	#endregion
 
 	// 초기화
-	public override void Initialize()
+	public override void InitializePoolItem()
 	{
-		base.Initialize();
+		base.InitializePoolItem();
 
 		this.Safe_GetComponent<EnemyCharacter>(ref m_Character);
 		m_Character.Initialize();

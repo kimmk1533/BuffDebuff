@@ -35,24 +35,26 @@ namespace SpreadSheet
 
 		private void MakeSheetDataset(DataSet dataset)
 		{
-			var pass = new ClientSecrets();
+			ClientSecrets pass = new ClientSecrets();
 			pass.ClientId = setting.clientId;
 			pass.ClientSecret = setting.clientSecret;
 
-			var scopes = new string[] { SheetsService.Scope.SpreadsheetsReadonly };
-			var credential = GoogleWebAuthorizationBroker.AuthorizeAsync(pass, scopes, setting.clientName, CancellationToken.None).Result;
+			string[] scopes = new string[] { SheetsService.Scope.SpreadsheetsReadonly };
+			UserCredential credential = GoogleWebAuthorizationBroker.AuthorizeAsync(pass, scopes, setting.clientName, CancellationToken.None).Result;
 
-			var service = new SheetsService(new BaseClientService.Initializer()
+			SheetsService service = new SheetsService(new BaseClientService.Initializer()
 			{
 				HttpClientInitializer = credential,
 			});
 
-			var request = service.Spreadsheets.Get(setting.spreadSheetId).Execute();
+			Spreadsheet request = service.Spreadsheets.Get(setting.spreadSheetId).Execute();
 
 			WorkSheetData sheetData;
 
-			foreach (var item in setting.workSheetDataList)
+			for (int i = 0; i < setting.workSheetDataList.Count; ++i)
 			{
+				WorkSheetData item = setting.workSheetDataList[i];
+
 				if (item.enabled == false)
 					continue;
 
@@ -62,8 +64,10 @@ namespace SpreadSheet
 				#region 시트 이름 확인
 				sheetData = null;
 
-				foreach (Sheet sheet in request.Sheets)
+				for (int j = 0; j < request.Sheets.Count; ++j)
 				{
+					Sheet sheet = request.Sheets[j];
+
 					if (sheet.Properties.Title.Equals(item.sheetName))
 					{
 						sheetData = item;
@@ -166,6 +170,7 @@ namespace SpreadSheet
 		private void SaveDataToFile(string fileName, DataTable newTable)
 		{
 			string path = Path.Combine(Application.dataPath, "Resources", "JsonData");
+
 			if (Directory.Exists(path) == false)
 				Directory.CreateDirectory(path);
 
@@ -190,7 +195,7 @@ namespace SpreadSheet
 		}
 		private bool BinaryCheck<T>(T src, T target)
 		{
-			//두 대상을 바이너리로 변환해서 비교, 다르면 false 반환
+			// 두 대상을 바이너리로 변환해서 비교, 다르면 false 반환
 			BinaryFormatter formatter1 = new BinaryFormatter();
 			MemoryStream stream1 = new MemoryStream();
 			formatter1.Serialize(stream1, src);

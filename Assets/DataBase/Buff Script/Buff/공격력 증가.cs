@@ -15,7 +15,7 @@ public class 공격력_증가 : AbstractBuff, IOnBuffAdded, IOnBuffRemoved
 	
 	public void OnBuffAdded<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator
 	{
-
+		character.currentStat.Attack += 1.0f;
 	}
 	public void OnBuffRemoved<TStat, TController, TAnimator>(Character<TStat, TController, TAnimator> character) where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator
 	{
