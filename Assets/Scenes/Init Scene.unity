@@ -20796,7 +20796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6daba60a76121bb4591d73446049dfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BuffList:
+  m_BuffInventory:
     m_Key1Dictionary:
       _serializedList: []
     m_ForwardKey2Dictionary:
@@ -106355,7 +106355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6daba60a76121bb4591d73446049dfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BuffList:
+  m_BuffInventory:
     m_Key1Dictionary:
       _serializedList: []
     m_ForwardKey2Dictionary:
@@ -125098,6 +125098,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2022746457}
   - component: {fileID: 2022746456}
+  - component: {fileID: 2022746458}
   m_Layer: 0
   m_Name: Buff Manager
   m_TagString: Untagged
@@ -131601,6 +131602,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2022746458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022746455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6daba60a76121bb4591d73446049dfe8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BuffInventory:
+    m_Key1Dictionary:
+      _serializedList: []
+    m_ForwardKey2Dictionary:
+      _serializedList: []
 --- !u!1 &2023261049
 GameObject:
   m_ObjectHideFlags: 0

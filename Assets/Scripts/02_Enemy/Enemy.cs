@@ -30,9 +30,9 @@ public class Enemy : ObjectPoolItemBase
 
 		m_Animator.Initialize();
 	}
-	public override void Finallize()
+	public override void FinallizePoolItem()
 	{
-		base.Finallize();
+		base.FinallizePoolItem();
 
 		m_Character.Finallize();
 	}

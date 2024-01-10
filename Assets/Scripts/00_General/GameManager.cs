@@ -100,10 +100,6 @@ public class GameManager : Singleton<GameManager>
 		// 스테이지 생성 이벤트
 		M_Player.InitializeStageGenEvent();
 
-		// 버프 추가 제거 이벤트
-		M_Player.InitializeBuffEvent();
-		M_BuffUI.InitializeBuffEvent();
-
 		// 방 클리어 이벤트
 		M_BuffUI.InitializeRoomClearEvent();
 	}
@@ -111,10 +107,6 @@ public class GameManager : Singleton<GameManager>
 	{
 		// 스테이지 생성 이벤트
 		M_Player.FinallizeStageGenEvent();
-
-		// 버프 추가 제거 이벤트
-		M_Player.FinallizeBuffEvent();
-		M_BuffUI.FinallizeBuffEvent();
 
 		// 방 클리어 이벤트
 		M_BuffUI.FinallizeRoomClearEvent();

@@ -5,7 +5,7 @@ using UnityEngine;
 public interface IPoolItem
 {
 	public void InitializePoolItem();
-	public void Finallize();
+	public void FinallizePoolItem();
 }
 
 public abstract class ObjectPoolItemBase : MonoBehaviour, IPoolItem
@@ -41,7 +41,7 @@ public abstract class ObjectPoolItemBase : MonoBehaviour, IPoolItem
 
 		onSpawn?.Invoke(this);
 	}
-	public virtual void Finallize()
+	public virtual void FinallizePoolItem()
 	{
 		if (m_IsSpawning == true)
 			m_IsSpawning = false;

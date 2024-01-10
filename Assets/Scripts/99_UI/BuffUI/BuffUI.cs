@@ -8,9 +8,7 @@ using UnityEngine.Events;
 public class BuffUI : ObjectPoolItemBase
 {
 	#region 변수
-	[SerializeField]
-	protected int m_BuffCount;
-	protected BuffData m_BuffData;
+	protected Buff m_Buff;
 
 	[Space(10)]
 	[SerializeField]
@@ -31,27 +29,24 @@ public class BuffUI : ObjectPoolItemBase
 	#endregion
 
 	#region 프로퍼티
+	public Buff buff => m_Buff;
+	public BuffData buffData => m_Buff.buffData;
+
 	public int buffCount
 	{
-		get { return m_BuffCount; }
+		get { return m_Buff.count; }
 		set
 		{
-			if (value < 0)
-				return;
-			else if (value > m_BuffData.maxStack)
-				Debug.LogError("BuffUI MaxStack");
-
-			m_BuffCount = Mathf.Clamp(value, 0, m_BuffData.maxStack);
+			m_Buff.count = Mathf.Clamp(value, 0, m_Buff.maxStack);
 
 			if (value <= 1)
 				m_BuffCountText.gameObject.SetActive(false);
 			else
 				m_BuffCountText.gameObject.SetActive(true);
 
-			m_BuffCountText.text = "x" + m_BuffCount.ToString();
+			m_BuffCountText.text = "x" + m_Buff.count.ToString();
 		}
 	}
-	public BuffData buffData => m_BuffData;
 	#endregion
 
 	#region 이벤트
@@ -72,51 +67,48 @@ public class BuffUI : ObjectPoolItemBase
 	{
 		base.InitializePoolItem();
 
-		#region Null Check
 		if (m_Button == null)
 			m_Button = transform.Find<Button>("BackGround");
+
 		if (m_BuffCountText == null)
 			m_BuffCountText = transform.Find<TextMeshProUGUI>("BuffCount");
+
 		if (m_BuffCode == null)
 			m_BuffCode = transform.Find<TextMeshProUGUI>("BuffCode");
+
 		if (m_TitleText == null)
 			m_TitleText = transform.Find<TextMeshProUGUI>("Title");
+
 		if (m_SpriteImage == null)
 			m_SpriteImage = transform.Find<Image>("Sprite");
+
 		if (m_BuffGradeText == null)
 			m_BuffGradeText = transform.Find<TextMeshProUGUI>("Grade");
+
 		if (m_DescriptionText == null)
 			m_DescriptionText = transform.Find<TextMeshProUGUI>("Description");
-		#endregion
-
-		m_BuffCount = 1;
 	}
-	public override void Finallize()
+	public override void FinallizePoolItem()
 	{
-		base.Finallize();
+		base.FinallizePoolItem();
 
 		m_Button.onClick.RemoveAllListeners();
 	}
 
 	public void UpdateBuffUIData()
 	{
-		m_BuffCountText.text = "x" + m_BuffCount.ToString();
-		m_BuffCode.text = m_BuffData.code.ToString();
-		m_TitleText.text = m_BuffData.title;
-		m_SpriteImage.sprite = m_BuffData.sprite;
-		m_BuffGradeText.text = m_BuffData.buffGrade.ToString();
-		m_DescriptionText.text = m_BuffData.description;
+		m_BuffCountText.text = "x" + m_Buff.count.ToString();
+		m_BuffCode.text = m_Buff.buffData.code.ToString();
+		m_TitleText.text = m_Buff.buffData.title;
+		m_SpriteImage.sprite = m_Buff.buffData.sprite;
+		m_BuffGradeText.text = m_Buff.buffData.buffGrade.ToString();
+		m_DescriptionText.text = m_Buff.buffData.description;
 	}
-	public void UpdateBuffUIData(BuffData buffData)
+
+	public void ChangeBuff(Buff buff)
 	{
-		m_BuffData = buffData;
+		m_Buff = buff;
 
 		UpdateBuffUIData();
-	}
-	public void UpdateBuffUIData(BuffData buffData, int buffCount)
-	{
-		m_BuffCount = buffCount;
-
-		UpdateBuffUIData(buffData);
 	}
 }

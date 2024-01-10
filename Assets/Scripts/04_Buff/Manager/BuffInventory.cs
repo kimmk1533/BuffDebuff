@@ -1,21 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 public class BuffInventory : MonoBehaviour
 {
 	#region 변수
 	[SerializeField]
-	protected DoubleKeyDictionary<int, string, AbstractBuff> m_BuffList = null;
+	protected DoubleKeyDictionary<int, string, Buff> m_BuffInventory = null;
 
 	#endregion
 
 	#region 프로퍼티
+	#region 인덱서
+	public Buff this[int code]
+	{
+		get => m_BuffInventory[code];
+		set => m_BuffInventory[code] = value;
+	}
+	public Buff this[string buffName]
+	{
+		get => m_BuffInventory[buffName];
+		set => m_BuffInventory[buffName] = value;
+	}
+	#endregion
 	#endregion
 
 	#region 이벤트
-	public event System.Action<AbstractBuff> onBuffAdded = null;
-	public event System.Action<AbstractBuff> onBuffRemoved = null;
+	public event System.Action<Buff> onBuffAdded = null;
+	public event System.Action<Buff> onBuffRemoved = null;
 	#endregion
 
 	#region 매니저
@@ -25,14 +38,14 @@ public class BuffInventory : MonoBehaviour
 	public virtual void Initialize()
 	{
 		// BuffList Init
-		if (m_BuffList == null)
-			m_BuffList = new DoubleKeyDictionary<int, string, AbstractBuff>();
+		if (m_BuffInventory == null)
+			m_BuffInventory = new DoubleKeyDictionary<int, string, Buff>();
 
 	}
 	public virtual void Finallize()
 	{
-		if (m_BuffList != null)
-			m_BuffList.Clear();
+		if (m_BuffInventory != null)
+			m_BuffInventory.Clear();
 	}
 
 	// Buff Func
@@ -50,7 +63,7 @@ public class BuffInventory : MonoBehaviour
 		if (buffData == null)
 			return false;
 
-		if (m_BuffList.TryGetValue(buffData.code, out AbstractBuff buff) &&
+		if (m_BuffInventory.TryGetValue(buffData.code, out Buff buff) &&
 			buff != null)
 		{
 			if (buff.count < buffData.maxStack)
@@ -68,9 +81,9 @@ public class BuffInventory : MonoBehaviour
 			return true;
 		}
 
-		buff = M_Buff.CreateBuff(buffData);
+		buff = new Buff(buffData);
 
-		m_BuffList.Add(buffData.code, buffData.title, buff);
+		m_BuffInventory.Add(buffData.code, buffData.title, buff);
 
 		onBuffAdded?.Invoke(buff);
 
@@ -90,7 +103,7 @@ public class BuffInventory : MonoBehaviour
 		if (buffData == null)
 			return false;
 
-		if (m_BuffList.TryGetValue(buffData.code, out AbstractBuff buff) &&
+		if (m_BuffInventory.TryGetValue(buffData.code, out Buff buff) &&
 			buff != null)
 		{
 			if (buff.count > 0)
@@ -99,7 +112,7 @@ public class BuffInventory : MonoBehaviour
 			}
 			else
 			{
-				m_BuffList.Remove(buffData.title);
+				m_BuffInventory.Remove(buffData.title);
 			}
 
 			onBuffRemoved?.Invoke(buff);
@@ -112,8 +125,10 @@ public class BuffInventory : MonoBehaviour
 		return false;
 	}
 
-	public bool Contains(string buffName)
-	{
-		return m_BuffList.ContainsKey2(buffName);
-	}
+	public bool HasBuff(int code) => m_BuffInventory.ContainsKey1(code);
+	public bool HasBuff(string buffName) => m_BuffInventory.ContainsKey2(buffName);
+	public bool HasBuff(BuffData buffData) => m_BuffInventory.ContainsKey1(buffData.code);
+
+	public bool TryGetBuff(int code, out Buff buff) => m_BuffInventory.TryGetValue(code, out buff);
+	public bool TryGetBuff(string buffName, out Buff buff) => m_BuffInventory.TryGetValue(buffName, out buff);
 }

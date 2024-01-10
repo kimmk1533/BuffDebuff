@@ -46,7 +46,6 @@ public class PlayerManager : Singleton<PlayerManager>
 	#endregion
 
 	#region 매니저
-	private static BuffManager M_Buff => BuffManager.Instance;
 	private static StageManager M_Stage => StageManager.Instance;
 	#endregion
 
@@ -61,26 +60,6 @@ public class PlayerManager : Singleton<PlayerManager>
 	public void Finallize()
 	{
 		m_BuffInventory.Finallize();
-	}
-
-	public void InitializeBuffEvent()
-	{
-		M_Buff.onBuffAdded += AddBuff;
-		M_Buff.onBuffRemoved += RemoveBuff;
-	}
-	public void FinallizeBuffEvent()
-	{
-		M_Buff.onBuffAdded -= AddBuff;
-		M_Buff.onBuffRemoved -= RemoveBuff;
-	}
-
-	public void InitializeStageGenEvent()
-	{
-		M_Stage.onStageGenerated += OnStageGenerated;
-	}
-	public void FinallizeStageGenEvent()
-	{
-		M_Stage.onStageGenerated -= OnStageGenerated;
 	}
 
 	public void InitializeGame()
@@ -110,6 +89,15 @@ public class PlayerManager : Singleton<PlayerManager>
 		m_Player.Finallize();
 	}
 
+	public void InitializeStageGenEvent()
+	{
+		M_Stage.onStageGenerated += OnStageGenerated;
+	}
+	public void FinallizeStageGenEvent()
+	{
+		M_Stage.onStageGenerated -= OnStageGenerated;
+	}
+
 	public void AddXp(float xp)
 	{
 		m_Player.AddXp(xp);
@@ -126,7 +114,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
 	public bool HasBuff(string buffName)
 	{
-		return m_BuffInventory.Contains(buffName);
+		return m_BuffInventory.HasBuff(buffName);
 	}
 
 	private void OnStageGenerated()

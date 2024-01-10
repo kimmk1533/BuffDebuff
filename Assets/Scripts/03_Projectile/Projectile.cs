@@ -53,7 +53,7 @@ public sealed class Projectile : ObjectPoolItemBase
 		m_DespawnTimer.interval = lifeTime;
 		#endregion
 	}
-	public override void Finallize()
+	public override void FinallizePoolItem()
 	{
 		m_CollisionChecker2D.Finallize();
 

@@ -1,12 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEngine;
 using Enum;
 using AYellowpaper.SerializedCollections;
 using BuffTypeGrade = System.Tuple<Enum.E_BuffType, Enum.E_BuffGrade>;
-using Mono.Cecil.Cil;
 
 public sealed class BuffManager : Singleton<BuffManager>
 {
@@ -15,18 +13,14 @@ public sealed class BuffManager : Singleton<BuffManager>
 	[SerializeField]
 	private BuffGradeInfo m_BuffGradeInfo = null;
 
-	// < 타입, 등급, 코드, 명칭, 버프 >
-	private DoubleKeyDictionary<int, string, BuffCounter> m_BuffMap = null;
+	// < 코드, 명칭, 버프 >
+	private DoubleKeyDictionary<int, string, BuffData> m_BuffMap = null;
+	// < 타입, 등급, 코드 >
 	private Dictionary<BuffTypeGrade, List<int>> m_BuffTypeGradeMap = null;
 	#endregion
 
 	#region 프로퍼티
 
-	#endregion
-
-	#region 이벤트
-	public event System.Func<BuffData, bool> onBuffAdded = null;
-	public event System.Func<BuffData, bool> onBuffRemoved = null;
 	#endregion
 
 	#region 매니저
@@ -41,7 +35,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 
 		// m_BuffMap
 		if (m_BuffMap == null)
-			m_BuffMap = new DoubleKeyDictionary<int, string, BuffCounter>();
+			m_BuffMap = new DoubleKeyDictionary<int, string, BuffData>();
 
 		// m_BuffTypeGradeMap
 		if (m_BuffTypeGradeMap == null)
@@ -49,14 +43,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 	}
 	public void Finallize()
 	{
-		// m_BuffMap
-		if (m_BuffMap != null)
-		{
-			foreach (var buffTypeMap in m_BuffMap)
-			{
-				buffTypeMap.Value.Clear();
-			}
-		}
+
 	}
 
 	public void InitializeGame()
@@ -90,8 +77,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 			if (m_BuffMap.ContainsKey1(buffData.code) == true)
 				continue;
 
-			BuffCounter buffCounter = new BuffCounter(buffData);
-			m_BuffMap.Add(buffData.code, buffData.title, buffCounter);
+			m_BuffMap.Add(buffData.code, buffData.title, buffData);
 
 			BuffTypeGrade buffTypeGrade = new BuffTypeGrade(buffData.buffType, buffData.buffGrade);
 
@@ -314,227 +300,66 @@ public sealed class BuffManager : Singleton<BuffManager>
 		#endregion
 	}
 
-	public AbstractBuff CreateBuff(int code)
-	{
-		BuffData buffData = GetBuffData(code);
+	//public bool AddBuffCount(BuffData buffData)
+	//{
+	//	if (m_BuffMap.ContainsKey1(buffData.code) == false)
+	//		throw new System.Exception("버프 카운터 없음");
 
-		return CreateBuff(buffData);
-	}
-	public AbstractBuff CreateBuff(string title)
-	{
-		BuffData buffData = GetBuffData(title);
+	//	Buff buff = m_BuffMap[buffData.code];
+	//	if (buff.count >= buff.maxStack)
+	//		return false;
 
-		return CreateBuff(buffData);
-	}
-	public AbstractBuff CreateBuff(BuffData buffData)
-	{
-		if (buffData == null)
-			return null;
+	//	if (onBuffAdded == null)
+	//		return false;
 
-		// $BuffFunc
-		switch (buffData.title)
-		{
-			#region 버프
-			case "체력 증가":
-				return new 체력_증가(buffData);
-			case "공격력 증가":
-				return new 공격력_증가(buffData);
-			case "공격 속도 증가":
-				return new 공격_속도_증가(buffData);
-			case "방어력 증가":
-				return new 방어력_증가(buffData);
-			case "회피율 증가":
-				return new 회피율_증가(buffData);
-			case "이동 속도 증가":
-				return new 이동_속도_증가(buffData);
-			case "재생":
-				return new 재생(buffData);
-			case "빠른 재생":
-				return new 빠른_재생(buffData);
-			case "회복량 증가":
-				return new 회복량_증가(buffData);
-			case "공격 범위 증가":
-				return new 공격_범위_증가(buffData);
-			case "사거리 증가":
-				return new 사거리_증가(buffData);
-			case "투사체 속도 증가":
-				return new 투사체_속도_증가(buffData);
-			case "치명타 확률 증가":
-				return new 치명타_확률_증가(buffData);
-			case "치명타 대미지 증가":
-				return new 치명타_대미지_증가(buffData);
-			case "추가 점프":
-				return new 추가_점프(buffData);
-			case "공격 횟수 증가":
-				return new 공격_횟수_증가(buffData);
-			case "전방향 대쉬":
-				return new 전방향_대쉬(buffData);
-			case "대쉬 횟수 증가":
-				return new 대쉬_횟수_증가(buffData);
-			case "대쉬 충전 속도 증가":
-				return new 대쉬_충전_속도_증가(buffData);
-			case "대쉬 무적":
-				return new 대쉬_무적(buffData);
-			case "무적시간 증가":
-				return new 무적시간_증가(buffData);
-			#endregion
-			#region 디버프
-			case "체력 감소":
-				return new 체력_감소(buffData);
-			case "방어력 감소":
-				return new 방어력_감소(buffData);
-			case "회피율 감소":
-				return new 회피율_감소(buffData);
-			case "공격력 감소":
-				return new 공격력_감소(buffData);
-			case "공격 속도 감소":
-				return new 공격_속도_감소(buffData);
-			case "이동 속도 감소":
-				return new 이동_속도_감소(buffData);
-			case "느린 재생":
-				return new 느린_재생(buffData);
-			case "회복량 감소":
-				return new 회복량_감소(buffData);
-			case "공격 범위 감소":
-				return new 공격_범위_감소(buffData);
-			case "사거리 감소":
-				return new 사거리_감소(buffData);
-			case "투사체 속도 감소":
-				return new 투사체_속도_감소(buffData);
-			case "패링 확률 감소":
-				return new 패링_확률_감소(buffData);
-				#endregion
-		}
-		// $BuffFunc
+	//	bool result = true;
+	//	foreach (System.Func<BuffData, bool> item in onBuffAdded.GetInvocationList())
+	//	{
+	//		result &= item(buffData);
+	//	}
 
-		return null;
-	}
+	//	if (result == true)
+	//		++buff.count;
 
-	public bool AddBuffCount(BuffData buffData)
-	{
-		if (m_BuffMap.ContainsKey1(buffData.code) == false)
-			throw new System.Exception("버프 카운터 없음");
+	//	return result;
+	//}
+	//public bool RemoveBuffCount(BuffData buffData)
+	//{
+	//	if (m_BuffMap.ContainsKey1(buffData.code) == false)
+	//		throw new System.Exception("버프 카운터 없음");
 
-		BuffCounter buffCounter = m_BuffMap[buffData.code];
-		if (buffCounter.count >= buffCounter.maxStack)
-			return false;
+	//	Buff buff = m_BuffMap[buffData.code];
+	//	if (buff.count <= 0)
+	//		return false;
 
-		if (onBuffAdded == null)
-			return false;
+	//	if (onBuffRemoved == null)
+	//		return false;
 
-		bool result = true;
-		foreach (System.Func<BuffData, bool> item in onBuffAdded.GetInvocationList())
-		{
-			result &= item(buffData);
-		}
+	//	bool result = true;
+	//	foreach (System.Func<BuffData, bool> item in onBuffRemoved.GetInvocationList())
+	//	{
+	//		result &= item(buffData);
+	//	}
 
-		if (result == true)
-			++buffCounter.count;
+	//	if (result == true)
+	//		--buff.count;
 
-		return result;
-	}
-	public bool RemoveBuffCount(BuffData buffData)
-	{
-		if (m_BuffMap.ContainsKey1(buffData.code) == false)
-			throw new System.Exception("버프 카운터 없음");
-
-		BuffCounter buffCounter = m_BuffMap[buffData.code];
-		if (buffCounter.count <= 0)
-			return false;
-
-		if (onBuffRemoved == null)
-			return false;
-
-		bool result = true;
-		foreach (System.Func<BuffData, bool> item in onBuffRemoved.GetInvocationList())
-		{
-			result &= item(buffData);
-		}
-
-		if (result == true)
-			--buffCounter.count;
-
-		return result;
-	}
-
-	public bool CombineBuff(BuffData first, BuffData second)
-	{
-		if (first == null)
-			return false;
-
-		if (second == null)
-			return false;
-
-		E_BuffType firstBuffType = first.buffType;
-		E_BuffType secondBuffType = second.buffType;
-
-		if (firstBuffType == E_BuffType.Bothbuff)
-			firstBuffType = secondBuffType;
-		else if (secondBuffType == E_BuffType.Bothbuff)
-			secondBuffType = firstBuffType;
-
-		if (firstBuffType != secondBuffType)
-		{
-			Debug.Log("Combine Buff`s buffType should be same. first = " + first.buffType.ToString() + ", second = " + second.buffType.ToString());
-			return false;
-		}
-
-		E_BuffGrade firstBuffGrade = first.buffGrade;
-		E_BuffGrade secondBuffGrade = second.buffGrade;
-
-		if (firstBuffGrade != secondBuffGrade)
-		{
-			Debug.Log("Combine Buff`s buffGrade should be same. first = " + first.buffGrade.ToString() + ", second = " + second.buffGrade.ToString());
-			return false;
-		}
-
-		E_BuffGrade grade = firstBuffGrade + 1;
-
-		if (grade == E_BuffGrade.Max)
-			grade = E_BuffGrade.Max - 1;
-
-		BuffData buffData = null;
-		switch (firstBuffType)
-		{
-			case E_BuffType.Buff:
-				buffData = GetRandomBuffData(E_BuffType.Debuff, grade);
-				break;
-			case E_BuffType.Debuff:
-				buffData = GetRandomBuffData(E_BuffType.Buff, grade);
-				break;
-			case E_BuffType.Bothbuff:
-				buffData = GetRandomBuffData();
-				break;
-		}
-
-		if (buffData == null)
-			return false;
-
-		if (AddBuffCount(buffData) == false)
-		{
-			Debug.Log("New Buff is Max Stack. buff = " + buffData.title);
-			return false;
-		}
-
-		RemoveBuffCount(first);
-		RemoveBuffCount(second);
-
-		return true;
-	}
+	//	return result;
+	//}
 
 	public BuffData GetBuffData(int code)
 	{
-		if (m_BuffMap.TryGetValue(code, out BuffCounter buffCounter) == false)
+		if (m_BuffMap.TryGetValue(code, out BuffData buffData) == false)
 			return null;
 
-		return buffCounter.buffData;
+		return buffData;
 	}
 	public BuffData GetBuffData(string title)
 	{
-		if (m_BuffMap.TryGetValue(title, out BuffCounter buffCounter) == false)
+		if (m_BuffMap.TryGetValue(title, out BuffData buffData) == false)
 			return null;
 
-		return buffCounter.buffData;
+		return buffData;
 	}
 
 	public BuffData GetRandomBuffData()
@@ -572,7 +397,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 		int randomIndex = Random.Range(0, codeList.Count);
 		int code = codeList[randomIndex];
 
-		return m_BuffMap[code].buffData;
+		return m_BuffMap[code];
 	}
 	public List<BuffData> GetRandomBuffData(E_BuffType buffType, E_BuffGrade grade, int count)
 	{
@@ -606,7 +431,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 		List<BuffData> result = new List<BuffData>();
 		for (int i = 0; i < count; ++i)
 		{
-			result.Add(m_BuffMap[codeList[i]].buffData);
+			result.Add(m_BuffMap[codeList[i]]);
 		}
 
 		return result;
@@ -623,39 +448,6 @@ public sealed class BuffManager : Singleton<BuffManager>
 	}
 #endif
 
-	[System.Serializable]
-	private class BuffCounter
-	{
-		#region 변수
-		[SerializeField]
-		private BuffData m_BuffData;
-
-		[Space(5)]
-		[SerializeField]
-		private int m_Count;
-		#endregion
-
-		#region 프로퍼티
-		public BuffData buffData => m_BuffData;
-		public int maxStack => m_BuffData.maxStack;
-		public int count
-		{
-			get => m_Count;
-			set => m_Count = value;
-		}
-		#endregion
-
-		public BuffCounter(BuffData buffData)
-		{
-			m_BuffData = buffData;
-			m_Count = 0;
-		}
-
-		public void Clear()
-		{
-			m_Count = 0;
-		}
-	}
 	[System.Serializable]
 	private class BuffGradeInfo
 	{

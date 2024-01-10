@@ -167,9 +167,9 @@ public class Room : ObjectPoolItemBase
 			++m_WarpPointCountMap[direction];
 		}
 	}
-	public override void Finallize()
+	public override void FinallizePoolItem()
 	{
-		base.Finallize();
+		base.FinallizePoolItem();
 
 		// 타일맵 딕셔너리 마무리
 		if (m_TilemapMap != null)

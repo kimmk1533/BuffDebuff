@@ -3,28 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class AbstractBuff : System.IEquatable<AbstractBuff>
+public class Buff : System.IEquatable<Buff>
 {
 	#region 변수
 	[SerializeField]
-	protected int m_Count;
+	protected BuffData m_BuffData;
+
 	[SerializeField]
-	protected BuffData m_DebugBuffData;
-	protected readonly BuffData m_BuffData;
+	protected int m_Count;
 	#endregion
 
 	#region 프로퍼티
+	public BuffData buffData => m_BuffData;
 	public int count
 	{
-		get { return m_Count; }
-		set { m_Count = value; }
+		get => m_Count;
+		set => m_Count = value;
 	}
+	public int maxStack => m_BuffData.maxStack;
 	#endregion
 
-	public AbstractBuff(BuffData buffData)
+	public Buff(BuffData buffData)
+	{
+		m_BuffData = buffData;
+		m_Count = 0;
+	}
+
+	public void Clear()
 	{
 		m_Count = 0;
-		m_DebugBuffData = m_BuffData = buffData;
 	}
 
 	public override bool Equals(object obj)
@@ -32,13 +39,13 @@ public class AbstractBuff : System.IEquatable<AbstractBuff>
 		if (obj == null)
 			return false;
 
-		AbstractBuff buff = obj as AbstractBuff;
+		Buff buff = obj as Buff;
 		if (buff == null)
 			return false;
 
 		return Equals(buff);
 	}
-	public bool Equals(AbstractBuff other)
+	public bool Equals(Buff other)
 	{
 		if (other == null)
 			return false;

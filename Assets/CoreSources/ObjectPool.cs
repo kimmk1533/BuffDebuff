@@ -161,7 +161,7 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 		item.transform.localPosition = Vector3.zero;
 
 		if (autoFinal)
-			item.Finallize();
+			item.FinallizePoolItem();
 
 		m_SpawnedItemList.Remove(item);
 
