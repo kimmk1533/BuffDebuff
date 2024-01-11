@@ -16,6 +16,7 @@ public class GameManager : Singleton<GameManager>
 	#region 매니저
 	// System Managers
 	private static InputManager M_Input => InputManager.Instance;
+	private static BuffInventory M_BuffInventory => BuffInventory.Instance;
 
 	// Game Managers
 	private static PlayerManager M_Player => PlayerManager.Instance;
@@ -55,6 +56,8 @@ public class GameManager : Singleton<GameManager>
 	{
 		// 인풋 매니저 초기화
 		M_Input.Initialize();
+		// 버프 인벤토리 초기화
+		M_BuffInventory.Initialize();
 
 		// 플레이어 매니저 초기화
 		M_Player.Initialize();
@@ -91,6 +94,8 @@ public class GameManager : Singleton<GameManager>
 		// 플레이어 매니저 마무리
 		M_Player.Finallize();
 
+		// 버프 인벤토리 마무리
+		M_BuffInventory.Finallize();
 		// 인풋 매니저 마무리
 		M_Input.Finallize();
 	}

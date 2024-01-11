@@ -38,8 +38,6 @@ public class InputManager : Singleton<InputManager>
 
 	public void Initialize()
 	{
-		if (m_InputMap == null)
-			m_InputMap = new SerializedDictionary<E_InputType, InputInfo>();
 		if (m_AxisMap == null)
 			m_AxisMap = new Dictionary<string, List<E_InputType>>();
 		if (m_AxisValueMap == null)
@@ -50,7 +48,10 @@ public class InputManager : Singleton<InputManager>
 	}
 	public void Finallize()
 	{
-
+		foreach (var item in m_AxisMap)
+		{
+			item.Value.Clear();
+		}
 	}
 
 	private void Update()

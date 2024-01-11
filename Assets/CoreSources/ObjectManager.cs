@@ -46,7 +46,15 @@ public abstract class ObjectManager<TSelf, TItem> : Singleton<TSelf> where TSelf
 	}
 	public virtual void FinallizeGame()
 	{
+		for (int i = 0; i < m_Origins.Count; ++i)
+		{
+			OriginInfo originInfo = m_Origins[i];
 
+			if (originInfo.useFlag == false)
+				continue;
+
+			GetPool(originInfo.key).Finallize();
+		}
 	}
 
 	protected void AddPool(OriginInfo info, Transform parent)

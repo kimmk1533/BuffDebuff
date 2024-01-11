@@ -78,6 +78,13 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 	}
 	public void Finallize()
 	{
+		int count = m_SpawnedItemList.Count;
+		for (int i = 0; i < count; ++i)
+		{
+			Despawn(m_SpawnedItemList[0], true);
+		}
+		m_SpawnedItemList.Clear();
+
 		onItemInstantiated = null;
 		onSpawned = null;
 		onDespawned = null;

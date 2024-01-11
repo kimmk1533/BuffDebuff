@@ -18,8 +18,12 @@ public sealed class Player : MonoBehaviour
 	{
 		get
 		{
+#if UNITY_EDITOR
+
 			if (Application.isPlaying == false)
 				return GetComponent<PlayerCharacter>().maxStat.Level;
+
+#endif
 
 			return m_Character.maxStat.Level;
 		}
@@ -28,8 +32,12 @@ public sealed class Player : MonoBehaviour
 	{
 		get
 		{
+#if UNITY_EDITOR
+
 			if (Application.isPlaying == false)
 				return GetComponent<PlayerCharacter>().currentStat.Level;
+
+#endif
 
 			return m_Character.currentStat.Level;
 		}

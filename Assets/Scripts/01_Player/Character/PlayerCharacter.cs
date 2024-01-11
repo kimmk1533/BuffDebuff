@@ -36,6 +36,7 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 
 	#region 매니저
 	private static PlayerManager M_Player => PlayerManager.Instance;
+	private static BuffInventory M_BuffInventory => BuffInventory.Instance;
 	#endregion
 
 	public override void Initialize()
@@ -145,7 +146,7 @@ public sealed class PlayerCharacter : Character<PlayerCharacterStat, PlayerContr
 
 		Vector2 dir = UtilClass.GetMouseWorldPosition() - transform.position;
 
-		if (M_Player.HasBuff("전방향 대쉬") == true)
+		if (M_BuffInventory.HasBuff("전방향 대쉬") == true)
 		{
 			// 마우스 대쉬
 			m_Velocity = dir.normalized * m_CurrentStat.DashSpeed;

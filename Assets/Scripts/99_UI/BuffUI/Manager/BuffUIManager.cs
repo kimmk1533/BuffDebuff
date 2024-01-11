@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using Enum;
 using AYellowpaper.SerializedCollections;
 
-[RequireComponent(typeof(BuffInventory))]
 public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 {
 	#region 변수
@@ -18,7 +17,6 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	private int m_RewardsCount = 3;
 
 	// Buff Inventory
-	private BuffInventory m_BuffInventory = null;
 	private SortedList<int, BuffUI> m_BuffUIMap = null;
 
 	// Buff Combine
@@ -56,15 +54,13 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 	#region 매니저
 	private static BuffManager M_Buff => BuffManager.Instance;
+	private static BuffInventory M_BuffInventory => BuffInventory.Instance;
 	private static RoomManager M_Room => RoomManager.Instance;
 	#endregion
 
 	public override void Initialize()
 	{
 		base.Initialize();
-
-		this.Safe_GetComponent<BuffInventory>(ref m_BuffInventory);
-		m_BuffInventory.Initialize();
 
 		if (m_BuffUIMap == null)
 			m_BuffUIMap = new SortedList<int, BuffUI>();
@@ -74,8 +70,6 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	public override void Finallize()
 	{
 		base.Finallize();
-
-		m_BuffInventory.Finallize();
 
 		m_BuffCombinePanel.Finallize();
 	}
@@ -216,7 +210,7 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	public void AddBuff(BuffData buffData)
 	{
 		BuffUI buffUI;
-		if (m_BuffInventory.HasBuff(buffData) == true)
+		if (M_BuffInventory.HasBuff(buffData) == true)
 		{
 			buffUI = m_BuffUIMap[buffData.code];
 
@@ -240,7 +234,7 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		else
 			buffUI.SetType(BuffUI.E_Type.BuffInventory);
 
-		m_BuffInventory.AddBuff(buffData);
+		M_BuffInventory.AddBuff(buffData);
 		m_BuffUIMap.Add(buffData.code, buffUI);
 
 		SortBuffInventory();
@@ -263,7 +257,7 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		{
 			Despawn(buffUI);
 
-			m_BuffInventory.RemoveBuff(buffData);
+			M_BuffInventory.RemoveBuff(buffData);
 			m_BuffUIMap.Remove(buffData.code);
 		}
 	}

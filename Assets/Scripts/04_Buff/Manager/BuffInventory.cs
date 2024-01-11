@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
-public class BuffInventory : MonoBehaviour
+public class BuffInventory : Singleton<BuffInventory>
 {
 	#region 변수
 	[SerializeField]

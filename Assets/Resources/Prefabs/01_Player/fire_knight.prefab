@@ -370,7 +370,7 @@ MonoBehaviour:
     <Sight>k__BackingField: 0
     <Xp>k__BackingField: 0
     <XpScale>k__BackingField: 1
-    <Level>k__BackingField: 5
+    <Level>k__BackingField: 0
     <DashSpeed>k__BackingField: 30
     <DashCount>k__BackingField: 3
     <DashRechargeTime>k__BackingField: 1

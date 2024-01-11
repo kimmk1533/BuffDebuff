@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BuffInventory))]
 public class PlayerManager : Singleton<PlayerManager>
 {
 	#region 변수
@@ -14,8 +13,6 @@ public class PlayerManager : Singleton<PlayerManager>
 	private Player m_Origin = null;
 	private Player m_Player = null;
 	private CameraFollow m_PlayerCamera = null;
-
-	private BuffInventory m_BuffInventory = null;
 	#endregion
 
 	#region 프로퍼티
@@ -23,8 +20,16 @@ public class PlayerManager : Singleton<PlayerManager>
 	{
 		get
 		{
+#if UNITY_EDITOR
+
 			if (Application.isPlaying == false)
-				return Resources.Load<Player>(System.IO.Path.Combine(m_Path, m_PlayerCharacterName));
+			{
+				//string path = System.IO.Path.Combine(m_Path, m_PlayerCharacterName);
+				string path = m_Path + "/" + m_PlayerCharacterName;
+				return Resources.Load<Player>(path);
+			}
+
+#endif
 
 			return m_Player;
 		}
@@ -51,15 +56,11 @@ public class PlayerManager : Singleton<PlayerManager>
 
 	public void Initialize()
 	{
-		m_Path = "Prefabs/01_Player";
-		m_PlayerCharacterName = "fire_knight";
 
-		this.Safe_GetComponent<BuffInventory>(ref m_BuffInventory);
-		m_BuffInventory.Initialize();
 	}
 	public void Finallize()
 	{
-		m_BuffInventory.Finallize();
+
 	}
 
 	public void InitializeGame()
@@ -101,20 +102,6 @@ public class PlayerManager : Singleton<PlayerManager>
 	public void AddXp(float xp)
 	{
 		m_Player.AddXp(xp);
-	}
-
-	private bool AddBuff(BuffData buffData)
-	{
-		return m_BuffInventory.AddBuff(buffData);
-	}
-	private bool RemoveBuff(BuffData buffData)
-	{
-		return m_BuffInventory.RemoveBuff(buffData);
-	}
-
-	public bool HasBuff(string buffName)
-	{
-		return m_BuffInventory.HasBuff(buffName);
 	}
 
 	private void OnStageGenerated()

@@ -365,13 +365,13 @@ public sealed class BuffManager : Singleton<BuffManager>
 	public BuffData GetRandomBuffData()
 	{
 		E_BuffType buffType = (E_BuffType)Random.Range(0, (int)E_BuffType.Max);
-		E_BuffGrade grade = m_BuffGradeInfo.GetRandomGrade(M_Player.currentLevel);
+		E_BuffGrade grade = m_BuffGradeInfo.GetRandomGrade(M_Player.currentLevel + 2);
 
 		return GetRandomBuffData(buffType, grade);
 	}
 	public BuffData GetRandomBuffData(E_BuffType buffType)
 	{
-		E_BuffGrade grade = m_BuffGradeInfo.GetRandomGrade(M_Player.currentLevel);
+		E_BuffGrade grade = m_BuffGradeInfo.GetRandomGrade(M_Player.currentLevel + 2);
 
 		return GetRandomBuffData(buffType, grade);
 	}
@@ -517,9 +517,9 @@ public sealed class BuffManager : Singleton<BuffManager>
 			{
 				grade_index = (int)grade;
 
-				leftRates[grade_index] = m_BuffGradeInfoMap[grade].curve.keys[0].value;
-				rightRates[grade_index] = m_BuffGradeInfoMap[grade].curve.keys[M_Player.maxLevel].value;
-				currentRates[grade_index] = m_BuffGradeInfoMap[grade].curve.keys[M_Player.currentLevel].value;
+				leftRates[grade_index] = m_BuffGradeInfoMap[grade].curve.keys[2].value;
+				rightRates[grade_index] = m_BuffGradeInfoMap[grade].curve.keys[M_Player.maxLevel + 2].value;
+				currentRates[grade_index] = m_BuffGradeInfoMap[grade].curve.keys[M_Player.currentLevel + 2].value;
 
 				leftMax += leftRates[grade_index];
 				rightMax += rightRates[grade_index];
@@ -553,12 +553,29 @@ public sealed class BuffManager : Singleton<BuffManager>
 			int maxLevel = M_Player.maxLevel;
 			float levelPercent, rate;
 
-			for (int level = 0; level <= maxLevel; ++level)
+			for (E_BuffGrade grade = 0; grade < E_BuffGrade.Max; ++grade)
 			{
-				levelPercent = (float)level / maxLevel;
-
-				for (E_BuffGrade grade = 0; grade < E_BuffGrade.Max; ++grade)
+				m_BuffGradeInfoMap[grade].curve.AddKey(new Keyframe(-0.002f, 1f)
 				{
+					weightedMode = WeightedMode.Both,
+					inTangent = 0f,
+					outTangent = 0f,
+					inWeight = 0f,
+					outWeight = 0f,
+				});
+				m_BuffGradeInfoMap[grade].curve.AddKey(new Keyframe(-0.001f, 0f)
+				{
+					weightedMode = WeightedMode.Both,
+					inTangent = 0f,
+					outTangent = 0f,
+					inWeight = 0f,
+					outWeight = 0f,
+				});
+
+				for (int level = 0; level <= maxLevel; ++level)
+				{
+					levelPercent = (float)level / maxLevel;
+
 					rate = BuffGradeRateFormula(levelPercent, grade);
 
 					m_BuffGradeInfoMap[grade].curve.AddKey(new Keyframe(levelPercent, rate)

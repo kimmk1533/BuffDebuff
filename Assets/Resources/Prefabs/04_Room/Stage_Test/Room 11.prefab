@@ -18505,6 +18505,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ColliderType: 0
   m_IsSimulating: 1
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 4, y: 2}
 --- !u!1 &4559241916364969983
@@ -18568,6 +18571,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ColliderType: 0
   m_IsSimulating: 1
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 4, y: 2}
 --- !u!1 &4803885891232834391
