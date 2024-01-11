@@ -370,5 +370,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ColliderType: 0
   m_IsSimulating: 1
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   m_Offset: {x: 2.07, y: 0.9}
   m_Size: {x: 5, y: 2}

@@ -385,7 +385,7 @@ public sealed class BuffManager : Singleton<BuffManager>
 		BuffTypeGrade buffTypeGrade = new BuffTypeGrade(buffType, grade);
 
 		if (m_BuffTypeGradeMap.TryGetValue(buffTypeGrade, out List<int> codeList) == false)
-			throw new System.Exception("m_BuffTypeGradeMap 안에 값이 없습니다.");
+			throw new System.Exception("m_BuffTypeGradeMap 안에 값이 없습니다." + buffTypeGrade.ToString());
 
 		if (codeList == null ||
 			codeList.Count == 0)

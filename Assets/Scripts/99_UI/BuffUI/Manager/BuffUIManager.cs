@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Enum;
+using AYellowpaper.SerializedCollections;
 
 [RequireComponent(typeof(BuffInventory))]
 public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
@@ -30,8 +31,8 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 	[Space(10)]
 	[SerializeField]
-	private List<BuffPanel> m_BuffPanelList = null;
-	private Dictionary<string, BuffPanel> m_BuffPanelMap = null;
+	[SerializedDictionary("Key", "Buff Panel")]
+	private SerializedDictionary<string, BuffPanel> m_BuffPanelMap = null;
 	#endregion
 
 	#region 프로퍼티
@@ -39,18 +40,18 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	{
 		get
 		{
-			for (int i = 0; i < m_BuffPanelList.Count; ++i)
+			foreach (var item in m_BuffPanelMap)
 			{
-				if (m_BuffPanelList[i].active)
+				if (item.Value.active)
 					return true;
 			}
 
 			return false;
 		}
 	}
-	private BuffPanel rewardsPanel => m_BuffPanelMap["Buff Rewards"];
-	private BuffPanel inventoryPanel => m_BuffPanelMap["Buff Inventory"];
-	private BuffPanel combinePanel => m_BuffPanelMap["Buff Combine"];
+	public BuffPanel rewardsPanel => m_BuffPanelMap["Buff Rewards"];
+	public BuffPanel inventoryPanel => m_BuffPanelMap["Buff Inventory"];
+	public BuffPanel combinePanel => m_BuffPanelMap["Buff Combine"];
 	#endregion
 
 	#region 매니저
@@ -61,9 +62,6 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	public override void Initialize()
 	{
 		base.Initialize();
-
-		if (m_BuffPanelMap == null)
-			m_BuffPanelMap = new Dictionary<string, BuffPanel>();
 
 		this.Safe_GetComponent<BuffInventory>(ref m_BuffInventory);
 		m_BuffInventory.Initialize();
@@ -77,19 +75,7 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	{
 		base.Finallize();
 
-		if (m_BuffPanelMap != null)
-			m_BuffPanelMap.Clear();
-
 		m_BuffInventory.Finallize();
-
-		if (m_BuffUIMap != null)
-		{
-			foreach (var item in m_BuffUIMap)
-			{
-				Despawn(item.Value);
-			}
-			m_BuffUIMap.Clear();
-		}
 
 		m_BuffCombinePanel.Finallize();
 	}
@@ -99,11 +85,6 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 		Initialize();
 
 		base.InitializeGame();
-
-		foreach (var item in m_BuffPanelList)
-		{
-			m_BuffPanelMap.Add(item.name, item);
-		}
 
 		m_BuffCombinePanel.InitializeGame();
 
@@ -115,6 +96,15 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	public override void FinallizeGame()
 	{
 		base.FinallizeGame();
+
+		if (m_BuffUIMap != null)
+		{
+			foreach (var item in m_BuffUIMap)
+			{
+				Despawn(item.Value);
+			}
+			m_BuffUIMap.Clear();
+		}
 
 		m_BuffCombinePanel.FinallizeGame();
 
@@ -136,9 +126,9 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	private void Update()
 	{
 		BuffPanel buffPanel;
-		for (int i = 0; i < m_BuffPanelList.Count; ++i)
+		foreach (var item in m_BuffPanelMap)
 		{
-			buffPanel = m_BuffPanelList[i];
+			buffPanel = item.Value;
 
 			if (Input.GetKeyDown(buffPanel.keyCode))
 			{
@@ -155,9 +145,9 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 			}
 			else
 			{
-				for (int i = 0; i < m_BuffPanelList.Count; ++i)
+				foreach (var item in m_BuffPanelMap)
 				{
-					buffPanel = m_BuffPanelList[i];
+					buffPanel = item.Value;
 
 					if (m_CurrentBuffPanel == buffPanel)
 						buffPanel.active = true;
@@ -172,12 +162,12 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 	private void RerollBuffRewards()
 	{
-		int childCount = rewardsPanel.content.transform.childCount;
+		int childCount = rewardsPanel.content.childCount;
 		int offset = 0;
 
 		for (int i = 0; i < childCount; ++i)
 		{
-			BuffUI buffUI = rewardsPanel.content.transform.GetChild<BuffUI>(offset);
+			BuffUI buffUI = rewardsPanel.content.GetChild<BuffUI>(offset);
 
 			if (buffUI == null ||
 				Despawn(buffUI) == false)
@@ -213,32 +203,24 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 				.SetName(buffData.title)
 				.SetActive(true)
 				.SetAutoInit(true)
-				.SetParent(rewardsPanel.content.transform)
+				.SetParent(rewardsPanel.content)
+				.SetLocalPosition(Vector3.zero)
+				.SetScale(Vector3.one)
 				.Spawn();
 
-			buffUI.ChangeBuff(new Buff(buffData));
-			buffUI.transform.localScale = Vector3.one;
-			buffUI.transform.localPosition = Vector3.zero;
-
-			buffUI.onClick += () =>
-			{
-				AddBuff(buffData);
-				rewardsPanel.active = false;
-			};
+			buffUI.SetBuffData(buffData);
+			buffUI.SetType(BuffUI.E_Type.BuffRewards);
 		}
 	}
 
 	public void AddBuff(BuffData buffData)
 	{
-		BuffUI buffUI = null;
-
+		BuffUI buffUI;
 		if (m_BuffInventory.HasBuff(buffData) == true)
 		{
 			buffUI = m_BuffUIMap[buffData.code];
 
 			++buffUI.buffCount;
-
-			buffUI.UpdateBuffUIData();
 
 			return;
 		}
@@ -247,24 +229,28 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 			.SetName(buffData.title)
 			.SetActive(true)
 			.SetAutoInit(true)
-			.SetParent(inventoryPanel.content.transform)
+			.SetParent(inventoryPanel.content)
+			.SetLocalPosition(Vector3.zero)
+			.SetScale(Vector3.one * 0.75f)
 			.Spawn();
 
-		buffUI.ChangeBuff(new Buff(buffData));
-		buffUI.UpdateBuffUIData();
-
-		buffUI.transform.localPosition = Vector3.zero;
-		buffUI.transform.localScale = Vector3.one * 0.75f;
-
-		buffUI.onClick += () =>
-		{
-			Debug.Log("설명 추가");
-		};
+		buffUI.SetBuffData(buffData);
+		if (combinePanel.active == true)
+			buffUI.SetType(BuffUI.E_Type.BuffCombineInventory);
+		else
+			buffUI.SetType(BuffUI.E_Type.BuffInventory);
 
 		m_BuffInventory.AddBuff(buffData);
 		m_BuffUIMap.Add(buffData.code, buffUI);
 
-		SortBuffList(m_BuffUIMap, inventoryPanel);
+		SortBuffInventory();
+	}
+	public bool AddCombineBuff(BuffData buffData)
+	{
+		if (m_BuffCombinePanel.AddBuff(buffData) == false)
+			return false;
+
+		return true;
 	}
 	public void RemoveBuff(BuffData buffData)
 	{
@@ -272,30 +258,40 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 			return;
 
 		--buffUI.buffCount;
-		buffUI.UpdateBuffUIData();
 
 		if (buffUI.buffCount == 0)
 		{
 			Despawn(buffUI);
 
+			m_BuffInventory.RemoveBuff(buffData);
 			m_BuffUIMap.Remove(buffData.code);
 		}
 	}
-
-	private void SortBuffList(SortedList<int, BuffUI> buffUIMap, BuffPanel panel)
+	public bool RemoveCombineBuff(BuffData buffData)
 	{
-		panel.content.transform.DetachChildren();
+		if (m_BuffCombinePanel.RemoveBuff(buffData) == false)
+			return false;
+
+		SortBuffInventory();
+
+		return true;
+	}
+
+	private void SortBuffInventory()
+	{
+		inventoryPanel.content.DetachChildren();
 
 		BuffUI buffUI;
-		int count = buffUIMap.Count;
+		int count = m_BuffUIMap.Count;
 		for (int i = 0; i < count; ++i)
 		{
-			buffUI = buffUIMap.Values[i];
-			buffUI.transform.SetParent(panel.content.transform);
+			buffUI = m_BuffUIMap.Values[i];
+			buffUI.transform.SetParent(inventoryPanel.content);
 			buffUI.transform.localPosition = Vector3.zero;
 		}
 	}
 
+	#region 이벤트 함수
 	private void OnRoomCleared(Room room)
 	{
 		rewardsPanel.active = true;
@@ -306,16 +302,27 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 
 		inventory.SetParent(combinePanel.panel.transform);
 		inventory.localPosition += new Vector3(0f, -165f, 0f);
-		inventory.sizeDelta = new Vector2(1420f, 600f);
+		inventory.sizeDelta = new Vector2(1520f, 600f);
+
+		foreach (var item in m_BuffUIMap)
+		{
+			item.Value.SetType(BuffUI.E_Type.BuffCombineInventory);
+		}
 	}
 	private void OnCombinePanelDisabled()
 	{
 		RectTransform inventory = combinePanel.scrollRect.GetComponent<RectTransform>();
 
 		inventory.SetParent(inventoryPanel.panel.transform);
-		inventory.localPosition += new Vector3(0f, 165f, 0f);
-		inventory.sizeDelta = new Vector2(1620f, 800f);
+		inventory.localPosition = Vector3.zero;
+		inventory.sizeDelta = new Vector2(1520f, 800f);
+
+		foreach (var item in m_BuffUIMap)
+		{
+			item.Value.SetType(BuffUI.E_Type.BuffInventory);
+		}
 	}
+	#endregion
 
 #if UNITY_EDITOR
 	[ContextMenu("Load Origin")]
@@ -326,13 +333,13 @@ public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 #endif
 
 	[System.Serializable]
-	private class BuffPanel
+	public class BuffPanel
 	{
-		public string name = null;
-		public KeyCode keyCode;
 		public GameObject panel = null;
+		public KeyCode keyCode;
 		public ScrollRect scrollRect = null;
-		public LayoutGroup content = null;
+
+		public RectTransform content => scrollRect.content;
 
 		public event System.Action onEnabled = null;
 		public event System.Action onDisabled = null;

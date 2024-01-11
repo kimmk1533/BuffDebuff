@@ -204,7 +204,9 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 		private ItemProperty<bool> m_AutoInit;
 		private ItemProperty<Transform> m_Parent;
 		private ItemProperty<Vector3> m_Position;
+		private ItemProperty<Vector3> m_LocalPosition;
 		private ItemProperty<Quaternion> m_Rotation;
+		private ItemProperty<Quaternion> m_LocalRotation;
 		private ItemProperty<Vector3> m_Scale;
 
 		public ItemBuilder(ObjectPool<TItem> pool)
@@ -216,7 +218,9 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 			m_AutoInit = new ItemProperty<bool>();
 			m_Parent = new ItemProperty<Transform>();
 			m_Position = new ItemProperty<Vector3>();
+			m_LocalPosition = new ItemProperty<Vector3>();
 			m_Rotation = new ItemProperty<Quaternion>();
+			m_LocalRotation = new ItemProperty<Quaternion>();
 			m_Scale = new ItemProperty<Vector3>();
 
 			Clear();
@@ -257,10 +261,24 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 
 			return this;
 		}
+		public ItemBuilder SetLocalPosition(Vector3 localPosition)
+		{
+			m_LocalPosition.isUse = true;
+			m_LocalPosition.value = localPosition;
+
+			return this;
+		}
 		public ItemBuilder SetRotation(Quaternion rotation)
 		{
 			m_Rotation.isUse = true;
 			m_Rotation.value = rotation;
+
+			return this;
+		}
+		public ItemBuilder SetLocalRotation(Quaternion localRotation)
+		{
+			m_LocalRotation.isUse = true;
+			m_LocalRotation.value = localRotation;
 
 			return this;
 		}
@@ -287,8 +305,14 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 
 			if (m_Position.isUse)
 				item.transform.position = m_Position.value;
+			if (m_LocalPosition.isUse)
+				item.transform.localPosition = m_LocalPosition.value;
+
 			if (m_Rotation.isUse)
 				item.transform.rotation = m_Rotation.value;
+			if (m_LocalRotation.isUse)
+				item.transform.localRotation = m_Rotation.value;
+
 			if (m_Scale.isUse)
 				item.transform.localScale = m_Scale.value;
 

@@ -2,9 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 using Enum;
-using System;
 
 public class BuffCombineUIPanel : MonoBehaviour
 {
@@ -22,19 +20,6 @@ public class BuffCombineUIPanel : MonoBehaviour
 	#endregion
 
 	#region 프로퍼티
-	public BuffData buffData
-	{
-		get
-		{
-			if (m_SecondBuffUI == null)
-				return null;
-
-			if (m_SecondBuffUI.gameObject.activeSelf == false)
-				return null;
-
-			return m_SecondBuffUI.buffData;
-		}
-	}
 	#endregion
 
 	#region 매니저
@@ -53,27 +38,10 @@ public class BuffCombineUIPanel : MonoBehaviour
 
 	public void InitializeGame()
 	{
-		m_FirstBuffUI = M_BuffUI.GetBuilder("Buff Combine")
-			.SetActive(false)
-			.SetAutoInit(true)
-			.SetParent(m_First)
-			.Spawn();
-		m_FirstBuffUI.transform.localPosition = Vector3.zero;
-		m_FirstBuffUI.transform.localScale = Vector3.one;
 
-		m_SecondBuffUI = M_BuffUI.GetBuilder("Buff Combine")
-			.SetActive(false)
-			.SetAutoInit(true)
-			.SetParent(m_Second)
-			.Spawn();
-		m_SecondBuffUI.transform.localPosition = Vector3.zero;
-		m_SecondBuffUI.transform.localScale = Vector3.one;
 	}
 	public void FinallizeGame()
 	{
-		M_BuffUI.Despawn(m_SecondBuffUI);
-
-		m_SecondBuffUI = null;
 	}
 
 	private void CombineBuff()
@@ -138,19 +106,66 @@ public class BuffCombineUIPanel : MonoBehaviour
 
 		M_BuffUI.AddBuff(buffData);
 
-		m_FirstBuffUI.gameObject.SetActive(false);
-		m_SecondBuffUI.gameObject.SetActive(false);
+		M_BuffUI.Despawn(m_FirstBuffUI);
+		M_BuffUI.Despawn(m_SecondBuffUI);
+		m_FirstBuffUI = null;
+		m_SecondBuffUI = null;
 	}
 
-	public void AddCombineBuffData(BuffData buffData)
+	public bool AddBuff(BuffData buffData)
 	{
+		if (AddBuff(ref m_FirstBuffUI, m_First, buffData) == true)
+			return true;
+		else if (AddBuff(ref m_SecondBuffUI, m_Second, buffData) == true)
+			return true;
 
+		return false;
 	}
-	private void RemoveBuffData(BuffUI buffUI)
+	public bool RemoveBuff(BuffData buffData)
 	{
-		if (buffUI.gameObject.activeSelf == false)
-			return;
+		if (m_FirstBuffUI != null &&
+			m_FirstBuffUI.buffData == buffData)
+		{
+			M_BuffUI.Despawn(m_FirstBuffUI);
+			m_FirstBuffUI = null;
 
-		buffUI.gameObject.SetActive(false);
+			if (m_SecondBuffUI != null)
+			{
+				m_SecondBuffUI.transform.SetParent(m_First);
+				m_SecondBuffUI.transform.localPosition = Vector3.zero;
+				m_FirstBuffUI = m_SecondBuffUI;
+				m_SecondBuffUI = null;
+			}
+
+			return true;
+		}
+		else if (m_SecondBuffUI != null &&
+			m_SecondBuffUI.buffData == buffData)
+		{
+			M_BuffUI.Despawn(m_SecondBuffUI);
+			m_SecondBuffUI = null;
+			return true;
+		}
+
+		return false;
+	}
+
+	private bool AddBuff(ref BuffUI buffUI, RectTransform parent, BuffData buffData)
+	{
+		if (buffUI != null)
+			return false;
+
+		buffUI = M_BuffUI.GetBuilder("Buff Combine")
+			.SetActive(true)
+			.SetAutoInit(true)
+			.SetParent(parent)
+			.SetLocalPosition(Vector3.zero)
+			.SetScale(Vector3.one)
+			.Spawn();
+
+		buffUI.SetBuffData(buffData);
+		buffUI.SetType(BuffUI.E_Type.BuffCombine);
+
+		return true;
 	}
 }

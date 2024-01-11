@@ -3,29 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using UnityEngine.Events;
 
 public class BuffUI : ObjectPoolItemBase
 {
+	public enum E_Type
+	{
+		None = -1,
+
+		BuffRewards,
+		BuffInventory,
+		BuffCombine,
+		BuffCombineInventory,
+	}
+
 	#region 변수
-	protected Buff m_Buff;
+	private Buff m_Buff = null;
+
+	private IBuffUIState m_BuffUIState = null;
 
 	[Space(10)]
 	[SerializeField]
-	protected TextMeshProUGUI m_BuffCountText;
+	private TextMeshProUGUI m_BuffCountText = null;
 	[SerializeField]
-	protected TextMeshProUGUI m_BuffCode;
+	private TextMeshProUGUI m_BuffCode = null;
 	[SerializeField]
-	protected TextMeshProUGUI m_TitleText;
+	private TextMeshProUGUI m_TitleText = null;
 	[SerializeField]
-	protected Image m_SpriteImage;
+	private Image m_SpriteImage = null;
 	[SerializeField]
-	protected TextMeshProUGUI m_BuffGradeText;
+	private TextMeshProUGUI m_BuffGradeText = null;
 	[SerializeField]
-	protected TextMeshProUGUI m_DescriptionText;
+	private TextMeshProUGUI m_DescriptionText = null;
 
 	[SerializeField]
-	protected Button m_Button;
+	private Button m_Button = null;
 	#endregion
 
 	#region 프로퍼티
@@ -39,26 +50,12 @@ public class BuffUI : ObjectPoolItemBase
 		{
 			m_Buff.count = Mathf.Clamp(value, 0, m_Buff.maxStack);
 
-			if (value <= 1)
+			if (m_Buff.count <= 1)
 				m_BuffCountText.gameObject.SetActive(false);
 			else
 				m_BuffCountText.gameObject.SetActive(true);
 
 			m_BuffCountText.text = "x" + m_Buff.count.ToString();
-		}
-	}
-	#endregion
-
-	#region 이벤트
-	public event UnityAction onClick
-	{
-		add
-		{
-			m_Button.onClick.AddListener(value);
-		}
-		remove
-		{
-			m_Button.onClick.RemoveListener(value);
 		}
 	}
 	#endregion
@@ -87,17 +84,33 @@ public class BuffUI : ObjectPoolItemBase
 
 		if (m_DescriptionText == null)
 			m_DescriptionText = transform.Find<TextMeshProUGUI>("Description");
+
+		m_Button.onClick.AddListener(OnClicked);
 	}
 	public override void FinallizePoolItem()
 	{
 		base.FinallizePoolItem();
 
+		m_Buff.count = 0;
+		m_Buff = null;
+
 		m_Button.onClick.RemoveAllListeners();
 	}
 
-	public void UpdateBuffUIData()
+	public void SetBuffData(BuffData buffData)
 	{
-		m_BuffCountText.text = "x" + m_Buff.count.ToString();
+		if (m_Buff == null ||
+			m_Buff.buffData != buffData)
+		{
+			m_Buff = new Buff(buffData);
+			buffCount = 1;
+
+			UpdateBuffUIData();
+		}
+	}
+	private void UpdateBuffUIData()
+	{
+		m_BuffCountText.text = "x" + buffCount.ToString();
 		m_BuffCode.text = m_Buff.buffData.code.ToString();
 		m_TitleText.text = m_Buff.buffData.title;
 		m_SpriteImage.sprite = m_Buff.buffData.sprite;
@@ -105,10 +118,79 @@ public class BuffUI : ObjectPoolItemBase
 		m_DescriptionText.text = m_Buff.buffData.description;
 	}
 
-	public void ChangeBuff(Buff buff)
+	private void OnClicked()
 	{
-		m_Buff = buff;
+		m_BuffUIState?.OnClicked(this);
+	}
 
-		UpdateBuffUIData();
+	public void SetType(E_Type type)
+	{
+		switch (type)
+		{
+			case E_Type.BuffRewards:
+				m_BuffUIState = RewardState.Instance;
+				break;
+			case E_Type.BuffInventory:
+				m_BuffUIState = InventoryState.Instance;
+				break;
+			case E_Type.BuffCombine:
+				m_BuffUIState = CombineState.Instance;
+				break;
+			case E_Type.BuffCombineInventory:
+				m_BuffUIState = CombineInventoryState.Instance;
+				break;
+		}
+	}
+
+	private interface IBuffUIState
+	{
+		public abstract void OnClicked(BuffUI buffUI);
+	}
+	private class RewardState : SingletonBasic<RewardState>, IBuffUIState
+	{
+		private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
+
+		public void OnClicked(BuffUI buffUI)
+		{
+			M_BuffUI.AddBuff(buffUI.buffData);
+			M_BuffUI.rewardsPanel.active = false;
+		}
+	}
+	private class InventoryState : SingletonBasic<InventoryState>, IBuffUIState
+	{
+		private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
+
+		public void OnClicked(BuffUI buffUI)
+		{
+			Debug.Log(buffUI.buffData.title + ": " + buffUI.buffCount.ToString());
+		}
+	}
+	private class CombineState : SingletonBasic<CombineState>, IBuffUIState
+	{
+		private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
+
+		public void OnClicked(BuffUI buffUI)
+		{
+			BuffData buffData = buffUI.buffData;
+
+			if (M_BuffUI.RemoveCombineBuff(buffData) == false)
+				return;
+
+			M_BuffUI.AddBuff(buffData);
+		}
+	}
+	private class CombineInventoryState : SingletonBasic<CombineInventoryState>, IBuffUIState
+	{
+		private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
+
+		public void OnClicked(BuffUI buffUI)
+		{
+			BuffData buffData = buffUI.buffData;
+
+			if (M_BuffUI.AddCombineBuff(buffData) == false)
+				return;
+
+			M_BuffUI.RemoveBuff(buffData);
+		}
 	}
 }
