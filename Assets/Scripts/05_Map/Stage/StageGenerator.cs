@@ -55,11 +55,6 @@ public class StageGenerator : MonoBehaviour
 	}
 	public void Finallize()
 	{
-		if (m_StageRoomQueue != null)
-			m_StageRoomQueue.Clear();
-
-		if (m_GeneratedRoomMap != null)
-			m_GeneratedRoomMap.Clear();
 	}
 
 	public void InitializeGame()
@@ -68,7 +63,11 @@ public class StageGenerator : MonoBehaviour
 	}
 	public void FinallizeGame()
 	{
+		if (m_StageRoomQueue != null)
+			m_StageRoomQueue.Clear();
 
+		if (m_GeneratedRoomMap != null)
+			m_GeneratedRoomMap.Clear();
 	}
 
 	public Stage GenerateStage(StageGeneratorArg arg)

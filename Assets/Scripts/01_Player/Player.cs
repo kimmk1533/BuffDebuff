@@ -63,11 +63,15 @@ public sealed class Player : MonoBehaviour
 	private void Update()
 	{
 		// 테스트
-		//if (Input.GetKeyDown(KeyCode.F))
-		//{
-		//	m_Character.AddBuff("전방향 대쉬");
-		//}
-		//
+		if (Input.GetKeyDown(KeyCode.F))
+		{
+			BuffInventory.Instance.AddBuff("전방향 대쉬");
+		}
+		if (Input.GetKeyDown(KeyCode.E))
+		{
+			BuffInventory.Instance.RemoveBuff("전방향 대쉬");
+		}
+
 		Vector2 directionalInput = new Vector2(M_Input.GetAxisRaw("PlayerMoveHorizontal"), M_Input.GetAxisRaw("PlayerMoveVertical"));
 		m_Character.SetDirectionalInput(directionalInput);
 

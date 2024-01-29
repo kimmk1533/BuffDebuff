@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController2D : Controller2D
 {
 	#region 변수
+	private bool m_IsGroundedOld = false;
 	private Collider2D m_FallingOneWayPlatform;
 	#endregion
 
@@ -16,6 +17,7 @@ public class PlayerController2D : Controller2D
 	{
 		UpdateRaycastOrigins();
 
+		m_IsGroundedOld = m_Collisions.grounded;
 		m_Collisions.Reset();
 		m_Collisions.moveAmountOld = moveAmount;
 
@@ -40,6 +42,76 @@ public class PlayerController2D : Controller2D
 		if (standingOnPlatform)
 		{
 			m_Collisions.below = true;
+		}
+	}
+	protected override void HorizontalCollisions(ref Vector2 moveAmount)
+	{
+		float directionX = m_Collisions.faceDir;
+		float rayLength = Mathf.Abs(moveAmount.x) + c_SkinWidth;
+
+		if (Mathf.Abs(moveAmount.x) < c_SkinWidth)
+		{
+			rayLength = 2 * c_SkinWidth;
+		}
+
+		for (int i = 0; i < m_HorizontalRayCount; ++i)
+		{
+			Vector2 rayOrigin = (directionX == -1) ? m_RaycastOrigins.bottomLeft : m_RaycastOrigins.bottomRight;
+			rayOrigin += Vector2.up * (m_HorizontalRaySpacing * i);
+			RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, m_CollisionMask);
+
+			Debug.DrawRay(rayOrigin, Vector2.right * directionX * rayLength * 10.0f, Color.red);
+
+			if (hit)
+			{
+				if (hit.collider.CompareTag("OneWay") && m_IsGroundedOld)
+				{
+					continue;
+				}
+
+				// 겹친 경우
+				if (hit.distance == 0)
+				{
+					continue;
+				}
+
+				float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+
+				if (i == 0 && slopeAngle <= m_MaxSlopeAngle)
+				{
+					if (m_Collisions.descendingSlope)
+					{
+						m_Collisions.descendingSlope = false;
+						moveAmount = m_Collisions.moveAmountOld;
+					}
+
+					float distanceToSlopeStart = 0;
+					if (slopeAngle != m_Collisions.slopeAngleOld)
+					{
+						distanceToSlopeStart = hit.distance - c_SkinWidth;
+						moveAmount.x -= distanceToSlopeStart * directionX;
+					}
+
+					ClimbSlope(ref moveAmount, slopeAngle, hit.normal);
+					moveAmount.x += distanceToSlopeStart * directionX;
+				}
+
+				if (!m_Collisions.climbingSlope || slopeAngle > m_MaxSlopeAngle)
+				{
+					//moveAmount.x = (hit.distance - skinWidth) * directionX;
+					//rayLength = hit.distance;
+					moveAmount.x = Mathf.Min(Mathf.Abs(moveAmount.x), hit.distance - c_SkinWidth) * directionX;
+					rayLength = Mathf.Min(Mathf.Abs(moveAmount.x) + c_SkinWidth, hit.distance);
+
+					if (m_Collisions.climbingSlope)
+					{
+						moveAmount.y = Mathf.Tan(m_Collisions.slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(moveAmount.x);
+					}
+
+					m_Collisions.left = directionX == -1;
+					m_Collisions.right = directionX == 1;
+				}
+			}
 		}
 	}
 	protected override void VerticalCollisions(ref Vector2 moveAmount)

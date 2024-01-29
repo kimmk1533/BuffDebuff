@@ -34,7 +34,7 @@ public class Room : ObjectPoolItemBase
 	private Vector2 m_Offset;
 
 	// 타일맵
-	private SerializedDictionary<E_RoomTilemapLayer, Tilemap> m_TilemapMap;
+	private Dictionary<E_RoomTilemapLayer, Tilemap> m_TilemapMap;
 	// 길 찾기 정보
 	private PathFindingMap m_PathFindingMap;
 
@@ -106,7 +106,7 @@ public class Room : ObjectPoolItemBase
 		#region NULL Check New
 		// 타일맵 딕셔너리 초기화
 		if (m_TilemapMap == null)
-			m_TilemapMap = new SerializedDictionary<E_RoomTilemapLayer, Tilemap>();
+			m_TilemapMap = new Dictionary<E_RoomTilemapLayer, Tilemap>();
 
 		// 주변 방 딕셔너리 초기화
 		if (m_NearRoomMap == null)
@@ -241,30 +241,6 @@ public class Room : ObjectPoolItemBase
 
 		StopAllCoroutines();
 	}
-	//private void OnEnterRoom(WarpPoint.WarpArg arg)
-	//{
-	//	if (arg.currRoom.m_IsClear == true)
-	//		return;
-	//	if (arg.currRoom.m_EnemyWave.Count <= 0)
-	//		return;
-	//	if (arg.currRoom.m_EnemyWaveIndex < 0 || arg.currRoom.m_EnemyWaveIndex >= arg.currRoom.m_EnemyWave.Count)
-	//		throw new System.ArgumentOutOfRangeException();
-
-	//	arg.currRoom.m_EnemyWave[arg.currRoom.m_EnemyWaveIndex].CreateEnemy();
-	//}
-	//private void OnExitRoom(WarpPoint.WarpArg arg)
-	//{
-	//	if (arg.prevRoom.m_IsClear == true)
-	//		return;
-	//	if (arg.prevRoom.m_EnemyWave.Count <= 0)
-	//		return;
-	//	if (arg.prevRoom.m_EnemyWaveIndex < 0 || arg.prevRoom.m_EnemyWaveIndex >= arg.prevRoom.m_EnemyWave.Count)
-	//		throw new System.ArgumentOutOfRangeException();
-
-	//	arg.prevRoom.m_EnemyWave[arg.prevRoom.m_EnemyWaveIndex].Reset();
-
-	//	arg.prevRoom.StopAllCoroutines();
-	//}
 
 	public void ClearRoom()
 	{
