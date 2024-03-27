@@ -52,8 +52,8 @@ public class PathFindingMap : MonoBehaviour
 		// 임시
 		this.Safe_GetComponent<Room>(ref m_Room);
 
-		Tilemap tileMap = m_Room.GetTilemap(Room.E_RoomTilemapLayer.TileMap);
-		Tilemap oneWayMap = m_Room.GetTilemap(Room.E_RoomTilemapLayer.OneWayMap);
+		Tilemap tileMap = m_Room.GetTilemap(Room.E_TilemapLayer.TileMap);
+		Tilemap oneWayMap = m_Room.GetTilemap(Room.E_TilemapLayer.OneWayMap);
 
 		m_Width = tileMap.cellBounds.size.x;
 		m_Height = tileMap.cellBounds.size.y;

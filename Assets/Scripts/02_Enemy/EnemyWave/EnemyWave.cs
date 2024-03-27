@@ -21,7 +21,7 @@ public class EnemyWave
 	#endregion
 
 	#region 변수
-	private Room m_Spawner;
+	private EnemyWaveSpawner m_Spawner = null;
 
 	private bool m_IsInProgress;
 
@@ -40,7 +40,7 @@ public class EnemyWave
 	private static EnemyManager M_Enemy => EnemyManager.Instance;
 	#endregion
 
-	public void Initialize(Room spawner)
+	public void Initialize(EnemyWaveSpawner spawner)
 	{
 		m_Spawner = spawner;
 
@@ -63,11 +63,13 @@ public class EnemyWave
 	}
 	public void Finallize()
 	{
+		Reset();
+
 		if (m_SpawnedEnemyList != null)
 			m_SpawnedEnemyList.Clear();
 	}
 
-	public void CreateEnemy()
+	public void SpawnEnemy()
 	{
 		m_IsInProgress = true;
 
@@ -82,7 +84,7 @@ public class EnemyWave
 
 		List<EnemyWaveInfo> waveInfoList = m_EnemyWaveInfoMap[condition];
 
-		bool spawnAnyEnemy = false;
+		bool anyEnemySpawned = false;
 
 		for (int i = 0; i < waveInfoList.Count; ++i)
 		{
@@ -95,7 +97,7 @@ public class EnemyWave
 			if (info.CheckRandom() == false)
 				continue;
 
-			spawnAnyEnemy = true;
+			anyEnemySpawned = true;
 
 			float delay = info.delayTime;
 
@@ -105,22 +107,22 @@ public class EnemyWave
 				Spawn(info);
 		}
 
-		if (spawnAnyEnemy == false)
+		if (anyEnemySpawned == false)
 			OnClearRoom();
 	}
 	private void OnClearRoom()
 	{
 		if (m_IsInProgress == false)
 			return;
-		if (m_SpawnIndex > m_MaxSpawnIndex)
+		if (m_SpawnIndex <= m_MaxSpawnIndex)
 		{
-			m_Spawner.ClearRoom();
+			++m_SpawnIndex;
+
+			CreateEnemy(E_SpawnCondition.ClearRoom);
 			return;
 		}
 
-		++m_SpawnIndex;
-
-		CreateEnemy(E_SpawnCondition.ClearRoom);
+		m_Spawner.OnClearRoom();
 	}
 	public void Reset()
 	{

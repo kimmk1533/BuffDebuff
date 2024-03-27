@@ -43,9 +43,14 @@ public static class Methods
 		return ret_list.ToArray();
 	}
 
-	public static T Find<T>(this Transform transform, string n)
+	public static T Find<T>(this Transform transform, string n) where T : Component
 	{
-		return transform.Find(n).GetComponent<T>();
+		Transform tf = transform.Find(n);
+
+		if (tf == null)
+			return null;
+
+		return tf.GetComponent<T>();
 	}
 	public static Transform FindInChilderen(this Transform transform, string n)
 	{

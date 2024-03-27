@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 853564448785711044}
   - component: {fileID: 3831175076842576157}
   - component: {fileID: 7619147777779338615}
+  - component: {fileID: 8248834125277528576}
   m_Layer: 0
   m_Name: Room 2
   m_TagString: Untagged
@@ -148,8 +149,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RoomSize: {x: 39, y: 21}
   m_Offset: {x: 19.5, y: 10.5}
-  m_EnemyWave: []
-  m_EnemyWaveIndex: 0
 --- !u!114 &7619147777779338615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +174,20 @@ MonoBehaviour:
   m_Debug_ShowTile: 0
   m_Debug_TileParent: {fileID: 2878752948774863853}
   m_Debug_TilePrefab: {fileID: 2097271961577841836}
+--- !u!114 &8248834125277528576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853564448785711045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75d142df4cefd21469554b238cba4f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EnemyWave: []
+  m_EnemyWaveIndex: -1
 --- !u!1 &853564449544585189
 GameObject:
   m_ObjectHideFlags: 0

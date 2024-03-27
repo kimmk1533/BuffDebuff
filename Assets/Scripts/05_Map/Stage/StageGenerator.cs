@@ -322,8 +322,6 @@ public class StageGenerator : MonoBehaviour
 				.SetParent(stage.transform)
 				.SetPosition(pos)
 				.Spawn();
-
-			room.name = m_GeneratedRoomCount.ToString("00_") + room.name;
 		}
 
 		++m_GeneratedRoomCount;

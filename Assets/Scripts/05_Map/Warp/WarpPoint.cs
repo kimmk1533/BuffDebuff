@@ -46,13 +46,17 @@ public class WarpPoint : MonoBehaviour
 	private static StageManager M_Stage => StageManager.Instance;
 	#endregion
 
-	public void Initialize()
+	public void Initialize(Room room)
 	{
+		m_Room = room;
+
 		this.Safe_GetComponent<BoxCollisionChecker2D>(ref m_CollisionChecker2D);
 		m_CollisionChecker2D.Initialize();
 
 		m_CollisionChecker2D["Player"].onEnter2D += MoveCollisionObject;
 		m_CollisionChecker2D.isSimulating = false;
+
+		M_Warp.AddWarpPoint(room, this);
 	}
 	public void Finallize()
 	{
@@ -61,12 +65,6 @@ public class WarpPoint : MonoBehaviour
 		onWarp = null;
 	}
 
-	public void Initialize_SetRoom(Room room)
-	{
-		m_Room = room;
-
-		M_Warp.AddWarpPoint(room, this);
-	}
 	private void MoveCollisionObject(Collider2D collisionObject)
 	{
 		Room nearRoom = m_Room.GetNearRoom(m_Direction);

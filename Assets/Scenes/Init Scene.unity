@@ -85183,77 +85183,77 @@ MonoBehaviour:
     <origin>k__BackingField: {fileID: 3831175076842576157, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
   - <key>k__BackingField: Room 1
     <path>k__BackingField: Stage_Test
-    <useFlag>k__BackingField: 1
+    <useFlag>k__BackingField: 0
     <poolSize>k__BackingField: 10
     <origin>k__BackingField: {fileID: 3831175076842576157, guid: 2c4e3a299916a254a98e3d9d841836a3, type: 3}
   - <key>k__BackingField: Room 2
     <path>k__BackingField: Stage_Test
-    <useFlag>k__BackingField: 1
+    <useFlag>k__BackingField: 0
     <poolSize>k__BackingField: 10
     <origin>k__BackingField: {fileID: 3831175076842576157, guid: 6f0f58e3e9b2d1b448b8ba13ab798c19, type: 3}
   - <key>k__BackingField: Room 3
     <path>k__BackingField: Stage_Test
-    <useFlag>k__BackingField: 1
+    <useFlag>k__BackingField: 0
     <poolSize>k__BackingField: 10
     <origin>k__BackingField: {fileID: 3831175076842576157, guid: a4aa4ef56cbbf454ab0463d7ab91b9f2, type: 3}
   - <key>k__BackingField: Room 4
     <path>k__BackingField: Stage_Test
-    <useFlag>k__BackingField: 1
+    <useFlag>k__BackingField: 0
     <poolSize>k__BackingField: 10
     <origin>k__BackingField: {fileID: 3831175076842576157, guid: 6bb45e9474122aa49893d0273e4b00ca, type: 3}
   - <key>k__BackingField: Room 5
     <path>k__BackingField: Stage_Test
-    <useFlag>k__BackingField: 1
+    <useFlag>k__BackingField: 0
     <poolSize>k__BackingField: 10
     <origin>k__BackingField: {fileID: 3831175076842576157, guid: ca08698a679d78e438b8640cc0c56925, type: 3}
   - <key>k__BackingField: Room 6
     <path>k__BackingField: Stage_Test
-    <useFlag>k__BackingField: 1
+    <useFlag>k__BackingField: 0
     <poolSize>k__BackingField: 10
     <origin>k__BackingField: {fileID: 3831175076842576157, guid: b839d449254352e4c8edac63afbb5f96, type: 3}
   - <key>k__BackingField: Room 7
     <path>k__BackingField: Stage_Test
-    <useFlag>k__BackingField: 1
+    <useFlag>k__BackingField: 0
     <poolSize>k__BackingField: 10
     <origin>k__BackingField: {fileID: 3831175076842576157, guid: 7b2691d96025e2d4fabf6796c18bc54a, type: 3}
   - <key>k__BackingField: Room 8
     <path>k__BackingField: Stage_Test
-    <useFlag>k__BackingField: 1
+    <useFlag>k__BackingField: 0
     <poolSize>k__BackingField: 10
     <origin>k__BackingField: {fileID: 3831175076842576157, guid: 7522ce5a15d90df499208a531a2f0cf7, type: 3}
   - <key>k__BackingField: Room 9
     <path>k__BackingField: Stage_Test
-    <useFlag>k__BackingField: 1
+    <useFlag>k__BackingField: 0
     <poolSize>k__BackingField: 10
     <origin>k__BackingField: {fileID: 3831175076842576157, guid: b40fe89b412fe8945845409a5d501576, type: 3}
   - <key>k__BackingField: Room 10
     <path>k__BackingField: Stage_Test
-    <useFlag>k__BackingField: 1
+    <useFlag>k__BackingField: 0
     <poolSize>k__BackingField: 10
     <origin>k__BackingField: {fileID: 3831175076842576157, guid: 72a666900ac6a654db409f385fe3a0f0, type: 3}
   - <key>k__BackingField: Room 11
     <path>k__BackingField: Stage_Test
-    <useFlag>k__BackingField: 1
+    <useFlag>k__BackingField: 0
     <poolSize>k__BackingField: 10
     <origin>k__BackingField: {fileID: 3831175076842576157, guid: e95a4bc6cc83ab6458a74ef9bafc10fc, type: 3}
   - <key>k__BackingField: Room 12
     <path>k__BackingField: Stage_Test
-    <useFlag>k__BackingField: 1
+    <useFlag>k__BackingField: 0
     <poolSize>k__BackingField: 10
     <origin>k__BackingField: {fileID: 3831175076842576157, guid: 02e28fb52f23c6349b56b5067a3db379, type: 3}
   - <key>k__BackingField: Room 13
     <path>k__BackingField: Stage_Test
-    <useFlag>k__BackingField: 1
+    <useFlag>k__BackingField: 0
     <poolSize>k__BackingField: 10
     <origin>k__BackingField: {fileID: 3831175076842576157, guid: 39e1316f309b2c349b668b44afa74150, type: 3}
   - <key>k__BackingField: Room 14
     <path>k__BackingField: Stage_Test
-    <useFlag>k__BackingField: 1
+    <useFlag>k__BackingField: 0
     <poolSize>k__BackingField: 10
     <origin>k__BackingField: {fileID: 3831175076842576157, guid: 207ae73a3396f8e4b98073e07ceff9b6, type: 3}
   - <key>k__BackingField: Room 15
     <path>k__BackingField: Stage_Test
-    <useFlag>k__BackingField: 1
+    <useFlag>k__BackingField: 0
     <poolSize>k__BackingField: 10
     <origin>k__BackingField: {fileID: 3831175076842576157, guid: de9d33bf165e95b498521a2be675e432, type: 3}
   m_StartRoomOrigins:

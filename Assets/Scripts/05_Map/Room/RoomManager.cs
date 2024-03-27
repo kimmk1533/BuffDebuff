@@ -77,6 +77,10 @@ public class RoomManager : ObjectManager<RoomManager, Room>
 
 	public RoomPool.ItemBuilder GetBuilder(params (E_Condition condition, E_Direction direction, int count)[] conditions)
 	{
+		// 임시
+		return m_AllRoomPool[0].GetBuilder();
+		//
+
 		List<RoomPool> poolList = new List<RoomPool>(m_AllRoomPool);
 
 		for (int i = 0; i < conditions.Length; ++i)

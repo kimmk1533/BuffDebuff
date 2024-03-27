@@ -87,7 +87,7 @@ public class GridManager : Singleton<GridManager>
 		if (m_ShowGrid == false)
 			return;
 
-		m_Tilemap = M_Stage.currentStage.currentRoom.GetTilemap(Room.E_RoomTilemapLayer.TileMap);
+		m_Tilemap = M_Stage.currentStage.currentRoom.GetTilemap(Room.E_TilemapLayer.TileMap);
 
 		if (m_Tilemap == null)
 			return;

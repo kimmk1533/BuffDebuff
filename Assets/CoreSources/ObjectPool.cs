@@ -146,7 +146,7 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 
 		++m_Count;
 
-		item.name = item.name + m_Count.ToString("_00");
+		//item.name = item.name + m_Count.ToString("_00");
 
 		return item;
 	}

@@ -3,23 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Enum;
-using AYellowpaper.SerializedCollections;
+using TilemapMap = System.Collections.Generic.Dictionary<Room.E_TilemapLayer, UnityEngine.Tilemaps.Tilemap>;
 
-[RequireComponent(typeof(PathFindingMap))]
+[RequireComponent(typeof(PathFindingMap), typeof(EnemyWaveSpawner))]
 public class Room : ObjectPoolItemBase
 {
 	#region Enum
 	// 타일맵 레이어
-	public enum E_RoomTilemapLayer
+	public enum E_TilemapLayer
 	{
 		// 뒷 배경
 		BackGround,
-		// 벽
-		TileMap,
 		// 점프 가능한 벽
 		OneWayMap,
+		// 벽
+		TileMap,
 		// 앞 배경 (장식 등등)
 		Environment,
+
+		Max
+	}
+	public enum E_DirectionLayer
+	{
+		Origin,
+		Left,
+		Right,
+		Top,
+		Bottom,
 
 		Max
 	}
@@ -34,20 +44,10 @@ public class Room : ObjectPoolItemBase
 	private Vector2 m_Offset;
 
 	// 타일맵
-	private Dictionary<E_RoomTilemapLayer, Tilemap> m_TilemapMap;
+	private Dictionary<E_DirectionLayer, TilemapMap> m_TilemapMap_Direction = null;
+
 	// 길 찾기 정보
-	private PathFindingMap m_PathFindingMap;
-
-	#region 적 생성 관련
-	// 이 방 클리어 여부
-	private bool m_IsClear;
-
-	// 적 생성 정보
-	[SerializeField]
-	private List<EnemyWave> m_EnemyWave;
-	[SerializeField, ReadOnly]
-	private int m_EnemyWaveIndex;
-	#endregion
+	private PathFindingMap m_PathFindingMap = null;
 
 	#region 워프 관련
 	// 워프 시뮬 여부
@@ -61,6 +61,9 @@ public class Room : ObjectPoolItemBase
 	private Dictionary<E_Direction, Dictionary<int, WarpPoint>> m_WarpPointMap; // 방향, 인덱스, 워프포인트
 	private Dictionary<E_Direction, int> m_WarpPointCountMap; // 방향, 갯수 
 	#endregion
+
+	// 적 생성 시스템
+	private EnemyWaveSpawner m_EnemySpawner = null;
 	#endregion
 
 	#region 프로퍼티
@@ -77,7 +80,6 @@ public class Room : ObjectPoolItemBase
 
 	public PathFindingMap pathFindingMap => m_PathFindingMap;
 
-	public bool isClear => m_IsClear;
 	public bool isSimulating
 	{
 		get => m_IsSimulating;
@@ -105,8 +107,8 @@ public class Room : ObjectPoolItemBase
 
 		#region NULL Check New
 		// 타일맵 딕셔너리 초기화
-		if (m_TilemapMap == null)
-			m_TilemapMap = new Dictionary<E_RoomTilemapLayer, Tilemap>();
+		if (m_TilemapMap_Direction == null)
+			m_TilemapMap_Direction = new Dictionary<E_DirectionLayer, TilemapMap>();
 
 		// 주변 방 딕셔너리 초기화
 		if (m_NearRoomMap == null)
@@ -125,35 +127,38 @@ public class Room : ObjectPoolItemBase
 			m_WarpPointCountMap = new Dictionary<E_Direction, int>();
 		#endregion
 
+		Transform tilemapLayer = transform.Find("TileMapLayer");
+		for (E_DirectionLayer dirLayer = 0; dirLayer < E_DirectionLayer.Max; ++dirLayer)
+		{
+			Transform dir = tilemapLayer.Find(dirLayer.ToString());
+
+			if (dir == null)
+				continue;
+
+			for (E_TilemapLayer layer = 0; layer < E_TilemapLayer.Max; ++layer)
+			{
+				Tilemap tileMap = dir.Find<Tilemap>(layer.ToString());
+
+				if (tileMap == null)
+					continue;
+
+				if (m_TilemapMap_Direction.ContainsKey(dirLayer) == false)
+					m_TilemapMap_Direction.Add(dirLayer, new TilemapMap());
+
+				m_TilemapMap_Direction[dirLayer].Add(layer, tileMap);
+			}
+		}
+
 		// 길 찾기 정보 초기화
 		this.Safe_GetComponent<PathFindingMap>(ref m_PathFindingMap);
-
-		// 방 클리어 여부 초기화
-		m_IsClear = false;
-		// 적 생성 정보 초기화
-		if (m_EnemyWave.Count > 0)
-		{
-			m_EnemyWaveIndex = Random.Range(0, m_EnemyWave.Count);
-			m_EnemyWave[m_EnemyWaveIndex].Initialize(this);
-		}
-
-		Transform tilemapLayer = transform.Find("TileMapLayer");
-		for (E_RoomTilemapLayer layer = 0; layer < E_RoomTilemapLayer.Max; ++layer)
-		{
-			Tilemap tileMap = tilemapLayer.Find<Tilemap>(layer.ToString());
-
-			m_TilemapMap.Add(layer, tileMap);
-		}
-
 		m_PathFindingMap.Initialize();
 
 		gameObject.GetComponentsInChildren<WarpPoint>(m_WarpPointList);
 		for (int i = 0; i < m_WarpPointList.Count; ++i)
 		{
 			WarpPoint warpPoint = m_WarpPointList[i];
-			warpPoint.Initialize();
-			warpPoint.Initialize_SetRoom(this);
-			warpPoint.onWarp += OnWarp;
+			warpPoint.Initialize(this);
+			warpPoint.onWarp += OnPlayerWarp;
 
 			E_Direction direction = warpPoint.direction;
 
@@ -166,14 +171,23 @@ public class Room : ObjectPoolItemBase
 			m_WarpPointMap[direction].Add(warpPoint.index, warpPoint);
 			++m_WarpPointCountMap[direction];
 		}
+
+		this.Safe_GetComponent<EnemyWaveSpawner>(ref m_EnemySpawner);
+		m_EnemySpawner.Initialize(this);
 	}
 	public override void FinallizePoolItem()
 	{
 		base.FinallizePoolItem();
 
 		// 타일맵 딕셔너리 마무리
-		if (m_TilemapMap != null)
-			m_TilemapMap.Clear();
+		if (m_TilemapMap_Direction != null)
+		{
+			foreach (var item in m_TilemapMap_Direction)
+			{
+				item.Value.Clear();
+			}
+			m_TilemapMap_Direction.Clear();
+		}
 
 		// 주변 방 딕셔너리 마무리
 		if (m_NearRoomMap != null)
@@ -207,45 +221,27 @@ public class Room : ObjectPoolItemBase
 				m_WarpPointCountMap[direction] = 0;
 			}
 		}
+
+		if (m_EnemySpawner != null)
+			m_EnemySpawner.Finallize();
 	}
 
-	private void OnWarp(WarpPoint.WarpArg arg)
+	private void OnPlayerWarp(WarpPoint.WarpArg arg)
 	{
-		if (arg.warpObject.gameObject.layer != LayerMask.NameToLayer("Player"))
-			return;
-
-		arg.currRoom.OnEnterRoom();
-		arg.prevRoom.OnExitRoom();
+		arg.currRoom.OnPlayerEnterRoom();
+		arg.prevRoom.OnPlayerExitRoom();
 	}
-	private void OnEnterRoom()
+	private void OnPlayerEnterRoom()
 	{
-		if (m_IsClear == true)
-			return;
-		if (m_EnemyWave.Count <= 0)
-			return;
-		if (m_EnemyWaveIndex < 0 || m_EnemyWaveIndex >= m_EnemyWave.Count)
-			throw new System.ArgumentOutOfRangeException();
-
-		m_EnemyWave[m_EnemyWaveIndex].CreateEnemy();
+		m_EnemySpawner.SpawnEnemyWave();
 	}
-	private void OnExitRoom()
+	private void OnPlayerExitRoom()
 	{
-		if (m_IsClear == true)
-			return;
-		if (m_EnemyWave.Count <= 0)
-			return;
-		if (m_EnemyWaveIndex < 0 || m_EnemyWaveIndex >= m_EnemyWave.Count)
-			throw new System.ArgumentOutOfRangeException();
-
-		m_EnemyWave[m_EnemyWaveIndex].Reset();
-
-		StopAllCoroutines();
+		m_EnemySpawner.DespawnEnemyWave();
 	}
 
 	public void ClearRoom()
 	{
-		m_IsClear = true;
-
 		M_Room.onRoomClear?.Invoke(this);
 
 		Debug.Log("방 클리어");
@@ -274,14 +270,38 @@ public class Room : ObjectPoolItemBase
 			nearRoom.m_NearRoomMap[otherDir] = this;
 		else
 			nearRoom.m_NearRoomMap.Add(otherDir, this);
+
+		MakeDoor(direction);
+		nearRoom.MakeDoor(otherDir);
+	}
+	private void MakeDoor(E_Direction direction)
+	{
+		E_DirectionLayer dirLayer = E_DirectionLayer.Origin;
+
+		switch (direction)
+		{
+			case E_Direction.Up:
+				dirLayer = E_DirectionLayer.Top;
+				break;
+			case E_Direction.Down:
+				dirLayer = E_DirectionLayer.Bottom;
+				break;
+			case E_Direction.Left:
+				dirLayer = E_DirectionLayer.Left;
+				break;
+			case E_Direction.Right:
+				dirLayer = E_DirectionLayer.Right;
+				break;
+		}
+		m_TilemapMap_Direction[dirLayer][E_TilemapLayer.TileMap].transform.parent.gameObject.SetActive(false);
 	}
 
-	public Tilemap GetTilemap(E_RoomTilemapLayer layer)
+	public Tilemap GetTilemap(E_TilemapLayer layer)
 	{
-		if (m_TilemapMap == null)
+		if (m_TilemapMap_Direction == null)
 			return null;
 
-		return m_TilemapMap[layer];
+		return m_TilemapMap_Direction[E_DirectionLayer.Origin][layer];
 	}
 	public List<WarpPoint> GetAllWarpPoint()
 	{
@@ -316,7 +336,7 @@ public class Room : ObjectPoolItemBase
 	{
 		Color color = Gizmos.color;
 
-		Gizmos.color = new Color(0, 1, 0, 0.1f);
+		Gizmos.color = new Color(0f, 1f, 0f, 0.1f);
 		Gizmos.DrawCube((Vector2)transform.position + m_Offset, m_RoomSize);
 
 		Gizmos.color = color;

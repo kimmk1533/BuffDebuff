@@ -54,7 +54,7 @@ public class StageManager : Singleton<StageManager>
 	{
 		if (m_StageParent == null)
 		{
-			m_StageParent = new GameObject(m_CurrentStageLevel.ToString("Stage 00")).transform;
+			m_StageParent = new GameObject("Stage Grid").transform;
 			m_StageParent.gameObject.isStatic = true;
 			m_StageParent.AddComponent<Grid>();
 		}
