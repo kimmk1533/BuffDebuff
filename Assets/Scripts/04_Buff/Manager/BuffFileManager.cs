@@ -2,7 +2,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using Enum;
+using BuffDebuff.Enum;
 using SpreadSheet;
 using System.IO;
 using System.Text;

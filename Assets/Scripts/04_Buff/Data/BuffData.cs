@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Enum;
+using BuffDebuff.Enum;
 
 [CreateAssetMenu(fileName = "New Buff Data", menuName = "Scriptable Object/Buff Data", order = int.MinValue)]
 public class BuffData : ScriptableObject

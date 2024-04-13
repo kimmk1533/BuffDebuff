@@ -2,30 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAnimator : CharacterAnimator
+namespace BuffDebuff
 {
-	#region Enum
-	private enum E_AnimState
+	public class EnemyAnimator : CharacterAnimator
 	{
-		None = 0,
+		#region Enum
+		private enum E_AnimState
+		{
+			None = 0,
 
-		Idle = 0,
-		Run = 1,
+			Idle = 0,
+			Run = 1,
 
-		Max
-	}
-	#endregion
+			Max
+		}
+		#endregion
 
-	#region 변수
-	private Enemy m_Enemy;
-	private EnemyCharacter m_EnemyCharacter;
-	#endregion
+		#region 변수
+		private Enemy m_Enemy;
+		private EnemyCharacter m_EnemyCharacter;
+		#endregion
 
-	public override void Initialize()
-	{
-		base.Initialize();
+		public override void Initialize()
+		{
+			base.Initialize();
 
-		this.Safe_GetComponentInParent<Enemy>(ref m_Enemy);
-		this.Safe_GetComponentInParent<EnemyCharacter>(ref m_EnemyCharacter);
+			this.Safe_GetComponentInParent<Enemy>(ref m_Enemy);
+			this.Safe_GetComponentInParent<EnemyCharacter>(ref m_EnemyCharacter);
+		}
 	}
 }

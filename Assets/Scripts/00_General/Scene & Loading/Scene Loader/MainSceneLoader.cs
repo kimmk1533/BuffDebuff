@@ -2,39 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainSceneLoader : SceneLoader
+namespace BuffDebuff
 {
-	#region 매니저
-	private static GameManager M_Game => GameManager.Instance;
-	#endregion
-
-	protected override void Initialize()
+	public class MainSceneLoader : SceneLoader
 	{
-		base.Initialize();
+		#region 매니저
+		private static GameManager M_Game => GameManager.Instance;
+		#endregion
 
-		string sceneName = "Game Scene";
+		protected override void Initialize()
+		{
+			base.Initialize();
 
-		m_OnLoadCompletedMap.Add(sceneName, new UnityEngine.Events.UnityEvent());
+			string sceneName = "Game Scene";
 
-		m_OnLoadCompletedMap[sceneName].AddListener(M_Game.InitializeEvent);
-		m_OnLoadCompletedMap[sceneName].AddListener(M_Game.InitializeGame);
-		m_OnLoadCompletedMap[sceneName].AddListener(Physics2D.SyncTransforms);
-	}
-	protected override void Finallize()
-	{
-		base.Finallize();
-	}
+			m_OnLoadCompletedMap.Add(sceneName, new UnityEngine.Events.UnityEvent());
 
-	public void OnStartGameButtonClick()
-	{
-		LoadingSceneManager.LoadScene("Game Scene");
-	}
-	public void OnQuitButtonClick()
-	{
+			m_OnLoadCompletedMap[sceneName].AddListener(M_Game.InitializeEvent);
+			m_OnLoadCompletedMap[sceneName].AddListener(M_Game.InitializeGame);
+			m_OnLoadCompletedMap[sceneName].AddListener(Physics2D.SyncTransforms);
+		}
+		protected override void Finallize()
+		{
+			base.Finallize();
+		}
+
+		public void OnStartGameButtonClick()
+		{
+			LoadingSceneManager.LoadScene("Game Scene");
+		}
+		public void OnQuitButtonClick()
+		{
 #if UNITY_EDITOR
-		UnityEditor.EditorApplication.ExitPlaymode();
+			UnityEditor.EditorApplication.ExitPlaymode();
 #else
-		Application.Quit();
+			Application.Quit();
 #endif
+		}
 	}
 }

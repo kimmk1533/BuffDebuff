@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Enum
+namespace BuffDebuff.Enum
 {
 	#region 방향
 	public enum E_Direction : byte
