@@ -20768,6 +20768,11 @@ MonoBehaviour:
     <useFlag>k__BackingField: 1
     <poolSize>k__BackingField: 2
     <origin>k__BackingField: {fileID: 507329788138445553, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
+  - <key>k__BackingField: DemonSlime
+    <path>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 2
+    <origin>k__BackingField: {fileID: 6574336611213907131, guid: ac68222ac112edb4e94aeaf7d2d6eab9, type: 3}
 --- !u!4 &348969213
 Transform:
   m_ObjectHideFlags: 0

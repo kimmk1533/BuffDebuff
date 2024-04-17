@@ -30,7 +30,7 @@ namespace BuffDebuff
 			{
 				Vector2 position = UtilClass.GetMouseWorldPosition();
 
-				Enemy enemy = GetBuilder("Golem")
+				Enemy enemy = GetBuilder("DemonSlime")
 					.SetActive(true)
 					.SetAutoInit(true)
 					.SetParent(null)
