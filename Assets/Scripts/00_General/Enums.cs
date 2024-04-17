@@ -41,8 +41,6 @@ namespace BuffDebuff.Enum
 		Buff,
 		// 디버프
 		Debuff,
-		// 양면버프
-		Bothbuff,
 
 		Max
 	}
@@ -132,8 +130,6 @@ namespace BuffDebuff.Enum
 						return "버프";
 					case E_BuffType.Debuff:
 						return "디버프";
-					case E_BuffType.Bothbuff:
-						return "양면버프";
 				}
 			}
 			else if (E_BuffEffectType.TryParse(str, out E_BuffEffectType buffEffectType))

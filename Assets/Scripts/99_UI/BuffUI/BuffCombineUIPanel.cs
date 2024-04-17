@@ -61,10 +61,10 @@ namespace BuffDebuff
 			E_BuffType firstBuffType = first.buffType;
 			E_BuffType secondBuffType = second.buffType;
 
-			if (firstBuffType == E_BuffType.Bothbuff)
-				firstBuffType = secondBuffType;
-			else if (secondBuffType == E_BuffType.Bothbuff)
-				secondBuffType = firstBuffType;
+			//if (firstBuffType == E_BuffType.Bothbuff)
+			//	firstBuffType = secondBuffType;
+			//else if (secondBuffType == E_BuffType.Bothbuff)
+			//	secondBuffType = firstBuffType;
 
 			if (firstBuffType != secondBuffType)
 			{
@@ -97,9 +97,6 @@ namespace BuffDebuff
 					break;
 				case E_BuffType.Debuff:
 					buffData = M_Buff.GetRandomBuffData(E_BuffType.Buff, grade);
-					break;
-				case E_BuffType.Bothbuff:
-					buffData = M_Buff.GetRandomBuffData();
 					break;
 			}
 
