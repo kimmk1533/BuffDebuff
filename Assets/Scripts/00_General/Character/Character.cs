@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuffDebuff
 {
-	public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator
+	public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator, IAnim_Attack
 	{
 		#region 변수
 		protected TController m_Controller;
@@ -32,6 +32,10 @@ namespace BuffDebuff
 		[Space(10)]
 		[SerializeField]
 		protected TStat m_CurrentStat;
+		#endregion
+
+		#region 공격 관련
+		protected int m_AttackIndex;
 		#endregion
 
 		#region 타이머 관련
@@ -125,7 +129,7 @@ namespace BuffDebuff
 			if (CanAttack() == false)
 				return false;
 
-			//m_Animator.Anim_Attack();
+			m_Animator.Anim_Attack(m_AttackIndex);
 
 			return true;
 		}

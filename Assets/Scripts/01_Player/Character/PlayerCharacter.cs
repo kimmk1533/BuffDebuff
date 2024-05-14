@@ -49,9 +49,12 @@ namespace BuffDebuff
 
 			// 스탯 초기화
 			#region Stat
-			attackSpeed = 2.0f;
 			m_CurrentStat.Xp = 0.0f;
 			m_CurrentStat.Level = 0;
+
+			// 임시 테스트
+			//m_CurrentStat.AttackSpeed = 10f;
+			//m_AttackTimer.interval = 1f / m_CurrentStat.AttackSpeed;
 			#endregion
 
 			// 타이머 초기화
@@ -166,6 +169,7 @@ namespace BuffDebuff
 				return false;
 
 			m_IsAttacking = true;
+			++m_AttackIndex;
 
 			return true;
 		}
@@ -225,6 +229,7 @@ namespace BuffDebuff
 
 			m_IsSimulating = true;
 			m_IsAttacking = false;
+			m_AttackIndex = 0;
 		}
 		public void AnimEvent_AirAttackStart()
 		{

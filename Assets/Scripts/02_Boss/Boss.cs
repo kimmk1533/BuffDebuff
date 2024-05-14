@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace BuffDebuff
 {
-    public class Boss : ObjectPoolItemBase
-    {
-        
-    }
+	public class Boss : Enemy
+	{
+
+	}
 }
