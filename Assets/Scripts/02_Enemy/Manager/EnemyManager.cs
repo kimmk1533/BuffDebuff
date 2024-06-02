@@ -6,6 +6,16 @@ namespace BuffDebuff
 {
 	public class EnemyManager : ObjectManager<EnemyManager, Enemy>
 	{
+		private enum E_EnemyType
+		{
+			PrototypeHero,
+			Golem,
+			DemonSlime,
+		}
+
+		[SerializeField]
+		private E_EnemyType m_Debug_SpawnEnemyType;
+
 		public override void Initialize()
 		{
 			base.Initialize();
@@ -30,7 +40,7 @@ namespace BuffDebuff
 			{
 				Vector2 position = UtilClass.GetMouseWorldPosition();
 
-				Enemy enemy = GetBuilder("DemonSlime")
+				Enemy enemy = GetBuilder(m_Debug_SpawnEnemyType.ToString())
 					.SetActive(true)
 					.SetAutoInit(true)
 					.SetParent(null)

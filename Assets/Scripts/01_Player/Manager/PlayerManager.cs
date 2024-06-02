@@ -79,6 +79,9 @@ namespace BuffDebuff
 
 			if (m_Origin == null)
 				m_Origin = Resources.Load<Player>(System.IO.Path.Combine(m_Path, m_PlayerCharacterName));
+			if (m_Origin == null)
+				Debug.LogError("PlayerManager의 m_Path 또는 m_PlayerCharacterName이 올바르지 않습니다.");
+
 			if (m_Player == null)
 				m_Player = GameObject.Instantiate(m_Origin);
 			Camera.main.Safe_GetComponent<CameraFollow>(ref m_PlayerCamera);

@@ -163,19 +163,19 @@ namespace BuffDebuff
 		}
 
 		// Attack Func
-		public override bool Attack()
-		{
-			if (base.Attack() == false)
-				return false;
-
-			m_IsAttacking = true;
-			++m_AttackIndex;
-
-			return true;
-		}
 		protected override bool CanAttack()
 		{
 			return base.CanAttack() && (m_IsAttacking ? m_CanComboAttack : true);
+		}
+		public override bool Attack()
+		{
+			if (CanAttack() == false)
+				return false;
+
+			m_IsAttacking = true;
+			m_Animator.Anim_Attack(m_AttackIndex++);
+
+			return true;
 		}
 
 		// Timer Func

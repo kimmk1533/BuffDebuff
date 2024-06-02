@@ -124,8 +124,9 @@ namespace BuffDebuff
 		{
 			base.Update();
 
-			if (target != null && CanAttack())
-				AnimEvent_Attacking(); // 임시. 공격 애니메이션(Attack 함수)으로 수정해야 함
+			if (CanAttack())
+				Attack();
+			//AnimEvent_Attacking(); // 임시. 공격 애니메이션(Attack 함수)으로 수정해야 함
 		}
 
 		private void ResetInput()
@@ -546,6 +547,30 @@ namespace BuffDebuff
 			return true;
 		}
 		#endregion
+
+		protected override bool CanAttack()
+		{
+			return target != null && base.CanAttack();
+		}
+
+		// Anim Event
+		public override void AnimEvent_AttackStart()
+		{
+			base.AnimEvent_AttackStart();
+
+			m_IsSimulating = false;
+			m_Velocity.x = System.MathF.Sign(m_Velocity.x) * float.Epsilon;
+		}
+		public override void AnimEvent_Attacking()
+		{
+			base.AnimEvent_Attacking();
+		}
+		public override void AnimEvent_AttackEnd()
+		{
+			base.AnimEvent_AttackEnd();
+
+			m_IsSimulating = true;
+		}
 
 		[SerializeField]
 		private bool showPath = true;

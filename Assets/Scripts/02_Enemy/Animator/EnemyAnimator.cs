@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuffDebuff
 {
-	public class EnemyAnimator : CharacterAnimator, IAnim_Attack
+	public class EnemyAnimator : CharacterAnimator
 	{
 		#region Enum
 		private enum E_AnimState
@@ -31,13 +31,24 @@ namespace BuffDebuff
 			this.Safe_GetComponentInParent<EnemyCharacter>(ref m_EnemyCharacter);
 		}
 
-		public void Anim_SetAttackSpeed(float attackSpeed)
+		public override void Anim_SetVelocity(float x, float y)
 		{
+			base.Anim_SetVelocity(x, y);
 
+			if (x != 0f)
+				m_Animator.SetInteger("AnimState", 1);
+			else
+				m_Animator.SetInteger("AnimState", 0);
 		}
-		public void Anim_Attack(int patternIndex)
-		{
 
+		// Anim Event
+		private void AnimEvent_AttackStart()
+		{
+			m_EnemyCharacter.AnimEvent_AttackStart();
+		}
+		private void AnimEvent_AttackEnd()
+		{
+			m_EnemyCharacter.AnimEvent_AttackEnd();
 		}
 	}
 }

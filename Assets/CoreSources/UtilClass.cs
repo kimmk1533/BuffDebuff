@@ -80,6 +80,8 @@ public static class UtilClass
 		[SerializeField, ReadOnly]
 		private float m_Time;
 
+		private bool m_IsSimulating;
+
 		public float interval
 		{
 			get { return m_Interval; }
@@ -95,6 +97,7 @@ public static class UtilClass
 		public Timer()
 		{
 			m_Time = m_Interval = 0f;
+			m_IsSimulating = true;
 		}
 		public Timer(float interval, bool filled = false)
 		{
@@ -104,6 +107,8 @@ public static class UtilClass
 				m_Time = interval;
 			else
 				m_Time = 0f;
+
+			m_IsSimulating = true;
 		}
 
 		public bool TimeCheck(bool autoClear = false)
@@ -120,6 +125,9 @@ public static class UtilClass
 		}
 		public void Update()
 		{
+			if (m_IsSimulating == false)
+				return;
+
 			if (m_Time >= m_Interval)
 				return;
 
@@ -127,6 +135,9 @@ public static class UtilClass
 		}
 		public void Update(float timeScale)
 		{
+			if (m_IsSimulating == false)
+				return;
+
 			if (m_Time >= m_Interval)
 				return;
 
@@ -135,6 +146,15 @@ public static class UtilClass
 		public void Clear()
 		{
 			m_Time = 0f;
+		}
+
+		public void Start()
+		{
+			m_IsSimulating = true;
+		}
+		public void Stop()
+		{
+			m_IsSimulating = false;
 		}
 	}
 }

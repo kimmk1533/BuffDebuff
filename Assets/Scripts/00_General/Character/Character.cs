@@ -36,6 +36,8 @@ namespace BuffDebuff
 
 		#region 공격 관련
 		protected int m_AttackIndex;
+		[Space(10), SerializeField]
+		protected int m_MaxAttackIndex;
 		#endregion
 
 		#region 타이머 관련
@@ -124,18 +126,19 @@ namespace BuffDebuff
 		}
 
 		// Attack Func
+		protected virtual bool CanAttack()
+		{
+			return m_AttackTimer.TimeCheck();
+		}
 		public virtual bool Attack()
 		{
 			if (CanAttack() == false)
 				return false;
 
+			m_AttackIndex = Random.Range(0, m_MaxAttackIndex);
 			m_Animator.Anim_Attack(m_AttackIndex);
 
 			return true;
-		}
-		protected virtual bool CanAttack()
-		{
-			return m_AttackTimer.TimeCheck();
 		}
 
 		// Timer Func

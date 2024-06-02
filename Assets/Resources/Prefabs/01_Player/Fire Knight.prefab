@@ -250,7 +250,7 @@ Transform:
   - {fileID: 1233320924418329315}
   - {fileID: 1233320925056364430}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1233320925476692314
 MonoBehaviour:
@@ -348,6 +348,7 @@ MonoBehaviour:
     <DashSpeed>k__BackingField: 30
     <DashCount>k__BackingField: 3
     <DashRechargeTime>k__BackingField: 1
+  m_MaxAttackIndex: 3
   m_HealTimer:
     m_Interval: 0
     m_Time: 0
