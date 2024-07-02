@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuffDebuff
 {
-	public class Enemy : PoolCharacter<EnemyStat, EnemyController2D, EnemyAnimator>
+	public class Enemy : PoolCharacter<EnemyStat, EnemyController2D, EnemyAnimator>, IDamageGiver, IDamageTaker
 	{
 		const float c_BotMaxPositionError = 0.0625f; // 1 ÷ 16 (pixels per unit)
 
@@ -571,7 +571,9 @@ namespace BuffDebuff
 
 		protected override bool CanAttack()
 		{
-			return target != null && base.CanAttack();
+			return base.CanAttack() &&
+				target != null &&
+				m_TargetFinder.state == EnemyTargetFinder.E_TargetFinderState.Chasing;
 		}
 
 		protected void CreateProjectile()
@@ -597,12 +599,13 @@ namespace BuffDebuff
 			{
 				Player player = collider.GetComponent<Player>();
 
-				GiveDamage(new DamageArg<Enemy, Player>()
-				{
-					damageGiver = this,
-					damageTaker = player,
-					projectile = projectile,
-				});
+				DamageArg<IDamageGiver, IDamageTaker> damageArg = new DamageArg<IDamageGiver, IDamageTaker>(
+					m_CurrentStat.AttackPower,
+					this,
+					player,
+					projectile);
+
+				GiveDamage(damageArg);
 
 				M_Projectile.Despawn(projectile);
 			};
@@ -611,19 +614,19 @@ namespace BuffDebuff
 				M_Projectile.Despawn(projectile);
 			};
 		}
-		protected virtual void GiveDamage(DamageArg<Enemy, Player> damageArg)
+		public virtual void GiveDamage(DamageArg<IDamageGiver, IDamageTaker> arg)
 		{
-			Player playerCharacter = damageArg.damageTaker;
-			Projectile projectile = damageArg.projectile;
+			Player player = arg.damageTaker as Player;
+			Projectile projectile = arg.projectile;
 
-			if (projectile == null || playerCharacter == null)
+			if (projectile == null || player == null)
 				return;
 
 			if (projectile.gameObject.activeSelf == false ||
-				playerCharacter.gameObject.activeSelf == false)
+				player.gameObject.activeSelf == false)
 				return;
 
-			playerCharacter.TakeDamage(m_CurrentStat.AttackPower);
+			player.TakeDamage(arg.damage);
 		}
 		public void TakeDamage(float damage)
 		{

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace BuffDebuff
 {
 	[RequireComponent(typeof(PlayerController2D), typeof(BoxCollider2D))]
-	public sealed class Player : Character<PlayerStat, PlayerController2D, PlayerAnimator>
+	public sealed class Player : Character<PlayerStat, PlayerController2D, PlayerAnimator>, IDamageGiver, IDamageTaker
 	{
 		#region 변수
 		[Header("===== 플레이어 전용 변수 ====="), Space(10)]
@@ -130,17 +130,11 @@ namespace BuffDebuff
 
 			while (Xp >= m_MaxStat.Xp)
 			{
-				InfiniteLoopDetector.Run();
-
 				Xp -= m_MaxStat.Xp;
 				++m_CurrentStat.Level;
 			}
 
 			m_CurrentStat.Xp = Xp;
-		}
-		private void LevelUp()
-		{
-
 		}
 
 		public void SetDirectionalInput(Vector2 input)
@@ -263,14 +257,15 @@ namespace BuffDebuff
 			projectile.SetMovingStrategy(new StraightMove());
 			projectile["Enemy"].onEnter2D += (Collider2D collider) =>
 			{
-				Enemy enemyCharacter = collider.GetComponent<Enemy>();
+				Enemy enemy = collider.GetComponent<Enemy>();
 
-				GiveDamage(new DamageArg<Player, Enemy>()
-				{
-					damageGiver = this,
-					damageTaker = enemyCharacter,
-					projectile = projectile,
-				});
+				DamageArg<IDamageGiver, IDamageTaker> damageArg = new DamageArg<IDamageGiver, IDamageTaker>(
+					m_CurrentStat.AttackPower,
+					this,
+					enemy,
+					projectile);
+
+				GiveDamage(damageArg);
 
 				M_Projectile.Despawn(projectile);
 			};
@@ -279,19 +274,19 @@ namespace BuffDebuff
 				M_Projectile.Despawn(projectile);
 			};
 		}
-		private void GiveDamage(DamageArg<Player, Enemy> arg)
+		public void GiveDamage(DamageArg<IDamageGiver, IDamageTaker> arg)
 		{
-			Enemy enemyCharacter = arg.damageTaker;
+			Enemy enemy = arg.damageTaker as Enemy;
 			Projectile projectile = arg.projectile;
 
-			if (projectile == null || enemyCharacter == null)
+			if (projectile == null || enemy == null)
 				return;
 
 			if (projectile.gameObject.activeSelf == false ||
-				enemyCharacter.gameObject.activeSelf == false)
+				enemy.gameObject.activeSelf == false)
 				return;
 
-			enemyCharacter.TakeDamage(m_CurrentStat.AttackPower);
+			enemy.TakeDamage(arg.damage);
 		}
 		public void TakeDamage(float damage)
 		{

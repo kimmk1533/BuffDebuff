@@ -4,10 +4,41 @@ using UnityEngine;
 
 namespace BuffDebuff
 {
-	public struct DamageArg<DamageGiver, DamageTaker>
+	public interface IDamageGiver
 	{
-		public DamageGiver damageGiver;
-		public DamageTaker damageTaker;
-		public Projectile projectile;
+		public void GiveDamage(DamageArg<IDamageGiver, IDamageTaker> arg);
+	}
+	public interface IDamageTaker
+	{
+		public void TakeDamage(float damage);
+	}
+	public struct DamageArg<DamageGiver, DamageTaker> where DamageGiver : IDamageGiver where DamageTaker : IDamageTaker
+	{
+		private float m_Damage;
+		private DamageGiver m_DamageGiver;
+		private DamageTaker m_DamageTaker;
+		private Projectile m_Projectile;
+
+		public float damage => m_Damage;
+		public DamageGiver damageGiver => m_DamageGiver;
+		public DamageTaker damageTaker => m_DamageTaker;
+		public Projectile projectile => m_Projectile;
+
+		public DamageArg(float damage, DamageGiver giver, DamageTaker taker, Projectile projectile)
+		{
+			m_Damage = damage;
+			m_DamageGiver = giver;
+			m_DamageTaker = taker;
+			m_Projectile = projectile;
+		}
+
+		public void GiveDamage()
+		{
+
+		}
+		public void TakeDamage()
+		{
+
+		}
 	}
 }

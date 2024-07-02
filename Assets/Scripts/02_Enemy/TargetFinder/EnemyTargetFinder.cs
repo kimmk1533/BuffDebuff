@@ -5,11 +5,18 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollisionChecker2D))]
 public class EnemyTargetFinder : MonoBehaviour
 {
+	public enum E_TargetFinderState
+	{
+		Finding, // 탐색중
+		Chasing, // 추격중
+		ReSearching, // 재탐색중
+	}
+
 	#region 변수
 	[Space(10)]
 	[SerializeField, ReadOnly]
 	protected Collider2D m_Target;
-	protected bool m_isLostTarget;
+	protected E_TargetFinderState m_TargetFinderState;
 
 	[SerializeField, ReadOnly]
 	protected BoxCollisionChecker2D m_Finder;
@@ -19,6 +26,7 @@ public class EnemyTargetFinder : MonoBehaviour
 	#endregion
 
 	#region 프로퍼티
+	public E_TargetFinderState state => m_TargetFinderState;
 	public GameObject target => (m_Target == null) ? null : m_Target.gameObject;
 	public Collider2D targetCollider => m_Target;
 	protected int moveDir => (int)Mathf.Sign(transform.parent.lossyScale.x);
@@ -63,7 +71,7 @@ public class EnemyTargetFinder : MonoBehaviour
 
 	public virtual void Initialize()
 	{
-		m_isLostTarget = false;
+		m_TargetFinderState = E_TargetFinderState.Finding;
 
 		#region SAFE_INIT
 		this.Safe_GetComponent<BoxCollisionChecker2D>(ref m_Finder);
@@ -94,13 +102,13 @@ public class EnemyTargetFinder : MonoBehaviour
 	{
 		if (m_Target == null)
 			return;
-		if (m_isLostTarget == false)
+		if (m_TargetFinderState != E_TargetFinderState.ReSearching)
 			return;
 
-		FindTarget();
+		ResearchTarget();
 	}
 
-	protected virtual void FindTarget()
+	protected virtual void ResearchTarget()
 	{
 		m_ForgetTargetTimer.Update();
 		if (m_ForgetTargetTimer.TimeCheck(true))
@@ -108,7 +116,7 @@ public class EnemyTargetFinder : MonoBehaviour
 			onTargetLost2D?.Invoke(m_Target);
 
 			m_Target = null;
-			m_isLostTarget = false;
+			m_TargetFinderState = E_TargetFinderState.Finding;
 		}
 	}
 
@@ -116,11 +124,11 @@ public class EnemyTargetFinder : MonoBehaviour
 	{
 		m_Target = collider2D;
 
-		m_isLostTarget = false;
+		m_TargetFinderState = E_TargetFinderState.Chasing;
 		m_ForgetTargetTimer.Clear();
 	}
 	private void OnTargetExit2D(Collider2D collider2D)
 	{
-		m_isLostTarget = true;
+		m_TargetFinderState = E_TargetFinderState.ReSearching;
 	}
 }
