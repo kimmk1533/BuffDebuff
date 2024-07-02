@@ -32,7 +32,7 @@ public class CharacterStat
 	[field: Header("공격")]
 	// 공격력
 	[field: SerializeField]
-	public float Attack { get; set; }
+	public float AttackPower { get; set; }
 	// 공격 속도
 	[field: SerializeField]
 	public float AttackSpeed { get; set; }
@@ -97,7 +97,7 @@ public class CharacterStat
 		Armor = 0.0f;
 
 		// 공격력
-		Attack = 0.0f;
+		AttackPower = 0.0f;
 		// 공격 속도
 		AttackSpeed = 0.0f;
 		// 근접 공격 범위
@@ -143,7 +143,7 @@ public class CharacterStat
 		Armor = other.Armor;
 
 		// 공격력
-		Attack = other.Attack;
+		AttackPower = other.AttackPower;
 		// 공격 속도
 		AttackSpeed = other.AttackSpeed;
 		// 근접 공격 범위

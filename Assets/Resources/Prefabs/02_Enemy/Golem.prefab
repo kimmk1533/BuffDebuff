@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 507329788138445558}
   - component: {fileID: 507329788138445552}
-  - component: {fileID: 507329788138445553}
   - component: {fileID: 507329788138445554}
   - component: {fileID: 5712683675375359391}
   - component: {fileID: 507329788138445559}
@@ -36,7 +35,7 @@ Transform:
   - {fileID: 507329788822272624}
   - {fileID: 507329789419361963}
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &507329788138445552
 MonoBehaviour:
@@ -57,20 +56,6 @@ MonoBehaviour:
   m_MinJumpHeight: 1
   m_TimeToJumpApex: 0.4
   m_Gravity: 0
---- !u!114 &507329788138445553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 507329788138445555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 480706f9b17890f4c9e2be359b6a8480, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Animator: {fileID: 507329788822272629}
-  m_AttackSpotList: []
 --- !u!114 &507329788138445554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,7 +78,7 @@ MonoBehaviour:
     <HealScale>k__BackingField: 1
     <AntiHealScale>k__BackingField: 1
     <Armor>k__BackingField: 0
-    <Attack>k__BackingField: 10
+    <AttackPower>k__BackingField: 0
     <AttackSpeed>k__BackingField: 2
     <AttackSize>k__BackingField: 0
     <AttackRange>k__BackingField: 1
@@ -112,7 +97,7 @@ MonoBehaviour:
     <HealScale>k__BackingField: 0
     <AntiHealScale>k__BackingField: 0
     <Armor>k__BackingField: 0
-    <Attack>k__BackingField: 0
+    <AttackPower>k__BackingField: 0
     <AttackSpeed>k__BackingField: 1
     <AttackSize>k__BackingField: 0
     <AttackRange>k__BackingField: 1
@@ -138,6 +123,7 @@ MonoBehaviour:
   m_PathFinding_ReSearchTimer:
     m_Interval: 0
     m_Time: 0
+  m_AttackSpot: {fileID: 6879120039570048744}
   showPath: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   textObjectParent: {fileID: 0}
@@ -219,7 +205,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.5, y: 2.5, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6879120039570048744}
   m_Father: {fileID: 507329788138445558}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -376,3 +363,34 @@ MonoBehaviour:
     m_Bits: 0
   m_Offset: {x: 2.07, y: 0.9}
   m_Size: {x: 5, y: 2}
+--- !u!1 &5819470556537317508
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6879120039570048744}
+  m_Layer: 8
+  m_Name: AttackSpot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6879120039570048744
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5819470556537317508}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 507329788822272624}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

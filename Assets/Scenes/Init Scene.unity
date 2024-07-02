@@ -3518,6 +3518,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5000
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &59654098 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1233320925476692317, guid: 90011bc8688657b47ac39ee9859eaba8, type: 3}
+  m_PrefabInstance: {fileID: 473743337}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &59654105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59654098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99562400ad21da047bdd218dd1e8c82a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Type: 1
 --- !u!1 &61013175
 GameObject:
   m_ObjectHideFlags: 0
@@ -20762,17 +20780,17 @@ MonoBehaviour:
     <path>k__BackingField: 
     <useFlag>k__BackingField: 1
     <poolSize>k__BackingField: 2
-    <origin>k__BackingField: {fileID: 4592944753570199520, guid: fcef39ccf1b775c49864f310ab473fab, type: 3}
+    <origin>k__BackingField: {fileID: 4592944753570199533, guid: fcef39ccf1b775c49864f310ab473fab, type: 3}
   - <key>k__BackingField: Golem
     <path>k__BackingField: 
     <useFlag>k__BackingField: 1
     <poolSize>k__BackingField: 2
-    <origin>k__BackingField: {fileID: 507329788138445553, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
+    <origin>k__BackingField: {fileID: 507329788138445554, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
   - <key>k__BackingField: DemonSlime
     <path>k__BackingField: 
     <useFlag>k__BackingField: 1
     <poolSize>k__BackingField: 2
-    <origin>k__BackingField: {fileID: 6574336611213907131, guid: ac68222ac112edb4e94aeaf7d2d6eab9, type: 3}
+    <origin>k__BackingField: {fileID: 6574336611213907128, guid: ac68222ac112edb4e94aeaf7d2d6eab9, type: 3}
   m_Debug_SpawnEnemyType: 1
 --- !u!4 &348969213
 Transform:
@@ -28650,9 +28668,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fire Knight
       objectReference: {fileID: 0}
-    - target: {fileID: 1233320925476692317, guid: 90011bc8688657b47ac39ee9859eaba8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 6226699525835725757, guid: 90011bc8688657b47ac39ee9859eaba8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6226699525835725757, guid: 90011bc8688657b47ac39ee9859eaba8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -64675,6 +64697,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6879120039570048744, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6879120039570048744, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
@@ -68752,6 +68782,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5000
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1130955640 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 507329788138445555, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
+  m_PrefabInstance: {fileID: 1044832482}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1130955647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130955640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99562400ad21da047bdd218dd1e8c82a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Type: 1
 --- !u!1 &1132676006
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,7 +21,6 @@ namespace BuffDebuff
 
 		#region 변수
 		private Player m_Player;
-		private PlayerCharacter m_PlayerCharacter;
 		#endregion
 
 		public override void Initialize()
@@ -29,7 +28,6 @@ namespace BuffDebuff
 			base.Initialize();
 
 			this.Safe_GetComponentInParent<Player>(ref m_Player);
-			this.Safe_GetComponentInParent<PlayerCharacter>(ref m_PlayerCharacter);
 		}
 
 		public void Anim_SetDirectionalInput(Vector2 input)
@@ -41,41 +39,41 @@ namespace BuffDebuff
 		}
 
 		// Anim Event
-		private void AnimEvent_Attack1_CreateProjectile()
+		private void AnimEvent_Attack1()
 		{
-			m_Player.Attack(0);
+			m_Player.AnimEvent_Attacking();
 		}
-		private void AnimEvent_Attack2_CreateProjectile()
+		private void AnimEvent_Attack2()
 		{
-			m_Player.Attack(1);
+			m_Player.AnimEvent_Attacking();
 		}
-		private void AnimEvent_Attack3_CreateProjectile()
+		private void AnimEvent_Attack3()
 		{
-			m_Player.Attack(2);
+			m_Player.AnimEvent_Attacking();
 		}
 		private void AnimEvent_Attack_Start()
 		{
-			m_PlayerCharacter.AnimEvent_AttackStart();
+			m_Player.AnimEvent_AttackStart();
 		}
 		private void AnimEvent_Attack_End()
 		{
-			m_PlayerCharacter.AnimEvent_AttackEnd();
+			m_Player.AnimEvent_AttackEnd();
 		}
 		private void AnimEvent_Attack_ComboStart()
 		{
-			m_PlayerCharacter.AnimEvent_StartCombo();
+			m_Player.AnimEvent_StartCombo();
 		}
 		private void AnimEvent_Attack_ComboEnd()
 		{
-			m_PlayerCharacter.AnimEvent_EndCombo();
+			m_Player.AnimEvent_EndCombo();
 		}
 		private void AnimEvent_AirAttack_Start()
 		{
-			m_PlayerCharacter.AnimEvent_AirAttackStart();
+			m_Player.AnimEvent_AirAttackStart();
 		}
 		private void AnimEvent_AirAttack_End()
 		{
-			m_PlayerCharacter.AnimEvent_AirAttackEnd();
+			m_Player.AnimEvent_AirAttackEnd();
 		}
 	}
 }

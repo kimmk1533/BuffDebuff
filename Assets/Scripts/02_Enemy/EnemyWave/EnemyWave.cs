@@ -33,9 +33,9 @@ namespace BuffDebuff
 		[Space(10)]
 		[SerializeField]
 		[SerializedDictionary("조건", "적 정보")]
-		private SerializedDictionary<E_SpawnCondition, List<EnemyWaveInfo>> m_EnemyWaveInfoMap;
+		private SerializedDictionary<E_SpawnCondition, List<EnemyWaveInfo>> m_EnemyWaveInfoMap = null;
 
-		private List<Enemy> m_SpawnedEnemyList;
+		private List<Enemy> m_SpawnedEnemyList = null;
 		#endregion
 
 		#region 매니저

@@ -82,7 +82,7 @@ namespace BuffDebuff
 							continue;
 						}
 						if (m_EnemyInput != null
-							&& m_EnemyInput[(int)EnemyCharacter.E_KeyInput.Down] == true)
+							&& m_EnemyInput[(int)Enemy.E_EnemyKeyInput.Down] == true)
 						{
 							m_FallingOneWayPlatform = hit.collider;
 							continue;

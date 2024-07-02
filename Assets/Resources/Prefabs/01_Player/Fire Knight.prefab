@@ -32,6 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1233320923979057180}
+  - {fileID: 6226699525835725757}
   m_Father: {fileID: 1233320925476692312}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -222,7 +223,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1233320925476692312}
   - component: {fileID: 1233320925476692314}
-  - component: {fileID: 1233320925476692315}
   - component: {fileID: 1233320925476692316}
   - component: {fileID: 352844439316646653}
   - component: {fileID: 1233320925476692313}
@@ -250,7 +250,7 @@ Transform:
   - {fileID: 1233320924418329315}
   - {fileID: 1233320925056364430}
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1233320925476692314
 MonoBehaviour:
@@ -271,22 +271,6 @@ MonoBehaviour:
   m_MinJumpHeight: 1
   m_TimeToJumpApex: 0.4
   m_Gravity: -74.99999
---- !u!114 &1233320925476692315
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1233320925476692317}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 391c0cf984af74f44b6e7dea94dcd561, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AttackSpotList:
-  - {fileID: 1233320925527094877}
-  - {fileID: 1233320924418329315}
-  - {fileID: 1233320925056364430}
 --- !u!114 &1233320925476692316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,7 +293,7 @@ MonoBehaviour:
     <HealScale>k__BackingField: 1
     <AntiHealScale>k__BackingField: 1
     <Armor>k__BackingField: 10
-    <Attack>k__BackingField: 10
+    <AttackPower>k__BackingField: 0
     <AttackSpeed>k__BackingField: 10
     <AttackSize>k__BackingField: 0
     <AttackRange>k__BackingField: 1
@@ -332,7 +316,7 @@ MonoBehaviour:
     <HealScale>k__BackingField: 1
     <AntiHealScale>k__BackingField: 1
     <Armor>k__BackingField: 10
-    <Attack>k__BackingField: 500
+    <AttackPower>k__BackingField: 0
     <AttackSpeed>k__BackingField: 1
     <AttackSize>k__BackingField: 0
     <AttackRange>k__BackingField: 1
@@ -357,6 +341,7 @@ MonoBehaviour:
     m_Time: 0
   m_IsAttacking: 0
   m_CanComboAttack: 0
+  m_AttackSpot: {fileID: 6226699525835725757}
   m_DashTimer:
     m_Interval: 0
     m_Time: 0
@@ -436,5 +421,36 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1233320925476692312}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2513284610266840398
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6226699525835725757}
+  m_Layer: 3
+  m_Name: AttackSpot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6226699525835725757
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2513284610266840398}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1233320923803721120}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

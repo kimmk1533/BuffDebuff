@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class PlayerCharacterStat : CharacterStat
+public class PlayerStat : CharacterStat
 {
 	[field: Header("레벨")]
 	// 레벨
@@ -21,7 +21,7 @@ public class PlayerCharacterStat : CharacterStat
 	[field: SerializeField]
 	public float DashRechargeTime { get; set; }
 
-	public PlayerCharacterStat() : base()
+	public PlayerStat() : base()
 	{
 		// 레벨
 		Level = 0;
@@ -33,7 +33,7 @@ public class PlayerCharacterStat : CharacterStat
 		// 대쉬 충전 속도
 		DashRechargeTime = 0.0f;
 	}
-	public PlayerCharacterStat(PlayerCharacterStat other) : base(other)
+	public PlayerStat(PlayerStat other) : base(other)
 	{
 		// 레벨
 		Level = other.Level;

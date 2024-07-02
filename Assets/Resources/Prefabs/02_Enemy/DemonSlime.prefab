@@ -196,11 +196,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6574336611213907132}
-  - component: {fileID: 6574336611213907133}
   - component: {fileID: 6574336611213907130}
-  - component: {fileID: 6574336611213907131}
   - component: {fileID: 6574336611213907128}
   - component: {fileID: 1401004420360870869}
+  - component: {fileID: 6574336611213907133}
   m_Layer: 8
   m_Name: DemonSlime
   m_TagString: Untagged
@@ -225,6 +224,118 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6574336611213907130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6574336611213907129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f680ba92521aa194cba32117b71cf5dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollisionMask:
+    serializedVersion: 2
+    m_Bits: 64
+  m_MaxJumpHeight: 6
+  m_MinJumpHeight: 1
+  m_TimeToJumpApex: 0.4
+  m_Gravity: 0
+--- !u!114 &6574336611213907128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6574336611213907129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8375b2d74a36c034f813dcb044f9d7f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 6574336610287940671}
+  m_IsSimulating: 1
+  m_Velocity: {x: 0, y: 0}
+  m_MaxStat:
+    <Hp>k__BackingField: 100
+    <HpRegen>k__BackingField: 0
+    <HpRegenTime>k__BackingField: 0
+    <HealScale>k__BackingField: 1
+    <AntiHealScale>k__BackingField: 1
+    <Armor>k__BackingField: 0
+    <AttackPower>k__BackingField: 0
+    <AttackSpeed>k__BackingField: 2
+    <AttackSize>k__BackingField: 0
+    <AttackRange>k__BackingField: 1
+    <MultiHitCount>k__BackingField: 0
+    <CriticalRate>k__BackingField: 0
+    <CriticalDamageScale>k__BackingField: 1
+    <Avoidability>k__BackingField: 0
+    <MoveSpeed>k__BackingField: 0
+    <Sight>k__BackingField: 0
+    <Xp>k__BackingField: 100
+    <XpScale>k__BackingField: 1
+  m_CurrentStat:
+    <Hp>k__BackingField: 500
+    <HpRegen>k__BackingField: 0
+    <HpRegenTime>k__BackingField: 0
+    <HealScale>k__BackingField: 0
+    <AntiHealScale>k__BackingField: 0
+    <Armor>k__BackingField: 0
+    <AttackPower>k__BackingField: 0
+    <AttackSpeed>k__BackingField: 0
+    <AttackSize>k__BackingField: 0
+    <AttackRange>k__BackingField: 1
+    <MultiHitCount>k__BackingField: 0
+    <CriticalRate>k__BackingField: 0
+    <CriticalDamageScale>k__BackingField: 0
+    <Avoidability>k__BackingField: 0
+    <MoveSpeed>k__BackingField: 0
+    <Sight>k__BackingField: 0
+    <Xp>k__BackingField: 0
+    <XpScale>k__BackingField: 0
+  m_MaxAttackIndex: 0
+  m_HealTimer:
+    m_Interval: 0
+    m_Time: 0
+  m_AttackTimer:
+    m_Interval: 0
+    m_Time: 0
+  m_TargetFinder: {fileID: 6574336611040352482}
+  m_MoveDirTimer:
+    m_Interval: 0
+    m_Time: 0
+  m_PathFinding_ReSearchTimer:
+    m_Interval: 0
+    m_Time: 0
+  m_AttackSpot: {fileID: 0}
+  showPath: 0
+  textColor: {r: 1, g: 1, b: 1, a: 1}
+  textObjectParent: {fileID: 0}
+  textObjectList: []
+--- !u!50 &1401004420360870869
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6574336611213907129}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!61 &6574336611213907133
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -251,127 +362,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 2.2}
   m_EdgeRadius: 0
---- !u!114 &6574336611213907130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6574336611213907129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f680ba92521aa194cba32117b71cf5dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_CollisionMask:
-    serializedVersion: 2
-    m_Bits: 64
-  m_MaxJumpHeight: 6
-  m_MinJumpHeight: 1
-  m_TimeToJumpApex: 0.4
-  m_Gravity: 0
---- !u!114 &6574336611213907131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6574336611213907129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 480706f9b17890f4c9e2be359b6a8480, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Animator: {fileID: 6574336610287940671}
-  m_AttackSpotList: []
---- !u!114 &6574336611213907128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6574336611213907129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8375b2d74a36c034f813dcb044f9d7f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Animator: {fileID: 6574336610287940671}
-  m_IsSimulating: 1
-  m_Velocity: {x: 0, y: 0}
-  m_MaxStat:
-    <Hp>k__BackingField: 100
-    <HpRegen>k__BackingField: 0
-    <HpRegenTime>k__BackingField: 0
-    <HealScale>k__BackingField: 1
-    <AntiHealScale>k__BackingField: 1
-    <Armor>k__BackingField: 0
-    <Attack>k__BackingField: 10
-    <AttackSpeed>k__BackingField: 2
-    <AttackSize>k__BackingField: 0
-    <AttackRange>k__BackingField: 1
-    <MultiHitCount>k__BackingField: 0
-    <CriticalRate>k__BackingField: 0
-    <CriticalDamageScale>k__BackingField: 1
-    <Avoidability>k__BackingField: 0
-    <MoveSpeed>k__BackingField: 0
-    <Sight>k__BackingField: 0
-    <Xp>k__BackingField: 100
-    <XpScale>k__BackingField: 1
-  m_CurrentStat:
-    <Hp>k__BackingField: 500
-    <HpRegen>k__BackingField: 0
-    <HpRegenTime>k__BackingField: 0
-    <HealScale>k__BackingField: 0
-    <AntiHealScale>k__BackingField: 0
-    <Armor>k__BackingField: 0
-    <Attack>k__BackingField: 0
-    <AttackSpeed>k__BackingField: 0
-    <AttackSize>k__BackingField: 0
-    <AttackRange>k__BackingField: 1
-    <MultiHitCount>k__BackingField: 0
-    <CriticalRate>k__BackingField: 0
-    <CriticalDamageScale>k__BackingField: 0
-    <Avoidability>k__BackingField: 0
-    <MoveSpeed>k__BackingField: 0
-    <Sight>k__BackingField: 0
-    <Xp>k__BackingField: 0
-    <XpScale>k__BackingField: 0
-  m_HealTimer:
-    m_Interval: 0
-    m_Time: 0
-  m_AttackTimer:
-    m_Interval: 0
-    m_Time: 0
-  m_TargetFinder: {fileID: 6574336611040352482}
-  m_MoveDirTimer:
-    m_Interval: 0
-    m_Time: 0
-  m_PathFinding_ReSearchTimer:
-    m_Interval: 0
-    m_Time: 0
-  showPath: 0
-  textColor: {r: 1, g: 1, b: 1, a: 1}
-  textObjectParent: {fileID: 0}
-  textObjectList: []
---- !u!50 &1401004420360870869
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6574336611213907129}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0

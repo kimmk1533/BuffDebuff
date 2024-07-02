@@ -19,16 +19,14 @@ namespace BuffDebuff
 		#endregion
 
 		#region 변수
-		private Enemy m_Enemy;
-		private EnemyCharacter m_EnemyCharacter;
+		private Enemy m_EnemyCharacter;
 		#endregion
 
 		public override void Initialize()
 		{
 			base.Initialize();
 
-			this.Safe_GetComponentInParent<Enemy>(ref m_Enemy);
-			this.Safe_GetComponentInParent<EnemyCharacter>(ref m_EnemyCharacter);
+			this.Safe_GetComponentInParent<Enemy>(ref m_EnemyCharacter);
 		}
 
 		public override void Anim_SetVelocity(float x, float y)
@@ -42,6 +40,18 @@ namespace BuffDebuff
 		}
 
 		// Anim Event
+		protected virtual void AnimEvent_Attack1()
+		{
+			m_EnemyCharacter.AnimEvent_Attacking();
+		}
+		protected virtual void AnimEvent_Attack2()
+		{
+			m_EnemyCharacter.AnimEvent_Attacking();
+		}
+		protected virtual void AnimEvent_Attack3()
+		{
+			m_EnemyCharacter.AnimEvent_Attacking();
+		}
 		private void AnimEvent_AttackStart()
 		{
 			m_EnemyCharacter.AnimEvent_AttackStart();
