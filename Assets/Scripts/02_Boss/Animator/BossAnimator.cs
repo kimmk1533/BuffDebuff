@@ -15,8 +15,8 @@ namespace BuffDebuff
 		{
 			base.Initialize();
 
-			this.Safe_GetComponentInParent<Boss>(ref m_Boss);
-			this.Safe_GetComponentInParent<BossCharacter>(ref m_BossCharacter);
+			this.NullCheckGetComponentInParent<Boss>(ref m_Boss);
+			this.NullCheckGetComponentInParent<BossCharacter>(ref m_BossCharacter);
 		}
 	}
 }

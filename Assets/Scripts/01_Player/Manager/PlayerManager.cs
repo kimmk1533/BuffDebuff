@@ -90,7 +90,7 @@ namespace BuffDebuff
 
 			if (m_Player == null)
 				m_Player = GameObject.Instantiate(m_Origin);
-			Camera.main.Safe_GetComponent<CameraFollow>(ref m_PlayerCamera);
+			Camera.main.NullCheckGetComponent<CameraFollow>(ref m_PlayerCamera);
 
 			m_Player.Initialize();
 			m_PlayerCamera.Initialize();

@@ -43,7 +43,7 @@ namespace BuffDebuff
 
 		public void Initialize()
 		{
-			this.Safe_GetComponent<StageGenerator>(ref m_StageGenerator);
+			this.NullCheckGetComponent<StageGenerator>(ref m_StageGenerator);
 			m_StageGenerator.Initialize();
 		}
 		public void Finallize()

@@ -20,7 +20,7 @@ public class UICamera : Singleton<UICamera>
 	}
 	public void Initialize()
 	{
-		this.Safe_GetComponent<Camera>(ref m_Camera);
+		this.NullCheckGetComponent<Camera>(ref m_Camera);
 	}
 	public void Finallize()
 	{

@@ -74,7 +74,7 @@ public class EnemyTargetFinder : MonoBehaviour
 		m_TargetFinderState = E_TargetFinderState.Finding;
 
 		#region SAFE_INIT
-		this.Safe_GetComponent<BoxCollisionChecker2D>(ref m_Finder);
+		this.NullCheckGetComponent<BoxCollisionChecker2D>(ref m_Finder);
 		m_Finder.Initialize();
 		m_Finder["Player"].onEnter2D += OnTargetEnter2D;
 		m_Finder["Player"].onExit2D += OnTargetExit2D;

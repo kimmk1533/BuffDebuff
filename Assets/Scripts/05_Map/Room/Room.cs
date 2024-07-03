@@ -152,7 +152,7 @@ namespace BuffDebuff
 			}
 
 			// 길 찾기 정보 초기화
-			this.Safe_GetComponent<PathFindingMap>(ref m_PathFindingMap);
+			this.NullCheckGetComponent<PathFindingMap>(ref m_PathFindingMap);
 			m_PathFindingMap.Initialize();
 
 			gameObject.GetComponentsInChildren<WarpPoint>(m_WarpPointList);
@@ -174,7 +174,7 @@ namespace BuffDebuff
 				++m_WarpPointCountMap[direction];
 			}
 
-			this.Safe_GetComponent<EnemyWaveSpawner>(ref m_EnemySpawner);
+			this.NullCheckGetComponent<EnemyWaveSpawner>(ref m_EnemySpawner);
 			m_EnemySpawner.Initialize(this);
 		}
 		public override void FinallizePoolItem()

@@ -92,7 +92,7 @@ namespace BuffDebuff
 
 		public void Initialize()
 		{
-			this.Safe_GetComponent<Camera>(ref m_Camera);
+			this.NullCheckGetComponent<Camera>(ref m_Camera);
 			m_PlayerController = M_Player.player.controller;
 			transform.position = m_PlayerController.transform.position + transform.forward * -10f;
 

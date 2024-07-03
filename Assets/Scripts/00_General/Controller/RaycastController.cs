@@ -25,7 +25,7 @@ public class RaycastController : MonoBehaviour
 
 	public virtual void Initialize()
 	{
-		this.Safe_GetComponent<Collider2D>(ref m_Collider);
+		this.NullCheckGetComponent<Collider2D>(ref m_Collider);
 
 		CalculateRaySpacing();
 	}

@@ -52,7 +52,7 @@ namespace BuffDebuff
 		{
 			// 추후에 MyTilemap완성 후 MyTilemap으로 수정
 			// 임시
-			this.Safe_GetComponent<Room>(ref m_Room);
+			this.NullCheckGetComponent<Room>(ref m_Room);
 
 			Tilemap tileMap = m_Room.GetTilemap(Room.E_TilemapLayer.TileMap);
 			Tilemap oneWayMap = m_Room.GetTilemap(Room.E_TilemapLayer.OneWayMap);

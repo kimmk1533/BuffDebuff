@@ -19,7 +19,7 @@ public class UICanvas : MonoBehaviour
 
 	public void Initialize()
 	{
-		this.Safe_GetComponent<Canvas>(ref m_Canvas);
+		this.NullCheckGetComponent<Canvas>(ref m_Canvas);
 		m_Canvas.renderMode = RenderMode.ScreenSpaceCamera;
 		m_Canvas.pixelPerfect = true;
 		m_Canvas.worldCamera = UICamera.Instance.uiCamera;

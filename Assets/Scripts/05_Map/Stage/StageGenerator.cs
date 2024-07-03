@@ -61,7 +61,7 @@ namespace BuffDebuff
 
 		public void InitializeGame()
 		{
-			Camera.main.Safe_GetComponent(ref m_CameraFollow);
+			Camera.main.NullCheckGetComponent(ref m_CameraFollow);
 		}
 		public void FinallizeGame()
 		{

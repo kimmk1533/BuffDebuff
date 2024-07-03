@@ -27,7 +27,7 @@ namespace BuffDebuff
 		{
 			base.Initialize();
 
-			this.Safe_GetComponentInParent<Player>(ref m_Player);
+			this.NullCheckGetComponentInParent<Player>(ref m_Player);
 		}
 
 		public void Anim_SetDirectionalInput(Vector2 input)

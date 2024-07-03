@@ -35,7 +35,7 @@ namespace BuffDebuff
 			//currentRoom.gameObject.SetActive(true);
 			currentRoom.isSimulating = true;
 
-			Camera.main.Safe_GetComponent<CameraFollow>(ref m_CameraFollow);
+			Camera.main.NullCheckGetComponent<CameraFollow>(ref m_CameraFollow);
 		}
 
 		public void MoveRoom(Vector2Int moveIndex)

@@ -1,24 +1,38 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public static class UtilClass
 {
-	public static void Safe_GetComponent<T>(this Component com, ref T obj) where T : Component
+	public static void NullCheckGetComponent<T>(this Component com, ref T obj) where T : Component
 	{
 		if (obj == null)
+		{
 			obj = com.GetComponent<T>();
+
+			if (obj == null)
+				Debug.LogError("없는 컴포넌트를 GetComponent함");
+		}
 	}
-	public static void Safe_GetComponentInParent<T>(this Component com, ref T obj) where T : Component
+	public static void NullCheckGetComponentInParent<T>(this Component com, ref T obj) where T : Component
 	{
 		if (obj == null)
+		{
 			obj = com.GetComponentInParent<T>();
+
+			if (obj == null)
+				Debug.LogError("없는 컴포넌트를 GetComponentInParent함");
+		}
 	}
-	public static void Safe_GetComponentInChilderen<T>(this Component com, ref T obj) where T : Component
+	public static void NullCheckGetComponentInChilderen<T>(this Component com, ref T obj) where T : Component
 	{
 		if (obj == null)
+		{
 			obj = com.GetComponentInChildren<T>();
+
+			if (obj == null)
+				Debug.LogError("없는 컴포넌트를 GetComponentInChildren함");
+		}
 	}
 
 	public static Vector3 GetMouseWorldPosition()

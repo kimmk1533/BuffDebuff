@@ -26,7 +26,7 @@ namespace BuffDebuff
 		{
 			base.Initialize();
 
-			this.Safe_GetComponentInParent<Enemy>(ref m_EnemyCharacter);
+			this.NullCheckGetComponentInParent<Enemy>(ref m_EnemyCharacter);
 		}
 
 		public override void Anim_SetVelocity(float x, float y)

@@ -44,10 +44,10 @@ namespace BuffDebuff
 			m_MoveSpeed = moveSpeed;
 
 			#region SAFE_INIT
-			this.Safe_GetComponent<ProjectileController>(ref m_Controller);
+			this.NullCheckGetComponent<ProjectileController>(ref m_Controller);
 			m_Controller.Initialize();
 
-			this.Safe_GetComponent<BoxCollisionChecker2D>(ref m_CollisionChecker2D);
+			this.NullCheckGetComponent<BoxCollisionChecker2D>(ref m_CollisionChecker2D);
 			m_CollisionChecker2D.Initialize();
 
 			if (m_DespawnTimer == null)

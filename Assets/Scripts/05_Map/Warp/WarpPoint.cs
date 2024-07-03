@@ -52,7 +52,7 @@ namespace BuffDebuff
 		{
 			m_Room = room;
 
-			this.Safe_GetComponent<BoxCollisionChecker2D>(ref m_CollisionChecker2D);
+			this.NullCheckGetComponent<BoxCollisionChecker2D>(ref m_CollisionChecker2D);
 			m_CollisionChecker2D.Initialize();
 
 			m_CollisionChecker2D["Player"].onEnter2D += MoveCollisionObject;

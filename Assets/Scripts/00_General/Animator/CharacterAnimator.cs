@@ -13,8 +13,8 @@ namespace BuffDebuff
 
 		public virtual void Initialize()
 		{
-			this.Safe_GetComponent<SpriteRenderer>(ref m_SpriteRenderer);
-			this.Safe_GetComponent<Animator>(ref m_Animator);
+			this.NullCheckGetComponent<SpriteRenderer>(ref m_SpriteRenderer);
+			this.NullCheckGetComponent<Animator>(ref m_Animator);
 		}
 
 		public virtual void Anim_SetVelocity(float x, float y)

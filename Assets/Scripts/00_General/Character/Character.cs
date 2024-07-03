@@ -59,7 +59,7 @@ namespace BuffDebuff
 
 		public virtual void Initialize()
 		{
-			this.Safe_GetComponent<TController>(ref m_Controller);
+			this.NullCheckGetComponent<TController>(ref m_Controller);
 			m_Controller.Initialize();
 
 			if (m_Animator == null)
@@ -264,7 +264,7 @@ namespace BuffDebuff
 
 		public virtual void Initialize()
 		{
-			this.Safe_GetComponent<TController>(ref m_Controller);
+			this.NullCheckGetComponent<TController>(ref m_Controller);
 			m_Controller.Initialize();
 
 			if (m_Animator == null)
