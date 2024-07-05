@@ -18,7 +18,6 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 	// 하이어라키 창에서 관리하기 쉽도록 parent 지정
 	private Transform m_Parent = null;
 
-
 	private ItemBuilder m_ItemBuilder = null;
 	#endregion
 
@@ -58,8 +57,6 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 		m_SpawnedItemList = new List<TItem>(poolSize * 2);
 		m_Parent = null;
 
-		m_ItemBuilder = new ItemBuilder(this);
-
 		autoExpandPool = true;
 	}
 	// 부모 지정하여 생성하는 경우
@@ -72,8 +69,10 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 	/// <summary>
 	/// 초기 풀 세팅
 	/// </summary>
-	public void Initialize()
+	public void Initialize(ItemBuilder itemBuilder)
 	{
+		m_ItemBuilder = itemBuilder;
+
 		ExpandPool(m_PoolSize);
 	}
 	public void Finallize()
@@ -123,7 +122,6 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 		m_PoolSize = newSize;
 	}
 
-	private int m_Count = 0;
 	public ItemBuilder GetBuilder()
 	{
 		return m_ItemBuilder;
@@ -143,8 +141,6 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 		m_SpawnedItemList.Add(item);
 
 		onSpawned?.Invoke(item);
-
-		++m_Count;
 
 		//item.name = item.name + m_Count.ToString("_00");
 
@@ -204,17 +200,17 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 
 	public class ItemBuilder
 	{
-		private ObjectPool<TItem> m_Pool;
+		protected ObjectPool<TItem> m_Pool;
 
-		private ItemProperty<string> m_Name;
-		private ItemProperty<bool> m_Active;
-		private ItemProperty<bool> m_AutoInit;
-		private ItemProperty<Transform> m_Parent;
-		private ItemProperty<Vector3> m_Position;
-		private ItemProperty<Vector3> m_LocalPosition;
-		private ItemProperty<Quaternion> m_Rotation;
-		private ItemProperty<Quaternion> m_LocalRotation;
-		private ItemProperty<Vector3> m_Scale;
+		protected ItemProperty<string> m_Name;
+		protected ItemProperty<bool> m_Active;
+		protected ItemProperty<bool> m_AutoInit;
+		protected ItemProperty<Transform> m_Parent;
+		protected ItemProperty<Vector3> m_Position;
+		protected ItemProperty<Vector3> m_LocalPosition;
+		protected ItemProperty<Quaternion> m_Rotation;
+		protected ItemProperty<Quaternion> m_LocalRotation;
+		protected ItemProperty<Vector3> m_Scale;
 
 		public ItemBuilder(ObjectPool<TItem> pool)
 		{
@@ -229,8 +225,6 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 			m_Rotation = new ItemProperty<Quaternion>();
 			m_LocalRotation = new ItemProperty<Quaternion>();
 			m_Scale = new ItemProperty<Vector3>();
-
-			Clear();
 		}
 
 		public ItemBuilder SetName(string name)
@@ -297,7 +291,7 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 			return this;
 		}
 
-		public TItem Spawn()
+		public virtual TItem Spawn(bool autoReset = true)
 		{
 			TItem item = m_Pool.Spawn();
 
@@ -327,27 +321,33 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 				m_AutoInit.value)
 				item.InitializePoolItem();
 
-			Clear();
+			if (autoReset)
+				Reset();
 
 			return item;
 		}
 
-		public void Clear()
+		public virtual void Reset()
 		{
 			m_Name.isUse = false;
-			m_Active.isUse = false;
-			m_AutoInit.isUse = false;
-			m_Parent.isUse = false;
-			m_Position.isUse = false;
-			m_Rotation.isUse = false;
-			m_Scale.isUse = false;
-
 			m_Name.value = string.Empty;
+
+			m_Active.isUse = false;
 			m_Active.value = false;
+
+			m_AutoInit.isUse = false;
 			m_AutoInit.value = false;
+
+			m_Parent.isUse = false;
 			m_Parent.value = null;
+
+			m_Position.isUse = false;
 			m_Position.value = Vector3.zero;
+
+			m_Rotation.isUse = false;
 			m_Rotation.value = Quaternion.identity;
+
+			m_Scale.isUse = false;
 			m_Scale.value = Vector3.one;
 		}
 

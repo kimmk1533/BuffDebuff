@@ -35,12 +35,14 @@ public abstract class ObjectPoolItemBase : MonoBehaviour, IPoolItem
 	#region 매니저
 	#endregion
 
+	// ObjectManager를 통해 스폰하면 자동으로 호출되므로 직접 호출 X
 	public virtual void InitializePoolItem()
 	{
 		m_IsSpawning = true;
 
 		onSpawn?.Invoke(this);
 	}
+	// ObjectManager를 통해 스폰하면 자동으로 호출되므로 직접 호출 X
 	public virtual void FinallizePoolItem()
 	{
 		if (m_IsSpawning == true)

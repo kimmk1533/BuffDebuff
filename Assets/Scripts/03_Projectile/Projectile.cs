@@ -13,6 +13,9 @@ namespace BuffDebuff
 		[SerializeField, ReadOnly]
 		private BoxCollisionChecker2D m_CollisionChecker2D;
 
+		[SerializeField, ChildComponent("Renderer")]
+		private ProjectileAnimator m_Animator;
+
 		private ProjectileMove m_Mover;
 		[SerializeField, ReadOnly]
 		private float m_MoveSpeed;
@@ -37,11 +40,9 @@ namespace BuffDebuff
 		private static ProjectileManager M_Projectile => ProjectileManager.Instance;
 		#endregion
 
-		public void Initialize(float moveSpeed, float lifeTime)
+		public override void InitializePoolItem()
 		{
 			base.InitializePoolItem();
-
-			m_MoveSpeed = moveSpeed;
 
 			#region SAFE_INIT
 			this.NullCheckGetComponent<ProjectileController>(ref m_Controller);
@@ -50,13 +51,16 @@ namespace BuffDebuff
 			this.NullCheckGetComponent<BoxCollisionChecker2D>(ref m_CollisionChecker2D);
 			m_CollisionChecker2D.Initialize();
 
+			m_Animator.Initialize();
+
 			if (m_DespawnTimer == null)
 				m_DespawnTimer = new UtilClass.Timer();
-			m_DespawnTimer.interval = lifeTime;
 			#endregion
 		}
 		public override void FinallizePoolItem()
 		{
+			base.FinallizePoolItem();
+
 			m_CollisionChecker2D.Finallize();
 
 			if (m_DespawnTimer != null)
@@ -97,9 +101,17 @@ namespace BuffDebuff
 			m_Controller.Move(m_Velocity * Time.deltaTime);
 		}
 
-		public void SetMovingStrategy(ProjectileMove mover)
+		public void SetMoveSpeed(float moveSpeed)
 		{
-			m_Mover = mover;
+			m_MoveSpeed = moveSpeed;
+		}
+		public void SetLifeTime(float lifeTime)
+		{
+			m_DespawnTimer.interval = lifeTime;
+		}
+		public void SetMovingStrategy(ProjectileMove projectileMove)
+		{
+			m_Mover = projectileMove;
 		}
 	}
 }

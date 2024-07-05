@@ -41,7 +41,9 @@ public abstract class ObjectManager<TSelf, TItem> : Singleton<TSelf> where TSelf
 			if (originInfo.useFlag == false)
 				continue;
 
-			GetPool(originInfo.key).Initialize();
+			ObjectPool<TItem> itemPool = GetPool(originInfo.key);
+			ObjectPool<TItem>.ItemBuilder itemBuilder = new ObjectPool<TItem>.ItemBuilder(itemPool);
+			itemPool.Initialize(itemBuilder);
 		}
 	}
 	public virtual void FinallizeGame()

@@ -246,13 +246,16 @@ namespace BuffDebuff
 
 			Projectile projectile = M_Projectile.GetBuilder("Projectile")
 				.SetActive(true)
-				.SetAutoInit(false)
+				.SetAutoInit(true)
 				.SetParent(null)
 				.SetPosition(position)
 				.SetRotation(quaternion)
+				.SetMoveSpeed(5.0f)
+				.SetLifeTime(m_CurrentStat.AttackRange)
+				.SetMoveType(new StraightMove())
 				.Spawn();
 
-			projectile.Initialize(5.0f, m_CurrentStat.AttackRange);
+			//projectile.Initialize(5.0f, m_CurrentStat.AttackRange);
 
 			projectile.SetMovingStrategy(new StraightMove());
 			projectile["Enemy"].onEnter2D += (Collider2D collider) =>
