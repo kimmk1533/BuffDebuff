@@ -75,20 +75,6 @@ namespace BuffDebuff
 		{
 			base.InitializePoolItem();
 
-			Initialize();
-
-			m_Animator.Initialize();
-		}
-		public override void FinallizePoolItem()
-		{
-			base.FinallizePoolItem();
-
-			Finallize();
-		}
-		public override void Initialize()
-		{
-			base.Initialize();
-
 			m_Inputs = new bool[(int)E_EnemyKeyInput.Max];
 			m_PrevInputs = new bool[(int)E_EnemyKeyInput.Max];
 
@@ -128,10 +114,12 @@ namespace BuffDebuff
 				m_PathFinding_ReSearchTimer = new UtilClass.Timer();
 			m_PathFinding_ReSearchTimer.interval = 1f;
 			#endregion
+
+			m_Animator.Initialize();
 		}
-		public override void Finallize()
+		public override void FinallizePoolItem()
 		{
-			base.Finallize();
+			base.FinallizePoolItem();
 
 			m_State = E_EnemyState.Idle;
 
@@ -217,7 +205,7 @@ namespace BuffDebuff
 				transform.localScale = scale;
 			}
 
-			m_Velocity.x = moveDir * m_CurrentStat.MoveSpeed;
+			m_Velocity.x = moveDir * m_Stat.MoveSpeed;
 
 			if (m_Inputs[(int)E_EnemyKeyInput.Up] == true)
 			{
@@ -591,7 +579,7 @@ namespace BuffDebuff
 				.SetPosition(position)
 				.SetRotation(quaternion)
 				.SetMoveSpeed(5.0f)
-				.SetLifeTime(m_CurrentStat.AttackRange)
+				.SetLifeTime(m_Stat.AttackRange)
 				.SetMoveType(new StraightMove())
 				.Spawn();
 
@@ -603,7 +591,7 @@ namespace BuffDebuff
 				Player player = collider.GetComponent<Player>();
 
 				DamageArg<IDamageGiver, IDamageTaker> damageArg = new DamageArg<IDamageGiver, IDamageTaker>(
-					m_CurrentStat.AttackPower,
+					m_Stat.AttackPower,
 					this,
 					player,
 					projectile);
@@ -633,14 +621,17 @@ namespace BuffDebuff
 		}
 		public void TakeDamage(float damage)
 		{
-			m_CurrentStat.Hp -= damage;
+			StatValue<float> newHp = m_Stat.Hp;
+			newHp.current -= damage;
 
-			if (m_CurrentStat.Hp <= 0)
+			if (newHp.current <= 0f)
 				Death();
+
+			m_Stat.Hp = newHp;
 		}
 		protected void Death()
 		{
-			float xp = m_CurrentStat.Xp * m_CurrentStat.XpScale;
+			float xp = m_Stat.Xp.current * m_Stat.XpScale;
 			M_Player.AddXp(xp);
 
 			M_Enemy.Despawn(this);
@@ -667,6 +658,7 @@ namespace BuffDebuff
 			m_IsSimulating = true;
 		}
 
+		#region 디버깅
 		[SerializeField]
 		private bool showPath = true;
 		[SerializeField]
@@ -715,6 +707,7 @@ namespace BuffDebuff
 			}
 			textObjectList.Clear();
 		}
+		#endregion
 	}
 
 	//// 목표로 향하는 움직임

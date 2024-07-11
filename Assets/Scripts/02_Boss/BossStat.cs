@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuffDebuff
 {
-	public class Boss : Enemy
+	public class BossStat : EnemyStat
 	{
 
 	}

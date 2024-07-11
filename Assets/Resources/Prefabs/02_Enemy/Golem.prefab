@@ -71,44 +71,30 @@ MonoBehaviour:
   m_Animator: {fileID: 507329788822272629}
   m_IsSimulating: 1
   m_Velocity: {x: 0, y: 0}
-  m_MaxStat:
-    <Hp>k__BackingField: 100
+  m_Stat:
+    <Hp>k__BackingField:
+      <max>k__BackingField: 0
+      <current>k__BackingField: 0
     <HpRegen>k__BackingField: 0
     <HpRegenTime>k__BackingField: 0
     <HealScale>k__BackingField: 1
     <AntiHealScale>k__BackingField: 1
     <Armor>k__BackingField: 0
     <AttackPower>k__BackingField: 0
-    <AttackSpeed>k__BackingField: 2
+    <AttackSpeed>k__BackingField: 0
     <AttackSize>k__BackingField: 0
-    <AttackRange>k__BackingField: 1
+    <ShotSpeed>k__BackingField: 0
+    <AttackRange>k__BackingField: 0
     <MultiHitCount>k__BackingField: 0
     <CriticalRate>k__BackingField: 0
     <CriticalDamageScale>k__BackingField: 1
     <Avoidability>k__BackingField: 0
     <MoveSpeed>k__BackingField: 0
     <Sight>k__BackingField: 0
-    <Xp>k__BackingField: 100
+    <Xp>k__BackingField:
+      <max>k__BackingField: 0
+      <current>k__BackingField: 500
     <XpScale>k__BackingField: 1
-  m_CurrentStat:
-    <Hp>k__BackingField: 500
-    <HpRegen>k__BackingField: 0
-    <HpRegenTime>k__BackingField: 0
-    <HealScale>k__BackingField: 0
-    <AntiHealScale>k__BackingField: 0
-    <Armor>k__BackingField: 0
-    <AttackPower>k__BackingField: 0
-    <AttackSpeed>k__BackingField: 1
-    <AttackSize>k__BackingField: 0
-    <AttackRange>k__BackingField: 1
-    <MultiHitCount>k__BackingField: 0
-    <CriticalRate>k__BackingField: 0
-    <CriticalDamageScale>k__BackingField: 0
-    <Avoidability>k__BackingField: 0
-    <MoveSpeed>k__BackingField: 6
-    <Sight>k__BackingField: 0
-    <Xp>k__BackingField: 0
-    <XpScale>k__BackingField: 0
   m_MaxAttackIndex: 3
   m_HealTimer:
     m_Interval: 0

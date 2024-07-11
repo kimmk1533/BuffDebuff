@@ -27,11 +27,11 @@ namespace BuffDebuff
 		{
 			get
 			{
-				return m_CurrentStat.AttackSpeed;
+				return m_Stat.AttackSpeed;
 			}
 			set
 			{
-				m_CurrentStat.AttackSpeed = value;
+				m_Stat.AttackSpeed = value;
 				m_Animator.Anim_SetAttackSpeed(value);
 			}
 		}
@@ -39,14 +39,14 @@ namespace BuffDebuff
 		{
 			get
 			{
-				return m_MaxStat.Level;
+				return m_Stat.Level.max;
 			}
 		}
 		public int currentLevel
 		{
 			get
 			{
-				return m_CurrentStat.Level;
+				return m_Stat.Level.current;
 			}
 		}
 		#endregion
@@ -65,8 +65,8 @@ namespace BuffDebuff
 			m_CanComboAttack = false;
 
 			// 스탯 초기화
-			m_CurrentStat.Xp = 0.0f;
-			m_CurrentStat.Level = 0;
+			m_Stat.Xp = new StatValue<float>(0.0f, float.MaxValue);
+			m_Stat.Level = new StatValue<int>(0, 50);
 
 			// 임시 스탯 테스트
 			//m_CurrentStat.AttackSpeed = 10f;
@@ -77,7 +77,7 @@ namespace BuffDebuff
 				m_DashTimer.Clear();
 			else
 				m_DashTimer = new UtilClass.Timer();
-			m_DashTimer.interval = m_CurrentStat.DashRechargeTime;
+			m_DashTimer.interval = m_Stat.DashRechargeTime;
 		}
 		public override void Finallize()
 		{
@@ -126,15 +126,23 @@ namespace BuffDebuff
 
 		public void AddXp(float xp)
 		{
-			float Xp = m_CurrentStat.Xp + xp * m_CurrentStat.XpScale;
+			float Xp = m_Stat.Xp.current + xp * m_Stat.XpScale;
 
-			while (Xp >= m_MaxStat.Xp)
+			while (Xp >= m_Stat.Xp.max)
 			{
-				Xp -= m_MaxStat.Xp;
-				++m_CurrentStat.Level;
+				Xp -= m_Stat.Xp.max;
+
+				LevelUp();
 			}
 
-			m_CurrentStat.Xp = Xp;
+			// 추후 최대 경험치도 현재 레벨에 맞게 변환해야함.
+			m_Stat.Xp = new StatValue<float>(Xp, m_Stat.Xp.max);
+		}
+		private void LevelUp()
+		{
+			StatValue<int> level = m_Stat.Level;
+			++level.current;
+			m_Stat.Level = level;
 		}
 
 		public void SetDirectionalInput(Vector2 input)
@@ -144,7 +152,7 @@ namespace BuffDebuff
 		}
 		protected override void CalculateVelocity()
 		{
-			float targetVelocityX = m_DirectionalInput.x * m_CurrentStat.MoveSpeed;
+			float targetVelocityX = m_DirectionalInput.x * m_Stat.MoveSpeed;
 
 			m_Velocity.x = Mathf.SmoothDamp(m_Velocity.x, targetVelocityX, ref m_VelocityXSmoothing, (m_Controller.collisions.grounded) ? m_AccelerationTimeGrounded : m_AccelerationTimeAirborne);
 			m_Velocity.y += m_Controller.gravity * Time.deltaTime;
@@ -196,14 +204,16 @@ namespace BuffDebuff
 		// Dash Func
 		public bool CanDash()
 		{
-			return m_CurrentStat.DashCount > 0;
+			return m_Stat.DashCount.current > 0;
 		}
 		public void Dash()
 		{
 			if (CanDash() == false)
 				return;
 
-			--m_CurrentStat.DashCount;
+			StatValue<int> newDashCount = m_Stat.DashCount;
+			--newDashCount.current;
+			m_Stat.DashCount = newDashCount;
 
 			OnBuffDash();
 
@@ -212,12 +222,12 @@ namespace BuffDebuff
 			if (M_BuffInventory.HasBuff("전방향 대쉬") == true)
 			{
 				// 마우스 대쉬
-				m_Velocity = dir.normalized * m_CurrentStat.DashSpeed;
+				m_Velocity = dir.normalized * m_Stat.DashSpeed;
 			}
 			else
 			{
 				// 좌우 대쉬
-				m_Velocity.x = Mathf.Sign(dir.x) * m_CurrentStat.DashSpeed;
+				m_Velocity.x = Mathf.Sign(dir.x) * m_Stat.DashSpeed;
 			}
 		}
 
@@ -251,7 +261,7 @@ namespace BuffDebuff
 				.SetPosition(position)
 				.SetRotation(quaternion)
 				.SetMoveSpeed(5.0f)
-				.SetLifeTime(m_CurrentStat.AttackRange)
+				.SetLifeTime(m_Stat.AttackRange)
 				.SetMoveType(new StraightMove())
 				.Spawn();
 
@@ -263,7 +273,7 @@ namespace BuffDebuff
 				Enemy enemy = collider.GetComponent<Enemy>();
 
 				DamageArg<IDamageGiver, IDamageTaker> damageArg = new DamageArg<IDamageGiver, IDamageTaker>(
-					m_CurrentStat.AttackPower,
+					m_Stat.AttackPower,
 					this,
 					enemy,
 					projectile);
@@ -293,10 +303,13 @@ namespace BuffDebuff
 		}
 		public void TakeDamage(float damage)
 		{
-			m_CurrentStat.Hp -= damage;
+			StatValue<float> newHp = m_Stat.Hp;
+			newHp.current -= damage;
 
-			if (m_CurrentStat.Hp <= 0f)
+			if (newHp.current <= 0f)
 				Death();
+
+			m_Stat.Hp = newHp;
 		}
 		private void Death()
 		{
@@ -307,7 +320,7 @@ namespace BuffDebuff
 		// Timer Func
 		private void DashTimer()
 		{
-			if (m_CurrentStat.DashCount >= m_MaxStat.DashCount)
+			if (m_Stat.DashCount.current >= m_Stat.DashCount.max)
 			{
 				m_DashTimer.Clear();
 				return;
@@ -317,7 +330,9 @@ namespace BuffDebuff
 
 			if (m_DashTimer.TimeCheck(true))
 			{
-				++m_CurrentStat.DashCount;
+				StatValue<int> newDashCount = m_Stat.DashCount;
+				++newDashCount.current;
+				m_Stat.DashCount = newDashCount;
 			}
 		}
 

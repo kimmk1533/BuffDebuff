@@ -286,51 +286,37 @@ MonoBehaviour:
   m_Animator: {fileID: 1233320923803721149}
   m_IsSimulating: 1
   m_Velocity: {x: 0, y: 0}
-  m_MaxStat:
-    <Hp>k__BackingField: 500
-    <HpRegen>k__BackingField: 0
-    <HpRegenTime>k__BackingField: 0
-    <HealScale>k__BackingField: 1
-    <AntiHealScale>k__BackingField: 1
-    <Armor>k__BackingField: 10
-    <AttackPower>k__BackingField: 0
-    <AttackSpeed>k__BackingField: 10
-    <AttackSize>k__BackingField: 0
-    <AttackRange>k__BackingField: 1
-    <MultiHitCount>k__BackingField: 0
-    <CriticalRate>k__BackingField: 0
-    <CriticalDamageScale>k__BackingField: 1
-    <Avoidability>k__BackingField: 0
-    <MoveSpeed>k__BackingField: 10
-    <Sight>k__BackingField: 0
-    <Xp>k__BackingField: 500
-    <XpScale>k__BackingField: 1
-    <Level>k__BackingField: 100
-    <DashSpeed>k__BackingField: 30
-    <DashCount>k__BackingField: 3
-    <DashRechargeTime>k__BackingField: 1
-  m_CurrentStat:
-    <Hp>k__BackingField: 500
-    <HpRegen>k__BackingField: 0
+  m_Stat:
+    <Hp>k__BackingField:
+      <max>k__BackingField: 500
+      <current>k__BackingField: 500
+    <HpRegen>k__BackingField: 10
     <HpRegenTime>k__BackingField: 5
     <HealScale>k__BackingField: 1
     <AntiHealScale>k__BackingField: 1
     <Armor>k__BackingField: 10
-    <AttackPower>k__BackingField: 0
+    <AttackPower>k__BackingField: 20
     <AttackSpeed>k__BackingField: 1
-    <AttackSize>k__BackingField: 0
+    <AttackSize>k__BackingField: 1
+    <ShotSpeed>k__BackingField: 5
     <AttackRange>k__BackingField: 1
     <MultiHitCount>k__BackingField: 0
     <CriticalRate>k__BackingField: 0
-    <CriticalDamageScale>k__BackingField: 1
+    <CriticalDamageScale>k__BackingField: 2
     <Avoidability>k__BackingField: 0
     <MoveSpeed>k__BackingField: 10
-    <Sight>k__BackingField: 0
-    <Xp>k__BackingField: 0
+    <Sight>k__BackingField: 5
+    <Xp>k__BackingField:
+      <max>k__BackingField: 500
+      <current>k__BackingField: 0
     <XpScale>k__BackingField: 1
-    <Level>k__BackingField: 0
+    <Level>k__BackingField:
+      <max>k__BackingField: 100
+      <current>k__BackingField: 1
     <DashSpeed>k__BackingField: 30
-    <DashCount>k__BackingField: 3
+    <DashCount>k__BackingField:
+      <max>k__BackingField: 3
+      <current>k__BackingField: 3
     <DashRechargeTime>k__BackingField: 1
   m_MaxAttackIndex: 3
   m_HealTimer:

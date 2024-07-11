@@ -8,7 +8,6 @@ namespace BuffDebuff
 	{
 		#region 변수
 		private Boss m_Boss;
-		private BossCharacter m_BossCharacter;
 		#endregion
 
 		public override void Initialize()
@@ -16,7 +15,6 @@ namespace BuffDebuff
 			base.Initialize();
 
 			this.NullCheckGetComponentInParent<Boss>(ref m_Boss);
-			this.NullCheckGetComponentInParent<BossCharacter>(ref m_BossCharacter);
 		}
 	}
 }

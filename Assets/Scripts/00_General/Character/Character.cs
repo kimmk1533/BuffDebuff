@@ -23,15 +23,12 @@ namespace BuffDebuff
 
 		#region 스탯 관련
 		[Header("===== 스탯 ====="), Space(10)]
-		protected TStat m_InitMaxStat;
+		// 초기 스탯
 		protected TStat m_InitStat;
-		// 최대 스탯
-		[SerializeField]
-		protected TStat m_MaxStat;
 		// 현재 스탯
 		[Space(10)]
 		[SerializeField]
-		protected TStat m_CurrentStat;
+		protected TStat m_Stat;
 		#endregion
 
 		#region 공격 관련
@@ -50,8 +47,7 @@ namespace BuffDebuff
 		#endregion
 
 		#region 프로퍼티
-		public TStat maxStat => m_MaxStat;
-		public TStat currentStat => m_CurrentStat;
+		public TStat currentStat => m_Stat;
 
 		public TController controller => m_Controller;
 		public TAnimator animator => m_Animator;
@@ -67,24 +63,22 @@ namespace BuffDebuff
 			m_Animator.Initialize();
 
 			#region Stat
-			m_InitMaxStat = m_MaxStat;
-			m_InitStat = m_CurrentStat;
+			m_InitStat = m_Stat;
 			#endregion
 
 			#region Timer
 			if (m_HealTimer == null)
 				m_HealTimer = new UtilClass.Timer();
-			m_HealTimer.interval = m_CurrentStat.HpRegenTime;
+			m_HealTimer.interval = m_Stat.HpRegenTime;
 
 			if (m_AttackTimer == null)
 				m_AttackTimer = new UtilClass.Timer();
-			m_AttackTimer.interval = 1f / m_CurrentStat.AttackSpeed;
+			m_AttackTimer.interval = 1f / m_Stat.AttackSpeed;
 			#endregion
 		}
 		public virtual void Finallize()
 		{
-			m_MaxStat = m_InitMaxStat;
-			m_CurrentStat = m_InitStat;
+			m_Stat = m_InitStat;
 
 			if (m_HealTimer != null)
 				m_HealTimer.Clear();
@@ -144,18 +138,21 @@ namespace BuffDebuff
 		// Timer Func
 		protected void HpRegenTimer()
 		{
-			if (Mathf.Abs(m_CurrentStat.HpRegen) <= float.Epsilon)
+			if (Mathf.Abs(m_Stat.HpRegen) <= float.Epsilon)
 				return;
-			if (m_CurrentStat.Hp >= m_MaxStat.Hp)
+			if (m_Stat.Hp.current >= m_Stat.Hp.max)
 				return;
 
 			m_HealTimer.Update();
 
 			if (m_HealTimer.TimeCheck(true))
 			{
-				float hp = m_CurrentStat.Hp + (m_CurrentStat.HpRegen * m_CurrentStat.HealScale) * m_CurrentStat.AntiHealScale;
+				StatValue<float> HpStat = m_Stat.Hp;
 
-				m_CurrentStat.Hp = Mathf.Clamp(hp, 0f, m_MaxStat.Hp);
+				HpStat.current = m_Stat.Hp.current + (m_Stat.HpRegen * m_Stat.HealScale) * m_Stat.AntiHealScale;
+				HpStat.current = Mathf.Clamp(HpStat.current, 0f, HpStat.max);
+
+				m_Stat.Hp = HpStat;
 			}
 		}
 		protected void AttackTimer()
@@ -228,15 +225,11 @@ namespace BuffDebuff
 
 		#region 스탯 관련
 		[Header("===== 스탯 ====="), Space(10)]
-		protected TStat m_InitMaxStat;
 		protected TStat m_InitStat;
-		// 최대 스탯
-		[SerializeField]
-		protected TStat m_MaxStat;
 		// 현재 스탯
 		[Space(10)]
 		[SerializeField]
-		protected TStat m_CurrentStat;
+		protected TStat m_Stat;
 		#endregion
 
 		#region 공격 관련
@@ -255,15 +248,16 @@ namespace BuffDebuff
 		#endregion
 
 		#region 프로퍼티
-		public TStat maxStat => m_MaxStat;
-		public TStat currentStat => m_CurrentStat;
+		public TStat currentStat => m_Stat;
 
 		public TController controller => m_Controller;
 		public TAnimator animator => m_Animator;
 		#endregion
 
-		public virtual void Initialize()
+		public override void InitializePoolItem()
 		{
+			base.InitializePoolItem();
+
 			this.NullCheckGetComponent<TController>(ref m_Controller);
 			m_Controller.Initialize();
 
@@ -272,24 +266,28 @@ namespace BuffDebuff
 			m_Animator.Initialize();
 
 			#region Stat
-			m_InitMaxStat = m_MaxStat;
-			m_InitStat = m_CurrentStat;
+			m_InitStat = m_Stat;
 			#endregion
 
 			#region Timer
-			if (m_HealTimer == null)
+			if (m_HealTimer != null)
+				m_HealTimer.Clear();
+			else
 				m_HealTimer = new UtilClass.Timer();
-			m_HealTimer.interval = m_CurrentStat.HpRegenTime;
+			m_HealTimer.interval = m_Stat.HpRegenTime;
 
-			if (m_AttackTimer == null)
+			if (m_AttackTimer != null)
+				m_AttackTimer.Clear();
+			else
 				m_AttackTimer = new UtilClass.Timer();
-			m_AttackTimer.interval = 1f / m_CurrentStat.AttackSpeed;
+			m_AttackTimer.interval = 1f / m_Stat.AttackSpeed;
 			#endregion
 		}
-		public virtual void Finallize()
+		public override void FinallizePoolItem()
 		{
-			m_MaxStat = m_InitMaxStat;
-			m_CurrentStat = m_InitStat;
+			base.FinallizePoolItem();
+
+			m_Stat = m_InitStat;
 
 			if (m_HealTimer != null)
 				m_HealTimer.Clear();
@@ -349,18 +347,20 @@ namespace BuffDebuff
 		// Timer Func
 		protected void HpRegenTimer()
 		{
-			if (Mathf.Abs(m_CurrentStat.HpRegen) <= float.Epsilon)
+			if (Mathf.Abs(m_Stat.HpRegen) <= float.Epsilon)
 				return;
-			if (m_CurrentStat.Hp >= m_MaxStat.Hp)
+			if (m_Stat.Hp.current >= m_Stat.Hp.max)
 				return;
 
 			m_HealTimer.Update();
 
 			if (m_HealTimer.TimeCheck(true))
 			{
-				float hp = m_CurrentStat.Hp + (m_CurrentStat.HpRegen * m_CurrentStat.HealScale) * m_CurrentStat.AntiHealScale;
+				float hp = m_Stat.Hp.current + (m_Stat.HpRegen * m_Stat.HealScale) * m_Stat.AntiHealScale;
 
-				m_CurrentStat.Hp = Mathf.Clamp(hp, 0f, m_MaxStat.Hp);
+				StatValue<float> newHp = m_Stat.Hp;
+				newHp.current = Mathf.Clamp(hp, 0f, newHp.max);
+				m_Stat.Hp = newHp;
 			}
 		}
 		protected void AttackTimer()
