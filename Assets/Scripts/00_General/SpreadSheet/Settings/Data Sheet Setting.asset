@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26dd4ec9c2d87fa429799007f02de1ba, type: 3}
+  m_Name: Data Sheet Setting
+  m_EditorClassIdentifier: 
+  clientName: BuffDebuff
+  clientId: 1059193277130-a5h2vka5pdvmputitm177739s5lvoolb.apps.googleusercontent.com
+  clientSecret: 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
+  spreadSheetId: 1YTt8oFswaRScVr-5lFfbgslvaMNrS6teOjk1AFLQelQ
+  workSheetDataList:
+  - enabled: 1
+    sheetName: "\uD50C\uB808\uC774\uC5B4"
+    fileName: PlayerData
+    startCell:
+      column: 66
+      row: 1
+    endCell:
+      column: 89
+      row: 3
+    offsetCell:
+      column: 32
+      row: 2

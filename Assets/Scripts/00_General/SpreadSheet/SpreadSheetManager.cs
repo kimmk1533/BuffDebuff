@@ -16,11 +16,11 @@ using System.Runtime.Serialization.Formatters.Binary;
 // https://velog.io/@eqeq109/%EA%B5%AC%EA%B8%80-%EC%8A%A4%ED%94%84%EB%A0%88%EB%93%9C-%EC%8B%9C%ED%8A%B8-API%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%B4-%EC%9C%A0%EB%8B%88%ED%8B%B0-%EB%8D%B0%EC%9D%B4%ED%84%B0-%ED%85%8C%EC%9D%B4%EB%B8%94-%EA%B4%80%EB%A6%AC-%EB%A7%A4%EB%8B%88%EC%A0%80-%EB%A7%8C%EB%93%A4%EA%B8%B0-2-%EA%B5%AC%ED%98%84%ED%8E%B8
 namespace SpreadSheet
 {
-	public class SpreadSheetManager : Singleton<SpreadSheetManager>
+	public class SpreadSheetManager<T> : Singleton<T> where T : SpreadSheetManager<T>
 	{
-		private DataSet m_DataBase;
-
-		SpreadSheetSetting setting => SpreadSheetSetting.Instance;
+		protected DataSet m_DataBase;
+		[SerializeField, ReadOnly(true)]
+		protected SpreadSheetSetting m_Setting;
 
 		public void Initialize()
 		{
@@ -36,24 +36,22 @@ namespace SpreadSheet
 		private void MakeSheetDataset(DataSet dataset)
 		{
 			ClientSecrets pass = new ClientSecrets();
-			pass.ClientId = setting.clientId;
-			pass.ClientSecret = setting.clientSecret;
+			pass.ClientId = m_Setting.clientId;
+			pass.ClientSecret = m_Setting.clientSecret;
 
 			string[] scopes = new string[] { SheetsService.Scope.SpreadsheetsReadonly };
-			UserCredential credential = GoogleWebAuthorizationBroker.AuthorizeAsync(pass, scopes, setting.clientName, CancellationToken.None).Result;
+			UserCredential credential = GoogleWebAuthorizationBroker.AuthorizeAsync(pass, scopes, m_Setting.clientName, CancellationToken.None).Result;
 
 			SheetsService service = new SheetsService(new BaseClientService.Initializer()
 			{
 				HttpClientInitializer = credential,
 			});
 
-			Spreadsheet request = service.Spreadsheets.Get(setting.spreadSheetId).Execute();
+			Spreadsheet request = service.Spreadsheets.Get(m_Setting.spreadSheetId).Execute();
 
-			WorkSheetData sheetData;
-
-			for (int i = 0; i < setting.workSheetDataList.Count; ++i)
+			for (int i = 0; i < m_Setting.workSheetDataList.Count; ++i)
 			{
-				WorkSheetData item = setting.workSheetDataList[i];
+				WorkSheetData item = m_Setting.workSheetDataList[i];
 
 				if (item.enabled == false)
 					continue;
@@ -62,7 +60,7 @@ namespace SpreadSheet
 					item.fileName = item.sheetName;
 
 				#region 시트 이름 확인
-				sheetData = null;
+				WorkSheetData sheetData = null;
 
 				for (int j = 0; j < request.Sheets.Count; ++j)
 				{
@@ -102,15 +100,16 @@ namespace SpreadSheet
 		{
 			DataTable result = null;
 			bool success = true;
+			string fileName = sheetData.fileName;
 			string sheetName = sheetData.sheetName;
 
 			try
 			{
-				var request = service.Spreadsheets.Values.Get(setting.spreadSheetId, sheetData.ToRange());
+				var request = service.Spreadsheets.Values.Get(m_Setting.spreadSheetId, sheetData.ToRange());
 				// API 호출로 받아온 IList 데이터
 				var jsonObject = request.Execute().Values;
 				// IList 데이터를 jsonConvert 하기위해 직렬화
-				string jsonString = ParseSheetData(jsonObject);
+				string jsonString = ParseSheetData(jsonObject, sheetData.offsetCell);
 
 				// DataTable로 변환
 				result = SpreadSheetToDataTable(jsonString);
@@ -120,7 +119,7 @@ namespace SpreadSheet
 				success = false;
 				Debug.LogError(e);
 				// 예외 발생시 로컬 경로에 있는 json 파일을 통해 데이터 가져옴
-				result = DataUtil.GetDataTable(sheetName, sheetName);
+				result = DataUtil.GetDataTable(fileName, sheetName);
 				Debug.Log("시트 로드 실패로 로컬 " + sheetName + " json 데이터 불러옴");
 			}
 
@@ -131,7 +130,7 @@ namespace SpreadSheet
 			if (result != null)
 			{
 				// 변환한 테이블을 json 파일로 저장
-				SaveDataToFile(sheetData.fileName, result);
+				SaveDataToFile(fileName, result);
 			}
 
 			return result;
@@ -141,19 +140,23 @@ namespace SpreadSheet
 			DataTable data = JsonConvert.DeserializeObject<DataTable>(json);
 			return data;
 		}
-		private string ParseSheetData(IList<IList<object>> value)
+		private string ParseSheetData(IList<IList<object>> value, WorkSheetData.Cell offset)
 		{
 			StringBuilder jsonBuilder = new StringBuilder();
 
 			IList<object> columns = value[0];
+			int offsetRow = offset.row;
+			int offsetCol = char.IsWhiteSpace(offset.column) || offset.column.Equals('\0') ?
+				0 :
+				char.ToLower(offset.column) - 'a' + 1;
 
 			jsonBuilder.Append("[");
-			for (int row = 1; row < value.Count; row++)
+			for (int row = offsetRow; row < value.Count; row++)
 			{
 				var data = value[row];
 
 				jsonBuilder.Append("{");
-				for (int col = 0; col < data.Count; col++)
+				for (int col = offsetCol; col < data.Count; col++)
 				{
 					jsonBuilder.Append("\"" + columns[col].ToString() + "\"" + ":");
 					jsonBuilder.Append("\"" + data[col].ToString() + "\"");
@@ -165,6 +168,7 @@ namespace SpreadSheet
 					jsonBuilder.Append(",");
 			}
 			jsonBuilder.Append("]");
+
 			return jsonBuilder.ToString();
 		}
 		private void SaveDataToFile(string fileName, DataTable newTable)
@@ -190,8 +194,9 @@ namespace SpreadSheet
 				if (BinaryCheck<DataTable>(newTable, checkTable))
 					return;
 			}
+
 			// json파일 저장
-			DataUtil.SetObjectFile(newTable.TableName, newTable);
+			DataUtil.SetObjectFile(fileName, newTable);
 		}
 		private bool BinaryCheck<T>(T src, T target)
 		{

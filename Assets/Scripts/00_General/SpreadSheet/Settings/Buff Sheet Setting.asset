@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26dd4ec9c2d87fa429799007f02de1ba, type: 3}
-  m_Name: Google Sheet Setting
+  m_Name: Buff Sheet Setting
   m_EditorClassIdentifier: 
   clientName: BuffDebuff
   clientId: 1059193277130-a5h2vka5pdvmputitm177739s5lvoolb.apps.googleusercontent.com
@@ -19,28 +19,37 @@ MonoBehaviour:
   workSheetDataList:
   - enabled: 1
     sheetName: "\uBC84\uD504 \uBAA9\uB85D"
-    fileName: "\uBC84\uD504 \uBAA9\uB85D"
+    fileName: BuffData
     startCell:
-      column: C
+      column: 67
       row: 1
     endCell:
-      column: M
+      column: 77
       row: 0
+    offsetCell:
+      column: 0
+      row: 2
   - enabled: 1
     sheetName: "\uB514\uBC84\uD504 \uBAA9\uB85D"
-    fileName: "\uB514\uBC84\uD504 \uBAA9\uB85D"
+    fileName: DebuffData
     startCell:
-      column: C
+      column: 67
       row: 1
     endCell:
-      column: M
+      column: 77
       row: 0
+    offsetCell:
+      column: 0
+      row: 2
   - enabled: 0
     sheetName: "\uC591\uBA74\uBC84\uD504 \uBAA9\uB85D"
-    fileName: "\uC591\uBA74\uBC84\uD504 \uBAA9\uB85D"
+    fileName: BothBuffData
     startCell:
-      column: C
+      column: 67
       row: 1
     endCell:
-      column: M
+      column: 77
       row: 0
+    offsetCell:
+      column: 0
+      row: 2

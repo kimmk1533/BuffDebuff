@@ -6,7 +6,7 @@ using UnityEngine;
 namespace SpreadSheet
 {
 	[CreateAssetMenu(fileName = "new Setting", menuName = "Google Spread Sheets/Setting", order = int.MinValue)]
-	public class SpreadSheetSetting : SingletonScriptableObject<SpreadSheetSetting>
+	public class SpreadSheetSetting : ScriptableObject
 	{
 		// OAuth2 클라이언트 이름
 		public string clientName;
@@ -25,21 +25,21 @@ namespace SpreadSheet
 		//public string refreshToken = "";
 		//public string accessToken = "";
 
-#if UNITY_EDITOR
-		/// <summary>
-		/// Select currently exist account setting asset file.
-		/// </summary>
-		[MenuItem("Google Spread Sheet/Select Google Spread Sheet Setting")]
-		public static void Edit()
-		{
-			if (Instance == null)
-			{
-				Debug.LogError("No Google Spread Sheet Setting.asset file is found. Create setting file first.");
-				return;
-			}
+//#if UNITY_EDITOR
+//		/// <summary>
+//		/// Select currently exist account setting asset file.
+//		/// </summary>
+//		[MenuItem("Google Spread Sheet/Select Google Spread Sheet Setting")]
+//		public static void Edit()
+//		{
+//			if (Instance == null)
+//			{
+//				Debug.LogError("No Google Spread Sheet Setting.asset file is found. Create setting file first.");
+//				return;
+//			}
 
-			Selection.activeObject = Instance;
-		}
-#endif
+//			Selection.activeObject = Instance;
+//		}
+//#endif
 	}
 }

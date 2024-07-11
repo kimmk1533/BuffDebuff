@@ -8,7 +8,7 @@ namespace SpreadSheet
 	[CustomEditor(typeof(SpreadSheetSetting))]
 	public class SpreadSheetSettingEditor : Editor
 	{
-		SpreadSheetSetting setting => SpreadSheetSetting.Instance;
+		//SpreadSheetSetting setting => SpreadSheetSetting.Instance;
 
 		public override void OnInspectorGUI()
 		{
@@ -78,7 +78,8 @@ namespace SpreadSheet
 
 			if (GUI.changed)
 			{
-				EditorUtility.SetDirty(setting);
+				//EditorUtility.SetDirty(setting);
+				EditorUtility.SetDirty(serializedObject.targetObject);
 			}
 		}
 	}

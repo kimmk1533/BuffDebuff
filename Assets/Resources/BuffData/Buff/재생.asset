@@ -21,6 +21,6 @@ MonoBehaviour:
   m_BuffWeapon: 0
   m_BuffInvokeCondition: 3
   m_BuffValue: 5
-  m_BuffTime: 5
+  m_BuffTime: 0
   m_Description: "\uC77C\uC815 \uC2DC\uAC04\uB9C8\uB2E4 \uCCB4\uB825 \uD68C\uBCF5"
   m_Sprite: {fileID: 0}
