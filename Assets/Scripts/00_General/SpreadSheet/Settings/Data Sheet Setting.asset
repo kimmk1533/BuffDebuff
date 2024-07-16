@@ -21,10 +21,10 @@ MonoBehaviour:
     sheetName: "\uD50C\uB808\uC774\uC5B4"
     fileName: PlayerData
     startCell:
-      column: 66
+      column: 67
       row: 1
     endCell:
-      column: 89
+      column: 90
       row: 3
     offsetCell:
       column: 32

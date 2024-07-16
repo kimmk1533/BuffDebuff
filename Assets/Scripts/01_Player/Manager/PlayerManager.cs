@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace BuffDebuff
@@ -15,6 +16,8 @@ namespace BuffDebuff
 		private Player m_Origin = null;
 		private Player m_Player = null;
 		private CameraFollow m_PlayerCamera = null;
+
+		private DoubleKeyDictionary<int, string, PlayerData> m_PlayerDataMap = null;
 		#endregion
 
 		#region 프로퍼티
@@ -58,7 +61,10 @@ namespace BuffDebuff
 
 		public void Initialize()
 		{
+			if (m_PlayerDataMap == null)
+				m_PlayerDataMap = new DoubleKeyDictionary<int, string, PlayerData>();
 
+			LoadAllPlayerData();
 		}
 		public void Finallize()
 		{
@@ -79,7 +85,7 @@ namespace BuffDebuff
 
 			if (m_Origin == null)
 			{
-				string path = System.IO.Path.Combine(m_Path, m_PlayerCharacterName);
+				string path = Path.Combine(m_Path, m_PlayerCharacterName);
 
 				Player tempPlayer = Resources.Load<Player>(path);
 				if (tempPlayer == null)
@@ -108,6 +114,22 @@ namespace BuffDebuff
 		public void FinallizeStageGenEvent()
 		{
 			M_Stage.onStageGenerated -= OnStageGenerated;
+		}
+
+		private void LoadAllPlayerData()
+		{
+			string path = Path.Combine("Scriptable Object", "PlayerData");
+			PlayerData[] playerDatas = Resources.LoadAll<PlayerData>(path);
+
+			for (int i = 0; i < playerDatas.Length; ++i)
+			{
+				PlayerData playerData = playerDatas[i];
+
+				if (m_PlayerDataMap.ContainsKey1(playerData.code) == true)
+					continue;
+
+				m_PlayerDataMap.Add(playerData.code, playerData.title, playerData);
+			}
 		}
 
 		public void AddXp(float xp)

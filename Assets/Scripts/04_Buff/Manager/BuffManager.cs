@@ -16,13 +16,9 @@ namespace BuffDebuff
 		private BuffGradeInfo m_BuffGradeInfo = null;
 
 		// < 코드, 명칭, 버프 >
-		private DoubleKeyDictionary<int, string, BuffData> m_BuffMap = null;
+		private DoubleKeyDictionary<int, string, BuffData> m_BuffDataMap = null;
 		// < 타입, 등급, 코드 >
 		private Dictionary<BuffTypeGrade, List<int>> m_BuffTypeGradeMap = null;
-		#endregion
-
-		#region 프로퍼티
-
 		#endregion
 
 		#region 매니저
@@ -36,12 +32,14 @@ namespace BuffDebuff
 				m_BuffGradeInfo = new BuffGradeInfo();
 
 			// m_BuffMap
-			if (m_BuffMap == null)
-				m_BuffMap = new DoubleKeyDictionary<int, string, BuffData>();
+			if (m_BuffDataMap == null)
+				m_BuffDataMap = new DoubleKeyDictionary<int, string, BuffData>();
 
 			// m_BuffTypeGradeMap
 			if (m_BuffTypeGradeMap == null)
 				m_BuffTypeGradeMap = new Dictionary<BuffTypeGrade, List<int>>();
+
+			LoadAllBuffData();
 		}
 		public void Finallize()
 		{
@@ -52,35 +50,9 @@ namespace BuffDebuff
 		{
 			m_BuffGradeInfo.UpdateBuffGradeCurve();
 
-			LoadAllBuff();
-		}
-		public void FinallizeGame()
-		{
-
-		}
-
-		public void LoadAllBuff()
-		{
-			// 임시로 양면 버프 제외
-			for (E_BuffType buffType = E_BuffType.Buff; buffType < E_BuffType.Max - 1; ++buffType)
+			foreach (var item in m_BuffDataMap)
 			{
-				LoadBuff(buffType);
-			}
-		}
-		public void LoadBuff(E_BuffType buffType)
-		{
-			string path = Path.Combine("BuffData", buffType.ToString());
-			BuffData[] buffDatas = Resources.LoadAll<BuffData>(path);
-
-			for (int i = 0; i < buffDatas.Length; ++i)
-			{
-				BuffData buffData = buffDatas[i];
-
-				if (m_BuffMap.ContainsKey1(buffData.code) == true)
-					continue;
-
-				m_BuffMap.Add(buffData.code, buffData.title, buffData);
-
+				BuffData buffData = item.Value;
 				BuffTypeGrade buffTypeGrade = new BuffTypeGrade(buffData.buffType, buffData.buffGrade);
 
 				if (m_BuffTypeGradeMap.ContainsKey(buffTypeGrade) == false)
@@ -90,216 +62,34 @@ namespace BuffDebuff
 
 				m_BuffTypeGradeMap[buffTypeGrade].Add(buffData.code);
 			}
+		}
+		public void FinallizeGame()
+		{
 
-			#region 이전 코드
-			//string sheetName = string.Concat(BuffEnumUtil.ToKorString(buffType), " 목록");
+		}
 
-			//DataRow[] rows = dataSet.Tables[sheetName].Select();
+		private void LoadAllBuffData()
+		{
+			// 임시로 양면 버프 제외
+			for (E_BuffType buffType = E_BuffType.Buff; buffType <= E_BuffType.Debuff; ++buffType)
+			{
+				LoadBuffData(buffType);
+			}
+		}
+		private void LoadBuffData(E_BuffType buffType)
+		{
+			string path = Path.Combine("Scriptable Object", "BuffData", buffType.ToString());
+			BuffData[] buffDatas = Resources.LoadAll<BuffData>(path);
 
-			//foreach (var row in rows)
-			//{
-			//	#region 코드
-			//	// 코드 불러오기
-			//	string codeStr = row[0] as string;
+			for (int i = 0; i < buffDatas.Length; ++i)
+			{
+				BuffData buffData = buffDatas[i];
 
-			//	// 자료형 파싱
-			//	if (int.TryParse(codeStr, out int code) == false)
-			//	{
-			//		Debug.LogError("버프 코드 불러오기 오류! | 코드: " + codeStr);
-			//		return;
-			//	}
-			//	#endregion
-			//	#region 명칭
-			//	// 명칭 불러오기
-			//	string title = row[1] as string;
-			//	#endregion
-			//	#region 등급
-			//	// 등급 불러오기
-			//	string gradeStr = row[3] as string;
+				if (m_BuffDataMap.ContainsKey1(buffData.code) == true)
+					continue;
 
-			//	// 자료형 파싱
-			//	if (System.Enum.TryParse(gradeStr, out E_BuffGrade grade) == false)
-			//	{
-			//		Debug.LogError("버프 등급 전환 오류! | 버프 등급: " + gradeStr);
-			//		return;
-			//	}
-			//	#endregion
-
-			//	if (m_BuffMap.ContainsKey(buffType) == true &&
-			//		m_BuffMap[buffType].ContainsKey(grade) == true &&
-			//		m_BuffMap[buffType][grade].ContainsPrimaryKey(code) == true)
-			//		continue;
-
-			//	#region 효과 종류
-			//	// 효과 종류 불러오기
-			//	string effectTypeStr = row[2] as string;
-
-			//	// 한글 -> 영어 전환
-			//	switch (effectTypeStr)
-			//	{
-			//		case "스탯형":
-			//			effectTypeStr = "Stat";
-			//			break;
-			//		case "무기형":
-			//			effectTypeStr = "Weapon";
-			//			break;
-			//		case "전투형":
-			//			effectTypeStr = "Combat";
-			//			break;
-			//		default:
-			//			Debug.LogError("버프 효과 종류 불러오기 오류! | 버프 효과 종류: " + effectTypeStr);
-			//			return;
-			//	}
-
-			//	// 자료형 파싱
-			//	if (System.Enum.TryParse(effectTypeStr, out E_BuffEffectType effectType) == false)
-			//	{
-			//		Debug.LogError("버프 효과 종류 전환 오류! | 버프 효과 종류: " + effectTypeStr);
-			//		return;
-			//	}
-			//	#endregion
-			//	#region 최대 스택
-			//	// 최대 스택 불러오기
-			//	string maxStackStr = row[4] as string;
-
-			//	// 자료형 파싱
-			//	if (int.TryParse(maxStackStr, out int maxStack) == false)
-			//	{
-			//		Debug.LogError("버프 최대 스택 전환 오류! | 버프 최대 스택: " + maxStackStr);
-			//		return;
-			//	}
-			//	#endregion
-			//	#region 적용 무기
-			//	// 적용되는 무기 불러오기
-			//	string weaponStr = row[5] as string;
-
-			//	// 한글 -> 영어 전환
-			//	switch (weaponStr)
-			//	{
-			//		case "공통":
-			//			weaponStr = "All";
-			//			break;
-			//		case "근거리 무기":
-			//			weaponStr = "Melee";
-			//			break;
-			//		case "원거리 무기":
-			//			weaponStr = "Ranged";
-			//			break;
-			//		default:
-			//			Debug.LogError("버프 적용 무기 타입 전환 오류! | 버프 적용 무기: " + weaponStr);
-			//			return;
-			//	}
-
-			//	// 자료형 파싱
-			//	if (System.Enum.TryParse(weaponStr, out E_BuffWeapon weapon) == false)
-			//	{
-			//		Debug.LogError("버프 적용 무기 전환 오류! | 버프 적용 무기: " + weaponStr);
-			//		return;
-			//	}
-			//	#endregion
-			//	#region 발동 조건
-			//	// 발동 조건 불러오기
-			//	string conditionStr = row[6] as string;
-
-			//	// 한글 -> 영어 전환
-			//	switch (conditionStr)
-			//	{
-			//		case "버프를 얻을 때":
-			//			conditionStr = "Added";
-			//			break;
-			//		case "버프를 잃을 때":
-			//			conditionStr = "Removed";
-			//			break;
-			//		case "매 프레임마다":
-			//			conditionStr = "Update";
-			//			break;
-			//		case "일정 시간마다":
-			//			conditionStr = "Timer";
-			//			break;
-			//		case "점프 시":
-			//			conditionStr = "Jump";
-			//			break;
-			//		case "대쉬 시":
-			//			conditionStr = "Dash";
-			//			break;
-			//		case "타격 시":
-			//			conditionStr = "GiveDamage";
-			//			break;
-			//		case "피격 시":
-			//			conditionStr = "TakeDamage";
-			//			break;
-			//		case "공격 시작 시":
-			//			conditionStr = "AttackStart";
-			//			break;
-			//		case "공격 시":
-			//			conditionStr = "Attack";
-			//			break;
-			//		case "공격 종료 시":
-			//			conditionStr = "AttackEnd";
-			//			break;
-			//		case "적 처치 시":
-			//			conditionStr = "KillEnemy";
-			//			break;
-			//		case "사망 시":
-			//			conditionStr = "Death";
-			//			break;
-			//		case "스테이지를 넘어갈 시":
-			//			conditionStr = "NextStage";
-			//			break;
-			//		default:
-			//			Debug.LogError("버프 발동 조건 불러오기 오류! | 발동 조건 종류: " + conditionStr);
-			//			return;
-			//	}
-
-			//	// 자료형 파싱
-			//	if (System.Enum.TryParse(conditionStr, out E_BuffInvokeCondition condition) == false)
-			//	{
-			//		Debug.LogError("버프 발동 조건 전환 오류! | 버프 등급: " + conditionStr);
-			//		return;
-			//	}
-			//	#endregion
-			//	#region 버프 값
-			//	// 버프 값 불러오기
-			//	string buffValueStr = row[7] as string;
-
-			//	// 자료형 파싱
-			//	if (float.TryParse(buffValueStr, out float buffValue) == false &&
-			//		buffValueStr != "-")
-			//	{
-			//		Debug.LogError("버프 값 전환 오류! | 버프 값: " + buffValueStr);
-			//		return;
-			//	}
-			//	#endregion
-			//	#region 버프 시간
-			//	// 버프 시간 불러오기
-			//	string buffTimeStr = row[8] as string;
-
-			//	// 자료형 파싱
-			//	if (float.TryParse(buffTimeStr, out float buffTime) == false &&
-			//		buffTimeStr != "-")
-			//	{
-			//		Debug.LogError("버프 시간 전환 오류! | 버프 시간: " + buffTimeStr);
-			//		return;
-			//	}
-			//	#endregion
-			//	#region 설명
-			//	string description = row[9] as string;
-			//	#endregion
-			//	#region 이미지
-
-			//	#endregion
-
-			//	BuffData buffData = ScriptableObject.CreateInstance<BuffData>();
-			//	buffData.Initialize(title, code, buffType, effectType, grade, maxStack, weapon, condition, buffValue, buffTime, description, null);
-
-			//	m_BuffMap[buffType][grade].Add((code, title), buffData);
-
-			//	BuffCounter buffCounter = new BuffCounter(code, title, maxStack);
-			//	buffCounter.count = 0;
-
-			//	m_BuffCounterMap.Add(code, buffCounter);
-			//}
-			#endregion
+				m_BuffDataMap.Add(buffData.code, buffData.title, buffData);
+			}
 		}
 
 		//public bool AddBuffCount(BuffData buffData)
@@ -351,14 +141,14 @@ namespace BuffDebuff
 
 		public BuffData GetBuffData(int code)
 		{
-			if (m_BuffMap.TryGetValue(code, out BuffData buffData) == false)
+			if (m_BuffDataMap.TryGetValue(code, out BuffData buffData) == false)
 				return null;
 
 			return buffData;
 		}
 		public BuffData GetBuffData(string title)
 		{
-			if (m_BuffMap.TryGetValue(title, out BuffData buffData) == false)
+			if (m_BuffDataMap.TryGetValue(title, out BuffData buffData) == false)
 				return null;
 
 			return buffData;
@@ -399,7 +189,7 @@ namespace BuffDebuff
 			int randomIndex = Random.Range(0, codeList.Count);
 			int code = codeList[randomIndex];
 
-			return m_BuffMap[code];
+			return m_BuffDataMap[code];
 		}
 		public List<BuffData> GetRandomBuffData(E_BuffType buffType, E_BuffGrade grade, int count)
 		{
@@ -433,7 +223,7 @@ namespace BuffDebuff
 			List<BuffData> result = new List<BuffData>();
 			for (int i = 0; i < count; ++i)
 			{
-				result.Add(m_BuffMap[codeList[i]]);
+				result.Add(m_BuffDataMap[codeList[i]]);
 			}
 
 			return result;

@@ -18,19 +18,16 @@ namespace SpreadSheet
 {
 	public class SpreadSheetManager<T> : Singleton<T> where T : SpreadSheetManager<T>
 	{
-		protected DataSet m_DataBase;
 		[SerializeField, ReadOnly(true)]
 		protected SpreadSheetSetting m_Setting;
 
-		public void Initialize()
+		protected DataSet m_DataBase;
+
+		public virtual void LoadSpreadSheetData()
 		{
 			m_DataBase = new DataSet("DataBase");
 
-#if UNITY_EDITOR
 			MakeSheetDataset(m_DataBase);
-#else
-			LoadJsonData(m_DataBase);
-#endif
 		}
 
 		private void MakeSheetDataset(DataSet dataset)
@@ -78,20 +75,6 @@ namespace SpreadSheet
 				#endregion
 
 				DataTable table = SendRequest(service, sheetData);
-				dataset.Tables.Add(table);
-			}
-		}
-		public void LoadJsonData(DataSet dataset)
-		{
-			string JsonPath = string.Concat(Application.dataPath + "/Resources/JsonData/");
-			DirectoryInfo info = new DirectoryInfo(JsonPath);
-			foreach (FileInfo file in info.GetFiles())
-			{
-				if (file.Name.EndsWith(".json") == false)
-					continue;
-
-				//로컬 경로에서 json 가져와서 DataTable으로 변환
-				DataTable table = DataUtil.GetDataTable(file);
 				dataset.Tables.Add(table);
 			}
 		}
@@ -198,7 +181,7 @@ namespace SpreadSheet
 			// json파일 저장
 			DataUtil.SetObjectFile(fileName, newTable);
 		}
-		private bool BinaryCheck<T>(T src, T target)
+		private bool BinaryCheck<TData>(TData src, TData target)
 		{
 			// 두 대상을 바이너리로 변환해서 비교, 다르면 false 반환
 			BinaryFormatter formatter1 = new BinaryFormatter();
@@ -227,6 +210,29 @@ namespace SpreadSheet
 
 	public static class DataUtil
 	{
+		public static readonly string jsonPath = Path.Combine(Application.dataPath, "Resources", "JsonData");
+
+		public static void LoadJsonData(DataSet dataset)
+		{
+			DirectoryInfo info = new DirectoryInfo(jsonPath);
+			foreach (FileInfo file in info.GetFiles())
+			{
+				if (file.Name.EndsWith(".json") == false)
+					continue;
+
+				//로컬 경로에서 json 가져와서 DataTable으로 변환
+				DataTable table = DataUtil.GetDataTable(file);
+				dataset.Tables.Add(table);
+			}
+		}
+		public static DataSet LoadJsonData()
+		{
+			DataSet dataSet = new DataSet();
+
+			LoadJsonData(dataSet);
+
+			return dataSet;
+		}
 		public static DataTable GetDataTable(string fileName, string tableName)
 		{
 			string filePath = Path.Combine("JsonData", fileName);

@@ -13,7 +13,7 @@ namespace BuffDebuff
 		public StatValue<float> Hp { get; set; }
 
 		[field: Header("치유")]
-		// 체력 재생량
+		// 체력 회복량
 		[field: SerializeField]
 		public float HpRegen { get; set; }
 		// 체력 재생 쿨타임
@@ -89,7 +89,7 @@ namespace BuffDebuff
 			// 체력
 			Hp = new StatValue<float>(0.0f);
 
-			// 체력 재생량 (체력 재생 시간마다 한 번 재생)
+			// 체력 회복량 (체력 재생 시간마다 한 번 재생)
 			HpRegen = 0.0f;
 			// 체력 재생 시간
 			HpRegenTime = 0.0f;
@@ -135,7 +135,7 @@ namespace BuffDebuff
 			// 체력
 			Hp = other.Hp;
 
-			// 체력 재생량 (체력 재생 시간마다 한 번 재생)
+			// 체력 회복량 (체력 재생 시간마다 한 번 재생)
 			HpRegen = other.HpRegen;
 			// 체력 재생 시간
 			HpRegenTime = other.HpRegenTime;
@@ -180,7 +180,7 @@ namespace BuffDebuff
 		//{
 		//	// 체력
 		//	Hp = 0.0f,
-		//	// 체력 재생량 (체력 재생 시간마다 한 번 재생)
+		//	// 체력 회복량 (체력 재생 시간마다 한 번 재생)
 		//	HpRegen = 0.0f,
 		//	// 체력 재생 시간
 		//	HpRegenTime = 0.0f,
@@ -217,7 +217,7 @@ namespace BuffDebuff
 		//{
 		//	// 체력
 		//	Hp = 1.0f,
-		//	// 체력 재생량 (체력 재생 시간마다 한 번 재생)
+		//	// 체력 회복량 (체력 재생 시간마다 한 번 재생)
 		//	HpRegen = 1.0f,
 		//	// 체력 재생 시간
 		//	HpRegenTime = 1.0f,
@@ -260,7 +260,7 @@ namespace BuffDebuff
 		//	// 체력
 		//	result.Hp = s1.Hp + s2.Hp;
 
-		//	// 체력 재생량 (체력 재생 시간마다 한 번 재생)
+		//	// 체력 회복량 (체력 재생 시간마다 한 번 재생)
 		//	result.HpRegen = s1.HpRegen + s2.HpRegen;
 		//	// 체력 재생 시간
 		//	result.HpRegenTime = s1.HpRegenTime + s2.HpRegenTime;

@@ -2,58 +2,61 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Buff : System.IEquatable<Buff>
+namespace BuffDebuff
 {
-	#region 변수
-	[SerializeField]
-	protected BuffData m_BuffData;
-
-	[SerializeField]
-	protected int m_Count;
-	#endregion
-
-	#region 프로퍼티
-	public BuffData buffData => m_BuffData;
-	public int count
+	[System.Serializable]
+	public class Buff : System.IEquatable<Buff>
 	{
-		get => m_Count;
-		set => m_Count = value;
-	}
-	public int maxStack => m_BuffData.maxStack;
-	#endregion
+		#region 변수
+		[SerializeField]
+		protected BuffData m_BuffData;
 
-	public Buff(BuffData buffData)
-	{
-		m_BuffData = buffData;
-		m_Count = 0;
-	}
+		[SerializeField]
+		protected int m_Count;
+		#endregion
 
-	public void Clear()
-	{
-		m_Count = 0;
-	}
+		#region 프로퍼티
+		public BuffData buffData => m_BuffData;
+		public int count
+		{
+			get => m_Count;
+			set => m_Count = value;
+		}
+		public int maxStack => m_BuffData.maxStack;
+		#endregion
 
-	public override bool Equals(object obj)
-	{
-		if (obj == null)
-			return false;
+		public Buff(BuffData buffData)
+		{
+			m_BuffData = buffData;
+			m_Count = 0;
+		}
 
-		Buff buff = obj as Buff;
-		if (buff == null)
-			return false;
+		public void Clear()
+		{
+			m_Count = 0;
+		}
 
-		return Equals(buff);
-	}
-	public bool Equals(Buff other)
-	{
-		if (other == null)
-			return false;
+		public override bool Equals(object obj)
+		{
+			if (obj == null)
+				return false;
 
-		return this.m_BuffData.code == other.m_BuffData.code;
-	}
-	public override int GetHashCode()
-	{
-		return m_BuffData.code.GetHashCode();
+			Buff buff = obj as Buff;
+			if (buff == null)
+				return false;
+
+			return Equals(buff);
+		}
+		public bool Equals(Buff other)
+		{
+			if (other == null)
+				return false;
+
+			return this.m_BuffData.code == other.m_BuffData.code;
+		}
+		public override int GetHashCode()
+		{
+			return m_BuffData.code.GetHashCode();
+		}
 	}
 }

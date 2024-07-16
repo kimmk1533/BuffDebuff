@@ -16,7 +16,6 @@ namespace BuffDebuff
 		// 대쉬 속도
 		[field: SerializeField]
 		public float DashSpeed { get; set; }
-		// 최대 대쉬 횟수
 		// 대쉬 횟수
 		[field: SerializeField]
 		public StatValue<int> DashCount { get; set; }
