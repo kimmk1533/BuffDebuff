@@ -7,13 +7,19 @@ namespace BuffDebuff
 	[System.Serializable]
 	public class EnemyStat : CharacterStat
 	{
-		public EnemyStat() : base()
+		protected EnemyStat() : base()
 		{
 
 		}
-		public EnemyStat(EnemyStat other) : base(other)
+		protected EnemyStat(CharacterStat other) : base(other)
 		{
 
 		}
+
+		public override CharacterStat Clone()
+		{
+			return new EnemyStat(this);
+		}
+		// public static EnemyStat Clone(EnemyData data) 제작 예정
 	}
 }

@@ -310,7 +310,7 @@ namespace BuffDebuff
 					grade_index = (int)grade;
 
 					leftRates[grade_index] = m_BuffGradeInfoMap[grade].curve.keys[2].value;
-					rightRates[grade_index] = m_BuffGradeInfoMap[grade].curve.keys[M_Player.maxLevel + 2].value;
+					rightRates[grade_index] = m_BuffGradeInfoMap[grade].curve.keys[PlayerManager.playerMaxLevel + 2].value;
 					currentRates[grade_index] = m_BuffGradeInfoMap[grade].curve.keys[M_Player.currentLevel + 2].value;
 
 					leftMax += leftRates[grade_index];
@@ -342,7 +342,7 @@ namespace BuffDebuff
 					}
 				}
 
-				int maxLevel = M_Player.maxLevel;
+				int maxLevel = PlayerManager.playerMaxLevel;
 				float levelPercent, rate;
 
 				for (E_BuffGrade grade = 0; grade < E_BuffGrade.Max; ++grade)

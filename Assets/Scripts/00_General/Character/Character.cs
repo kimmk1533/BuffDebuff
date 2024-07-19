@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuffDebuff
 {
-	public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator, IAnim_Attack
+	public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour where TStat : CharacterStat where TController : Controller2D where TAnimator : CharacterAnimator, IAnim_Attack
 	{
 		#region 변수
 		protected TController m_Controller;
@@ -62,10 +62,6 @@ namespace BuffDebuff
 				throw new System.Exception("Child Component(Animator) is null!");
 			m_Animator.Initialize();
 
-			#region Stat
-			m_InitStat = m_Stat;
-			#endregion
-
 			#region Timer
 			if (m_HealTimer == null)
 				m_HealTimer = new UtilClass.Timer();
@@ -78,7 +74,7 @@ namespace BuffDebuff
 		}
 		public virtual void Finallize()
 		{
-			m_Stat = m_InitStat;
+			m_Stat = m_InitStat.Clone() as TStat;
 
 			if (m_HealTimer != null)
 				m_HealTimer.Clear();
@@ -100,6 +96,11 @@ namespace BuffDebuff
 				return;
 
 			Move();
+		}
+
+		public void SetInitStat(TStat initStat)
+		{
+			m_InitStat = initStat;
 		}
 
 		// Move Func
@@ -206,7 +207,7 @@ namespace BuffDebuff
 			m_AttackTimer.Clear();
 		}
 	}
-	public abstract class PoolCharacter<TStat, TController, TAnimator> : ObjectPoolItemBase where TStat : CharacterStat, new() where TController : Controller2D where TAnimator : CharacterAnimator, IAnim_Attack
+	public abstract class PoolCharacter<TStat, TController, TAnimator> : ObjectPoolItemBase where TStat : CharacterStat where TController : Controller2D where TAnimator : CharacterAnimator, IAnim_Attack
 	{
 		#region 변수
 		protected TController m_Controller;
@@ -225,6 +226,7 @@ namespace BuffDebuff
 
 		#region 스탯 관련
 		[Header("===== 스탯 ====="), Space(10)]
+		// 초기 스탯
 		protected TStat m_InitStat;
 		// 현재 스탯
 		[Space(10)]
@@ -265,10 +267,6 @@ namespace BuffDebuff
 				throw new System.Exception("Child Component(Animator) is null!");
 			m_Animator.Initialize();
 
-			#region Stat
-			m_InitStat = m_Stat;
-			#endregion
-
 			#region Timer
 			if (m_HealTimer != null)
 				m_HealTimer.Clear();
@@ -287,7 +285,7 @@ namespace BuffDebuff
 		{
 			base.FinallizePoolItem();
 
-			m_Stat = m_InitStat;
+			m_Stat = m_InitStat.Clone() as TStat;
 
 			if (m_HealTimer != null)
 				m_HealTimer.Clear();
@@ -309,6 +307,11 @@ namespace BuffDebuff
 				return;
 
 			Move();
+		}
+
+		public void SetInitStat(TStat initStat)
+		{
+			m_InitStat = initStat;
 		}
 
 		// Move Func

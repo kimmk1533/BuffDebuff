@@ -1,33 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class GameSceneReceiver : SceneReceiver
+namespace BuffDebuff
 {
-	protected override void Initialize()
+	public class GameSceneReceiver : SceneReceiver
 	{
-		//Scene scene = SceneManager.GetSceneByName("Init Scene");
-		//GameObject[] objs = scene.GetRootGameObjects();
-
-		//SceneLoader sceneLoader = null;
-		//for (int i = 0; i < objs.Length; ++i)
-		//{
-		//	sceneLoader = objs[i].GetComponent<SceneLoader>();
-		//	if (sceneLoader != null)
-		//		break;
-		//}
-
-		SceneLoader[] objs = GameObject.FindObjectsOfType<SceneLoader>();
-		for (int i = 0; i < objs.Length; ++i)
+		protected override void Initialize()
 		{
-			objs[i].GetSceneEvent("Game Scene")?.Invoke();
+			//Scene scene = SceneManager.GetSceneByName("Init Scene");
+			//GameObject[] objs = scene.GetRootGameObjects();
+
+			//SceneLoader sceneLoader = null;
+			//for (int i = 0; i < objs.Length; ++i)
+			//{
+			//	sceneLoader = objs[i].GetComponent<SceneLoader>();
+			//	if (sceneLoader != null)
+			//		break;
+			//}
+
+			SceneLoader[] objs = GameObject.FindObjectsOfType<SceneLoader>();
+			for (int i = 0; i < objs.Length; ++i)
+			{
+				objs[i].GetSceneEvent("Game Scene")?.Invoke();
+			}
+
+			base.Initialize();
 		}
+		protected override void Finallize()
+		{
 
-		base.Initialize();
-	}
-	protected override void Finallize()
-	{
-
+		}
 	}
 }

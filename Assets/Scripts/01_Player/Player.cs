@@ -64,18 +64,8 @@ namespace BuffDebuff
 			m_IsAttacking = false;
 			m_CanComboAttack = false;
 
-			// 스탯 초기화
-			m_Stat.Xp = new StatValue<float>(0.0f, float.MaxValue);
-			m_Stat.Level = new StatValue<int>(0, 50);
-
-			// 임시 스탯 테스트
-			//m_CurrentStat.AttackSpeed = 10f;
-			//m_AttackTimer.interval = 1f / m_CurrentStat.AttackSpeed;
-
 			// 타이머 초기화
-			if (m_DashTimer != null)
-				m_DashTimer.Clear();
-			else
+			if (m_DashTimer == null)
 				m_DashTimer = new UtilClass.Timer();
 			m_DashTimer.interval = m_Stat.DashRechargeTime;
 		}
@@ -83,7 +73,8 @@ namespace BuffDebuff
 		{
 			base.Finallize();
 
-			m_DashTimer.Clear();
+			if (m_DashTimer != null)
+				m_DashTimer.Clear();
 		}
 
 		protected override void Update()

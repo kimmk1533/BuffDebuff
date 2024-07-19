@@ -84,7 +84,7 @@ namespace BuffDebuff
 		[field: SerializeField]
 		public float XpScale { get; set; }
 
-		public CharacterStat()
+		protected CharacterStat()
 		{
 			// 체력
 			Hp = new StatValue<float>(0.0f);
@@ -107,6 +107,8 @@ namespace BuffDebuff
 			AttackSpeed = 0.0f;
 			// 근접 공격 범위
 			AttackSize = 0.0f;
+			// 투사체 이동 속도
+			ShotSpeed = 1.0f;
 			// 투사체 공격 사거리
 			AttackRange = 0.0f;
 			// 타격 수
@@ -130,7 +132,7 @@ namespace BuffDebuff
 			// 경험치 배율
 			XpScale = 1.0f;
 		}
-		public CharacterStat(CharacterStat other)
+		protected CharacterStat(CharacterStat other)
 		{
 			// 체력
 			Hp = other.Hp;
@@ -153,6 +155,8 @@ namespace BuffDebuff
 			AttackSpeed = other.AttackSpeed;
 			// 근접 공격 범위
 			AttackSize = other.AttackSize;
+			// 투사체 이동 속도
+			ShotSpeed = other.ShotSpeed;
 			// 투사체 공격 사거리
 			AttackRange = other.AttackRange;
 			// 타격 수
@@ -175,6 +179,59 @@ namespace BuffDebuff
 			Xp = other.Xp;
 			// 경험치 배율
 			XpScale = other.XpScale;
+		}
+
+		public virtual CharacterStat Clone()
+		{
+			CharacterStat stat = new CharacterStat();
+
+			// 체력
+			stat.Hp = this.Hp;
+
+			// 체력 회복량 (체력 재생 시간마다 한 번 재생)
+			stat.HpRegen = this.HpRegen;
+			// 체력 재생 시간
+			stat.HpRegenTime = this.HpRegenTime;
+			// 힐 배율
+			stat.HealScale = this.HealScale;
+			// 치유 감소 배율
+			stat.AntiHealScale = this.AntiHealScale;
+
+			// 방어력
+			stat.Armor = this.Armor;
+
+			// 공격력
+			stat.AttackPower = this.AttackPower;
+			// 공격 속도
+			stat.AttackSpeed = this.AttackSpeed;
+			// 근접 공격 범위
+			stat.AttackSize = this.AttackSize;
+			// 투사체 이동 속도
+			stat.ShotSpeed = this.ShotSpeed;
+			// 투사체 공격 사거리
+			stat.AttackRange = this.AttackRange;
+			// 타격 수
+			stat.MultiHitCount = this.MultiHitCount;
+			// 치명타 확률
+			stat.CriticalRate = this.CriticalRate;
+			// 치명타 대미지 배율
+			stat.CriticalDamageScale = this.CriticalDamageScale;
+
+			// 회피율
+			stat.Avoidability = this.Avoidability;
+
+			// 이동 속도
+			stat.MoveSpeed = this.MoveSpeed;
+
+			// 시야 거리
+			stat.Sight = this.Sight;
+
+			// 경험치
+			stat.Xp = this.Xp;
+			// 경험치 배율
+			stat.XpScale = this.XpScale;
+
+			return stat;
 		}
 		//private static readonly CharacterStat m_ZeroStat = new CharacterStat()
 		//{

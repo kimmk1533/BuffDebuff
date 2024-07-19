@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53bfe887c30a93a4f9f36c84e9e0337d, type: 3}
   m_Name: Fire Knight
   m_EditorClassIdentifier: 
-  m_AssetPath: Prefabs/01_Player/
+  m_AssetPath: Prefabs/01_Player/Fire Knight
   m_Code: 10001
   m_Title: Fire Knight
   m_Hp: 500

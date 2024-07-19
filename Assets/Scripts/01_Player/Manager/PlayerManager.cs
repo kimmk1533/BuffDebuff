@@ -8,49 +8,24 @@ namespace BuffDebuff
 	public class PlayerManager : Singleton<PlayerManager>
 	{
 		#region 변수
-		[SerializeField]
-		private string m_Path = null;
-		[SerializeField]
-		private string m_PlayerCharacterName = null;
+		public static readonly int playerMaxLevel = 100;
 
-		private Player m_Origin = null;
 		private Player m_Player = null;
 		private CameraFollow m_PlayerCamera = null;
 
-		private DoubleKeyDictionary<int, string, PlayerData> m_PlayerDataMap = null;
+		private DoubleKeyDictionary<int, string, (Player player, PlayerData data)> m_PlayerDataMap = null;
 		#endregion
 
 		#region 프로퍼티
-		public Player player
-		{
-			get
-			{
-#if UNITY_EDITOR
-
-				if (Application.isPlaying == false)
-				{
-					//string path = System.IO.Path.Combine(m_Path, m_PlayerCharacterName);
-					string path = m_Path + "/" + m_PlayerCharacterName;
-					return Resources.Load<Player>(path);
-				}
-
-#endif
-
-				return m_Player;
-			}
-		}
-		public int maxLevel
-		{
-			get
-			{
-				return player.maxLevel;
-			}
-		}
+		public Player player => m_Player;
 		public int currentLevel
 		{
 			get
 			{
-				return player.currentLevel;
+				if (m_Player == null)
+					return 0;
+
+				return m_Player.currentLevel;
 			}
 		}
 		#endregion
@@ -62,7 +37,7 @@ namespace BuffDebuff
 		public void Initialize()
 		{
 			if (m_PlayerDataMap == null)
-				m_PlayerDataMap = new DoubleKeyDictionary<int, string, PlayerData>();
+				m_PlayerDataMap = new DoubleKeyDictionary<int, string, (Player player, PlayerData data)>();
 
 			LoadAllPlayerData();
 		}
@@ -73,31 +48,9 @@ namespace BuffDebuff
 
 		public void InitializeGame()
 		{
-			//Player[] players = FindObjectsOfType<Player>();
-
-			//if (players.Length > 1)
-			//{
-			//	Debug.LogError("There can be no more than one Player.");
-			//	return;
-			//}
-
-			//m_Player = players[0];
-
-			if (m_Origin == null)
-			{
-				string path = Path.Combine(m_Path, m_PlayerCharacterName);
-
-				Player tempPlayer = Resources.Load<Player>(path);
-				if (tempPlayer == null)
-					Debug.LogError("PlayerManager의 m_Path 또는 m_PlayerCharacterName이 올바르지 않습니다.");
-
-				m_Origin = tempPlayer;
-			}
-
-			if (m_Player == null)
-				m_Player = GameObject.Instantiate(m_Origin);
 			Camera.main.NullCheckGetComponent<CameraFollow>(ref m_PlayerCamera);
 
+			m_Player.gameObject.SetActive(true);
 			m_Player.Initialize();
 			m_PlayerCamera.Initialize();
 		}
@@ -105,6 +58,9 @@ namespace BuffDebuff
 		{
 			m_PlayerCamera.Finallize();
 			m_Player.Finallize();
+			m_Player.gameObject.SetActive(false);
+
+			m_Player = null;
 		}
 
 		public void InitializeStageGenEvent()
@@ -128,7 +84,45 @@ namespace BuffDebuff
 				if (m_PlayerDataMap.ContainsKey1(playerData.code) == true)
 					continue;
 
-				m_PlayerDataMap.Add(playerData.code, playerData.title, playerData);
+				// 플레이어 원본 로드
+				Player origin = Resources.Load<Player>(playerData.assetPath);
+
+				// 플레이어 복제
+				Player player = GameObject.Instantiate<Player>(origin, transform);
+				// 초기 스탯 설정
+				player.SetInitStat(PlayerStat.Clone(playerData));
+				// 풀처럼 설정
+				player.gameObject.SetActive(false);
+
+				m_PlayerDataMap.Add(playerData.code, playerData.title, (player, playerData));
+			}
+		}
+		public void SelectPlayerData(int code)
+		{
+			if (m_PlayerDataMap.ContainsKey1(code) == false)
+				Debug.LogError("잘못된 Player Code 입니다. Code: " + code);
+
+			m_Player = m_PlayerDataMap[code].player;
+			if (m_Player == null)
+			{
+				PlayerData playerData = m_PlayerDataMap[code].data;
+
+				Debug.LogError("PlayerData \"" + playerData.title + "\" 의 Asset Path가 잘못되었습니다.\n" +
+					"Asset Path: " + playerData.assetPath);
+			}
+		}
+		public void SelectPlayerData(string title)
+		{
+			if (m_PlayerDataMap.ContainsKey2(title) == false)
+				Debug.LogError("잘못된 Player Title 입니다. Title: " + title);
+
+			m_Player = m_PlayerDataMap[title].player;
+			if (m_Player == null)
+			{
+				PlayerData playerData = m_PlayerDataMap[title].data;
+
+				Debug.LogError("PlayerData \"" + playerData.title + "\" 의 Asset Path가 잘못되었습니다.\n" +
+					"Asset Path: " + playerData.assetPath);
 			}
 		}
 

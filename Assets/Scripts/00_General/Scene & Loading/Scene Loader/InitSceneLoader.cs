@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InitSceneLoader : SceneLoader
+namespace BuffDebuff
 {
-	protected override void Initialize()
+	public class InitSceneLoader : SceneLoader
 	{
-		base.Initialize();
+		protected override void Initialize()
+		{
+			base.Initialize();
 
-		LoadingSceneManager.LoadScene("Main Menu Scene");
-	}
-	protected override void Finallize()
-	{
-		base.Finallize();
+			LoadingSceneManager.LoadScene("Main Menu Scene");
+		}
+		protected override void Finallize()
+		{
+			base.Finallize();
+		}
 	}
 }
