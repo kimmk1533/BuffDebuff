@@ -118,6 +118,78 @@ namespace BuffDebuff.Enum
 
 	public static class BuffEnumUtil
 	{
+		public static string ToString(string korStr)
+		{
+			// 한글 -> 영어 전환
+			switch (korStr)
+			{
+				case "스탯형":
+					korStr = "Stat";
+					break;
+				case "무기형":
+					korStr = "Weapon";
+					break;
+				case "전투형":
+					korStr = "Combat";
+					break;
+
+				case "공통":
+					korStr = "All";
+					break;
+				case "근거리 무기":
+					korStr = "Melee";
+					break;
+				case "원거리 무기":
+					korStr = "Ranged";
+					break;
+
+				case "버프를 얻을 때":
+					korStr = "Added";
+					break;
+				case "버프를 잃을 때":
+					korStr = "Removed";
+					break;
+				case "매 프레임마다":
+					korStr = "Update";
+					break;
+				case "일정 시간마다":
+					korStr = "Timer";
+					break;
+				case "점프 시":
+					korStr = "Jump";
+					break;
+				case "대쉬 시":
+					korStr = "Dash";
+					break;
+				case "타격 시":
+					korStr = "GiveDamage";
+					break;
+				case "피격 시":
+					korStr = "TakeDamage";
+					break;
+				case "공격 시작 시":
+					korStr = "AttackStart";
+					break;
+				case "공격 시":
+					korStr = "Attack";
+					break;
+				case "공격 종료 시":
+					korStr = "AttackEnd";
+					break;
+				case "적 처치 시":
+					korStr = "KillEnemy";
+					break;
+				case "사망 시":
+					korStr = "Death";
+					break;
+				case "스테이지를 넘어갈 시":
+					korStr = "NextStage";
+					break;
+			}
+
+			return korStr;
+		}
+
 		public static string ToKorString<T>(T value) where T : struct, System.Enum
 		{
 			string str = value.ToString();

@@ -7,6 +7,10 @@ namespace BuffDebuff
 {
 	public class BuffSheetManager : SpreadSheetManager<BuffSheetManager>
 	{
-
+		[ContextMenu("Load Sheet Data")]
+		public override void LoadSpreadSheetData()
+		{
+			base.LoadSpreadSheetData();
+		}
 	}
 }

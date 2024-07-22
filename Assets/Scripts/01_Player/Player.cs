@@ -121,6 +121,8 @@ namespace BuffDebuff
 
 			while (Xp >= m_Stat.Xp.max)
 			{
+				InfiniteLoopDetector.Run("AddXp", "Player.cs");
+
 				Xp -= m_Stat.Xp.max;
 
 				LevelUp();
@@ -251,7 +253,7 @@ namespace BuffDebuff
 				.SetParent(null)
 				.SetPosition(position)
 				.SetRotation(quaternion)
-				.SetMoveSpeed(5.0f)
+				.SetMoveSpeed(m_Stat.ShotSpeed)
 				.SetLifeTime(m_Stat.AttackRange)
 				.SetMoveType(new StraightMove())
 				.Spawn();

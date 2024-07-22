@@ -8,16 +8,6 @@ namespace BuffDebuff
 	public class PlayerData : SOData
 	{
 		#region 변수
-		// 에셋 경로
-		[SerializeField, ReadOnly]
-		private string m_AssetPath;
-		// 코드
-		[SerializeField, ReadOnly]
-		private int m_Code;
-		// 명칭
-		[SerializeField, ReadOnly]
-		private string m_Title;
-
 		[Header("체력")]
 		// 체력
 		[SerializeField, ReadOnly]
@@ -103,13 +93,6 @@ namespace BuffDebuff
 		#endregion
 
 		#region 프로퍼티
-		// 에셋 경로
-		public string assetPath => m_AssetPath;
-		// 코드
-		public int code => m_Code;
-		// 명칭
-		public string title => m_Title;
-
 		// 체력
 		public float hp => m_Hp;
 

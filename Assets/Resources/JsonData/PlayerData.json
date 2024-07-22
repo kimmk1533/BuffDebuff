@@ -2,7 +2,7 @@
   {
     "Asset Path": "Prefabs/01_Player/Fire Knight",
     "Code": "10001",
-    "Name": "Fire Knight",
+    "Title": "Fire Knight",
     "Hp": "500",
     "Hp Regen": "10",
     "Hp Regen Time": "5",

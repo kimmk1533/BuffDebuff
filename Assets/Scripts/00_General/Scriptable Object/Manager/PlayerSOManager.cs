@@ -20,6 +20,10 @@ namespace BuffDebuff
 		[ContextMenu("Create SO")]
 		public override void CreateSO()
 		{
+			if (Application.isEditor == false ||
+				Application.isPlaying == true)
+				return;
+
 			DataTable dataTable = DataUtil.GetDataTable("PlayerData", "플레이어");
 
 			if (dataTable == null)
@@ -267,10 +271,10 @@ namespace BuffDebuff
 				}
 				#endregion
 
-				PlayerData playerData = ScriptableObject.CreateInstance<PlayerData>();
-				playerData.Initialize(assetPathStr, code, titleStr, hp, hpRegen, hpRegenTime, healScale, antiHealScale, armor, attackPower, attackSpeed, attackSize, shotSpeed, attackRange, multiHitCount, criticalRate, criticalDamageScale, avoidability, moveSpeed, sight, xpScale, dashSpeed, dashCount, dashRechargeTime);
+				PlayerData data = ScriptableObject.CreateInstance<PlayerData>();
+				data.Initialize(assetPathStr, code, titleStr, hp, hpRegen, hpRegenTime, healScale, antiHealScale, armor, attackPower, attackSpeed, attackSize, shotSpeed, attackRange, multiHitCount, criticalRate, criticalDamageScale, avoidability, moveSpeed, sight, xpScale, dashSpeed, dashCount, dashRechargeTime);
 
-				CreateScriptableObject(playerData, titleStr);
+				CreateScriptableObject(data, titleStr);
 			}
 
 			AssetDatabase.SaveAssets();

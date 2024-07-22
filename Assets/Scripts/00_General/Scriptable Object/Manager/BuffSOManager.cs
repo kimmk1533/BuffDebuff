@@ -12,16 +12,9 @@ namespace BuffDebuff
 {
 	public class BuffSOManager : SOManager<BuffSOManager>
 	{
-		#region 변수
-		private bool m_LoadSpreadSheet;
-		private bool m_CreateSO;
-		#endregion
+		[SerializeField]
+		private bool m_SwitchCase;
 
-		#region 매니저
-		private static BuffSheetManager M_BuffSheet => BuffSheetManager.Instance;
-		#endregion
-
-#if UNITY_EDITOR
 		static BuffSOManager()
 		{
 			dataFolder = "BuffData";
@@ -29,36 +22,14 @@ namespace BuffDebuff
 			savePath = Path.Combine("Assets", "Resources", "Scriptable Object", dataFolder);
 		}
 
+		[ContextMenu("Create SO")]
 		public override void CreateSO()
 		{
-
-		}
-		public override void DeleteSO()
-		{
-
-		}
-		public void CreateAllBuff(bool load, /*bool script, */bool asset, bool switchCase)
-		{
-			if (Application.isEditor == false ||
-				Application.isPlaying == true)
-				return;
-
-			if (load == false &&
-				//script == false &&
-				asset == false &&
-				switchCase == false)
-				return;
-
-			if (load)
-			{
-				M_BuffSheet.LoadSpreadSheetData();
-			}
-
 			DataSet dataSet = DataUtil.LoadJsonData();
 
 			StringBuilder sb = null;
 
-			if (switchCase)
+			if (m_SwitchCase)
 			{
 				sb = new StringBuilder();
 
@@ -68,7 +39,7 @@ namespace BuffDebuff
 
 			for (E_BuffType buffType = E_BuffType.Buff; buffType < E_BuffType.Max; ++buffType)
 			{
-				if (switchCase)
+				if (m_SwitchCase)
 				{
 					sb.Append("\t\t\t#region ");
 					sb.AppendLine(BuffEnumUtil.ToKorString<E_BuffType>(buffType));
@@ -103,29 +74,13 @@ namespace BuffDebuff
 					#endregion
 					#region 효과 종류
 					// 효과 종류 불러오기
-					string effectTypeStr = row[2] as string;
-
-					// 한글 -> 영어 전환
-					switch (effectTypeStr)
-					{
-						case "스탯형":
-							effectTypeStr = "Stat";
-							break;
-						case "무기형":
-							effectTypeStr = "Weapon";
-							break;
-						case "전투형":
-							effectTypeStr = "Combat";
-							break;
-						default:
-							Debug.LogError(title + " 버프 효과 종류 불러오기 오류! | 버프 효과 종류: " + effectTypeStr);
-							return;
-					}
+					string effectTypeKorStr = row[2] as string;
+					string effectTypeStr = BuffEnumUtil.ToString(effectTypeKorStr);
 
 					// 자료형 파싱
 					if (System.Enum.TryParse(effectTypeStr, out E_BuffEffectType effectType) == false)
 					{
-						Debug.LogError(title + " 버프 효과 종류 전환 오류! | 버프 효과 종류: " + effectTypeStr);
+						Debug.LogError(title + " 버프 효과 종류 전환 오류! | 버프 효과 종류: " + effectTypeKorStr);
 						return;
 					}
 					#endregion
@@ -153,90 +108,25 @@ namespace BuffDebuff
 					#endregion
 					#region 적용 무기
 					// 적용되는 무기 불러오기
-					string weaponStr = row[5] as string;
-
-					// 한글 -> 영어 전환
-					switch (weaponStr)
-					{
-						case "공통":
-							weaponStr = "All";
-							break;
-						case "근거리 무기":
-							weaponStr = "Melee";
-							break;
-						case "원거리 무기":
-							weaponStr = "Ranged";
-							break;
-						default:
-							Debug.LogError(title + " 버프 적용 무기 타입 전환 오류! | 버프 적용 무기: " + weaponStr);
-							return;
-					}
+					string weaponKorStr = row[5] as string;
+					string weaponStr = BuffEnumUtil.ToString(weaponKorStr);
 
 					// 자료형 파싱
 					if (System.Enum.TryParse(weaponStr, out E_BuffWeapon weapon) == false)
 					{
-						Debug.LogError(title + " 버프 적용 무기 전환 오류! | 버프 적용 무기: " + weaponStr);
+						Debug.LogError(title + " 버프 적용 무기 전환 오류! | 버프 적용 무기: " + weaponKorStr);
 						return;
 					}
 					#endregion
 					#region 발동 조건
 					// 발동 조건 불러오기
-					string conditionStr = row[6] as string;
-
-					// 한글 -> 영어 전환
-					switch (conditionStr)
-					{
-						case "버프를 얻을 때":
-							conditionStr = "Added";
-							break;
-						case "버프를 잃을 때":
-							conditionStr = "Removed";
-							break;
-						case "매 프레임마다":
-							conditionStr = "Update";
-							break;
-						case "일정 시간마다":
-							conditionStr = "Timer";
-							break;
-						case "점프 시":
-							conditionStr = "Jump";
-							break;
-						case "대쉬 시":
-							conditionStr = "Dash";
-							break;
-						case "타격 시":
-							conditionStr = "GiveDamage";
-							break;
-						case "피격 시":
-							conditionStr = "TakeDamage";
-							break;
-						case "공격 시작 시":
-							conditionStr = "AttackStart";
-							break;
-						case "공격 시":
-							conditionStr = "Attack";
-							break;
-						case "공격 종료 시":
-							conditionStr = "AttackEnd";
-							break;
-						case "적 처치 시":
-							conditionStr = "KillEnemy";
-							break;
-						case "사망 시":
-							conditionStr = "Death";
-							break;
-						case "스테이지를 넘어갈 시":
-							conditionStr = "NextStage";
-							break;
-						default:
-							Debug.LogError(title + " 버프 발동 조건 불러오기 오류! | 발동 조건 종류: " + conditionStr);
-							return;
-					}
+					string conditionKorStr = row[6] as string;
+					string conditionStr = BuffEnumUtil.ToString(conditionKorStr);
 
 					// 자료형 파싱
 					if (System.Enum.TryParse(conditionStr, out E_BuffInvokeCondition condition) == false)
 					{
-						Debug.LogError(title + " 버프 발동 조건 전환 오류! | 버프 등급: " + conditionStr);
+						Debug.LogError(title + " 버프 발동 조건 전환 오류! | 버프 등급: " + conditionKorStr);
 						return;
 					}
 					#endregion
@@ -274,19 +164,19 @@ namespace BuffDebuff
 					BuffData buffData = ScriptableObject.CreateInstance<BuffData>();
 					buffData.Initialize(title, code, buffType, effectType, grade, maxStack, weapon, condition, buffValue, buffTime, description, null);
 
-					if (asset)
-						CreateScriptableObject(buffData, title);
-					if (switchCase)
+					CreateScriptableObject(buffData, title);
+
+					if (m_SwitchCase)
 						AppendBuffCase(sb, buffData.title);
 				}
 
-				if (switchCase)
+				if (m_SwitchCase)
 				{
 					sb.AppendLine("\t\t\t#endregion");
 				}
 			}
 
-			if (switchCase)
+			if (m_SwitchCase)
 			{
 				sb.AppendLine("\t\t}");
 
@@ -297,6 +187,11 @@ namespace BuffDebuff
 			AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
 
 			Debug.Log("Buff Data Generation Completed!");
+		}
+		[ContextMenu("Delete SO")]
+		public override void DeleteSO()
+		{
+
 		}
 
 		// 스크립트 생성
@@ -526,6 +421,5 @@ namespace BuffDebuff
 			sb.Append(className);
 			sb.AppendLine("(buffData);");
 		}
-#endif
 	}
 }

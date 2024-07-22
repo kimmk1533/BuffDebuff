@@ -24,6 +24,7 @@ namespace BuffDebuff
 		#region 스탯 관련
 		[Header("===== 스탯 ====="), Space(10)]
 		// 초기 스탯
+		[SerializeField]
 		protected TStat m_InitStat;
 		// 현재 스탯
 		[Space(10)]
@@ -62,6 +63,8 @@ namespace BuffDebuff
 				throw new System.Exception("Child Component(Animator) is null!");
 			m_Animator.Initialize();
 
+			m_Stat = m_InitStat.Clone() as TStat;
+
 			#region Timer
 			if (m_HealTimer == null)
 				m_HealTimer = new UtilClass.Timer();
@@ -74,8 +77,6 @@ namespace BuffDebuff
 		}
 		public virtual void Finallize()
 		{
-			m_Stat = m_InitStat.Clone() as TStat;
-
 			if (m_HealTimer != null)
 				m_HealTimer.Clear();
 
@@ -227,6 +228,7 @@ namespace BuffDebuff
 		#region 스탯 관련
 		[Header("===== 스탯 ====="), Space(10)]
 		// 초기 스탯
+		[SerializeField]
 		protected TStat m_InitStat;
 		// 현재 스탯
 		[Space(10)]
@@ -267,6 +269,8 @@ namespace BuffDebuff
 				throw new System.Exception("Child Component(Animator) is null!");
 			m_Animator.Initialize();
 
+			m_Stat = m_InitStat.Clone() as TStat;
+
 			#region Timer
 			if (m_HealTimer != null)
 				m_HealTimer.Clear();
@@ -284,8 +288,6 @@ namespace BuffDebuff
 		public override void FinallizePoolItem()
 		{
 			base.FinallizePoolItem();
-
-			m_Stat = m_InitStat.Clone() as TStat;
 
 			if (m_HealTimer != null)
 				m_HealTimer.Clear();

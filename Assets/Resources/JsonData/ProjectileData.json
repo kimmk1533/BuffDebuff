@@ -1,0 +1,9 @@
+[
+  {
+    "Asset Path": "Prefabs/03_Projectile/Projectile",
+    "Code": "30001",
+    "Title": "Projectile",
+    "Moving Speed": "5",
+    "Life Time": "1"
+  }
+]

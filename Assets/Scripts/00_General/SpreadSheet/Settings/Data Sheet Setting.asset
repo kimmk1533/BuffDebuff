@@ -29,3 +29,27 @@ MonoBehaviour:
     offsetCell:
       column: 32
       row: 2
+  - enabled: 1
+    sheetName: "\uC801"
+    fileName: EnemyData
+    startCell:
+      column: 67
+      row: 1
+    endCell:
+      column: 89
+      row: 3
+    offsetCell:
+      column: 32
+      row: 2
+  - enabled: 1
+    sheetName: "\uD22C\uC0AC\uCCB4"
+    fileName: ProjectileData
+    startCell:
+      column: 67
+      row: 1
+    endCell:
+      column: 71
+      row: 3
+    offsetCell:
+      column: 32
+      row: 2

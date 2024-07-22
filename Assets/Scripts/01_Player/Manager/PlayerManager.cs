@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using DataDictionary = DoubleKeyDictionary<int, string, (BuffDebuff.Player player, BuffDebuff.PlayerData data)>;
 
 namespace BuffDebuff
 {
@@ -13,7 +14,7 @@ namespace BuffDebuff
 		private Player m_Player = null;
 		private CameraFollow m_PlayerCamera = null;
 
-		private DoubleKeyDictionary<int, string, (Player player, PlayerData data)> m_PlayerDataMap = null;
+		private DataDictionary m_PlayerDataMap = null;
 		#endregion
 
 		#region 프로퍼티
@@ -37,7 +38,7 @@ namespace BuffDebuff
 		public void Initialize()
 		{
 			if (m_PlayerDataMap == null)
-				m_PlayerDataMap = new DoubleKeyDictionary<int, string, (Player player, PlayerData data)>();
+				m_PlayerDataMap = new DataDictionary();
 
 			LoadAllPlayerData();
 		}

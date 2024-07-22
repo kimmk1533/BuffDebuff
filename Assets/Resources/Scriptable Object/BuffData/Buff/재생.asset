@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7ae57efcd1fa9a4ea78a6d89f1d2565, type: 3}
   m_Name: "\uC7AC\uC0DD"
   m_EditorClassIdentifier: 
+  m_AssetPath: 
+  m_Code: 0
+  m_Title: 
   m_Code: 132002
   m_Title: "\uC7AC\uC0DD"
   m_BuffType: 0

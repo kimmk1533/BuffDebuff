@@ -10,10 +10,6 @@ namespace BuffDebuff
 	{
 		#region 변수
 		[SerializeField, ReadOnly]
-		private int m_Code;
-		[SerializeField, ReadOnly]
-		private string m_Title;
-		[SerializeField, ReadOnly]
 		private E_BuffType m_BuffType;
 		[SerializeField, ReadOnly]
 		private E_BuffEffectType m_BuffEffectType;
@@ -36,8 +32,6 @@ namespace BuffDebuff
 		#endregion
 
 		#region 프로퍼티
-		public int code => m_Code;
-		public string title => m_Title;
 		public E_BuffType buffType => m_BuffType;
 		public E_BuffEffectType buffEffectType => m_BuffEffectType;
 		public E_BuffGrade buffGrade => m_BuffGrade;
