@@ -17,8 +17,7 @@ MonoBehaviour:
   clientSecret: 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
   spreadSheetId: 1vDHbPcXSj3IUdHfGhmYbG7bse7FmDJKVRJ8DDd-slDQ
   workSheetDataList:
-  - enabled: 1
-    sheetName: "\uBC84\uD504 \uBAA9\uB85D"
+  - sheetName: "\uBC84\uD504 \uBAA9\uB85D"
     fileName: BuffData
     startCell:
       column: 67
@@ -29,8 +28,8 @@ MonoBehaviour:
     offsetCell:
       column: 0
       row: 2
-  - enabled: 1
-    sheetName: "\uB514\uBC84\uD504 \uBAA9\uB85D"
+    enabled: 1
+  - sheetName: "\uB514\uBC84\uD504 \uBAA9\uB85D"
     fileName: DebuffData
     startCell:
       column: 67
@@ -41,8 +40,8 @@ MonoBehaviour:
     offsetCell:
       column: 0
       row: 2
-  - enabled: 0
-    sheetName: "\uC591\uBA74\uBC84\uD504 \uBAA9\uB85D"
+    enabled: 1
+  - sheetName: "\uC591\uBA74\uBC84\uD504 \uBAA9\uB85D"
     fileName: BothBuffData
     startCell:
       column: 67
@@ -53,3 +52,4 @@ MonoBehaviour:
     offsetCell:
       column: 0
       row: 2
+    enabled: 0

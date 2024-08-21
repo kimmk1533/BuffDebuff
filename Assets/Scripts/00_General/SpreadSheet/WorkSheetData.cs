@@ -6,8 +6,6 @@ using UnityEngine;
 [System.Serializable]
 public class WorkSheetData
 {
-	public bool enabled = true;
-
 	[Tooltip("불러올 시트명")]
 	public string sheetName;
 	[Tooltip("저장할 파일명")]
@@ -17,6 +15,8 @@ public class WorkSheetData
 	public Cell endCell;
 
 	public Cell offsetCell;
+
+	public bool enabled = true;
 
 	public string ToRange()
 	{

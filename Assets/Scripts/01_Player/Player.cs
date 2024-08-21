@@ -52,6 +52,7 @@ namespace BuffDebuff
 		#endregion
 
 		#region 매니저
+		private static PlayerManager M_Player => PlayerManager.Instance;
 		private static ProjectileManager M_Projectile => ProjectileManager.Instance;
 		private static BuffInventory M_BuffInventory => BuffInventory.Instance;
 		private static InputManager M_Input => InputManager.Instance;
@@ -117,19 +118,37 @@ namespace BuffDebuff
 
 		public void AddXp(float xp)
 		{
-			float Xp = m_Stat.Xp.current + xp * m_Stat.XpScale;
-
-			while (Xp >= m_Stat.Xp.max)
+			if (m_Stat.Xp.max <= 0)
 			{
-				InfiniteLoopDetector.Run("AddXp", "Player.cs");
-
-				Xp -= m_Stat.Xp.max;
-
-				LevelUp();
+				Debug.LogError("플레이어 최대 경험치가 0보다 작거나 같음");
+				return;
+			}
+			if (m_Stat.Level.current >= m_Stat.Level.max)
+			{
+				Debug.LogError("플레이어 레벨이 최대임");
+				return;
 			}
 
-			// 추후 최대 경험치도 현재 레벨에 맞게 변환해야함.
-			m_Stat.Xp = new StatValue<float>(Xp, m_Stat.Xp.max);
+			float currentXp = m_Stat.Xp.current + xp * m_Stat.XpScale;
+			float maxXp = m_Stat.Xp.max;
+
+			while (currentXp >= maxXp)
+			{
+				InfiniteLoopDetector.Run("AddXp(float xp)", "Player.cs");
+
+				if (m_Stat.Level.current >= m_Stat.Level.max)
+				{
+					currentXp = maxXp = 0;
+					break;
+				}
+
+				LevelUp();
+
+				currentXp -= maxXp;
+				maxXp = M_Player.GetRequiredXp(m_Stat.Level.current);
+			}
+
+			m_Stat.Xp = new StatValue<float>(currentXp, maxXp);
 		}
 		private void LevelUp()
 		{

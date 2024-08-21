@@ -30,7 +30,7 @@ namespace SpreadSheet
 			MakeSheetDataset(m_DataBase);
 		}
 
-		private void MakeSheetDataset(DataSet dataset)
+		protected void MakeSheetDataset(DataSet dataset)
 		{
 			ClientSecrets pass = new ClientSecrets();
 			pass.ClientId = m_Setting.clientId;
@@ -79,7 +79,7 @@ namespace SpreadSheet
 			}
 		}
 
-		private DataTable SendRequest(SheetsService service, WorkSheetData sheetData)
+		protected DataTable SendRequest(SheetsService service, WorkSheetData sheetData)
 		{
 			DataTable result = null;
 			bool success = true;
@@ -118,12 +118,12 @@ namespace SpreadSheet
 
 			return result;
 		}
-		private DataTable SpreadSheetToDataTable(string json)
+		protected DataTable SpreadSheetToDataTable(string json)
 		{
 			DataTable data = JsonConvert.DeserializeObject<DataTable>(json);
 			return data;
 		}
-		private string ParseSheetData(IList<IList<object>> value, WorkSheetData.Cell offset)
+		protected string ParseSheetData(IList<IList<object>> value, WorkSheetData.Cell offset)
 		{
 			StringBuilder jsonBuilder = new StringBuilder();
 
@@ -154,9 +154,9 @@ namespace SpreadSheet
 
 			return jsonBuilder.ToString();
 		}
-		private void SaveDataToFile(string fileName, DataTable newTable)
+		protected void SaveDataToFile(string fileName, DataTable newTable)
 		{
-			string path = Path.Combine(Application.dataPath, "Resources", "JsonData");
+			string path = DataUtil.jsonPath;
 
 			if (Directory.Exists(path) == false)
 				Directory.CreateDirectory(path);
@@ -181,7 +181,7 @@ namespace SpreadSheet
 			// json파일 저장
 			DataUtil.SetObjectFile(fileName, newTable);
 		}
-		private bool BinaryCheck<TData>(TData src, TData target)
+		protected bool BinaryCheck<TData>(TData src, TData target)
 		{
 			// 두 대상을 바이너리로 변환해서 비교, 다르면 false 반환
 			BinaryFormatter formatter1 = new BinaryFormatter();
@@ -205,85 +205,6 @@ namespace SpreadSheet
 					return false;
 			}
 			return true;
-		}
-	}
-
-	public static class DataUtil
-	{
-		public static readonly string jsonPath = Path.Combine(Application.dataPath, "Resources", "JsonData");
-
-		public static void LoadJsonData(DataSet dataset)
-		{
-			DirectoryInfo info = new DirectoryInfo(jsonPath);
-			foreach (FileInfo file in info.GetFiles())
-			{
-				if (file.Name.EndsWith(".json") == false)
-					continue;
-
-				//로컬 경로에서 json 가져와서 DataTable으로 변환
-				DataTable table = DataUtil.GetDataTable(file);
-				dataset.Tables.Add(table);
-			}
-		}
-		public static DataSet LoadJsonData()
-		{
-			DataSet dataSet = new DataSet();
-
-			LoadJsonData(dataSet);
-
-			return dataSet;
-		}
-		public static DataTable GetDataTable(string fileName, string tableName)
-		{
-			string filePath = Path.Combine("JsonData", fileName);
-			var text = Resources.Load<TextAsset>(filePath);
-			string value = text.ToString();
-			DataTable data = JsonConvert.DeserializeObject<DataTable>(value);
-			data.TableName = tableName;
-
-			return data;
-		}
-		public static DataTable GetDataTable(FileInfo info)
-		{
-			string fileName = Path.GetFileNameWithoutExtension(info.Name);
-			string path = string.Concat("JsonData/", fileName);
-			string value = string.Empty;
-			try
-			{
-				value = Resources.Load<TextAsset>(path).ToString();
-			}
-			catch (Exception e)
-			{
-				Debug.LogError(e.ToString());
-			}
-
-			DataTable data = JsonConvert.DeserializeObject<DataTable>(value);
-			data.TableName = fileName;
-
-			return data;
-		}
-		public static string GetDataValue(DataSet dataSet, string tableName, string primary, string value, string column)
-		{
-			DataRow[] rows = dataSet.Tables[tableName].Select(string.Concat(primary, " = '", value, "'"));
-
-			return rows[0][column].ToString();
-		}
-		public static string GetDataValue(DataTable dataTable, string primary, string value, string column)
-		{
-			DataRow[] rows = dataTable.Select(string.Concat(primary, " = '", value, "'"));
-
-			return rows[0][column].ToString();
-		}
-		public static void SetObjectFile<T>(string key, T data)
-		{
-			string path = Path.Combine(Application.dataPath, "Resources", "JsonData");
-			if (Directory.Exists(path) == false)
-				Directory.CreateDirectory(path);
-
-			string filePath = Path.Combine(path, key + ".json");
-			string value = JsonConvert.SerializeObject(data, Formatting.Indented);
-
-			File.WriteAllText(filePath, value);
 		}
 	}
 }

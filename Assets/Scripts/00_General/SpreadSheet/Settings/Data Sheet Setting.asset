@@ -17,8 +17,7 @@ MonoBehaviour:
   clientSecret: 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
   spreadSheetId: 1YTt8oFswaRScVr-5lFfbgslvaMNrS6teOjk1AFLQelQ
   workSheetDataList:
-  - enabled: 1
-    sheetName: "\uD50C\uB808\uC774\uC5B4"
+  - sheetName: "\uD50C\uB808\uC774\uC5B4"
     fileName: PlayerData
     startCell:
       column: 67
@@ -29,8 +28,8 @@ MonoBehaviour:
     offsetCell:
       column: 32
       row: 2
-  - enabled: 1
-    sheetName: "\uC801"
+    enabled: 1
+  - sheetName: "\uC801"
     fileName: EnemyData
     startCell:
       column: 67
@@ -41,8 +40,8 @@ MonoBehaviour:
     offsetCell:
       column: 32
       row: 2
-  - enabled: 1
-    sheetName: "\uD22C\uC0AC\uCCB4"
+    enabled: 1
+  - sheetName: "\uD22C\uC0AC\uCCB4"
     fileName: ProjectileData
     startCell:
       column: 67
@@ -53,3 +52,16 @@ MonoBehaviour:
     offsetCell:
       column: 32
       row: 2
+    enabled: 1
+  - sheetName: "\uB808\uBCA8"
+    fileName: LevelData
+    startCell:
+      column: 65
+      row: 1
+    endCell:
+      column: 68
+      row: 0
+    offsetCell:
+      column: 32
+      row: 2
+    enabled: 1

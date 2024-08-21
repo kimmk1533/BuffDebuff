@@ -26,7 +26,7 @@ namespace BuffDebuff
 		protected PlayerStat() : base()
 		{
 			// 레벨
-			Level = new StatValue<int>(0);
+			Level = new StatValue<int>(1);
 
 			// 대쉬 속도
 			DashSpeed = 0f;
@@ -108,7 +108,7 @@ namespace BuffDebuff
 			stat.XpScale = data.xpScale;
 
 			// 레벨
-			stat.Level = new StatValue<int>(0, 100);
+			stat.Level = new StatValue<int>(1, 100);
 
 			// 대쉬 속도
 			stat.DashSpeed = data.dashSpeed;

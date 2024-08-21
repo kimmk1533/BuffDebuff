@@ -49,7 +49,7 @@ namespace BuffDebuff
 
 		private void LoadAllEnemyData()
 		{
-			string path = Path.Combine("Scriptable Object", "EnemyData");
+			string path = EnemySOManager.resourcesPath;
 			EnemyData[] enemyDatas = Resources.LoadAll<EnemyData>(path);
 
 			for (int i = 0; i < enemyDatas.Length; ++i)

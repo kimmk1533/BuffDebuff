@@ -18,8 +18,6 @@ namespace BuffDebuff
 		static BuffSOManager()
 		{
 			dataFolder = "BuffData";
-			dataPath = Path.Combine(Application.dataPath, "Resources", "Scriptable Object", dataFolder);
-			savePath = Path.Combine("Assets", "Resources", "Scriptable Object", dataFolder);
 		}
 
 		[ContextMenu("Create SO")]

@@ -15,6 +15,8 @@ namespace BuffDebuff
 		private CameraFollow m_PlayerCamera = null;
 
 		private DataDictionary m_PlayerDataMap = null;
+		// 현재 레벨, 다음 레벨까지 필요 경험치
+		private Dictionary<int, float> m_PlayerLevelMap = null;
 		#endregion
 
 		#region 프로퍼티
@@ -39,7 +41,10 @@ namespace BuffDebuff
 		{
 			if (m_PlayerDataMap == null)
 				m_PlayerDataMap = new DataDictionary();
+			if (m_PlayerLevelMap == null)
+				m_PlayerLevelMap = new Dictionary<int, float>();
 
+			LoadAllLevelData();
 			LoadAllPlayerData();
 		}
 		public void Finallize()
@@ -75,7 +80,7 @@ namespace BuffDebuff
 
 		private void LoadAllPlayerData()
 		{
-			string path = Path.Combine("Scriptable Object", "PlayerData");
+			string path = PlayerSOManager.resourcesPath;
 			PlayerData[] playerDatas = Resources.LoadAll<PlayerData>(path);
 
 			for (int i = 0; i < playerDatas.Length; ++i)
@@ -91,11 +96,27 @@ namespace BuffDebuff
 				// 플레이어 복제
 				Player player = GameObject.Instantiate<Player>(origin, transform);
 				// 초기 스탯 설정
-				player.SetInitStat(PlayerStat.Clone(playerData));
+				PlayerStat playerStat = PlayerStat.Clone(playerData);
+				var temp = playerStat.Xp;
+				temp.max = m_PlayerLevelMap[playerStat.Level.current];
+				playerStat.Xp = temp;
+				player.SetInitStat(playerStat);
 				// 풀처럼 설정
 				player.gameObject.SetActive(false);
 
 				m_PlayerDataMap.Add(playerData.code, playerData.title, (player, playerData));
+			}
+		}
+		private void LoadAllLevelData()
+		{
+			string path = LevelSOManager.resourcesPath;
+			LevelData[] levelDatas = Resources.LoadAll<LevelData>(path);
+
+			for (int i = 0; i < levelDatas.Length; ++i)
+			{
+				LevelData levelData = levelDatas[i];
+
+				m_PlayerLevelMap.Add(levelData.currentLevel, levelData.requiredXp);
 			}
 		}
 		public void SelectPlayerData(int code)
@@ -130,6 +151,10 @@ namespace BuffDebuff
 		public void AddXp(float xp)
 		{
 			m_Player.AddXp(xp);
+		}
+		public float GetRequiredXp(int currentLevel)
+		{
+			return m_PlayerLevelMap[currentLevel];
 		}
 
 		private void OnStageGenerated()

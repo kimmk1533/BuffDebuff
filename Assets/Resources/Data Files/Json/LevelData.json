@@ -1,0 +1,596 @@
+[
+  {
+    "Current Level": "1",
+    "Next Level": "2",
+    "Required Xp": "50",
+    "Total Xp": "50"
+  },
+  {
+    "Current Level": "2",
+    "Next Level": "3",
+    "Required Xp": "52",
+    "Total Xp": "102"
+  },
+  {
+    "Current Level": "3",
+    "Next Level": "4",
+    "Required Xp": "56",
+    "Total Xp": "158"
+  },
+  {
+    "Current Level": "4",
+    "Next Level": "5",
+    "Required Xp": "61",
+    "Total Xp": "219"
+  },
+  {
+    "Current Level": "5",
+    "Next Level": "6",
+    "Required Xp": "67",
+    "Total Xp": "286"
+  },
+  {
+    "Current Level": "6",
+    "Next Level": "7",
+    "Required Xp": "75",
+    "Total Xp": "362"
+  },
+  {
+    "Current Level": "7",
+    "Next Level": "8",
+    "Required Xp": "85",
+    "Total Xp": "446"
+  },
+  {
+    "Current Level": "8",
+    "Next Level": "9",
+    "Required Xp": "96",
+    "Total Xp": "542"
+  },
+  {
+    "Current Level": "9",
+    "Next Level": "10",
+    "Required Xp": "108",
+    "Total Xp": "650"
+  },
+  {
+    "Current Level": "10",
+    "Next Level": "11",
+    "Required Xp": "122",
+    "Total Xp": "772"
+  },
+  {
+    "Current Level": "11",
+    "Next Level": "12",
+    "Required Xp": "137",
+    "Total Xp": "908"
+  },
+  {
+    "Current Level": "12",
+    "Next Level": "13",
+    "Required Xp": "154",
+    "Total Xp": "1,062"
+  },
+  {
+    "Current Level": "13",
+    "Next Level": "14",
+    "Required Xp": "172",
+    "Total Xp": "1,234"
+  },
+  {
+    "Current Level": "14",
+    "Next Level": "15",
+    "Required Xp": "191",
+    "Total Xp": "1,425"
+  },
+  {
+    "Current Level": "15",
+    "Next Level": "16",
+    "Required Xp": "212",
+    "Total Xp": "1,637"
+  },
+  {
+    "Current Level": "16",
+    "Next Level": "17",
+    "Required Xp": "235",
+    "Total Xp": "1,872"
+  },
+  {
+    "Current Level": "17",
+    "Next Level": "18",
+    "Required Xp": "259",
+    "Total Xp": "2,130"
+  },
+  {
+    "Current Level": "18",
+    "Next Level": "19",
+    "Required Xp": "284",
+    "Total Xp": "2,414"
+  },
+  {
+    "Current Level": "19",
+    "Next Level": "20",
+    "Required Xp": "311",
+    "Total Xp": "2,725"
+  },
+  {
+    "Current Level": "20",
+    "Next Level": "21",
+    "Required Xp": "339",
+    "Total Xp": "3,064"
+  },
+  {
+    "Current Level": "21",
+    "Next Level": "22",
+    "Required Xp": "369",
+    "Total Xp": "3,432"
+  },
+  {
+    "Current Level": "22",
+    "Next Level": "23",
+    "Required Xp": "400",
+    "Total Xp": "3,832"
+  },
+  {
+    "Current Level": "23",
+    "Next Level": "24",
+    "Required Xp": "432",
+    "Total Xp": "4,265"
+  },
+  {
+    "Current Level": "24",
+    "Next Level": "25",
+    "Required Xp": "466",
+    "Total Xp": "4,731"
+  },
+  {
+    "Current Level": "25",
+    "Next Level": "26",
+    "Required Xp": "502",
+    "Total Xp": "5,233"
+  },
+  {
+    "Current Level": "26",
+    "Next Level": "27",
+    "Required Xp": "539",
+    "Total Xp": "5,772"
+  },
+  {
+    "Current Level": "27",
+    "Next Level": "28",
+    "Required Xp": "577",
+    "Total Xp": "6,349"
+  },
+  {
+    "Current Level": "28",
+    "Next Level": "29",
+    "Required Xp": "617",
+    "Total Xp": "6,966"
+  },
+  {
+    "Current Level": "29",
+    "Next Level": "30",
+    "Required Xp": "658",
+    "Total Xp": "7,624"
+  },
+  {
+    "Current Level": "30",
+    "Next Level": "31",
+    "Required Xp": "701",
+    "Total Xp": "8,325"
+  },
+  {
+    "Current Level": "31",
+    "Next Level": "32",
+    "Required Xp": "745",
+    "Total Xp": "9,070"
+  },
+  {
+    "Current Level": "32",
+    "Next Level": "33",
+    "Required Xp": "791",
+    "Total Xp": "9,861"
+  },
+  {
+    "Current Level": "33",
+    "Next Level": "34",
+    "Required Xp": "838",
+    "Total Xp": "10,699"
+  },
+  {
+    "Current Level": "34",
+    "Next Level": "35",
+    "Required Xp": "886",
+    "Total Xp": "11,585"
+  },
+  {
+    "Current Level": "35",
+    "Next Level": "36",
+    "Required Xp": "936",
+    "Total Xp": "12,522"
+  },
+  {
+    "Current Level": "36",
+    "Next Level": "37",
+    "Required Xp": "988",
+    "Total Xp": "13,509"
+  },
+  {
+    "Current Level": "37",
+    "Next Level": "38",
+    "Required Xp": "1,041",
+    "Total Xp": "14,550"
+  },
+  {
+    "Current Level": "38",
+    "Next Level": "39",
+    "Required Xp": "1,095",
+    "Total Xp": "15,645"
+  },
+  {
+    "Current Level": "39",
+    "Next Level": "40",
+    "Required Xp": "1,151",
+    "Total Xp": "16,796"
+  },
+  {
+    "Current Level": "40",
+    "Next Level": "41",
+    "Required Xp": "1,208",
+    "Total Xp": "18,003"
+  },
+  {
+    "Current Level": "41",
+    "Next Level": "42",
+    "Required Xp": "1,267",
+    "Total Xp": "19,270"
+  },
+  {
+    "Current Level": "42",
+    "Next Level": "43",
+    "Required Xp": "1,327",
+    "Total Xp": "20,597"
+  },
+  {
+    "Current Level": "43",
+    "Next Level": "44",
+    "Required Xp": "1,388",
+    "Total Xp": "21,985"
+  },
+  {
+    "Current Level": "44",
+    "Next Level": "45",
+    "Required Xp": "1,451",
+    "Total Xp": "23,436"
+  },
+  {
+    "Current Level": "45",
+    "Next Level": "46",
+    "Required Xp": "1,516",
+    "Total Xp": "24,952"
+  },
+  {
+    "Current Level": "46",
+    "Next Level": "47",
+    "Required Xp": "1,582",
+    "Total Xp": "26,533"
+  },
+  {
+    "Current Level": "47",
+    "Next Level": "48",
+    "Required Xp": "1,649",
+    "Total Xp": "28,182"
+  },
+  {
+    "Current Level": "48",
+    "Next Level": "49",
+    "Required Xp": "1,718",
+    "Total Xp": "29,900"
+  },
+  {
+    "Current Level": "49",
+    "Next Level": "50",
+    "Required Xp": "1,788",
+    "Total Xp": "31,688"
+  },
+  {
+    "Current Level": "50",
+    "Next Level": "51",
+    "Required Xp": "1,860",
+    "Total Xp": "33,547"
+  },
+  {
+    "Current Level": "51",
+    "Next Level": "52",
+    "Required Xp": "1,933",
+    "Total Xp": "35,480"
+  },
+  {
+    "Current Level": "52",
+    "Next Level": "53",
+    "Required Xp": "2,007",
+    "Total Xp": "37,488"
+  },
+  {
+    "Current Level": "53",
+    "Next Level": "54",
+    "Required Xp": "2,083",
+    "Total Xp": "39,571"
+  },
+  {
+    "Current Level": "54",
+    "Next Level": "55",
+    "Required Xp": "2,161",
+    "Total Xp": "41,732"
+  },
+  {
+    "Current Level": "55",
+    "Next Level": "56",
+    "Required Xp": "2,240",
+    "Total Xp": "43,972"
+  },
+  {
+    "Current Level": "56",
+    "Next Level": "57",
+    "Required Xp": "2,320",
+    "Total Xp": "46,292"
+  },
+  {
+    "Current Level": "57",
+    "Next Level": "58",
+    "Required Xp": "2,402",
+    "Total Xp": "48,694"
+  },
+  {
+    "Current Level": "58",
+    "Next Level": "59",
+    "Required Xp": "2,485",
+    "Total Xp": "51,179"
+  },
+  {
+    "Current Level": "59",
+    "Next Level": "60",
+    "Required Xp": "2,570",
+    "Total Xp": "53,749"
+  },
+  {
+    "Current Level": "60",
+    "Next Level": "61",
+    "Required Xp": "2,656",
+    "Total Xp": "56,405"
+  },
+  {
+    "Current Level": "61",
+    "Next Level": "62",
+    "Required Xp": "2,744",
+    "Total Xp": "59,149"
+  },
+  {
+    "Current Level": "62",
+    "Next Level": "63",
+    "Required Xp": "2,833",
+    "Total Xp": "61,982"
+  },
+  {
+    "Current Level": "63",
+    "Next Level": "64",
+    "Required Xp": "2,923",
+    "Total Xp": "64,905"
+  },
+  {
+    "Current Level": "64",
+    "Next Level": "65",
+    "Required Xp": "3,015",
+    "Total Xp": "67,921"
+  },
+  {
+    "Current Level": "65",
+    "Next Level": "66",
+    "Required Xp": "3,109",
+    "Total Xp": "71,029"
+  },
+  {
+    "Current Level": "66",
+    "Next Level": "67",
+    "Required Xp": "3,204",
+    "Total Xp": "74,233"
+  },
+  {
+    "Current Level": "67",
+    "Next Level": "68",
+    "Required Xp": "3,300",
+    "Total Xp": "77,533"
+  },
+  {
+    "Current Level": "68",
+    "Next Level": "69",
+    "Required Xp": "3,398",
+    "Total Xp": "80,931"
+  },
+  {
+    "Current Level": "69",
+    "Next Level": "70",
+    "Required Xp": "3,497",
+    "Total Xp": "84,427"
+  },
+  {
+    "Current Level": "70",
+    "Next Level": "71",
+    "Required Xp": "3,598",
+    "Total Xp": "88,025"
+  },
+  {
+    "Current Level": "71",
+    "Next Level": "72",
+    "Required Xp": "3,700",
+    "Total Xp": "91,725"
+  },
+  {
+    "Current Level": "72",
+    "Next Level": "73",
+    "Required Xp": "3,803",
+    "Total Xp": "95,528"
+  },
+  {
+    "Current Level": "73",
+    "Next Level": "74",
+    "Required Xp": "3,908",
+    "Total Xp": "99,436"
+  },
+  {
+    "Current Level": "74",
+    "Next Level": "75",
+    "Required Xp": "4,015",
+    "Total Xp": "103,451"
+  },
+  {
+    "Current Level": "75",
+    "Next Level": "76",
+    "Required Xp": "4,123",
+    "Total Xp": "107,573"
+  },
+  {
+    "Current Level": "76",
+    "Next Level": "77",
+    "Required Xp": "4,232",
+    "Total Xp": "111,805"
+  },
+  {
+    "Current Level": "77",
+    "Next Level": "78",
+    "Required Xp": "4,343",
+    "Total Xp": "116,148"
+  },
+  {
+    "Current Level": "78",
+    "Next Level": "79",
+    "Required Xp": "4,455",
+    "Total Xp": "120,603"
+  },
+  {
+    "Current Level": "79",
+    "Next Level": "80",
+    "Required Xp": "4,569",
+    "Total Xp": "125,171"
+  },
+  {
+    "Current Level": "80",
+    "Next Level": "81",
+    "Required Xp": "4,684",
+    "Total Xp": "129,855"
+  },
+  {
+    "Current Level": "81",
+    "Next Level": "82",
+    "Required Xp": "4,800",
+    "Total Xp": "134,656"
+  },
+  {
+    "Current Level": "82",
+    "Next Level": "83",
+    "Required Xp": "4,918",
+    "Total Xp": "139,574"
+  },
+  {
+    "Current Level": "83",
+    "Next Level": "84",
+    "Required Xp": "5,038",
+    "Total Xp": "144,612"
+  },
+  {
+    "Current Level": "84",
+    "Next Level": "85",
+    "Required Xp": "5,159",
+    "Total Xp": "149,771"
+  },
+  {
+    "Current Level": "85",
+    "Next Level": "86",
+    "Required Xp": "5,281",
+    "Total Xp": "155,052"
+  },
+  {
+    "Current Level": "86",
+    "Next Level": "87",
+    "Required Xp": "5,405",
+    "Total Xp": "160,457"
+  },
+  {
+    "Current Level": "87",
+    "Next Level": "88",
+    "Required Xp": "5,530",
+    "Total Xp": "165,987"
+  },
+  {
+    "Current Level": "88",
+    "Next Level": "89",
+    "Required Xp": "5,657",
+    "Total Xp": "171,644"
+  },
+  {
+    "Current Level": "89",
+    "Next Level": "90",
+    "Required Xp": "5,785",
+    "Total Xp": "177,429"
+  },
+  {
+    "Current Level": "90",
+    "Next Level": "91",
+    "Required Xp": "5,915",
+    "Total Xp": "183,344"
+  },
+  {
+    "Current Level": "91",
+    "Next Level": "92",
+    "Required Xp": "6,046",
+    "Total Xp": "189,390"
+  },
+  {
+    "Current Level": "92",
+    "Next Level": "93",
+    "Required Xp": "6,178",
+    "Total Xp": "195,568"
+  },
+  {
+    "Current Level": "93",
+    "Next Level": "94",
+    "Required Xp": "6,312",
+    "Total Xp": "201,881"
+  },
+  {
+    "Current Level": "94",
+    "Next Level": "95",
+    "Required Xp": "6,448",
+    "Total Xp": "208,328"
+  },
+  {
+    "Current Level": "95",
+    "Next Level": "96",
+    "Required Xp": "6,585",
+    "Total Xp": "214,913"
+  },
+  {
+    "Current Level": "96",
+    "Next Level": "97",
+    "Required Xp": "6,723",
+    "Total Xp": "221,636"
+  },
+  {
+    "Current Level": "97",
+    "Next Level": "98",
+    "Required Xp": "6,863",
+    "Total Xp": "228,499"
+  },
+  {
+    "Current Level": "98",
+    "Next Level": "99",
+    "Required Xp": "7,004",
+    "Total Xp": "235,502"
+  },
+  {
+    "Current Level": "99",
+    "Next Level": "100",
+    "Required Xp": "7,147",
+    "Total Xp": "242,649"
+  }
+]

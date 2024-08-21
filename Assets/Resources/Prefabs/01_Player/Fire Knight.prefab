@@ -280,45 +280,77 @@ MonoBehaviour:
   m_GameObject: {fileID: 1233320925476692317}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1310be53b3c24f4ab74f068ba31de52, type: 3}
+  m_Script: {fileID: 11500000, guid: 391c0cf984af74f44b6e7dea94dcd561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1233320923803721149}
   m_IsSimulating: 1
   m_Velocity: {x: 0, y: 0}
-  m_Stat:
+  m_InitStat:
     <Hp>k__BackingField:
-      <max>k__BackingField: 500
-      <current>k__BackingField: 500
-    <HpRegen>k__BackingField: 10
-    <HpRegenTime>k__BackingField: 5
+      <max>k__BackingField: 0
+      <current>k__BackingField: 0
+    <HpRegen>k__BackingField: 0
+    <HpRegenTime>k__BackingField: 0
     <HealScale>k__BackingField: 1
     <AntiHealScale>k__BackingField: 1
-    <Armor>k__BackingField: 10
-    <AttackPower>k__BackingField: 20
-    <AttackSpeed>k__BackingField: 1
-    <AttackSize>k__BackingField: 1
-    <ShotSpeed>k__BackingField: 5
-    <AttackRange>k__BackingField: 1
+    <Armor>k__BackingField: 0
+    <AttackPower>k__BackingField: 0
+    <AttackSpeed>k__BackingField: 0
+    <AttackSize>k__BackingField: 0
+    <ShotSpeed>k__BackingField: 1
+    <AttackRange>k__BackingField: 0
     <MultiHitCount>k__BackingField: 0
     <CriticalRate>k__BackingField: 0
-    <CriticalDamageScale>k__BackingField: 2
+    <CriticalDamageScale>k__BackingField: 1
     <Avoidability>k__BackingField: 0
-    <MoveSpeed>k__BackingField: 10
-    <Sight>k__BackingField: 5
+    <MoveSpeed>k__BackingField: 0
+    <Sight>k__BackingField: 0
     <Xp>k__BackingField:
-      <max>k__BackingField: 500
+      <max>k__BackingField: 0
       <current>k__BackingField: 0
     <XpScale>k__BackingField: 1
     <Level>k__BackingField:
-      <max>k__BackingField: 100
-      <current>k__BackingField: 1
-    <DashSpeed>k__BackingField: 30
+      <max>k__BackingField: 0
+      <current>k__BackingField: 0
+    <DashSpeed>k__BackingField: 0
     <DashCount>k__BackingField:
-      <max>k__BackingField: 3
-      <current>k__BackingField: 3
-    <DashRechargeTime>k__BackingField: 1
-  m_MaxAttackIndex: 3
+      <max>k__BackingField: 0
+      <current>k__BackingField: 0
+    <DashRechargeTime>k__BackingField: 0
+  m_Stat:
+    <Hp>k__BackingField:
+      <max>k__BackingField: 0
+      <current>k__BackingField: 0
+    <HpRegen>k__BackingField: 0
+    <HpRegenTime>k__BackingField: 0
+    <HealScale>k__BackingField: 1
+    <AntiHealScale>k__BackingField: 1
+    <Armor>k__BackingField: 0
+    <AttackPower>k__BackingField: 0
+    <AttackSpeed>k__BackingField: 0
+    <AttackSize>k__BackingField: 0
+    <ShotSpeed>k__BackingField: 1
+    <AttackRange>k__BackingField: 0
+    <MultiHitCount>k__BackingField: 0
+    <CriticalRate>k__BackingField: 0
+    <CriticalDamageScale>k__BackingField: 1
+    <Avoidability>k__BackingField: 0
+    <MoveSpeed>k__BackingField: 0
+    <Sight>k__BackingField: 0
+    <Xp>k__BackingField:
+      <max>k__BackingField: 0
+      <current>k__BackingField: 0
+    <XpScale>k__BackingField: 1
+    <Level>k__BackingField:
+      <max>k__BackingField: 0
+      <current>k__BackingField: 0
+    <DashSpeed>k__BackingField: 0
+    <DashCount>k__BackingField:
+      <max>k__BackingField: 0
+      <current>k__BackingField: 0
+    <DashRechargeTime>k__BackingField: 0
+  m_MaxAttackIndex: 0
   m_HealTimer:
     m_Interval: 0
     m_Time: 0

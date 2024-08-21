@@ -78,7 +78,7 @@ namespace BuffDebuff
 		}
 		private void LoadBuffData(E_BuffType buffType)
 		{
-			string path = Path.Combine("Scriptable Object", "BuffData", buffType.ToString());
+			string path = Path.Combine(BuffSOManager.resourcesPath, buffType.ToString());
 			BuffData[] buffDatas = Resources.LoadAll<BuffData>(path);
 
 			for (int i = 0; i < buffDatas.Length; ++i)
