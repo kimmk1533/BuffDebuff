@@ -88,10 +88,12 @@ namespace BuffDebuff
 			}
 		}
 
+#if UNITY_EDITOR
 		[ContextMenu("Load Origin")]
 		protected override void LoadOrigin()
 		{
 			base.LoadOrigin_Inner();
 		}
+#endif
 	}
 }

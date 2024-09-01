@@ -95,7 +95,8 @@ namespace BuffDebuff
 
 			if (M_Input.GetKeyDown(E_InputType.PlayerAttack))
 			{
-				Attack();
+				if (CanAttack() == true)
+					Attack();
 			}
 			if (M_Input.GetKeyDown(E_InputType.PlayerDash))
 			{
@@ -248,15 +249,10 @@ namespace BuffDebuff
 		{
 			return base.CanAttack() && (m_IsAttacking ? m_CanComboAttack : true);
 		}
-		public override bool Attack()
+		public override void Attack()
 		{
-			if (CanAttack() == false)
-				return false;
-
 			m_IsAttacking = true;
 			m_Animator.Anim_Attack(m_AttackIndex++);
-
-			return true;
 		}
 		private void CreateProjectile()
 		{
@@ -277,9 +273,6 @@ namespace BuffDebuff
 				.SetMoveType(new StraightMove())
 				.Spawn();
 
-			//projectile.Initialize(5.0f, m_CurrentStat.AttackRange);
-
-			projectile.SetMovingStrategy(new StraightMove());
 			projectile["Enemy"].onEnter2D += (Collider2D collider) =>
 			{
 				Enemy enemy = collider.GetComponent<Enemy>();

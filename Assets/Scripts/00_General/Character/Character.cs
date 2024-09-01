@@ -82,6 +82,8 @@ namespace BuffDebuff
 
 			if (m_AttackTimer != null)
 				m_AttackTimer.Clear();
+
+			m_Controller.Finallize();
 		}
 
 		protected virtual void Update()
@@ -126,15 +128,11 @@ namespace BuffDebuff
 		{
 			return m_AttackTimer.TimeCheck();
 		}
-		public virtual bool Attack()
+		public virtual void Attack()
 		{
-			if (CanAttack() == false)
-				return false;
-
+			m_AttackTimer.Clear();
 			m_AttackIndex = Random.Range(0, m_MaxAttackIndex);
 			m_Animator.Anim_Attack(m_AttackIndex);
-
-			return true;
 		}
 
 		// Timer Func
@@ -262,6 +260,9 @@ namespace BuffDebuff
 		{
 			base.InitializePoolItem();
 
+			if (m_IsSimulating == false)
+				m_IsSimulating = true;
+
 			this.NullCheckGetComponent<TController>(ref m_Controller);
 			m_Controller.Initialize();
 
@@ -294,6 +295,8 @@ namespace BuffDebuff
 
 			if (m_AttackTimer != null)
 				m_AttackTimer.Clear();
+
+			m_Controller.Finallize();
 		}
 
 		protected virtual void Update()
@@ -338,15 +341,11 @@ namespace BuffDebuff
 		{
 			return m_AttackTimer.TimeCheck();
 		}
-		public virtual bool Attack()
+		public virtual void Attack()
 		{
-			if (CanAttack() == false)
-				return false;
-
+			m_AttackTimer.Clear();
 			m_AttackIndex = Random.Range(0, m_MaxAttackIndex);
 			m_Animator.Anim_Attack(m_AttackIndex);
-
-			return true;
 		}
 
 		// Timer Func

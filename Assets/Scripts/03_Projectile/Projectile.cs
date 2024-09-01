@@ -61,12 +61,12 @@ namespace BuffDebuff
 		{
 			base.FinallizePoolItem();
 
+			m_Animator.Finallize();
+
 			m_CollisionChecker2D.Finallize();
 
 			if (m_DespawnTimer != null)
-			{
 				m_DespawnTimer.Clear();
-			}
 		}
 
 		private void Update()

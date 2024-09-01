@@ -24,7 +24,9 @@ public abstract class CollisionChecker2D : MonoBehaviour
 	[SerializeField]
 	protected bool m_IsSimulating = true;
 
+	[SerializeField, ReadOnly]
 	protected List<Collider2D> m_CollisionObjectList;
+	[SerializeField, ReadOnly]
 	protected List<Collider2D> m_OldCollisionObjectList;
 
 	[SerializeField, ReadOnly]
@@ -86,8 +88,6 @@ public abstract class CollisionChecker2D : MonoBehaviour
 
 	public virtual void Initialize()
 	{
-		m_LayerMask = LayerMask.GetMask();
-
 		if (m_CollisionObjectList != null)
 			m_CollisionObjectList.Clear();
 		else
@@ -110,6 +110,8 @@ public abstract class CollisionChecker2D : MonoBehaviour
 			item.Value.onExit2D = null;
 		}
 		m_TriggerMap.Clear();
+
+		m_LayerMask = LayerMask.GetMask();
 	}
 
 	protected virtual void Update()

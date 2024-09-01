@@ -71,6 +71,10 @@ public class Controller2D : RaycastController
 
 		m_Collisions.faceDir = 1;
 	}
+	public void Finallize()
+	{
+		m_Collisions.Reset();
+	}
 
 	public void Move(Vector2 moveAmount, bool standingOnPlatform = false)
 	{

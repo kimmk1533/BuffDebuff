@@ -86,16 +86,6 @@ namespace BuffDebuff
 			m_TargetFinder.onTargetLost2D += (target) =>
 			{
 				SetState(E_EnemyState.Idle);
-
-				int count = textObjectList.Count;
-				for (int i = 0; i < count; ++i)
-				{
-					if (textObjectList[i] == null)
-						continue;
-
-					GameObject.Destroy(textObjectList[i].gameObject);
-				}
-				textObjectList.Clear();
 			};
 
 			m_PathFinding_Path = null;
@@ -127,6 +117,10 @@ namespace BuffDebuff
 
 			m_MoveDirTimer.Clear();
 			m_PathFinding_ReSearchTimer.Clear();
+
+			if (m_PathFinding_Path != null)
+				m_PathFinding_Path.Clear();
+			m_PathFinding_NodeIndex = -1;
 		}
 
 		protected override void Update()
@@ -135,7 +129,6 @@ namespace BuffDebuff
 
 			if (CanAttack())
 				Attack();
-			//AnimEvent_Attacking(); // 임시. 공격 애니메이션(Attack 함수)으로 수정해야 함
 		}
 
 		private void ResetInput()
@@ -561,7 +554,12 @@ namespace BuffDebuff
 		{
 			return base.CanAttack() &&
 				target != null &&
-				m_TargetFinder.state == EnemyTargetFinder.E_TargetFinderState.Chasing;
+				m_TargetFinder.state == EnemyTargetFinder.E_TargetFinderState.Chasing &&
+				m_Controller.collisions.isair == false;
+		}
+		public override void Attack()
+		{
+			base.Attack();
 		}
 
 		protected void CreateProjectile()
@@ -657,57 +655,6 @@ namespace BuffDebuff
 
 			m_IsSimulating = true;
 		}
-
-		#region 디버깅
-		[SerializeField]
-		private bool showPath = true;
-		[SerializeField]
-		private Color textColor = Color.white;
-		[SerializeField, ReadOnly(true)]
-		private GameObject textObjectParent;
-		[SerializeField, ReadOnly]
-		private List<TextMesh> textObjectList = new List<TextMesh>();
-		private void OnDrawGizmos()
-		{
-			if (textObjectList == null)
-				return;
-
-			if (showPath == false)
-				return;
-
-			Vector3 offset = Vector3.zero; //Vector3.one * 0.5f;
-			Vector3 size = Vector3.one * 0.5f;
-
-			var path = textObjectList;
-
-			for (int i = 1; i < path.Count; ++i)
-			{
-				Vector3 start = new Vector3(path[i - 1].transform.position.x, path[i - 1].transform.position.y);
-				Vector3 end = new Vector3(path[i].transform.position.x, path[i].transform.position.y);
-
-				Debug.DrawLine(start + offset, end + offset, textColor);
-
-				MyDebug.DrawRect(start + offset, size, textColor);
-
-				if (i == path.Count - 1)
-				{
-					MyDebug.DrawRect(end + offset, size, textColor);
-				}
-			}
-		}
-		private void OnDisable()
-		{
-			int count = textObjectList.Count;
-			for (int i = 0; i < count; ++i)
-			{
-				if (textObjectList[i] == null)
-					continue;
-
-				GameObject.Destroy(textObjectList[i].gameObject);
-			}
-			textObjectList.Clear();
-		}
-		#endregion
 	}
 
 	//// 목표로 향하는 움직임
