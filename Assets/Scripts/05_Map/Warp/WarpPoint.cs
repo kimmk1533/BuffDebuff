@@ -73,7 +73,7 @@ namespace BuffDebuff
 			E_Direction otherDir = DirEnumUtil.GetOtherDir(m_Direction);
 			Vector2Int dirVec = DirEnumUtil.ConvertToVector2Int(m_Direction);
 
-			Dictionary<int, WarpPoint> index_WarpPointMap = nearRoom.GetIndexWarpPointMap(otherDir);
+			Dictionary<int, WarpPoint> index_WarpPointMap = nearRoom.GetWarpPointMap(otherDir);
 			WarpPoint warpPoint = index_WarpPointMap[m_Index];
 
 			Vector3 offset = (transform.position + (Vector3)m_CollisionChecker2D.offset) - collisionObject.transform.position;

@@ -78,6 +78,9 @@ namespace BuffDebuff
 			m_Inputs = new bool[(int)E_EnemyKeyInput.Max];
 			m_PrevInputs = new bool[(int)E_EnemyKeyInput.Max];
 
+			if (m_AttackSpot == null)
+				m_AttackSpot = transform.FindInChilderen("AttackSpot");
+
 			m_TargetFinder.Initialize();
 			m_TargetFinder.onTargetEnter2D += (target) =>
 			{

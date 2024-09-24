@@ -9,31 +9,7 @@ namespace BuffDebuff
 {
 	public class RoomManager : ObjectManager<RoomManager, Room>
 	{
-		// E_Condition
-		#region Enum
-		public enum E_Condition
-		{
-			// 초과
-			Over,
-			// 이상
-			More,
-			// 항등
-			Equal,
-			// 
-			NotEqual,
-			// 이하
-			Less,
-			// 미만
-			Under,
-
-			Max
-		}
-		#endregion
-
 		#region 변수
-		[SerializeField]
-		protected List<OriginInfo> m_StartRoomOrigins = null;
-
 		private List<RoomPool> m_AllRoomPool = null;
 		#endregion
 
@@ -75,90 +51,58 @@ namespace BuffDebuff
 		public override void FinallizeGame()
 		{
 			base.FinallizeGame();
+
+			m_AllRoomPool.Clear();
 		}
 
-		public RoomPool.ItemBuilder GetBuilder(params (E_Condition condition, E_Direction direction, int count)[] conditions)
+		public RoomPool.ItemBuilder GetRandomBuilder(E_DirectionFlag dirCheck)
 		{
-			// 임시
-			return m_AllRoomPool[0].GetBuilder();
-			//
+			List<RoomPool> roomPoolList = new List<RoomPool>(m_AllRoomPool);
 
-			List<RoomPool> poolList = new List<RoomPool>(m_AllRoomPool);
-
-			for (int i = 0; i < conditions.Length; ++i)
+			for (int roomPoolIndex = 0; roomPoolIndex < roomPoolList.Count; ++roomPoolIndex)
 			{
-				(E_Condition condition, E_Direction direction, int count) condition = conditions[i];
+				RoomPool pool = roomPoolList[roomPoolIndex];
 
-				for (int poolListIndex = 0; poolListIndex < poolList.Count; ++poolListIndex)
+				Room room = pool.GetBuilder()
+					.SetAutoInit(true)
+					.Spawn();
+
+				for (E_DirectionFlag direction = E_DirectionFlag.None + 1; direction < E_DirectionFlag.Max; direction = (E_DirectionFlag)((int)direction << 1))
 				{
-					RoomPool pool = poolList[poolListIndex];
+					InfiniteLoopDetector.Run();
 
-					Room room = pool.GetBuilder()
-						.SetAutoInit(true)
-						.Spawn();
+					// Log를 이용하여 E_DirectionFlag에서 E_Direction으로 변환
+					int log = (int)(Mathf.Log((int)direction, 2) + 1);
+					E_Direction dir = (E_Direction)(log - 1);
 
-					int count = room.GetWarpPointCount(condition.direction);
+					// 해당 방향의 워프포인트 갯수 확인
+					int count = room.GetWarpPointCount(dir);
+					bool flag = false;
+					// 조건 확인(해당 방향에 워프포인트가 존재하는 지 확인)
+					if (dirCheck.HasFlag(direction) == true)
+						flag = count <= 0;
 
-					pool.Despawn(room, true);
-
-					bool flag;
-
-					switch (condition.condition)
-					{
-						case E_Condition.Over:
-							flag = !(count > condition.count);
-							break;
-						case E_Condition.More:
-							flag = !(count >= condition.count);
-							break;
-						case E_Condition.Equal:
-							flag = !(count == condition.count);
-							break;
-						case E_Condition.NotEqual:
-							flag = !(count != condition.count);
-							break;
-						case E_Condition.Less:
-							flag = !(count <= condition.count);
-							break;
-						case E_Condition.Under:
-							flag = !(count < condition.count);
-							break;
-						default:
-							throw new System.Exception("prevCondition.condition value is strange.");
-					}
-
+					// 조건이 맞지 않으면 해당 방 제거
 					if (flag)
 					{
-						poolList.RemoveAt(poolListIndex);
-						--poolListIndex;
+						roomPoolList.RemoveAt(roomPoolIndex);
+						--roomPoolIndex;
+						break;
 					}
 				}
+
+				pool.Despawn(room, true);
 			}
 
-			if (poolList.Count <= 0)
+			if (roomPoolList.Count <= 0)
 				throw new System.Exception("Error: 조건에 맞는 방이 없음");
 
-			return poolList[Random.Range(0, poolList.Count)].GetBuilder();
+			int index = Random.Range(0, roomPoolList.Count);
+
+			return roomPoolList[index].GetBuilder();
 		}
 
-		public StartRoom SpawnStartRoom(string key)
-		{
-			StartRoom startRoom = null;
-
-			foreach (var item in m_StartRoomOrigins)
-			{
-				if (item.key.Equals(key) == false)
-					continue;
-
-				startRoom = item.origin as StartRoom;
-			}
-
-			if (startRoom == null)
-				return null;
-
-			return GameObject.Instantiate(startRoom);
-		}
-
+		#region UNITY_EDITOR
 #if UNITY_EDITOR
 		[ContextMenu("All Flag On")]
 		private void TurnOnFlagAll()
@@ -185,14 +129,8 @@ namespace BuffDebuff
 		protected override void LoadOrigin()
 		{
 			base.LoadOrigin_Inner();
-
-			for (int i = 0; i < m_StartRoomOrigins.Count; ++i)
-			{
-				OriginInfo info = m_StartRoomOrigins[i];
-				info.origin = Resources.Load<StartRoom>(System.IO.Path.Combine(m_Path, info.path, info.key));
-				m_StartRoomOrigins[i] = info;
-			}
 		}
 #endif
+		#endregion
 	}
 }

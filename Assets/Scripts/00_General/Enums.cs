@@ -5,14 +5,29 @@ using UnityEngine;
 namespace BuffDebuff.Enum
 {
 	#region 방향
-	public enum E_Direction : byte
+	public enum E_Direction : sbyte
 	{
+		None = -1,
+
 		Up,
 		Down,
 		Left,
 		Right,
 
 		Max
+	}
+	[System.Flags]
+	public enum E_DirectionFlag : byte
+	{
+		None = 0,
+
+		Up = 1 << 0,
+		Down = 1 << 1,
+		Left = 1 << 2,
+		Right = 1 << 3,
+
+		Max = 1 << 4,
+		All = byte.MaxValue
 	}
 
 	public static class DirEnumUtil

@@ -147,7 +147,10 @@ public abstract class ObjectManager<TSelf, TItem> : Singleton<TSelf> where TSelf
 		for (int i = 0; i < m_Origins.Count; ++i)
 		{
 			OriginInfo info = m_Origins[i];
-			info.origin = Resources.Load<TItem>(System.IO.Path.Combine(m_Path, info.path, info.key));
+			string path = System.IO.Path.Combine(m_Path, info.path, info.key);
+			info.origin = Resources.Load<TItem>(path);
+			if (info.origin == null)
+				Debug.LogError("원본을 불러오는 데에 실패했습니다. 경로: " + path);
 			m_Origins[i] = info;
 		}
 	}

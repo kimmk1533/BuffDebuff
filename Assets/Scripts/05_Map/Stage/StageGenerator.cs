@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BuffDebuff.Enum;
-using E_Condition = BuffDebuff.RoomManager.E_Condition;
-using RoomCondition = System.ValueTuple<BuffDebuff.RoomManager.E_Condition, BuffDebuff.Enum.E_Direction, int>;
 
 namespace BuffDebuff
 {
@@ -102,7 +100,7 @@ namespace BuffDebuff
 
 				current = m_StageRoomQueue.Dequeue();
 
-				for (E_Direction direction = 0; direction < E_Direction.Max; ++direction)
+				for (E_Direction direction = E_Direction.None + 1; direction < E_Direction.Max; ++direction)
 				{
 					checkPos = current + DirEnumUtil.ConvertToVector2Int(direction);
 
@@ -262,49 +260,32 @@ namespace BuffDebuff
 
 			Room room;
 			Vector2Int center = stageSize / 2;
+			int x = roomPos.x;
+			int y = roomPos.y;
+			Vector3 pos = new Vector3((x - center.x) * 100, (y - center.y) * 100);
 
-			//if (roomPos == center)
-			//{
-			//	room = M_Room.SpawnStartRoom("StartRoom");
-			//	room.name = m_GeneratedRoomCount.ToString("00_StartRoom");
-			//	room.transform.SetParent(stage.transform);
-			//	room.transform.position = Vector3.zero;
-
-			//	room.Initialize();
-			//}
-			//else
 			{
-				List<RoomCondition> conditionList = new List<RoomCondition>();
-
 				#region 조건 확인
-				for (E_Direction direction = 0; direction < E_Direction.Max; ++direction)
-				{
-					E_Condition condition;
-					int count;
+				E_DirectionFlag dirCheck = E_DirectionFlag.None;
 
+				for (E_Direction direction = E_Direction.None + 1; direction < E_Direction.Max; ++direction)
+				{
 					Vector2Int nearRoomPos = roomPos + DirEnumUtil.ConvertToVector2Int(direction);
 
-					if (m_GeneratedRoomMap.TryGetValue(nearRoomPos, out Room nearRoom) == false)
-					{
-						condition = E_Condition.Equal;
+					// 인덱스 예외처리
+					if (nearRoomPos.y >= m_StageRoomCheck.GetLength(0) ||
+						nearRoomPos.x >= m_StageRoomCheck.GetLength(1) ||
+						nearRoomPos.y < 0 ||
+						nearRoomPos.x < 0)
+						continue;
 
-						count = 0;
-					}
-					else if (nearRoom != null)
-					{
-						condition = E_Condition.Equal;
+					// 주변 방이 없으면 다른 주변 방 확인하도록 continue
+					if (m_StageRoomCheck[nearRoomPos.y, nearRoomPos.x] == false)
+						continue;
 
-						E_Direction nearRoomWarpDir = DirEnumUtil.GetOtherDir(direction);
-						count = nearRoom.GetWarpPointCount(nearRoomWarpDir);
-					}
-					else
-					{
-						condition = E_Condition.More;
-
-						count = 1;
-					}
-
-					conditionList.Add((condition, direction, count));
+					// 주변 방이 있으면 비트 플래그로 생성될 방 모양 확인
+					E_DirectionFlag dir = (E_DirectionFlag)(1 << (byte)direction);
+					dirCheck |= dir;
 				}
 				#endregion
 
@@ -313,12 +294,7 @@ namespace BuffDebuff
 				//	Debug.Log((m_GeneratedRoomCount + 1).ToString("00_") + i.ToString("00: ") + conditionList[i].ToString());
 				//}
 
-				int x = roomPos.x;
-				int y = roomPos.y;
-
-				Vector3 pos = new Vector3((x - center.x) * 100, (y - center.y) * 100);
-
-				room = M_Room.GetBuilder(conditionList.ToArray())
+				room = M_Room.GetRandomBuilder(dirCheck)
 					.SetActive(true)
 					.SetAutoInit(true)
 					.SetParent(stage.transform)
@@ -330,7 +306,7 @@ namespace BuffDebuff
 
 			m_GeneratedRoomMap[roomPos] = room;
 
-			for (E_Direction direction = 0; direction < E_Direction.Max; ++direction)
+			for (E_Direction direction = E_Direction.None + 1; direction < E_Direction.Max; ++direction)
 			{
 				Vector2Int nearRoomPos = roomPos + DirEnumUtil.ConvertToVector2Int(direction);
 

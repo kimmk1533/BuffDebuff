@@ -93,6 +93,12 @@ namespace BuffDebuff
 				// 플레이어 원본 로드
 				Player origin = Resources.Load<Player>(playerData.assetPath);
 
+				if (origin == null)
+				{
+					Debug.LogError("플레이어 원본이 null임.");
+					return;
+				}
+
 				// 플레이어 복제
 				Player player = GameObject.Instantiate<Player>(origin, transform);
 				// 초기 스탯 설정

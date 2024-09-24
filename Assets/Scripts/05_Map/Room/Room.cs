@@ -44,6 +44,7 @@ namespace BuffDebuff
 		// 방 위치 오프셋
 		[SerializeField]
 		private Vector2 m_Offset;
+		private bool m_IsStartingRoom;
 
 		// 타일맵
 		private Dictionary<E_DirectionLayer, TilemapMap> m_TilemapMap_Direction = null;
@@ -78,6 +79,11 @@ namespace BuffDebuff
 		{
 			get { return m_Offset; }
 			set { m_Offset = value; }
+		}
+		public bool isStartingRoom
+		{
+			get { return m_IsStartingRoom; }
+			set { m_IsStartingRoom = value; }
 		}
 
 		public PathFindingMap pathFindingMap => m_PathFindingMap;
@@ -128,6 +134,8 @@ namespace BuffDebuff
 			if (m_WarpPointCountMap == null)
 				m_WarpPointCountMap = new Dictionary<E_Direction, int>();
 			#endregion
+
+			m_IsStartingRoom = false;
 
 			Transform tilemapLayer = transform.Find("TileMapLayer");
 			for (E_DirectionLayer dirLayer = 0; dirLayer < E_DirectionLayer.Max; ++dirLayer)
@@ -181,6 +189,11 @@ namespace BuffDebuff
 		{
 			base.FinallizePoolItem();
 
+			SetDoorActive(true, E_DirectionLayer.Left);
+			SetDoorActive(true, E_DirectionLayer.Right);
+			SetDoorActive(true, E_DirectionLayer.Top);
+			SetDoorActive(true, E_DirectionLayer.Bottom);
+
 			// 타일맵 딕셔너리 마무리
 			if (m_TilemapMap_Direction != null)
 			{
@@ -215,7 +228,7 @@ namespace BuffDebuff
 			// 워프포인트 갯수 딕셔너리 마무리
 			if (m_WarpPointCountMap != null)
 			{
-				for (E_Direction direction = 0; direction < E_Direction.Max; ++direction)
+				for (E_Direction direction = E_Direction.None + 1; direction < E_Direction.Max; ++direction)
 				{
 					if (m_WarpPointCountMap.ContainsKey(direction) == false)
 						continue;
@@ -235,10 +248,16 @@ namespace BuffDebuff
 		}
 		private void OnPlayerEnterRoom()
 		{
+			if (m_IsStartingRoom == true)
+				return;
+
 			m_EnemySpawner.SpawnEnemyWave();
 		}
 		private void OnPlayerExitRoom()
 		{
+			if (m_IsStartingRoom == true)
+				return;
+
 			m_EnemySpawner.DespawnEnemyWave();
 		}
 
@@ -295,7 +314,21 @@ namespace BuffDebuff
 					dirLayer = E_DirectionLayer.Right;
 					break;
 			}
-			m_TilemapMap_Direction[dirLayer][E_TilemapLayer.TileMap].transform.parent.gameObject.SetActive(false);
+
+			SetDoorActive(false, dirLayer);
+		}
+		private void SetDoorActive(bool active, E_DirectionLayer dirLayer)
+		{
+			if (m_TilemapMap_Direction.TryGetValue(dirLayer, out TilemapMap tilemapMap) == false)
+				return;
+
+			for (E_TilemapLayer layer = E_TilemapLayer.OneWayMap; layer <= E_TilemapLayer.Environment; ++layer)
+			{
+				if (tilemapMap.TryGetValue(layer, out Tilemap tilemap) == false)
+					continue;
+
+				tilemap.gameObject.SetActive(active);
+			}
 		}
 
 		public Tilemap GetTilemap(E_TilemapLayer layer)
@@ -318,7 +351,7 @@ namespace BuffDebuff
 
 			return result;
 		}
-		public Dictionary<int, WarpPoint> GetIndexWarpPointMap(E_Direction direction)
+		public Dictionary<int, WarpPoint> GetWarpPointMap(E_Direction direction)
 		{
 			if (m_WarpPointMap.ContainsKey(direction) == false)
 				return null;

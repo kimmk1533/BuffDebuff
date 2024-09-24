@@ -122,6 +122,10 @@ public class ObjectPool<TItem> : System.IDisposable where TItem : ObjectPoolItem
 		m_PoolSize = newSize;
 	}
 
+	public TItem GetOrigin()
+	{
+		return m_Origin;
+	}
 	public ItemBuilder GetBuilder()
 	{
 		return m_ItemBuilder;

@@ -66,7 +66,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 507329788138445555}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 480706f9b17890f4c9e2be359b6a8480, type: 3}
+  m_Script: {fileID: 11500000, guid: 8375b2d74a36c034f813dcb044f9d7f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 507329788822272629}
@@ -134,11 +134,7 @@ MonoBehaviour:
   m_PathFinding_ReSearchTimer:
     m_Interval: 0
     m_Time: 0
-  m_AttackSpot: {fileID: 1500751472255985669}
-  showPath: 1
-  textColor: {r: 1, g: 1, b: 1, a: 1}
-  textObjectParent: {fileID: 0}
-  textObjectList: []
+  m_AttackSpot: {fileID: 0}
 --- !u!50 &5712683675375359391
 Rigidbody2D:
   serializedVersion: 4
@@ -369,6 +365,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ColliderType: 0
   m_IsSimulating: 1
+  m_CollisionObjectList: []
+  m_OldCollisionObjectList: []
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 0

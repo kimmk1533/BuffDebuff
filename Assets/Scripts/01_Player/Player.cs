@@ -65,6 +65,9 @@ namespace BuffDebuff
 			m_IsAttacking = false;
 			m_CanComboAttack = false;
 
+			if (m_AttackSpot == null)
+				m_AttackSpot = transform.FindInChilderen("AttackSpot");
+
 			// 타이머 초기화
 			if (m_DashTimer == null)
 				m_DashTimer = new UtilClass.Timer();
