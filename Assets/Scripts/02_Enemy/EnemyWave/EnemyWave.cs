@@ -49,7 +49,7 @@ namespace BuffDebuff
 			m_IsInProgress = false;
 
 			m_SpawnIndex = 0;
-			m_MaxSpawnIndex = 0;
+			m_MaxSpawnIndex = -1;
 			if (m_EnemyWaveInfoMap.TryGetValue(E_SpawnCondition.ClearRoom, out List<EnemyWaveInfo> waveInfoList) == true)
 			{
 				for (int i = 0; i < waveInfoList.Count; ++i)

@@ -320,6 +320,7 @@ namespace BuffDebuff
 		}
 		#endregion
 
+		#region UNITY_EDITOR
 #if UNITY_EDITOR
 		[ContextMenu("Load Origin")]
 		protected override void LoadOrigin()
@@ -327,6 +328,7 @@ namespace BuffDebuff
 			base.LoadOrigin_Inner();
 		}
 #endif
+		#endregion
 
 		[System.Serializable]
 		public class BuffPanel

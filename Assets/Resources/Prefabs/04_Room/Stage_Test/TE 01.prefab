@@ -872,7 +872,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75d142df4cefd21469554b238cba4f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EnemyWave: []
+  m_EnemyWave:
+  - m_EnemyWaveInfoMap:
+      _serializedList:
+      - Key: 0
+        Value:
+        - m_Key: Golem
+          m_SpawnPoint: {fileID: 5233513895871477016}
+          m_DelayTime: 0
+          m_RandomPercent: 100
+          m_Index: 0
+        - m_Key: Golem
+          m_SpawnPoint: {fileID: 3752346578906473850}
+          m_DelayTime: 0
+          m_RandomPercent: 100
+          m_Index: 0
+      - Key: 1
+        Value:
+        - m_Key: Golem
+          m_SpawnPoint: {fileID: 5233513895871477016}
+          m_DelayTime: 0
+          m_RandomPercent: 100
+          m_Index: 1
+        - m_Key: Golem
+          m_SpawnPoint: {fileID: 3752346578906473850}
+          m_DelayTime: 0
+          m_RandomPercent: 100
+          m_Index: 1
+  - m_EnemyWaveInfoMap:
+      _serializedList:
+      - Key: 0
+        Value:
+        - m_Key: Golem
+          m_SpawnPoint: {fileID: 5205051685297627010}
+          m_DelayTime: 0
+          m_RandomPercent: 100
+          m_Index: 0
+        - m_Key: Golem
+          m_SpawnPoint: {fileID: 6744368143072035241}
+          m_DelayTime: 0
+          m_RandomPercent: 100
+          m_Index: 0
+  - m_EnemyWaveInfoMap:
+      _serializedList:
+      - Key: 0
+        Value:
+        - m_Key: Golem
+          m_SpawnPoint: {fileID: 4028394356146551886}
+          m_DelayTime: 0
+          m_RandomPercent: 100
+          m_Index: 0
   m_EnemyWaveIndex: -1
 --- !u!1 &853564449544585189
 GameObject:
