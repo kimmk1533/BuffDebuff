@@ -15,7 +15,7 @@ TagManager:
   - Obstacle
   - Portal
   - Enemy
-  - 
+  - Minimap
   - 
   - 
   - 
@@ -62,6 +62,9 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: MiniMap
+    uniqueID: 1260865723
     locked: 0
   - name: UI
     uniqueID: 3743589577

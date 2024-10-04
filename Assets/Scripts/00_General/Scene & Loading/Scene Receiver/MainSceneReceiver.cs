@@ -27,6 +27,8 @@ namespace BuffDebuff
 		}
 		protected override void Finallize()
 		{
+			base.Finallize();
+
 
 		}
 
