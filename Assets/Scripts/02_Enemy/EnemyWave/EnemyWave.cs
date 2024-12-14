@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
-using AYellowpaper.SerializedCollections;
 
 namespace BuffDebuff
 {
@@ -32,8 +32,8 @@ namespace BuffDebuff
 
 		[Space(10)]
 		[SerializeField]
-		[SerializedDictionary("조건", "적 정보")]
-		private SerializedDictionary<E_SpawnCondition, List<EnemyWaveInfo>> m_EnemyWaveInfoMap = null;
+		[ShowInInspector, DictionaryDrawerSettings(KeyLabel = "조건", ValueLabel = "적 정보")]
+		private Dictionary<E_SpawnCondition, List<EnemyWaveInfo>> m_EnemyWaveInfoMap = null;
 
 		private List<Enemy> m_SpawnedEnemyList = null;
 		#endregion

@@ -13,7 +13,7 @@ namespace BuffDebuff
 
 		protected override void Initialize()
 		{
-			SceneLoader[] objs = GameObject.FindObjectsOfType<SceneLoader>();
+			SceneLoader[] objs = GameObject.FindObjectsByType<SceneLoader>(FindObjectsSortMode.None);
 			for (int i = 0; i < objs.Length; ++i)
 			{
 				objs[i].GetSceneEvent("Game Scene")?.Invoke();

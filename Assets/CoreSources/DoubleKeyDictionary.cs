@@ -1,27 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using System.Linq;
 using UnityEngine;
-using AYellowpaper.SerializedCollections;
 
 [System.Serializable]
 public class DoubleKeyDictionary<TKey1, TKey2, TValue> : IEnumerable<KeyValuePair<TKey1, TValue>>
 {
 	#region 변수	
 	[SerializeField]
-	[SerializedDictionary("key1", "value")]
-	private SerializedDictionary<TKey1, TValue> m_Key1Dictionary = null;
+	[DictionaryDrawerSettings(KeyLabel = "key1", ValueLabel = "value")]
+	private Dictionary<TKey1, TValue> m_Key1Dictionary = null;
 
 	[SerializeField]
-	[SerializedDictionary("key2", "key1")]
-	private SerializedDictionary<TKey2, TKey1> m_ForwardKey2Dictionary = null;
+	[DictionaryDrawerSettings(KeyLabel = "key2", ValueLabel = "key1")]
+	private Dictionary<TKey2, TKey1> m_ForwardKey2Dictionary = null;
 	private Dictionary<TKey1, TKey2> m_ReverseKey2Dictionary = null;
 	#endregion
 
 	#region 프로퍼티
-	public SerializedDictionary<TKey2, TKey1>.KeyCollection Keys2 => m_ForwardKey2Dictionary.Keys;
-	public SerializedDictionary<TKey1, TValue>.KeyCollection Keys1 => m_Key1Dictionary.Keys;
-	public SerializedDictionary<TKey1, TValue>.ValueCollection Values => m_Key1Dictionary.Values;
+	public Dictionary<TKey2, TKey1>.KeyCollection Keys2 => m_ForwardKey2Dictionary.Keys;
+	public Dictionary<TKey1, TValue>.KeyCollection Keys1 => m_Key1Dictionary.Keys;
+	public Dictionary<TKey1, TValue>.ValueCollection Values => m_Key1Dictionary.Values;
 
 	#region 인덱서
 	public TValue this[TKey1 key1]
@@ -60,9 +60,9 @@ public class DoubleKeyDictionary<TKey1, TKey2, TValue> : IEnumerable<KeyValuePai
 
 	public DoubleKeyDictionary()
 	{
-		m_Key1Dictionary = new SerializedDictionary<TKey1, TValue>();
+		m_Key1Dictionary = new Dictionary<TKey1, TValue>();
 
-		m_ForwardKey2Dictionary = new SerializedDictionary<TKey2, TKey1>();
+		m_ForwardKey2Dictionary = new Dictionary<TKey2, TKey1>();
 		m_ReverseKey2Dictionary = new Dictionary<TKey1, TKey2>();
 	}
 

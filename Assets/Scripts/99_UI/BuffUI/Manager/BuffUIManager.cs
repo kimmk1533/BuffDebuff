@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 using BuffDebuff.Enum;
-using AYellowpaper.SerializedCollections;
 
 namespace BuffDebuff
 {
@@ -31,8 +31,8 @@ namespace BuffDebuff
 
 		[Space(10)]
 		[SerializeField]
-		[SerializedDictionary("Key", "Buff Panel")]
-		private SerializedDictionary<string, BuffPanel> m_BuffPanelMap = null;
+		[DictionaryDrawerSettings(KeyLabel = "Key", ValueLabel = "Buff Panel")]
+		private Dictionary<string, BuffPanel> m_BuffPanelMap = null;
 		#endregion
 
 		#region 프로퍼티

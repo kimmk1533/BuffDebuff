@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
-using AYellowpaper.SerializedCollections;
 
 namespace BuffDebuff
 {
@@ -24,13 +24,13 @@ namespace BuffDebuff
 	{
 		#region 변수
 		[SerializeField]
-		private InputSetting m_Setting;
+		private InputSetting m_Setting = null;
 
 		[SerializeField]
-		[SerializedDictionary("Input Type", "Input Info")]
-		private SerializedDictionary<E_InputType, InputInfo> m_InputMap;
-		private Dictionary<string, List<E_InputType>> m_AxisMap;
-		private Dictionary<string, float> m_AxisValueMap;
+		[DictionaryDrawerSettings(KeyLabel = "Input Type", ValueLabel = "Input Info")]
+		private Dictionary<E_InputType, InputInfo> m_InputMap = null;
+		private Dictionary<string, List<E_InputType>> m_AxisMap = null;
+		private Dictionary<string, float> m_AxisValueMap = null;
 		#endregion
 
 		#region 매니저

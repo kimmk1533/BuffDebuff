@@ -1,17 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
-using AYellowpaper.SerializedCollections;
 
 namespace BuffDebuff
 {
-	[CreateAssetMenu(fileName = "Input Setting", menuName = "Scriptable Object/Input Setting", order = int.MinValue)]
-	public class InputSetting : ScriptableObject
+	[CreateAssetMenu(fileName = "Input Setting", menuName = "Scriptable Objects/Input Setting", order = int.MinValue)]
+	public class InputSetting : SerializedScriptableObject
 	{
 		#region 변수
 		[SerializeField]
-		[SerializedDictionary("Input Type", "Input Info")]
-		private SerializedDictionary<E_InputType, InputInfo> m_InputMap;
+		[DictionaryDrawerSettings(KeyLabel = "Input Type", ValueLabel = "Input Info")]
+		private Dictionary<E_InputType, InputInfo> m_InputMap = null;
 		#endregion
 
 		public InputInfo GetInputInfo(E_InputType inputType)

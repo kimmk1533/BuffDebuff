@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using System.IO;
 using UnityEngine;
 using BuffDebuff.Enum;
-using AYellowpaper.SerializedCollections;
 using BuffTypeGrade = System.Tuple<BuffDebuff.Enum.E_BuffType, BuffDebuff.Enum.E_BuffGrade>;
 
 namespace BuffDebuff
@@ -48,7 +48,7 @@ namespace BuffDebuff
 
 		public void InitializeGame()
 		{
-			m_BuffGradeInfo.UpdateBuffGradeCurve();
+			m_BuffGradeInfo.UpdateBuffGradeTexture();
 
 			foreach (var item in m_BuffDataMap)
 			{
@@ -230,217 +230,14 @@ namespace BuffDebuff
 		}
 
 #if UNITY_EDITOR
-		public void OnValidate()
-		{
-			if (Application.isPlaying == true)
-				return;
+		//public void OnValidate()
+		//{
+		//	if (Application.isPlaying == true)
+		//		return;
 
-			if (m_BuffGradeInfo != null)
-				m_BuffGradeInfo.OnValidate();
-		}
+		//	if (m_BuffGradeInfo != null)
+		//		m_BuffGradeInfo.OnValidate();
+		//}
 #endif
-
-		[System.Serializable]
-		private class BuffGradeInfo
-		{
-			[SerializeField, Min(1f)]
-			private float m_Width;
-			[SerializeField, Min(0.01f)]
-			private float m_Height;
-			[SerializeField]
-			private float m_Offset;
-
-			[Space(5)]
-			[SerializeField]
-			[SerializedDictionary("버프 등급", "버프 정보")]
-			private SerializedDictionary<E_BuffGrade, BuffGradeInfoItem> m_BuffGradeInfoMap;
-
-			public E_BuffGrade GetRandomGrade(int level)
-			{
-				float max = 0f;
-				float[] rates = new float[(int)E_BuffGrade.Max];
-
-				int index;
-				for (E_BuffGrade grade = 0; grade < E_BuffGrade.Max; ++grade)
-				{
-					index = (int)grade;
-
-					rates[index] = m_BuffGradeInfoMap[grade].curve.keys[level].value;
-
-					max += rates[index];
-				}
-
-				int randInt = Random.Range(0, 100);
-				float rand = randInt * 0.01f;
-
-				float sum = 0f;
-				E_BuffGrade result = E_BuffGrade.Max;
-				for (E_BuffGrade grade = 0; grade < E_BuffGrade.Max; ++grade)
-				{
-					index = (int)grade;
-
-					sum += rates[index] / max;
-
-					if (rand < sum)
-					{
-						result = grade;
-						break;
-					}
-				}
-
-				return result;
-			}
-
-			public void OnValidate()
-			{
-				int grade_index;
-
-				UpdateBuffGradeCurve();
-
-				float[] leftRates = new float[(int)E_BuffGrade.Max];
-				float[] rightRates = new float[(int)E_BuffGrade.Max];
-				float[] currentRates = new float[(int)E_BuffGrade.Max];
-
-				float leftMax = 0f;
-				float rightMax = 0f;
-				float currentMax = 0f;
-
-				for (E_BuffGrade grade = 0; grade < E_BuffGrade.Max; ++grade)
-				{
-					grade_index = (int)grade;
-
-					leftRates[grade_index] = m_BuffGradeInfoMap[grade].curve.keys[2].value;
-					rightRates[grade_index] = m_BuffGradeInfoMap[grade].curve.keys[PlayerManager.playerMaxLevel + 2].value;
-					currentRates[grade_index] = m_BuffGradeInfoMap[grade].curve.keys[M_Player.currentLevel + 2].value;
-
-					leftMax += leftRates[grade_index];
-					rightMax += rightRates[grade_index];
-					currentMax += currentRates[grade_index];
-				}
-
-				for (E_BuffGrade grade = 0; grade < E_BuffGrade.Max; ++grade)
-				{
-					grade_index = (int)grade;
-
-					leftRates[grade_index] /= leftMax;
-					rightRates[grade_index] /= rightMax;
-					currentRates[grade_index] /= currentMax;
-
-					m_BuffGradeInfoMap[grade].minLevelPercent = leftRates[grade_index] * 100f;
-					m_BuffGradeInfoMap[grade].maxLevelPercent = rightRates[grade_index] * 100f;
-					m_BuffGradeInfoMap[grade].currLevelPercent = currentRates[grade_index] * 100f;
-				}
-			}
-			public void UpdateBuffGradeCurve()
-			{
-				foreach (var item in m_BuffGradeInfoMap)
-				{
-					int length = item.Value.curve.length;
-					for (int i = 0; i < length; ++i)
-					{
-						item.Value.curve.RemoveKey(0);
-					}
-				}
-
-				int maxLevel = PlayerManager.playerMaxLevel;
-				float levelPercent, rate;
-
-				for (E_BuffGrade grade = 0; grade < E_BuffGrade.Max; ++grade)
-				{
-					m_BuffGradeInfoMap[grade].curve.AddKey(new Keyframe(-0.002f, 1f)
-					{
-						weightedMode = WeightedMode.Both,
-						inTangent = 0f,
-						outTangent = 0f,
-						inWeight = 0f,
-						outWeight = 0f,
-					});
-					m_BuffGradeInfoMap[grade].curve.AddKey(new Keyframe(-0.001f, 0f)
-					{
-						weightedMode = WeightedMode.Both,
-						inTangent = 0f,
-						outTangent = 0f,
-						inWeight = 0f,
-						outWeight = 0f,
-					});
-
-					for (int level = 0; level <= maxLevel; ++level)
-					{
-						levelPercent = (float)level / maxLevel;
-
-						rate = BuffGradeRateFormula(levelPercent, grade);
-
-						m_BuffGradeInfoMap[grade].curve.AddKey(new Keyframe(levelPercent, rate)
-						{
-							weightedMode = WeightedMode.Both,
-							inTangent = 0f,
-							outTangent = 0f,
-							inWeight = 0f,
-							outWeight = 0f,
-						});
-					}
-				}
-			}
-			private float BuffGradeRateFormula(float levelPercent, E_BuffGrade grade)
-			{
-				const int n = (int)E_BuffGrade.Max;
-
-				const float PI2 = 2 * Mathf.PI;
-				float width = m_Width + m_BuffGradeInfoMap[grade].width;
-				float height = m_Height + m_BuffGradeInfoMap[grade].height;
-				float offset = m_Offset + m_BuffGradeInfoMap[grade].offset;
-
-				// 대충 직접 만든 공식
-				// 그래프 그려볼 수 있는 사이트: https://www.desmos.com/calculator/kihjluohq9?lang=ko
-				float value = height * Mathf.Cos(PI2 * (levelPercent - offset - (float)grade / n) / width);
-
-				return Mathf.Clamp01(value);
-			}
-
-			[System.Serializable]
-			private class BuffGradeInfoItem
-			{
-				#region 변수
-				[SerializeField]
-				private float m_Width;
-				[SerializeField]
-				private float m_Height;
-				[SerializeField]
-				private float m_Offset;
-
-				[Space(5)]
-				[SerializeField, ReadOnly(true)]
-				private AnimationCurve m_Curve;
-				[SerializeField, ReadOnly]
-				private float m_MinLevelPercent;
-				[SerializeField, ReadOnly]
-				private float m_MaxLevelPercent;
-				[SerializeField, ReadOnly]
-				private float m_CurrLevelPercent;
-				#endregion
-
-				#region 프로퍼티
-				public float width => m_Width;
-				public float height => m_Height;
-				public float offset => m_Offset;
-				public AnimationCurve curve => m_Curve;
-				public float minLevelPercent
-				{
-					get => m_MinLevelPercent;
-					set => m_MinLevelPercent = value;
-				}
-				public float maxLevelPercent
-				{
-					get => m_MaxLevelPercent;
-					set => m_MaxLevelPercent = value;
-				}
-				public float currLevelPercent
-				{
-					get => m_CurrLevelPercent;
-					set => m_CurrLevelPercent = value;
-				}
-				#endregion
-			}
-		}
 	}
 }

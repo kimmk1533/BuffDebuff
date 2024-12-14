@@ -1,8 +1,9 @@
 using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 [DefaultExecutionOrder(-98)]
-public abstract class Singleton<TSelf> : MonoBehaviour where TSelf : Singleton<TSelf>
+public abstract class Singleton<TSelf> : SerializedMonoBehaviour where TSelf : Singleton<TSelf>
 {
 	#region 변수
 	[SerializeField]
@@ -21,7 +22,7 @@ public abstract class Singleton<TSelf> : MonoBehaviour where TSelf : Singleton<T
 			if (m_Instance != null)
 				return m_Instance;
 
-			Singleton<TSelf>[] objs = FindObjectsOfType<Singleton<TSelf>>(true);
+			Singleton<TSelf>[] objs = FindObjectsByType<Singleton<TSelf>>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
 			Singleton<TSelf> obj = objs
 				.Where(item => item.m_IsMainScene == true)

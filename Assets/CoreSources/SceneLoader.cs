@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
-using AYellowpaper.SerializedCollections;
 
-public abstract class SceneLoader : MonoBehaviour
+public abstract class SceneLoader : SerializedMonoBehaviour
 {
 	#region 이벤트
 	//[SerializeField]
-	[SerializedDictionary("Scene Name", "Scene Load Completed Event")]
-	protected SerializedDictionary<string, UnityEvent> m_OnLoadCompletedMap = null;
+	[DictionaryDrawerSettings(KeyLabel = "Scene Name", ValueLabel = "Scene Load Completed Event")]
+	protected Dictionary<string, UnityEvent> m_OnLoadCompletedMap = null;
 	#endregion
 
 	protected virtual void Awake()
@@ -24,7 +24,7 @@ public abstract class SceneLoader : MonoBehaviour
 	protected virtual void Initialize()
 	{
 		if (m_OnLoadCompletedMap == null)
-			m_OnLoadCompletedMap = new SerializedDictionary<string, UnityEvent>();
+			m_OnLoadCompletedMap = new Dictionary<string, UnityEvent>();
 	}
 	protected virtual void Finallize()
 	{
