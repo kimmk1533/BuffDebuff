@@ -11,6 +11,7 @@ public class AwakeObject : MonoBehaviour
 		DontDestroyOnLoad = 1 << 1,
 		SetActiveTrue = 1 << 2,
 		SetActiveFalse = 1 << 3,
+		MakeError = 1 << 4,
 	}
 
 	[SerializeField]
@@ -37,5 +38,8 @@ public class AwakeObject : MonoBehaviour
 
 		if (m_Type.HasFlag(E_Type.SetActiveTrue) == false && m_Type.HasFlag(E_Type.SetActiveFalse) == true)
 			gameObject.SetActive(false);
+
+		if (m_Type.HasFlag(E_Type.MakeError) == true)
+			Debug.LogError("");
 	}
 }

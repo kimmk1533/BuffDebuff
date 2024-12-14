@@ -231,7 +231,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6574336611213907132}
   - component: {fileID: 6574336611213907130}
-  - component: {fileID: 6574336611213907128}
+  - component: {fileID: 4404236704402989685}
   - component: {fileID: 1401004420360870869}
   - component: {fileID: 6574336611213907133}
   m_Layer: 8
@@ -277,7 +277,7 @@ MonoBehaviour:
   m_MinJumpHeight: 1
   m_TimeToJumpApex: 0.4
   m_Gravity: 0
---- !u!114 &6574336611213907128
+--- !u!114 &4404236704402989685
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -286,7 +286,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6574336611213907129}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8375b2d74a36c034f813dcb044f9d7f1, type: 3}
+  m_Script: {fileID: 11500000, guid: 480706f9b17890f4c9e2be359b6a8480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 6574336610287940671}

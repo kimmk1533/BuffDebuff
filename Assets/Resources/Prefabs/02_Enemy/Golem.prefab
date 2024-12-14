@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 507329788138445558}
   - component: {fileID: 507329788138445552}
-  - component: {fileID: 507329788138445554}
+  - component: {fileID: 6929830903461354899}
   - component: {fileID: 5712683675375359391}
   - component: {fileID: 507329788138445559}
   m_Layer: 8
@@ -57,7 +57,7 @@ MonoBehaviour:
   m_MinJumpHeight: 1
   m_TimeToJumpApex: 0.4
   m_Gravity: 0
---- !u!114 &507329788138445554
+--- !u!114 &6929830903461354899
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 507329788138445555}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8375b2d74a36c034f813dcb044f9d7f1, type: 3}
+  m_Script: {fileID: 11500000, guid: 480706f9b17890f4c9e2be359b6a8480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 507329788822272629}
@@ -443,7 +443,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -551377719
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
