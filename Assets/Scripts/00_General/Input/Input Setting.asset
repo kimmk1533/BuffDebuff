@@ -40,7 +40,271 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
       Data: 0
+    - Name: $v
+      Entry: 7
+      Data: BuffDebuff.InputInfo, Assembly-CSharp
+    - Name: m_KeyName
+      Entry: 1
+      Data: Player Move Vertical
+    - Name: m_Value
+      Entry: 4
+      Data: 1
+    - Name: m_KeyCode
+      Entry: 3
+      Data: 119
+    - Name: m_IsInputDown
+      Entry: 5
+      Data: false
+    - Name: m_IsInput
+      Entry: 5
+      Data: false
+    - Name: m_IsInputUp
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: BuffDebuff.InputInfo, Assembly-CSharp
+    - Name: m_KeyName
+      Entry: 1
+      Data: Player Move Vertical
+    - Name: m_Value
+      Entry: 4
+      Data: -1
+    - Name: m_KeyCode
+      Entry: 3
+      Data: 115
+    - Name: m_IsInputDown
+      Entry: 5
+      Data: false
+    - Name: m_IsInput
+      Entry: 5
+      Data: false
+    - Name: m_IsInputUp
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 7
+      Data: BuffDebuff.InputInfo, Assembly-CSharp
+    - Name: m_KeyName
+      Entry: 1
+      Data: Player Move Horizontal
+    - Name: m_Value
+      Entry: 4
+      Data: -1
+    - Name: m_KeyCode
+      Entry: 3
+      Data: 97
+    - Name: m_IsInputDown
+      Entry: 5
+      Data: false
+    - Name: m_IsInput
+      Entry: 5
+      Data: false
+    - Name: m_IsInputUp
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 7
+      Data: BuffDebuff.InputInfo, Assembly-CSharp
+    - Name: m_KeyName
+      Entry: 1
+      Data: Player Move Horizontal
+    - Name: m_Value
+      Entry: 4
+      Data: 1
+    - Name: m_KeyCode
+      Entry: 3
+      Data: 100
+    - Name: m_IsInputDown
+      Entry: 5
+      Data: false
+    - Name: m_IsInput
+      Entry: 5
+      Data: false
+    - Name: m_IsInputUp
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 7
+      Data: BuffDebuff.InputInfo, Assembly-CSharp
+    - Name: m_KeyName
+      Entry: 1
+      Data: Player Attack
+    - Name: m_Value
+      Entry: 4
+      Data: 1
+    - Name: m_KeyCode
+      Entry: 3
+      Data: 323
+    - Name: m_IsInputDown
+      Entry: 5
+      Data: false
+    - Name: m_IsInput
+      Entry: 5
+      Data: false
+    - Name: m_IsInputUp
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 7
+      Data: BuffDebuff.InputInfo, Assembly-CSharp
+    - Name: m_KeyName
+      Entry: 1
+      Data: Player Jump
+    - Name: m_Value
+      Entry: 4
+      Data: 1
+    - Name: m_KeyCode
+      Entry: 3
+      Data: 32
+    - Name: m_IsInputDown
+      Entry: 5
+      Data: false
+    - Name: m_IsInput
+      Entry: 5
+      Data: false
+    - Name: m_IsInputUp
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 6
+    - Name: $v
+      Entry: 7
+      Data: BuffDebuff.InputInfo, Assembly-CSharp
+    - Name: m_KeyName
+      Entry: 1
+      Data: Player Dash
+    - Name: m_Value
+      Entry: 4
+      Data: 1
+    - Name: m_KeyCode
+      Entry: 3
+      Data: 324
+    - Name: m_IsInputDown
+      Entry: 5
+      Data: false
+    - Name: m_IsInput
+      Entry: 5
+      Data: false
+    - Name: m_IsInputUp
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 7
+    - Name: $v
+      Entry: 7
+      Data: BuffDebuff.InputInfo, Assembly-CSharp
+    - Name: m_KeyName
+      Entry: 1
+      Data: Player Skill01
+    - Name: m_Value
+      Entry: 4
+      Data: 1
+    - Name: m_KeyCode
+      Entry: 3
+      Data: 101
+    - Name: m_IsInputDown
+      Entry: 5
+      Data: false
+    - Name: m_IsInput
+      Entry: 5
+      Data: false
+    - Name: m_IsInputUp
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 

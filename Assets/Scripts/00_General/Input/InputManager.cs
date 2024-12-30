@@ -129,7 +129,7 @@ namespace BuffDebuff
 			return info.isInputUp;
 		}
 
-		[ContextMenu("Update InfoMap From Setting")]
+		[Button("Update InfoMap From Setting")]
 		private void UpdateInfoMapFromSetting()
 		{
 			for (E_InputType inputType = 0; inputType < E_InputType.Max; ++inputType)
@@ -146,7 +146,7 @@ namespace BuffDebuff
 					m_InputMap.Add(inputType, input);
 			}
 		}
-		[ContextMenu("Update Setting From InfoMap")]
+		[Button("Update Setting From InfoMap")]
 		private void UpdateSettingFromInfoMap()
 		{
 			for (E_InputType inputType = 0; inputType < E_InputType.Max; ++inputType)

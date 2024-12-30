@@ -17,10 +17,11 @@ namespace BuffDebuff
 		private float m_Height = 1f;
 		[SerializeField]
 		private float m_Offset;
-		[SerializeField, PropertyRange(0f, "maxLevel")]
+		[SerializeField, PropertyRange(1f, "maxLevel")]
 		private int m_CurrentLevel;
 
-		[OdinSerialize]
+		//[System.NonSerialized, OdinSerialize]
+		[SerializeField]
 		[PropertyOrder(1f)]
 		[DictionaryDrawerSettings(KeyLabel = "버프 등급", ValueLabel = "버프 정보")]
 		private Dictionary<E_BuffGrade, BuffGradeInfoItem> m_BuffGradeInfoMap = new Dictionary<E_BuffGrade, BuffGradeInfoItem>();
@@ -85,30 +86,42 @@ namespace BuffDebuff
 
 				Texture2D texture2D = buffGradeInfoItem.CreateTexture();
 
-				int prevLevel = 0;
+				int prevLevel = 1;
 				buffGradeInfoItem.SetBuffProbability(prevLevel, BuffGradeRateFormula(0f, buffGrade) * texture2D.height);
 
 				for (int currLevel = prevLevel + 1; currLevel <= maxLevel; ++currLevel, ++prevLevel)
 				{
-					float prevProbability = BuffGradeRateFormula((float)prevLevel / maxLevel, buffGrade) * texture2D.height;
-					float currProbability = BuffGradeRateFormula(((float)currLevel / maxLevel), buffGrade) * texture2D.height;
+					float prevLevelPercent = (float)prevLevel / maxLevel;
+					float currLevelPercent = (float)currLevel / maxLevel;
 
-					int x0 = Mathf.Clamp(Mathf.RoundToInt(Mathf.Clamp01((float)prevLevel / maxLevel) * texture2D.width), 0, texture2D.width - 1);
-					int x1 = Mathf.Clamp(Mathf.RoundToInt(Mathf.Clamp01((float)currLevel / maxLevel) * texture2D.width), 0, texture2D.width - 1);
+					float prevProbability = BuffGradeRateFormula(prevLevelPercent, buffGrade) * texture2D.height;
+					float currProbability = BuffGradeRateFormula(currLevelPercent, buffGrade) * texture2D.height;
+
+					int x0 = Mathf.Clamp(Mathf.RoundToInt(Mathf.Clamp01(prevLevelPercent) * texture2D.width), 0, texture2D.width - 1);
+					int x1 = Mathf.Clamp(Mathf.RoundToInt(Mathf.Clamp01(currLevelPercent) * texture2D.width), 0, texture2D.width - 1);
 					int y0 = Mathf.Clamp(Mathf.RoundToInt(prevProbability), 0, texture2D.height - 1);
 					int y1 = Mathf.Clamp(Mathf.RoundToInt(currProbability), 0, texture2D.height - 1);
 
-					bresenham(texture2D, x0, y0, x1, y1);
+					bresenham(texture2D, x0, y0, x1, y1, Color.green);
+					bresenham(texture2D, x0, Mathf.Clamp(y0 - 1, 0, texture2D.height - 1), x1, Mathf.Clamp(y1 - 1, 0, texture2D.height - 1), Color.green);
+					bresenham(texture2D, x0, Mathf.Clamp(y0 + 1, 0, texture2D.height - 1), x1, Mathf.Clamp(y1 + 1, 0, texture2D.height - 1), Color.green);
 
 					buffGradeInfoItem.SetBuffProbability(currLevel, currProbability);
 				}
+
+				int curLevel = (Application.isPlaying ? PlayerManager.Instance.currentLevel : m_CurrentLevel);
+				float probability = buffGradeInfoItem.GetBuffProbability(curLevel);
+				int probabilityInt = Mathf.Clamp(Mathf.RoundToInt(probability), 0, texture2D.height - 1);
+
+				drawCircle(texture2D, curLevel, probabilityInt, 3, Color.red);
+
 				texture2D.Apply();
 
 				buffGradeInfoItem.OnValidate(m_CurrentLevel);
 				m_BuffGradeInfoMap[buffGrade] = buffGradeInfoItem;
 			}
 
-			void bresenham(Texture2D texture2D, int x0, int y0, int x1, int y1)
+			void bresenham(Texture2D texture2D, int x0, int y0, int x1, int y1, Color color)
 			{
 				int dx = Mathf.Abs(x1 - x0);
 				int dy = Mathf.Abs(y1 - y0);
@@ -121,7 +134,7 @@ namespace BuffDebuff
 				while (true)
 				{
 					InfiniteLoopDetector.Run();
-					texture2D.SetPixel(x0, y0, Color.green);
+					texture2D.SetPixel(x0, y0, color);
 
 					if (x0 == x1 && y0 == y1)
 						break;
@@ -137,6 +150,22 @@ namespace BuffDebuff
 						err += dx;
 						y0 += sy;
 					}
+				}
+			}
+			void drawCircle(Texture2D texture2D, int cx, int cy, int r, Color color)
+			{
+				int x, y;
+				float pi = Mathf.PI;
+				float rad, drad;
+
+				drad = pi / 360 * 10f;
+
+				for (rad = 0; rad <= 2 * pi; rad += drad)
+				{
+					x = Mathf.Clamp(Mathf.RoundToInt(cx + r * Mathf.Cos(rad)), 0, texture2D.width - 1);
+					y = Mathf.Clamp(Mathf.RoundToInt(cy + r * Mathf.Sin(rad)), 0, texture2D.height - 1);
+
+					bresenham(texture2D, cx, cy, x, y, color);
 				}
 			}
 		}
@@ -155,6 +184,7 @@ namespace BuffDebuff
 
 			return Mathf.Clamp01(value);
 		}
+		// 퍼센트 값을 개별 등급의 퍼센트에서 전체 통합 퍼센트로 변경해주는 함수
 		private void UpdateBuffGradePercent()
 		{
 			float[] minRates = new float[(int)E_BuffGrade.Max];
@@ -237,7 +267,9 @@ namespace BuffDebuff
 			[FoldoutGroup("Debug")]
 			private float m_CurrentLevelPercent;
 
+			[OdinSerialize, HideInInspector]
 			private int m_MinLevel;
+			[OdinSerialize, HideInInspector]
 			private int m_MaxLevel;
 			#endregion
 

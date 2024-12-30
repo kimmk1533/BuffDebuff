@@ -7,7 +7,7 @@ using TilemapMap = System.Collections.Generic.Dictionary<BuffDebuff.Room.E_Tilem
 
 namespace BuffDebuff
 {
-	[RequireComponent(typeof(PathFindingMap), typeof(EnemyWaveSpawner))]
+	[RequireComponent(typeof(PathFindingMap), typeof(EnemySpawner))]
 	public class Room : ObjectPoolItemBase
 	{
 		#region Enum
@@ -66,7 +66,7 @@ namespace BuffDebuff
 		#endregion
 
 		// 적 생성 시스템
-		private EnemyWaveSpawner m_EnemySpawner = null;
+		private EnemySpawner m_EnemySpawner = null;
 		#endregion
 
 		#region 프로퍼티
@@ -182,7 +182,7 @@ namespace BuffDebuff
 				++m_WarpPointCountMap[direction];
 			}
 
-			this.NullCheckGetComponent<EnemyWaveSpawner>(ref m_EnemySpawner);
+			this.NullCheckGetComponent<EnemySpawner>(ref m_EnemySpawner);
 			m_EnemySpawner.Initialize(this);
 		}
 		public override void FinallizePoolItem()

@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace BuffDebuff
 {
 	[System.Serializable]
-	public class EnemyWaveInfo
+	public struct EnemySpawnInfo
 	{
 		#region 변수
 		// 생성할 적 key
@@ -17,10 +18,6 @@ namespace BuffDebuff
 		// 지연 시간
 		[SerializeField]
 		private float m_DelayTime;
-		// 생성 확률
-		[Space(10)]
-		[SerializeField, Range(0, 100)]
-		private int m_RandomPercent = 100;
 
 		// ClearRoom 조건에 필요한 변수
 		// 생성 인덱스
@@ -37,8 +34,6 @@ namespace BuffDebuff
 		#region 매니저
 		private static EnemyManager M_Enemy => EnemyManager.Instance;
 		#endregion
-
-		public bool CheckRandom() => Random.Range(0, 100) < m_RandomPercent;
 
 		public Enemy Spawn(Vector3 offset)
 		{

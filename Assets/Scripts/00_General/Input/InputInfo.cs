@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace BuffDebuff
@@ -8,19 +9,22 @@ namespace BuffDebuff
 	public struct InputInfo
 	{
 		#region 변수
-		[SerializeField, ReadOnly(true)]
+		[SerializeField]
 		private string m_KeyName;
-		[SerializeField, ReadOnly(true)]
+		[SerializeField]
 		private float m_Value;
 
-		[SerializeField, ReadOnly(true)]
+		[SerializeField]
 		private KeyCode m_KeyCode;
 
-		[SerializeField, ReadOnly]
+		[SerializeField, Sirenix.OdinInspector.ReadOnly]
+		[FoldoutGroup("Debug")]
 		private bool m_IsInputDown;
-		[SerializeField, ReadOnly]
+		[SerializeField, Sirenix.OdinInspector.ReadOnly]
+		[FoldoutGroup("Debug")]
 		private bool m_IsInput;
-		[SerializeField, ReadOnly]
+		[SerializeField, Sirenix.OdinInspector.ReadOnly]
+		[FoldoutGroup("Debug")]
 		private bool m_IsInputUp;
 		#endregion
 

@@ -83,7 +83,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 101
+      Data: 100
     - Name: 
       Entry: 7
       Data: 
@@ -92,7 +92,7 @@ MonoBehaviour:
       Data: 1
     - Name: $v
       Entry: 4
-      Data: 99.95065
+      Data: 100
     - Name: 
       Entry: 8
       Data: 
@@ -104,7 +104,7 @@ MonoBehaviour:
       Data: 2
     - Name: $v
       Entry: 4
-      Data: 99.80267
+      Data: 99.69091
     - Name: 
       Entry: 8
       Data: 
@@ -116,7 +116,7 @@ MonoBehaviour:
       Data: 3
     - Name: $v
       Entry: 4
-      Data: 99.5562
+      Data: 99.30499
     - Name: 
       Entry: 8
       Data: 
@@ -128,7 +128,7 @@ MonoBehaviour:
       Data: 4
     - Name: $v
       Entry: 4
-      Data: 99.21147
+      Data: 98.76555
     - Name: 
       Entry: 8
       Data: 
@@ -140,7 +140,7 @@ MonoBehaviour:
       Data: 5
     - Name: $v
       Entry: 4
-      Data: 98.76884
+      Data: 98.0734
     - Name: 
       Entry: 8
       Data: 
@@ -152,7 +152,7 @@ MonoBehaviour:
       Data: 6
     - Name: $v
       Entry: 4
-      Data: 98.22872
+      Data: 97.22964
     - Name: 
       Entry: 8
       Data: 
@@ -164,7 +164,7 @@ MonoBehaviour:
       Data: 7
     - Name: $v
       Entry: 4
-      Data: 97.5916748
+      Data: 96.23554
     - Name: 
       Entry: 8
       Data: 
@@ -176,7 +176,7 @@ MonoBehaviour:
       Data: 8
     - Name: $v
       Entry: 4
-      Data: 96.8583145
+      Data: 95.09267
     - Name: 
       Entry: 8
       Data: 
@@ -188,7 +188,7 @@ MonoBehaviour:
       Data: 9
     - Name: $v
       Entry: 4
-      Data: 96.0293655
+      Data: 93.8027649
     - Name: 
       Entry: 8
       Data: 
@@ -200,7 +200,7 @@ MonoBehaviour:
       Data: 10
     - Name: $v
       Entry: 4
-      Data: 95.10565
+      Data: 92.36785
     - Name: 
       Entry: 8
       Data: 
@@ -212,7 +212,7 @@ MonoBehaviour:
       Data: 11
     - Name: $v
       Entry: 4
-      Data: 94.08807
+      Data: 90.79013
     - Name: 
       Entry: 8
       Data: 
@@ -224,7 +224,7 @@ MonoBehaviour:
       Data: 12
     - Name: $v
       Entry: 4
-      Data: 92.9776459
+      Data: 89.07204
     - Name: 
       Entry: 8
       Data: 
@@ -236,7 +236,7 @@ MonoBehaviour:
       Data: 13
     - Name: $v
       Entry: 4
-      Data: 91.77547
+      Data: 87.21623
     - Name: 
       Entry: 8
       Data: 
@@ -248,7 +248,7 @@ MonoBehaviour:
       Data: 14
     - Name: $v
       Entry: 4
-      Data: 90.4827042
+      Data: 85.22559
     - Name: 
       Entry: 8
       Data: 
@@ -260,7 +260,7 @@ MonoBehaviour:
       Data: 15
     - Name: $v
       Entry: 4
-      Data: 89.1006546
+      Data: 83.10319
     - Name: 
       Entry: 8
       Data: 
@@ -272,7 +272,7 @@ MonoBehaviour:
       Data: 16
     - Name: $v
       Entry: 4
-      Data: 87.63067
+      Data: 80.8523
     - Name: 
       Entry: 8
       Data: 
@@ -284,7 +284,7 @@ MonoBehaviour:
       Data: 17
     - Name: $v
       Entry: 4
-      Data: 86.0742
+      Data: 78.47641
     - Name: 
       Entry: 8
       Data: 
@@ -296,7 +296,7 @@ MonoBehaviour:
       Data: 18
     - Name: $v
       Entry: 4
-      Data: 84.43279
+      Data: 75.9791946
     - Name: 
       Entry: 8
       Data: 
@@ -308,7 +308,7 @@ MonoBehaviour:
       Data: 19
     - Name: $v
       Entry: 4
-      Data: 82.70805
+      Data: 73.36451
     - Name: 
       Entry: 8
       Data: 
@@ -320,7 +320,7 @@ MonoBehaviour:
       Data: 20
     - Name: $v
       Entry: 4
-      Data: 80.9017
+      Data: 70.6364
     - Name: 
       Entry: 8
       Data: 
@@ -332,7 +332,7 @@ MonoBehaviour:
       Data: 21
     - Name: $v
       Entry: 4
-      Data: 79.0155
+      Data: 67.79909
     - Name: 
       Entry: 8
       Data: 
@@ -344,7 +344,7 @@ MonoBehaviour:
       Data: 22
     - Name: $v
       Entry: 4
-      Data: 77.05132
+      Data: 64.85694
     - Name: 
       Entry: 8
       Data: 
@@ -356,7 +356,7 @@ MonoBehaviour:
       Data: 23
     - Name: $v
       Entry: 4
-      Data: 75.0111
+      Data: 61.81453
     - Name: 
       Entry: 8
       Data: 
@@ -368,7 +368,7 @@ MonoBehaviour:
       Data: 24
     - Name: $v
       Entry: 4
-      Data: 72.8968658
+      Data: 58.67655
     - Name: 
       Entry: 8
       Data: 
@@ -380,7 +380,7 @@ MonoBehaviour:
       Data: 25
     - Name: $v
       Entry: 4
-      Data: 70.71068
+      Data: 55.4478531
     - Name: 
       Entry: 8
       Data: 
@@ -392,7 +392,7 @@ MonoBehaviour:
       Data: 26
     - Name: $v
       Entry: 4
-      Data: 68.45471
+      Data: 52.1334343
     - Name: 
       Entry: 8
       Data: 
@@ -404,7 +404,7 @@ MonoBehaviour:
       Data: 27
     - Name: $v
       Entry: 4
-      Data: 66.13118
+      Data: 48.7384033
     - Name: 
       Entry: 8
       Data: 
@@ -416,7 +416,7 @@ MonoBehaviour:
       Data: 28
     - Name: $v
       Entry: 4
-      Data: 63.7424
+      Data: 45.26803
     - Name: 
       Entry: 8
       Data: 
@@ -428,7 +428,7 @@ MonoBehaviour:
       Data: 29
     - Name: $v
       Entry: 4
-      Data: 61.2907066
+      Data: 41.72768
     - Name: 
       Entry: 8
       Data: 
@@ -440,7 +440,7 @@ MonoBehaviour:
       Data: 30
     - Name: $v
       Entry: 4
-      Data: 58.77852
+      Data: 38.1227951
     - Name: 
       Entry: 8
       Data: 
@@ -452,7 +452,7 @@ MonoBehaviour:
       Data: 31
     - Name: $v
       Entry: 4
-      Data: 56.2083359
+      Data: 34.4589844
     - Name: 
       Entry: 8
       Data: 
@@ -464,7 +464,7 @@ MonoBehaviour:
       Data: 32
     - Name: $v
       Entry: 4
-      Data: 53.5826759
+      Data: 30.7418976
     - Name: 
       Entry: 8
       Data: 
@@ -476,7 +476,7 @@ MonoBehaviour:
       Data: 33
     - Name: $v
       Entry: 4
-      Data: 50.9041367
+      Data: 26.9772682
     - Name: 
       Entry: 8
       Data: 
@@ -488,7 +488,7 @@ MonoBehaviour:
       Data: 34
     - Name: $v
       Entry: 4
-      Data: 48.17536
+      Data: 23.1709442
     - Name: 
       Entry: 8
       Data: 
@@ -500,7 +500,7 @@ MonoBehaviour:
       Data: 35
     - Name: $v
       Entry: 4
-      Data: 45.39905
+      Data: 19.3287945
     - Name: 
       Entry: 8
       Data: 
@@ -512,7 +512,7 @@ MonoBehaviour:
       Data: 36
     - Name: $v
       Entry: 4
-      Data: 42.57792
+      Data: 15.4567528
     - Name: 
       Entry: 8
       Data: 
@@ -524,7 +524,7 @@ MonoBehaviour:
       Data: 37
     - Name: $v
       Entry: 4
-      Data: 39.71479
+      Data: 11.5608244
     - Name: 
       Entry: 8
       Data: 
@@ -536,7 +536,7 @@ MonoBehaviour:
       Data: 38
     - Name: $v
       Entry: 4
-      Data: 36.8124542
+      Data: 7.647023
     - Name: 
       Entry: 8
       Data: 
@@ -548,7 +548,7 @@ MonoBehaviour:
       Data: 39
     - Name: $v
       Entry: 4
-      Data: 33.87379
+      Data: 3.72139859
     - Name: 
       Entry: 8
       Data: 
@@ -560,7 +560,7 @@ MonoBehaviour:
       Data: 40
     - Name: $v
       Entry: 4
-      Data: 30.9016972
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -572,7 +572,7 @@ MonoBehaviour:
       Data: 41
     - Name: $v
       Entry: 4
-      Data: 27.899107
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -584,7 +584,7 @@ MonoBehaviour:
       Data: 42
     - Name: $v
       Entry: 4
-      Data: 24.8689957
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -596,7 +596,7 @@ MonoBehaviour:
       Data: 43
     - Name: $v
       Entry: 4
-      Data: 21.8143158
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -608,7 +608,7 @@ MonoBehaviour:
       Data: 44
     - Name: $v
       Entry: 4
-      Data: 18.7381229
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -620,7 +620,7 @@ MonoBehaviour:
       Data: 45
     - Name: $v
       Entry: 4
-      Data: 15.6434488
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -632,7 +632,7 @@ MonoBehaviour:
       Data: 46
     - Name: $v
       Entry: 4
-      Data: 12.5333118
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -644,7 +644,7 @@ MonoBehaviour:
       Data: 47
     - Name: $v
       Entry: 4
-      Data: 9.4108305
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -656,7 +656,7 @@ MonoBehaviour:
       Data: 48
     - Name: $v
       Entry: 4
-      Data: 6.27905
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -668,7 +668,7 @@ MonoBehaviour:
       Data: 49
     - Name: $v
       Entry: 4
-      Data: 3.14107275
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -1285,18 +1285,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
-    - Name: $v
-      Entry: 4
-      Data: 100
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -1307,13 +1295,19 @@ MonoBehaviour:
       Data: 0
     - Name: m_MinLevelPercent
       Entry: 4
-      Data: 35.51359
+      Data: 43.88165
     - Name: m_MaxLevelPercent
       Entry: 4
       Data: 0
     - Name: m_CurrentLevelPercent
       Entry: 4
-      Data: 36.4036179
+      Data: 43.88165
+    - Name: m_MinLevel
+      Entry: 3
+      Data: 1
+    - Name: m_MaxLevel
+      Entry: 3
+      Data: 100
     - Name: 
       Entry: 8
       Data: 
@@ -1350,7 +1344,7 @@ MonoBehaviour:
       Data: 3
     - Name: 
       Entry: 12
-      Data: 101
+      Data: 100
     - Name: 
       Entry: 7
       Data: 
@@ -1359,7 +1353,7 @@ MonoBehaviour:
       Data: 1
     - Name: $v
       Entry: 4
-      Data: 91.41529
+      Data: 84.6325
     - Name: 
       Entry: 8
       Data: 
@@ -1371,7 +1365,7 @@ MonoBehaviour:
       Data: 2
     - Name: $v
       Entry: 4
-      Data: 92.64348
+      Data: 88.55573
     - Name: 
       Entry: 8
       Data: 
@@ -1383,7 +1377,7 @@ MonoBehaviour:
       Data: 3
     - Name: $v
       Entry: 4
-      Data: 93.7802353
+      Data: 90.31345
     - Name: 
       Entry: 8
       Data: 
@@ -1395,7 +1389,7 @@ MonoBehaviour:
       Data: 4
     - Name: $v
       Entry: 4
-      Data: 94.82445
+      Data: 91.93154
     - Name: 
       Entry: 8
       Data: 
@@ -1407,7 +1401,7 @@ MonoBehaviour:
       Data: 5
     - Name: $v
       Entry: 4
-      Data: 95.77508
+      Data: 93.4075
     - Name: 
       Entry: 8
       Data: 
@@ -1419,7 +1413,7 @@ MonoBehaviour:
       Data: 6
     - Name: $v
       Entry: 4
-      Data: 96.6311951
+      Data: 94.7390442
     - Name: 
       Entry: 8
       Data: 
@@ -1431,7 +1425,7 @@ MonoBehaviour:
       Data: 7
     - Name: $v
       Entry: 4
-      Data: 97.3919449
+      Data: 95.92412
     - Name: 
       Entry: 8
       Data: 
@@ -1443,7 +1437,7 @@ MonoBehaviour:
       Data: 8
     - Name: $v
       Entry: 4
-      Data: 98.05658
+      Data: 96.9608841
     - Name: 
       Entry: 8
       Data: 
@@ -1455,7 +1449,7 @@ MonoBehaviour:
       Data: 9
     - Name: $v
       Entry: 4
-      Data: 98.62444
+      Data: 97.84775
     - Name: 
       Entry: 8
       Data: 
@@ -1467,7 +1461,7 @@ MonoBehaviour:
       Data: 10
     - Name: $v
       Entry: 4
-      Data: 99.09498
+      Data: 98.58333
     - Name: 
       Entry: 8
       Data: 
@@ -1479,7 +1473,7 @@ MonoBehaviour:
       Data: 11
     - Name: $v
       Entry: 4
-      Data: 99.46771
+      Data: 99.1665039
     - Name: 
       Entry: 8
       Data: 
@@ -1491,7 +1485,7 @@ MonoBehaviour:
       Data: 12
     - Name: $v
       Entry: 4
-      Data: 99.7422943
+      Data: 99.59635
     - Name: 
       Entry: 8
       Data: 
@@ -1503,7 +1497,7 @@ MonoBehaviour:
       Data: 13
     - Name: $v
       Entry: 4
-      Data: 99.9184341
+      Data: 99.87222
     - Name: 
       Entry: 8
       Data: 
@@ -1515,7 +1509,7 @@ MonoBehaviour:
       Data: 14
     - Name: $v
       Entry: 4
-      Data: 99.99597
+      Data: 99.99369
     - Name: 
       Entry: 8
       Data: 
@@ -1527,7 +1521,7 @@ MonoBehaviour:
       Data: 15
     - Name: $v
       Entry: 4
-      Data: 99.97482
+      Data: 99.960556
     - Name: 
       Entry: 8
       Data: 
@@ -1539,7 +1533,7 @@ MonoBehaviour:
       Data: 16
     - Name: $v
       Entry: 4
-      Data: 99.85501
+      Data: 99.77288
     - Name: 
       Entry: 8
       Data: 
@@ -1551,7 +1545,7 @@ MonoBehaviour:
       Data: 17
     - Name: $v
       Entry: 4
-      Data: 99.63666
+      Data: 99.430954
     - Name: 
       Entry: 8
       Data: 
@@ -1563,7 +1557,7 @@ MonoBehaviour:
       Data: 18
     - Name: $v
       Entry: 4
-      Data: 99.31997
+      Data: 98.9352951
     - Name: 
       Entry: 8
       Data: 
@@ -1575,7 +1569,7 @@ MonoBehaviour:
       Data: 19
     - Name: $v
       Entry: 4
-      Data: 98.90527
+      Data: 98.28668
     - Name: 
       Entry: 8
       Data: 
@@ -1587,7 +1581,7 @@ MonoBehaviour:
       Data: 20
     - Name: $v
       Entry: 4
-      Data: 98.39296
+      Data: 97.48611
     - Name: 
       Entry: 8
       Data: 
@@ -1599,7 +1593,7 @@ MonoBehaviour:
       Data: 21
     - Name: $v
       Entry: 4
-      Data: 97.78355
+      Data: 96.53482
     - Name: 
       Entry: 8
       Data: 
@@ -1611,7 +1605,7 @@ MonoBehaviour:
       Data: 22
     - Name: $v
       Entry: 4
-      Data: 97.07763
+      Data: 95.43428
     - Name: 
       Entry: 8
       Data: 
@@ -1623,7 +1617,7 @@ MonoBehaviour:
       Data: 23
     - Name: $v
       Entry: 4
-      Data: 96.27592
+      Data: 94.1861954
     - Name: 
       Entry: 8
       Data: 
@@ -1635,7 +1629,7 @@ MonoBehaviour:
       Data: 24
     - Name: $v
       Entry: 4
-      Data: 95.37919
+      Data: 92.7925
     - Name: 
       Entry: 8
       Data: 
@@ -1647,7 +1641,7 @@ MonoBehaviour:
       Data: 25
     - Name: $v
       Entry: 4
-      Data: 94.38833
+      Data: 91.25534
     - Name: 
       Entry: 8
       Data: 
@@ -1659,7 +1653,7 @@ MonoBehaviour:
       Data: 26
     - Name: $v
       Entry: 4
-      Data: 93.30433
+      Data: 89.57709
     - Name: 
       Entry: 8
       Data: 
@@ -1671,7 +1665,7 @@ MonoBehaviour:
       Data: 27
     - Name: $v
       Entry: 4
-      Data: 92.12824
+      Data: 87.76035
     - Name: 
       Entry: 8
       Data: 
@@ -1683,7 +1677,7 @@ MonoBehaviour:
       Data: 28
     - Name: $v
       Entry: 4
-      Data: 90.86123
+      Data: 85.80793
     - Name: 
       Entry: 8
       Data: 
@@ -1695,7 +1689,7 @@ MonoBehaviour:
       Data: 29
     - Name: $v
       Entry: 4
-      Data: 89.5045547
+      Data: 83.72285
     - Name: 
       Entry: 8
       Data: 
@@ -1707,7 +1701,7 @@ MonoBehaviour:
       Data: 30
     - Name: $v
       Entry: 4
-      Data: 88.05955
+      Data: 81.50832
     - Name: 
       Entry: 8
       Data: 
@@ -1719,7 +1713,7 @@ MonoBehaviour:
       Data: 31
     - Name: $v
       Entry: 4
-      Data: 86.52764
+      Data: 79.1677856
     - Name: 
       Entry: 8
       Data: 
@@ -1731,7 +1725,7 @@ MonoBehaviour:
       Data: 32
     - Name: $v
       Entry: 4
-      Data: 84.91035
+      Data: 76.70485
     - Name: 
       Entry: 8
       Data: 
@@ -1743,7 +1737,7 @@ MonoBehaviour:
       Data: 33
     - Name: $v
       Entry: 4
-      Data: 83.20924
+      Data: 74.1233139
     - Name: 
       Entry: 8
       Data: 
@@ -1755,7 +1749,7 @@ MonoBehaviour:
       Data: 34
     - Name: $v
       Entry: 4
-      Data: 81.4260254
+      Data: 71.42719
     - Name: 
       Entry: 8
       Data: 
@@ -1767,7 +1761,7 @@ MonoBehaviour:
       Data: 35
     - Name: $v
       Entry: 4
-      Data: 79.5624542
+      Data: 68.620636
     - Name: 
       Entry: 8
       Data: 
@@ -1779,7 +1773,7 @@ MonoBehaviour:
       Data: 36
     - Name: $v
       Entry: 4
-      Data: 77.62036
+      Data: 65.7079849
     - Name: 
       Entry: 8
       Data: 
@@ -1791,7 +1785,7 @@ MonoBehaviour:
       Data: 37
     - Name: $v
       Entry: 4
-      Data: 75.60167
+      Data: 62.6937523
     - Name: 
       Entry: 8
       Data: 
@@ -1803,7 +1797,7 @@ MonoBehaviour:
       Data: 38
     - Name: $v
       Entry: 4
-      Data: 73.50836
+      Data: 59.582592
     - Name: 
       Entry: 8
       Data: 
@@ -1815,7 +1809,7 @@ MonoBehaviour:
       Data: 39
     - Name: $v
       Entry: 4
-      Data: 71.34252
+      Data: 56.37931
     - Name: 
       Entry: 8
       Data: 
@@ -1827,7 +1821,7 @@ MonoBehaviour:
       Data: 40
     - Name: $v
       Entry: 4
-      Data: 69.10626
+      Data: 53.0888634
     - Name: 
       Entry: 8
       Data: 
@@ -1839,7 +1833,7 @@ MonoBehaviour:
       Data: 41
     - Name: $v
       Entry: 4
-      Data: 66.80181
+      Data: 49.7163429
     - Name: 
       Entry: 8
       Data: 
@@ -1851,7 +1845,7 @@ MonoBehaviour:
       Data: 42
     - Name: $v
       Entry: 4
-      Data: 64.4314346
+      Data: 46.2669563
     - Name: 
       Entry: 8
       Data: 
@@ -1863,7 +1857,7 @@ MonoBehaviour:
       Data: 43
     - Name: $v
       Entry: 4
-      Data: 61.99746
+      Data: 42.74603
     - Name: 
       Entry: 8
       Data: 
@@ -1875,7 +1869,7 @@ MonoBehaviour:
       Data: 44
     - Name: $v
       Entry: 4
-      Data: 59.5023155
+      Data: 39.1590233
     - Name: 
       Entry: 8
       Data: 
@@ -1887,7 +1881,7 @@ MonoBehaviour:
       Data: 45
     - Name: $v
       Entry: 4
-      Data: 56.948452
+      Data: 35.5114746
     - Name: 
       Entry: 8
       Data: 
@@ -1899,7 +1893,7 @@ MonoBehaviour:
       Data: 46
     - Name: $v
       Entry: 4
-      Data: 54.33837
+      Data: 31.8090172
     - Name: 
       Entry: 8
       Data: 
@@ -1911,7 +1905,7 @@ MonoBehaviour:
       Data: 47
     - Name: $v
       Entry: 4
-      Data: 51.674675
+      Data: 28.0573883
     - Name: 
       Entry: 8
       Data: 
@@ -1923,7 +1917,7 @@ MonoBehaviour:
       Data: 48
     - Name: $v
       Entry: 4
-      Data: 48.95999
+      Data: 24.2623825
     - Name: 
       Entry: 8
       Data: 
@@ -1935,7 +1929,7 @@ MonoBehaviour:
       Data: 49
     - Name: $v
       Entry: 4
-      Data: 46.1969681
+      Data: 20.4298534
     - Name: 
       Entry: 8
       Data: 
@@ -1947,7 +1941,7 @@ MonoBehaviour:
       Data: 50
     - Name: $v
       Entry: 4
-      Data: 43.3883743
+      Data: 16.565752
     - Name: 
       Entry: 8
       Data: 
@@ -1959,7 +1953,7 @@ MonoBehaviour:
       Data: 51
     - Name: $v
       Entry: 4
-      Data: 40.536953
+      Data: 12.67605
     - Name: 
       Entry: 8
       Data: 
@@ -1971,7 +1965,7 @@ MonoBehaviour:
       Data: 52
     - Name: $v
       Entry: 4
-      Data: 37.6455231
+      Data: 8.766739
     - Name: 
       Entry: 8
       Data: 
@@ -1983,7 +1977,7 @@ MonoBehaviour:
       Data: 53
     - Name: $v
       Entry: 4
-      Data: 34.7169571
+      Data: 4.8438735
     - Name: 
       Entry: 8
       Data: 
@@ -1995,7 +1989,7 @@ MonoBehaviour:
       Data: 54
     - Name: $v
       Entry: 4
-      Data: 31.7540951
+      Data: 0.91349566
     - Name: 
       Entry: 8
       Data: 
@@ -2007,7 +2001,7 @@ MonoBehaviour:
       Data: 55
     - Name: $v
       Entry: 4
-      Data: 28.75993
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -2019,7 +2013,7 @@ MonoBehaviour:
       Data: 56
     - Name: $v
       Entry: 4
-      Data: 25.73737
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -2031,7 +2025,7 @@ MonoBehaviour:
       Data: 57
     - Name: $v
       Entry: 4
-      Data: 22.6894073
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -2043,7 +2037,7 @@ MonoBehaviour:
       Data: 58
     - Name: $v
       Entry: 4
-      Data: 19.6190662
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -2055,7 +2049,7 @@ MonoBehaviour:
       Data: 59
     - Name: $v
       Entry: 4
-      Data: 16.5293541
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -2067,7 +2061,7 @@ MonoBehaviour:
       Data: 60
     - Name: $v
       Entry: 4
-      Data: 13.423316
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -2079,7 +2073,7 @@ MonoBehaviour:
       Data: 61
     - Name: $v
       Entry: 4
-      Data: 10.3040428
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -2091,7 +2085,7 @@ MonoBehaviour:
       Data: 62
     - Name: $v
       Entry: 4
-      Data: 7.17461252
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -2103,7 +2097,7 @@ MonoBehaviour:
       Data: 63
     - Name: $v
       Entry: 4
-      Data: 4.03808975
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -2115,7 +2109,7 @@ MonoBehaviour:
       Data: 64
     - Name: $v
       Entry: 4
-      Data: 0.8975819
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -2552,18 +2546,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
-    - Name: $v
-      Entry: 4
-      Data: 90.0968857
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -2574,13 +2556,19 @@ MonoBehaviour:
       Data: 1
     - Name: m_MinLevelPercent
       Entry: 4
-      Data: 32.48088
+      Data: 37.1381378
     - Name: m_MaxLevelPercent
       Entry: 4
       Data: 0
     - Name: m_CurrentLevelPercent
       Entry: 4
-      Data: 32.7985268
+      Data: 37.1381378
+    - Name: m_MinLevel
+      Entry: 3
+      Data: 1
+    - Name: m_MaxLevel
+      Entry: 3
+      Data: 100
     - Name: 
       Entry: 8
       Data: 
@@ -2617,7 +2605,7 @@ MonoBehaviour:
       Data: 3
     - Name: 
       Entry: 12
-      Data: 101
+      Data: 100
     - Name: 
       Entry: 7
       Data: 
@@ -2626,7 +2614,7 @@ MonoBehaviour:
       Data: 1
     - Name: $v
       Entry: 4
-      Data: 64.77401
+      Data: 43.2531929
     - Name: 
       Entry: 8
       Data: 
@@ -2638,7 +2626,7 @@ MonoBehaviour:
       Data: 2
     - Name: $v
       Entry: 4
-      Data: 67.13511
+      Data: 50.20295
     - Name: 
       Entry: 8
       Data: 
@@ -2650,7 +2638,7 @@ MonoBehaviour:
       Data: 3
     - Name: $v
       Entry: 4
-      Data: 69.4299545
+      Data: 53.56407
     - Name: 
       Entry: 8
       Data: 
@@ -2662,7 +2650,7 @@ MonoBehaviour:
       Data: 4
     - Name: $v
       Entry: 4
-      Data: 71.65629
+      Data: 56.8423767
     - Name: 
       Entry: 8
       Data: 
@@ -2674,7 +2662,7 @@ MonoBehaviour:
       Data: 5
     - Name: $v
       Entry: 4
-      Data: 73.8119
+      Data: 60.03279
     - Name: 
       Entry: 8
       Data: 
@@ -2686,7 +2674,7 @@ MonoBehaviour:
       Data: 6
     - Name: $v
       Entry: 4
-      Data: 75.89467
+      Data: 63.1304
     - Name: 
       Entry: 8
       Data: 
@@ -2698,7 +2686,7 @@ MonoBehaviour:
       Data: 7
     - Name: $v
       Entry: 4
-      Data: 77.9025345
+      Data: 66.13041
     - Name: 
       Entry: 8
       Data: 
@@ -2710,7 +2698,7 @@ MonoBehaviour:
       Data: 8
     - Name: $v
       Entry: 4
-      Data: 79.8335342
+      Data: 69.02817
     - Name: 
       Entry: 8
       Data: 
@@ -2722,7 +2710,7 @@ MonoBehaviour:
       Data: 9
     - Name: $v
       Entry: 4
-      Data: 81.68573
+      Data: 71.8192139
     - Name: 
       Entry: 8
       Data: 
@@ -2734,7 +2722,7 @@ MonoBehaviour:
       Data: 10
     - Name: $v
       Entry: 4
-      Data: 83.45733
+      Data: 74.49922
     - Name: 
       Entry: 8
       Data: 
@@ -2746,7 +2734,7 @@ MonoBehaviour:
       Data: 11
     - Name: $v
       Entry: 4
-      Data: 85.14655
+      Data: 77.06404
     - Name: 
       Entry: 8
       Data: 
@@ -2758,7 +2746,7 @@ MonoBehaviour:
       Data: 12
     - Name: $v
       Entry: 4
-      Data: 86.7517548
+      Data: 79.50972
     - Name: 
       Entry: 8
       Data: 
@@ -2770,7 +2758,7 @@ MonoBehaviour:
       Data: 13
     - Name: $v
       Entry: 4
-      Data: 88.27134
+      Data: 81.83248
     - Name: 
       Entry: 8
       Data: 
@@ -2782,7 +2770,7 @@ MonoBehaviour:
       Data: 14
     - Name: $v
       Entry: 4
-      Data: 89.70381
+      Data: 84.02872
     - Name: 
       Entry: 8
       Data: 
@@ -2794,7 +2782,7 @@ MonoBehaviour:
       Data: 15
     - Name: $v
       Entry: 4
-      Data: 91.04775
+      Data: 86.09504
     - Name: 
       Entry: 8
       Data: 
@@ -2806,7 +2794,7 @@ MonoBehaviour:
       Data: 16
     - Name: $v
       Entry: 4
-      Data: 92.30185
+      Data: 88.02826
     - Name: 
       Entry: 8
       Data: 
@@ -2818,7 +2806,7 @@ MonoBehaviour:
       Data: 17
     - Name: $v
       Entry: 4
-      Data: 93.46484
+      Data: 89.825386
     - Name: 
       Entry: 8
       Data: 
@@ -2830,7 +2818,7 @@ MonoBehaviour:
       Data: 18
     - Name: $v
       Entry: 4
-      Data: 94.535614
+      Data: 91.48363
     - Name: 
       Entry: 8
       Data: 
@@ -2842,7 +2830,7 @@ MonoBehaviour:
       Data: 19
     - Name: $v
       Entry: 4
-      Data: 95.51308
+      Data: 93.0004349
     - Name: 
       Entry: 8
       Data: 
@@ -2854,7 +2842,7 @@ MonoBehaviour:
       Data: 20
     - Name: $v
       Entry: 4
-      Data: 96.396286
+      Data: 94.37347
     - Name: 
       Entry: 8
       Data: 
@@ -2866,7 +2854,7 @@ MonoBehaviour:
       Data: 21
     - Name: $v
       Entry: 4
-      Data: 97.18436
+      Data: 95.60058
     - Name: 
       Entry: 8
       Data: 
@@ -2878,7 +2866,7 @@ MonoBehaviour:
       Data: 22
     - Name: $v
       Entry: 4
-      Data: 97.87653
+      Data: 96.67989
     - Name: 
       Entry: 8
       Data: 
@@ -2890,7 +2878,7 @@ MonoBehaviour:
       Data: 23
     - Name: $v
       Entry: 4
-      Data: 98.47211
+      Data: 97.60974
     - Name: 
       Entry: 8
       Data: 
@@ -2902,7 +2890,7 @@ MonoBehaviour:
       Data: 24
     - Name: $v
       Entry: 4
-      Data: 98.9705
+      Data: 98.38867
     - Name: 
       Entry: 8
       Data: 
@@ -2914,7 +2902,7 @@ MonoBehaviour:
       Data: 25
     - Name: $v
       Entry: 4
-      Data: 99.3712158
+      Data: 99.0154953
     - Name: 
       Entry: 8
       Data: 
@@ -2926,7 +2914,7 @@ MonoBehaviour:
       Data: 26
     - Name: $v
       Entry: 4
-      Data: 99.6738739
+      Data: 99.48923
     - Name: 
       Entry: 8
       Data: 
@@ -2938,7 +2926,7 @@ MonoBehaviour:
       Data: 27
     - Name: $v
       Entry: 4
-      Data: 99.87817
+      Data: 99.80914
     - Name: 
       Entry: 8
       Data: 
@@ -2950,7 +2938,7 @@ MonoBehaviour:
       Data: 28
     - Name: $v
       Entry: 4
-      Data: 99.98389
+      Data: 99.9747543
     - Name: 
       Entry: 8
       Data: 
@@ -2962,7 +2950,7 @@ MonoBehaviour:
       Data: 29
     - Name: $v
       Entry: 4
-      Data: 99.99094
+      Data: 99.9858
     - Name: 
       Entry: 8
       Data: 
@@ -2974,7 +2962,7 @@ MonoBehaviour:
       Data: 30
     - Name: $v
       Entry: 4
-      Data: 99.89931
+      Data: 99.84226
     - Name: 
       Entry: 8
       Data: 
@@ -2986,7 +2974,7 @@ MonoBehaviour:
       Data: 31
     - Name: $v
       Entry: 4
-      Data: 99.70909
+      Data: 99.54436
     - Name: 
       Entry: 8
       Data: 
@@ -2998,7 +2986,7 @@ MonoBehaviour:
       Data: 32
     - Name: $v
       Entry: 4
-      Data: 99.42047
+      Data: 99.09256
     - Name: 
       Entry: 8
       Data: 
@@ -3010,7 +2998,7 @@ MonoBehaviour:
       Data: 33
     - Name: $v
       Entry: 4
-      Data: 99.03373
+      Data: 98.48756
     - Name: 
       Entry: 8
       Data: 
@@ -3022,7 +3010,7 @@ MonoBehaviour:
       Data: 34
     - Name: $v
       Entry: 4
-      Data: 98.54926
+      Data: 97.7302856
     - Name: 
       Entry: 8
       Data: 
@@ -3034,7 +3022,7 @@ MonoBehaviour:
       Data: 35
     - Name: $v
       Entry: 4
-      Data: 97.9675446
+      Data: 96.8219147
     - Name: 
       Entry: 8
       Data: 
@@ -3046,7 +3034,7 @@ MonoBehaviour:
       Data: 36
     - Name: $v
       Entry: 4
-      Data: 97.28913
+      Data: 95.763855
     - Name: 
       Entry: 8
       Data: 
@@ -3058,7 +3046,7 @@ MonoBehaviour:
       Data: 37
     - Name: $v
       Entry: 4
-      Data: 96.51472
+      Data: 94.55775
     - Name: 
       Entry: 8
       Data: 
@@ -3070,7 +3058,7 @@ MonoBehaviour:
       Data: 38
     - Name: $v
       Entry: 4
-      Data: 95.64504
+      Data: 93.20544
     - Name: 
       Entry: 8
       Data: 
@@ -3082,7 +3070,7 @@ MonoBehaviour:
       Data: 39
     - Name: $v
       Entry: 4
-      Data: 94.68099
+      Data: 91.70904
     - Name: 
       Entry: 8
       Data: 
@@ -3094,7 +3082,7 @@ MonoBehaviour:
       Data: 40
     - Name: $v
       Entry: 4
-      Data: 93.62348
+      Data: 90.07084
     - Name: 
       Entry: 8
       Data: 
@@ -3106,7 +3094,7 @@ MonoBehaviour:
       Data: 41
     - Name: $v
       Entry: 4
-      Data: 92.4735947
+      Data: 88.29339
     - Name: 
       Entry: 8
       Data: 
@@ -3118,7 +3106,7 @@ MonoBehaviour:
       Data: 42
     - Name: $v
       Entry: 4
-      Data: 91.2324448
+      Data: 86.37944
     - Name: 
       Entry: 8
       Data: 
@@ -3130,7 +3118,7 @@ MonoBehaviour:
       Data: 43
     - Name: $v
       Entry: 4
-      Data: 89.90125
+      Data: 84.33193
     - Name: 
       Entry: 8
       Data: 
@@ -3142,7 +3130,7 @@ MonoBehaviour:
       Data: 44
     - Name: $v
       Entry: 4
-      Data: 88.4813461
+      Data: 82.15406
     - Name: 
       Entry: 8
       Data: 
@@ -3154,7 +3142,7 @@ MonoBehaviour:
       Data: 45
     - Name: $v
       Entry: 4
-      Data: 86.97411
+      Data: 79.84916
     - Name: 
       Entry: 8
       Data: 
@@ -3166,7 +3154,7 @@ MonoBehaviour:
       Data: 46
     - Name: $v
       Entry: 4
-      Data: 85.38105
+      Data: 77.42081
     - Name: 
       Entry: 8
       Data: 
@@ -3178,7 +3166,7 @@ MonoBehaviour:
       Data: 47
     - Name: $v
       Entry: 4
-      Data: 83.70373
+      Data: 74.8727646
     - Name: 
       Entry: 8
       Data: 
@@ -3190,7 +3178,7 @@ MonoBehaviour:
       Data: 48
     - Name: $v
       Entry: 4
-      Data: 81.9438
+      Data: 72.20897
     - Name: 
       Entry: 8
       Data: 
@@ -3202,7 +3190,7 @@ MonoBehaviour:
       Data: 49
     - Name: $v
       Entry: 4
-      Data: 80.103
+      Data: 69.4335251
     - Name: 
       Entry: 8
       Data: 
@@ -3214,7 +3202,7 @@ MonoBehaviour:
       Data: 50
     - Name: $v
       Entry: 4
-      Data: 78.18314
+      Data: 66.5507355
     - Name: 
       Entry: 8
       Data: 
@@ -3226,7 +3214,7 @@ MonoBehaviour:
       Data: 51
     - Name: $v
       Entry: 4
-      Data: 76.18614
+      Data: 63.5650635
     - Name: 
       Entry: 8
       Data: 
@@ -3238,7 +3226,7 @@ MonoBehaviour:
       Data: 52
     - Name: $v
       Entry: 4
-      Data: 74.11395
+      Data: 60.4811058
     - Name: 
       Entry: 8
       Data: 
@@ -3250,7 +3238,7 @@ MonoBehaviour:
       Data: 53
     - Name: $v
       Entry: 4
-      Data: 71.96861
+      Data: 57.30365
     - Name: 
       Entry: 8
       Data: 
@@ -3262,7 +3250,7 @@ MonoBehaviour:
       Data: 54
     - Name: $v
       Entry: 4
-      Data: 69.75224
+      Data: 54.0375824
     - Name: 
       Entry: 8
       Data: 
@@ -3274,7 +3262,7 @@ MonoBehaviour:
       Data: 55
     - Name: $v
       Entry: 4
-      Data: 67.46705
+      Data: 50.68799
     - Name: 
       Entry: 8
       Data: 
@@ -3286,7 +3274,7 @@ MonoBehaviour:
       Data: 56
     - Name: $v
       Entry: 4
-      Data: 65.11527
+      Data: 47.26002
     - Name: 
       Entry: 8
       Data: 
@@ -3298,7 +3286,7 @@ MonoBehaviour:
       Data: 57
     - Name: $v
       Entry: 4
-      Data: 62.699234
+      Data: 43.75899
     - Name: 
       Entry: 8
       Data: 
@@ -3310,7 +3298,7 @@ MonoBehaviour:
       Data: 58
     - Name: $v
       Entry: 4
-      Data: 60.22132
+      Data: 40.1903076
     - Name: 
       Entry: 8
       Data: 
@@ -3322,7 +3310,7 @@ MonoBehaviour:
       Data: 59
     - Name: $v
       Entry: 4
-      Data: 57.6839752
+      Data: 36.5594864
     - Name: 
       Entry: 8
       Data: 
@@ -3334,7 +3322,7 @@ MonoBehaviour:
       Data: 60
     - Name: $v
       Entry: 4
-      Data: 55.0896873
+      Data: 32.87212
     - Name: 
       Entry: 8
       Data: 
@@ -3346,7 +3334,7 @@ MonoBehaviour:
       Data: 61
     - Name: $v
       Entry: 4
-      Data: 52.4410553
+      Data: 29.133955
     - Name: 
       Entry: 8
       Data: 
@@ -3358,7 +3346,7 @@ MonoBehaviour:
       Data: 62
     - Name: $v
       Entry: 4
-      Data: 49.7406578
+      Data: 25.3507576
     - Name: 
       Entry: 8
       Data: 
@@ -3370,7 +3358,7 @@ MonoBehaviour:
       Data: 63
     - Name: $v
       Entry: 4
-      Data: 46.9911842
+      Data: 21.5283566
     - Name: 
       Entry: 8
       Data: 
@@ -3382,7 +3370,7 @@ MonoBehaviour:
       Data: 64
     - Name: $v
       Entry: 4
-      Data: 44.1953239
+      Data: 17.6726723
     - Name: 
       Entry: 8
       Data: 
@@ -3394,7 +3382,7 @@ MonoBehaviour:
       Data: 65
     - Name: $v
       Entry: 4
-      Data: 41.35585
+      Data: 13.7896643
     - Name: 
       Entry: 8
       Data: 
@@ -3406,7 +3394,7 @@ MonoBehaviour:
       Data: 66
     - Name: $v
       Entry: 4
-      Data: 38.47555
+      Data: 9.885313
     - Name: 
       Entry: 8
       Data: 
@@ -3418,7 +3406,7 @@ MonoBehaviour:
       Data: 67
     - Name: $v
       Entry: 4
-      Data: 35.5572968
+      Data: 5.96570158
     - Name: 
       Entry: 8
       Data: 
@@ -3430,7 +3418,7 @@ MonoBehaviour:
       Data: 68
     - Name: $v
       Entry: 4
-      Data: 32.60396
+      Data: 2.03686738
     - Name: 
       Entry: 8
       Data: 
@@ -3442,7 +3430,7 @@ MonoBehaviour:
       Data: 69
     - Name: $v
       Entry: 4
-      Data: 29.618433
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -3454,7 +3442,7 @@ MonoBehaviour:
       Data: 70
     - Name: $v
       Entry: 4
-      Data: 26.6036816
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -3466,7 +3454,7 @@ MonoBehaviour:
       Data: 71
     - Name: $v
       Entry: 4
-      Data: 23.5626812
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -3478,7 +3466,7 @@ MonoBehaviour:
       Data: 72
     - Name: $v
       Entry: 4
-      Data: 20.49841
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -3490,7 +3478,7 @@ MonoBehaviour:
       Data: 73
     - Name: $v
       Entry: 4
-      Data: 17.4139156
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -3502,7 +3490,7 @@ MonoBehaviour:
       Data: 74
     - Name: $v
       Entry: 4
-      Data: 14.3122377
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -3514,7 +3502,7 @@ MonoBehaviour:
       Data: 75
     - Name: $v
       Entry: 4
-      Data: 11.1964483
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -3526,7 +3514,7 @@ MonoBehaviour:
       Data: 76
     - Name: $v
       Entry: 4
-      Data: 8.069596
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -3538,7 +3526,7 @@ MonoBehaviour:
       Data: 77
     - Name: $v
       Entry: 4
-      Data: 4.934781
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -3550,7 +3538,7 @@ MonoBehaviour:
       Data: 78
     - Name: $v
       Entry: 4
-      Data: 1.79510772
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -3819,18 +3807,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
-    - Name: $v
-      Entry: 4
-      Data: 62.34898
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -3841,13 +3817,19 @@ MonoBehaviour:
       Data: 2
     - Name: m_MinLevelPercent
       Entry: 4
-      Data: 23.0149345
+      Data: 18.9802132
     - Name: m_MaxLevelPercent
       Entry: 4
       Data: 0
     - Name: m_CurrentLevelPercent
       Entry: 4
-      Data: 22.6972847
+      Data: 18.9802132
+    - Name: m_MinLevel
+      Entry: 3
+      Data: 1
+    - Name: m_MaxLevel
+      Entry: 3
+      Data: 100
     - Name: 
       Entry: 8
       Data: 
@@ -3884,7 +3866,7 @@ MonoBehaviour:
       Data: 3
     - Name: 
       Entry: 12
-      Data: 101
+      Data: 100
     - Name: 
       Entry: 7
       Data: 
@@ -3893,7 +3875,7 @@ MonoBehaviour:
       Data: 1
     - Name: $v
       Entry: 4
-      Data: 25.3034286
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -3905,7 +3887,7 @@ MonoBehaviour:
       Data: 2
     - Name: $v
       Entry: 4
-      Data: 28.3298016
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -3917,7 +3899,7 @@ MonoBehaviour:
       Data: 3
     - Name: $v
       Entry: 4
-      Data: 31.3282166
+      Data: 0.3517696
     - Name: 
       Entry: 8
       Data: 
@@ -3929,7 +3911,7 @@ MonoBehaviour:
       Data: 4
     - Name: $v
       Entry: 4
-      Data: 34.2957153
+      Data: 4.28269768
     - Name: 
       Entry: 8
       Data: 
@@ -3941,7 +3923,7 @@ MonoBehaviour:
       Data: 5
     - Name: $v
       Entry: 4
-      Data: 37.2293663
+      Data: 8.207005
     - Name: 
       Entry: 8
       Data: 
@@ -3953,7 +3935,7 @@ MonoBehaviour:
       Data: 6
     - Name: $v
       Entry: 4
-      Data: 40.1262741
+      Data: 12.1186228
     - Name: 
       Entry: 8
       Data: 
@@ -3965,7 +3947,7 @@ MonoBehaviour:
       Data: 7
     - Name: $v
       Entry: 4
-      Data: 42.9835854
+      Data: 16.0115166
     - Name: 
       Entry: 8
       Data: 
@@ -3977,7 +3959,7 @@ MonoBehaviour:
       Data: 8
     - Name: $v
       Entry: 4
-      Data: 45.7984657
+      Data: 19.8796444
     - Name: 
       Entry: 8
       Data: 
@@ -3989,7 +3971,7 @@ MonoBehaviour:
       Data: 9
     - Name: $v
       Entry: 4
-      Data: 48.56816
+      Data: 23.7170372
     - Name: 
       Entry: 8
       Data: 
@@ -4001,7 +3983,7 @@ MonoBehaviour:
       Data: 10
     - Name: $v
       Entry: 4
-      Data: 51.28992
+      Data: 27.5177631
     - Name: 
       Entry: 8
       Data: 
@@ -4013,7 +3995,7 @@ MonoBehaviour:
       Data: 11
     - Name: $v
       Entry: 4
-      Data: 53.9610672
+      Data: 31.2759438
     - Name: 
       Entry: 8
       Data: 
@@ -4025,7 +4007,7 @@ MonoBehaviour:
       Data: 12
     - Name: $v
       Entry: 4
-      Data: 56.5789566
+      Data: 34.98578
     - Name: 
       Entry: 8
       Data: 
@@ -4037,7 +4019,7 @@ MonoBehaviour:
       Data: 13
     - Name: $v
       Entry: 4
-      Data: 59.1410141
+      Data: 38.6415176
     - Name: 
       Entry: 8
       Data: 
@@ -4049,7 +4031,7 @@ MonoBehaviour:
       Data: 14
     - Name: $v
       Entry: 4
-      Data: 61.64471
+      Data: 42.2375145
     - Name: 
       Entry: 8
       Data: 
@@ -4061,7 +4043,7 @@ MonoBehaviour:
       Data: 15
     - Name: $v
       Entry: 4
-      Data: 64.08756
+      Data: 45.76822
     - Name: 
       Entry: 8
       Data: 
@@ -4073,7 +4055,7 @@ MonoBehaviour:
       Data: 16
     - Name: $v
       Entry: 4
-      Data: 66.46716
+      Data: 49.2281532
     - Name: 
       Entry: 8
       Data: 
@@ -4085,7 +4067,7 @@ MonoBehaviour:
       Data: 17
     - Name: $v
       Entry: 4
-      Data: 68.78118
+      Data: 52.6119766
     - Name: 
       Entry: 8
       Data: 
@@ -4097,7 +4079,7 @@ MonoBehaviour:
       Data: 18
     - Name: $v
       Entry: 4
-      Data: 71.02731
+      Data: 55.9144669
     - Name: 
       Entry: 8
       Data: 
@@ -4109,7 +4091,7 @@ MonoBehaviour:
       Data: 19
     - Name: $v
       Entry: 4
-      Data: 73.20335
+      Data: 59.1305
     - Name: 
       Entry: 8
       Data: 
@@ -4121,7 +4103,7 @@ MonoBehaviour:
       Data: 20
     - Name: $v
       Entry: 4
-      Data: 75.30715
+      Data: 62.25512
     - Name: 
       Entry: 8
       Data: 
@@ -4133,7 +4115,7 @@ MonoBehaviour:
       Data: 21
     - Name: $v
       Entry: 4
-      Data: 77.3366241
+      Data: 65.28349
     - Name: 
       Entry: 8
       Data: 
@@ -4145,7 +4127,7 @@ MonoBehaviour:
       Data: 22
     - Name: $v
       Entry: 4
-      Data: 79.28978
+      Data: 68.21094
     - Name: 
       Entry: 8
       Data: 
@@ -4157,7 +4139,7 @@ MonoBehaviour:
       Data: 23
     - Name: $v
       Entry: 4
-      Data: 81.16468
+      Data: 71.03292
     - Name: 
       Entry: 8
       Data: 
@@ -4169,7 +4151,7 @@ MonoBehaviour:
       Data: 24
     - Name: $v
       Entry: 4
-      Data: 82.95949
+      Data: 73.74508
     - Name: 
       Entry: 8
       Data: 
@@ -4181,7 +4163,7 @@ MonoBehaviour:
       Data: 25
     - Name: $v
       Entry: 4
-      Data: 84.6724243
+      Data: 76.34322
     - Name: 
       Entry: 8
       Data: 
@@ -4193,7 +4175,7 @@ MonoBehaviour:
       Data: 26
     - Name: $v
       Entry: 4
-      Data: 86.30179
+      Data: 78.82334
     - Name: 
       Entry: 8
       Data: 
@@ -4205,7 +4187,7 @@ MonoBehaviour:
       Data: 27
     - Name: $v
       Entry: 4
-      Data: 87.84599
+      Data: 81.1815948
     - Name: 
       Entry: 8
       Data: 
@@ -4217,7 +4199,7 @@ MonoBehaviour:
       Data: 28
     - Name: $v
       Entry: 4
-      Data: 89.3035049
+      Data: 83.41434
     - Name: 
       Entry: 8
       Data: 
@@ -4229,7 +4211,7 @@ MonoBehaviour:
       Data: 29
     - Name: $v
       Entry: 4
-      Data: 90.67288
+      Data: 85.51811
     - Name: 
       Entry: 8
       Data: 
@@ -4241,7 +4223,7 @@ MonoBehaviour:
       Data: 30
     - Name: $v
       Entry: 4
-      Data: 91.952774
+      Data: 87.48968
     - Name: 
       Entry: 8
       Data: 
@@ -4253,7 +4235,7 @@ MonoBehaviour:
       Data: 31
     - Name: $v
       Entry: 4
-      Data: 93.14192
+      Data: 89.32597
     - Name: 
       Entry: 8
       Data: 
@@ -4265,7 +4247,7 @@ MonoBehaviour:
       Data: 32
     - Name: $v
       Entry: 4
-      Data: 94.23915
+      Data: 91.02417
     - Name: 
       Entry: 8
       Data: 
@@ -4277,7 +4259,7 @@ MonoBehaviour:
       Data: 33
     - Name: $v
       Entry: 4
-      Data: 95.2433853
+      Data: 92.58164
     - Name: 
       Entry: 8
       Data: 
@@ -4289,7 +4271,7 @@ MonoBehaviour:
       Data: 34
     - Name: $v
       Entry: 4
-      Data: 96.15361
+      Data: 93.99597
     - Name: 
       Entry: 8
       Data: 
@@ -4301,7 +4283,7 @@ MonoBehaviour:
       Data: 35
     - Name: $v
       Entry: 4
-      Data: 96.96895
+      Data: 95.26498
     - Name: 
       Entry: 8
       Data: 
@@ -4313,7 +4295,7 @@ MonoBehaviour:
       Data: 36
     - Name: $v
       Entry: 4
-      Data: 97.6886
+      Data: 96.3867
     - Name: 
       Entry: 8
       Data: 
@@ -4325,7 +4307,7 @@ MonoBehaviour:
       Data: 37
     - Name: $v
       Entry: 4
-      Data: 98.31183
+      Data: 97.3594055
     - Name: 
       Entry: 8
       Data: 
@@ -4337,7 +4319,7 @@ MonoBehaviour:
       Data: 38
     - Name: $v
       Entry: 4
-      Data: 98.83805
+      Data: 98.1815948
     - Name: 
       Entry: 8
       Data: 
@@ -4349,7 +4331,7 @@ MonoBehaviour:
       Data: 39
     - Name: $v
       Entry: 4
-      Data: 99.26672
+      Data: 98.85198
     - Name: 
       Entry: 8
       Data: 
@@ -4361,7 +4343,7 @@ MonoBehaviour:
       Data: 40
     - Name: $v
       Entry: 4
-      Data: 99.59743
+      Data: 99.36954
     - Name: 
       Entry: 8
       Data: 
@@ -4373,7 +4355,7 @@ MonoBehaviour:
       Data: 41
     - Name: $v
       Entry: 4
-      Data: 99.82985
+      Data: 99.7334747
     - Name: 
       Entry: 8
       Data: 
@@ -4385,7 +4367,7 @@ MonoBehaviour:
       Data: 42
     - Name: $v
       Entry: 4
-      Data: 99.9637451
+      Data: 99.9432
     - Name: 
       Entry: 8
       Data: 
@@ -4397,7 +4379,7 @@ MonoBehaviour:
       Data: 43
     - Name: $v
       Entry: 4
-      Data: 99.99899
+      Data: 99.99842
     - Name: 
       Entry: 8
       Data: 
@@ -4409,7 +4391,7 @@ MonoBehaviour:
       Data: 44
     - Name: $v
       Entry: 4
-      Data: 99.93555
+      Data: 99.89903
     - Name: 
       Entry: 8
       Data: 
@@ -4421,7 +4403,7 @@ MonoBehaviour:
       Data: 45
     - Name: $v
       Entry: 4
-      Data: 99.77349
+      Data: 99.6452
     - Name: 
       Entry: 8
       Data: 
@@ -4433,7 +4415,7 @@ MonoBehaviour:
       Data: 46
     - Name: $v
       Entry: 4
-      Data: 99.5129547
+      Data: 99.23731
     - Name: 
       Entry: 8
       Data: 
@@ -4445,7 +4427,7 @@ MonoBehaviour:
       Data: 47
     - Name: $v
       Entry: 4
-      Data: 99.15422
+      Data: 98.6759949
     - Name: 
       Entry: 8
       Data: 
@@ -4457,7 +4439,7 @@ MonoBehaviour:
       Data: 48
     - Name: $v
       Entry: 4
-      Data: 98.69763
+      Data: 97.96212
     - Name: 
       Entry: 8
       Data: 
@@ -4469,7 +4451,7 @@ MonoBehaviour:
       Data: 49
     - Name: $v
       Entry: 4
-      Data: 98.14364
+      Data: 97.09679
     - Name: 
       Entry: 8
       Data: 
@@ -4481,7 +4463,7 @@ MonoBehaviour:
       Data: 50
     - Name: $v
       Entry: 4
-      Data: 97.49279
+      Data: 96.0813446
     - Name: 
       Entry: 8
       Data: 
@@ -4493,7 +4475,7 @@ MonoBehaviour:
       Data: 51
     - Name: $v
       Entry: 4
-      Data: 96.74573
+      Data: 94.91735
     - Name: 
       Entry: 8
       Data: 
@@ -4505,7 +4487,7 @@ MonoBehaviour:
       Data: 52
     - Name: $v
       Entry: 4
-      Data: 95.90319
+      Data: 93.60661
     - Name: 
       Entry: 8
       Data: 
@@ -4517,7 +4499,7 @@ MonoBehaviour:
       Data: 53
     - Name: $v
       Entry: 4
-      Data: 94.96601
+      Data: 92.15115
     - Name: 
       Entry: 8
       Data: 
@@ -4529,7 +4511,7 @@ MonoBehaviour:
       Data: 54
     - Name: $v
       Entry: 4
-      Data: 93.9351044
+      Data: 90.553215
     - Name: 
       Entry: 8
       Data: 
@@ -4541,7 +4523,7 @@ MonoBehaviour:
       Data: 55
     - Name: $v
       Entry: 4
-      Data: 92.81149
+      Data: 88.8152847
     - Name: 
       Entry: 8
       Data: 
@@ -4553,7 +4535,7 @@ MonoBehaviour:
       Data: 56
     - Name: $v
       Entry: 4
-      Data: 91.5963
+      Data: 86.94004
     - Name: 
       Entry: 8
       Data: 
@@ -4565,7 +4547,7 @@ MonoBehaviour:
       Data: 57
     - Name: $v
       Entry: 4
-      Data: 90.29071
+      Data: 84.93038
     - Name: 
       Entry: 8
       Data: 
@@ -4577,7 +4559,7 @@ MonoBehaviour:
       Data: 58
     - Name: $v
       Entry: 4
-      Data: 88.896
+      Data: 82.78942
     - Name: 
       Entry: 8
       Data: 
@@ -4589,7 +4571,7 @@ MonoBehaviour:
       Data: 59
     - Name: $v
       Entry: 4
-      Data: 87.41358
+      Data: 80.52046
     - Name: 
       Entry: 8
       Data: 
@@ -4601,7 +4583,7 @@ MonoBehaviour:
       Data: 60
     - Name: $v
       Entry: 4
-      Data: 85.84487
+      Data: 78.127
     - Name: 
       Entry: 8
       Data: 
@@ -4613,7 +4595,7 @@ MonoBehaviour:
       Data: 61
     - Name: $v
       Entry: 4
-      Data: 84.19146
+      Data: 75.61276
     - Name: 
       Entry: 8
       Data: 
@@ -4625,7 +4607,7 @@ MonoBehaviour:
       Data: 62
     - Name: $v
       Entry: 4
-      Data: 82.45496
+      Data: 72.98163
     - Name: 
       Entry: 8
       Data: 
@@ -4637,7 +4619,7 @@ MonoBehaviour:
       Data: 63
     - Name: $v
       Entry: 4
-      Data: 80.637085
+      Data: 70.2376556
     - Name: 
       Entry: 8
       Data: 
@@ -4649,7 +4631,7 @@ MonoBehaviour:
       Data: 64
     - Name: $v
       Entry: 4
-      Data: 78.73964
+      Data: 67.3850861
     - Name: 
       Entry: 8
       Data: 
@@ -4661,7 +4643,7 @@ MonoBehaviour:
       Data: 65
     - Name: $v
       Entry: 4
-      Data: 76.76447
+      Data: 64.42835
     - Name: 
       Entry: 8
       Data: 
@@ -4673,7 +4655,7 @@ MonoBehaviour:
       Data: 66
     - Name: $v
       Entry: 4
-      Data: 74.71355
+      Data: 61.3719826
     - Name: 
       Entry: 8
       Data: 
@@ -4685,7 +4667,7 @@ MonoBehaviour:
       Data: 67
     - Name: $v
       Entry: 4
-      Data: 72.5889053
+      Data: 58.2207451
     - Name: 
       Entry: 8
       Data: 
@@ -4697,7 +4679,7 @@ MonoBehaviour:
       Data: 68
     - Name: $v
       Entry: 4
-      Data: 70.39262
+      Data: 54.9794922
     - Name: 
       Entry: 8
       Data: 
@@ -4709,7 +4691,7 @@ MonoBehaviour:
       Data: 69
     - Name: $v
       Entry: 4
-      Data: 68.1268539
+      Data: 51.653244
     - Name: 
       Entry: 8
       Data: 
@@ -4721,7 +4703,7 @@ MonoBehaviour:
       Data: 70
     - Name: $v
       Entry: 4
-      Data: 65.79387
+      Data: 48.24713
     - Name: 
       Entry: 8
       Data: 
@@ -4733,7 +4715,7 @@ MonoBehaviour:
       Data: 71
     - Name: $v
       Entry: 4
-      Data: 63.3959579
+      Data: 44.76643
     - Name: 
       Entry: 8
       Data: 
@@ -4745,7 +4727,7 @@ MonoBehaviour:
       Data: 72
     - Name: $v
       Entry: 4
-      Data: 60.9354553
+      Data: 41.2164955
     - Name: 
       Entry: 8
       Data: 
@@ -4757,7 +4739,7 @@ MonoBehaviour:
       Data: 73
     - Name: $v
       Entry: 4
-      Data: 58.41484
+      Data: 37.60287
     - Name: 
       Entry: 8
       Data: 
@@ -4769,7 +4751,7 @@ MonoBehaviour:
       Data: 74
     - Name: $v
       Entry: 4
-      Data: 55.8365746
+      Data: 33.9311
     - Name: 
       Entry: 8
       Data: 
@@ -4781,7 +4763,7 @@ MonoBehaviour:
       Data: 75
     - Name: $v
       Entry: 4
-      Data: 53.2032
+      Data: 30.2068672
     - Name: 
       Entry: 8
       Data: 
@@ -4793,7 +4775,7 @@ MonoBehaviour:
       Data: 76
     - Name: $v
       Entry: 4
-      Data: 50.517334
+      Data: 26.435936
     - Name: 
       Entry: 8
       Data: 
@@ -4805,7 +4787,7 @@ MonoBehaviour:
       Data: 77
     - Name: $v
       Entry: 4
-      Data: 47.7816
+      Data: 22.62413
     - Name: 
       Entry: 8
       Data: 
@@ -4817,7 +4799,7 @@ MonoBehaviour:
       Data: 78
     - Name: $v
       Entry: 4
-      Data: 44.9987144
+      Data: 18.77735
     - Name: 
       Entry: 8
       Data: 
@@ -4829,7 +4811,7 @@ MonoBehaviour:
       Data: 79
     - Name: $v
       Entry: 4
-      Data: 42.1714058
+      Data: 14.9015131
     - Name: 
       Entry: 8
       Data: 
@@ -4841,7 +4823,7 @@ MonoBehaviour:
       Data: 80
     - Name: $v
       Entry: 4
-      Data: 39.30249
+      Data: 11.0026617
     - Name: 
       Entry: 8
       Data: 
@@ -4853,7 +4835,7 @@ MonoBehaviour:
       Data: 81
     - Name: $v
       Entry: 4
-      Data: 36.3948021
+      Data: 7.0868
     - Name: 
       Entry: 8
       Data: 
@@ -4865,7 +4847,7 @@ MonoBehaviour:
       Data: 82
     - Name: $v
       Entry: 4
-      Data: 33.4511833
+      Data: 3.159982
     - Name: 
       Entry: 8
       Data: 
@@ -4877,7 +4859,7 @@ MonoBehaviour:
       Data: 83
     - Name: $v
       Entry: 4
-      Data: 30.4745522
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -4889,7 +4871,7 @@ MonoBehaviour:
       Data: 84
     - Name: $v
       Entry: 4
-      Data: 27.46786
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -4901,7 +4883,7 @@ MonoBehaviour:
       Data: 85
     - Name: $v
       Entry: 4
-      Data: 24.4340343
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -4913,7 +4895,7 @@ MonoBehaviour:
       Data: 86
     - Name: $v
       Entry: 4
-      Data: 21.3761082
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -4925,7 +4907,7 @@ MonoBehaviour:
       Data: 87
     - Name: $v
       Entry: 4
-      Data: 18.2970867
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -4937,7 +4919,7 @@ MonoBehaviour:
       Data: 88
     - Name: $v
       Entry: 4
-      Data: 15.2000189
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -4949,7 +4931,7 @@ MonoBehaviour:
       Data: 89
     - Name: $v
       Entry: 4
-      Data: 12.0879393
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -4961,7 +4943,7 @@ MonoBehaviour:
       Data: 90
     - Name: $v
       Entry: 4
-      Data: 8.96393
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -4973,7 +4955,7 @@ MonoBehaviour:
       Data: 91
     - Name: $v
       Entry: 4
-      Data: 5.831063
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -4985,7 +4967,7 @@ MonoBehaviour:
       Data: 92
     - Name: $v
       Entry: 4
-      Data: 2.692453
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -5086,18 +5068,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
-    - Name: $v
-      Entry: 4
-      Data: 22.2520866
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -5108,13 +5078,19 @@ MonoBehaviour:
       Data: 3
     - Name: m_MinLevelPercent
       Entry: 4
-      Data: 8.990593
+      Data: 0
     - Name: m_MaxLevelPercent
       Entry: 4
       Data: 0
     - Name: m_CurrentLevelPercent
       Entry: 4
-      Data: 8.100565
+      Data: 0
+    - Name: m_MinLevel
+      Entry: 3
+      Data: 1
+    - Name: m_MaxLevel
+      Entry: 3
+      Data: 100
     - Name: 
       Entry: 8
       Data: 
@@ -5151,7 +5127,7 @@ MonoBehaviour:
       Data: 3
     - Name: 
       Entry: 12
-      Data: 101
+      Data: 100
     - Name: 
       Entry: 7
       Data: 
@@ -5244,7 +5220,7 @@ MonoBehaviour:
       Data: 8
     - Name: $v
       Entry: 4
-      Data: 2.69246483
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -5256,7 +5232,7 @@ MonoBehaviour:
       Data: 9
     - Name: $v
       Entry: 4
-      Data: 5.83107471
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -5268,7 +5244,7 @@ MonoBehaviour:
       Data: 10
     - Name: $v
       Entry: 4
-      Data: 8.96393
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -5280,7 +5256,7 @@ MonoBehaviour:
       Data: 11
     - Name: $v
       Entry: 4
-      Data: 12.0879393
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -5292,7 +5268,7 @@ MonoBehaviour:
       Data: 12
     - Name: $v
       Entry: 4
-      Data: 15.2000065
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -5304,7 +5280,7 @@ MonoBehaviour:
       Data: 13
     - Name: $v
       Entry: 4
-      Data: 18.2970867
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -5316,7 +5292,7 @@ MonoBehaviour:
       Data: 14
     - Name: $v
       Entry: 4
-      Data: 21.3761082
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -5328,7 +5304,7 @@ MonoBehaviour:
       Data: 15
     - Name: $v
       Entry: 4
-      Data: 24.4340343
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -5340,7 +5316,7 @@ MonoBehaviour:
       Data: 16
     - Name: $v
       Entry: 4
-      Data: 27.4678459
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -5352,7 +5328,7 @@ MonoBehaviour:
       Data: 17
     - Name: $v
       Entry: 4
-      Data: 30.4745522
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -5364,7 +5340,7 @@ MonoBehaviour:
       Data: 18
     - Name: $v
       Entry: 4
-      Data: 33.4511833
+      Data: 3.159982
     - Name: 
       Entry: 8
       Data: 
@@ -5376,7 +5352,7 @@ MonoBehaviour:
       Data: 19
     - Name: $v
       Entry: 4
-      Data: 36.3948021
+      Data: 7.0868
     - Name: 
       Entry: 8
       Data: 
@@ -5388,7 +5364,7 @@ MonoBehaviour:
       Data: 20
     - Name: $v
       Entry: 4
-      Data: 39.3025055
+      Data: 11.0026741
     - Name: 
       Entry: 8
       Data: 
@@ -5400,7 +5376,7 @@ MonoBehaviour:
       Data: 21
     - Name: $v
       Entry: 4
-      Data: 42.1714058
+      Data: 14.9015245
     - Name: 
       Entry: 8
       Data: 
@@ -5412,7 +5388,7 @@ MonoBehaviour:
       Data: 22
     - Name: $v
       Entry: 4
-      Data: 44.998703
+      Data: 18.777338
     - Name: 
       Entry: 8
       Data: 
@@ -5424,7 +5400,7 @@ MonoBehaviour:
       Data: 23
     - Name: $v
       Entry: 4
-      Data: 47.7816
+      Data: 22.62412
     - Name: 
       Entry: 8
       Data: 
@@ -5436,7 +5412,7 @@ MonoBehaviour:
       Data: 24
     - Name: $v
       Entry: 4
-      Data: 50.5173264
+      Data: 26.4359245
     - Name: 
       Entry: 8
       Data: 
@@ -5448,7 +5424,7 @@ MonoBehaviour:
       Data: 25
     - Name: $v
       Entry: 4
-      Data: 53.2032
+      Data: 30.2068672
     - Name: 
       Entry: 8
       Data: 
@@ -5460,7 +5436,7 @@ MonoBehaviour:
       Data: 26
     - Name: $v
       Entry: 4
-      Data: 55.8365746
+      Data: 33.9311
     - Name: 
       Entry: 8
       Data: 
@@ -5472,7 +5448,7 @@ MonoBehaviour:
       Data: 27
     - Name: $v
       Entry: 4
-      Data: 58.4148521
+      Data: 37.6028824
     - Name: 
       Entry: 8
       Data: 
@@ -5484,7 +5460,7 @@ MonoBehaviour:
       Data: 28
     - Name: $v
       Entry: 4
-      Data: 60.9354668
+      Data: 41.216507
     - Name: 
       Entry: 8
       Data: 
@@ -5496,7 +5472,7 @@ MonoBehaviour:
       Data: 29
     - Name: $v
       Entry: 4
-      Data: 63.3959465
+      Data: 44.76642
     - Name: 
       Entry: 8
       Data: 
@@ -5508,7 +5484,7 @@ MonoBehaviour:
       Data: 30
     - Name: $v
       Entry: 4
-      Data: 65.79387
+      Data: 48.24713
     - Name: 
       Entry: 8
       Data: 
@@ -5520,7 +5496,7 @@ MonoBehaviour:
       Data: 31
     - Name: $v
       Entry: 4
-      Data: 68.1268539
+      Data: 51.653244
     - Name: 
       Entry: 8
       Data: 
@@ -5532,7 +5508,7 @@ MonoBehaviour:
       Data: 32
     - Name: $v
       Entry: 4
-      Data: 70.39262
+      Data: 54.9794922
     - Name: 
       Entry: 8
       Data: 
@@ -5544,7 +5520,7 @@ MonoBehaviour:
       Data: 33
     - Name: $v
       Entry: 4
-      Data: 72.5889053
+      Data: 58.22075
     - Name: 
       Entry: 8
       Data: 
@@ -5556,7 +5532,7 @@ MonoBehaviour:
       Data: 34
     - Name: $v
       Entry: 4
-      Data: 74.7135544
+      Data: 61.3719864
     - Name: 
       Entry: 8
       Data: 
@@ -5568,7 +5544,7 @@ MonoBehaviour:
       Data: 35
     - Name: $v
       Entry: 4
-      Data: 76.76447
+      Data: 64.4283447
     - Name: 
       Entry: 8
       Data: 
@@ -5580,7 +5556,7 @@ MonoBehaviour:
       Data: 36
     - Name: $v
       Entry: 4
-      Data: 78.73964
+      Data: 67.3850861
     - Name: 
       Entry: 8
       Data: 
@@ -5592,7 +5568,7 @@ MonoBehaviour:
       Data: 37
     - Name: $v
       Entry: 4
-      Data: 80.637085
+      Data: 70.2376556
     - Name: 
       Entry: 8
       Data: 
@@ -5604,7 +5580,7 @@ MonoBehaviour:
       Data: 38
     - Name: $v
       Entry: 4
-      Data: 82.45496
+      Data: 72.98163
     - Name: 
       Entry: 8
       Data: 
@@ -5616,7 +5592,7 @@ MonoBehaviour:
       Data: 39
     - Name: $v
       Entry: 4
-      Data: 84.19146
+      Data: 75.61276
     - Name: 
       Entry: 8
       Data: 
@@ -5628,7 +5604,7 @@ MonoBehaviour:
       Data: 40
     - Name: $v
       Entry: 4
-      Data: 85.84488
+      Data: 78.12701
     - Name: 
       Entry: 8
       Data: 
@@ -5640,7 +5616,7 @@ MonoBehaviour:
       Data: 41
     - Name: $v
       Entry: 4
-      Data: 87.4135742
+      Data: 80.5204544
     - Name: 
       Entry: 8
       Data: 
@@ -5652,7 +5628,7 @@ MonoBehaviour:
       Data: 42
     - Name: $v
       Entry: 4
-      Data: 88.896
+      Data: 82.78941
     - Name: 
       Entry: 8
       Data: 
@@ -5664,7 +5640,7 @@ MonoBehaviour:
       Data: 43
     - Name: $v
       Entry: 4
-      Data: 90.29071
+      Data: 84.93038
     - Name: 
       Entry: 8
       Data: 
@@ -5676,7 +5652,7 @@ MonoBehaviour:
       Data: 44
     - Name: $v
       Entry: 4
-      Data: 91.5963
+      Data: 86.94004
     - Name: 
       Entry: 8
       Data: 
@@ -5688,7 +5664,7 @@ MonoBehaviour:
       Data: 45
     - Name: $v
       Entry: 4
-      Data: 92.81149
+      Data: 88.8152847
     - Name: 
       Entry: 8
       Data: 
@@ -5700,7 +5676,7 @@ MonoBehaviour:
       Data: 46
     - Name: $v
       Entry: 4
-      Data: 93.9351044
+      Data: 90.553215
     - Name: 
       Entry: 8
       Data: 
@@ -5712,7 +5688,7 @@ MonoBehaviour:
       Data: 47
     - Name: $v
       Entry: 4
-      Data: 94.966
+      Data: 92.15115
     - Name: 
       Entry: 8
       Data: 
@@ -5724,7 +5700,7 @@ MonoBehaviour:
       Data: 48
     - Name: $v
       Entry: 4
-      Data: 95.90319
+      Data: 93.6066055
     - Name: 
       Entry: 8
       Data: 
@@ -5736,7 +5712,7 @@ MonoBehaviour:
       Data: 49
     - Name: $v
       Entry: 4
-      Data: 96.74573
+      Data: 94.91735
     - Name: 
       Entry: 8
       Data: 
@@ -5748,7 +5724,7 @@ MonoBehaviour:
       Data: 50
     - Name: $v
       Entry: 4
-      Data: 97.49279
+      Data: 96.0813446
     - Name: 
       Entry: 8
       Data: 
@@ -5760,7 +5736,7 @@ MonoBehaviour:
       Data: 51
     - Name: $v
       Entry: 4
-      Data: 98.14364
+      Data: 97.09679
     - Name: 
       Entry: 8
       Data: 
@@ -5772,7 +5748,7 @@ MonoBehaviour:
       Data: 52
     - Name: $v
       Entry: 4
-      Data: 98.69763
+      Data: 97.96212
     - Name: 
       Entry: 8
       Data: 
@@ -5784,7 +5760,7 @@ MonoBehaviour:
       Data: 53
     - Name: $v
       Entry: 4
-      Data: 99.15422
+      Data: 98.6759949
     - Name: 
       Entry: 8
       Data: 
@@ -5796,7 +5772,7 @@ MonoBehaviour:
       Data: 54
     - Name: $v
       Entry: 4
-      Data: 99.5129547
+      Data: 99.23731
     - Name: 
       Entry: 8
       Data: 
@@ -5808,7 +5784,7 @@ MonoBehaviour:
       Data: 55
     - Name: $v
       Entry: 4
-      Data: 99.77349
+      Data: 99.6452
     - Name: 
       Entry: 8
       Data: 
@@ -5820,7 +5796,7 @@ MonoBehaviour:
       Data: 56
     - Name: $v
       Entry: 4
-      Data: 99.93555
+      Data: 99.89903
     - Name: 
       Entry: 8
       Data: 
@@ -5832,7 +5808,7 @@ MonoBehaviour:
       Data: 57
     - Name: $v
       Entry: 4
-      Data: 99.99899
+      Data: 99.99842
     - Name: 
       Entry: 8
       Data: 
@@ -5844,7 +5820,7 @@ MonoBehaviour:
       Data: 58
     - Name: $v
       Entry: 4
-      Data: 99.9637451
+      Data: 99.9432
     - Name: 
       Entry: 8
       Data: 
@@ -5856,7 +5832,7 @@ MonoBehaviour:
       Data: 59
     - Name: $v
       Entry: 4
-      Data: 99.82985
+      Data: 99.7334747
     - Name: 
       Entry: 8
       Data: 
@@ -5868,7 +5844,7 @@ MonoBehaviour:
       Data: 60
     - Name: $v
       Entry: 4
-      Data: 99.59743
+      Data: 99.36954
     - Name: 
       Entry: 8
       Data: 
@@ -5880,7 +5856,7 @@ MonoBehaviour:
       Data: 61
     - Name: $v
       Entry: 4
-      Data: 99.26672
+      Data: 98.85198
     - Name: 
       Entry: 8
       Data: 
@@ -5892,7 +5868,7 @@ MonoBehaviour:
       Data: 62
     - Name: $v
       Entry: 4
-      Data: 98.83805
+      Data: 98.1815948
     - Name: 
       Entry: 8
       Data: 
@@ -5904,7 +5880,7 @@ MonoBehaviour:
       Data: 63
     - Name: $v
       Entry: 4
-      Data: 98.31183
+      Data: 97.3594055
     - Name: 
       Entry: 8
       Data: 
@@ -5916,7 +5892,7 @@ MonoBehaviour:
       Data: 64
     - Name: $v
       Entry: 4
-      Data: 97.6886
+      Data: 96.3867
     - Name: 
       Entry: 8
       Data: 
@@ -5928,7 +5904,7 @@ MonoBehaviour:
       Data: 65
     - Name: $v
       Entry: 4
-      Data: 96.968956
+      Data: 95.2649841
     - Name: 
       Entry: 8
       Data: 
@@ -5940,7 +5916,7 @@ MonoBehaviour:
       Data: 66
     - Name: $v
       Entry: 4
-      Data: 96.15361
+      Data: 93.9959641
     - Name: 
       Entry: 8
       Data: 
@@ -5952,7 +5928,7 @@ MonoBehaviour:
       Data: 67
     - Name: $v
       Entry: 4
-      Data: 95.24338
+      Data: 92.5816345
     - Name: 
       Entry: 8
       Data: 
@@ -5964,7 +5940,7 @@ MonoBehaviour:
       Data: 68
     - Name: $v
       Entry: 4
-      Data: 94.23915
+      Data: 91.02417
     - Name: 
       Entry: 8
       Data: 
@@ -5976,7 +5952,7 @@ MonoBehaviour:
       Data: 69
     - Name: $v
       Entry: 4
-      Data: 93.14192
+      Data: 89.32597
     - Name: 
       Entry: 8
       Data: 
@@ -5988,7 +5964,7 @@ MonoBehaviour:
       Data: 70
     - Name: $v
       Entry: 4
-      Data: 91.952774
+      Data: 87.48968
     - Name: 
       Entry: 8
       Data: 
@@ -6000,7 +5976,7 @@ MonoBehaviour:
       Data: 71
     - Name: $v
       Entry: 4
-      Data: 90.67289
+      Data: 85.51811
     - Name: 
       Entry: 8
       Data: 
@@ -6012,7 +5988,7 @@ MonoBehaviour:
       Data: 72
     - Name: $v
       Entry: 4
-      Data: 89.3035
+      Data: 83.41433
     - Name: 
       Entry: 8
       Data: 
@@ -6024,7 +6000,7 @@ MonoBehaviour:
       Data: 73
     - Name: $v
       Entry: 4
-      Data: 87.84599
+      Data: 81.18159
     - Name: 
       Entry: 8
       Data: 
@@ -6036,7 +6012,7 @@ MonoBehaviour:
       Data: 74
     - Name: $v
       Entry: 4
-      Data: 86.30179
+      Data: 78.82334
     - Name: 
       Entry: 8
       Data: 
@@ -6048,7 +6024,7 @@ MonoBehaviour:
       Data: 75
     - Name: $v
       Entry: 4
-      Data: 84.6724243
+      Data: 76.34322
     - Name: 
       Entry: 8
       Data: 
@@ -6060,7 +6036,7 @@ MonoBehaviour:
       Data: 76
     - Name: $v
       Entry: 4
-      Data: 82.95949
+      Data: 73.74508
     - Name: 
       Entry: 8
       Data: 
@@ -6072,7 +6048,7 @@ MonoBehaviour:
       Data: 77
     - Name: $v
       Entry: 4
-      Data: 81.16468
+      Data: 71.03292
     - Name: 
       Entry: 8
       Data: 
@@ -6084,7 +6060,7 @@ MonoBehaviour:
       Data: 78
     - Name: $v
       Entry: 4
-      Data: 79.28978
+      Data: 68.2109451
     - Name: 
       Entry: 8
       Data: 
@@ -6096,7 +6072,7 @@ MonoBehaviour:
       Data: 79
     - Name: $v
       Entry: 4
-      Data: 77.33662
+      Data: 65.28349
     - Name: 
       Entry: 8
       Data: 
@@ -6108,7 +6084,7 @@ MonoBehaviour:
       Data: 80
     - Name: $v
       Entry: 4
-      Data: 75.3071442
+      Data: 62.25512
     - Name: 
       Entry: 8
       Data: 
@@ -6120,7 +6096,7 @@ MonoBehaviour:
       Data: 81
     - Name: $v
       Entry: 4
-      Data: 73.20335
+      Data: 59.1305
     - Name: 
       Entry: 8
       Data: 
@@ -6132,7 +6108,7 @@ MonoBehaviour:
       Data: 82
     - Name: $v
       Entry: 4
-      Data: 71.02731
+      Data: 55.9144669
     - Name: 
       Entry: 8
       Data: 
@@ -6144,7 +6120,7 @@ MonoBehaviour:
       Data: 83
     - Name: $v
       Entry: 4
-      Data: 68.78119
+      Data: 52.6119766
     - Name: 
       Entry: 8
       Data: 
@@ -6156,7 +6132,7 @@ MonoBehaviour:
       Data: 84
     - Name: $v
       Entry: 4
-      Data: 66.46717
+      Data: 49.2281532
     - Name: 
       Entry: 8
       Data: 
@@ -6168,7 +6144,7 @@ MonoBehaviour:
       Data: 85
     - Name: $v
       Entry: 4
-      Data: 64.0875549
+      Data: 45.7682076
     - Name: 
       Entry: 8
       Data: 
@@ -6180,7 +6156,7 @@ MonoBehaviour:
       Data: 86
     - Name: $v
       Entry: 4
-      Data: 61.6447029
+      Data: 42.2375145
     - Name: 
       Entry: 8
       Data: 
@@ -6192,7 +6168,7 @@ MonoBehaviour:
       Data: 87
     - Name: $v
       Entry: 4
-      Data: 59.1410141
+      Data: 38.6415176
     - Name: 
       Entry: 8
       Data: 
@@ -6204,7 +6180,7 @@ MonoBehaviour:
       Data: 88
     - Name: $v
       Entry: 4
-      Data: 56.5789566
+      Data: 34.98578
     - Name: 
       Entry: 8
       Data: 
@@ -6216,7 +6192,7 @@ MonoBehaviour:
       Data: 89
     - Name: $v
       Entry: 4
-      Data: 53.96108
+      Data: 31.2759552
     - Name: 
       Entry: 8
       Data: 
@@ -6228,7 +6204,7 @@ MonoBehaviour:
       Data: 90
     - Name: $v
       Entry: 4
-      Data: 51.2899323
+      Data: 27.5177746
     - Name: 
       Entry: 8
       Data: 
@@ -6240,7 +6216,7 @@ MonoBehaviour:
       Data: 91
     - Name: $v
       Entry: 4
-      Data: 48.56816
+      Data: 23.7170258
     - Name: 
       Entry: 8
       Data: 
@@ -6252,7 +6228,7 @@ MonoBehaviour:
       Data: 92
     - Name: $v
       Entry: 4
-      Data: 45.7984657
+      Data: 19.8796329
     - Name: 
       Entry: 8
       Data: 
@@ -6264,7 +6240,7 @@ MonoBehaviour:
       Data: 93
     - Name: $v
       Entry: 4
-      Data: 42.9835777
+      Data: 16.0115051
     - Name: 
       Entry: 8
       Data: 
@@ -6276,7 +6252,7 @@ MonoBehaviour:
       Data: 94
     - Name: $v
       Entry: 4
-      Data: 40.1262741
+      Data: 12.1186228
     - Name: 
       Entry: 8
       Data: 
@@ -6288,7 +6264,7 @@ MonoBehaviour:
       Data: 95
     - Name: $v
       Entry: 4
-      Data: 37.2293663
+      Data: 8.207005
     - Name: 
       Entry: 8
       Data: 
@@ -6300,7 +6276,7 @@ MonoBehaviour:
       Data: 96
     - Name: $v
       Entry: 4
-      Data: 34.2957153
+      Data: 4.2827096
     - Name: 
       Entry: 8
       Data: 
@@ -6312,7 +6288,7 @@ MonoBehaviour:
       Data: 97
     - Name: $v
       Entry: 4
-      Data: 31.3282051
+      Data: 0.351757675
     - Name: 
       Entry: 8
       Data: 
@@ -6324,7 +6300,7 @@ MonoBehaviour:
       Data: 98
     - Name: $v
       Entry: 4
-      Data: 28.3298016
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -6336,7 +6312,7 @@ MonoBehaviour:
       Data: 99
     - Name: $v
       Entry: 4
-      Data: 25.3034286
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -6346,18 +6322,6 @@ MonoBehaviour:
     - Name: $k
       Entry: 3
       Data: 100
-    - Name: $v
-      Entry: 4
-      Data: 22.2520866
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
     - Name: $v
       Entry: 4
       Data: 0
@@ -6378,10 +6342,16 @@ MonoBehaviour:
       Data: 0
     - Name: m_MaxLevelPercent
       Entry: 4
-      Data: 12.737463
+      Data: 0
     - Name: m_CurrentLevelPercent
       Entry: 4
       Data: 0
+    - Name: m_MinLevel
+      Entry: 3
+      Data: 1
+    - Name: m_MaxLevel
+      Entry: 3
+      Data: 100
     - Name: 
       Entry: 8
       Data: 
@@ -6418,7 +6388,7 @@ MonoBehaviour:
       Data: 3
     - Name: 
       Entry: 12
-      Data: 101
+      Data: 100
     - Name: 
       Entry: 7
       Data: 
@@ -6679,7 +6649,7 @@ MonoBehaviour:
       Data: 22
     - Name: $v
       Entry: 4
-      Data: 1.7950958
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -6691,7 +6661,7 @@ MonoBehaviour:
       Data: 23
     - Name: $v
       Entry: 4
-      Data: 4.934781
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -6703,7 +6673,7 @@ MonoBehaviour:
       Data: 24
     - Name: $v
       Entry: 4
-      Data: 8.069596
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -6715,7 +6685,7 @@ MonoBehaviour:
       Data: 25
     - Name: $v
       Entry: 4
-      Data: 11.1964483
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -6727,7 +6697,7 @@ MonoBehaviour:
       Data: 26
     - Name: $v
       Entry: 4
-      Data: 14.3122377
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -6739,7 +6709,7 @@ MonoBehaviour:
       Data: 27
     - Name: $v
       Entry: 4
-      Data: 17.4139271
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -6751,7 +6721,7 @@ MonoBehaviour:
       Data: 28
     - Name: $v
       Entry: 4
-      Data: 20.49841
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -6763,7 +6733,7 @@ MonoBehaviour:
       Data: 29
     - Name: $v
       Entry: 4
-      Data: 23.56267
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -6775,7 +6745,7 @@ MonoBehaviour:
       Data: 30
     - Name: $v
       Entry: 4
-      Data: 26.6036816
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -6787,7 +6757,7 @@ MonoBehaviour:
       Data: 31
     - Name: $v
       Entry: 4
-      Data: 29.618433
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -6799,7 +6769,7 @@ MonoBehaviour:
       Data: 32
     - Name: $v
       Entry: 4
-      Data: 32.60396
+      Data: 2.03686738
     - Name: 
       Entry: 8
       Data: 
@@ -6811,7 +6781,7 @@ MonoBehaviour:
       Data: 33
     - Name: $v
       Entry: 4
-      Data: 35.5573044
+      Data: 5.9657135
     - Name: 
       Entry: 8
       Data: 
@@ -6823,7 +6793,7 @@ MonoBehaviour:
       Data: 34
     - Name: $v
       Entry: 4
-      Data: 38.475563
+      Data: 9.88532448
     - Name: 
       Entry: 8
       Data: 
@@ -6835,7 +6805,7 @@ MonoBehaviour:
       Data: 35
     - Name: $v
       Entry: 4
-      Data: 41.35584
+      Data: 13.7896519
     - Name: 
       Entry: 8
       Data: 
@@ -6847,7 +6817,7 @@ MonoBehaviour:
       Data: 36
     - Name: $v
       Entry: 4
-      Data: 44.1953239
+      Data: 17.6726723
     - Name: 
       Entry: 8
       Data: 
@@ -6859,7 +6829,7 @@ MonoBehaviour:
       Data: 37
     - Name: $v
       Entry: 4
-      Data: 46.9911842
+      Data: 21.5283566
     - Name: 
       Entry: 8
       Data: 
@@ -6871,7 +6841,7 @@ MonoBehaviour:
       Data: 38
     - Name: $v
       Entry: 4
-      Data: 49.7406578
+      Data: 25.3507576
     - Name: 
       Entry: 8
       Data: 
@@ -6883,7 +6853,7 @@ MonoBehaviour:
       Data: 39
     - Name: $v
       Entry: 4
-      Data: 52.4410553
+      Data: 29.133955
     - Name: 
       Entry: 8
       Data: 
@@ -6895,7 +6865,7 @@ MonoBehaviour:
       Data: 40
     - Name: $v
       Entry: 4
-      Data: 55.0897
+      Data: 32.87213
     - Name: 
       Entry: 8
       Data: 
@@ -6907,7 +6877,7 @@ MonoBehaviour:
       Data: 41
     - Name: $v
       Entry: 4
-      Data: 57.6839676
+      Data: 36.5594749
     - Name: 
       Entry: 8
       Data: 
@@ -6919,7 +6889,7 @@ MonoBehaviour:
       Data: 42
     - Name: $v
       Entry: 4
-      Data: 60.2213135
+      Data: 40.1902962
     - Name: 
       Entry: 8
       Data: 
@@ -6931,7 +6901,7 @@ MonoBehaviour:
       Data: 43
     - Name: $v
       Entry: 4
-      Data: 62.699234
+      Data: 43.75899
     - Name: 
       Entry: 8
       Data: 
@@ -6943,7 +6913,7 @@ MonoBehaviour:
       Data: 44
     - Name: $v
       Entry: 4
-      Data: 65.11527
+      Data: 47.26002
     - Name: 
       Entry: 8
       Data: 
@@ -6955,7 +6925,7 @@ MonoBehaviour:
       Data: 45
     - Name: $v
       Entry: 4
-      Data: 67.46705
+      Data: 50.68799
     - Name: 
       Entry: 8
       Data: 
@@ -6967,7 +6937,7 @@ MonoBehaviour:
       Data: 46
     - Name: $v
       Entry: 4
-      Data: 69.75225
+      Data: 54.0375938
     - Name: 
       Entry: 8
       Data: 
@@ -6979,7 +6949,7 @@ MonoBehaviour:
       Data: 47
     - Name: $v
       Entry: 4
-      Data: 71.96861
+      Data: 57.3036423
     - Name: 
       Entry: 8
       Data: 
@@ -6991,7 +6961,7 @@ MonoBehaviour:
       Data: 48
     - Name: $v
       Entry: 4
-      Data: 74.11394
+      Data: 60.481102
     - Name: 
       Entry: 8
       Data: 
@@ -7003,7 +6973,7 @@ MonoBehaviour:
       Data: 49
     - Name: $v
       Entry: 4
-      Data: 76.18614
+      Data: 63.5650635
     - Name: 
       Entry: 8
       Data: 
@@ -7015,7 +6985,7 @@ MonoBehaviour:
       Data: 50
     - Name: $v
       Entry: 4
-      Data: 78.18314
+      Data: 66.5507355
     - Name: 
       Entry: 8
       Data: 
@@ -7027,7 +6997,7 @@ MonoBehaviour:
       Data: 51
     - Name: $v
       Entry: 4
-      Data: 80.103
+      Data: 69.4335251
     - Name: 
       Entry: 8
       Data: 
@@ -7039,7 +7009,7 @@ MonoBehaviour:
       Data: 52
     - Name: $v
       Entry: 4
-      Data: 81.9437943
+      Data: 72.20896
     - Name: 
       Entry: 8
       Data: 
@@ -7051,7 +7021,7 @@ MonoBehaviour:
       Data: 53
     - Name: $v
       Entry: 4
-      Data: 83.70372
+      Data: 74.87276
     - Name: 
       Entry: 8
       Data: 
@@ -7063,7 +7033,7 @@ MonoBehaviour:
       Data: 54
     - Name: $v
       Entry: 4
-      Data: 85.38106
+      Data: 77.42082
     - Name: 
       Entry: 8
       Data: 
@@ -7075,7 +7045,7 @@ MonoBehaviour:
       Data: 55
     - Name: $v
       Entry: 4
-      Data: 86.97411
+      Data: 79.84916
     - Name: 
       Entry: 8
       Data: 
@@ -7087,7 +7057,7 @@ MonoBehaviour:
       Data: 56
     - Name: $v
       Entry: 4
-      Data: 88.4813461
+      Data: 82.15406
     - Name: 
       Entry: 8
       Data: 
@@ -7099,7 +7069,7 @@ MonoBehaviour:
       Data: 57
     - Name: $v
       Entry: 4
-      Data: 89.90125
+      Data: 84.33193
     - Name: 
       Entry: 8
       Data: 
@@ -7111,7 +7081,7 @@ MonoBehaviour:
       Data: 58
     - Name: $v
       Entry: 4
-      Data: 91.23244
+      Data: 86.37944
     - Name: 
       Entry: 8
       Data: 
@@ -7123,7 +7093,7 @@ MonoBehaviour:
       Data: 59
     - Name: $v
       Entry: 4
-      Data: 92.47359
+      Data: 88.29339
     - Name: 
       Entry: 8
       Data: 
@@ -7135,7 +7105,7 @@ MonoBehaviour:
       Data: 60
     - Name: $v
       Entry: 4
-      Data: 93.62349
+      Data: 90.07085
     - Name: 
       Entry: 8
       Data: 
@@ -7147,7 +7117,7 @@ MonoBehaviour:
       Data: 61
     - Name: $v
       Entry: 4
-      Data: 94.68099
+      Data: 91.70904
     - Name: 
       Entry: 8
       Data: 
@@ -7159,7 +7129,7 @@ MonoBehaviour:
       Data: 62
     - Name: $v
       Entry: 4
-      Data: 95.64504
+      Data: 93.20544
     - Name: 
       Entry: 8
       Data: 
@@ -7171,7 +7141,7 @@ MonoBehaviour:
       Data: 63
     - Name: $v
       Entry: 4
-      Data: 96.51472
+      Data: 94.55775
     - Name: 
       Entry: 8
       Data: 
@@ -7183,7 +7153,7 @@ MonoBehaviour:
       Data: 64
     - Name: $v
       Entry: 4
-      Data: 97.28913
+      Data: 95.763855
     - Name: 
       Entry: 8
       Data: 
@@ -7195,7 +7165,7 @@ MonoBehaviour:
       Data: 65
     - Name: $v
       Entry: 4
-      Data: 97.96754
+      Data: 96.8219147
     - Name: 
       Entry: 8
       Data: 
@@ -7207,7 +7177,7 @@ MonoBehaviour:
       Data: 66
     - Name: $v
       Entry: 4
-      Data: 98.54926
+      Data: 97.7302856
     - Name: 
       Entry: 8
       Data: 
@@ -7219,7 +7189,7 @@ MonoBehaviour:
       Data: 67
     - Name: $v
       Entry: 4
-      Data: 99.03374
+      Data: 98.48756
     - Name: 
       Entry: 8
       Data: 
@@ -7231,7 +7201,7 @@ MonoBehaviour:
       Data: 68
     - Name: $v
       Entry: 4
-      Data: 99.42047
+      Data: 99.09256
     - Name: 
       Entry: 8
       Data: 
@@ -7243,7 +7213,7 @@ MonoBehaviour:
       Data: 69
     - Name: $v
       Entry: 4
-      Data: 99.70909
+      Data: 99.54436
     - Name: 
       Entry: 8
       Data: 
@@ -7255,7 +7225,7 @@ MonoBehaviour:
       Data: 70
     - Name: $v
       Entry: 4
-      Data: 99.89931
+      Data: 99.84226
     - Name: 
       Entry: 8
       Data: 
@@ -7267,7 +7237,7 @@ MonoBehaviour:
       Data: 71
     - Name: $v
       Entry: 4
-      Data: 99.99094
+      Data: 99.9858
     - Name: 
       Entry: 8
       Data: 
@@ -7279,7 +7249,7 @@ MonoBehaviour:
       Data: 72
     - Name: $v
       Entry: 4
-      Data: 99.98389
+      Data: 99.9747543
     - Name: 
       Entry: 8
       Data: 
@@ -7291,7 +7261,7 @@ MonoBehaviour:
       Data: 73
     - Name: $v
       Entry: 4
-      Data: 99.87816
+      Data: 99.80914
     - Name: 
       Entry: 8
       Data: 
@@ -7303,7 +7273,7 @@ MonoBehaviour:
       Data: 74
     - Name: $v
       Entry: 4
-      Data: 99.6738739
+      Data: 99.48923
     - Name: 
       Entry: 8
       Data: 
@@ -7315,7 +7285,7 @@ MonoBehaviour:
       Data: 75
     - Name: $v
       Entry: 4
-      Data: 99.3712158
+      Data: 99.0154953
     - Name: 
       Entry: 8
       Data: 
@@ -7327,7 +7297,7 @@ MonoBehaviour:
       Data: 76
     - Name: $v
       Entry: 4
-      Data: 98.9705
+      Data: 98.38867
     - Name: 
       Entry: 8
       Data: 
@@ -7339,7 +7309,7 @@ MonoBehaviour:
       Data: 77
     - Name: $v
       Entry: 4
-      Data: 98.47211
+      Data: 97.60974
     - Name: 
       Entry: 8
       Data: 
@@ -7351,7 +7321,7 @@ MonoBehaviour:
       Data: 78
     - Name: $v
       Entry: 4
-      Data: 97.87653
+      Data: 96.67989
     - Name: 
       Entry: 8
       Data: 
@@ -7363,7 +7333,7 @@ MonoBehaviour:
       Data: 79
     - Name: $v
       Entry: 4
-      Data: 97.18436
+      Data: 95.60058
     - Name: 
       Entry: 8
       Data: 
@@ -7375,7 +7345,7 @@ MonoBehaviour:
       Data: 80
     - Name: $v
       Entry: 4
-      Data: 96.396286
+      Data: 94.37346
     - Name: 
       Entry: 8
       Data: 
@@ -7387,7 +7357,7 @@ MonoBehaviour:
       Data: 81
     - Name: $v
       Entry: 4
-      Data: 95.51308
+      Data: 93.0004349
     - Name: 
       Entry: 8
       Data: 
@@ -7399,7 +7369,7 @@ MonoBehaviour:
       Data: 82
     - Name: $v
       Entry: 4
-      Data: 94.535614
+      Data: 91.48363
     - Name: 
       Entry: 8
       Data: 
@@ -7411,7 +7381,7 @@ MonoBehaviour:
       Data: 83
     - Name: $v
       Entry: 4
-      Data: 93.46485
+      Data: 89.825386
     - Name: 
       Entry: 8
       Data: 
@@ -7423,7 +7393,7 @@ MonoBehaviour:
       Data: 84
     - Name: $v
       Entry: 4
-      Data: 92.30185
+      Data: 88.02827
     - Name: 
       Entry: 8
       Data: 
@@ -7435,7 +7405,7 @@ MonoBehaviour:
       Data: 85
     - Name: $v
       Entry: 4
-      Data: 91.04775
+      Data: 86.09503
     - Name: 
       Entry: 8
       Data: 
@@ -7447,7 +7417,7 @@ MonoBehaviour:
       Data: 86
     - Name: $v
       Entry: 4
-      Data: 89.703804
+      Data: 84.02872
     - Name: 
       Entry: 8
       Data: 
@@ -7459,7 +7429,7 @@ MonoBehaviour:
       Data: 87
     - Name: $v
       Entry: 4
-      Data: 88.27134
+      Data: 81.83248
     - Name: 
       Entry: 8
       Data: 
@@ -7471,7 +7441,7 @@ MonoBehaviour:
       Data: 88
     - Name: $v
       Entry: 4
-      Data: 86.7517548
+      Data: 79.50973
     - Name: 
       Entry: 8
       Data: 
@@ -7483,7 +7453,7 @@ MonoBehaviour:
       Data: 89
     - Name: $v
       Entry: 4
-      Data: 85.14655
+      Data: 77.06405
     - Name: 
       Entry: 8
       Data: 
@@ -7495,7 +7465,7 @@ MonoBehaviour:
       Data: 90
     - Name: $v
       Entry: 4
-      Data: 83.45733
+      Data: 74.49922
     - Name: 
       Entry: 8
       Data: 
@@ -7507,7 +7477,7 @@ MonoBehaviour:
       Data: 91
     - Name: $v
       Entry: 4
-      Data: 81.68573
+      Data: 71.81921
     - Name: 
       Entry: 8
       Data: 
@@ -7519,7 +7489,7 @@ MonoBehaviour:
       Data: 92
     - Name: $v
       Entry: 4
-      Data: 79.83353
+      Data: 69.02817
     - Name: 
       Entry: 8
       Data: 
@@ -7531,7 +7501,7 @@ MonoBehaviour:
       Data: 93
     - Name: $v
       Entry: 4
-      Data: 77.9025345
+      Data: 66.13041
     - Name: 
       Entry: 8
       Data: 
@@ -7543,7 +7513,7 @@ MonoBehaviour:
       Data: 94
     - Name: $v
       Entry: 4
-      Data: 75.89467
+      Data: 63.1304
     - Name: 
       Entry: 8
       Data: 
@@ -7555,7 +7525,7 @@ MonoBehaviour:
       Data: 95
     - Name: $v
       Entry: 4
-      Data: 73.8119
+      Data: 60.0328
     - Name: 
       Entry: 8
       Data: 
@@ -7567,7 +7537,7 @@ MonoBehaviour:
       Data: 96
     - Name: $v
       Entry: 4
-      Data: 71.65629
+      Data: 56.84238
     - Name: 
       Entry: 8
       Data: 
@@ -7579,7 +7549,7 @@ MonoBehaviour:
       Data: 97
     - Name: $v
       Entry: 4
-      Data: 69.4299545
+      Data: 53.564064
     - Name: 
       Entry: 8
       Data: 
@@ -7591,7 +7561,7 @@ MonoBehaviour:
       Data: 98
     - Name: $v
       Entry: 4
-      Data: 67.1351
+      Data: 50.20295
     - Name: 
       Entry: 8
       Data: 
@@ -7603,7 +7573,7 @@ MonoBehaviour:
       Data: 99
     - Name: $v
       Entry: 4
-      Data: 64.774
+      Data: 46.76422
     - Name: 
       Entry: 8
       Data: 
@@ -7615,19 +7585,7 @@ MonoBehaviour:
       Data: 100
     - Name: $v
       Entry: 4
-      Data: 62.34898
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
-    - Name: $v
-      Entry: 4
-      Data: 0
+      Data: 43.2531929
     - Name: 
       Entry: 8
       Data: 
@@ -7645,10 +7603,16 @@ MonoBehaviour:
       Data: 0
     - Name: m_MaxLevelPercent
       Entry: 4
-      Data: 35.68959
+      Data: 33.82176
     - Name: m_CurrentLevelPercent
       Entry: 4
       Data: 0
+    - Name: m_MinLevel
+      Entry: 3
+      Data: 1
+    - Name: m_MaxLevel
+      Entry: 3
+      Data: 100
     - Name: 
       Entry: 8
       Data: 
@@ -7685,7 +7649,7 @@ MonoBehaviour:
       Data: 3
     - Name: 
       Entry: 12
-      Data: 101
+      Data: 100
     - Name: 
       Entry: 7
       Data: 
@@ -8114,7 +8078,7 @@ MonoBehaviour:
       Data: 36
     - Name: $v
       Entry: 4
-      Data: 0.8975819
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -8126,7 +8090,7 @@ MonoBehaviour:
       Data: 37
     - Name: $v
       Entry: 4
-      Data: 4.03808975
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -8138,7 +8102,7 @@ MonoBehaviour:
       Data: 38
     - Name: $v
       Entry: 4
-      Data: 7.17461252
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -8150,7 +8114,7 @@ MonoBehaviour:
       Data: 39
     - Name: $v
       Entry: 4
-      Data: 10.3040428
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -8162,7 +8126,7 @@ MonoBehaviour:
       Data: 40
     - Name: $v
       Entry: 4
-      Data: 13.4233284
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -8174,7 +8138,7 @@ MonoBehaviour:
       Data: 41
     - Name: $v
       Entry: 4
-      Data: 16.5293427
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -8186,7 +8150,7 @@ MonoBehaviour:
       Data: 42
     - Name: $v
       Entry: 4
-      Data: 19.6190548
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -8198,7 +8162,7 @@ MonoBehaviour:
       Data: 43
     - Name: $v
       Entry: 4
-      Data: 22.6894073
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -8210,7 +8174,7 @@ MonoBehaviour:
       Data: 44
     - Name: $v
       Entry: 4
-      Data: 25.73737
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -8222,7 +8186,7 @@ MonoBehaviour:
       Data: 45
     - Name: $v
       Entry: 4
-      Data: 28.75993
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -8234,7 +8198,7 @@ MonoBehaviour:
       Data: 46
     - Name: $v
       Entry: 4
-      Data: 31.7541065
+      Data: 0.9135076
     - Name: 
       Entry: 8
       Data: 
@@ -8246,7 +8210,7 @@ MonoBehaviour:
       Data: 47
     - Name: $v
       Entry: 4
-      Data: 34.7169456
+      Data: 4.84386158
     - Name: 
       Entry: 8
       Data: 
@@ -8258,7 +8222,7 @@ MonoBehaviour:
       Data: 48
     - Name: $v
       Entry: 4
-      Data: 37.6455154
+      Data: 8.766727
     - Name: 
       Entry: 8
       Data: 
@@ -8270,7 +8234,7 @@ MonoBehaviour:
       Data: 49
     - Name: $v
       Entry: 4
-      Data: 40.536953
+      Data: 12.67605
     - Name: 
       Entry: 8
       Data: 
@@ -8282,7 +8246,7 @@ MonoBehaviour:
       Data: 50
     - Name: $v
       Entry: 4
-      Data: 43.3883743
+      Data: 16.565752
     - Name: 
       Entry: 8
       Data: 
@@ -8294,7 +8258,7 @@ MonoBehaviour:
       Data: 51
     - Name: $v
       Entry: 4
-      Data: 46.1969681
+      Data: 20.4298534
     - Name: 
       Entry: 8
       Data: 
@@ -8306,7 +8270,7 @@ MonoBehaviour:
       Data: 52
     - Name: $v
       Entry: 4
-      Data: 48.95998
+      Data: 24.2623711
     - Name: 
       Entry: 8
       Data: 
@@ -8318,7 +8282,7 @@ MonoBehaviour:
       Data: 53
     - Name: $v
       Entry: 4
-      Data: 51.674675
+      Data: 28.057375
     - Name: 
       Entry: 8
       Data: 
@@ -8330,7 +8294,7 @@ MonoBehaviour:
       Data: 54
     - Name: $v
       Entry: 4
-      Data: 54.33838
+      Data: 31.8090267
     - Name: 
       Entry: 8
       Data: 
@@ -8342,7 +8306,7 @@ MonoBehaviour:
       Data: 55
     - Name: $v
       Entry: 4
-      Data: 56.948452
+      Data: 35.5114746
     - Name: 
       Entry: 8
       Data: 
@@ -8354,7 +8318,7 @@ MonoBehaviour:
       Data: 56
     - Name: $v
       Entry: 4
-      Data: 59.5023155
+      Data: 39.1590233
     - Name: 
       Entry: 8
       Data: 
@@ -8366,7 +8330,7 @@ MonoBehaviour:
       Data: 57
     - Name: $v
       Entry: 4
-      Data: 61.99746
+      Data: 42.74603
     - Name: 
       Entry: 8
       Data: 
@@ -8378,7 +8342,7 @@ MonoBehaviour:
       Data: 58
     - Name: $v
       Entry: 4
-      Data: 64.43143
+      Data: 46.2669449
     - Name: 
       Entry: 8
       Data: 
@@ -8390,7 +8354,7 @@ MonoBehaviour:
       Data: 59
     - Name: $v
       Entry: 4
-      Data: 66.8018
+      Data: 49.71633
     - Name: 
       Entry: 8
       Data: 
@@ -8402,7 +8366,7 @@ MonoBehaviour:
       Data: 60
     - Name: $v
       Entry: 4
-      Data: 69.10627
+      Data: 53.0888748
     - Name: 
       Entry: 8
       Data: 
@@ -8414,7 +8378,7 @@ MonoBehaviour:
       Data: 61
     - Name: $v
       Entry: 4
-      Data: 71.34252
+      Data: 56.37931
     - Name: 
       Entry: 8
       Data: 
@@ -8426,7 +8390,7 @@ MonoBehaviour:
       Data: 62
     - Name: $v
       Entry: 4
-      Data: 73.50836
+      Data: 59.582592
     - Name: 
       Entry: 8
       Data: 
@@ -8438,7 +8402,7 @@ MonoBehaviour:
       Data: 63
     - Name: $v
       Entry: 4
-      Data: 75.60167
+      Data: 62.6937523
     - Name: 
       Entry: 8
       Data: 
@@ -8450,7 +8414,7 @@ MonoBehaviour:
       Data: 64
     - Name: $v
       Entry: 4
-      Data: 77.62036
+      Data: 65.7079849
     - Name: 
       Entry: 8
       Data: 
@@ -8462,7 +8426,7 @@ MonoBehaviour:
       Data: 65
     - Name: $v
       Entry: 4
-      Data: 79.56245
+      Data: 68.62063
     - Name: 
       Entry: 8
       Data: 
@@ -8474,7 +8438,7 @@ MonoBehaviour:
       Data: 66
     - Name: $v
       Entry: 4
-      Data: 81.42603
+      Data: 71.42719
     - Name: 
       Entry: 8
       Data: 
@@ -8486,7 +8450,7 @@ MonoBehaviour:
       Data: 67
     - Name: $v
       Entry: 4
-      Data: 83.20924
+      Data: 74.12332
     - Name: 
       Entry: 8
       Data: 
@@ -8498,7 +8462,7 @@ MonoBehaviour:
       Data: 68
     - Name: $v
       Entry: 4
-      Data: 84.91035
+      Data: 76.70485
     - Name: 
       Entry: 8
       Data: 
@@ -8510,7 +8474,7 @@ MonoBehaviour:
       Data: 69
     - Name: $v
       Entry: 4
-      Data: 86.52764
+      Data: 79.1677856
     - Name: 
       Entry: 8
       Data: 
@@ -8522,7 +8486,7 @@ MonoBehaviour:
       Data: 70
     - Name: $v
       Entry: 4
-      Data: 88.05955
+      Data: 81.50832
     - Name: 
       Entry: 8
       Data: 
@@ -8534,7 +8498,7 @@ MonoBehaviour:
       Data: 71
     - Name: $v
       Entry: 4
-      Data: 89.5045547
+      Data: 83.72284
     - Name: 
       Entry: 8
       Data: 
@@ -8546,7 +8510,7 @@ MonoBehaviour:
       Data: 72
     - Name: $v
       Entry: 4
-      Data: 90.86124
+      Data: 85.80794
     - Name: 
       Entry: 8
       Data: 
@@ -8558,7 +8522,7 @@ MonoBehaviour:
       Data: 73
     - Name: $v
       Entry: 4
-      Data: 92.12824
+      Data: 87.76036
     - Name: 
       Entry: 8
       Data: 
@@ -8570,7 +8534,7 @@ MonoBehaviour:
       Data: 74
     - Name: $v
       Entry: 4
-      Data: 93.30433
+      Data: 89.57709
     - Name: 
       Entry: 8
       Data: 
@@ -8582,7 +8546,7 @@ MonoBehaviour:
       Data: 75
     - Name: $v
       Entry: 4
-      Data: 94.38833
+      Data: 91.25534
     - Name: 
       Entry: 8
       Data: 
@@ -8594,7 +8558,7 @@ MonoBehaviour:
       Data: 76
     - Name: $v
       Entry: 4
-      Data: 95.37919
+      Data: 92.7924957
     - Name: 
       Entry: 8
       Data: 
@@ -8606,7 +8570,7 @@ MonoBehaviour:
       Data: 77
     - Name: $v
       Entry: 4
-      Data: 96.27592
+      Data: 94.1861954
     - Name: 
       Entry: 8
       Data: 
@@ -8618,7 +8582,7 @@ MonoBehaviour:
       Data: 78
     - Name: $v
       Entry: 4
-      Data: 97.07763
+      Data: 95.43428
     - Name: 
       Entry: 8
       Data: 
@@ -8630,7 +8594,7 @@ MonoBehaviour:
       Data: 79
     - Name: $v
       Entry: 4
-      Data: 97.78355
+      Data: 96.53482
     - Name: 
       Entry: 8
       Data: 
@@ -8642,7 +8606,7 @@ MonoBehaviour:
       Data: 80
     - Name: $v
       Entry: 4
-      Data: 98.39296
+      Data: 97.4861145
     - Name: 
       Entry: 8
       Data: 
@@ -8654,7 +8618,7 @@ MonoBehaviour:
       Data: 81
     - Name: $v
       Entry: 4
-      Data: 98.90527
+      Data: 98.28668
     - Name: 
       Entry: 8
       Data: 
@@ -8666,7 +8630,7 @@ MonoBehaviour:
       Data: 82
     - Name: $v
       Entry: 4
-      Data: 99.31997
+      Data: 98.9352951
     - Name: 
       Entry: 8
       Data: 
@@ -8678,7 +8642,7 @@ MonoBehaviour:
       Data: 83
     - Name: $v
       Entry: 4
-      Data: 99.63666
+      Data: 99.43095
     - Name: 
       Entry: 8
       Data: 
@@ -8690,7 +8654,7 @@ MonoBehaviour:
       Data: 84
     - Name: $v
       Entry: 4
-      Data: 99.85501
+      Data: 99.77288
     - Name: 
       Entry: 8
       Data: 
@@ -8702,7 +8666,7 @@ MonoBehaviour:
       Data: 85
     - Name: $v
       Entry: 4
-      Data: 99.97482
+      Data: 99.960556
     - Name: 
       Entry: 8
       Data: 
@@ -8714,7 +8678,7 @@ MonoBehaviour:
       Data: 86
     - Name: $v
       Entry: 4
-      Data: 99.99597
+      Data: 99.99369
     - Name: 
       Entry: 8
       Data: 
@@ -8726,7 +8690,7 @@ MonoBehaviour:
       Data: 87
     - Name: $v
       Entry: 4
-      Data: 99.9184341
+      Data: 99.87222
     - Name: 
       Entry: 8
       Data: 
@@ -8738,7 +8702,7 @@ MonoBehaviour:
       Data: 88
     - Name: $v
       Entry: 4
-      Data: 99.7422943
+      Data: 99.59635
     - Name: 
       Entry: 8
       Data: 
@@ -8750,7 +8714,7 @@ MonoBehaviour:
       Data: 89
     - Name: $v
       Entry: 4
-      Data: 99.46772
+      Data: 99.1665039
     - Name: 
       Entry: 8
       Data: 
@@ -8762,7 +8726,7 @@ MonoBehaviour:
       Data: 90
     - Name: $v
       Entry: 4
-      Data: 99.09498
+      Data: 98.5833359
     - Name: 
       Entry: 8
       Data: 
@@ -8774,7 +8738,7 @@ MonoBehaviour:
       Data: 91
     - Name: $v
       Entry: 4
-      Data: 98.6244354
+      Data: 97.84774
     - Name: 
       Entry: 8
       Data: 
@@ -8786,7 +8750,7 @@ MonoBehaviour:
       Data: 92
     - Name: $v
       Entry: 4
-      Data: 98.05658
+      Data: 96.9608841
     - Name: 
       Entry: 8
       Data: 
@@ -8798,7 +8762,7 @@ MonoBehaviour:
       Data: 93
     - Name: $v
       Entry: 4
-      Data: 97.39194
+      Data: 95.92412
     - Name: 
       Entry: 8
       Data: 
@@ -8810,7 +8774,7 @@ MonoBehaviour:
       Data: 94
     - Name: $v
       Entry: 4
-      Data: 96.6311951
+      Data: 94.7390442
     - Name: 
       Entry: 8
       Data: 
@@ -8822,7 +8786,7 @@ MonoBehaviour:
       Data: 95
     - Name: $v
       Entry: 4
-      Data: 95.77508
+      Data: 93.4075
     - Name: 
       Entry: 8
       Data: 
@@ -8834,7 +8798,7 @@ MonoBehaviour:
       Data: 96
     - Name: $v
       Entry: 4
-      Data: 94.82445
+      Data: 91.93155
     - Name: 
       Entry: 8
       Data: 
@@ -8846,7 +8810,7 @@ MonoBehaviour:
       Data: 97
     - Name: $v
       Entry: 4
-      Data: 93.7802353
+      Data: 90.31345
     - Name: 
       Entry: 8
       Data: 
@@ -8858,7 +8822,7 @@ MonoBehaviour:
       Data: 98
     - Name: $v
       Entry: 4
-      Data: 92.64348
+      Data: 88.55573
     - Name: 
       Entry: 8
       Data: 
@@ -8870,7 +8834,7 @@ MonoBehaviour:
       Data: 99
     - Name: $v
       Entry: 4
-      Data: 91.41529
+      Data: 86.66111
     - Name: 
       Entry: 8
       Data: 
@@ -8882,19 +8846,7 @@ MonoBehaviour:
       Data: 100
     - Name: $v
       Entry: 4
-      Data: 90.0968857
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
-    - Name: $v
-      Entry: 4
-      Data: 0
+      Data: 84.6325
     - Name: 
       Entry: 8
       Data: 
@@ -8912,10 +8864,16 @@ MonoBehaviour:
       Data: 0
     - Name: m_MaxLevelPercent
       Entry: 4
-      Data: 51.57295
+      Data: 66.17824
     - Name: m_CurrentLevelPercent
       Entry: 4
       Data: 0
+    - Name: m_MinLevel
+      Entry: 3
+      Data: 1
+    - Name: m_MaxLevel
+      Entry: 3
+      Data: 100
     - Name: 
       Entry: 8
       Data: 
@@ -8928,7 +8886,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  m_Width: 2
+  m_Width: 1.597864
   m_Height: 1
   m_Offset: 0
-  m_CurrentLevel: 0
+  m_CurrentLevel: 1
