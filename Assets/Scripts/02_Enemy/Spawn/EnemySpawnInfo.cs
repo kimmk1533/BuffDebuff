@@ -18,17 +18,10 @@ namespace BuffDebuff
 		// 지연 시간
 		[SerializeField]
 		private float m_DelayTime;
-
-		// ClearRoom 조건에 필요한 변수
-		// 생성 인덱스
-		[SerializeField, Min(0)]
-		private int m_Index;
 		#endregion
 
 		#region 프로퍼티
-		public string key => m_Key;
 		public float delayTime => m_DelayTime;
-		public int index => m_Index;
 		#endregion
 
 		#region 매니저

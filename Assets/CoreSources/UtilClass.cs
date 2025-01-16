@@ -89,16 +89,19 @@ public static class UtilClass
 	[System.Serializable]
 	public class Timer
 	{
+		#region 변수
 		[SerializeField]
-		private float m_Interval;
+		private float m_Interval = 0f;
 		[SerializeField, ReadOnly]
-		private float m_Time;
+		private float m_Time = 0f;
 
-		private bool m_IsSimulating;
+		private bool m_IsSimulating = true;
+		#endregion
 
+		#region 프로퍼티
 		public float interval
 		{
-			get { return m_Interval; }
+			get => m_Interval;
 			set
 			{
 				m_Interval = value;
@@ -106,8 +109,15 @@ public static class UtilClass
 					m_Time = m_Interval;
 			}
 		}
-		public float time => m_Time;
+		public float time
+		{
+			get => m_Time;
+			set => m_Time = value;
+		}
+		public bool isPaused => m_IsSimulating == false;
+		#endregion
 
+		#region 생성자
 		public Timer()
 		{
 			m_Time = m_Interval = 0f;
@@ -124,7 +134,13 @@ public static class UtilClass
 
 			m_IsSimulating = true;
 		}
+		#endregion
 
+		/// <summary>
+		/// 설정한 시간이 되었는 지 확인하는 함수
+		/// </summary>
+		/// <param name="autoClear">자동으로 다시 시작 여부</param>
+		/// <returns>설정한 시간이 되었는 지</returns>
 		public bool TimeCheck(bool autoClear = false)
 		{
 			if (m_Time >= m_Interval)
@@ -137,16 +153,18 @@ public static class UtilClass
 
 			return false;
 		}
+
+		/// <summary>
+		/// 시간 경과
+		/// </summary>
 		public void Update()
 		{
-			if (m_IsSimulating == false)
-				return;
-
-			if (m_Time >= m_Interval)
-				return;
-
-			m_Time += Time.deltaTime;
+			Update(1f);
 		}
+		/// <summary>
+		/// 시간 경과
+		/// </summary>
+		/// <param name="timeScale">시간 배율</param>
 		public void Update(float timeScale)
 		{
 			if (m_IsSimulating == false)
@@ -157,18 +175,28 @@ public static class UtilClass
 
 			m_Time += Time.deltaTime * timeScale;
 		}
+
+		/// <summary>
+		/// 시간 초기화
+		/// </summary>
 		public void Clear()
 		{
 			m_Time = 0f;
 		}
 
-		public void Start()
-		{
-			m_IsSimulating = true;
-		}
-		public void Stop()
+		/// <summary>
+		/// 일시정지
+		/// </summary>
+		public void Pause()
 		{
 			m_IsSimulating = false;
+		}
+		/// <summary>
+		/// 다시 시작
+		/// </summary>
+		public void Resume()
+		{
+			m_IsSimulating = true;
 		}
 	}
 }

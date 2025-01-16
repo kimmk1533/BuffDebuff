@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace System.Collections.Generic
 {
-	public interface IPriorityQueue<T> : IEnumerable<T>
+	public interface IMyPriorityQueue<T> : IEnumerable<T>
 	{
 		int Push(T item);
 		T Pop();
@@ -12,10 +12,10 @@ namespace System.Collections.Generic
 	}
 
 	// 참고: https://yoongrammer.tistory.com/81
-	public class PriorityQueue<T> : IPriorityQueue<T>, IEnumerable<T>
+	public class MyPriorityQueue<T> : IMyPriorityQueue<T>, IEnumerable<T>
 	{
-		List<T> m_ElementList;
-		IComparer<T> m_Comparer;
+		private List<T> m_ElementList;
+		private IComparer<T> m_Comparer;
 
 		public IComparer<T> Comparer
 		{
@@ -43,27 +43,27 @@ namespace System.Collections.Generic
 			}
 		}
 
-		public PriorityQueue()
+		public MyPriorityQueue()
 		{
 			m_ElementList = new List<T>();
 
 			m_Comparer = Comparer<T>.Default;
 		}
 #nullable enable
-		public PriorityQueue(IComparer<T>? comparer)
+		public MyPriorityQueue(IComparer<T>? comparer)
 		{
 			m_ElementList = new List<T>();
 
 			m_Comparer = comparer;
 		}
 #nullable disable
-		public PriorityQueue(IEnumerable<T> items)
+		public MyPriorityQueue(IEnumerable<T> items)
 		{
 			m_ElementList = new List<T>(items);
 
 			m_Comparer = Comparer<T>.Default;
 		}
-		public PriorityQueue(int initialCapacity)
+		public MyPriorityQueue(int initialCapacity)
 		{
 			m_ElementList = new List<T>(initialCapacity);
 

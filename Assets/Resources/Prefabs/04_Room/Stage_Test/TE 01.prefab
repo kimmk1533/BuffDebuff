@@ -981,51 +981,19 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 5233513895871477016}
+    - {fileID: 3752346578906473850}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: m_IsClear
-      Entry: 5
-      Data: false
-    - Name: m_EnemyWaveIndex
-      Entry: 3
-      Data: -1
-    - Name: m_EnemyWaveInfoMap
+    - Name: m_EnemySpawnInfoList
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[BuffDebuff.EnemySpawner+E_MainSpawnCondition,
-        Assembly-CSharp],[System.Collections.Generic.List`1[[BuffDebuff.EnemySpawnInfo,
-        Assembly-CSharp]], mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[BuffDebuff.EnemySpawner+E_MainSpawnCondition,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 1
-    - Name: $v
-      Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[BuffDebuff.EnemySpawnInfo, Assembly-CSharp]],
+      Data: 0|System.Collections.Generic.List`1[[BuffDebuff.EnemySpawnInfo, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 4
     - Name: 
       Entry: 7
       Data: BuffDebuff.EnemySpawnInfo, Assembly-CSharp
@@ -1038,64 +1006,69 @@ MonoBehaviour:
     - Name: m_DelayTime
       Entry: 4
       Data: 0
-    - Name: m_Index
-      Entry: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: BuffDebuff.EnemySpawnInfo, Assembly-CSharp
+    - Name: m_Key
+      Entry: 1
+      Data: Golem
+    - Name: m_SpawnPoint
+      Entry: 10
+      Data: 1
+    - Name: m_DelayTime
+      Entry: 4
       Data: 0
     - Name: 
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: BuffDebuff.EnemySpawnInfo, Assembly-CSharp
+    - Name: m_Key
+      Entry: 1
+      Data: Golem
+    - Name: m_SpawnPoint
+      Entry: 10
+      Data: 0
+    - Name: m_DelayTime
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: BuffDebuff.EnemySpawnInfo, Assembly-CSharp
+    - Name: m_Key
+      Entry: 1
+      Data: Golem
+    - Name: m_SpawnPoint
+      Entry: 10
+      Data: 1
+    - Name: m_DelayTime
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: m_Test
+    - Name: m_EnemySpawnInfoQueue
       Entry: 7
-      Data: 3|System.Collections.Generic.Dictionary`2[[System.ValueTuple`2[[BuffDebuff.EnemySpawner+E_MainSpawnCondition,
-        Assembly-CSharp],[BuffDebuff.EnemySpawner+E_SubSpawnCondition, Assembly-CSharp]],
-        mscorlib],[System.Collections.Generic.List`1[[BuffDebuff.EnemySpawnInfo,
-        Assembly-CSharp]], mscorlib]], mscorlib
-    - Name: comparer
+      Data: 1|System.Collections.Generic.PriorityQueue`2[[System.Single, mscorlib],[BuffDebuff.EnemySpawnInfo,
+        Assembly-CSharp]], Assembly-CSharp
+    - Name: _nodes
       Entry: 7
-      Data: 4|System.Collections.Generic.GenericEqualityComparer`1[[System.ValueTuple`2[[BuffDebuff.EnemySpawner+E_MainSpawnCondition,
-        Assembly-CSharp],[BuffDebuff.EnemySpawner+E_SubSpawnCondition, Assembly-CSharp]],
-        mscorlib]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 7
-      Data: System.ValueTuple`2[[BuffDebuff.EnemySpawner+E_MainSpawnCondition, Assembly-CSharp],[BuffDebuff.EnemySpawner+E_SubSpawnCondition,
-        Assembly-CSharp]], mscorlib
-    - Name: Item1
-      Entry: 3
-      Data: 1
-    - Name: Item2
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: $v
-      Entry: 7
-      Data: 5|System.Collections.Generic.List`1[[BuffDebuff.EnemySpawnInfo, Assembly-CSharp]],
-        mscorlib
+      Data: 2|System.ValueTuple`2[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089],[BuffDebuff.EnemySpawnInfo, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]][], mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -1108,12 +1081,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+    - Name: m_IsClear
+      Entry: 5
+      Data: false
+  m_EnemySpawnTimer:
+    m_Interval: 0
+    m_Time: 0
   m_SpawnedEnemyList: []
 --- !u!1 &853564449544585189
 GameObject:

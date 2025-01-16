@@ -251,14 +251,14 @@ namespace BuffDebuff
 			if (m_IsStartingRoom == true)
 				return;
 
-			m_EnemySpawner.SpawnEnemyWave();
+			m_EnemySpawner.OnPlayerEnterRoom();
 		}
 		private void OnPlayerExitRoom()
 		{
 			if (m_IsStartingRoom == true)
 				return;
 
-			m_EnemySpawner.DespawnEnemyWave();
+			m_EnemySpawner.OnPlayerExitRoom();
 		}
 
 		public void ClearRoom()
