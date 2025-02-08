@@ -4,19 +4,8 @@ using UnityEngine;
 
 namespace BuffDebuff
 {
-	public class CharacterAnimator : MonoBehaviour, IAnim_Movable, IAnim_IsGround, IAnim_Jump, IAnim_Attack, IAnim_Death
+	public class CharacterAnimator : BaseAnimator, IAnim_Movable, IAnim_IsGround, IAnim_Jump, IAnim_Attack, IAnim_Death
 	{
-		#region 변수
-		protected SpriteRenderer m_SpriteRenderer;
-		protected Animator m_Animator;
-		#endregion
-
-		public virtual void Initialize()
-		{
-			this.NullCheckGetComponent<SpriteRenderer>(ref m_SpriteRenderer);
-			this.NullCheckGetComponent<Animator>(ref m_Animator);
-		}
-
 		public virtual void Anim_SetVelocity(float x, float y)
 		{
 			m_Animator.SetFloat("VelocityX", x);

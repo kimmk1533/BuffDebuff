@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace BuffDebuff
@@ -7,17 +8,17 @@ namespace BuffDebuff
 	[System.Serializable]
 	public class PlayerStat : CharacterStat
 	{
-		[field: Header("레벨")]
+		[field: Title("레벨")]
 		// 레벨
-		[field: SerializeField]
+		[field: SerializeField, InlineProperty(LabelWidth = 100), LabelWidth(40)]
 		public StatValue<int> Level { get; set; }
 
-		[field: Header("대쉬")]
+		[field: Title("대쉬")]
 		// 대쉬 속도
 		[field: SerializeField]
 		public float DashSpeed { get; set; }
 		// 대쉬 횟수
-		[field: SerializeField]
+		[field: SerializeField, InlineProperty(LabelWidth = 70), LabelWidth(70)]
 		public StatValue<int> DashCount { get; set; }
 		// 대쉬 충전 속도
 		[field: SerializeField]

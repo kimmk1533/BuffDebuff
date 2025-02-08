@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace BuffDebuff
@@ -45,9 +46,11 @@ namespace BuffDebuff
 		protected List<Vector2Int> m_PathFinding_Path;
 		protected int m_PathFinding_NodeIndex;
 
-		[SerializeField]
+		[SerializeField, ReadOnly]
+		[FoldoutGroup("타이머"), LabelText("랜덤 이동 타이머")]
 		protected UtilClass.Timer m_MoveDirTimer;
-		[SerializeField]
+		[SerializeField, ReadOnly]
+		[FoldoutGroup("타이머"), LabelText("재탐색 타이머")]
 		protected UtilClass.Timer m_PathFinding_ReSearchTimer;
 
 		[SerializeField]
@@ -571,7 +574,7 @@ namespace BuffDebuff
 
 			Vector3 targetPos = targetCollider.bounds.center;
 			float angle = position.GetAngle(targetPos);
-			Quaternion quaternion = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+			Quaternion quaternion = Quaternion.AngleAxis(angle, Vector3.forward);
 
 			Projectile projectile = M_Projectile.GetBuilder("Projectile")
 				.SetActive(true)
@@ -579,14 +582,11 @@ namespace BuffDebuff
 				.SetParent(null)
 				.SetPosition(position)
 				.SetRotation(quaternion)
-				.SetMoveSpeed(5.0f)
+				.SetMoveSpeed(m_Stat.ShotSpeed)
 				.SetLifeTime(m_Stat.AttackRange)
 				.SetMoveType(new StraightMove())
 				.Spawn();
 
-			//projectile.Initialize(5.0f, m_CurrentStat.AttackRange);
-
-			//projectile.SetMovingStrategy(new StraightMove());
 			projectile["Player"].onEnter2D += (Collider2D collider) =>
 			{
 				Player player = collider.GetComponent<Player>();

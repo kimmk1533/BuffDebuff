@@ -10801,6 +10801,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 181741985780708447, guid: e8fd1b20c12719d4ea89e0ed5de3f9e9, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 77aa4b74a3e5f2045920a7a981d1f9db, type: 2}
+    - target: {fileID: 2240918367754883474, guid: e8fd1b20c12719d4ea89e0ed5de3f9e9, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 2240918367754883474, guid: e8fd1b20c12719d4ea89e0ed5de3f9e9, type: 3}
     - target: {fileID: 5596585782795772995, guid: e8fd1b20c12719d4ea89e0ed5de3f9e9, type: 3}
       propertyPath: m_RootOrder
       value: 25
@@ -10848,6 +10856,14 @@ PrefabInstance:
     - target: {fileID: 5596585782795772999, guid: e8fd1b20c12719d4ea89e0ed5de3f9e9, type: 3}
       propertyPath: m_Name
       value: Projectile
+      objectReference: {fileID: 0}
+    - target: {fileID: 5596585784329701490, guid: e8fd1b20c12719d4ea89e0ed5de3f9e9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5596585784329701490, guid: e8fd1b20c12719d4ea89e0ed5de3f9e9, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -29808,6 +29824,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1233320923803721149, guid: 90011bc8688657b47ac39ee9859eaba8, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 1233320923803721149, guid: 90011bc8688657b47ac39ee9859eaba8, type: 3}
     - target: {fileID: 1233320925476692312, guid: 90011bc8688657b47ac39ee9859eaba8, type: 3}
       propertyPath: m_RootOrder
       value: 24
@@ -67096,6 +67116,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 507329788822272629, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 507329788822272629, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
     - target: {fileID: 6879120039570048744, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -84515,6 +84539,11 @@ MonoBehaviour:
     <useFlag>k__BackingField: 1
     <poolSize>k__BackingField: 5
     <origin>k__BackingField: {fileID: 5596585782795772992, guid: e8fd1b20c12719d4ea89e0ed5de3f9e9, type: 3}
+  - <key>k__BackingField: Fire Bite
+    <path>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 10
+    <origin>k__BackingField: {fileID: 5596585782795772992, guid: fcff28eb027a6714bab56a9b1ecf1126, type: 3}
 --- !u!4 &1335781044
 Transform:
   m_ObjectHideFlags: 0

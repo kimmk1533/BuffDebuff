@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace BuffDebuff
@@ -19,6 +20,7 @@ namespace BuffDebuff
 		private Transform m_AttackSpot;
 
 		[SerializeField, ReadOnly]
+		[FoldoutGroup("타이머"), LabelText("대쉬 타이머")]
 		private UtilClass.Timer m_DashTimer;
 		#endregion
 
@@ -255,7 +257,7 @@ namespace BuffDebuff
 		public override void Attack()
 		{
 			m_IsAttacking = true;
-			m_Animator.Anim_Attack(m_AttackIndex++);
+			m_Animator.Anim_Attack(m_AttackPatternIndex++);
 		}
 		private void CreateProjectile()
 		{
@@ -263,9 +265,9 @@ namespace BuffDebuff
 
 			Vector2 mousePos = UtilClass.GetMouseWorldPosition();
 			float angle = position.GetAngle(mousePos);
-			Quaternion quaternion = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+			Quaternion quaternion = Quaternion.AngleAxis(angle, Vector3.forward);
 
-			Projectile projectile = M_Projectile.GetBuilder("Projectile")
+			Projectile projectile = M_Projectile.GetBuilder("Fire Bite")
 				.SetActive(true)
 				.SetAutoInit(true)
 				.SetParent(null)
@@ -380,7 +382,7 @@ namespace BuffDebuff
 
 			m_IsSimulating = true;
 			m_IsAttacking = false;
-			m_AttackIndex = 0;
+			m_AttackPatternIndex = 0;
 		}
 		public void AnimEvent_AirAttackStart()
 		{

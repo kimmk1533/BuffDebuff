@@ -79,6 +79,36 @@ namespace BuffDebuff
 			m_Room.ClearRoom();
 		}
 
+		/// <summary>
+		/// 적이 디스폰 될 때 호출되는 이벤트 함수
+		/// </summary>
+		/// <param name="arg"></param>
+		/// <exception cref="System.NullReferenceException"></exception>
+		private void OnEnemyDespawn(ObjectPoolItemBase arg)
+		{
+			Enemy enemy = arg as Enemy;
+			if (enemy == null)
+				throw new System.NullReferenceException();
+
+			// 생성된 적 리스트에서 제거
+			m_SpawnedEnemyList.Remove(enemy);
+
+			if (m_IsInProgress == false)
+				return;
+
+			// 현재 생성한 모든 적을 잡은 경우
+			if (m_SpawnedEnemyList.Count == 0)
+			{
+				// 더 생성할 적이 없으면
+				if (m_EnemySpawnInfoQueue.Count == 0)
+					// 방 클리어
+					OnPlayerClearRoom();
+				// 더 생성할 적이 있으면
+				else
+					// 다음 적 바로 생성
+					m_EnemySpawnTimer.time = m_EnemySpawnInfoQueue.Peek().Priorty;
+			}
+		}
 		#endregion
 
 		#region 매니저
@@ -160,30 +190,6 @@ namespace BuffDebuff
 				M_Enemy.Despawn(m_SpawnedEnemyList[0]);
 			}
 			m_SpawnedEnemyList.Clear();
-		}
-		private void OnEnemyDespawn(ObjectPoolItemBase arg)
-		{
-			Enemy enemy = arg as Enemy;
-			if (enemy == null)
-				throw new System.NullReferenceException();
-
-			m_SpawnedEnemyList.Remove(enemy);
-
-			if (m_IsInProgress == false)
-				return;
-
-			// 현재 소환한 모든 적을 잡은 경우
-			if (m_SpawnedEnemyList.Count == 0)
-			{
-				// 더 소환할 적이 없으면
-				if (m_EnemySpawnInfoQueue.Count == 0)
-					// 방 클리어
-					OnPlayerClearRoom();
-				// 더 소환할 적이 있으면
-				else
-					// 다음 적 바로 생성
-					m_EnemySpawnTimer.time = m_EnemySpawnInfoQueue.Peek().Priorty;
-			}
 		}
 	}
 }

@@ -1,0 +1,772 @@
+fileFormatVersion: 2
+guid: 927889d691505944487bbbf97e633bdf
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2624034008001734960
+    second: Air Attack 1,2,3_0
+  - first:
+      213: -2829815738178874884
+    second: Air Attack 1,2,3_1
+  - first:
+      213: 4892366673233620526
+    second: Air Attack 1,2,3_2
+  - first:
+      213: -8099651121220251368
+    second: Air Attack 1,2,3_3
+  - first:
+      213: -3293847411629811223
+    second: Air Attack 1,2,3_4
+  - first:
+      213: -1335338250627512845
+    second: Air Attack 1,2,3_5
+  - first:
+      213: 3780357033831854597
+    second: Air Attack 1,2,3_6
+  - first:
+      213: -1407879546905904984
+    second: Air Attack 1,2,3_7
+  - first:
+      213: -834407263035121028
+    second: Air Attack 1,2,3_8
+  - first:
+      213: -8701037827733804150
+    second: Air Attack 1,2,3_9
+  - first:
+      213: 1702348248534009102
+    second: Air Attack 1,2,3_10
+  - first:
+      213: 2658363205449032212
+    second: Air Attack 1,2,3_11
+  - first:
+      213: -1674865730206983747
+    second: Air Attack 1,2,3_12
+  - first:
+      213: -8957599668164234261
+    second: Air Attack 1,2,3_13
+  - first:
+      213: 4364113905036411480
+    second: Air Attack 1,2,3_14
+  - first:
+      213: 5298591118296444301
+    second: Air Attack 1,2,3_15
+  - first:
+      213: 7479489306266297343
+    second: Air Attack 1,2,3_16
+  - first:
+      213: 6995275647911811353
+    second: Air Attack 1,2,3_17
+  - first:
+      213: 3900052615153263374
+    second: Air Attack 1,2,3_18
+  - first:
+      213: -1840256900454384734
+    second: Air Attack 1,2,3_19
+  - first:
+      213: 8794649523715599573
+    second: Air Attack 1,2,3_20
+  - first:
+      213: 4186716169252974577
+    second: Air Attack 1,2,3_21
+  - first:
+      213: -5142832083609133606
+    second: Air Attack 1,2,3_22
+  - first:
+      213: 7221322740575785014
+    second: Air Attack 1,2,3_23
+  - first:
+      213: 6447755004918500772
+    second: Air Attack 1,2,3_24
+  - first:
+      213: 2809098423331730704
+    second: Air Attack 1,2,3_25
+  - first:
+      213: 6787435016478174168
+    second: Air Attack 1,2,3_26
+  - first:
+      213: 4399808421220513990
+    second: Air Attack 1,2,3_27
+  - first:
+      213: -7635751598690432712
+    second: Air Attack 1,2,3_28
+  - first:
+      213: 367598990728733631
+    second: Air Attack 1,2,3_29
+  - first:
+      213: 8899401820971822037
+    second: Air Attack 1,2,3_30
+  - first:
+      213: -4168282431066397498
+    second: Air Attack 1,2,3_31
+  - first:
+      213: 9128665663586713021
+    second: Air Attack 1,2,3_32
+  - first:
+      213: -8217412982495379890
+    second: Air Attack 1,2,3_33
+  - first:
+      213: -6817638853407435721
+    second: Air Attack 1,2,3_34
+  - first:
+      213: -2330645041566642314
+    second: Air Attack 1,2,3_35
+  - first:
+      213: -5402623792156315308
+    second: Air Attack 1,2,3_36
+  - first:
+      213: 576505562505166941
+    second: Air Attack 1,2,3_37
+  - first:
+      213: 8032670091780500523
+    second: Air Attack 1,2,3_38
+  - first:
+      213: -5109171846993926210
+    second: Air Attack 1,2,3_39
+  - first:
+      213: -7541088949437762659
+    second: Air Attack 1,2,3_40
+  - first:
+      213: 385635722723795869
+    second: Air Attack 1,2,3_41
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 512
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d61382f8fe859bd0800000000000000
+      internalID: -2624034008001734960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf1d90244997ab8d0800000000000000
+      internalID: -2829815738178874884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2eac05819d25e340800000000000000
+      internalID: 4892366673233620526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81192131832489f80800000000000000
+      internalID: -8099651121220251368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e9177d0b37e942d0800000000000000
+      internalID: -3293847411629811223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f50b5c9fece77de0800000000000000
+      internalID: -1335338250627512845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50272bd61b6867430800000000000000
+      internalID: 3780357033831854597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a8b228e205367ce0800000000000000
+      internalID: -1407879546905904984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_8
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7229c0e3079b64f0800000000000000
+      internalID: -834407263035121028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_9
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8ba0bc1234bf3780800000000000000
+      internalID: -8701037827733804150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_10
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e05c0ed66b4ff9710800000000000000
+      internalID: 1702348248534009102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_11
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41222c0304764e420800000000000000
+      internalID: 2658363205449032212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_12
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db999800e7ea1c8e0800000000000000
+      internalID: -1674865730206983747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_13
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be3f9eaaf8630b380800000000000000
+      internalID: -8957599668164234261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 852c90d7972709c30800000000000000
+      internalID: 4364113905036411480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_15
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8d69188c80688940800000000000000
+      internalID: 5298591118296444301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_16
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff3e55165eb7cc760800000000000000
+      internalID: 7479489306266297343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_17
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91959b3a326341160800000000000000
+      internalID: 6995275647911811353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_18
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e032b8ba035cf1630800000000000000
+      internalID: 3900052615153263374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_19
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ab74f069181676e0800000000000000
+      internalID: -1840256900454384734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_20
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5dc6021552fdc0a70800000000000000
+      internalID: 8794649523715599573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_21
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ff25bb7c243a1a30800000000000000
+      internalID: 4186716169252974577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Air Attack 1,2,3_22
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: adddef4c77df0a8b0800000000000000
+      internalID: -5142832083609133606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 37f6a53c988d2e143b070d907eb2f202
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Air Attack 1,2,3_0: -2624034008001734960
+      Air Attack 1,2,3_1: -2829815738178874884
+      Air Attack 1,2,3_10: 1702348248534009102
+      Air Attack 1,2,3_11: 2658363205449032212
+      Air Attack 1,2,3_12: -1674865730206983747
+      Air Attack 1,2,3_13: -8957599668164234261
+      Air Attack 1,2,3_14: 4364113905036411480
+      Air Attack 1,2,3_15: 5298591118296444301
+      Air Attack 1,2,3_16: 7479489306266297343
+      Air Attack 1,2,3_17: 6995275647911811353
+      Air Attack 1,2,3_18: 3900052615153263374
+      Air Attack 1,2,3_19: -1840256900454384734
+      Air Attack 1,2,3_2: 4892366673233620526
+      Air Attack 1,2,3_20: 8794649523715599573
+      Air Attack 1,2,3_21: 4186716169252974577
+      Air Attack 1,2,3_22: -5142832083609133606
+      Air Attack 1,2,3_3: -8099651121220251368
+      Air Attack 1,2,3_4: -3293847411629811223
+      Air Attack 1,2,3_5: -1335338250627512845
+      Air Attack 1,2,3_6: 3780357033831854597
+      Air Attack 1,2,3_7: -1407879546905904984
+      Air Attack 1,2,3_8: -834407263035121028
+      Air Attack 1,2,3_9: -8701037827733804150
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

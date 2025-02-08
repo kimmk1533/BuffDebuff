@@ -1,0 +1,588 @@
+fileFormatVersion: 2
+guid: 9a5b881155b8d214a8939e7a77f1657d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2749498840445428200
+    second: Acid VFX 03(56x48)_0
+  - first:
+      213: 7386904797780432848
+    second: Acid VFX 03(56x48)_1
+  - first:
+      213: 6808174666889624806
+    second: Acid VFX 03(56x48)_2
+  - first:
+      213: -6642105703882272432
+    second: Acid VFX 03(56x48)_3
+  - first:
+      213: -7496790216340726550
+    second: Acid VFX 03(56x48)_4
+  - first:
+      213: -6142376276369088878
+    second: Acid VFX 03(56x48)_5
+  - first:
+      213: 1113390832730777221
+    second: Acid VFX 03(56x48)_6
+  - first:
+      213: -9218116801028708971
+    second: Acid VFX 03(56x48)_7
+  - first:
+      213: -368457600918557323
+    second: Acid VFX 03(56x48)_8
+  - first:
+      213: -8407014887079446450
+    second: Acid VFX 03(56x48)_9
+  - first:
+      213: -1000056867825156733
+    second: Acid VFX 03(56x48)_10
+  - first:
+      213: 8677892821972629775
+    second: Acid VFX 03(56x48)_11
+  - first:
+      213: 7477899367095312763
+    second: Acid VFX 03(56x48)_12
+  - first:
+      213: -3077393421681634635
+    second: Acid VFX 03(56x48)_13
+  - first:
+      213: -8306994763295516163
+    second: Acid VFX 03(56x48)_14
+  - first:
+      213: -9161243319798737122
+    second: Acid VFX 03(56x48)_15
+  - first:
+      213: 6912215322548122037
+    second: Acid VFX 03(56x48)_16
+  - first:
+      213: -5702677795591152690
+    second: Acid VFX 03(56x48)_17
+  - first:
+      213: 7929983271376401546
+    second: Acid VFX 03(56x48)_18
+  - first:
+      213: 1310294263768779794
+    second: Acid VFX 03(56x48)_19
+  - first:
+      213: -1418082635920802427
+    second: Acid VFX 03(56x48)_20
+  - first:
+      213: 4864967353434671962
+    second: Acid VFX 03(56x48)_21
+  - first:
+      213: -7265083048393726215
+    second: Acid VFX 03(56x48)_22
+  - first:
+      213: 4329390884506875530
+    second: Acid VFX 03(56x48)_23
+  - first:
+      213: -1238096650767770988
+    second: Acid VFX 03(56x48)_24
+  - first:
+      213: 18211172397678342
+    second: Acid VFX 03(56x48)_25
+  - first:
+      213: -3477117172404392039
+    second: Acid VFX 03(56x48)_26
+  - first:
+      213: -6937448463760633450
+    second: Acid VFX 03(56x48)_27
+  - first:
+      213: -1710181262523543151
+    second: Acid VFX 03(56x48)_28
+  - first:
+      213: 4611395612683272076
+    second: Acid VFX 03(56x48)_29
+  - first:
+      213: 2749777915464798445
+    second: Acid VFX 03(56x48)_30
+  - first:
+      213: -5853339483033726529
+    second: Acid VFX 03(56x48)_31
+  - first:
+      213: -3688784544880139656
+    second: Acid VFX 03(56x48)_32
+  - first:
+      213: 2839648409997317877
+    second: Acid VFX 03(56x48)_33
+  - first:
+      213: 8495066195263475121
+    second: Acid VFX 03(56x48)_34
+  - first:
+      213: -4919730829905648590
+    second: Acid VFX 03(56x48)_35
+  - first:
+      213: -6534317174824506924
+    second: Acid VFX 03(56x48)_36
+  - first:
+      213: -2468069251424526614
+    second: Acid VFX 03(56x48)_37
+  - first:
+      213: 6789637182483475255
+    second: Acid VFX 03(56x48)_38
+  - first:
+      213: 4425989474444151190
+    second: Acid VFX 03(56x48)_39
+  - first:
+      213: 5915305706806434769
+    second: Acid VFX 03(56x48)_40
+  - first:
+      213: -8745965821416642592
+    second: Acid VFX 03(56x48)_41
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 48
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Acid VFX 03(56x48)_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 56
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e1291fb0ae282620800000000000000
+      internalID: 2749498840445428200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Acid VFX 03(56x48)_1
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 0
+        width: 56
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d7d45da6ce838660800000000000000
+      internalID: 7386904797780432848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Acid VFX 03(56x48)_2
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 56
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ecf4ccc9ce7b7e50800000000000000
+      internalID: 6808174666889624806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Acid VFX 03(56x48)_3
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 0
+        width: 56
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 051508fbd0082d3a0800000000000000
+      internalID: -6642105703882272432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Acid VFX 03(56x48)_4
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 56
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aec1367940d06f790800000000000000
+      internalID: -7496790216340726550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Acid VFX 03(56x48)_5
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 0
+        width: 56
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29edb320255e1caa0800000000000000
+      internalID: -6142376276369088878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Acid VFX 03(56x48)_6
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 0
+        width: 56
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5862819301f837f00800000000000000
+      internalID: 1113390832730777221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Acid VFX 03(56x48)_7
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 0
+        width: 56
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63708b2b74914564bba6e6222140eb37
+      internalID: -9218116801028708971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Acid VFX 03(56x48)_8
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 56
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0e7eb5f9233aa34da6cf0e6da62db33
+      internalID: -368457600918557323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Acid VFX 03(56x48)_9
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 0
+        width: 56
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c16bfdc799d79e45b6901426fd5c7fc
+      internalID: -8407014887079446450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Acid VFX 03(56x48)_10
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 0
+        width: 56
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65431eedf84a02f49b37ca19efbb53ec
+      internalID: -1000056867825156733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Acid VFX 03(56x48)_11
+      rect:
+        serializedVersion: 2
+        x: 616
+        y: 0
+        width: 56
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a284cf61ff71b8140a2203d4c215943e
+      internalID: 8677892821972629775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Acid VFX 03(56x48)_12
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 0
+        width: 56
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1462134e21abc644b9d4b0ecdfdee81
+      internalID: 7477899367095312763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Acid VFX 03(56x48)_13
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 0
+        width: 56
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90ba55e0e0234264783c9119b7a85397
+      internalID: -3077393421681634635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Acid VFX 03(56x48)_14
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 0
+        width: 56
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5c72aedf70c0b54d8bffbdb2993aecd
+      internalID: -8306994763295516163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: a25d2e726cf965a45a457be0f9a0aed1
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Acid VFX 03(56x48)_0: 2749498840445428200
+      Acid VFX 03(56x48)_1: 7386904797780432848
+      Acid VFX 03(56x48)_10: -1000056867825156733
+      Acid VFX 03(56x48)_11: 8677892821972629775
+      Acid VFX 03(56x48)_12: 7477899367095312763
+      Acid VFX 03(56x48)_13: -3077393421681634635
+      Acid VFX 03(56x48)_14: -8306994763295516163
+      Acid VFX 03(56x48)_2: 6808174666889624806
+      Acid VFX 03(56x48)_3: -6642105703882272432
+      Acid VFX 03(56x48)_4: -7496790216340726550
+      Acid VFX 03(56x48)_5: -6142376276369088878
+      Acid VFX 03(56x48)_6: 1113390832730777221
+      Acid VFX 03(56x48)_7: -9218116801028708971
+      Acid VFX 03(56x48)_8: -368457600918557323
+      Acid VFX 03(56x48)_9: -8407014887079446450
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

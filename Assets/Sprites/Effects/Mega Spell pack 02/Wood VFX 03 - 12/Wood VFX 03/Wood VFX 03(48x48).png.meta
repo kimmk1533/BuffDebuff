@@ -1,0 +1,878 @@
+fileFormatVersion: 2
+guid: cd82dd113352b0d4188057c1f3e50dea
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6877592886418481568
+    second: Wood VFX 03(48x48)_0
+  - first:
+      213: -7462475740880753184
+    second: Wood VFX 03(48x48)_1
+  - first:
+      213: 123423762540904945
+    second: Wood VFX 03(48x48)_2
+  - first:
+      213: 7384925880130613267
+    second: Wood VFX 03(48x48)_3
+  - first:
+      213: -2362996061643086187
+    second: Wood VFX 03(48x48)_4
+  - first:
+      213: -2972156112583094529
+    second: Wood VFX 03(48x48)_5
+  - first:
+      213: -5987115397230605370
+    second: Wood VFX 03(48x48)_6
+  - first:
+      213: -8609975706383649252
+    second: Wood VFX 03(48x48)_7
+  - first:
+      213: -7545808115911888549
+    second: Wood VFX 03(48x48)_8
+  - first:
+      213: 295645130910644476
+    second: Wood VFX 03(48x48)_9
+  - first:
+      213: -1574173284431901278
+    second: Wood VFX 03(48x48)_10
+  - first:
+      213: 3041592536666007158
+    second: Wood VFX 03(48x48)_11
+  - first:
+      213: -2211877845643027284
+    second: Wood VFX 03(48x48)_12
+  - first:
+      213: -494841236231900851
+    second: Wood VFX 03(48x48)_13
+  - first:
+      213: -2534352518884839124
+    second: Wood VFX 03(48x48)_14
+  - first:
+      213: -6546583612506389291
+    second: Wood VFX 03(48x48)_15
+  - first:
+      213: -4877527033654796383
+    second: Wood VFX 03(48x48)_16
+  - first:
+      213: 511320947877685815
+    second: Wood VFX 03(48x48)_17
+  - first:
+      213: -235822464082734787
+    second: Wood VFX 03(48x48)_18
+  - first:
+      213: -7372063997888090434
+    second: Wood VFX 03(48x48)_19
+  - first:
+      213: 9009577937570824401
+    second: Wood VFX 03(48x48)_20
+  - first:
+      213: 101718533990440935
+    second: Wood VFX 03(48x48)_21
+  - first:
+      213: 5106450618228825556
+    second: Wood VFX 03(48x48)_22
+  - first:
+      213: 9000096919947410014
+    second: Wood VFX 03(48x48)_23
+  - first:
+      213: 549151240404153004
+    second: Wood VFX 03(48x48)_24
+  - first:
+      213: -5814734410868625924
+    second: Wood VFX 03(48x48)_25
+  - first:
+      213: -1204072291633947329
+    second: Wood VFX 03(48x48)_26
+  - first:
+      213: 5052379247606591945
+    second: Wood VFX 03(48x48)_27
+  - first:
+      213: -4119385434377047584
+    second: Wood VFX 03(48x48)_28
+  - first:
+      213: 4735690367942679735
+    second: Wood VFX 03(48x48)_29
+  - first:
+      213: -5406280792521265291
+    second: Wood VFX 03(48x48)_30
+  - first:
+      213: -1305522696700136462
+    second: Wood VFX 03(48x48)_31
+  - first:
+      213: -2437191184960279103
+    second: Wood VFX 03(48x48)_32
+  - first:
+      213: -5211117453842491793
+    second: Wood VFX 03(48x48)_33
+  - first:
+      213: -8758508090863583906
+    second: Wood VFX 03(48x48)_34
+  - first:
+      213: 6602405713812041607
+    second: Wood VFX 03(48x48)_35
+  - first:
+      213: -1666086044941358492
+    second: Wood VFX 03(48x48)_36
+  - first:
+      213: 6858500587928769532
+    second: Wood VFX 03(48x48)_37
+  - first:
+      213: -6158993990076100317
+    second: Wood VFX 03(48x48)_38
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 48
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_0
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66603b2b75db54a4abdeb9032e099668
+      internalID: -1121619471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_1
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 719145cb28f686544bbd06500acc1fa9
+      internalID: 1476775053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_2
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b625e2b27ccb044cb36b40c527b0ba6
+      internalID: -1634279136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da5a7ff9d9f1a534fbbc639d8c0f0ead
+      internalID: 1311847287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_4
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2893a964e3ff44843baca6303344eec0
+      internalID: -1313749240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_5
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b140d11891cd8404db43405d9a6fba45
+      internalID: -1330704578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_6
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4d977ebbeee3fb40aa1abb59664fbc5
+      internalID: 38643974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_7
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6000665f645232549ba70e4c14f8b96a
+      internalID: -496221860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_8
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1012c2f9ae5e1634abd77c7b4c5754ba
+      internalID: -1214378679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_9
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82065adbe231bf240aab7ee21a8cca3c
+      internalID: 877540695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_10
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd45b0ecea85c0f48a63249c9fa953fe
+      internalID: -942470716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_11
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 811d3e83f5db57f42b5576931f26d5f0
+      internalID: 2011318788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_12
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57db03aa53ce4d34e97170074342ab5b
+      internalID: -492229930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_13
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5465373fc54cb9f4ab1eb7cddea60f6e
+      internalID: 1144859082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_14
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25233bd1bb54ea44cad3d16842030380
+      internalID: 938511385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_15
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a888ad300b9aba7438075b117a0a62e8
+      internalID: 1216509906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_16
+      rect:
+        serializedVersion: 2
+        x: 816
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0efbadc913ddbb04991b287b0b90da50
+      internalID: -245870972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_17
+      rect:
+        serializedVersion: 2
+        x: 864
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 312d7f0b03c61dd45855b62c22db9b24
+      internalID: -1582718940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_18
+      rect:
+        serializedVersion: 2
+        x: 912
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3a1b3d3e39c16e429a6a9e3bc46c431
+      internalID: -159950487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_19
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50689fb4c89fcb34eb9ee7f348cb6831
+      internalID: -2089786385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_20
+      rect:
+        serializedVersion: 2
+        x: 1008
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5c7f1fa3e900d94dae2878f0bce5521
+      internalID: -1793359139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_21
+      rect:
+        serializedVersion: 2
+        x: 1056
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb454fd669ad2074ab975d6bce518af2
+      internalID: 1343689971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_22
+      rect:
+        serializedVersion: 2
+        x: 1104
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16a446da5bee26943899ec147440ca2c
+      internalID: -1312338952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_23
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4178716d3525c34ba9f4ddcbd54c77d
+      internalID: -1687521501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_24
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56d7462a02103a148b37b2012782aa56
+      internalID: 1555743683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_25
+      rect:
+        serializedVersion: 2
+        x: 1248
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c66ab2bcdb93fd4d928cfb9232ff13a
+      internalID: -1123754244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_26
+      rect:
+        serializedVersion: 2
+        x: 1296
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc2b8a053153f5240be9382e6780b953
+      internalID: -15650196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 03(48x48)_27
+      rect:
+        serializedVersion: 2
+        x: 1344
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70e07958612f2c548b7aef390ba6c6bd
+      internalID: -1512098003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 1ec4096f4eb840547a654775e619dff8
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Wood VFX 03(48x48)_0: -1121619471
+      Wood VFX 03(48x48)_1: 1476775053
+      Wood VFX 03(48x48)_10: -942470716
+      Wood VFX 03(48x48)_11: 2011318788
+      Wood VFX 03(48x48)_12: -492229930
+      Wood VFX 03(48x48)_13: 1144859082
+      Wood VFX 03(48x48)_14: 938511385
+      Wood VFX 03(48x48)_15: 1216509906
+      Wood VFX 03(48x48)_16: -245870972
+      Wood VFX 03(48x48)_17: -1582718940
+      Wood VFX 03(48x48)_18: -159950487
+      Wood VFX 03(48x48)_19: -2089786385
+      Wood VFX 03(48x48)_2: -1634279136
+      Wood VFX 03(48x48)_20: -1793359139
+      Wood VFX 03(48x48)_21: 1343689971
+      Wood VFX 03(48x48)_22: -1312338952
+      Wood VFX 03(48x48)_23: -1687521501
+      Wood VFX 03(48x48)_24: 1555743683
+      Wood VFX 03(48x48)_25: -1123754244
+      Wood VFX 03(48x48)_26: -15650196
+      Wood VFX 03(48x48)_27: -1512098003
+      Wood VFX 03(48x48)_3: 1311847287
+      Wood VFX 03(48x48)_4: -1313749240
+      Wood VFX 03(48x48)_5: -1330704578
+      Wood VFX 03(48x48)_6: 38643974
+      Wood VFX 03(48x48)_7: -496221860
+      Wood VFX 03(48x48)_8: -1214378679
+      Wood VFX 03(48x48)_9: 877540695
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

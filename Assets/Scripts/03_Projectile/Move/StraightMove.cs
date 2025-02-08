@@ -8,7 +8,7 @@ namespace BuffDebuff
 	{
 		public override Vector2 CalculateVelocity(Projectile projectile)
 		{
-			Vector2 dir = projectile.transform.rotation * Vector2.up;
+			Vector2 dir = projectile.transform.rotation * Vector2.right;
 
 			return dir.normalized * projectile.moveSpeed;
 		}

@@ -1,0 +1,318 @@
+fileFormatVersion: 2
+guid: 4269459b39e9b0f41bbcdfc79263c543
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5909038862871051984
+    second: Dark VFX 5 Hit (48x48)_0
+  - first:
+      213: -1616772829439190004
+    second: Dark VFX 5 Hit (48x48)_1
+  - first:
+      213: 1437676998328042091
+    second: Dark VFX 5 Hit (48x48)_2
+  - first:
+      213: -1379253217773463645
+    second: Dark VFX 5 Hit (48x48)_3
+  - first:
+      213: 2934686412892442150
+    second: Dark VFX 5 Hit (48x48)_4
+  - first:
+      213: 2187106698711747483
+    second: Dark VFX 5 Hit (48x48)_5
+  - first:
+      213: 7415713568943868919
+    second: Dark VFX 5 Hit (48x48)_6
+  - first:
+      213: -1565908047393613947
+    second: Dark VFX 5 Hit (48x48)_7
+  - first:
+      213: -3005592461924701799
+    second: Dark VFX 5 Hit (48x48)_8
+  - first:
+      213: 6418927143558469706
+    second: Dark VFX 5 Hit (48x48)_9
+  - first:
+      213: -3972180188113940291
+    second: Dark VFX 5 Hit (48x48)_10
+  - first:
+      213: 5706905743318940079
+    second: Dark VFX 5 Hit (48x48)_11
+  - first:
+      213: 9173950417861626965
+    second: Dark VFX 5 Hit (48x48)_12
+  - first:
+      213: -5090221940474586533
+    second: Dark VFX 5 Hit (48x48)_13
+  - first:
+      213: -7406176572978109688
+    second: Dark VFX 5 Hit (48x48)_14
+  - first:
+      213: -5605805104886640415
+    second: Dark VFX 5 Hit (48x48)_15
+  - first:
+      213: -5849822528215687867
+    second: Dark VFX 5 Hit (48x48)_16
+  - first:
+      213: -1293683206811613565
+    second: Dark VFX 5 Hit (48x48)_17
+  - first:
+      213: 917867899397260237
+    second: Dark VFX 5 Hit (48x48)_18
+  - first:
+      213: 2083349974306934456
+    second: Dark VFX 5 Hit (48x48)_19
+  - first:
+      213: -1782854721222356803
+    second: Dark VFX 5 Hit (48x48)_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 48
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 512
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Dark VFX 5 Hit (48x48)_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6cc61a4d7d3d36248ad30049f6c99185
+      internalID: -1309315418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dark VFX 5 Hit (48x48)_1
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa68d1b4efda41d45a5547d54a376dbc
+      internalID: -897214639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dark VFX 5 Hit (48x48)_2
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40e3e40cac6cc1243b19388d4eb23a61
+      internalID: 1785601589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dark VFX 5 Hit (48x48)_3
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8282fde83f20ab42a246e7801d44048
+      internalID: -1056252160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dark VFX 5 Hit (48x48)_4
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 676b2e9545b471f4caafc1c9ef0cc520
+      internalID: -1336339128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dark VFX 5 Hit (48x48)_5
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd8d47c5120c97d4aa2bd98080b0ceea
+      internalID: 2007499368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 9d8158cb4fd844342b0acf285c35a83e
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Dark VFX 5 Hit (48x48)_0: -1309315418
+      Dark VFX 5 Hit (48x48)_1: -897214639
+      Dark VFX 5 Hit (48x48)_2: 1785601589
+      Dark VFX 5 Hit (48x48)_3: -1056252160
+      Dark VFX 5 Hit (48x48)_4: -1336339128
+      Dark VFX 5 Hit (48x48)_5: 2007499368
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

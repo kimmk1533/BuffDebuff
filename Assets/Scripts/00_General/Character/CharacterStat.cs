@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace BuffDebuff
@@ -7,12 +8,12 @@ namespace BuffDebuff
 	[System.Serializable]
 	public class CharacterStat
 	{
-		[field: Header("체력")]
+		[field: Title("체력")]
 		// 체력
-		[field: SerializeField]
+		[field: SerializeField, InlineProperty(LabelWidth = 120), LabelWidth(20)]
 		public StatValue<float> Hp { get; set; }
 
-		[field: Header("치유")]
+		[field: Title("치유")]
 		// 체력 회복량
 		[field: SerializeField]
 		public float HpRegen { get; set; }
@@ -26,12 +27,12 @@ namespace BuffDebuff
 		[field: SerializeField]
 		public float AntiHealScale { get; set; }
 
-		[field: Header("방어")]
+		[field: Title("방어")]
 		// 방어력
 		[field: SerializeField]
 		public float Armor { get; set; }
 
-		[field: Header("공격")]
+		[field: Title("공격")]
 		// 공격력
 		[field: SerializeField]
 		public float AttackPower { get; set; }
@@ -51,7 +52,7 @@ namespace BuffDebuff
 		[field: SerializeField, Tooltip("공격 한 번의 타수")]
 		public int MultiHitCount { get; set; }
 
-		[field: Header("치명타")]
+		[field: Title("치명타")]
 		// 치명타 확률
 		[field: SerializeField]
 		public float CriticalRate { get; set; }
@@ -59,26 +60,26 @@ namespace BuffDebuff
 		[field: SerializeField]
 		public float CriticalDamageScale { get; set; }
 
-		[field: Header("회피")]
+		[field: Title("회피")]
 		// 회피율
 		[field: SerializeField]
 		public float Avoidability { get; set; }
 
-		[field: Header("이동")]
+		[field: Title("이동")]
 		// 이동 속도
 		[field: SerializeField]
 		public float MoveSpeed { get; set; }
 
-		[field: Header("시야")]
+		[field: Title("시야")]
 		// 시야 거리
 		[field: SerializeField]
 		public float Sight { get; set; }
 
 		// 플레이어:	얻은 경험치
 		//		적:	얻을 경험치
-		[field: Header("경험치")]
+		[field: Title("경험치")]
 		// 경험치
-		[field: SerializeField]
+		[field: SerializeField, InlineProperty(LabelWidth = 120), LabelWidth(20)]
 		public StatValue<float> Xp { get; set; }
 		// 경험치 배율
 		[field: SerializeField]

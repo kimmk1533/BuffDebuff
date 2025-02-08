@@ -73,9 +73,9 @@ namespace BuffDebuff
 		{
 			m_DespawnTimer.Update();
 
-			if (m_DespawnTimer.TimeCheck(true))
+			if (m_DespawnTimer.TimeCheck() == true)
 			{
-				M_Projectile.Despawn(this);
+				m_Animator.Anim_Death();
 				return;
 			}
 
@@ -89,13 +89,14 @@ namespace BuffDebuff
 
 			m_Velocity = m_Mover.CalculateVelocity(this);
 
-			if (m_Velocity.sqrMagnitude * Time.deltaTime < 0.01f)
-				return;
-
 			// Rotate
 			Vector2 direction = m_Velocity.normalized;
 			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-			transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+			if (Mathf.Abs(angle) > 90f)
+			{
+				m_Animator.FlipY(true);
+			}
+			transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
 			// Move
 			m_Controller.Move(m_Velocity * Time.deltaTime);
@@ -107,7 +108,7 @@ namespace BuffDebuff
 		}
 		public void SetLifeTime(float lifeTime)
 		{
-			m_DespawnTimer.interval = lifeTime;
+			m_DespawnTimer.interval = lifeTime - m_Animator.deathAnimationDelay;
 		}
 		public void SetMovingStrategy(ProjectileMove projectileMove)
 		{

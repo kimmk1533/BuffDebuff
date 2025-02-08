@@ -1,0 +1,642 @@
+fileFormatVersion: 2
+guid: eaed80bb40a34164993ec2042be21079
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7584810642418149091
+    second: Wood VFX 12 Repeatable(32x32)_0
+  - first:
+      213: 5452883293669882528
+    second: Wood VFX 12 Repeatable(32x32)_1
+  - first:
+      213: 5270752710235160261
+    second: Wood VFX 12 Repeatable(32x32)_2
+  - first:
+      213: 7810405550953907964
+    second: Wood VFX 12 Repeatable(32x32)_3
+  - first:
+      213: 4602800933564719829
+    second: Wood VFX 12 Repeatable(32x32)_4
+  - first:
+      213: -2019612524027057750
+    second: Wood VFX 12 Repeatable(32x32)_5
+  - first:
+      213: 1908985858531029917
+    second: Wood VFX 12 Repeatable(32x32)_6
+  - first:
+      213: -8003595197485165113
+    second: Wood VFX 12 Repeatable(32x32)_7
+  - first:
+      213: -7871621379728581924
+    second: Wood VFX 12 Repeatable(32x32)_8
+  - first:
+      213: -6445565062839943413
+    second: Wood VFX 12 Repeatable(32x32)_9
+  - first:
+      213: -8239533814490173505
+    second: Wood VFX 12 Repeatable(32x32)_10
+  - first:
+      213: 6830842689908126454
+    second: Wood VFX 12 Repeatable(32x32)_11
+  - first:
+      213: -8638591262870852074
+    second: Wood VFX 12 Repeatable(32x32)_12
+  - first:
+      213: -8936723172713125523
+    second: Wood VFX 12 Repeatable(32x32)_13
+  - first:
+      213: -1724952320886995247
+    second: Wood VFX 12 Repeatable(32x32)_14
+  - first:
+      213: 2412121276159266862
+    second: Wood VFX 12 Repeatable(32x32)_15
+  - first:
+      213: -1559971290019936706
+    second: Wood VFX 12 Repeatable(32x32)_16
+  - first:
+      213: -6356996215151251562
+    second: Wood VFX 12 Repeatable(32x32)_17
+  - first:
+      213: -6128847137183268664
+    second: Wood VFX 12 Repeatable(32x32)_18
+  - first:
+      213: -3656920777137815694
+    second: Wood VFX 12 Repeatable(32x32)_19
+  - first:
+      213: 6499865068832520636
+    second: Wood VFX 12 Repeatable(32x32)_20
+  - first:
+      213: -1934346506847294340
+    second: Wood VFX 12 Repeatable(32x32)_21
+  - first:
+      213: -3459273108779375800
+    second: Wood VFX 12 Repeatable(32x32)_22
+  - first:
+      213: -1297462735304733727
+    second: Wood VFX 12 Repeatable(32x32)_23
+  - first:
+      213: -7610777710118886347
+    second: Wood VFX 12 Repeatable(32x32)_24
+  - first:
+      213: 3948907850782205496
+    second: Wood VFX 12 Repeatable(32x32)_25
+  - first:
+      213: 7410661395702379529
+    second: Wood VFX 12 Repeatable(32x32)_26
+  - first:
+      213: 7688769792493952172
+    second: Wood VFX 12 Repeatable(32x32)_27
+  - first:
+      213: 211204980364793999
+    second: Wood VFX 12 Repeatable(32x32)_28
+  - first:
+      213: 8477071260730260237
+    second: Wood VFX 12 Repeatable(32x32)_29
+  - first:
+      213: 578958089942240715
+    second: Wood VFX 12 Repeatable(32x32)_30
+  - first:
+      213: -4946111356175062778
+    second: Wood VFX 12 Repeatable(32x32)_31
+  - first:
+      213: -8945673601491547998
+    second: Wood VFX 12 Repeatable(32x32)_32
+  - first:
+      213: 5327607891367615971
+    second: Wood VFX 12 Repeatable(32x32)_33
+  - first:
+      213: 1012413525044189646
+    second: Wood VFX 12 Repeatable(32x32)_34
+  - first:
+      213: -5464355046246573714
+    second: Wood VFX 12 Repeatable(32x32)_35
+  - first:
+      213: 5415242460616585658
+    second: Wood VFX 12 Repeatable(32x32)_36
+  - first:
+      213: -7164826112962449849
+    second: Wood VFX 12 Repeatable(32x32)_37
+  - first:
+      213: -5333296837899555962
+    second: Wood VFX 12 Repeatable(32x32)_38
+  - first:
+      213: -5504885053205256619
+    second: Wood VFX 12 Repeatable(32x32)_39
+  - first:
+      213: -6295039733550576342
+    second: Wood VFX 12 Repeatable(32x32)_40
+  - first:
+      213: -1442097820945736218
+    second: Wood VFX 12 Repeatable(32x32)_41
+  - first:
+      213: 9007431259763334201
+    second: Wood VFX 12 Repeatable(32x32)_42
+  - first:
+      213: 348579779784371503
+    second: Wood VFX 12 Repeatable(32x32)_43
+  - first:
+      213: 1616949944393469086
+    second: Wood VFX 12 Repeatable(32x32)_44
+  - first:
+      213: 3760201719868126085
+    second: Wood VFX 12 Repeatable(32x32)_45
+  - first:
+      213: -8595437945034392330
+    second: Wood VFX 12 Repeatable(32x32)_46
+  - first:
+      213: -5717540252304292590
+    second: Wood VFX 12 Repeatable(32x32)_47
+  - first:
+      213: 9079167656694530520
+    second: Wood VFX 12 Repeatable(32x32)_48
+  - first:
+      213: -1534259704822985196
+    second: Wood VFX 12 Repeatable(32x32)_49
+  - first:
+      213: 7579333171318141469
+    second: Wood VFX 12 Repeatable(32x32)_50
+  - first:
+      213: 6656341196956515399
+    second: Wood VFX 12 Repeatable(32x32)_51
+  - first:
+      213: 1531193157763810272
+    second: Wood VFX 12 Repeatable(32x32)_52
+  - first:
+      213: -4454461669155248363
+    second: Wood VFX 12 Repeatable(32x32)_53
+  - first:
+      213: 9195435092012493123
+    second: Wood VFX 12 Repeatable(32x32)_54
+  - first:
+      213: 8536761585849699409
+    second: Wood VFX 12 Repeatable(32x32)_55
+  - first:
+      213: 1280396484546649598
+    second: Wood VFX 12 Repeatable(32x32)_56
+  - first:
+      213: 8369153751430419682
+    second: Wood VFX 12 Repeatable(32x32)_57
+  - first:
+      213: 920340303640884479
+    second: Wood VFX 12 Repeatable(32x32)_58
+  - first:
+      213: -5308336716806642348
+    second: Wood VFX 12 Repeatable(32x32)_59
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 512
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Wood VFX 12 Repeatable(32x32)_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7248b2dfc4f116041bd395df2b403391
+      internalID: 1704919040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 12 Repeatable(32x32)_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfcb2cd429e596f44a2f0aa476520f4e
+      internalID: 391671278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 12 Repeatable(32x32)_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c530d322262f4124890a00e082ec0b4e
+      internalID: -172397250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 12 Repeatable(32x32)_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f7e456749fdc844aa42263b904514b3
+      internalID: -762399226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 12 Repeatable(32x32)_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4dc446534c54b7d41a7b77e20ede747f
+      internalID: -2120751539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 12 Repeatable(32x32)_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9e4f66dedbbf194fa7a8f7967f29a2e
+      internalID: -2059822216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 12 Repeatable(32x32)_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e3124598fb82c445ae6a7f0a76c7e5a
+      internalID: 451740229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 12 Repeatable(32x32)_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3cb8e962708e8e24fb3d299593a96256
+      internalID: -561230998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 12 Repeatable(32x32)_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cee9be65589ac09448e91aec24503fea
+      internalID: -1363284113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 12 Repeatable(32x32)_9
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8ee2a4bb5e6411479f7e554a0b39b86
+      internalID: -1703535383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 12 Repeatable(32x32)_10
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e79642633b4a3ec4ab335af9c9b51dc3
+      internalID: -1436002573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 12 Repeatable(32x32)_11
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 995b3af0a0d0b3a4b9251ea678769184
+      internalID: 1814629311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 12 Repeatable(32x32)_12
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7667fb03ef4f12644a47a91fbbaf2e44
+      internalID: 1559976282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 12 Repeatable(32x32)_13
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4d19654b20815b439fefad453d5aeea
+      internalID: -1324408005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 12 Repeatable(32x32)_14
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 851ddb7161ad2c64599ada75ebeb1286
+      internalID: -2057300455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 68b659e7202bb1640907678096795b59
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Wood VFX 12 Repeatable(32x32)_0: 1704919040
+      Wood VFX 12 Repeatable(32x32)_1: 391671278
+      Wood VFX 12 Repeatable(32x32)_10: -1436002573
+      Wood VFX 12 Repeatable(32x32)_11: 1814629311
+      Wood VFX 12 Repeatable(32x32)_12: 1559976282
+      Wood VFX 12 Repeatable(32x32)_13: -1324408005
+      Wood VFX 12 Repeatable(32x32)_14: -2057300455
+      Wood VFX 12 Repeatable(32x32)_2: -172397250
+      Wood VFX 12 Repeatable(32x32)_3: -762399226
+      Wood VFX 12 Repeatable(32x32)_4: -2120751539
+      Wood VFX 12 Repeatable(32x32)_5: -2059822216
+      Wood VFX 12 Repeatable(32x32)_6: 451740229
+      Wood VFX 12 Repeatable(32x32)_7: -561230998
+      Wood VFX 12 Repeatable(32x32)_8: -1363284113
+      Wood VFX 12 Repeatable(32x32)_9: -1703535383
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

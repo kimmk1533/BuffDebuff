@@ -1,0 +1,1328 @@
+fileFormatVersion: 2
+guid: c2c3405249fd7ca42a0bcbc72ed2dd2c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3956750985970288911
+    second: Ice VFX 4 Start(64x64)_0
+  - first:
+      213: 7545986027829096008
+    second: Ice VFX 4 Start(64x64)_1
+  - first:
+      213: 3221488022870000818
+    second: Ice VFX 4 Start(64x64)_2
+  - first:
+      213: -5726338520276646033
+    second: Ice VFX 4 Start(64x64)_3
+  - first:
+      213: -8801067111479736963
+    second: Ice VFX 4 Start(64x64)_4
+  - first:
+      213: -5262064735126703726
+    second: Ice VFX 4 Start(64x64)_5
+  - first:
+      213: -3008216374265279173
+    second: Ice VFX 4 Start(64x64)_6
+  - first:
+      213: -2098032905681565777
+    second: Ice VFX 4 Start(64x64)_7
+  - first:
+      213: 3093706274217598608
+    second: Ice VFX 4 Start(64x64)_8
+  - first:
+      213: 8100508596353907067
+    second: Ice VFX 4 Start(64x64)_9
+  - first:
+      213: 5398688675552669064
+    second: Ice VFX 4 Start(64x64)_10
+  - first:
+      213: -5044233595612031499
+    second: Ice VFX 4 Start(64x64)_11
+  - first:
+      213: 5988542945490858420
+    second: Ice VFX 4 Start(64x64)_12
+  - first:
+      213: 825960491865875233
+    second: Ice VFX 4 Start(64x64)_13
+  - first:
+      213: -3408787080066511661
+    second: Ice VFX 4 Start(64x64)_14
+  - first:
+      213: 8256046627697202123
+    second: Ice VFX 4 Start(64x64)_15
+  - first:
+      213: -3373201253815669903
+    second: Ice VFX 4 Start(64x64)_16
+  - first:
+      213: -8458938699137159850
+    second: Ice VFX 4 Start(64x64)_17
+  - first:
+      213: 5129134559301345342
+    second: Ice VFX 4 Start(64x64)_18
+  - first:
+      213: 6680154900817610129
+    second: Ice VFX 4 Start(64x64)_19
+  - first:
+      213: 1081536251066762238
+    second: Ice VFX 4 Start(64x64)_20
+  - first:
+      213: -1067118602802939231
+    second: Ice VFX 4 Start(64x64)_21
+  - first:
+      213: -3358245063035403612
+    second: Ice VFX 4 Start(64x64)_22
+  - first:
+      213: 8079116323708395221
+    second: Ice VFX 4 Start(64x64)_23
+  - first:
+      213: -5655342288676790648
+    second: Ice VFX 4 Start(64x64)_24
+  - first:
+      213: -8858489597852461785
+    second: Ice VFX 4 Start(64x64)_25
+  - first:
+      213: -734453328180869901
+    second: Ice VFX 4 Start(64x64)_26
+  - first:
+      213: -787668055020431472
+    second: Ice VFX 4 Start(64x64)_27
+  - first:
+      213: 9144517092721538709
+    second: Ice VFX 4 Start(64x64)_28
+  - first:
+      213: 8044602419012860000
+    second: Ice VFX 4 Start(64x64)_29
+  - first:
+      213: -4315982562040175889
+    second: Ice VFX 4 Start(64x64)_30
+  - first:
+      213: 508987430807806804
+    second: Ice VFX 4 Start(64x64)_31
+  - first:
+      213: -9187190337565376877
+    second: Ice VFX 4 Start(64x64)_32
+  - first:
+      213: -9116956196383240803
+    second: Ice VFX 4 Start(64x64)_33
+  - first:
+      213: 2097920337688694879
+    second: Ice VFX 4 Start(64x64)_34
+  - first:
+      213: -8567097204261980001
+    second: Ice VFX 4 Start(64x64)_35
+  - first:
+      213: -2180453833246430456
+    second: Ice VFX 4 Start(64x64)_36
+  - first:
+      213: -7567613687175479680
+    second: Ice VFX 4 Start(64x64)_37
+  - first:
+      213: -5531633442806188328
+    second: Ice VFX 4 Start(64x64)_38
+  - first:
+      213: 6272875165427319335
+    second: Ice VFX 4 Start(64x64)_39
+  - first:
+      213: -9169914919993317539
+    second: Ice VFX 4 Start(64x64)_40
+  - first:
+      213: -6824439440859156504
+    second: Ice VFX 4 Start(64x64)_41
+  - first:
+      213: 791980741237921590
+    second: Ice VFX 4 Start(64x64)_42
+  - first:
+      213: -2190471018567959242
+    second: Ice VFX 4 Start(64x64)_43
+  - first:
+      213: -5668029942028211709
+    second: Ice VFX 4 Start(64x64)_44
+  - first:
+      213: -1739992346222138630
+    second: Ice VFX 4 Start(64x64)_45
+  - first:
+      213: -8940513964109391449
+    second: Ice VFX 4 Start(64x64)_46
+  - first:
+      213: 7420695815945555998
+    second: Ice VFX 4 Start(64x64)_47
+  - first:
+      213: 766676529716547958
+    second: Ice VFX 4 Start(64x64)_48
+  - first:
+      213: -3135585074204535772
+    second: Ice VFX 4 Start(64x64)_49
+  - first:
+      213: -5778895088857246230
+    second: Ice VFX 4 Start(64x64)_50
+  - first:
+      213: -2690856802856597249
+    second: Ice VFX 4 Start(64x64)_51
+  - first:
+      213: 5049539225757700736
+    second: Ice VFX 4 Start(64x64)_52
+  - first:
+      213: -8748456723003112434
+    second: Ice VFX 4 Start(64x64)_53
+  - first:
+      213: 2704386718463904983
+    second: Ice VFX 4 Start(64x64)_54
+  - first:
+      213: -2137704851642784722
+    second: Ice VFX 4 Start(64x64)_55
+  - first:
+      213: 282316814243311127
+    second: Ice VFX 4 Start(64x64)_56
+  - first:
+      213: 991666452549383105
+    second: Ice VFX 4 Start(64x64)_57
+  - first:
+      213: 7475547786168719439
+    second: Ice VFX 4 Start(64x64)_58
+  - first:
+      213: -1064200498665911397
+    second: Ice VFX 4 Start(64x64)_59
+  - first:
+      213: -2256044347666908508
+    second: Ice VFX 4 Start(64x64)_60
+  - first:
+      213: 8341712159680228980
+    second: Ice VFX 4 Start(64x64)_61
+  - first:
+      213: 2999985504323191893
+    second: Ice VFX 4 Start(64x64)_62
+  - first:
+      213: -5648536532180415494
+    second: Ice VFX 4 Start(64x64)_63
+  - first:
+      213: -8000432795972111958
+    second: Ice VFX 4 Start(64x64)_64
+  - first:
+      213: 301702316702613006
+    second: Ice VFX 4 Start(64x64)_65
+  - first:
+      213: 1359029400982231006
+    second: Ice VFX 4 Start(64x64)_66
+  - first:
+      213: -1813020029672748836
+    second: Ice VFX 4 Start(64x64)_67
+  - first:
+      213: 8270563013922272666
+    second: Ice VFX 4 Start(64x64)_68
+  - first:
+      213: 3950206932604154682
+    second: Ice VFX 4 Start(64x64)_69
+  - first:
+      213: 5491409361510996125
+    second: Ice VFX 4 Start(64x64)_70
+  - first:
+      213: 1102655695606304271
+    second: Ice VFX 4 Start(64x64)_71
+  - first:
+      213: 2667993314663639352
+    second: Ice VFX 4 Start(64x64)_72
+  - first:
+      213: 4607883182545738570
+    second: Ice VFX 4 Start(64x64)_73
+  - first:
+      213: 2649598566150501067
+    second: Ice VFX 4 Start(64x64)_74
+  - first:
+      213: 2097382718034148029
+    second: Ice VFX 4 Start(64x64)_75
+  - first:
+      213: 4570323354199106758
+    second: Ice VFX 4 Start(64x64)_76
+  - first:
+      213: 2874587077665664418
+    second: Ice VFX 4 Start(64x64)_77
+  - first:
+      213: 1872436763895508006
+    second: Ice VFX 4 Start(64x64)_78
+  - first:
+      213: -4609844668944400793
+    second: Ice VFX 4 Start(64x64)_79
+  - first:
+      213: 1265471551950278925
+    second: Ice VFX 4 Start(64x64)_80
+  - first:
+      213: 4583908323756986308
+    second: Ice VFX 4 Start(64x64)_81
+  - first:
+      213: -7460318801517352248
+    second: Ice VFX 4 Start(64x64)_82
+  - first:
+      213: -2804353452548759195
+    second: Ice VFX 4 Start(64x64)_83
+  - first:
+      213: -5394752754811616985
+    second: Ice VFX 4 Start(64x64)_84
+  - first:
+      213: -7213486839436116566
+    second: Ice VFX 4 Start(64x64)_85
+  - first:
+      213: -2744734274917830452
+    second: Ice VFX 4 Start(64x64)_86
+  - first:
+      213: -2882484106633769665
+    second: Ice VFX 4 Start(64x64)_87
+  - first:
+      213: 4172498462651133277
+    second: Ice VFX 4 Start(64x64)_88
+  - first:
+      213: 2314198898278660716
+    second: Ice VFX 4 Start(64x64)_89
+  - first:
+      213: 5177707431055969183
+    second: Ice VFX 4 Start(64x64)_90
+  - first:
+      213: 9071236231909460662
+    second: Ice VFX 4 Start(64x64)_91
+  - first:
+      213: -9163052505712171397
+    second: Ice VFX 4 Start(64x64)_92
+  - first:
+      213: 2458157915287086851
+    second: Ice VFX 4 Start(64x64)_93
+  - first:
+      213: 1672228869859949166
+    second: Ice VFX 4 Start(64x64)_94
+  - first:
+      213: -4753705025832178548
+    second: Ice VFX 4 Start(64x64)_95
+  - first:
+      213: -6808600955262004470
+    second: Ice VFX 4 Start(64x64)_96
+  - first:
+      213: -1690290407722026097
+    second: Ice VFX 4 Start(64x64)_97
+  - first:
+      213: -3065838293745431801
+    second: Ice VFX 4 Start(64x64)_98
+  - first:
+      213: 3545976459770772527
+    second: Ice VFX 4 Start(64x64)_99
+  - first:
+      213: 2430223914233850273
+    second: Ice VFX 4 Start(64x64)_100
+  - first:
+      213: 883321596645589967
+    second: Ice VFX 4 Start(64x64)_101
+  - first:
+      213: 690048891274355558
+    second: Ice VFX 4 Start(64x64)_102
+  - first:
+      213: 8931314411085166717
+    second: Ice VFX 4 Start(64x64)_103
+  - first:
+      213: -8199909115225358928
+    second: Ice VFX 4 Start(64x64)_104
+  - first:
+      213: -8932372604674180260
+    second: Ice VFX 4 Start(64x64)_105
+  - first:
+      213: -1952015181354806999
+    second: Ice VFX 4 Start(64x64)_106
+  - first:
+      213: 6800518948397593810
+    second: Ice VFX 4 Start(64x64)_107
+  - first:
+      213: 5063493373896104519
+    second: Ice VFX 4 Start(64x64)_108
+  - first:
+      213: -1663522869074406978
+    second: Ice VFX 4 Start(64x64)_109
+  - first:
+      213: -3729330372233104303
+    second: Ice VFX 4 Start(64x64)_110
+  - first:
+      213: 2560799239056844301
+    second: Ice VFX 4 Start(64x64)_111
+  - first:
+      213: 1081345223609341275
+    second: Ice VFX 4 Start(64x64)_112
+  - first:
+      213: 5713571587955337017
+    second: Ice VFX 4 Start(64x64)_113
+  - first:
+      213: 23358453047661752
+    second: Ice VFX 4 Start(64x64)_114
+  - first:
+      213: -7111074900991241966
+    second: Ice VFX 4 Start(64x64)_115
+  - first:
+      213: -6879832982482265720
+    second: Ice VFX 4 Start(64x64)_116
+  - first:
+      213: 6731469586051959134
+    second: Ice VFX 4 Start(64x64)_117
+  - first:
+      213: -1491432105374610380
+    second: Ice VFX 4 Start(64x64)_118
+  - first:
+      213: 5712512848373197085
+    second: Ice VFX 4 Start(64x64)_119
+  - first:
+      213: 2728540447324244011
+    second: Ice VFX 4 Start(64x64)_120
+  - first:
+      213: 7675954048247466185
+    second: Ice VFX 4 Start(64x64)_121
+  - first:
+      213: 8505710543964789463
+    second: Ice VFX 4 Start(64x64)_122
+  - first:
+      213: 6818428687341456852
+    second: Ice VFX 4 Start(64x64)_123
+  - first:
+      213: -2834087601298379132
+    second: Ice VFX 4 Start(64x64)_124
+  - first:
+      213: -8603672981099279258
+    second: Ice VFX 4 Start(64x64)_125
+  - first:
+      213: 6735833226484590988
+    second: Ice VFX 4 Start(64x64)_126
+  - first:
+      213: -8276176144180332707
+    second: Ice VFX 4 Start(64x64)_127
+  - first:
+      213: -959799975960665565
+    second: Ice VFX 4 Start(64x64)_128
+  - first:
+      213: -2627291656479262350
+    second: Ice VFX 4 Start(64x64)_129
+  - first:
+      213: -4963292609580886105
+    second: Ice VFX 4 Start(64x64)_130
+  - first:
+      213: -1385782378832994437
+    second: Ice VFX 4 Start(64x64)_131
+  - first:
+      213: 1547157823487556718
+    second: Ice VFX 4 Start(64x64)_132
+  - first:
+      213: 3683139185699174844
+    second: Ice VFX 4 Start(64x64)_133
+  - first:
+      213: -1746275110057952243
+    second: Ice VFX 4 Start(64x64)_134
+  - first:
+      213: 3722181167606106742
+    second: Ice VFX 4 Start(64x64)_135
+  - first:
+      213: 2982382638632923433
+    second: Ice VFX 4 Start(64x64)_136
+  - first:
+      213: 3472000573681184680
+    second: Ice VFX 4 Start(64x64)_137
+  - first:
+      213: 8865419972714616728
+    second: Ice VFX 4 Start(64x64)_138
+  - first:
+      213: 3772342099044191843
+    second: Ice VFX 4 Start(64x64)_139
+  - first:
+      213: -5898173677379651898
+    second: Ice VFX 4 Start(64x64)_140
+  - first:
+      213: 4682489186875566799
+    second: Ice VFX 4 Start(64x64)_141
+  - first:
+      213: 2647030792363723467
+    second: Ice VFX 4 Start(64x64)_142
+  - first:
+      213: -1381944549787099906
+    second: Ice VFX 4 Start(64x64)_143
+  - first:
+      213: 5252106799586613749
+    second: Ice VFX 4 Start(64x64)_144
+  - first:
+      213: -4843466313422893316
+    second: Ice VFX 4 Start(64x64)_145
+  - first:
+      213: 5704165588383684913
+    second: Ice VFX 4 Start(64x64)_146
+  - first:
+      213: 2507110735565305283
+    second: Ice VFX 4 Start(64x64)_147
+  - first:
+      213: -2928310699716762199
+    second: Ice VFX 4 Start(64x64)_148
+  - first:
+      213: 2666386732998135531
+    second: Ice VFX 4 Start(64x64)_149
+  - first:
+      213: -8619044492375048024
+    second: Ice VFX 4 Start(64x64)_150
+  - first:
+      213: -4547804920467703481
+    second: Ice VFX 4 Start(64x64)_151
+  - first:
+      213: 4501319857888222575
+    second: Ice VFX 4 Start(64x64)_152
+  - first:
+      213: 2931632556979665476
+    second: Ice VFX 4 Start(64x64)_153
+  - first:
+      213: 4687838912629090776
+    second: Ice VFX 4 Start(64x64)_154
+  - first:
+      213: 6880244898749473137
+    second: Ice VFX 4 Start(64x64)_155
+  - first:
+      213: -3119201781058535721
+    second: Ice VFX 4 Start(64x64)_156
+  - first:
+      213: 8543283146197771671
+    second: Ice VFX 4 Start(64x64)_157
+  - first:
+      213: 7793036872343103473
+    second: Ice VFX 4 Start(64x64)_158
+  - first:
+      213: -5865976162443874987
+    second: Ice VFX 4 Start(64x64)_159
+  - first:
+      213: -3066551504926165274
+    second: Ice VFX 4 Start(64x64)_160
+  - first:
+      213: -2580975652591059831
+    second: Ice VFX 4 Start(64x64)_161
+  - first:
+      213: 7581228847449592595
+    second: Ice VFX 4 Start(64x64)_162
+  - first:
+      213: 3114786841491764743
+    second: Ice VFX 4 Start(64x64)_163
+  - first:
+      213: 1916552353166374386
+    second: Ice VFX 4 Start(64x64)_164
+  - first:
+      213: -2593012417635743541
+    second: Ice VFX 4 Start(64x64)_165
+  - first:
+      213: -7242435975318072974
+    second: Ice VFX 4 Start(64x64)_166
+  - first:
+      213: -7671373915486915594
+    second: Ice VFX 4 Start(64x64)_167
+  - first:
+      213: -439715452111931941
+    second: Ice VFX 4 Start(64x64)_168
+  - first:
+      213: 5367076745602060527
+    second: Ice VFX 4 Start(64x64)_169
+  - first:
+      213: -5719790173497213995
+    second: Ice VFX 4 Start(64x64)_170
+  - first:
+      213: 5148789708800656603
+    second: Ice VFX 4 Start(64x64)_171
+  - first:
+      213: -7877459631761309100
+    second: Ice VFX 4 Start(64x64)_172
+  - first:
+      213: -1410087325630556755
+    second: Ice VFX 4 Start(64x64)_173
+  - first:
+      213: 1958150022935804855
+    second: Ice VFX 4 Start(64x64)_174
+  - first:
+      213: -3823593745820371703
+    second: Ice VFX 4 Start(64x64)_175
+  - first:
+      213: -3510895375949741934
+    second: Ice VFX 4 Start(64x64)_176
+  - first:
+      213: -7575965894783766004
+    second: Ice VFX 4 Start(64x64)_177
+  - first:
+      213: 7930543755847958775
+    second: Ice VFX 4 Start(64x64)_178
+  - first:
+      213: -6307420369989493403
+    second: Ice VFX 4 Start(64x64)_179
+  - first:
+      213: 7128767759053950696
+    second: Ice VFX 4 Start(64x64)_180
+  - first:
+      213: 3387886118201844110
+    second: Ice VFX 4 Start(64x64)_181
+  - first:
+      213: -4075035577369750981
+    second: Ice VFX 4 Start(64x64)_182
+  - first:
+      213: 3448401748709094680
+    second: Ice VFX 4 Start(64x64)_183
+  - first:
+      213: -9086779381063505225
+    second: Ice VFX 4 Start(64x64)_184
+  - first:
+      213: 4724538244114084113
+    second: Ice VFX 4 Start(64x64)_185
+  - first:
+      213: 2442177541384606203
+    second: Ice VFX 4 Start(64x64)_186
+  - first:
+      213: 2760646725889182825
+    second: Ice VFX 4 Start(64x64)_187
+  - first:
+      213: 7858247565808970407
+    second: Ice VFX 4 Start(64x64)_188
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fea2ac87e5e925e49b82f5db13eb5559
+      internalID: -1921799343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d9e815ec947a6a4cbd1f5033f6591ca
+      internalID: -271011351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 095dec3e05b235e40b2241e1d2e91590
+      internalID: -1900677155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86fa71b9fcf2bae46ae31aec5c560a7f
+      internalID: -2037232740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_4
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe234e9b2f4293348afd2c7329d5fbb0
+      internalID: -184768093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_5
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bf32bb87d432de41bb4a95637ee6e21
+      internalID: -134818789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_6
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9f630468117bd644be66ad3c8cc8fe9
+      internalID: 1441682675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_7
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 375327de930c24746bbd9ac77766895b
+      internalID: 394933719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_8
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e98c7ed4bc8dc54f9c4fa6bf4f5cd25
+      internalID: -805704035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_9
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 735f263c2c4bffd4985ed471cf3af0b7
+      internalID: -173447632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_10
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee13f75ec288dfa4497f9ed64c36814a
+      internalID: 176664042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_11
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac20d816cf393c84ebbd5ae48803a29e
+      internalID: 1440059056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_12
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41fdbe5b8fe13b94f9e7ed225365d45a
+      internalID: 1341790850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_13
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3271e1ac185aeb14baef7c1ab6794673
+      internalID: -246312054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_14
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c99440219b1d92e48aafb4532728bece
+      internalID: 306322903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_15
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad0e2f3f9ca25df43b6f41b010a61365
+      internalID: -2086013123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_16
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8da19b790f44f4446990ce40f6de061f
+      internalID: -1803455607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_17
+      rect:
+        serializedVersion: 2
+        x: 1088
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba6b2382ac0aa2846910cef8bc463389
+      internalID: -1909011968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_18
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c108536cc4bab44e83d2661acfb353b
+      internalID: -192260466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_19
+      rect:
+        serializedVersion: 2
+        x: 1216
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c89267fb6477fb4a8745a05df46a1fa
+      internalID: 1521824233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_20
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65220277fb730704ab1bf669ab2b860a
+      internalID: -1582676655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_21
+      rect:
+        serializedVersion: 2
+        x: 1344
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c840068406c3e42439560209770681e6
+      internalID: 1543844260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_22
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a4ee650f232ba84d9916f5e4b7ae8c4
+      internalID: 512134619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_23
+      rect:
+        serializedVersion: 2
+        x: 1472
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ec4215e36eea7f499e8aaa864eec4c4
+      internalID: -149791451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_24
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b50bdfe1a900f6b479f0d57e170ffe3a
+      internalID: 463741871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_25
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16a62f7fc7b86494ea9c9757901dcffa
+      internalID: -1174863394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_26
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e1c5ec59fd90d54688c34923beab9aa
+      internalID: -264487085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 4 Start(64x64)_27
+      rect:
+        serializedVersion: 2
+        x: 1728
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7961a838450f5f24e9a24a3a237e6d86
+      internalID: -1245822917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 876642f4ec0fb8c43b320cbaeac4d1f2
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Ice VFX 4 Start(64x64)_0: -1921799343
+      Ice VFX 4 Start(64x64)_1: -271011351
+      Ice VFX 4 Start(64x64)_10: 176664042
+      Ice VFX 4 Start(64x64)_11: 1440059056
+      Ice VFX 4 Start(64x64)_12: 1341790850
+      Ice VFX 4 Start(64x64)_13: -246312054
+      Ice VFX 4 Start(64x64)_14: 306322903
+      Ice VFX 4 Start(64x64)_15: -2086013123
+      Ice VFX 4 Start(64x64)_16: -1803455607
+      Ice VFX 4 Start(64x64)_17: -1909011968
+      Ice VFX 4 Start(64x64)_18: -192260466
+      Ice VFX 4 Start(64x64)_19: 1521824233
+      Ice VFX 4 Start(64x64)_2: -1900677155
+      Ice VFX 4 Start(64x64)_20: -1582676655
+      Ice VFX 4 Start(64x64)_21: 1543844260
+      Ice VFX 4 Start(64x64)_22: 512134619
+      Ice VFX 4 Start(64x64)_23: -149791451
+      Ice VFX 4 Start(64x64)_24: 463741871
+      Ice VFX 4 Start(64x64)_25: -1174863394
+      Ice VFX 4 Start(64x64)_26: -264487085
+      Ice VFX 4 Start(64x64)_27: -1245822917
+      Ice VFX 4 Start(64x64)_3: -2037232740
+      Ice VFX 4 Start(64x64)_4: -184768093
+      Ice VFX 4 Start(64x64)_5: -134818789
+      Ice VFX 4 Start(64x64)_6: 1441682675
+      Ice VFX 4 Start(64x64)_7: 394933719
+      Ice VFX 4 Start(64x64)_8: -805704035
+      Ice VFX 4 Start(64x64)_9: -173447632
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

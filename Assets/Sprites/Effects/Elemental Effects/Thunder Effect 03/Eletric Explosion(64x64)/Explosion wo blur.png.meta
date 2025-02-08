@@ -1,0 +1,457 @@
+fileFormatVersion: 2
+guid: d46271f8189394043adbf370bc20ddf3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6703011817048763411
+    second: Explosion wo blur_0
+  - first:
+      213: -5382539749450850825
+    second: Explosion wo blur_1
+  - first:
+      213: -2945088522819257264
+    second: Explosion wo blur_2
+  - first:
+      213: -3990024052593797766
+    second: Explosion wo blur_3
+  - first:
+      213: 1084233249561182687
+    second: Explosion wo blur_4
+  - first:
+      213: 4071341766452950848
+    second: Explosion wo blur_5
+  - first:
+      213: 3419080352785575052
+    second: Explosion wo blur_6
+  - first:
+      213: -7480704811379821095
+    second: Explosion wo blur_7
+  - first:
+      213: -5375402709835526907
+    second: Explosion wo blur_8
+  - first:
+      213: -5405780729046249506
+    second: Explosion wo blur_9
+  - first:
+      213: -593295213345438724
+    second: Explosion wo blur_10
+  - first:
+      213: 3831328375585620184
+    second: Explosion wo blur_11
+  - first:
+      213: -5417651678983945166
+    second: Explosion wo blur_12
+  - first:
+      213: 8016329084627405335
+    second: Explosion wo blur_13
+  - first:
+      213: -6331300701250760267
+    second: Explosion wo blur_14
+  - first:
+      213: 1382891437855103617
+    second: Explosion wo blur_15
+  - first:
+      213: 3735745836566550464
+    second: Explosion wo blur_16
+  - first:
+      213: 6202940014945082760
+    second: Explosion wo blur_17
+  - first:
+      213: 49441206082347790
+    second: Explosion wo blur_18
+  - first:
+      213: 3560346532915057230
+    second: Explosion wo blur_19
+  - first:
+      213: 1877329949546107871
+    second: Explosion wo blur_20
+  - first:
+      213: 5842475729885675767
+    second: Explosion wo blur_21
+  - first:
+      213: 7118118400048096819
+    second: Explosion wo blur_22
+  - first:
+      213: 2685987911490913505
+    second: Explosion wo blur_23
+  - first:
+      213: 6110228348798505394
+    second: Explosion wo blur_24
+  - first:
+      213: 1069013775360741247
+    second: Explosion wo blur_25
+  - first:
+      213: -984574702082027562
+    second: Explosion wo blur_26
+  - first:
+      213: -6278679988350617425
+    second: Explosion wo blur_27
+  - first:
+      213: -453620735186074238
+    second: Explosion wo blur_28
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Explosion wo blur_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31cef68cbb1e50d50800000000000000
+      internalID: 6703011817048763411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Explosion wo blur_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fddf84ad906d45b0800000000000000
+      internalID: -5382539749450850825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Explosion wo blur_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05c374d9791f027d0800000000000000
+      internalID: -2945088522819257264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Explosion wo blur_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a75d1e3a34690a8c0800000000000000
+      internalID: -3990024052593797766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Explosion wo blur_4
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd103cd5568fb0f00800000000000000
+      internalID: 1084233249561182687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Explosion wo blur_5
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 047b3a404cf408830800000000000000
+      internalID: 4071341766452950848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Explosion wo blur_6
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8c2d4e3773037f20800000000000000
+      internalID: 3419080352785575052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Explosion wo blur_7
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d57628cb923f2890800000000000000
+      internalID: -7480704811379821095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Explosion wo blur_8
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50dc49b27bbb665b0800000000000000
+      internalID: -5375402709835526907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Explosion wo blur_9
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edfcb87611fcaf4b0800000000000000
+      internalID: -5405780729046249506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Explosion wo blur_10
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf30b99952134c7f0800000000000000
+      internalID: -593295213345438724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 2db8a0d9a6c0f964aa981a8917c20cbd
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Explosion wo blur_0: 6703011817048763411
+      Explosion wo blur_1: -5382539749450850825
+      Explosion wo blur_10: -593295213345438724
+      Explosion wo blur_2: -2945088522819257264
+      Explosion wo blur_3: -3990024052593797766
+      Explosion wo blur_4: 1084233249561182687
+      Explosion wo blur_5: 4071341766452950848
+      Explosion wo blur_6: 3419080352785575052
+      Explosion wo blur_7: -7480704811379821095
+      Explosion wo blur_8: -5375402709835526907
+      Explosion wo blur_9: -5405780729046249506
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

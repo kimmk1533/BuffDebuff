@@ -1,0 +1,714 @@
+fileFormatVersion: 2
+guid: bf028710bf3351344beb0865a98782c4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1645746045085639305
+    second: Ice VFX 10(64x32)_0
+  - first:
+      213: -7557630173960423252
+    second: Ice VFX 10(64x32)_1
+  - first:
+      213: 3569671026196506636
+    second: Ice VFX 10(64x32)_2
+  - first:
+      213: -427555887158273022
+    second: Ice VFX 10(64x32)_3
+  - first:
+      213: -3160070124642697995
+    second: Ice VFX 10(64x32)_4
+  - first:
+      213: -7852285307163711345
+    second: Ice VFX 10(64x32)_5
+  - first:
+      213: 7290840000400219465
+    second: Ice VFX 10(64x32)_6
+  - first:
+      213: 1760516303201530309
+    second: Ice VFX 10(64x32)_7
+  - first:
+      213: 9165651748931816243
+    second: Ice VFX 10(64x32)_8
+  - first:
+      213: -3549759880227123459
+    second: Ice VFX 10(64x32)_9
+  - first:
+      213: 1244388332797494436
+    second: Ice VFX 10(64x32)_10
+  - first:
+      213: 3387604499342077651
+    second: Ice VFX 10(64x32)_11
+  - first:
+      213: -862611208574685512
+    second: Ice VFX 10(64x32)_12
+  - first:
+      213: 257190444887641512
+    second: Ice VFX 10(64x32)_13
+  - first:
+      213: -5650548054075145123
+    second: Ice VFX 10(64x32)_14
+  - first:
+      213: 2610564842143914048
+    second: Ice VFX 10(64x32)_15
+  - first:
+      213: 9609401544141943
+    second: Ice VFX 10(64x32)_16
+  - first:
+      213: 5560266906072225013
+    second: Ice VFX 10(64x32)_17
+  - first:
+      213: 7680433679297039872
+    second: Ice VFX 10(64x32)_18
+  - first:
+      213: 7972853122684507249
+    second: Ice VFX 10(64x32)_19
+  - first:
+      213: 5417937744505950045
+    second: Ice VFX 10(64x32)_20
+  - first:
+      213: -8261911468851139795
+    second: Ice VFX 10(64x32)_21
+  - first:
+      213: 4017935206625234008
+    second: Ice VFX 10(64x32)_22
+  - first:
+      213: -9117750922267303509
+    second: Ice VFX 10(64x32)_23
+  - first:
+      213: -3126408464981401223
+    second: Ice VFX 10(64x32)_24
+  - first:
+      213: -3280809983097378314
+    second: Ice VFX 10(64x32)_25
+  - first:
+      213: -3872628683638863927
+    second: Ice VFX 10(64x32)_26
+  - first:
+      213: -8807343870157445976
+    second: Ice VFX 10(64x32)_27
+  - first:
+      213: -597268022434303774
+    second: Ice VFX 10(64x32)_28
+  - first:
+      213: 1746165349760574449
+    second: Ice VFX 10(64x32)_29
+  - first:
+      213: -1710675020468319381
+    second: Ice VFX 10(64x32)_30
+  - first:
+      213: -9181668384372658341
+    second: Ice VFX 10(64x32)_31
+  - first:
+      213: 287384091752532725
+    second: Ice VFX 10(64x32)_32
+  - first:
+      213: -2243764686883592973
+    second: Ice VFX 10(64x32)_33
+  - first:
+      213: -4260473908010033583
+    second: Ice VFX 10(64x32)_34
+  - first:
+      213: 1491179531050149597
+    second: Ice VFX 10(64x32)_35
+  - first:
+      213: 1147583496808602672
+    second: Ice VFX 10(64x32)_36
+  - first:
+      213: 6868434469893818275
+    second: Ice VFX 10(64x32)_37
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d823fbc7088b381458c0c659dce7f8a8
+      internalID: -1345737443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f93f523fc89fbfa42a87b526a1891306
+      internalID: -876063129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 602da544db9bc4b4f8e161ae988d0b3d
+      internalID: -575159055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 526acca80314acb4e899575461efc358
+      internalID: -485893791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_4
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cac569cbf1394f48bf484f76883b101
+      internalID: 847021497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_5
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76daef2c0f90176418b5e757dfb4ae62
+      internalID: 2112322187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_6
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7479da2d052f99b46a75556b67a0f908
+      internalID: -1479276765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_7
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31a3dc0c23fffe64b9724d2113394215
+      internalID: 832367075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_8
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 311e509a4f2eb2448b14606b92a7105b
+      internalID: 467196602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_9
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a516ac37505e76c4c8048902f5fc90f8
+      internalID: -358873436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_10
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1801094078c7634b8e1268f0d9f1843
+      internalID: -268038120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_11
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4e5489e3abdd26439cb92bf571f959b
+      internalID: 1731938195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_12
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d71fbe5273d10f74b9b116cd93fff017
+      internalID: 1194139280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_13
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6801125a60c733479c0d87e6746ee05
+      internalID: 1127952040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_14
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d772e007917e344bb2c714e17152368
+      internalID: -611087983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_15
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee7fe57e630705741a1af840fd86e90e
+      internalID: -12315310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_16
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b49a1c59371aef64e9d9b825e6f9ca60
+      internalID: 1605494020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_17
+      rect:
+        serializedVersion: 2
+        x: 1088
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3fce75bcbe77bbe468820bd514147f34
+      internalID: -244821181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_18
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3679945a51209834fb8f148ed5df133b
+      internalID: -814985460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_19
+      rect:
+        serializedVersion: 2
+        x: 1216
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcd54d49829747745ae314f4bc7f5686
+      internalID: -1677908787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice VFX 10(64x32)_20
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 428529593e7065d468e5bcacdecdddd8
+      internalID: -1977698300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: ae2c220202be3d345bd39a409492af65
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Ice VFX 10(64x32)_0: -1345737443
+      Ice VFX 10(64x32)_1: -876063129
+      Ice VFX 10(64x32)_10: -268038120
+      Ice VFX 10(64x32)_11: 1731938195
+      Ice VFX 10(64x32)_12: 1194139280
+      Ice VFX 10(64x32)_13: 1127952040
+      Ice VFX 10(64x32)_14: -611087983
+      Ice VFX 10(64x32)_15: -12315310
+      Ice VFX 10(64x32)_16: 1605494020
+      Ice VFX 10(64x32)_17: -244821181
+      Ice VFX 10(64x32)_18: -814985460
+      Ice VFX 10(64x32)_19: -1677908787
+      Ice VFX 10(64x32)_2: -575159055
+      Ice VFX 10(64x32)_20: -1977698300
+      Ice VFX 10(64x32)_3: -485893791
+      Ice VFX 10(64x32)_4: 847021497
+      Ice VFX 10(64x32)_5: 2112322187
+      Ice VFX 10(64x32)_6: -1479276765
+      Ice VFX 10(64x32)_7: 832367075
+      Ice VFX 10(64x32)_8: 467196602
+      Ice VFX 10(64x32)_9: -358873436
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

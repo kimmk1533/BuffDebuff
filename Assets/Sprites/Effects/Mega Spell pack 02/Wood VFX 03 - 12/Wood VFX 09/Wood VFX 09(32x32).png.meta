@@ -1,0 +1,694 @@
+fileFormatVersion: 2
+guid: 694600b8cacd2f1439b0faee25c52eea
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8906883420563972464
+    second: Wood VFX 09(32x32)_0
+  - first:
+      213: 6957820910066427213
+    second: Wood VFX 09(32x32)_1
+  - first:
+      213: 3594300649055381951
+    second: Wood VFX 09(32x32)_2
+  - first:
+      213: -4986889193877073317
+    second: Wood VFX 09(32x32)_3
+  - first:
+      213: -3028848011878152801
+    second: Wood VFX 09(32x32)_4
+  - first:
+      213: 690368624840147762
+    second: Wood VFX 09(32x32)_5
+  - first:
+      213: 7989135044411080538
+    second: Wood VFX 09(32x32)_6
+  - first:
+      213: 2091488672594597227
+    second: Wood VFX 09(32x32)_7
+  - first:
+      213: 5346529199290377846
+    second: Wood VFX 09(32x32)_8
+  - first:
+      213: 1383859443609149883
+    second: Wood VFX 09(32x32)_9
+  - first:
+      213: -2713113705758442696
+    second: Wood VFX 09(32x32)_10
+  - first:
+      213: -480589132806146876
+    second: Wood VFX 09(32x32)_11
+  - first:
+      213: 1677262403038522177
+    second: Wood VFX 09(32x32)_12
+  - first:
+      213: -4344145031392851271
+    second: Wood VFX 09(32x32)_13
+  - first:
+      213: 1886133930054854991
+    second: Wood VFX 09(32x32)_14
+  - first:
+      213: -1240318373969113219
+    second: Wood VFX 09(32x32)_15
+  - first:
+      213: -735129525357896611
+    second: Wood VFX 09(32x32)_16
+  - first:
+      213: 7558808090929440838
+    second: Wood VFX 09(32x32)_17
+  - first:
+      213: 218045814741584250
+    second: Wood VFX 09(32x32)_18
+  - first:
+      213: -2204579662160812389
+    second: Wood VFX 09(32x32)_19
+  - first:
+      213: 1827193838444479134
+    second: Wood VFX 09(32x32)_20
+  - first:
+      213: 131421289926754638
+    second: Wood VFX 09(32x32)_21
+  - first:
+      213: -6415508912027485739
+    second: Wood VFX 09(32x32)_22
+  - first:
+      213: 957323176784634420
+    second: Wood VFX 09(32x32)_23
+  - first:
+      213: -5240769893331609416
+    second: Wood VFX 09(32x32)_24
+  - first:
+      213: -7992465479808513692
+    second: Wood VFX 09(32x32)_25
+  - first:
+      213: -300195845180281902
+    second: Wood VFX 09(32x32)_26
+  - first:
+      213: 1342399754316183172
+    second: Wood VFX 09(32x32)_27
+  - first:
+      213: -6293669585202048317
+    second: Wood VFX 09(32x32)_28
+  - first:
+      213: -6880583514194782587
+    second: Wood VFX 09(32x32)_29
+  - first:
+      213: 4327928425691911179
+    second: Wood VFX 09(32x32)_30
+  - first:
+      213: 3868821763830126252
+    second: Wood VFX 09(32x32)_31
+  - first:
+      213: 5660308382344987
+    second: Wood VFX 09(32x32)_32
+  - first:
+      213: 1422498851496275862
+    second: Wood VFX 09(32x32)_33
+  - first:
+      213: 6523330961374901547
+    second: Wood VFX 09(32x32)_34
+  - first:
+      213: -1352525790989849660
+    second: Wood VFX 09(32x32)_35
+  - first:
+      213: -3988172938513847249
+    second: Wood VFX 09(32x32)_36
+  - first:
+      213: 5721107251971925516
+    second: Wood VFX 09(32x32)_37
+  - first:
+      213: 2189088818839972177
+    second: Wood VFX 09(32x32)_38
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eda5dbc4e38140a42bac12dc57e2396e
+      internalID: -2065214505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3fb2813b140da44297365ab4b931777
+      internalID: -1203938513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1e9078a1ac1c8d4a850c768a7cc8552
+      internalID: 647735107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88b644d7eff220241ba611ab95b0cd5a
+      internalID: -1224461766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 448fecfb1721b4b42a0739a95ec5e160
+      internalID: -1055517854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53e4a93444031d64db2b9a61e611abb7
+      internalID: -1264763342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c161e98ef89cb2644b4601efc1f77dfd
+      internalID: -370887029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 302d78cdc09a5774393291cfbab88004
+      internalID: -482462425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf101147e37647148907fd6a238d1d75
+      internalID: 1436560536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_9
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fd9967c3de46d44a86e743b72699f16
+      internalID: 633216087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_10
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7110e24fd737c14bab7497fc5d28358
+      internalID: -1893629321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_11
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8def7c22ee19284d8c636be662ed804
+      internalID: 920490310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_12
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0963ec16371e564b824bc78682f9218
+      internalID: -837602508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_13
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c33d4719fc160b4b9e613c9988f25b8
+      internalID: 1663584186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_14
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5775d2b5972231943b418ae66d88b02f
+      internalID: -1706633911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_15
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7cd765241ba2d524a8595b31ec4b5871
+      internalID: -1537462970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_16
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6eabe9c7ea5048a4c9e47db719183b95
+      internalID: 334632829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_17
+      rect:
+        serializedVersion: 2
+        x: 544
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9ecb8748e377ab4abcfd2cb6da6da81
+      internalID: 1908846954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_18
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66f6768c5e8ac3c4995848c681d2d225
+      internalID: 1708960326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood VFX 09(32x32)_19
+      rect:
+        serializedVersion: 2
+        x: 608
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b13e406c2aa62704786c3ae670a43c28
+      internalID: -454039359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 09ce1ee7fbfdde148b917d6822f5a46c
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Wood VFX 09(32x32)_0: -2065214505
+      Wood VFX 09(32x32)_1: -1203938513
+      Wood VFX 09(32x32)_10: -1893629321
+      Wood VFX 09(32x32)_11: 920490310
+      Wood VFX 09(32x32)_12: -837602508
+      Wood VFX 09(32x32)_13: 1663584186
+      Wood VFX 09(32x32)_14: -1706633911
+      Wood VFX 09(32x32)_15: -1537462970
+      Wood VFX 09(32x32)_16: 334632829
+      Wood VFX 09(32x32)_17: 1908846954
+      Wood VFX 09(32x32)_18: 1708960326
+      Wood VFX 09(32x32)_19: -454039359
+      Wood VFX 09(32x32)_2: 647735107
+      Wood VFX 09(32x32)_3: -1224461766
+      Wood VFX 09(32x32)_4: -1055517854
+      Wood VFX 09(32x32)_5: -1264763342
+      Wood VFX 09(32x32)_6: -370887029
+      Wood VFX 09(32x32)_7: -482462425
+      Wood VFX 09(32x32)_8: 1436560536
+      Wood VFX 09(32x32)_9: 633216087
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

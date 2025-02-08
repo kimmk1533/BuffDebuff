@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace BuffDebuff
 {
-	public abstract class Character<TStat, TController, TAnimator> : MonoBehaviour where TStat : CharacterStat where TController : Controller2D where TAnimator : CharacterAnimator, IAnim_Attack
+	public abstract class Character<TStat, TController, TAnimator> : SerializedMonoBehaviour where TStat : CharacterStat where TController : Controller2D where TAnimator : CharacterAnimator, IAnim_Attack
 	{
 		#region 변수
 		protected TController m_Controller;
@@ -22,27 +23,30 @@ namespace BuffDebuff
 		#endregion
 
 		#region 스탯 관련
-		[Header("===== 스탯 ====="), Space(10)]
 		// 초기 스탯
-		[SerializeField]
 		protected TStat m_InitStat;
 		// 현재 스탯
-		[Space(10)]
-		[SerializeField]
+		[FoldoutGroup("스탯")]
+		[SerializeField, InlineProperty, HideLabel]
 		protected TStat m_Stat;
 		#endregion
 
 		#region 공격 관련
-		protected int m_AttackIndex;
-		[Space(10), SerializeField]
-		protected int m_MaxAttackIndex;
+		// 공격 패턴 갯수
+		[FoldoutGroup("스탯")]
+		[Title("공격 패턴")]
+		[SerializeField]
+		protected int m_AttackPatternCount;
+		// 공격 패턴 인덱스
+		protected int m_AttackPatternIndex;
 		#endregion
 
 		#region 타이머 관련
-		[Header("===== 타이머 ====="), Space(10)]
 		[SerializeField, ReadOnly]
+		[FoldoutGroup("타이머"), LabelText("힐 타이머")]
 		protected UtilClass.Timer m_HealTimer;
 		[SerializeField, ReadOnly]
+		[FoldoutGroup("타이머"), LabelText("공격 타이머")]
 		protected UtilClass.Timer m_AttackTimer;
 		#endregion
 		#endregion
@@ -131,8 +135,8 @@ namespace BuffDebuff
 		public virtual void Attack()
 		{
 			m_AttackTimer.Clear();
-			m_AttackIndex = Random.Range(0, m_MaxAttackIndex);
-			m_Animator.Anim_Attack(m_AttackIndex);
+			m_AttackPatternIndex = Random.Range(0, m_AttackPatternCount);
+			m_Animator.Anim_Attack(m_AttackPatternIndex);
 		}
 
 		// Timer Func
@@ -224,27 +228,30 @@ namespace BuffDebuff
 		#endregion
 
 		#region 스탯 관련
-		[Header("===== 스탯 ====="), Space(10)]
 		// 초기 스탯
-		[SerializeField]
 		protected TStat m_InitStat;
 		// 현재 스탯
-		[Space(10)]
-		[SerializeField]
+		[FoldoutGroup("스탯")]
+		[SerializeField, InlineProperty, HideLabel]
 		protected TStat m_Stat;
 		#endregion
 
 		#region 공격 관련
-		protected int m_AttackIndex;
-		[Space(10), SerializeField]
-		protected int m_MaxAttackIndex;
+		// 공격 패턴 갯수
+		[FoldoutGroup("스탯")]
+		[Title("공격 패턴")]
+		[SerializeField]
+		protected int m_AttackPatternCount;
+		// 공격 패턴 인덱스
+		protected int m_AttackPatternIndex;
 		#endregion
 
 		#region 타이머 관련
-		[Header("===== 타이머 ====="), Space(10)]
 		[SerializeField, ReadOnly]
+		[FoldoutGroup("타이머"), LabelText("힐 타이머")]
 		protected UtilClass.Timer m_HealTimer;
 		[SerializeField, ReadOnly]
+		[FoldoutGroup("타이머"), LabelText("공격 타이머")]
 		protected UtilClass.Timer m_AttackTimer;
 		#endregion
 		#endregion
@@ -344,8 +351,8 @@ namespace BuffDebuff
 		public virtual void Attack()
 		{
 			m_AttackTimer.Clear();
-			m_AttackIndex = Random.Range(0, m_MaxAttackIndex);
-			m_Animator.Anim_Attack(m_AttackIndex);
+			m_AttackPatternIndex = Random.Range(0, m_AttackPatternCount);
+			m_Animator.Anim_Attack(m_AttackPatternIndex);
 		}
 
 		// Timer Func

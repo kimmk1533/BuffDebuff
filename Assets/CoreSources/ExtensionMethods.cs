@@ -100,7 +100,7 @@ public static class Methods
 		return sb.ToString();
 	}
 
-	// 0 ~ 360 도 리턴
+	// 좌표 평면 기준 -180 ~ 180 도 리턴
 	public static float GetAngle(this Vector2 vStart, Vector2 vEnd)
 	{
 		// return Quaternion.FromToRotation(vStart, vEnd).eulerAngles.z;
@@ -208,31 +208,5 @@ public static class Methods
 			}
 		}
 		return copy as T;
-	}
-}
-
-public static class String_Extension
-{
-	public static string[] mySplit(this string str, char seperator)
-	{
-		int length = str.Length;
-		int seperator_pos = -1;
-		for (int i = 0; i < length; i++)
-		{
-			if (str[i] == seperator)
-			{
-				seperator_pos = i;
-				break;
-			}
-		}
-
-		if (seperator_pos == -1)
-			return null;
-
-		string[] ret = new string[2];
-		ret[0] = str.Substring(0, seperator_pos);
-		ret[1] = str.Substring(seperator_pos + 1, length - seperator_pos - 1);
-
-		return ret;
 	}
 }

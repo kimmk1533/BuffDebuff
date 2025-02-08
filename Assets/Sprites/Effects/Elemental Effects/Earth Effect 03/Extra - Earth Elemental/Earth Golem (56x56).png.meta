@@ -1,0 +1,1646 @@
+fileFormatVersion: 2
+guid: c8e255e2d89979042b9d77ba536575d5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7190242223579883111
+    second: Earth Golem (56x56)_0
+  - first:
+      213: 1564090416122906304
+    second: Earth Golem (56x56)_1
+  - first:
+      213: 3652882398154532709
+    second: Earth Golem (56x56)_2
+  - first:
+      213: 5563294942000650560
+    second: Earth Golem (56x56)_3
+  - first:
+      213: -2393111344447406835
+    second: Earth Golem (56x56)_4
+  - first:
+      213: 7461313191775895364
+    second: Earth Golem (56x56)_5
+  - first:
+      213: -6706902992661869699
+    second: Earth Golem (56x56)_6
+  - first:
+      213: -5848266766894784895
+    second: Earth Golem (56x56)_7
+  - first:
+      213: -2984498239320867057
+    second: Earth Golem (56x56)_8
+  - first:
+      213: 8475623854137414952
+    second: Earth Golem (56x56)_9
+  - first:
+      213: 5831636786464185902
+    second: Earth Golem (56x56)_10
+  - first:
+      213: -4337501285594150744
+    second: Earth Golem (56x56)_11
+  - first:
+      213: 2628479706989424667
+    second: Earth Golem (56x56)_12
+  - first:
+      213: 8256144640698327988
+    second: Earth Golem (56x56)_13
+  - first:
+      213: 6185269256280803501
+    second: Earth Golem (56x56)_14
+  - first:
+      213: -5807743355915426328
+    second: Earth Golem (56x56)_15
+  - first:
+      213: -4978881292589390100
+    second: Earth Golem (56x56)_16
+  - first:
+      213: -3157433334764779236
+    second: Earth Golem (56x56)_17
+  - first:
+      213: 1302801849965933432
+    second: Earth Golem (56x56)_18
+  - first:
+      213: -3735600232863451452
+    second: Earth Golem (56x56)_19
+  - first:
+      213: 4668656541452285104
+    second: Earth Golem (56x56)_20
+  - first:
+      213: -5571832360932378927
+    second: Earth Golem (56x56)_21
+  - first:
+      213: -6423162423395225289
+    second: Earth Golem (56x56)_22
+  - first:
+      213: 9114254147440183578
+    second: Earth Golem (56x56)_23
+  - first:
+      213: 8103798227617573122
+    second: Earth Golem (56x56)_24
+  - first:
+      213: -5087166886027696105
+    second: Earth Golem (56x56)_25
+  - first:
+      213: 2641012991474925496
+    second: Earth Golem (56x56)_26
+  - first:
+      213: 3762092584260253220
+    second: Earth Golem (56x56)_27
+  - first:
+      213: -3089047998339948775
+    second: Earth Golem (56x56)_28
+  - first:
+      213: -2582789403533255781
+    second: Earth Golem (56x56)_29
+  - first:
+      213: 8936230528991898220
+    second: Earth Golem (56x56)_30
+  - first:
+      213: 2828317337805146565
+    second: Earth Golem (56x56)_31
+  - first:
+      213: 6259132753433933892
+    second: Earth Golem (56x56)_32
+  - first:
+      213: 7703923272702070192
+    second: Earth Golem (56x56)_33
+  - first:
+      213: -1839743277351137244
+    second: Earth Golem (56x56)_34
+  - first:
+      213: -3125308806057237550
+    second: Earth Golem (56x56)_35
+  - first:
+      213: 8947677889400999451
+    second: Earth Golem (56x56)_36
+  - first:
+      213: 5327083010235889021
+    second: Earth Golem (56x56)_37
+  - first:
+      213: -8275004072014949857
+    second: Earth Golem (56x56)_38
+  - first:
+      213: -4853492500334757355
+    second: Earth Golem (56x56)_39
+  - first:
+      213: 3151744903767896639
+    second: Earth Golem (56x56)_40
+  - first:
+      213: -6267610752895213171
+    second: Earth Golem (56x56)_41
+  - first:
+      213: 6866103028264023410
+    second: Earth Golem (56x56)_42
+  - first:
+      213: -1228800594950097484
+    second: Earth Golem (56x56)_43
+  - first:
+      213: 6240721027523262384
+    second: Earth Golem (56x56)_44
+  - first:
+      213: 2354520765667382275
+    second: Earth Golem (56x56)_45
+  - first:
+      213: -8942740426460986746
+    second: Earth Golem (56x56)_46
+  - first:
+      213: 3088045025583278357
+    second: Earth Golem (56x56)_47
+  - first:
+      213: -7596363554163039608
+    second: Earth Golem (56x56)_48
+  - first:
+      213: -6893936591764239198
+    second: Earth Golem (56x56)_49
+  - first:
+      213: 1576720058069530731
+    second: Earth Golem (56x56)_50
+  - first:
+      213: 7449752252508435670
+    second: Earth Golem (56x56)_51
+  - first:
+      213: -7422717739390235836
+    second: Earth Golem (56x56)_52
+  - first:
+      213: -6626810592184046793
+    second: Earth Golem (56x56)_53
+  - first:
+      213: 7275567570495526244
+    second: Earth Golem (56x56)_54
+  - first:
+      213: -4273473915478634586
+    second: Earth Golem (56x56)_55
+  - first:
+      213: -8354139057136068985
+    second: Earth Golem (56x56)_56
+  - first:
+      213: 2951084315945622612
+    second: Earth Golem (56x56)_57
+  - first:
+      213: -7138869682578489307
+    second: Earth Golem (56x56)_58
+  - first:
+      213: -5569221262838425651
+    second: Earth Golem (56x56)_59
+  - first:
+      213: 8497222340669508228
+    second: Earth Golem (56x56)_60
+  - first:
+      213: 4075362419985218825
+    second: Earth Golem (56x56)_61
+  - first:
+      213: 5226262829250854449
+    second: Earth Golem (56x56)_62
+  - first:
+      213: -7101080537915897983
+    second: Earth Golem (56x56)_63
+  - first:
+      213: -3949879453817757260
+    second: Earth Golem (56x56)_64
+  - first:
+      213: -8381563212286526282
+    second: Earth Golem (56x56)_65
+  - first:
+      213: -1613971812595366708
+    second: Earth Golem (56x56)_66
+  - first:
+      213: 5286558900610147327
+    second: Earth Golem (56x56)_67
+  - first:
+      213: -2746551351446222178
+    second: Earth Golem (56x56)_68
+  - first:
+      213: -7805652285518069933
+    second: Earth Golem (56x56)_69
+  - first:
+      213: -7724556124112404905
+    second: Earth Golem (56x56)_70
+  - first:
+      213: 631367687353625406
+    second: Earth Golem (56x56)_71
+  - first:
+      213: -1955823515575094959
+    second: Earth Golem (56x56)_72
+  - first:
+      213: -7325779196794964744
+    second: Earth Golem (56x56)_73
+  - first:
+      213: 525527871276896022
+    second: Earth Golem (56x56)_74
+  - first:
+      213: 7316167532371468667
+    second: Earth Golem (56x56)_75
+  - first:
+      213: -6605086233120694507
+    second: Earth Golem (56x56)_76
+  - first:
+      213: 5998561402509363229
+    second: Earth Golem (56x56)_77
+  - first:
+      213: -8291984169483081962
+    second: Earth Golem (56x56)_78
+  - first:
+      213: -460092912772849625
+    second: Earth Golem (56x56)_79
+  - first:
+      213: -4726042018346358071
+    second: Earth Golem (56x56)_80
+  - first:
+      213: -9100858204058832693
+    second: Earth Golem (56x56)_81
+  - first:
+      213: -1877270390293245783
+    second: Earth Golem (56x56)_82
+  - first:
+      213: 4804332977684360057
+    second: Earth Golem (56x56)_83
+  - first:
+      213: 417073409630224246
+    second: Earth Golem (56x56)_84
+  - first:
+      213: 1480871395928029946
+    second: Earth Golem (56x56)_85
+  - first:
+      213: -7327129897114168032
+    second: Earth Golem (56x56)_86
+  - first:
+      213: 96385665624123247
+    second: Earth Golem (56x56)_87
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 56
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 280
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7666e71f43fd8c360800000000000000
+      internalID: 7190242223579883111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_1
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 280
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c6499152f3c4b510800000000000000
+      internalID: 1564090416122906304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_2
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 280
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5672744ff25a1b230800000000000000
+      internalID: 3652882398154532709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_3
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 280
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0491dae264bc43d40800000000000000
+      internalID: 5563294942000650560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_4
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 280
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0d314659e5f9ced0800000000000000
+      internalID: -2393111344447406835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_5
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 280
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44ffcb1f0d8eb8760800000000000000
+      internalID: 7461313191775895364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 224
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7b826b434b4ce2a0800000000000000
+      internalID: -6706902992661869699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_7
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 224
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18e93876c58c6dea0800000000000000
+      internalID: -5848266766894784895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_8
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 224
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0f3084f9aee496d0800000000000000
+      internalID: -2984498239320867057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_9
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 224
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82510b35df67f9570800000000000000
+      internalID: 8475623854137414952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_10
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 224
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2e5c4c82c22ee050800000000000000
+      internalID: 5831636786464185902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 168
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a84c53df891ec3c0800000000000000
+      internalID: -4337501285594150744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_12
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 168
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b107d620e5c3a7420800000000000000
+      internalID: 2628479706989424667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_13
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 168
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b3a11bcec7b39270800000000000000
+      internalID: 8256144640698327988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_14
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 168
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da803cc1e9d76d550800000000000000
+      internalID: 6185269256280803501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_15
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 168
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e5a6044030c66fa0800000000000000
+      internalID: -5807743355915426328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_16
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 168
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce62f58f7d577eab0800000000000000
+      internalID: -4978881292589390100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_17
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 168
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c194e5f5c1b8e24d0800000000000000
+      internalID: -3157433334764779236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_18
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 168
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 873f0f7416b741210800000000000000
+      internalID: 1302801849965933432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_19
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 168
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c6be49516b782cc0800000000000000
+      internalID: -3735600232863451452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_20
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 168
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b4319b83666ac040800000000000000
+      internalID: 4668656541452285104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_21
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 168
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d679921dffdca2b0800000000000000
+      internalID: -5571832360932378927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_22
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 112
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 731f3eaaec75cd6a0800000000000000
+      internalID: -6423162423395225289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_23
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 112
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a198dc29bd55c7e70800000000000000
+      internalID: 9114254147440183578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_24
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 112
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 209e5906d89767070800000000000000
+      internalID: 8103798227617573122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_25
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 112
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 718603d8ba0c669b0800000000000000
+      internalID: -5087166886027696105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_26
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 112
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bffd04b253c6a420800000000000000
+      internalID: 2641012991474925496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_27
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 112
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 426b6f0e543a53430800000000000000
+      internalID: 3762092584260253220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_28
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 112
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91fd0d4463f7125d0800000000000000
+      internalID: -3089047998339948775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_29
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 112
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9bd1c0c8b6182cd0800000000000000
+      internalID: -2582789403533255781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_30
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 112
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6a2097e15ed30c70800000000000000
+      internalID: 8936230528991898220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_31
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 112
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c944f732a3304720800000000000000
+      internalID: 2828317337805146565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_32
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 112
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4483172b318ecd650800000000000000
+      internalID: 6259132753433933892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_33
+      rect:
+        serializedVersion: 2
+        x: 616
+        y: 112
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0bd854e3665d9ea60800000000000000
+      internalID: 7703923272702070192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_34
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 56
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42092939c3be776e0800000000000000
+      internalID: -1839743277351137244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_35
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 56
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d3ee81133ca0a4d0800000000000000
+      internalID: -3125308806057237550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_36
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 56
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1e0d5232a98c2c70800000000000000
+      internalID: 8947677889400999451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_37
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 56
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d75f02216c99de940800000000000000
+      internalID: 5327083010235889021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_38
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 56
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1253aca3a7492d80800000000000000
+      internalID: -8275004072014949857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_39
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 56
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51a368d294ee4acb0800000000000000
+      internalID: -4853492500334757355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_40
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 56
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f32bbb39a4f3dbb20800000000000000
+      internalID: 3151744903767896639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_41
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 56
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d81234b3a39f409a0800000000000000
+      internalID: -6267610752895213171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_42
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 56
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27539e6735c494f50800000000000000
+      internalID: 6866103028264023410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_43
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 56
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b5f53e8e5c62fee0800000000000000
+      internalID: -1228800594950097484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_44
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 56
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b7b5d3b5be7b9650800000000000000
+      internalID: 6240721027523262384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_45
+      rect:
+        serializedVersion: 2
+        x: 616
+        y: 56
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30492ed5920fca020800000000000000
+      internalID: 2354520765667382275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_46
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 56
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 682844a76f005e380800000000000000
+      internalID: -8942740426460986746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_47
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 519ad40f690fada20800000000000000
+      internalID: 3088045025583278357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_48
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 0
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8826361489b449690800000000000000
+      internalID: -7596363554163039608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_49
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ac43d70231d350a0800000000000000
+      internalID: -6893936591764239198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_50
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 0
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b68b77bf982a1e510800000000000000
+      internalID: 1576720058069530731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_51
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d47e630436d26760800000000000000
+      internalID: 7449752252508435670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_52
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 0
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44b87a31b853df890800000000000000
+      internalID: -7422717739390235836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_53
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 0
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73be21370e6d804a0800000000000000
+      internalID: -6626810592184046793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Earth Golem (56x56)_54
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 0
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 465dcb2682208f460800000000000000
+      internalID: 7275567570495526244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 32d188757a0bb66419016dd655c4235e
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Earth Golem (56x56)_0: 7190242223579883111
+      Earth Golem (56x56)_1: 1564090416122906304
+      Earth Golem (56x56)_10: 5831636786464185902
+      Earth Golem (56x56)_11: -4337501285594150744
+      Earth Golem (56x56)_12: 2628479706989424667
+      Earth Golem (56x56)_13: 8256144640698327988
+      Earth Golem (56x56)_14: 6185269256280803501
+      Earth Golem (56x56)_15: -5807743355915426328
+      Earth Golem (56x56)_16: -4978881292589390100
+      Earth Golem (56x56)_17: -3157433334764779236
+      Earth Golem (56x56)_18: 1302801849965933432
+      Earth Golem (56x56)_19: -3735600232863451452
+      Earth Golem (56x56)_2: 3652882398154532709
+      Earth Golem (56x56)_20: 4668656541452285104
+      Earth Golem (56x56)_21: -5571832360932378927
+      Earth Golem (56x56)_22: -6423162423395225289
+      Earth Golem (56x56)_23: 9114254147440183578
+      Earth Golem (56x56)_24: 8103798227617573122
+      Earth Golem (56x56)_25: -5087166886027696105
+      Earth Golem (56x56)_26: 2641012991474925496
+      Earth Golem (56x56)_27: 3762092584260253220
+      Earth Golem (56x56)_28: -3089047998339948775
+      Earth Golem (56x56)_29: -2582789403533255781
+      Earth Golem (56x56)_3: 5563294942000650560
+      Earth Golem (56x56)_30: 8936230528991898220
+      Earth Golem (56x56)_31: 2828317337805146565
+      Earth Golem (56x56)_32: 6259132753433933892
+      Earth Golem (56x56)_33: 7703923272702070192
+      Earth Golem (56x56)_34: -1839743277351137244
+      Earth Golem (56x56)_35: -3125308806057237550
+      Earth Golem (56x56)_36: 8947677889400999451
+      Earth Golem (56x56)_37: 5327083010235889021
+      Earth Golem (56x56)_38: -8275004072014949857
+      Earth Golem (56x56)_39: -4853492500334757355
+      Earth Golem (56x56)_4: -2393111344447406835
+      Earth Golem (56x56)_40: 3151744903767896639
+      Earth Golem (56x56)_41: -6267610752895213171
+      Earth Golem (56x56)_42: 6866103028264023410
+      Earth Golem (56x56)_43: -1228800594950097484
+      Earth Golem (56x56)_44: 6240721027523262384
+      Earth Golem (56x56)_45: 2354520765667382275
+      Earth Golem (56x56)_46: -8942740426460986746
+      Earth Golem (56x56)_47: 3088045025583278357
+      Earth Golem (56x56)_48: -7596363554163039608
+      Earth Golem (56x56)_49: -6893936591764239198
+      Earth Golem (56x56)_5: 7461313191775895364
+      Earth Golem (56x56)_50: 1576720058069530731
+      Earth Golem (56x56)_51: 7449752252508435670
+      Earth Golem (56x56)_52: -7422717739390235836
+      Earth Golem (56x56)_53: -6626810592184046793
+      Earth Golem (56x56)_54: 7275567570495526244
+      Earth Golem (56x56)_6: -6706902992661869699
+      Earth Golem (56x56)_7: -5848266766894784895
+      Earth Golem (56x56)_8: -2984498239320867057
+      Earth Golem (56x56)_9: 8475623854137414952
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
