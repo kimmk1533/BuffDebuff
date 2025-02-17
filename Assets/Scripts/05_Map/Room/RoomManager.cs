@@ -14,6 +14,7 @@ namespace BuffDebuff
 		#endregion
 
 		#region 이벤트
+		[HideInInspector]
 		public System.Action<Room> onRoomClear;
 		#endregion
 

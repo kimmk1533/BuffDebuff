@@ -52,7 +52,7 @@ MonoBehaviour:
       Data: BuffDebuff.InputInfo, Assembly-CSharp
     - Name: m_KeyName
       Entry: 1
-      Data: Player Move Vertical
+      Data: PlayerMoveVertical
     - Name: m_Value
       Entry: 4
       Data: 1
@@ -85,7 +85,7 @@ MonoBehaviour:
       Data: BuffDebuff.InputInfo, Assembly-CSharp
     - Name: m_KeyName
       Entry: 1
-      Data: Player Move Vertical
+      Data: PlayerMoveVertical
     - Name: m_Value
       Entry: 4
       Data: -1
@@ -118,7 +118,7 @@ MonoBehaviour:
       Data: BuffDebuff.InputInfo, Assembly-CSharp
     - Name: m_KeyName
       Entry: 1
-      Data: Player Move Horizontal
+      Data: PlayerMoveHorizontal
     - Name: m_Value
       Entry: 4
       Data: -1
@@ -151,7 +151,7 @@ MonoBehaviour:
       Data: BuffDebuff.InputInfo, Assembly-CSharp
     - Name: m_KeyName
       Entry: 1
-      Data: Player Move Horizontal
+      Data: PlayerMoveHorizontal
     - Name: m_Value
       Entry: 4
       Data: 1
@@ -184,7 +184,7 @@ MonoBehaviour:
       Data: BuffDebuff.InputInfo, Assembly-CSharp
     - Name: m_KeyName
       Entry: 1
-      Data: Player Attack
+      Data: PlayerAttack
     - Name: m_Value
       Entry: 4
       Data: 1
@@ -217,7 +217,7 @@ MonoBehaviour:
       Data: BuffDebuff.InputInfo, Assembly-CSharp
     - Name: m_KeyName
       Entry: 1
-      Data: Player Jump
+      Data: PlayerJump
     - Name: m_Value
       Entry: 4
       Data: 1
@@ -250,7 +250,7 @@ MonoBehaviour:
       Data: BuffDebuff.InputInfo, Assembly-CSharp
     - Name: m_KeyName
       Entry: 1
-      Data: Player Dash
+      Data: PlayerDash
     - Name: m_Value
       Entry: 4
       Data: 1
@@ -283,7 +283,7 @@ MonoBehaviour:
       Data: BuffDebuff.InputInfo, Assembly-CSharp
     - Name: m_KeyName
       Entry: 1
-      Data: Player Skill01
+      Data: PlayerSkill01
     - Name: m_Value
       Entry: 4
       Data: 1

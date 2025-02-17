@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1233320923803721149}
   - component: {fileID: 1233320923803721150}
   - component: {fileID: 1233320923803721151}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,7 +143,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1233320923979057180}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 3896899654904147533}
   - component: {fileID: 352844439316646653}
   - component: {fileID: 1233320925476692313}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Fire Knight
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -216,7 +216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CollisionMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 131072
   m_MaxJumpHeight: 6
   m_MinJumpHeight: 1
   m_TimeToJumpApex: 0.4
@@ -373,7 +373,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1099923899140287471}
   - component: {fileID: 7343194175849864279}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: MiniMap Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -459,7 +459,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6226699525835725757}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: AttackSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

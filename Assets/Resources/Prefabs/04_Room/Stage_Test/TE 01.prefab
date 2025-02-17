@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7929062452695935181}
-  m_Layer: 6
+  m_Layer: 18
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8096209185574285712}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 3710023878698881931}
   - component: {fileID: 4956979665866180876}
   - component: {fileID: 8672621190125440910}
-  m_Layer: 6
+  m_Layer: 17
   m_Name: OneWayMap
   m_TagString: OneWay
   m_Icon: {fileID: 0}
@@ -398,7 +398,8 @@ GameObject:
   - component: {fileID: 2539160574509444455}
   - component: {fileID: 4119264829664003254}
   - component: {fileID: 1040987723832158589}
-  m_Layer: 7
+  - component: {fileID: 4176380933633242489}
+  m_Layer: 18
   m_Name: WarpPoint 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -443,18 +444,85 @@ MonoBehaviour:
   m_GameObject: {fileID: 770134914516221882}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5e22d05f101dd04aaf9137631035a70, type: 3}
+  m_Script: {fileID: 11500000, guid: 04d005ce642bbe347abba0782819e18f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ColliderType: 0
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: m_TriggerMap
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[BuffDebuff.CollisionChecker2D+Trigger,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   m_IsSimulating: 1
-  m_CollisionObjectList: []
-  m_OldCollisionObjectList: []
-  m_LayerMask:
+--- !u!61 &4176380933633242489
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770134914516221882}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   m_Size: {x: 2, y: 4}
+  m_EdgeRadius: 0
 --- !u!1 &835060263673693524
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,7 +537,7 @@ GameObject:
   - component: {fileID: 3472835715756005839}
   - component: {fileID: 2965619557704051611}
   - component: {fileID: 5514091278948542451}
-  m_Layer: 6
+  m_Layer: 17
   m_Name: TileMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -937,6 +1005,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c4c28d80a4e3ba4da6acd23dbdebc16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   m_RoomSize: {x: 40, y: 34}
   m_Offset: {x: 20, y: 17}
 --- !u!114 &7619147777779338615
@@ -1099,7 +1176,7 @@ GameObject:
   - component: {fileID: 853564449544585188}
   - component: {fileID: 853564449544585210}
   - component: {fileID: 853564449544585211}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: BackGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10275,7 +10352,7 @@ GameObject:
   - component: {fileID: 853564449986947896}
   - component: {fileID: 213840287495732703}
   - component: {fileID: 1333587206327190564}
-  m_Layer: 6
+  m_Layer: 17
   m_Name: OneWayMap
   m_TagString: OneWay
   m_Icon: {fileID: 0}
@@ -11433,7 +11510,7 @@ GameObject:
   - component: {fileID: 853564450256860614}
   - component: {fileID: 4965791264876232930}
   - component: {fileID: 5863651603935634350}
-  m_Layer: 6
+  m_Layer: 17
   m_Name: TileMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17040,7 +17117,7 @@ GameObject:
   - component: {fileID: 853564450674883061}
   - component: {fileID: 853564450674883019}
   - component: {fileID: 853564450674883060}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19317,7 +19394,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8755975546258360396}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Origin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19354,7 +19431,8 @@ GameObject:
   - component: {fileID: 1192746271449449590}
   - component: {fileID: 6430489690383192441}
   - component: {fileID: 4882020166962868498}
-  m_Layer: 7
+  - component: {fileID: 6564984837107307523}
+  m_Layer: 18
   m_Name: WarpPoint 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19399,18 +19477,85 @@ MonoBehaviour:
   m_GameObject: {fileID: 2717857096140821433}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5e22d05f101dd04aaf9137631035a70, type: 3}
+  m_Script: {fileID: 11500000, guid: 04d005ce642bbe347abba0782819e18f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ColliderType: 0
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: m_TriggerMap
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[BuffDebuff.CollisionChecker2D+Trigger,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   m_IsSimulating: 1
-  m_CollisionObjectList: []
-  m_OldCollisionObjectList: []
-  m_LayerMask:
+--- !u!61 &6564984837107307523
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2717857096140821433}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   m_Size: {x: 4, y: 2}
+  m_EdgeRadius: 0
 --- !u!1 &2755514558138506767
 GameObject:
   m_ObjectHideFlags: 0
@@ -19420,7 +19565,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2447106579368055135}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: WarpPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19455,7 +19600,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1709289027727339797}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19494,7 +19639,7 @@ GameObject:
   - component: {fileID: 3092358105044175415}
   - component: {fileID: 743603158923182355}
   - component: {fileID: 7309818486945905476}
-  m_Layer: 6
+  m_Layer: 17
   m_Name: OneWayMap
   m_TagString: OneWay
   m_Icon: {fileID: 0}
@@ -19781,7 +19926,7 @@ GameObject:
   - component: {fileID: 1727578565108124606}
   - component: {fileID: 6434641387365910267}
   - component: {fileID: 4460358404278208751}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19991,7 +20136,7 @@ GameObject:
   - component: {fileID: 4823803225272680038}
   - component: {fileID: 4024678646132410274}
   - component: {fileID: 7158057361209062652}
-  m_Layer: 6
+  m_Layer: 17
   m_Name: OneWayMap
   m_TagString: OneWay
   m_Icon: {fileID: 0}
@@ -20365,7 +20510,8 @@ GameObject:
   - component: {fileID: 4046797523749826489}
   - component: {fileID: 8237503503349383298}
   - component: {fileID: 5536952807634679065}
-  m_Layer: 7
+  - component: {fileID: 6471379240844883414}
+  m_Layer: 18
   m_Name: WarpPoint 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20410,18 +20556,85 @@ MonoBehaviour:
   m_GameObject: {fileID: 4559241916364969983}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5e22d05f101dd04aaf9137631035a70, type: 3}
+  m_Script: {fileID: 11500000, guid: 04d005ce642bbe347abba0782819e18f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ColliderType: 0
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: m_TriggerMap
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[BuffDebuff.CollisionChecker2D+Trigger,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   m_IsSimulating: 1
-  m_CollisionObjectList: []
-  m_OldCollisionObjectList: []
-  m_LayerMask:
+--- !u!61 &6471379240844883414
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4559241916364969983}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   m_Size: {x: 4, y: 2}
+  m_EdgeRadius: 0
 --- !u!1 &4803885891232834391
 GameObject:
   m_ObjectHideFlags: 0
@@ -20431,7 +20644,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 311258600453048534}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: TileMapLayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20467,7 +20680,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3209564217970075789}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20503,7 +20716,7 @@ GameObject:
   - component: {fileID: 552698036389120047}
   - component: {fileID: 8369390838905642828}
   - component: {fileID: 6345220189822090746}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20733,7 +20946,7 @@ GameObject:
   - component: {fileID: 1864136078884578247}
   - component: {fileID: 8001416246182508411}
   - component: {fileID: 5864518540324543738}
-  m_Layer: 6
+  m_Layer: 17
   m_Name: TileMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21262,7 +21475,7 @@ GameObject:
   - component: {fileID: 5486362346142725966}
   - component: {fileID: 2236203331664563656}
   - component: {fileID: 6509457934983590275}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21552,7 +21765,7 @@ GameObject:
   - component: {fileID: 8745263348486774877}
   - component: {fileID: 1140589630244022648}
   - component: {fileID: 6028740909663547146}
-  m_Layer: 6
+  m_Layer: 17
   m_Name: TileMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21999,7 +22212,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 416113474729070196}
-  m_Layer: 6
+  m_Layer: 18
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22033,7 +22246,7 @@ GameObject:
   - component: {fileID: 4936393804809402741}
   - component: {fileID: 8429515904673331948}
   - component: {fileID: 1046783137748875971}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22258,7 +22471,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8711356904814929798}
-  m_Layer: 6
+  m_Layer: 18
   m_Name: Down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22295,7 +22508,7 @@ GameObject:
   - component: {fileID: 3173655404661029210}
   - component: {fileID: 6312008331087807753}
   - component: {fileID: 973360057100989011}
-  m_Layer: 6
+  m_Layer: 17
   m_Name: OneWayMap
   m_TagString: OneWay
   m_Icon: {fileID: 0}
@@ -22621,7 +22834,7 @@ GameObject:
   - component: {fileID: 1702714460915559003}
   - component: {fileID: 2803550908429377111}
   - component: {fileID: 1953111141302493494}
-  m_Layer: 6
+  m_Layer: 17
   m_Name: TileMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23074,7 +23287,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2013440881989606402}
-  m_Layer: 6
+  m_Layer: 18
   m_Name: Up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23169,7 +23382,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3255074659497949433}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23236,7 +23449,8 @@ GameObject:
   - component: {fileID: 8396540719022137475}
   - component: {fileID: 3371426707748572697}
   - component: {fileID: 6151811865805093346}
-  m_Layer: 7
+  - component: {fileID: 9110374114869961855}
+  m_Layer: 18
   m_Name: WarpPoint 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23281,15 +23495,82 @@ MonoBehaviour:
   m_GameObject: {fileID: 8595017146737287296}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5e22d05f101dd04aaf9137631035a70, type: 3}
+  m_Script: {fileID: 11500000, guid: 04d005ce642bbe347abba0782819e18f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ColliderType: 0
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: m_TriggerMap
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[BuffDebuff.CollisionChecker2D+Trigger,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   m_IsSimulating: 1
-  m_CollisionObjectList: []
-  m_OldCollisionObjectList: []
-  m_LayerMask:
+--- !u!61 &9110374114869961855
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8595017146737287296}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   m_Size: {x: 2, y: 4}
+  m_EdgeRadius: 0

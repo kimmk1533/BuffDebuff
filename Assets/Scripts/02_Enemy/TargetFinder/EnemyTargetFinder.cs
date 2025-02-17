@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuffDebuff
 {
-	[RequireComponent(typeof(BoxCollisionChecker2D))]
+	[RequireComponent(typeof(CollisionChecker2D))]
 	public class EnemyTargetFinder : MonoBehaviour
 	{
 		public enum E_TargetFinderState
@@ -17,14 +17,14 @@ namespace BuffDebuff
 		#region 변수
 		[Space(10)]
 		[SerializeField, ReadOnly]
-		protected Collider2D m_Target;
-		protected E_TargetFinderState m_TargetFinderState;
+		protected Collider2D m_Target = null;
+		protected E_TargetFinderState m_TargetFinderState = E_TargetFinderState.Finding;
 
 		[SerializeField, ReadOnly]
-		protected BoxCollisionChecker2D m_Finder;
+		protected CollisionChecker2D m_Finder = null;
 		[SerializeField]
-		protected UtilClass.Timer m_ForgetTargetTimer;
-		protected bool m_Finding;
+		protected UtilClass.Timer m_ForgetTargetTimer = null;
+		protected bool m_Finding = false;
 		#endregion
 
 		#region 프로퍼티
@@ -76,7 +76,7 @@ namespace BuffDebuff
 			m_TargetFinderState = E_TargetFinderState.Finding;
 
 			#region SAFE_INIT
-			this.NullCheckGetComponent<BoxCollisionChecker2D>(ref m_Finder);
+			this.NullCheckGetComponent<CollisionChecker2D>(ref m_Finder);
 			m_Finder.Initialize();
 			m_Finder["Player"].onEnter2D += OnTargetEnter2D;
 			m_Finder["Player"].onExit2D += OnTargetExit2D;

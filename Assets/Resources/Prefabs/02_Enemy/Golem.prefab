@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6929830903461354899}
   - component: {fileID: 5712683675375359391}
   - component: {fileID: 507329788138445559}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Golem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,6 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 507329788138445555}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -36,7 +37,6 @@ Transform:
   - {fileID: 507329789419361963}
   - {fileID: 3919503152802449395}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &507329788138445552
 MonoBehaviour:
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CollisionMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 131072
   m_MaxJumpHeight: 6
   m_MinJumpHeight: 1
   m_TimeToJumpApex: 0.4
@@ -69,33 +69,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 480706f9b17890f4c9e2be359b6a8480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   m_Animator: {fileID: 507329788822272629}
   m_IsSimulating: 1
   m_Velocity: {x: 0, y: 0}
-  m_InitStat:
-    <Hp>k__BackingField:
-      <max>k__BackingField: 0
-      <current>k__BackingField: 0
-    <HpRegen>k__BackingField: 0
-    <HpRegenTime>k__BackingField: 0
-    <HealScale>k__BackingField: 1
-    <AntiHealScale>k__BackingField: 1
-    <Armor>k__BackingField: 0
-    <AttackPower>k__BackingField: 0
-    <AttackSpeed>k__BackingField: 0
-    <AttackSize>k__BackingField: 0
-    <ShotSpeed>k__BackingField: 1
-    <AttackRange>k__BackingField: 0
-    <MultiHitCount>k__BackingField: 0
-    <CriticalRate>k__BackingField: 0
-    <CriticalDamageScale>k__BackingField: 1
-    <Avoidability>k__BackingField: 0
-    <MoveSpeed>k__BackingField: 0
-    <Sight>k__BackingField: 0
-    <Xp>k__BackingField:
-      <max>k__BackingField: 0
-      <current>k__BackingField: 0
-    <XpScale>k__BackingField: 1
   m_Stat:
     <Hp>k__BackingField:
       <max>k__BackingField: 0
@@ -120,7 +105,7 @@ MonoBehaviour:
       <max>k__BackingField: 0
       <current>k__BackingField: 0
     <XpScale>k__BackingField: 1
-  m_MaxAttackIndex: 0
+  m_AttackPatternCount: 0
   m_HealTimer:
     m_Interval: 0
     m_Time: 0
@@ -137,7 +122,7 @@ MonoBehaviour:
   m_AttackSpot: {fileID: 6879120039570048744}
 --- !u!50 &5712683675375359391
 Rigidbody2D:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -148,10 +133,16 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -164,11 +155,32 @@ BoxCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 507329788138445555}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.875}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,7 +191,6 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
   m_Size: {x: 0.75, y: 1.75}
   m_EdgeRadius: 0
 --- !u!1 &507329788822272625
@@ -194,7 +205,7 @@ GameObject:
   - component: {fileID: 507329788822272629}
   - component: {fileID: 507329788822272630}
   - component: {fileID: 507329788822272631}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,6 +219,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 507329788822272625}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.5, y: 2.5, z: 1}
@@ -215,7 +227,6 @@ Transform:
   m_Children:
   - {fileID: 6879120039570048744}
   m_Father: {fileID: 507329788138445558}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &507329788822272629
 MonoBehaviour:
@@ -229,6 +240,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be33e0b13e91e424aa8fedef326c99dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
 --- !u!212 &507329788822272630
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -246,6 +266,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -283,7 +306,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &507329788822272631
 Animator:
-  serializedVersion: 4
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -297,10 +320,12 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &507329789419361956
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,7 +337,8 @@ GameObject:
   - component: {fileID: 507329789419361963}
   - component: {fileID: 507329789419361960}
   - component: {fileID: 507329789419361967}
-  m_Layer: 8
+  - component: {fileID: 7755235859654001978}
+  m_Layer: 13
   m_Name: TargetFinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -326,13 +352,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 507329789419361956}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 507329788138445558}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &507329789419361960
 MonoBehaviour:
@@ -360,18 +386,85 @@ MonoBehaviour:
   m_GameObject: {fileID: 507329789419361956}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5e22d05f101dd04aaf9137631035a70, type: 3}
+  m_Script: {fileID: 11500000, guid: 04d005ce642bbe347abba0782819e18f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ColliderType: 0
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: m_TriggerMap
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[BuffDebuff.CollisionChecker2D+Trigger,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   m_IsSimulating: 1
-  m_CollisionObjectList: []
-  m_OldCollisionObjectList: []
-  m_LayerMask:
+--- !u!61 &7755235859654001978
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507329789419361956}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Offset: {x: 2.07, y: 0.9}
-  m_Size: {x: 5, y: 2}
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 3, y: 1.5}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 6, y: 3}
+  m_EdgeRadius: 0
 --- !u!1 &3920265388865514971
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,7 +475,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3919503152802449395}
   - component: {fileID: 6060090194929554433}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: MiniMap Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -396,13 +489,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3920265388865514971}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 507329788138445558}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6060090194929554433
 SpriteRenderer:
@@ -421,6 +514,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -465,7 +561,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6879120039570048744}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: AttackSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -479,11 +575,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5819470556537317508}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 507329788822272624}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

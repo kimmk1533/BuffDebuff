@@ -1,163 +1,133 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
-[DefaultExecutionOrder(-1)]
-public abstract class CollisionChecker2D : MonoBehaviour
+namespace BuffDebuff
 {
-	protected static readonly Color c_ColliderColor = new Color(145 / 255f, 244 / 255f, 139 / 255f, 192 / 255f);
-
-	#region Enum
-	public enum E_ColliderType
+	[RequireComponent(typeof(Collider2D))]
+	public class CollisionChecker2D : SerializedMonoBehaviour
 	{
-		BoxCollider2D,
-		CircleCollider2D,
+		#region 변수
+		protected Collider2D m_Collider2D = null;
 
-		Max
-	}
-	#endregion
+		[OdinSerialize]
+		protected Dictionary<int, Trigger> m_TriggerMap = null;
 
-	#region 변수
-	[SerializeField, ReadOnly]
-	protected E_ColliderType m_ColliderType;
+		[SerializeField]
+		protected bool m_IsSimulating = true;
 
-	[SerializeField]
-	protected bool m_IsSimulating = true;
+		#endregion
 
-	[SerializeField, ReadOnly]
-	protected List<Collider2D> m_CollisionObjectList;
-	[SerializeField, ReadOnly]
-	protected List<Collider2D> m_OldCollisionObjectList;
-
-	[SerializeField, ReadOnly]
-	protected LayerMask m_LayerMask;
-	protected Dictionary<int, Trigger> m_TriggerMap;
-
-	[Space(10)]
-	[SerializeField]
-	protected Vector2 m_Offset;
-	#endregion
-
-	#region 프로퍼티
-	public E_ColliderType colliderType => m_ColliderType;
-
-	public bool isSimulating
-	{
-		get => m_IsSimulating;
-		set => m_IsSimulating = value;
-	}
-	public Vector2 offset
-	{
-		get => m_Offset;
-		set => m_Offset = value;
-	}
-
-	#region 인덱서
-	public Trigger this[int layer]
-	{
-		get
+		#region 프로퍼티
+		public bool isSimulating
 		{
-			if (m_TriggerMap.ContainsKey(layer) == false)
+			get => m_IsSimulating;
+			set => m_IsSimulating = value;
+		}
+		public Vector2 offset
+		{
+			get => m_Collider2D.offset;
+			set => m_Collider2D.offset = value;
+		}
+		public Vector2 size
+		{
+			get => m_Collider2D.bounds.size;
+			set
 			{
-				m_LayerMask |= 1 << layer;
-				m_TriggerMap.Add(layer, new Trigger());
+				Bounds bounds = m_Collider2D.bounds;
+				bounds.size = value;
+				m_Collider2D.bounds.SetMinMax(bounds.min, bounds.max);
 			}
-
-			return m_TriggerMap[layer];
 		}
-	}
-	public Trigger this[string layer]
-	{
-		get
+
+		#region 인덱서
+		public Trigger this[int layer]
 		{
-			return this[LayerMask.NameToLayer(layer)];
+			get
+			{
+				if (m_TriggerMap.ContainsKey(layer) == false)
+				{
+					m_TriggerMap.Add(layer, new Trigger());
+				}
+
+				return m_TriggerMap[layer];
+			}
 		}
-	}
-	#endregion
-	#endregion
-
-	#region 이벤트
-	public delegate void OnTriggerHandler(Collider2D collider);
-	public class Trigger
-	{
-		public OnTriggerHandler onEnter2D;
-		public OnTriggerHandler onStay2D;
-		public OnTriggerHandler onExit2D;
-	}
-	#endregion
-
-	public virtual void Initialize()
-	{
-		if (m_CollisionObjectList != null)
-			m_CollisionObjectList.Clear();
-		else
-			m_CollisionObjectList = new List<Collider2D>();
-
-		if (m_OldCollisionObjectList != null)
-			m_OldCollisionObjectList.Clear();
-		else
-			m_OldCollisionObjectList = new List<Collider2D>();
-
-		if (m_TriggerMap == null)
-			m_TriggerMap = new Dictionary<int, Trigger>();
-	}
-	public virtual void Finallize()
-	{
-		foreach (var item in m_TriggerMap)
+		public Trigger this[string layer]
 		{
-			item.Value.onEnter2D = null;
-			item.Value.onStay2D = null;
-			item.Value.onExit2D = null;
+			get
+			{
+				return this[LayerMask.NameToLayer(layer)];
+			}
 		}
-		m_TriggerMap.Clear();
+		#endregion
 
-		m_LayerMask = LayerMask.GetMask();
-	}
+		#endregion
 
-	protected virtual void Update()
-	{
-		if (m_IsSimulating == false)
-			return;
-
-		if (m_TriggerMap.Count <= 0)
-			return;
-
-		CheckCollision();
-
-		ResolveCollision();
-	}
-
-	public void Clear()
-	{
-		m_CollisionObjectList.Clear();
-		m_OldCollisionObjectList.Clear();
-	}
-
-	protected virtual void CheckCollision()
-	{
-		m_OldCollisionObjectList.Clear();
-		m_OldCollisionObjectList.AddRange(m_CollisionObjectList);
-
-		m_CollisionObjectList.Clear();
-		m_CollisionObjectList.AddRange(GetCollisionColliders());
-	}
-	protected abstract Collider2D[] GetCollisionColliders();
-	protected virtual void ResolveCollision()
-	{
-		foreach (var item in m_CollisionObjectList)
+		#region 이벤트
+		public delegate void OnTriggerHandler(Collider2D collider);
+		public class Trigger
 		{
-			if (m_OldCollisionObjectList.Contains(item) == false)
-				this[item.gameObject.layer].onEnter2D?.Invoke(item);
-			else
-				this[item.gameObject.layer].onStay2D?.Invoke(item);
+			public OnTriggerHandler onEnter2D;
+			public OnTriggerHandler onStay2D;
+			public OnTriggerHandler onExit2D;
+		}
+		#endregion
+
+		public virtual void Initialize()
+		{
+			this.NullCheckGetComponent<Collider2D>(ref m_Collider2D);
+			m_Collider2D.isTrigger = true;
+
+			if (m_TriggerMap == null)
+				m_TriggerMap = new Dictionary<int, Trigger>();
+
+			m_IsSimulating = true;
+		}
+		public virtual void Finallize()
+		{
+			foreach (var item in m_TriggerMap)
+			{
+				item.Value.onEnter2D = null;
+				item.Value.onStay2D = null;
+				item.Value.onExit2D = null;
+			}
+			m_TriggerMap.Clear();
+
+			m_IsSimulating = false;
 		}
 
-		foreach (var item in m_OldCollisionObjectList)
+		private void OnTriggerEnter2D(Collider2D collision)
 		{
-			if (m_CollisionObjectList.Contains(item) == false)
-				this[item.gameObject.layer].onExit2D?.Invoke(item);
+			if (m_IsSimulating == false)
+				return;
+
+			if (m_TriggerMap.ContainsKey(collision.gameObject.layer) == false)
+				return;
+
+			m_TriggerMap[collision.gameObject.layer].onEnter2D?.Invoke(collision);
+		}
+		private void OnTriggerStay2D(Collider2D collision)
+		{
+			if (m_IsSimulating == false)
+				return;
+
+			if (m_TriggerMap.ContainsKey(collision.gameObject.layer) == false)
+				return;
+
+			m_TriggerMap[collision.gameObject.layer].onStay2D?.Invoke(collision);
+		}
+		private void OnTriggerExit2D(Collider2D collision)
+		{
+			if (m_IsSimulating == false)
+				return;
+
+			if (m_TriggerMap.ContainsKey(collision.gameObject.layer) == false)
+				return;
+
+			m_TriggerMap[collision.gameObject.layer].onExit2D?.Invoke(collision);
 		}
 	}
-
-	protected abstract void OnDrawGizmosSelected();
 }

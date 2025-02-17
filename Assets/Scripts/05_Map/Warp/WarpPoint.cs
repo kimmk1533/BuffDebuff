@@ -5,18 +5,18 @@ using BuffDebuff.Enum;
 
 namespace BuffDebuff
 {
-	[RequireComponent(typeof(BoxCollisionChecker2D))]
+	[RequireComponent(typeof(CollisionChecker2D))]
 	public class WarpPoint : MonoBehaviour
 	{
 		#region 변수
-		private Room m_Room;
+		private Room m_Room = null;
 
 		[SerializeField]
 		private int m_Index;
 		[SerializeField]
-		private E_Direction m_Direction;
+		private E_Direction m_Direction = E_Direction.None;
 
-		private BoxCollisionChecker2D m_CollisionChecker2D;
+		private CollisionChecker2D m_CollisionChecker2D = null;
 		#endregion
 
 		#region 프로퍼티
@@ -52,7 +52,7 @@ namespace BuffDebuff
 		{
 			m_Room = room;
 
-			this.NullCheckGetComponent<BoxCollisionChecker2D>(ref m_CollisionChecker2D);
+			this.NullCheckGetComponent<CollisionChecker2D>(ref m_CollisionChecker2D);
 			m_CollisionChecker2D.Initialize();
 
 			m_CollisionChecker2D["Player"].onEnter2D += MoveCollisionObject;
@@ -98,7 +98,6 @@ namespace BuffDebuff
 			M_Stage.currentStage.MoveRoom(dirVec);
 
 			warpPoint.m_CollisionChecker2D.isSimulating = false;
-			warpPoint.m_CollisionChecker2D.Clear();
 			warpPoint.StartCoroutine(warpPoint.TurnOnCollisionChecker());
 
 			WarpArg warpArg = new WarpArg()

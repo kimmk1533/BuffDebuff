@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5596585782795773004}
   - component: {fileID: 1818504739170093422}
   - component: {fileID: 5596585782795772994}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fire Bite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,6 +61,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51f865a8169aca42b35b4b149ece23b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   m_CollisionChecker2D: {fileID: 0}
   m_Animator: {fileID: 2240918367754883474}
   m_MoveSpeed: 0
@@ -77,18 +86,39 @@ MonoBehaviour:
   m_GameObject: {fileID: 5596585782795772999}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5e22d05f101dd04aaf9137631035a70, type: 3}
+  m_Script: {fileID: 11500000, guid: 04d005ce642bbe347abba0782819e18f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ColliderType: 0
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: m_TriggerMap
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[BuffDebuff.CollisionChecker2D+Trigger,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   m_IsSimulating: 1
-  m_CollisionObjectList: []
-  m_OldCollisionObjectList: []
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.85, y: 0.5}
 --- !u!50 &1818504739170093422
 Rigidbody2D:
   serializedVersion: 5
@@ -174,7 +204,7 @@ GameObject:
   - component: {fileID: 2240918367754883474}
   - component: {fileID: 5596585784329701491}
   - component: {fileID: 181741985780708447}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

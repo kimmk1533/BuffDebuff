@@ -11,7 +11,7 @@ namespace BuffDebuff
 		private ProjectileController m_Controller;
 
 		[SerializeField, ReadOnly]
-		private BoxCollisionChecker2D m_CollisionChecker2D;
+		private CollisionChecker2D m_CollisionChecker2D;
 
 		[SerializeField, ChildComponent("Renderer")]
 		private ProjectileAnimator m_Animator;
@@ -48,7 +48,7 @@ namespace BuffDebuff
 			this.NullCheckGetComponent<ProjectileController>(ref m_Controller);
 			m_Controller.Initialize();
 
-			this.NullCheckGetComponent<BoxCollisionChecker2D>(ref m_CollisionChecker2D);
+			this.NullCheckGetComponent<CollisionChecker2D>(ref m_CollisionChecker2D);
 			m_CollisionChecker2D.Initialize();
 
 			m_Animator.Initialize();

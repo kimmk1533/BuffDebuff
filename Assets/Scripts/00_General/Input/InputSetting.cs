@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
 namespace BuffDebuff
@@ -9,7 +10,7 @@ namespace BuffDebuff
 	public class InputSetting : SerializedScriptableObject
 	{
 		#region 변수
-		[SerializeField]
+		[OdinSerialize]
 		[DictionaryDrawerSettings(KeyLabel = "Input Type", ValueLabel = "Input Info")]
 		private Dictionary<E_InputType, InputInfo> m_InputMap = null;
 		#endregion
