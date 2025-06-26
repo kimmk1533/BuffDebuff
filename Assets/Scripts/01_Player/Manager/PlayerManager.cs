@@ -6,7 +6,7 @@ using DataDictionary = DoubleKeyDictionary<int, string, (BuffDebuff.Player playe
 
 namespace BuffDebuff
 {
-	public class PlayerManager : Singleton<PlayerManager>
+	public class PlayerManager : SerializedSingleton<PlayerManager>
 	{
 		#region 변수
 		public static readonly int playerMaxLevel = 100;
@@ -37,8 +37,10 @@ namespace BuffDebuff
 		private static StageManager M_Stage => StageManager.Instance;
 		#endregion
 
-		public void Initialize()
+		public override void Initialize()
 		{
+			base.Initialize();
+
 			if (m_PlayerDataMap == null)
 				m_PlayerDataMap = new DataDictionary();
 			if (m_PlayerLevelMap == null)
@@ -47,21 +49,25 @@ namespace BuffDebuff
 			LoadAllLevelData();
 			LoadAllPlayerData();
 		}
-		public void Finallize()
+		public override void Finallize()
 		{
-
+			base.Finallize();
 		}
 
-		public void InitializeGame()
+		public override void InitializeMain()
 		{
+			base.InitializeMain();
+
 			Camera.main.NullCheckGetComponent<CameraFollow>(ref m_PlayerCamera);
 
 			m_Player.gameObject.SetActive(true);
 			m_Player.Initialize();
 			m_PlayerCamera.Initialize();
 		}
-		public void FinallizeGame()
+		public override void FinallizeMain()
 		{
+			base.FinallizeMain();
+
 			m_PlayerCamera.Finallize();
 			m_Player.Finallize();
 			m_Player.gameObject.SetActive(false);

@@ -38,13 +38,13 @@ namespace BuffDebuff
 			base.Finallize();
 		}
 
-		public override void InitializeGame()
+		public override void InitializeMain()
 		{
-			base.InitializeGame();
+			base.InitializeMain();
 		}
-		public override void FinallizeGame()
+		public override void FinallizeMain()
 		{
-			base.FinallizeGame();
+			base.FinallizeMain();
 		}
 
 		private void LoadAllEnemyData()
@@ -77,7 +77,7 @@ namespace BuffDebuff
 		{
 			if (Input.GetKeyDown(KeyCode.Tab))
 			{
-				Vector2 position = UtilClass.GetMouseWorldPosition();
+				Vector2 position = UtilClass.GetMouseWorldPosition2D();
 
 				Enemy enemy = GetBuilder(m_Debug_SpawnEnemyType.ToString())
 					.SetActive(true)
@@ -87,13 +87,5 @@ namespace BuffDebuff
 					.Spawn();
 			}
 		}
-
-#if UNITY_EDITOR
-		[ContextMenu("Load Origin")]
-		protected override void LoadOrigin()
-		{
-			base.LoadOrigin_Inner();
-		}
-#endif
 	}
 }

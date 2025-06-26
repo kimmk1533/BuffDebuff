@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BuffDebuff.Enum;
+using Sirenix.OdinInspector;
 
 namespace BuffDebuff
 {
@@ -57,11 +58,11 @@ namespace BuffDebuff
 		{
 		}
 
-		public void InitializeGame()
+		public void InitializeMain()
 		{
 			Camera.main.NullCheckGetComponent(ref m_CameraFollow);
 		}
-		public void FinallizeGame()
+		public void FinallizeMain()
 		{
 			if (m_StageRoomQueue != null)
 				m_StageRoomQueue.Clear();

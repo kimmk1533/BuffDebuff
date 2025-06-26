@@ -4,8 +4,8 @@ using System;
 #if UNITY_EDITOR
 namespace UnityEditor
 {
-	[CustomPropertyDrawer(typeof(ReadOnlyAttribute), true)]
-	public class ReadOnlyAttributeDrawer : PropertyDrawer
+	[CustomPropertyDrawer(typeof(RuntimeReadOnlyAttribute), true)]
+	public class RuntimeReadOnlyAttributeDrawer : PropertyDrawer
 	{
 		// Necessary since some properties tend to collapse smaller than their content
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
@@ -19,7 +19,7 @@ namespace UnityEditor
 			if (property == null)
 				return;
 
-			GUI.enabled = !Application.isPlaying && ((ReadOnlyAttribute)attribute).runtimeOnly;
+			GUI.enabled = !Application.isPlaying && ((RuntimeReadOnlyAttribute)attribute).runtimeOnly;
 			EditorGUI.PropertyField(position, property, label, true);
 			GUI.enabled = true;
 		}

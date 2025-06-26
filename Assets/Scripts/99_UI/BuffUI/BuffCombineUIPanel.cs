@@ -38,11 +38,11 @@ namespace BuffDebuff
 			m_CombineButton.onClick.RemoveAllListeners();
 		}
 
-		public void InitializeGame()
+		public void InitializeMain()
 		{
 
 		}
-		public void FinallizeGame()
+		public void FinallizeMain()
 		{
 		}
 

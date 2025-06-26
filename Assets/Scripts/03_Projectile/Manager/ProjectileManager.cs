@@ -25,23 +25,25 @@ namespace BuffDebuff
 			base.Finallize();
 		}
 
-		public override void InitializeGame()
+		public override void InitializeMain()
 		{
-			for (int i = 0; i < m_Origins.Count; ++i)
-			{
-				OriginInfo originInfo = m_Origins[i];
+			base.InitializeMain();
 
-				if (originInfo.useFlag == false)
-					continue;
+			//for (int i = 0; i < m_Origins.Count; ++i)
+			//{
+			//	OriginInfo originInfo = m_Origins[i];
 
-				ObjectPool<Projectile> projectilePool = GetPool(originInfo.key);
-				ProjectileBuilder projectileBuilder = new ProjectileBuilder(projectilePool);
-				projectilePool.Initialize(projectileBuilder);
-			}
+			//	if (originInfo.useFlag == false)
+			//		continue;
+
+			//	ObjectPool<Projectile> projectilePool = GetPool(originInfo.key);
+			//	ProjectileBuilder projectileBuilder = new ProjectileBuilder(projectilePool);
+			//	projectilePool.Initialize(projectileBuilder);
+			//}
 		}
-		public override void FinallizeGame()
+		public override void FinallizeMain()
 		{
-			base.FinallizeGame();
+			base.FinallizeMain();
 		}
 
 		private void LoadAllProjectileData()
@@ -68,14 +70,6 @@ namespace BuffDebuff
 		{
 			return (ProjectileBuilder)base.GetBuilder(key);
 		}
-
-#if UNITY_EDITOR
-		[ContextMenu("Load Origin")]
-		protected override void LoadOrigin()
-		{
-			base.LoadOrigin_Inner();
-		}
-#endif
 
 		public class ProjectileBuilder : ObjectPool<Projectile>.ItemBuilder
 		{

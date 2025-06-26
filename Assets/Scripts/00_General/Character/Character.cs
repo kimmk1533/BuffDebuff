@@ -210,7 +210,7 @@ namespace BuffDebuff
 			m_AttackTimer.Clear();
 		}
 	}
-	public abstract class PoolCharacter<TStat, TController, TAnimator> : ObjectPoolItemBase where TStat : CharacterStat where TController : Controller2D where TAnimator : CharacterAnimator, IAnim_Attack
+	public abstract class PoolCharacter<TSelf, TStat, TController, TAnimator> : ObjectPoolItem<TSelf> where TSelf : ObjectPoolItem<TSelf> where TStat : CharacterStat where TController : Controller2D where TAnimator : CharacterAnimator, IAnim_Attack
 	{
 		#region 변수
 		protected TController m_Controller;

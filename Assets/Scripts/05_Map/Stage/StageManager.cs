@@ -5,7 +5,7 @@ using UnityEngine;
 namespace BuffDebuff
 {
 	[RequireComponent(typeof(StageGenerator))]
-	public class StageManager : Singleton<StageManager>
+	public class StageManager : SerializedSingleton<StageManager>
 	{
 		private static readonly Vector2Int[] c_StageSize =
 		{
@@ -41,18 +41,24 @@ namespace BuffDebuff
 		public event System.Action onStageGenerated;
 		#endregion
 
-		public void Initialize()
+		public override void Initialize()
 		{
+			base.Initialize();
+
 			this.NullCheckGetComponent<StageGenerator>(ref m_StageGenerator);
 			m_StageGenerator.Initialize();
 		}
-		public void Finallize()
+		public override void Finallize()
 		{
+			base.Finallize();
+
 			m_StageGenerator.Finallize();
 		}
 
-		public void InitializeGame()
+		public override void InitializeMain()
 		{
+			base.InitializeMain();
+
 			if (m_StageParent == null)
 			{
 				m_StageParent = new GameObject("Stage Grid").transform;
@@ -63,7 +69,7 @@ namespace BuffDebuff
 			//m_CurrentStageLevel = 1;
 			m_StageSize = c_StageSize[m_CurrentStageLevel - 1];
 
-			m_StageGenerator.InitializeGame();
+			m_StageGenerator.InitializeMain();
 			m_CurrentStage = m_StageGenerator.GenerateStage(new StageGenerator.StageGeneratorArg()
 			{
 				stageParent = m_StageParent,
@@ -72,8 +78,9 @@ namespace BuffDebuff
 			});
 			onStageGenerated?.Invoke();
 		}
-		public void FinallizeGame()
+		public override void FinallizeMain()
 		{
+			base.FinallizeMain();
 
 		}
 

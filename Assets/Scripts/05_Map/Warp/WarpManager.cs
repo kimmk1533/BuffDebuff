@@ -5,7 +5,7 @@ using BuffDebuff.Enum;
 
 namespace BuffDebuff
 {
-	public class WarpManager : Singleton<WarpManager>
+	public class WarpManager : SerializedSingleton<WarpManager>
 	{
 		#region 변수
 		private Dictionary<Room, Dictionary<E_Direction, List<WarpPoint>>> m_WarpPointMap;
@@ -32,10 +32,10 @@ namespace BuffDebuff
 			}
 		}
 
-		public void InitializeGame()
+		public void InitializeMain()
 		{
 		}
-		public void FinallizeGame()
+		public void FinallizeMain()
 		{
 
 		}

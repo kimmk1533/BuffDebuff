@@ -4,7 +4,7 @@ using UnityEngine;
 
 [DefaultExecutionOrder(-99)]
 [RequireComponent(typeof(Camera))]
-public class UICamera : Singleton<UICamera>
+public class UICamera : SerializedSingleton<UICamera>
 {
 	#region 변수
 	private Camera m_Camera;

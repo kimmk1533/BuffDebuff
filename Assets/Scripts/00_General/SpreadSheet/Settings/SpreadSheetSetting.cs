@@ -18,7 +18,7 @@ namespace SpreadSheet
 		// 스프레드시트 키(url)
 		public string spreadSheetId;
 
-		[ReadOnly(true)]
+		[RuntimeReadOnly(true)]
 		public List<WorkSheetData> workSheetDataList;
 
 		//// enter Auth 2.0 Refresh Token and AccessToken after succesfully authorizing with Access Code

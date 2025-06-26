@@ -20,7 +20,7 @@ namespace BuffDebuff
 	}
 
 	[DefaultExecutionOrder(-100)]
-	public class InputManager : Singleton<InputManager>
+	public class InputManager : SerializedSingleton<InputManager>
 	{
 		#region 변수
 		[SerializeField]
@@ -38,8 +38,10 @@ namespace BuffDebuff
 		private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
 		#endregion
 
-		public void Initialize()
+		public override void Initialize()
 		{
+			base.Initialize();
+
 			if (m_AxisMap == null)
 				m_AxisMap = new Dictionary<string, List<E_InputType>>();
 			if (m_AxisValueMap == null)
@@ -48,8 +50,10 @@ namespace BuffDebuff
 			UpdateInfoMapFromSetting();
 			UpdateAxisMap();
 		}
-		public void Finallize()
+		public override void Finallize()
 		{
+			base.Finallize();
+
 			foreach (var item in m_AxisMap)
 			{
 				item.Value.Clear();

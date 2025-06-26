@@ -8,7 +8,7 @@ using BuffTypeGrade = System.Tuple<BuffDebuff.Enum.E_BuffType, BuffDebuff.Enum.E
 
 namespace BuffDebuff
 {
-	public sealed class BuffManager : Singleton<BuffManager>
+	public sealed class BuffManager : SerializedSingleton<BuffManager>
 	{
 		#region 변수
 		[Space(10)]
@@ -25,8 +25,10 @@ namespace BuffDebuff
 		private static PlayerManager M_Player => PlayerManager.Instance;
 		#endregion
 
-		public void Initialize()
+		public override void Initialize()
 		{
+			base.Initialize();
+
 			// m_BuffGradeInfo
 			if (m_BuffGradeInfo == null)
 				m_BuffGradeInfo = new BuffGradeInfo();
@@ -41,13 +43,16 @@ namespace BuffDebuff
 
 			LoadAllBuffData();
 		}
-		public void Finallize()
+		public override void Finallize()
 		{
+			base.Finallize();
 
 		}
 
-		public void InitializeGame()
+		public override void InitializeMain()
 		{
+			base.InitializeMain();
+
 			m_BuffGradeInfo.UpdateBuffGradeTexture();
 
 			foreach (var item in m_BuffDataMap)
@@ -63,8 +68,9 @@ namespace BuffDebuff
 				m_BuffTypeGradeMap[buffTypeGrade].Add(buffData.code);
 			}
 		}
-		public void FinallizeGame()
+		public override void FinallizeMain()
 		{
+			base.FinallizeMain();
 
 		}
 

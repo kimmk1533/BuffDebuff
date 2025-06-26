@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuffDebuff
 {
-	public class GameManager : Singleton<GameManager>
+	public class GameManager : SerializedSingleton<GameManager>
 	{
 		#region 변수
 		private bool m_IsInGame = false;
@@ -29,32 +29,25 @@ namespace BuffDebuff
 		private static RoomManager M_Room => RoomManager.Instance;
 		private static StageManager M_Stage => StageManager.Instance;
 		private static WarpManager M_Warp => WarpManager.Instance;
-		private static GridManager M_Grid => GridManager.Instance;
 
 		// UI Managers
 		private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
 		#endregion
 
-		private void Awake()
-		{
-			Initialize();
-		}
 		private void Update()
 		{
 			if (Input.GetKeyDown(KeyCode.Escape))
 			{
 				FinallizeGame();
 
-				LoadingSceneManager.LoadScene("Main Menu Scene");
+				SceneLoader.LoadScene("Main Menu Scene");
 			}
 		}
-		private void OnApplicationQuit()
-		{
-			Finallize();
-		}
 
-		public void Initialize()
+		public override void Initialize()
 		{
+			base.Initialize();
+
 			// 인풋 매니저 초기화
 			M_Input.Initialize();
 			// 버프 인벤토리 초기화
@@ -75,9 +68,17 @@ namespace BuffDebuff
 			M_Warp.Initialize();
 			// 스테이지 매니저 초기화
 			M_Stage.Initialize();
+
+			// 버프 UI 매니저 초기화
+			M_BuffUI.Initialize();
 		}
-		public void Finallize()
+		public override void Finallize()
 		{
+			base.Finallize();
+
+			// 버프 UI 매니저 마무리
+			M_BuffUI.Finallize();
+
 			// 스테이지 매니저 마무리
 			M_Stage.Finallize();
 			// 워프 매니저 마무리
@@ -121,24 +122,24 @@ namespace BuffDebuff
 		public void InitializeGame()
 		{
 			// 플레이어 매니저 초기화
-			M_Player.InitializeGame();
+			M_Player.InitializeMain();
 
 			// 적 매니저 초기화
-			M_Enemy.InitializeGame();
+			M_Enemy.InitializeMain();
 			// 투사체 매니저 초기화
-			M_Projectile.InitializeGame();
+			M_Projectile.InitializeMain();
 			// 버프 매니저 초기화
-			M_Buff.InitializeGame();
+			M_Buff.InitializeMain();
 
 			// 방 매니저 초기화
-			M_Room.InitializeGame();
+			M_Room.InitializeMain();
 			// 워프 매니저 초기화
-			M_Warp.InitializeGame();
+			M_Warp.InitializeMain();
 			// 스테이지 매니저 초기화
-			M_Stage.InitializeGame();
+			M_Stage.InitializeMain();
 
 			// 버프 UI 매니저 초기화
-			M_BuffUI.InitializeGame();
+			M_BuffUI.InitializeMain();
 
 			m_IsInGame = true;
 		}
@@ -146,26 +147,39 @@ namespace BuffDebuff
 		public void FinallizeGame()
 		{
 			// 버프 UI 매니저 마무리
-			M_BuffUI.FinallizeGame();
+			M_BuffUI.FinallizeMain();
 
 			// 스테이지 매니저 마무리
-			M_Stage.FinallizeGame();
+			M_Stage.FinallizeMain();
 			// 워프 매니저 마무리
-			M_Warp.FinallizeGame();
+			M_Warp.FinallizeMain();
 			// 방 매니저 마무리
-			M_Room.FinallizeGame();
+			M_Room.FinallizeMain();
 
 			// 버프 매니저 마무리
-			M_Buff.FinallizeGame();
+			M_Buff.FinallizeMain();
 			// 투사체 매니저 마무리
-			M_Projectile.FinallizeGame();
+			M_Projectile.FinallizeMain();
 			// 적 매니저 마무리
-			M_Enemy.FinallizeGame();
+			M_Enemy.FinallizeMain();
 
 			// 플레이어 매니저 마무리
-			M_Player.FinallizeGame();
+			M_Player.FinallizeMain();
 
 			m_IsInGame = false;
+		}
+
+		public override void InitializeMain()
+		{
+			base.InitializeMain();
+
+
+		}
+		public override void FinallizeMain()
+		{
+			base.FinallizeMain();
+
+
 		}
 	}
 }

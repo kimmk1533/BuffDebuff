@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BuffDebuff
 {
-	public class Enemy : PoolCharacter<EnemyStat, EnemyController2D, EnemyAnimator>, IDamageGiver, IDamageTaker
+	public class Enemy : PoolCharacter<Enemy, EnemyStat, EnemyController2D, EnemyAnimator>, IDamageGiver, IDamageTaker
 	{
 		const float c_BotMaxPositionError = 0.0625f; // 1 ÷ 16 (pixels per unit)
 
@@ -82,7 +82,7 @@ namespace BuffDebuff
 			m_PrevInputs = new bool[(int)E_EnemyKeyInput.Max];
 
 			if (m_AttackSpot == null)
-				m_AttackSpot = transform.FindInChilderen("AttackSpot");
+				m_AttackSpot = transform.FindInChildren("AttackSpot");
 
 			m_TargetFinder.Initialize();
 			m_TargetFinder.onTargetEnter2D += (target) =>

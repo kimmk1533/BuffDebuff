@@ -368,7 +368,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6574336611213907129}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 480706f9b17890f4c9e2be359b6a8480, type: 3}
+  m_Script: {fileID: 11500000, guid: 8375b2d74a36c034f813dcb044f9d7f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
@@ -380,7 +380,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_Animator: {fileID: 4592944753083979780, guid: fcef39ccf1b775c49864f310ab473fab, type: 3}
+  m_Animator: {fileID: 6574336610287940671}
   m_IsSimulating: 1
   m_Velocity: {x: 0, y: 0}
   m_Stat:
@@ -414,7 +414,7 @@ MonoBehaviour:
   m_AttackTimer:
     m_Interval: 0
     m_Time: 0
-  m_TargetFinder: {fileID: 4592944752603367521, guid: fcef39ccf1b775c49864f310ab473fab, type: 3}
+  m_TargetFinder: {fileID: 8564640688448209426}
   m_MoveDirTimer:
     m_Interval: 0
     m_Time: 0

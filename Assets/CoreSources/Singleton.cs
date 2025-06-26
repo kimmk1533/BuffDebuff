@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 [DefaultExecutionOrder(-98)]
-public abstract class Singleton<TSelf> : SerializedMonoBehaviour where TSelf : Singleton<TSelf>
+public abstract class Singleton<TSelf> : MonoBehaviour where TSelf : Singleton<TSelf>
 {
 	#region 변수
 	[SerializeField]
@@ -71,26 +71,4 @@ public abstract class Singleton<TSelf> : SerializedMonoBehaviour where TSelf : S
 			m_DontDestroyOnLoad)
 			DontDestroyOnLoad(gameObject);
 	}
-}
-
-public abstract class SingletonBasic<T> where T : new()
-{
-	#region 변수
-	private static T instance;
-	#endregion
-
-	#region 프로퍼티
-	public static T Instance
-	{
-		get
-		{
-			if (instance == null)
-			{
-				instance = new T();
-			}
-
-			return instance;
-		}
-	}
-	#endregion
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using Algorithms;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -37,14 +38,14 @@ namespace BuffDebuff
 		[SerializeField]
 		private PathFinderFast m_PathFinder;
 
-		[SerializeField, ReadOnly(true)]
+		[SerializeField, RuntimeReadOnly(true)]
 		private bool m_Debug;
 		[SerializeField]
 		private bool m_Debug_ShowTile;
-		[SerializeField, ReadOnly(true)]
+		[SerializeField, RuntimeReadOnly(true)]
 		private Transform m_Debug_TileParent;
 		private SpriteRenderer[,] m_Debug_TileRenderers;
-		[SerializeField, ReadOnly(true)]
+		[SerializeField, RuntimeReadOnly(true)]
 		private SpriteRenderer m_Debug_TilePrefab;
 		#endregion
 

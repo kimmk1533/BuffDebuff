@@ -84,7 +84,7 @@ namespace BuffDebuff
 		/// </summary>
 		/// <param name="arg"></param>
 		/// <exception cref="System.NullReferenceException"></exception>
-		private void OnEnemyDespawn(ObjectPoolItemBase arg)
+		private void OnEnemyDespawn(ObjectPoolItem<Enemy> arg)
 		{
 			Enemy enemy = arg as Enemy;
 			if (enemy == null)

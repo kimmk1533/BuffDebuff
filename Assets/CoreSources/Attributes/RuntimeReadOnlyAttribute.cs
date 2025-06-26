@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReadOnlyAttribute : PropertyAttribute
+public class RuntimeReadOnlyAttribute : PropertyAttribute
 {
 	public readonly bool runtimeOnly;
 
-	public ReadOnlyAttribute(bool runtimeOnly = false)
+	public RuntimeReadOnlyAttribute(bool runtimeOnly = false)
 	{
 		this.runtimeOnly = runtimeOnly;
 	}

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class Controller2D : RaycastController
@@ -10,11 +11,11 @@ public class Controller2D : RaycastController
 
 	protected float m_MaxSlopeAngle = 50;
 
-	[SerializeField, ReadOnly(true)]
+	[SerializeField, RuntimeReadOnly(true)]
 	protected float m_MaxJumpHeight = 4;
-	[SerializeField, ReadOnly(true)]
+	[SerializeField, RuntimeReadOnly(true)]
 	protected float m_MinJumpHeight = 1;
-	[SerializeField, ReadOnly(true)]
+	[SerializeField, RuntimeReadOnly(true)]
 	protected float m_TimeToJumpApex = 0.4f;
 
 	[SerializeField, ReadOnly]

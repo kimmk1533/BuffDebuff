@@ -18,6 +18,7 @@ namespace BuffDebuff
 		public System.Action<Room> onRoomClear;
 		#endregion
 
+		#region 초기화 & 마무리화 함수
 		public override void Initialize()
 		{
 			base.Initialize();
@@ -39,9 +40,9 @@ namespace BuffDebuff
 			}
 		}
 
-		public override void InitializeGame()
+		public override void InitializeMain()
 		{
-			base.InitializeGame();
+			base.InitializeMain();
 
 			foreach (var item in m_ObjectPoolMap)
 			{
@@ -49,12 +50,13 @@ namespace BuffDebuff
 			}
 			m_AllRoomPool = m_AllRoomPool.Distinct().ToList();
 		}
-		public override void FinallizeGame()
+		public override void FinallizeMain()
 		{
-			base.FinallizeGame();
+			base.FinallizeMain();
 
 			m_AllRoomPool.Clear();
 		}
+		#endregion
 
 		public RoomPool.ItemBuilder GetRandomBuilder(E_DirectionFlag dirCheck)
 		{
@@ -64,7 +66,7 @@ namespace BuffDebuff
 			{
 				RoomPool pool = roomPoolList[roomPoolIndex];
 
-				Room room = pool.GetBuilder()
+				Room room = pool.builder
 					.SetAutoInit(true)
 					.Spawn();
 
@@ -100,38 +102,7 @@ namespace BuffDebuff
 
 			int index = Random.Range(0, roomPoolList.Count);
 
-			return roomPoolList[index].GetBuilder();
+			return roomPoolList[index].builder;
 		}
-
-		#region UNITY_EDITOR
-#if UNITY_EDITOR
-		[ContextMenu("All Flag On")]
-		private void TurnOnFlagAll()
-		{
-			for (int i = 0; i < m_Origins.Count; ++i)
-			{
-				var temp = m_Origins[i];
-				temp.useFlag = true;
-				m_Origins[i] = temp;
-			}
-		}
-		[ContextMenu("All Flag Off")]
-		private void TurnOffFlagAll()
-		{
-			for (int i = 0; i < m_Origins.Count; ++i)
-			{
-				var temp = m_Origins[i];
-				temp.useFlag = false;
-				m_Origins[i] = temp;
-			}
-		}
-
-		[ContextMenu("Load Origin")]
-		protected override void LoadOrigin()
-		{
-			base.LoadOrigin_Inner();
-		}
-#endif
-		#endregion
 	}
 }

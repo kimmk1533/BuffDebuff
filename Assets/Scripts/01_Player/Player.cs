@@ -68,7 +68,7 @@ namespace BuffDebuff
 			m_CanComboAttack = false;
 
 			if (m_AttackSpot == null)
-				m_AttackSpot = transform.FindInChilderen("AttackSpot");
+				m_AttackSpot = transform.FindInChildren("AttackSpot");
 
 			// 타이머 초기화
 			if (m_DashTimer == null)
@@ -235,7 +235,7 @@ namespace BuffDebuff
 
 			OnBuffDash();
 
-			Vector2 dir = UtilClass.GetMouseWorldPosition() - transform.position;
+			Vector2 dir = UtilClass.GetMouseWorldPosition3D() - transform.position;
 
 			if (M_BuffInventory.HasBuff("전방향 대쉬") == true)
 			{
@@ -263,7 +263,7 @@ namespace BuffDebuff
 		{
 			Vector3 position = m_AttackSpot.position;
 
-			Vector2 mousePos = UtilClass.GetMouseWorldPosition();
+			Vector2 mousePos = UtilClass.GetMouseWorldPosition2D();
 			float angle = position.GetAngle(mousePos);
 			Quaternion quaternion = Quaternion.AngleAxis(angle, Vector3.forward);
 

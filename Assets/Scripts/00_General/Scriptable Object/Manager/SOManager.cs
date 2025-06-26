@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace BuffDebuff
 {
-	public abstract class SOManager<T> : Singleton<T> where T : SOManager<T>
+	public abstract class SOManager<T> : SerializedSingleton<T> where T : SOManager<T>
 	{
 		protected static string dataFolder;
 		protected static readonly string defaultResourcesPath = Path.Combine("Data Files", "Scriptable Objects");

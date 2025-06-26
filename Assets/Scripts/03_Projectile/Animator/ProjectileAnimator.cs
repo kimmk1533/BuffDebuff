@@ -41,7 +41,7 @@ namespace BuffDebuff
 		}
 		#endregion
 
-		#region 매니져
+		#region 매니저
 		private static ProjectileManager M_Projectile => ProjectileManager.Instance;
 		#endregion
 

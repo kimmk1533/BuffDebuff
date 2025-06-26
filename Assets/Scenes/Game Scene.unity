@@ -9887,26 +9887,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1055659978}
-  - component: {fileID: 1055659977}
+  - component: {fileID: 1055659979}
   m_Layer: 0
-  m_Name: Game Scene Receiver
+  m_Name: Game Scene Event Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1055659977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1055659976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec4552690bdd7c644b7d2fae7a473974, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1055659978
 Transform:
   m_ObjectHideFlags: 0
@@ -9922,6 +9910,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1055659979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055659976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e22da3898ed29e469b16fe0682b226e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: m_OnSceneSwitchingBeforeEventMap
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Events.UnityEvent,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_OnSceneSwitchingAfterEventMap
+      Entry: 7
+      Data: 2|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Events.UnityEvent,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 1
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
 --- !u!1 &1063287581
 GameObject:
   m_ObjectHideFlags: 0
@@ -16681,22 +16726,22 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  m_IsMainScene: 1
+  m_IsInitScene: 0
   m_DontDestroyOnLoad: 0
-  m_Path: Prefabs/99_UI/
+  m_CommonPath: 
   m_Origins:
   - <key>k__BackingField: Buff Rewards
-    <path>k__BackingField: 
+    <additionalPath>k__BackingField: 
     <useFlag>k__BackingField: 1
     <poolSize>k__BackingField: 3
     <origin>k__BackingField: {fileID: 994744673019091772, guid: fd767178d9eb92745a69a616d6183b7d, type: 3}
   - <key>k__BackingField: Buff Inventory
-    <path>k__BackingField: 
+    <additionalPath>k__BackingField: 
     <useFlag>k__BackingField: 1
     <poolSize>k__BackingField: 10
     <origin>k__BackingField: {fileID: 2399323023349901490, guid: c9b5023b7926f9b48afec3190a4d5951, type: 3}
   - <key>k__BackingField: Buff Combine
-    <path>k__BackingField: 
+    <additionalPath>k__BackingField: 
     <useFlag>k__BackingField: 1
     <poolSize>k__BackingField: 2
     <origin>k__BackingField: {fileID: 8784601885514164280, guid: 3c82dc71b44738c488d6a8f4fbc525c1, type: 3}
@@ -24333,10 +24378,10 @@ SceneRoots:
   - {fileID: 667731050}
   - {fileID: 1464964199}
   - {fileID: 823724153}
-  - {fileID: 148415831}
-  - {fileID: 2126362785}
   - {fileID: 1148054782}
   - {fileID: 1055659978}
+  - {fileID: 148415831}
+  - {fileID: 2126362785}
   - {fileID: 113542767}
   - {fileID: 1410744814}
   - {fileID: 876404561}

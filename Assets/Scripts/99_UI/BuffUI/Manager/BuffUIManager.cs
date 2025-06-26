@@ -76,22 +76,20 @@ namespace BuffDebuff
 			m_BuffCombinePanel.Finallize();
 		}
 
-		public override void InitializeGame()
+		public override void InitializeMain()
 		{
-			Initialize();
+			base.InitializeMain();
 
-			base.InitializeGame();
-
-			m_BuffCombinePanel.InitializeGame();
+			m_BuffCombinePanel.InitializeMain();
 
 			rewardsPanel.onEnabled += RerollBuffRewards;
 
 			combinePanel.onEnabled += OnCombinePanelEnabled;
 			combinePanel.onDisabled += OnCombinePanelDisabled;
 		}
-		public override void FinallizeGame()
+		public override void FinallizeMain()
 		{
-			base.FinallizeGame();
+			base.FinallizeMain();
 
 			if (m_BuffUIMap != null)
 			{
@@ -102,7 +100,7 @@ namespace BuffDebuff
 				m_BuffUIMap.Clear();
 			}
 
-			m_BuffCombinePanel.FinallizeGame();
+			m_BuffCombinePanel.FinallizeMain();
 
 			rewardsPanel.onEnabled -= RerollBuffRewards;
 
@@ -318,16 +316,6 @@ namespace BuffDebuff
 				item.Value.SetType(BuffUI.E_Type.BuffInventory);
 			}
 		}
-		#endregion
-
-		#region UNITY_EDITOR
-#if UNITY_EDITOR
-		[ContextMenu("Load Origin")]
-		protected override void LoadOrigin()
-		{
-			base.LoadOrigin_Inner();
-		}
-#endif
 		#endregion
 
 		[System.Serializable]

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace BuffDebuff
 {
-	public class BuffUI : ObjectPoolItemBase
+	public class BuffUI : ObjectPoolItem<BuffUI>
 	{
 		public enum E_Type
 		{
@@ -130,16 +130,16 @@ namespace BuffDebuff
 			switch (type)
 			{
 				case E_Type.BuffRewards:
-					m_BuffUIState = RewardState.Instance;
+					m_BuffUIState = new RewardState();
 					break;
 				case E_Type.BuffInventory:
-					m_BuffUIState = InventoryState.Instance;
+					m_BuffUIState = new InventoryState();
 					break;
 				case E_Type.BuffCombine:
-					m_BuffUIState = CombineState.Instance;
+					m_BuffUIState = new CombineState();
 					break;
 				case E_Type.BuffCombineInventory:
-					m_BuffUIState = CombineInventoryState.Instance;
+					m_BuffUIState = new CombineInventoryState();
 					break;
 			}
 		}
@@ -148,7 +148,7 @@ namespace BuffDebuff
 		{
 			public abstract void OnClicked(BuffUI buffUI);
 		}
-		private class RewardState : SingletonBasic<RewardState>, IBuffUIState
+		private class RewardState : IBuffUIState
 		{
 			private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
 
@@ -158,7 +158,7 @@ namespace BuffDebuff
 				M_BuffUI.rewardsPanel.active = false;
 			}
 		}
-		private class InventoryState : SingletonBasic<InventoryState>, IBuffUIState
+		private class InventoryState : IBuffUIState
 		{
 			private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
 
@@ -167,7 +167,7 @@ namespace BuffDebuff
 				Debug.Log(buffUI.buffData.title + ": " + buffUI.buffCount.ToString());
 			}
 		}
-		private class CombineState : SingletonBasic<CombineState>, IBuffUIState
+		private class CombineState : IBuffUIState
 		{
 			private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
 
@@ -181,7 +181,7 @@ namespace BuffDebuff
 				M_BuffUI.AddBuff(buffData);
 			}
 		}
-		private class CombineInventoryState : SingletonBasic<CombineInventoryState>, IBuffUIState
+		private class CombineInventoryState : IBuffUIState
 		{
 			private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
 

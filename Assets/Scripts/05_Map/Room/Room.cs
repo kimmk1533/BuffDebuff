@@ -8,7 +8,7 @@ using TilemapMap = System.Collections.Generic.Dictionary<BuffDebuff.Room.E_Tilem
 namespace BuffDebuff
 {
 	[RequireComponent(typeof(PathFindingMap), typeof(EnemySpawner))]
-	public class Room : ObjectPoolItemBase
+	public class Room : ObjectPoolItem<Room>
 	{
 		#region Enum
 		// 타일맵 레이어

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuffDebuff
 {
-	public class BuffInventory : Singleton<BuffInventory>
+	public class BuffInventory : SerializedSingleton<BuffInventory>
 	{
 		#region 변수
 		[SerializeField]
@@ -36,17 +36,31 @@ namespace BuffDebuff
 		private static BuffManager M_Buff => BuffManager.Instance;
 		#endregion
 
-		public virtual void Initialize()
+		public override void Initialize()
 		{
+			base.Initialize();
+
 			// BuffList Init
 			if (m_BuffInventory == null)
 				m_BuffInventory = new DoubleKeyDictionary<int, string, Buff>();
 
 		}
-		public virtual void Finallize()
+		public override void Finallize()
 		{
+			base.Finallize();
+
 			if (m_BuffInventory != null)
 				m_BuffInventory.Clear();
+		}
+		public override void InitializeMain()
+		{
+			base.InitializeMain();
+
+		}
+		public override void FinallizeMain()
+		{
+			base.FinallizeMain();
+
 		}
 
 		// Buff Func

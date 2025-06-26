@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace BuffDebuff
 {
 	[RequireComponent(typeof(ProjectileController))]
-	public sealed class Projectile : ObjectPoolItemBase
+	public sealed class Projectile : ObjectPoolItem<Projectile>
 	{
 		#region 변수
 		private ProjectileController m_Controller;
