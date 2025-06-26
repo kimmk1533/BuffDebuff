@@ -509,7 +509,23 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Fire Breath SpriteSheet_0: -6002868060502288533
+      Fire Breath SpriteSheet_1: -6390881391808132153
+      Fire Breath SpriteSheet_10: -3632439530999339949
+      Fire Breath SpriteSheet_11: -277370547081935397
+      Fire Breath SpriteSheet_12: 9138063210799203537
+      Fire Breath SpriteSheet_13: -2766164103109033119
+      Fire Breath SpriteSheet_14: 8829805586914637144
+      Fire Breath SpriteSheet_15: 6509326908196378161
+      Fire Breath SpriteSheet_2: -8986098660960786501
+      Fire Breath SpriteSheet_3: -2805094895207031047
+      Fire Breath SpriteSheet_4: -6282681361726466573
+      Fire Breath SpriteSheet_5: 6147253807520293234
+      Fire Breath SpriteSheet_6: -941311357887744526
+      Fire Breath SpriteSheet_7: -5241455939496316345
+      Fire Breath SpriteSheet_8: 8039099757177047440
+      Fire Breath SpriteSheet_9: -8200963404394815127
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

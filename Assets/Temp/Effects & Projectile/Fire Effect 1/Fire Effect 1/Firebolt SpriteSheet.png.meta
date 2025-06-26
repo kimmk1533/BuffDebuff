@@ -409,7 +409,19 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Firebolt SpriteSheet_0: 7548742475732107364
+      Firebolt SpriteSheet_1: 306219143863640384
+      Firebolt SpriteSheet_10: 4274796765636291823
+      Firebolt SpriteSheet_11: -3979185046042636639
+      Firebolt SpriteSheet_2: -3744757891071147524
+      Firebolt SpriteSheet_3: -3884485359023492735
+      Firebolt SpriteSheet_4: -8344620753644177729
+      Firebolt SpriteSheet_5: 8752090258065097107
+      Firebolt SpriteSheet_6: 1847394199649331469
+      Firebolt SpriteSheet_7: -9026615604156508812
+      Firebolt SpriteSheet_8: 8965878915032480692
+      Firebolt SpriteSheet_9: -9211971603802564175
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
