@@ -105,7 +105,7 @@ namespace BuffDebuff
 		}
 		public void Finallize()
 		{
-			transform.position = new Vector3(22f, 12f, -10f);
+
 		}
 
 		private void LateUpdate()

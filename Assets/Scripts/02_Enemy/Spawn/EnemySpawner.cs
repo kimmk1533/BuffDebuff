@@ -134,8 +134,8 @@ namespace BuffDebuff
 			{
 				Enemy enemy = info.Spawn(transform.position);
 
-				enemy.onDespawn -= OnEnemyDespawn;
-				enemy.onDespawn += OnEnemyDespawn;
+				enemy.onFinallize -= OnEnemyDespawn;
+				enemy.onFinallize += OnEnemyDespawn;
 
 				m_SpawnedEnemyList.Add(enemy);
 			}

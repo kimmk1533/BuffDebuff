@@ -1,17 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace BuffDebuff
 {
 	public class GameManager : SerializedSingleton<GameManager>
 	{
+		#region 기본 템플릿
 		#region 변수
 		private bool m_IsInGame = false;
 		#endregion
 
 		#region 프로퍼티
 		public bool isInGame => m_IsInGame;
+		#endregion
+
+		#region 이벤트
+
+		#region 이벤트 함수
+		#endregion
 		#endregion
 
 		#region 매니저
@@ -34,19 +42,24 @@ namespace BuffDebuff
 		private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
 		#endregion
 
+		#region 유니티 콜백 함수
 		private void Update()
 		{
 			if (Input.GetKeyDown(KeyCode.Escape))
 			{
-				FinallizeGame();
-
 				SceneLoader.LoadScene("Main Menu Scene");
 			}
 		}
+		#endregion
 
+		#region 초기화 & 마무리화 함수
+		/// <summary>
+		/// 초기화 함수 (Init Scene 진입 시, 즉 게임 실행 시 호출)
+		/// </summary>
 		public override void Initialize()
 		{
 			base.Initialize();
+			base.InitializeMain();
 
 			// 인풋 매니저 초기화
 			M_Input.Initialize();
@@ -72,8 +85,12 @@ namespace BuffDebuff
 			// 버프 UI 매니저 초기화
 			M_BuffUI.Initialize();
 		}
+		/// <summary>
+		/// 마무리화 함수 (게임 종료 시 호출)
+		/// </summary>
 		public override void Finallize()
 		{
+			base.FinallizeMain();
 			base.Finallize();
 
 			// 버프 UI 매니저 마무리
@@ -92,7 +109,6 @@ namespace BuffDebuff
 			M_Projectile.Finallize();
 			// 적 매니저 마무리
 			M_Enemy.Finallize();
-
 			// 플레이어 매니저 마무리
 			M_Player.Finallize();
 
@@ -102,28 +118,31 @@ namespace BuffDebuff
 			M_Input.Finallize();
 		}
 
-		public void InitializeEvent()
+		/// <summary>
+		/// 메인 초기화 함수 (Main Menu Scene 진입 시 호출)
+		/// </summary>
+		public void InitializeOnMainMenuScene()
 		{
-			// 스테이지 생성 이벤트
-			M_Player.InitializeStageGenEvent();
 
-			// 방 클리어 이벤트
-			M_BuffUI.InitializeRoomClearEvent();
 		}
-		public void FinallizeEvent()
+		/// <summary>
+		/// 메인 마무리화 함수 (Main Menu Scene 나갈 시 호출)
+		/// </summary>
+		public void FinallizeOnMainMenuScene()
 		{
-			// 스테이지 생성 이벤트
-			M_Player.FinallizeStageGenEvent();
 
-			// 방 클리어 이벤트
-			M_BuffUI.FinallizeRoomClearEvent();
 		}
 
-		public void InitializeGame()
+		/// <summary>
+		/// 메인 초기화 함수 (Game Scene 진입 시 호출)
+		/// </summary>
+		public void InitializeOnGameScene()
 		{
+			// 인풋 매니저 초기화
+			M_Input.InitializeMain();
+
 			// 플레이어 매니저 초기화
 			M_Player.InitializeMain();
-
 			// 적 매니저 초기화
 			M_Enemy.InitializeMain();
 			// 투사체 매니저 초기화
@@ -141,10 +160,13 @@ namespace BuffDebuff
 			// 버프 UI 매니저 초기화
 			M_BuffUI.InitializeMain();
 
+
 			m_IsInGame = true;
 		}
-		// Game Scene 벗어날 때 호출
-		public void FinallizeGame()
+		/// <summary>
+		/// 메인 마무리화 함수 (Game Scene 나갈 시 호출)
+		/// </summary>
+		public void FinallizeOnGameScene()
 		{
 			// 버프 UI 매니저 마무리
 			M_BuffUI.FinallizeMain();
@@ -162,24 +184,15 @@ namespace BuffDebuff
 			M_Projectile.FinallizeMain();
 			// 적 매니저 마무리
 			M_Enemy.FinallizeMain();
-
 			// 플레이어 매니저 마무리
 			M_Player.FinallizeMain();
 
+			// 인풋 매니저 마무리
+			M_Input.FinallizeMain();
+
 			m_IsInGame = false;
 		}
-
-		public override void InitializeMain()
-		{
-			base.InitializeMain();
-
-
-		}
-		public override void FinallizeMain()
-		{
-			base.FinallizeMain();
-
-
-		}
+		#endregion
+		#endregion
 	}
 }

@@ -15,6 +15,10 @@ public abstract class ObjectManager<TSelf, TItem> : SerializedSingleton<TSelf> w
 	protected Dictionary<string, ObjectPool<TItem>> m_ObjectPoolMap = null;
 	#endregion
 
+	#region 프로퍼티
+
+	#endregion
+
 	#region 초기화 & 마무리화 함수
 	/// <summary>
 	/// 초기화 함수 (Init Scene 진입 시, 즉 게임 실행 시 호출)
@@ -58,17 +62,16 @@ public abstract class ObjectManager<TSelf, TItem> : SerializedSingleton<TSelf> w
 	{
 		base.InitializeMain();
 
-		//for (int i = 0; i < m_Origins.Count; ++i)
-		//{
-		//	OriginInfo originInfo = m_Origins[i];
+		for (int i = 0; i < m_Origins.Count; ++i)
+		{
+			OriginInfo originInfo = m_Origins[i];
 
-		//	if (originInfo.useFlag == false)
-		//		continue;
+			if (originInfo.useFlag == false)
+				continue;
 
-		//	ObjectPool<TItem> itemPool = GetPool(originInfo.key);
-		//	ObjectPool<TItem>.ItemBuilder itemBuilder = new ObjectPool<TItem>.ItemBuilder(itemPool);
-		//	itemPool.Initialize(itemBuilder);
-		//}
+			ObjectPool<TItem> itemPool = GetPool(originInfo.key);
+			itemPool.Initialize();
+		}
 	}
 	/// <summary>
 	/// 메인 마무리화 함수 (본인 Main Scene 나갈 시 호출)
@@ -123,15 +126,14 @@ public abstract class ObjectManager<TSelf, TItem> : SerializedSingleton<TSelf> w
 
 		// Pool 생성 (오브젝트 생성 X)
 		ObjectPool<TItem> pool = new ObjectPool<TItem>(key, origin, poolSize, poolParent.transform);
-
 		ObjectPool<TItem>.ItemBuilder itemBuilder = new ObjectPool<TItem>.ItemBuilder(pool);
-		pool.Initialize(itemBuilder);
+		pool.builder = itemBuilder;
 
 		// Pool 추가
 		m_ObjectPoolMap.Add(key, pool);
 	}
 
-	public ObjectPool<TItem>.ItemBuilder GetBuilder(string key)
+	public ObjectPool<TItem>.IItemBuilder GetBuilder(string key)
 	{
 		ObjectPool<TItem> pool = GetPool(key);
 

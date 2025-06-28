@@ -7,6 +7,7 @@ using UnityEngine.Events;
 [DefaultExecutionOrder(-99)]
 public abstract class SceneEventController : SerializedMonoBehaviour
 {
+	#region 기본 템플릿
 	#region 변수
 	[SerializeField, PropertySpace(10, 0)]
 	[DictionaryDrawerSettings(KeyLabel = "전환될 씬 이름", ValueLabel = "씬 로딩 전 호출할 이벤트")]
@@ -14,6 +15,10 @@ public abstract class SceneEventController : SerializedMonoBehaviour
 	[SerializeField, PropertySpace(0, 10)]
 	[DictionaryDrawerSettings(KeyLabel = "전환된 씬 이름", ValueLabel = "씬 로딩 후 호출할 이벤트")]
 	protected Dictionary<string, UnityEvent> m_OnSceneSwitchingAfterEventMap = new Dictionary<string, UnityEvent>();
+	#endregion
+
+	#region 프로퍼티
+
 	#endregion
 
 	#region 이벤트
@@ -32,6 +37,10 @@ public abstract class SceneEventController : SerializedMonoBehaviour
 		unityEvent?.Invoke();
 	}
 	#endregion
+	#endregion
+
+	#region 매니저
+
 	#endregion
 
 	#region 유니티 콜백 함수
@@ -81,6 +90,7 @@ public abstract class SceneEventController : SerializedMonoBehaviour
 			m_OnSceneSwitchingAfterEventMap.Clear();
 		}
 	}
+	#endregion
 	#endregion
 
 	private UnityEvent GetSceneSwitchingBeforeEvent(string sceneName)

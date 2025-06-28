@@ -18,7 +18,7 @@ public class ObjectPool<TItem> where TItem : ObjectPoolItem<TItem>
 	// 하이어라키 창에서 관리하기 쉽도록 parent 지정
 	private Transform m_Parent = null;
 
-	private ItemBuilder m_ItemBuilder = null;
+	private IItemBuilder m_ItemBuilder = null;
 	#endregion
 
 	#region 프로퍼티
@@ -27,7 +27,11 @@ public class ObjectPool<TItem> where TItem : ObjectPoolItem<TItem>
 
 	public TItem origin => m_Origin;
 	public bool autoExpandPool { get; set; }
-	public ItemBuilder builder => m_ItemBuilder;
+	public IItemBuilder builder
+	{
+		get => m_ItemBuilder;
+		set => m_ItemBuilder = value;
+	}
 	#endregion
 
 	#region 이벤트
@@ -63,10 +67,8 @@ public class ObjectPool<TItem> where TItem : ObjectPoolItem<TItem>
 	/// <summary>
 	/// 초기 풀 세팅
 	/// </summary>
-	public void Initialize(ItemBuilder itemBuilder)
+	public void Initialize()
 	{
-		m_ItemBuilder = itemBuilder;
-
 		ExpandPool(m_PoolSize);
 	}
 	public void Finallize()
@@ -365,32 +367,25 @@ public class ObjectPool<TItem> where TItem : ObjectPoolItem<TItem>
 
 		public virtual void Reset()
 		{
-			m_Name.isUse = false;
-			m_Name.value = string.Empty;
-
-			m_Active.isUse = false;
-			m_Active.value = false;
-
-			m_AutoInit.isUse = false;
-			m_AutoInit.value = false;
-
-			m_Parent.isUse = false;
-			m_Parent.value = null;
-
-			m_Position.isUse = false;
-			m_Position.value = Vector3.zero;
-
-			m_Rotation.isUse = false;
-			m_Rotation.value = Quaternion.identity;
-
-			m_Scale.isUse = false;
-			m_Scale.value = Vector3.one;
+			m_Name.Reset();
+			m_Active.Reset();
+			m_AutoInit.Reset();
+			m_Parent.Reset();
+			m_Position.Reset();
+			m_Rotation.Reset();
+			m_Scale.Reset();
 		}
 
 		public class ItemProperty<T>
 		{
 			public bool isUse { get; set; }
 			public T value { get; set; }
+
+			public void Reset()
+			{
+				isUse = false;
+				value = default;
+			}
 		}
 	}
 }

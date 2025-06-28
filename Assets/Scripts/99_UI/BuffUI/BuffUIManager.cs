@@ -9,30 +9,23 @@ namespace BuffDebuff
 {
 	public class BuffUIManager : ObjectManager<BuffUIManager, BuffUI>
 	{
+		#region 기본 템플릿
 		#region 변수
 		// Canvas
-		[Space(10)]
-		[SerializeField]
-		private UICanvas m_Canvas = null;
+		private UICanvas m_GameCanvas = null;
 
 		// Buff Rewards
 		private int m_RewardsCount = 3;
 
 		// Buff Inventory
-		private SortedList<int, BuffUI> m_BuffUIMap = null;
+		private SortedList<int, BuffUI> m_BuffUIMap = new SortedList<int, BuffUI>();
 
 		// Buff Combine
-		[Space(10)]
-		[SerializeField]
 		private BuffCombineUIPanel m_BuffCombinePanel = null;
 
 		// Panels
 		private BuffPanel m_CurrentBuffPanel = null;
-
-		[Space(10)]
-		[SerializeField]
-		[DictionaryDrawerSettings(KeyLabel = "Key", ValueLabel = "Buff Panel")]
-		private Dictionary<string, BuffPanel> m_BuffPanelMap = null;
+		private Dictionary<string, BuffPanel> m_BuffPanelMap = new Dictionary<string, BuffPanel>();
 		#endregion
 
 		#region 프로퍼티
@@ -49,9 +42,57 @@ namespace BuffDebuff
 				return false;
 			}
 		}
+
+		public UICanvas gameCanvas
+		{
+			get => m_GameCanvas;
+			set => m_GameCanvas = value;
+		}
+		public BuffCombineUIPanel buffCombineUIPanel
+		{
+			get => m_BuffCombinePanel;
+			set => m_BuffCombinePanel = value;
+		}
+
 		public BuffPanel rewardsPanel => m_BuffPanelMap["Buff Rewards"];
 		public BuffPanel inventoryPanel => m_BuffPanelMap["Buff Inventory"];
 		public BuffPanel combinePanel => m_BuffPanelMap["Buff Combine"];
+		#endregion
+
+		#region 이벤트
+
+		#region 이벤트 함수
+		private void OnRoomCleared(Room room)
+		{
+			rewardsPanel.active = true;
+		}
+		private void OnCombinePanelEnabled()
+		{
+			RectTransform combineInventory = combinePanel.scrollRect.transform as RectTransform;
+
+			combineInventory.SetParent(combinePanel.panel.transform);
+			combineInventory.localPosition += new Vector3(0f, -165f, 0f);
+			combineInventory.sizeDelta = new Vector2(1520f, 600f);
+
+			foreach (var item in m_BuffUIMap)
+			{
+				item.Value.SetType(BuffUI.E_Type.BuffCombineInventory);
+			}
+		}
+		private void OnCombinePanelDisabled()
+		{
+			RectTransform combineInventory = combinePanel.scrollRect.transform as RectTransform;
+
+			combineInventory.SetParent(inventoryPanel.panel.transform);
+			combineInventory.localPosition = Vector3.zero;
+			combineInventory.sizeDelta = new Vector2(1520f, 800f);
+
+			foreach (var item in m_BuffUIMap)
+			{
+				item.Value.SetType(BuffUI.E_Type.BuffInventory);
+			}
+		}
+		#endregion
 		#endregion
 
 		#region 매니저
@@ -60,63 +101,7 @@ namespace BuffDebuff
 		private static RoomManager M_Room => RoomManager.Instance;
 		#endregion
 
-		public override void Initialize()
-		{
-			base.Initialize();
-
-			if (m_BuffUIMap == null)
-				m_BuffUIMap = new SortedList<int, BuffUI>();
-
-			m_BuffCombinePanel.Initialize();
-		}
-		public override void Finallize()
-		{
-			base.Finallize();
-
-			m_BuffCombinePanel.Finallize();
-		}
-
-		public override void InitializeMain()
-		{
-			base.InitializeMain();
-
-			m_BuffCombinePanel.InitializeMain();
-
-			rewardsPanel.onEnabled += RerollBuffRewards;
-
-			combinePanel.onEnabled += OnCombinePanelEnabled;
-			combinePanel.onDisabled += OnCombinePanelDisabled;
-		}
-		public override void FinallizeMain()
-		{
-			base.FinallizeMain();
-
-			if (m_BuffUIMap != null)
-			{
-				foreach (var item in m_BuffUIMap)
-				{
-					Despawn(item.Value);
-				}
-				m_BuffUIMap.Clear();
-			}
-
-			m_BuffCombinePanel.FinallizeMain();
-
-			rewardsPanel.onEnabled -= RerollBuffRewards;
-
-			combinePanel.onEnabled -= OnCombinePanelEnabled;
-			combinePanel.onDisabled -= OnCombinePanelDisabled;
-		}
-
-		public void InitializeRoomClearEvent()
-		{
-			M_Room.onRoomClear += OnRoomCleared;
-		}
-		public void FinallizeRoomClearEvent()
-		{
-			M_Room.onRoomClear -= OnRoomCleared;
-		}
-
+		#region 유니티 콜백 함수
 		private void Update()
 		{
 			BuffPanel buffPanel;
@@ -153,6 +138,83 @@ namespace BuffDebuff
 				m_CurrentBuffPanel = null;
 			}
 		}
+		#endregion
+
+		#region 초기화 & 마무리화 함수
+		/// <summary>
+		/// 기본 초기화 함수 (Init Scene 진입 시, 즉 게임 실행 시 호출)
+		/// </summary>
+		public override void Initialize()
+		{
+			base.Initialize();
+
+			if (m_BuffUIMap == null)
+				m_BuffUIMap = new SortedList<int, BuffUI>();
+
+			M_Room.onRoomClear += OnRoomCleared;
+		}
+		/// <summary>
+		/// 기본 마무리화 함수 (게임 종료 시 호출)
+		/// </summary>
+		public override void Finallize()
+		{
+			base.Finallize();
+
+			M_Room.onRoomClear -= OnRoomCleared;
+		}
+
+		/// <summary>
+		/// 메인 초기화 함수 (본인 Main Scene 진입 시 호출)
+		/// </summary>
+		public override void InitializeMain()
+		{
+			base.InitializeMain();
+
+			int index = 0;
+			foreach (var item in m_Origins)
+			{
+				Transform panel = m_GameCanvas.transform.Find(item.key + " Panel");
+
+				m_BuffPanelMap.Add(item.key, new BuffPanel()
+				{
+					panel = panel.gameObject,
+					keyCode = KeyCode.Alpha1 + (index++),
+					scrollRect = panel.GetComponentInChildren<ScrollRect>()
+				});
+			}
+
+			m_BuffCombinePanel.Initialize();
+
+			rewardsPanel.onEnabled += RerollBuffRewards;
+
+			combinePanel.onEnabled += OnCombinePanelEnabled;
+			combinePanel.onDisabled += OnCombinePanelDisabled;
+		}
+		/// <summary>
+		/// 메인 마무리화 함수 (본인 Main Scene 나갈 시 호출)
+		/// </summary>
+		public override void FinallizeMain()
+		{
+			base.FinallizeMain();
+
+			if (m_BuffUIMap != null)
+			{
+				foreach (var item in m_BuffUIMap)
+				{
+					Despawn(item.Value);
+				}
+				m_BuffUIMap.Clear();
+			}
+
+			m_BuffCombinePanel.Finallize();
+
+			rewardsPanel.onEnabled -= RerollBuffRewards;
+
+			combinePanel.onEnabled -= OnCombinePanelEnabled;
+			combinePanel.onDisabled -= OnCombinePanelDisabled;
+		}
+		#endregion
+		#endregion
 
 		private void RerollBuffRewards()
 		{
@@ -284,39 +346,6 @@ namespace BuffDebuff
 				buffUI.transform.localPosition = Vector3.zero;
 			}
 		}
-
-		#region 이벤트 함수
-		private void OnRoomCleared(Room room)
-		{
-			rewardsPanel.active = true;
-		}
-		private void OnCombinePanelEnabled()
-		{
-			RectTransform inventory = combinePanel.scrollRect.GetComponent<RectTransform>();
-
-			inventory.SetParent(combinePanel.panel.transform);
-			inventory.localPosition += new Vector3(0f, -165f, 0f);
-			inventory.sizeDelta = new Vector2(1520f, 600f);
-
-			foreach (var item in m_BuffUIMap)
-			{
-				item.Value.SetType(BuffUI.E_Type.BuffCombineInventory);
-			}
-		}
-		private void OnCombinePanelDisabled()
-		{
-			RectTransform inventory = combinePanel.scrollRect.GetComponent<RectTransform>();
-
-			inventory.SetParent(inventoryPanel.panel.transform);
-			inventory.localPosition = Vector3.zero;
-			inventory.sizeDelta = new Vector2(1520f, 800f);
-
-			foreach (var item in m_BuffUIMap)
-			{
-				item.Value.SetType(BuffUI.E_Type.BuffInventory);
-			}
-		}
-		#endregion
 
 		[System.Serializable]
 		public class BuffPanel

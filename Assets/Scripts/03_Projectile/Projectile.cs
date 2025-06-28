@@ -6,7 +6,7 @@ using UnityEngine;
 namespace BuffDebuff
 {
 	[RequireComponent(typeof(ProjectileController))]
-	public sealed class Projectile : ObjectPoolItem<Projectile>
+	public class Projectile : ObjectPoolItem<Projectile>
 	{
 		#region 변수
 		private ProjectileController m_Controller;

@@ -38,14 +38,6 @@ namespace BuffDebuff
 			m_CombineButton.onClick.RemoveAllListeners();
 		}
 
-		public void InitializeMain()
-		{
-
-		}
-		public void FinallizeMain()
-		{
-		}
-
 		private void CombineBuff()
 		{
 			BuffData first = m_FirstBuffUI.buffData;

@@ -157,7 +157,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 0
 --- !u!4 &109252746
 Transform:
@@ -212,7 +212,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 0
 --- !u!4 &121590747
 Transform:
@@ -553,7 +553,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 1
 --- !u!4 &312092709
 Transform:
@@ -653,25 +653,25 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 1
-  m_CommonPath: 
+  m_CommonPath: Prefabs/02_Enemy
   m_Origins:
   - <key>k__BackingField: Enemy
     <additionalPath>k__BackingField: 
     <useFlag>k__BackingField: 1
     <poolSize>k__BackingField: 2
-    <origin>k__BackingField: {fileID: 1295108548952413105, guid: fcef39ccf1b775c49864f310ab473fab, type: 3}
+    <origin>k__BackingField: {fileID: 7020269254422586606, guid: fcef39ccf1b775c49864f310ab473fab, type: 3}
   - <key>k__BackingField: Golem
     <additionalPath>k__BackingField: 
     <useFlag>k__BackingField: 1
     <poolSize>k__BackingField: 2
-    <origin>k__BackingField: {fileID: 6929830903461354899, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
+    <origin>k__BackingField: {fileID: 6865925214248059699, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
   - <key>k__BackingField: DemonSlime
     <additionalPath>k__BackingField: 
     <useFlag>k__BackingField: 1
     <poolSize>k__BackingField: 2
-    <origin>k__BackingField: {fileID: 4404236704402989685, guid: ac68222ac112edb4e94aeaf7d2d6eab9, type: 3}
+    <origin>k__BackingField: {fileID: 4529260222612960499, guid: ac68222ac112edb4e94aeaf7d2d6eab9, type: 3}
   m_Debug_SpawnEnemyType: 1
 --- !u!4 &348969213
 Transform:
@@ -764,6 +764,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7632267350557757950, guid: 90011bc8688657b47ac39ee9859eaba8, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 7632267350557757950, guid: 90011bc8688657b47ac39ee9859eaba8, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -816,7 +820,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 1
   m_CurrentStageLevel: 6
   m_StageSize: {x: 10, y: 9}
@@ -891,7 +895,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 0
   m_SwitchCase: 0
 --- !u!4 &651415265
@@ -1171,7 +1175,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 1
 --- !u!4 &871976438
 Transform:
@@ -1244,7 +1248,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 0
   m_Setting: {fileID: 11400000, guid: 1be83377e090edb48a92b9a3fd065346, type: 2}
 --- !u!4 &954656520
@@ -1330,6 +1334,10 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 507329789419361967, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
+    - target: {fileID: 6865925214248059699, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 6865925214248059699, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
     - target: {fileID: 6879120039570048744, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1350,6 +1358,51 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 919458056}
   m_SourcePrefab: {fileID: 100100000, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
+--- !u!1 &1133359125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1133359127}
+  - component: {fileID: 1133359126}
+  m_Layer: 0
+  m_Name: =======================
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1133359126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133359125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0239e7105bdb3042815cb6603569d97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Type: 1
+--- !u!4 &1133359127
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133359125}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1208647495 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5596585782795772999, guid: e8fd1b20c12719d4ea89e0ed5de3f9e9, type: 3}
@@ -1457,7 +1510,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 0
 --- !u!1 &1305703180
 GameObject:
@@ -1548,9 +1601,9 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 1
-  m_CommonPath: 
+  m_CommonPath: Prefabs/03_Projectile
   m_Origins:
   - <key>k__BackingField: Projectile
     <additionalPath>k__BackingField: 
@@ -1700,9 +1753,9 @@ MonoBehaviour:
     - Name: onRoomClear
       Entry: 6
       Data: 
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 1
-  m_CommonPath: 
+  m_CommonPath: Prefabs/04_Room/Stage_Test
   m_Origins:
   - <key>k__BackingField: Room 0
     <additionalPath>k__BackingField: 
@@ -1734,6 +1787,78 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1410744812
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1410744814}
+  - component: {fileID: 1410744815}
+  m_Layer: 0
+  m_Name: 08_Buff UI Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1410744814
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410744812}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1410744815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410744812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c1d5c517485ea94d8b1fd9340bef8a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  m_IsInitScene: 1
+  m_DontDestroyOnLoad: 1
+  m_CommonPath: Prefabs/99_UI
+  m_Origins:
+  - <key>k__BackingField: Buff Rewards
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 10
+    <origin>k__BackingField: {fileID: 994744673019091772, guid: fd767178d9eb92745a69a616d6183b7d, type: 3}
+  - <key>k__BackingField: Buff Inventory
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 10
+    <origin>k__BackingField: {fileID: 2399323023349901490, guid: c9b5023b7926f9b48afec3190a4d5951, type: 3}
+  - <key>k__BackingField: Buff Combine
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 10
+    <origin>k__BackingField: {fileID: 8784601885514164280, guid: 3c82dc71b44738c488d6a8f4fbc525c1, type: 3}
 --- !u!1 &1565069156
 GameObject:
   m_ObjectHideFlags: 0
@@ -1817,7 +1942,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 0
 --- !u!4 &1653255691
 Transform:
@@ -1872,7 +1997,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 1
 --- !u!4 &1730698491
 Transform:
@@ -1942,7 +2067,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 1
 --- !u!1 &1776399783
 GameObject:
@@ -2331,7 +2456,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 1
   m_Setting: {fileID: 11400000, guid: 6e9204e34d850494fb394042728df24b, type: 2}
 --- !u!4 &1874430851
@@ -2402,7 +2527,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 0
   m_Setting: {fileID: 11400000, guid: cd1a227edd048d44bab3222426f4a4dd, type: 2}
 --- !u!1 &2015794575
@@ -2443,7 +2568,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 1
 --- !u!4 &2015794577
 Transform:
@@ -2498,7 +2623,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_IsInitScene: 0
+  m_IsInitScene: 1
   m_DontDestroyOnLoad: 1
   m_BuffGradeInfo: {fileID: 11400000, guid: 985925bec61a5264aa5a9efeb9923b8a, type: 2}
 --- !u!4 &2022746457
@@ -2621,6 +2746,8 @@ SceneRoots:
   - {fileID: 1391079940}
   - {fileID: 2015794577}
   - {fileID: 638952477}
+  - {fileID: 1133359127}
+  - {fileID: 1410744814}
   - {fileID: 867999647}
   - {fileID: 1348693471}
   - {fileID: 1044832482}

@@ -58,7 +58,7 @@ namespace BuffDebuff
 		}
 		#endregion
 
-		public RoomPool.ItemBuilder GetRandomBuilder(E_DirectionFlag dirCheck)
+		public RoomPool.IItemBuilder GetRandomBuilder(E_DirectionFlag dirCheck)
 		{
 			List<RoomPool> roomPoolList = new List<RoomPool>(m_AllRoomPool);
 

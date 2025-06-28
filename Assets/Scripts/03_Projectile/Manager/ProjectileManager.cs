@@ -15,6 +15,18 @@ namespace BuffDebuff
 		{
 			base.Initialize();
 
+			for (int i = 0; i < m_Origins.Count; ++i)
+			{
+				OriginInfo originInfo = m_Origins[i];
+
+				if (originInfo.useFlag == false)
+					continue;
+
+				ObjectPool<Projectile> projectilePool = GetPool(originInfo.key);
+				ProjectileBuilder projectileBuilder = new ProjectileBuilder(projectilePool);
+				projectilePool.builder = projectileBuilder;
+			}
+
 			if (m_ProjectileDataMap == null)
 				m_ProjectileDataMap = new DataDictionary();
 
@@ -29,17 +41,6 @@ namespace BuffDebuff
 		{
 			base.InitializeMain();
 
-			//for (int i = 0; i < m_Origins.Count; ++i)
-			//{
-			//	OriginInfo originInfo = m_Origins[i];
-
-			//	if (originInfo.useFlag == false)
-			//		continue;
-
-			//	ObjectPool<Projectile> projectilePool = GetPool(originInfo.key);
-			//	ProjectileBuilder projectileBuilder = new ProjectileBuilder(projectilePool);
-			//	projectilePool.Initialize(projectileBuilder);
-			//}
 		}
 		public override void FinallizeMain()
 		{
@@ -66,106 +67,9 @@ namespace BuffDebuff
 			}
 		}
 
-		public new ProjectileBuilder GetBuilder(string key)
+		public new IProjectileBuilder GetBuilder(string key)
 		{
-			return (ProjectileBuilder)base.GetBuilder(key);
-		}
-
-		public class ProjectileBuilder : ObjectPool<Projectile>.ItemBuilder
-		{
-			private ItemProperty<float> m_MoveSpeed;
-			private ItemProperty<float> m_LifeTime;
-			private ItemProperty<ProjectileMove> m_MoveType;
-
-			public ProjectileBuilder(ObjectPool<Projectile> pool) : base(pool)
-			{
-				m_MoveSpeed = new ItemProperty<float>();
-				m_LifeTime = new ItemProperty<float>();
-				m_MoveType = new ItemProperty<ProjectileMove>();
-			}
-
-			public new ProjectileBuilder SetName(string name)
-			{
-				return (ProjectileBuilder)base.SetName(name);
-			}
-			public new ProjectileBuilder SetActive(bool active)
-			{
-				return (ProjectileBuilder)base.SetActive(active);
-			}
-			public new ProjectileBuilder SetAutoInit(bool autoInit)
-			{
-				return (ProjectileBuilder)base.SetAutoInit(autoInit);
-			}
-			public new ProjectileBuilder SetParent(Transform parent)
-			{
-				return (ProjectileBuilder)base.SetParent(parent);
-			}
-			public new ProjectileBuilder SetPosition(Vector3 position)
-			{
-				return (ProjectileBuilder)base.SetPosition(position);
-			}
-			public new ProjectileBuilder SetLocalPosition(Vector3 localPosition)
-			{
-				return (ProjectileBuilder)base.SetLocalPosition(localPosition);
-			}
-			public new ProjectileBuilder SetRotation(Quaternion rotation)
-			{
-				return (ProjectileBuilder)base.SetRotation(rotation);
-			}
-			public new ProjectileBuilder SetLocalRotation(Quaternion localRotation)
-			{
-				return (ProjectileBuilder)base.SetLocalRotation(localRotation);
-			}
-			public new ProjectileBuilder SetScale(Vector3 scale)
-			{
-				return (ProjectileBuilder)base.SetScale(scale);
-			}
-			public ProjectileBuilder SetMoveSpeed(float moveSpeed)
-			{
-				m_MoveSpeed.isUse = true;
-				m_MoveSpeed.value = moveSpeed;
-
-				return this;
-			}
-			public ProjectileBuilder SetLifeTime(float lifeTime)
-			{
-				m_LifeTime.isUse = true;
-				m_LifeTime.value = lifeTime;
-
-				return this;
-			}
-			public ProjectileBuilder SetMoveType(ProjectileMove projectileMove)
-			{
-				m_MoveType.isUse = true;
-				m_MoveType.value = projectileMove;
-
-				return this;
-			}
-
-			public override Projectile Spawn(bool autoReset = true)
-			{
-				Projectile projectile = base.Spawn(false);
-
-				if (m_MoveSpeed.isUse == true)
-					projectile.SetMoveSpeed(m_MoveSpeed.value);
-				if (m_LifeTime.isUse == true)
-					projectile.SetLifeTime(m_LifeTime.value);
-				if (m_MoveType.isUse == true)
-					projectile.SetMovingStrategy(m_MoveType.value);
-
-				if (autoReset)
-					Reset();
-
-				return projectile;
-			}
-
-			public override void Reset()
-			{
-				base.Reset();
-
-				m_MoveType.isUse = false;
-				m_MoveType.value = null;
-			}
+			return base.GetBuilder(key) as IProjectileBuilder;
 		}
 	}
 }

@@ -21,8 +21,8 @@ public abstract class ObjectPoolItem<TItem> : SerializedMonoBehaviour, IPoolItem
 	#endregion
 
 	#region 이벤트
-	public event System.Action<TItem> onSpawn = null;
-	public event System.Action<TItem> onDespawn = null;
+	public event System.Action<TItem> onInitialize = null;
+	public event System.Action<TItem> onFinallize = null;
 	#endregion
 
 	#region 매니저
@@ -33,7 +33,7 @@ public abstract class ObjectPoolItem<TItem> : SerializedMonoBehaviour, IPoolItem
 	{
 		isSpawning = true;
 
-		onSpawn?.Invoke(this as TItem);
+		onInitialize?.Invoke(this as TItem);
 	}
 	// ObjectManager를 통해 스폰하면 자동으로 호출되므로 직접 호출 X
 	public virtual void FinallizePoolItem()
@@ -41,9 +41,9 @@ public abstract class ObjectPoolItem<TItem> : SerializedMonoBehaviour, IPoolItem
 		if (isSpawning == true)
 			isSpawning = false;
 
-		onDespawn?.Invoke(this as TItem);
+		onFinallize?.Invoke(this as TItem);
 
-		onSpawn = null;
-		onDespawn = null;
+		onInitialize = null;
+		onFinallize = null;
 	}
 }

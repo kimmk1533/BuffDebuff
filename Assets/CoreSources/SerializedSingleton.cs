@@ -76,14 +76,14 @@ public abstract class SerializedSingleton<TSelf> : SerializedMonoBehaviour where
 
 	#region 초기화 & 마무리화 함수
 	/// <summary>
-	/// 초기화 함수 (Init Scene 진입 시, 즉 게임 실행 시 호출)
+	/// 기본 초기화 함수 (Init Scene 진입 시, 즉 게임 실행 시 호출)
 	/// </summary>
 	public virtual void Initialize()
 	{
 		gameObject.SetActive(false);
 	}
 	/// <summary>
-	/// 마무리화 함수 (게임 종료 시 호출)
+	/// 기본 마무리화 함수 (게임 종료 시 호출)
 	/// </summary>
 	public virtual void Finallize()
 	{

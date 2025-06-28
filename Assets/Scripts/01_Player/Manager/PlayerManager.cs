@@ -63,6 +63,8 @@ namespace BuffDebuff
 			m_Player.gameObject.SetActive(true);
 			m_Player.Initialize();
 			m_PlayerCamera.Initialize();
+
+			M_Stage.onStageGenerated += OnStageGenerated;
 		}
 		public override void FinallizeMain()
 		{
@@ -73,14 +75,7 @@ namespace BuffDebuff
 			m_Player.gameObject.SetActive(false);
 
 			m_Player = null;
-		}
 
-		public void InitializeStageGenEvent()
-		{
-			M_Stage.onStageGenerated += OnStageGenerated;
-		}
-		public void FinallizeStageGenEvent()
-		{
 			M_Stage.onStageGenerated -= OnStageGenerated;
 		}
 

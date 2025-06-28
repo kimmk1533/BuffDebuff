@@ -7,11 +7,16 @@ namespace BuffDebuff
 {
 	public class MainSceneEventController : SceneEventController
 	{
+		#region 기본 템플릿
 		#region 변수
 		[SerializeField]
 		private UICanvas m_UICanvas = null;
 
 		private Button m_QuitButton = null;
+		#endregion
+
+		#region 프로퍼티
+
 		#endregion
 
 		#region 이벤트
@@ -37,25 +42,35 @@ namespace BuffDebuff
 		#region 유니티 콜백 함수
 		protected override void OnApplicationQuit()
 		{
+			M_Game.FinallizeOnMainMenuScene();
+
 			M_Game.Finallize();
 		}
 		#endregion
 
 		#region 초기화 & 마무리화 함수
+		/// <summary>
+		/// 초기화 함수
+		/// </summary>
 		protected override void Initialize()
 		{
 			base.Initialize();
 
 			LinkButtons();
 
-			AddAfterEvent("Game Scene", M_Game.InitializeEvent);
-			AddAfterEvent("Game Scene", M_Game.InitializeMain);
+			AddBeforeEvent("Game Scene", M_Game.FinallizeOnMainMenuScene);
+
+			AddAfterEvent("Game Scene", M_Game.InitializeOnGameScene);
 			AddAfterEvent("Game Scene", Physics2D.SyncTransforms);
 		}
+		/// <summary>
+		/// 마무리화 함수
+		/// </summary>
 		protected override void Finallize()
 		{
 			base.Finallize();
 		}
+		#endregion
 		#endregion
 
 		private void LinkButtons()

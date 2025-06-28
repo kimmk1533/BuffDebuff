@@ -575,11 +575,11 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  m_UseFadeBG: 1
+  m_UseFadeBG: 0
   m_UsePercent: 1
   m_UseProgressBar: 1
   m_FadeBG: {fileID: 510097314}
-  m_FadeDuration: 1
+  m_FadeDuration: 0
   m_Percent: {fileID: 1488183299}
   m_ProgressBar: {fileID: 474678582}
 --- !u!1660057539 &9223372036854775807
