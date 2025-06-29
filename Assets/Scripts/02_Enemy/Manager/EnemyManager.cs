@@ -62,10 +62,17 @@ namespace BuffDebuff
 				// 적 원본 로드
 				Enemy origin = Resources.Load<Enemy>(enemyData.assetPath);
 
+				// 로드 예외 처리
+				if (origin == null)
+				{
+					Debug.LogError(enemyData.title + " 원본이 null임.");
+					return;
+				}
+
 				// 초기 스탯 설정
 				m_ObjectPoolMap[enemyData.title].onItemInstantiated += (Enemy enemy) =>
 				{
-					enemy.SetInitStat(EnemyStat.Clone(enemyData));
+					enemy.initStat = EnemyStat.Clone(enemyData);
 				};
 
 				// 딕셔너리에 추가

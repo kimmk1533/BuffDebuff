@@ -172,6 +172,7 @@ public abstract class ObjectManager<TSelf, TItem> : SerializedSingleton<TSelf> w
 		return m_ObjectPoolMap[key];
 	}
 
+	#region 유니티 에디터용
 #if UNITY_EDITOR
 	[Button("모든 풀 사용")]
 	private void TurnOnFlagAll()
@@ -208,6 +209,7 @@ public abstract class ObjectManager<TSelf, TItem> : SerializedSingleton<TSelf> w
 		}
 	}
 #endif
+	#endregion
 
 	[System.Serializable]
 	public struct OriginInfo : IEqualityComparer<OriginInfo>

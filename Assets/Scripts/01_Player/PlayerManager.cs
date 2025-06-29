@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using DataDictionary = DoubleKeyDictionary<int, string, (BuffDebuff.Player player, BuffDebuff.PlayerData data)>;
 
 namespace BuffDebuff
 {
-	public class PlayerManager : SerializedSingleton<PlayerManager>
+	public class PlayerManager : ObjectManager<PlayerManager, Player>
 	{
+		#region 기본 템플릿
 		#region 변수
 		public static readonly int playerMaxLevel = 100;
 
@@ -37,6 +38,26 @@ namespace BuffDebuff
 		private static StageManager M_Stage => StageManager.Instance;
 		#endregion
 
+		#region 이벤트
+
+		#region 이벤트 함수
+		private void OnStageGenerated()
+		{
+			Room room = M_Stage.currentStage.currentRoom;
+			StartRoom startRoom = room as StartRoom;
+
+			if (startRoom != null)
+				m_Player.transform.position = startRoom.startPos;
+			else
+				m_Player.transform.position = new Vector3(20f, 4f);
+		}
+		#endregion
+		#endregion
+
+		#region 초기화 & 마무리화 함수
+		/// <summary>
+		/// 기본 초기화 함수 (Init Scene 진입 시, 즉 게임 실행 시 호출)
+		/// </summary>
 		public override void Initialize()
 		{
 			base.Initialize();
@@ -49,11 +70,19 @@ namespace BuffDebuff
 			LoadAllLevelData();
 			LoadAllPlayerData();
 		}
+		/// <summary>
+		/// 기본 마무리화 함수 (게임 종료 시 호출)
+		/// </summary>
 		public override void Finallize()
 		{
 			base.Finallize();
+
+
 		}
 
+		/// <summary>
+		/// 메인 초기화 함수 (본인 Main Scene 진입 시 호출)
+		/// </summary>
 		public override void InitializeMain()
 		{
 			base.InitializeMain();
@@ -61,23 +90,32 @@ namespace BuffDebuff
 			Camera.main.NullCheckGetComponent<CameraFollow>(ref m_PlayerCamera);
 
 			m_Player.gameObject.SetActive(true);
-			m_Player.Initialize();
+			//m_Player.Initialize();
 			m_PlayerCamera.Initialize();
 
 			M_Stage.onStageGenerated += OnStageGenerated;
 		}
+		/// <summary>
+		/// 메인 마무리화 함수 (본인 Main Scene 나갈 시 호출)
+		/// </summary>
 		public override void FinallizeMain()
 		{
 			base.FinallizeMain();
 
 			m_PlayerCamera.Finallize();
-			m_Player.Finallize();
+			//m_Player.Finallize();
 			m_Player.gameObject.SetActive(false);
 
 			m_Player = null;
 
 			M_Stage.onStageGenerated -= OnStageGenerated;
 		}
+		#endregion
+
+		#region 유니티 콜백 함수
+		#endregion
+
+		#endregion
 
 		private void LoadAllPlayerData()
 		{
@@ -94,22 +132,24 @@ namespace BuffDebuff
 				// 플레이어 원본 로드
 				Player origin = Resources.Load<Player>(playerData.assetPath);
 
+				// 로드 예외 처리
 				if (origin == null)
 				{
 					Debug.LogError("플레이어 원본이 null임.");
 					return;
 				}
 
-				// 플레이어 복제
-				Player player = GameObject.Instantiate<Player>(origin, transform);
 				// 초기 스탯 설정
-				PlayerStat playerStat = PlayerStat.Clone(playerData);
-				var temp = playerStat.Xp;
-				temp.max = m_PlayerLevelMap[playerStat.Level.current];
-				playerStat.Xp = temp;
-				player.SetInitStat(playerStat);
-				// 풀처럼 설정
-				player.gameObject.SetActive(false);
+				m_ObjectPoolMap[playerData.title].onItemInstantiated += (Player player) =>
+				{
+					PlayerStat playerStat = PlayerStat.Clone(playerData);
+
+					StatValue<float> tempXp = playerStat.Xp;
+					tempXp.max = m_PlayerLevelMap[playerStat.Level.current];
+					playerStat.Xp = tempXp;
+
+					player.initStat = playerStat;
+				};
 
 				m_PlayerDataMap.Add(playerData.code, playerData.title, (player, playerData));
 			}
@@ -162,17 +202,6 @@ namespace BuffDebuff
 		public float GetRequiredXp(int currentLevel)
 		{
 			return m_PlayerLevelMap[currentLevel];
-		}
-
-		private void OnStageGenerated()
-		{
-			Room room = M_Stage.currentStage.currentRoom;
-			StartRoom startRoom = room as StartRoom;
-
-			if (startRoom != null)
-				m_Player.transform.position = startRoom.startPos;
-			else
-				m_Player.transform.position = new Vector3(20f, 4f);
 		}
 	}
 }

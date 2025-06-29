@@ -6,7 +6,7 @@ using UnityEngine;
 namespace BuffDebuff
 {
 	[RequireComponent(typeof(PlayerController2D), typeof(BoxCollider2D))]
-	public sealed class Player : Character<PlayerStat, PlayerController2D, PlayerAnimator>, IDamageGiver, IDamageTaker
+	public class Player : Character<Player, PlayerStat, PlayerController2D, PlayerAnimator>, IDamageGiver, IDamageTaker
 	{
 		#region 변수
 		[Header("===== 플레이어 전용 변수 ====="), Space(10)]
@@ -60,9 +60,10 @@ namespace BuffDebuff
 		private static InputManager M_Input => InputManager.Instance;
 		#endregion
 
-		public override void Initialize()
+		#region 초기화 & 마무리화 함수
+		public override void InitializePoolItem()
 		{
-			base.Initialize();
+			base.InitializePoolItem();
 
 			m_IsAttacking = false;
 			m_CanComboAttack = false;
@@ -72,17 +73,25 @@ namespace BuffDebuff
 
 			// 타이머 초기화
 			if (m_DashTimer == null)
-				m_DashTimer = new UtilClass.Timer();
+			{
+				m_DashTimer = new UtilClass.Timer()
+				{
+					autoClear = true,
+				};
+			}
 			m_DashTimer.interval = m_Stat.DashRechargeTime;
+			m_DashTimer.Clear();
 		}
-		public override void Finallize()
+		public override void FinallizePoolItem()
 		{
-			base.Finallize();
+			base.FinallizePoolItem();
 
 			if (m_DashTimer != null)
 				m_DashTimer.Clear();
 		}
+		#endregion
 
+		#region 유니티 콜백 함수
 		protected override void Update()
 		{
 			// 테스트
@@ -121,6 +130,7 @@ namespace BuffDebuff
 
 			DashTimer();
 		}
+		#endregion
 
 		public void AddXp(float xp)
 		{
@@ -338,7 +348,7 @@ namespace BuffDebuff
 
 			m_DashTimer.Update();
 
-			if (m_DashTimer.TimeCheck(true))
+			if (m_DashTimer.TimeCheck())
 			{
 				StatValue<int> newDashCount = m_Stat.DashCount;
 				++newDashCount.current;

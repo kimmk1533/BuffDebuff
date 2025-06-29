@@ -2,43 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public static class UtilClass
 {
-	public static void NullCheckGetComponent<T>(this Component com, ref T obj) where T : Component
-	{
-		if (obj == null)
-		{
-			obj = com.GetComponent<T>();
-
-			if (obj == null)
-				Debug.LogError("없는 컴포넌트를 GetComponent함");
-		}
-	}
-	public static void NullCheckGetComponentInParent<T>(this Component com, ref T obj) where T : Component
-	{
-		if (obj == null)
-		{
-			obj = com.GetComponentInParent<T>();
-
-			if (obj == null)
-				Debug.LogError("없는 컴포넌트를 GetComponentInParent함");
-		}
-	}
-	public static void NullCheckGetComponentInChilderen<T>(this Component com, ref T obj) where T : Component
-	{
-		if (obj == null)
-		{
-			obj = com.GetComponentInChildren<T>();
-
-			if (obj == null)
-				Debug.LogError("없는 컴포넌트를 GetComponentInChildren함");
-		}
-	}
-
 	public static Vector2 GetMouseWorldPosition2D()
 	{
 		Camera worldCamera = Camera.main;
@@ -198,11 +168,15 @@ public static class UtilClass
 	[System.Serializable]
 	public class Timer
 	{
+		#region 기본 템플릿
 		#region 변수
 		[SerializeField]
 		private float m_Interval = 0f;
 		[SerializeField, ReadOnly]
 		private float m_Time = 0f;
+
+		private float m_TimeScale = 1f;
+		private bool m_AutoClear = false;
 
 		private bool m_IsSimulating = true;
 		#endregion
@@ -223,6 +197,17 @@ public static class UtilClass
 			get => m_Time;
 			set => m_Time = value;
 		}
+		public float timeScale
+		{
+			get => m_TimeScale;
+			set => m_TimeScale = value;
+		}
+		public bool autoClear
+		{
+			get => m_AutoClear;
+			set => m_AutoClear = false;
+		}
+
 		public float progress => m_Time / m_Interval;
 		public bool isPaused => m_IsSimulating == false;
 		#endregion
@@ -260,17 +245,18 @@ public static class UtilClass
 			onTime = timer.onTime;
 		}
 		#endregion
+		#endregion
 
 		/// <summary>
 		/// 설정한 시간이 되었는 지 확인하는 함수
 		/// </summary>
 		/// <param name="autoClear">자동으로 다시 시작 여부</param>
 		/// <returns>설정한 시간이 되었는 지</returns>
-		public bool TimeCheck(bool autoClear = false)
+		public bool TimeCheck()
 		{
 			if (m_Time >= m_Interval)
 			{
-				if (autoClear)
+				if (m_AutoClear)
 					Clear();
 
 				onTime?.Invoke();
@@ -286,25 +272,17 @@ public static class UtilClass
 		/// </summary>
 		public void Update()
 		{
-			Update(1f);
-		}
-		/// <summary>
-		/// 시간 경과
-		/// </summary>
-		/// <param name="timeScale">시간 배율</param>
-		public void Update(float timeScale)
-		{
 			if (m_IsSimulating == false)
 				return;
 
 			if (m_Time >= m_Interval)
 				return;
 
-			m_Time += Time.deltaTime * timeScale;
+			m_Time += Time.deltaTime * m_TimeScale;
 		}
 
 		/// <summary>
-		/// 시간 초기화
+		/// 타이머 초기화
 		/// </summary>
 		public void Clear()
 		{
@@ -324,6 +302,88 @@ public static class UtilClass
 		public void Resume()
 		{
 			m_IsSimulating = true;
+		}
+	}
+	[System.Serializable]
+	public class TimerController
+	{
+		#region 기본 템플릿
+		#region 변수
+		[OdinSerialize, ShowInInspector, LabelText("타이머 컨트롤러")]
+		private Dictionary<string, List<(Func<bool> condition, Timer timer)>> m_TimerMap = null;
+		#endregion
+
+		#region 생성자
+		public TimerController()
+		{
+			m_TimerMap = new Dictionary<string, List<(Func<bool> condition, Timer timer)>>();
+		}
+		#endregion
+		#endregion
+
+		/// <summary>
+		/// 시간 경과
+		/// </summary>
+		public void Update()
+		{
+			foreach (var item in m_TimerMap)
+			{
+				List<(Func<bool> condition, Timer timer)> itemList = item.Value;
+
+				int count = itemList.Count;
+				for (int i = 0; i < count; ++i)
+				{
+					if (itemList[i].condition?.Invoke() == false)
+						continue;
+
+					if (itemList[i].timer.TimeCheck() == false)
+						itemList[i].timer.Update();
+				}
+			}
+		}
+
+		public void AddTimer(string key, Timer timer)
+		{
+			AddTimer(key, () => true, timer);
+		}
+		public void AddTimer(string key, Func<bool> condition, Timer timer)
+		{
+			if (m_TimerMap.TryGetValue(key, out List<(Func<bool> condition, Timer timer)> itemList) == false)
+			{
+				itemList = new List<(Func<bool> condition, Timer timer)>();
+				m_TimerMap.Add(key, itemList);
+			}
+
+			itemList.Add((condition, timer));
+		}
+		public void RemoveTimer(string key, Timer timer)
+		{
+			if (m_TimerMap.TryGetValue(key, out List<(Func<bool> condition, Timer timer)> itemList) == false)
+				return;
+
+			for (int i = 0; i < itemList.Count; ++i)
+			{
+				if (itemList[i].timer == timer)
+					itemList.RemoveAt(i);
+			}
+		}
+		public void RemoveAllTimer(string key)
+		{
+			if (m_TimerMap.TryGetValue(key, out List<(Func<bool> condition, Timer timer)> itemList) == false)
+				return;
+
+			itemList.Clear();
+		}
+		public void Clear()
+		{
+			m_TimerMap.Clear();
+		}
+		public Timer GetTimer(string key, int index)
+		{
+			if (m_TimerMap.TryGetValue(key, out List<(Func<bool> condition, Timer timer)> itemList) == false)
+				return null;
+
+			return itemList[index].timer;
 		}
 	}
 }
@@ -542,5 +602,36 @@ public static class ExtensionMethods
 			}
 		}
 		return copy as T;
+	}
+
+	public static void NullCheckGetComponent<T>(this Component com, ref T obj) where T : Component
+	{
+		if (obj == null)
+		{
+			obj = com.GetComponent<T>();
+
+			if (obj == null)
+				Debug.LogError("없는 컴포넌트를 GetComponent함");
+		}
+	}
+	public static void NullCheckGetComponentInParent<T>(this Component com, ref T obj) where T : Component
+	{
+		if (obj == null)
+		{
+			obj = com.GetComponentInParent<T>();
+
+			if (obj == null)
+				Debug.LogError("없는 컴포넌트를 GetComponentInParent함");
+		}
+	}
+	public static void NullCheckGetComponentInChilderen<T>(this Component com, ref T obj) where T : Component
+	{
+		if (obj == null)
+		{
+			obj = com.GetComponentInChildren<T>();
+
+			if (obj == null)
+				Debug.LogError("없는 컴포넌트를 GetComponentInChildren함");
+		}
 	}
 }

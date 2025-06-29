@@ -197,6 +197,16 @@ namespace BuffDebuff
 		{
 			base.FinallizeMain();
 
+			rewardsPanel.onEnabled -= RerollBuffRewards;
+
+			combinePanel.onEnabled -= OnCombinePanelEnabled;
+			combinePanel.onDisabled -= OnCombinePanelDisabled;
+
+			if (m_BuffPanelMap != null)
+			{
+				m_BuffPanelMap.Clear();
+			}
+
 			if (m_BuffUIMap != null)
 			{
 				foreach (var item in m_BuffUIMap)
@@ -207,11 +217,6 @@ namespace BuffDebuff
 			}
 
 			m_BuffCombinePanel.Finallize();
-
-			rewardsPanel.onEnabled -= RerollBuffRewards;
-
-			combinePanel.onEnabled -= OnCombinePanelEnabled;
-			combinePanel.onDisabled -= OnCombinePanelDisabled;
 		}
 		#endregion
 		#endregion

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BuffDebuff
 {
-	public class Enemy : PoolCharacter<Enemy, EnemyStat, EnemyController2D, EnemyAnimator>, IDamageGiver, IDamageTaker
+	public class Enemy : Character<Enemy, EnemyStat, EnemyController2D, EnemyAnimator>, IDamageGiver, IDamageTaker
 	{
 		const float c_BotMaxPositionError = 0.0625f; // 1 ÷ 16 (pixels per unit)
 
@@ -98,11 +98,15 @@ namespace BuffDebuff
 			m_PathFinding_NodeIndex = -1;
 
 			#region Timer
-			if (m_MoveDirTimer != null)
-				m_MoveDirTimer.Clear();
-			else
-				m_MoveDirTimer = new UtilClass.Timer();
+			if (m_MoveDirTimer == null)
+			{
+				m_MoveDirTimer = new UtilClass.Timer()
+				{
+					autoClear = true,
+				};
+			}
 			m_MoveDirTimer.interval = Random.Range(0.2f, 1.0f);
+			m_MoveDirTimer.Clear();
 
 			if (m_PathFinding_ReSearchTimer != null)
 				m_PathFinding_ReSearchTimer.Clear();
@@ -225,7 +229,7 @@ namespace BuffDebuff
 			m_MoveDirTimer.Update();
 
 			// 타이머 시간 확인
-			if (m_MoveDirTimer.TimeCheck(true) == false)
+			if (m_MoveDirTimer.TimeCheck() == false)
 				return;
 
 			// 다음 움직임까지의 시간

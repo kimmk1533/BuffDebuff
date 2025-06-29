@@ -6,7 +6,7 @@ using UnityEngine;
 namespace BuffDebuff
 {
 	[RequireComponent(typeof(CollisionChecker2D))]
-	public class EnemyTargetFinder : MonoBehaviour
+	public class EnemyTargetFinder : SerializedMonoBehaviour
 	{
 		public enum E_TargetFinderState
 		{
@@ -82,13 +82,15 @@ namespace BuffDebuff
 			m_Finder["Player"].onEnter2D += OnTargetEnter2D;
 			m_Finder["Player"].onExit2D += OnTargetExit2D;
 
-			if (m_ForgetTargetTimer != null)
+			if (m_ForgetTargetTimer == null)
 			{
-				m_ForgetTargetTimer.interval = 3.0f;
-				m_ForgetTargetTimer.Clear();
+				m_ForgetTargetTimer = new UtilClass.Timer()
+				{
+					autoClear = true,
+				};
 			}
-			else
-				m_ForgetTargetTimer = new UtilClass.Timer(3.0f);
+			m_ForgetTargetTimer.interval = 3.0f;
+			m_ForgetTargetTimer.Clear();
 			#endregion
 		}
 		public virtual void Finallize()
@@ -114,7 +116,7 @@ namespace BuffDebuff
 		protected virtual void ResearchTarget()
 		{
 			m_ForgetTargetTimer.Update();
-			if (m_ForgetTargetTimer.TimeCheck(true))
+			if (m_ForgetTargetTimer.TimeCheck())
 			{
 				onTargetLost2D?.Invoke(m_Target);
 

@@ -42,16 +42,6 @@ namespace BuffDebuff
 		private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
 		#endregion
 
-		#region 유니티 콜백 함수
-		private void Update()
-		{
-			if (Input.GetKeyDown(KeyCode.Escape))
-			{
-				SceneLoader.LoadScene("Main Menu Scene");
-			}
-		}
-		#endregion
-
 		#region 초기화 & 마무리화 함수
 		/// <summary>
 		/// 초기화 함수 (Init Scene 진입 시, 즉 게임 실행 시 호출)
@@ -63,6 +53,7 @@ namespace BuffDebuff
 
 			// 인풋 매니저 초기화
 			M_Input.Initialize();
+			M_Input.InitializeMain();
 			// 버프 인벤토리 초기화
 			M_BuffInventory.Initialize();
 
@@ -115,6 +106,7 @@ namespace BuffDebuff
 			// 버프 인벤토리 마무리
 			M_BuffInventory.Finallize();
 			// 인풋 매니저 마무리
+			M_Input.FinallizeMain();
 			M_Input.Finallize();
 		}
 
@@ -138,8 +130,8 @@ namespace BuffDebuff
 		/// </summary>
 		public void InitializeOnGameScene()
 		{
-			// 인풋 매니저 초기화
-			M_Input.InitializeMain();
+			// 버프 인벤토리 초기화
+			M_BuffInventory.InitializeMain();
 
 			// 플레이어 매니저 초기화
 			M_Player.InitializeMain();
@@ -187,10 +179,20 @@ namespace BuffDebuff
 			// 플레이어 매니저 마무리
 			M_Player.FinallizeMain();
 
-			// 인풋 매니저 마무리
-			M_Input.FinallizeMain();
+			// 버프 인벤토리 마무리
+			M_BuffInventory.FinallizeMain();
 
 			m_IsInGame = false;
+		}
+		#endregion
+
+		#region 유니티 콜백 함수
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				SceneLoader.LoadScene("Main Menu Scene");
+			}
 		}
 		#endregion
 		#endregion
