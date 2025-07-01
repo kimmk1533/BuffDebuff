@@ -2211,7 +2211,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 8
+      Data: 7
     - Name: 
       Entry: 7
       Data: 
@@ -2355,39 +2355,6 @@ MonoBehaviour:
       Data: BuffDebuff.InputInfo, Assembly-CSharp
     - Name: m_KeyName
       Entry: 1
-      Data: PlayerAttack
-    - Name: m_Value
-      Entry: 4
-      Data: 1
-    - Name: m_KeyCode
-      Entry: 3
-      Data: 323
-    - Name: m_IsInputDown
-      Entry: 5
-      Data: false
-    - Name: m_IsInput
-      Entry: 5
-      Data: false
-    - Name: m_IsInputUp
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 5
-    - Name: $v
-      Entry: 7
-      Data: BuffDebuff.InputInfo, Assembly-CSharp
-    - Name: m_KeyName
-      Entry: 1
       Data: PlayerJump
     - Name: m_Value
       Entry: 4
@@ -2415,7 +2382,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 6
+      Data: 5
     - Name: $v
       Entry: 7
       Data: BuffDebuff.InputInfo, Assembly-CSharp
@@ -2448,7 +2415,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 7
+      Data: 6
     - Name: $v
       Entry: 7
       Data: BuffDebuff.InputInfo, Assembly-CSharp
@@ -2484,7 +2451,7 @@ MonoBehaviour:
       Data: 
   m_IsInitScene: 1
   m_DontDestroyOnLoad: 1
-  m_Setting: {fileID: 11400000, guid: 6e9204e34d850494fb394042728df24b, type: 2}
+  m_InputSetting: {fileID: 11400000, guid: 6e9204e34d850494fb394042728df24b, type: 2}
 --- !u!1 &1886384475
 GameObject:
   m_ObjectHideFlags: 0

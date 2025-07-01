@@ -47,9 +47,6 @@ namespace BuffDebuff
 		#region 타이머 관련
 		[SerializeField, ReadOnly, InlineProperty, HideLabel]
 		protected TimerController m_TimerController = null;
-		[SerializeField, ReadOnly]
-		[FoldoutGroup("타이머"), LabelText("공격 타이머")]
-		protected UtilClass.Timer m_AttackTimer;
 		#endregion
 		#endregion
 
@@ -64,18 +61,13 @@ namespace BuffDebuff
 		#region 이벤트
 
 		#region 이벤트 함수
-		// Timer Event
-		protected virtual void OnHealTimer()
-		{
-			StatValue<float> HpStat = m_Stat.Hp;
-
-			HpStat.current = m_Stat.Hp.current + (m_Stat.HpRegen * m_Stat.HealScale) * m_Stat.AntiHealScale;
-			HpStat.current = Mathf.Clamp(HpStat.current, 0f, HpStat.max);
-
-			m_Stat.Hp = HpStat;
-		}
+		// Timer Condition
 		protected virtual bool CheckHpRegenCondition()
 		{
+			// 시뮬레이션중인지 확인
+			if (m_IsSimulating == false)
+				return false;
+
 			// 체력 재생이 있는지 확인
 			if (Mathf.Abs(m_Stat.HpRegen) <= float.Epsilon)
 				return false;
@@ -85,13 +77,28 @@ namespace BuffDebuff
 
 			return true;
 		}
-		protected virtual void OnAttackTimer()
-		{
-
-		}
 		protected virtual bool CheckAttackCondition()
 		{
+			// 시뮬레이션중인지 확인
+			if (m_IsSimulating == false)
+				return false;
+
 			return true;
+		}
+
+		// Timer On Event
+		protected virtual void OnHealTimer()
+		{
+			StatValue<float> HpStat = m_Stat.Hp;
+
+			HpStat.current = m_Stat.Hp.current + (m_Stat.HpRegen * m_Stat.HealScale) * m_Stat.AntiHealScale;
+			HpStat.current = Mathf.Clamp(HpStat.current, 0f, HpStat.max);
+
+			m_Stat.Hp = HpStat;
+		}
+		protected virtual void OnAttackTimer()
+		{
+			Attack();
 		}
 
 		// Buff Event
@@ -136,8 +143,6 @@ namespace BuffDebuff
 		public virtual void AnimEvent_AttackEnd()
 		{
 			OnBuffAttackEnd();
-
-			m_AttackTimer.Clear();
 		}
 		#endregion
 		#endregion
@@ -170,20 +175,16 @@ namespace BuffDebuff
 				m_TimerController = new UtilClass.TimerController();
 
 			Timer healTimer = new Timer();
+			healTimer.autoClear = true;
 			healTimer.interval = m_Stat.HpRegenTime;
 			healTimer.onTime += OnHealTimer;
 			m_TimerController.AddTimer("Heal", CheckHpRegenCondition, healTimer);
 
 			Timer attackTimer = new Timer();
+			attackTimer.autoClear = true;
 			attackTimer.interval = 1f / m_Stat.AttackSpeed;
 			attackTimer.onTime += OnAttackTimer;
 			m_TimerController.AddTimer("Attack", CheckAttackCondition, attackTimer);
-
-			if (m_AttackTimer != null)
-				m_AttackTimer.Clear();
-			else
-				m_AttackTimer = new UtilClass.Timer();
-			m_AttackTimer.interval = 1f / m_Stat.AttackSpeed;
 			#endregion
 		}
 		/// <summary>
@@ -195,9 +196,6 @@ namespace BuffDebuff
 
 			m_TimerController.Clear();
 
-			if (m_AttackTimer != null)
-				m_AttackTimer.Clear();
-
 			m_Controller.Finallize();
 		}
 		#endregion
@@ -206,7 +204,6 @@ namespace BuffDebuff
 		protected virtual void Update()
 		{
 			m_TimerController.Update();
-			m_AttackTimer.Update();
 
 			OnBuffUpdate();
 		}
@@ -238,15 +235,10 @@ namespace BuffDebuff
 		}
 
 		// Attack Func
-		protected virtual bool CanAttack()
-		{
-			return m_AttackTimer.TimeCheck();
-		}
 		public virtual void Attack()
 		{
-			m_AttackTimer.Clear();
-			m_AttackPatternIndex = Random.Range(0, m_AttackPatternCount);
-			m_Animator.Anim_Attack(m_AttackPatternIndex);
+			CreateProjectile();
 		}
+		protected abstract void CreateProjectile();
 	}
 }

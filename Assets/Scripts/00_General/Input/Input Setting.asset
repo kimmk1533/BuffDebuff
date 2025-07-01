@@ -40,7 +40,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 8
+      Data: 7
     - Name: 
       Entry: 7
       Data: 
@@ -158,39 +158,6 @@ MonoBehaviour:
     - Name: m_KeyCode
       Entry: 3
       Data: 100
-    - Name: m_IsInputDown
-      Entry: 5
-      Data: false
-    - Name: m_IsInput
-      Entry: 5
-      Data: false
-    - Name: m_IsInputUp
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 4
-    - Name: $v
-      Entry: 7
-      Data: BuffDebuff.InputInfo, Assembly-CSharp
-    - Name: m_KeyName
-      Entry: 1
-      Data: PlayerAttack
-    - Name: m_Value
-      Entry: 4
-      Data: 1
-    - Name: m_KeyCode
-      Entry: 3
-      Data: 323
     - Name: m_IsInputDown
       Entry: 5
       Data: false

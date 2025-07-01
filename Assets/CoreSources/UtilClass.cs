@@ -205,7 +205,7 @@ public static class UtilClass
 		public bool autoClear
 		{
 			get => m_AutoClear;
-			set => m_AutoClear = false;
+			set => m_AutoClear = value;
 		}
 
 		public float progress => m_Time / m_Interval;
@@ -250,16 +250,15 @@ public static class UtilClass
 		/// <summary>
 		/// 설정한 시간이 되었는 지 확인하는 함수
 		/// </summary>
-		/// <param name="autoClear">자동으로 다시 시작 여부</param>
 		/// <returns>설정한 시간이 되었는 지</returns>
 		public bool TimeCheck()
 		{
 			if (m_Time >= m_Interval)
 			{
+				onTime?.Invoke();
+
 				if (m_AutoClear)
 					Clear();
-
-				onTime?.Invoke();
 
 				return true;
 			}

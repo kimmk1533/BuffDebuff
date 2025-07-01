@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using Newtonsoft.Json;
 using System.Data;
 using System.IO;
@@ -18,11 +19,13 @@ namespace SpreadSheet
 {
 	public class SpreadSheetManager<T> : SerializedSingleton<T> where T : SpreadSheetManager<T>
 	{
+		[InlineEditor]
 		[SerializeField, RuntimeReadOnly(true)]
 		protected SpreadSheetSetting m_Setting;
 
 		protected DataSet m_DataBase;
 
+		[Button("Load Sheet")]
 		public virtual void LoadSpreadSheetData()
 		{
 			m_DataBase = new DataSet("DataBase");

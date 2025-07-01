@@ -11,7 +11,6 @@ namespace BuffDebuff
 		PlayerMoveDown,
 		PlayerMoveLeft,
 		PlayerMoveRight,
-		PlayerAttack,
 		PlayerJump,
 		PlayerDash,
 		PlayerSkill01,
@@ -25,7 +24,7 @@ namespace BuffDebuff
 		#region 기본 템플릿
 		#region 변수
 		[SerializeField]
-		private InputSetting m_Setting = null;
+		private InputSetting m_InputSetting = null;
 
 		[SerializeField]
 		[DictionaryDrawerSettings(KeyLabel = "Input Type", ValueLabel = "Input Info")]
@@ -83,7 +82,7 @@ namespace BuffDebuff
 		{
 			base.InitializeMain();
 
-			UpdateInfoMapFromSetting();
+			LoadInputSetting();
 			UpdateAxisMap();
 		}
 		/// <summary>
@@ -122,18 +121,18 @@ namespace BuffDebuff
 				m_InputMap[inputType] = input;
 			}
 
-			#region Player Attack & UI Click 충돌 해결
-			if (M_BuffUI.isUIOpened == true)
-			{
-				InputInfo info = m_InputMap[E_InputType.PlayerAttack];
+			//#region Player Attack & UI Click 충돌 해결
+			//if (M_BuffUI.isUIOpened == true)
+			//{
+			//	InputInfo info = m_InputMap[E_InputType.PlayerAttack];
 
-				info.isInputDown = false;
-				info.isInput = false;
-				info.isInputUp = false;
+			//	info.isInputDown = false;
+			//	info.isInput = false;
+			//	info.isInputUp = false;
 
-				m_InputMap[E_InputType.PlayerAttack] = info;
-			}
-			#endregion
+			//	m_InputMap[E_InputType.PlayerAttack] = info;
+			//}
+			//#endregion
 		}
 
 		public float GetAxisRaw(string axisName)
@@ -175,22 +174,22 @@ namespace BuffDebuff
 			return info.isInputUp;
 		}
 
-		[ShowIf("@m_Setting != null")]
+		[ShowIf("@m_InputSetting != null")]
 		[Button("Save Scriptable Object")]
-		private void UpdateSettingFromInfoMap()
+		private void SaveInputSetting()
 		{
 			for (E_InputType inputType = 0; inputType < E_InputType.Max; ++inputType)
 			{
-				m_Setting.SetInputInfo(inputType, m_InputMap[inputType]);
+				m_InputSetting.SetInputInfo(inputType, m_InputMap[inputType]);
 			}
 		}
-		[ShowIf("@m_Setting != null")]
+		[ShowIf("@m_InputSetting != null")]
 		[Button("Load Scriptable Object")]
-		private void UpdateInfoMapFromSetting()
+		private void LoadInputSetting()
 		{
 			for (E_InputType inputType = 0; inputType < E_InputType.Max; ++inputType)
 			{
-				InputInfo input = m_Setting.GetInputInfo(inputType);
+				InputInfo input = m_InputSetting.GetInputInfo(inputType);
 
 				input.isInputDown = false;
 				input.isInput = false;
@@ -206,7 +205,7 @@ namespace BuffDebuff
 		{
 			for (E_InputType inputType = 0; inputType < E_InputType.Max; ++inputType)
 			{
-				InputInfo input = m_Setting.GetInputInfo(inputType);
+				InputInfo input = m_InputSetting.GetInputInfo(inputType);
 
 				if (m_AxisMap.ContainsKey(input.keyName) == false)
 					m_AxisMap.Add(input.keyName, new List<E_InputType>());

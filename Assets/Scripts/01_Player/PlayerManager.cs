@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using DataDictionary = DoubleKeyDictionary<int, string, (BuffDebuff.Player player, BuffDebuff.PlayerData data)>;
+using DataDictionary = DoubleKeyDictionary<int, string, BuffDebuff.PlayerData>;
+using LevelDictionary = System.Collections.Generic.Dictionary<int, float>;
 
 namespace BuffDebuff
 {
@@ -12,12 +13,13 @@ namespace BuffDebuff
 		#region 변수
 		public static readonly int playerMaxLevel = 100;
 
+		private PlayerData m_PlayerData = null;
 		private Player m_Player = null;
 		private CameraFollow m_PlayerCamera = null;
 
 		private DataDictionary m_PlayerDataMap = null;
 		// 현재 레벨, 다음 레벨까지 필요 경험치
-		private Dictionary<int, float> m_PlayerLevelMap = null;
+		private LevelDictionary m_PlayerLevelMap = null;
 		#endregion
 
 		#region 프로퍼티
@@ -65,7 +67,7 @@ namespace BuffDebuff
 			if (m_PlayerDataMap == null)
 				m_PlayerDataMap = new DataDictionary();
 			if (m_PlayerLevelMap == null)
-				m_PlayerLevelMap = new Dictionary<int, float>();
+				m_PlayerLevelMap = new LevelDictionary();
 
 			LoadAllLevelData();
 			LoadAllPlayerData();
@@ -87,10 +89,9 @@ namespace BuffDebuff
 		{
 			base.InitializeMain();
 
-			Camera.main.NullCheckGetComponent<CameraFollow>(ref m_PlayerCamera);
+			SpawnPlayer();
 
-			m_Player.gameObject.SetActive(true);
-			//m_Player.Initialize();
+			Camera.main.NullCheckGetComponent<CameraFollow>(ref m_PlayerCamera);
 			m_PlayerCamera.Initialize();
 
 			M_Stage.onStageGenerated += OnStageGenerated;
@@ -103,8 +104,6 @@ namespace BuffDebuff
 			base.FinallizeMain();
 
 			m_PlayerCamera.Finallize();
-			//m_Player.Finallize();
-			m_Player.gameObject.SetActive(false);
 
 			m_Player = null;
 
@@ -151,7 +150,7 @@ namespace BuffDebuff
 					player.initStat = playerStat;
 				};
 
-				m_PlayerDataMap.Add(playerData.code, playerData.title, (player, playerData));
+				m_PlayerDataMap.Add(playerData.code, playerData.title, playerData);
 			}
 		}
 		private void LoadAllLevelData()
@@ -166,33 +165,28 @@ namespace BuffDebuff
 				m_PlayerLevelMap.Add(levelData.currentLevel, levelData.requiredXp);
 			}
 		}
+
 		public void SelectPlayerData(int code)
 		{
 			if (m_PlayerDataMap.ContainsKey1(code) == false)
 				Debug.LogError("잘못된 Player Code 입니다. Code: " + code);
 
-			m_Player = m_PlayerDataMap[code].player;
-			if (m_Player == null)
-			{
-				PlayerData playerData = m_PlayerDataMap[code].data;
-
-				Debug.LogError("PlayerData \"" + playerData.title + "\" 의 Asset Path가 잘못되었습니다.\n" +
-					"Asset Path: " + playerData.assetPath);
-			}
+			m_PlayerData = m_PlayerDataMap[code];
 		}
 		public void SelectPlayerData(string title)
 		{
 			if (m_PlayerDataMap.ContainsKey2(title) == false)
 				Debug.LogError("잘못된 Player Title 입니다. Title: " + title);
 
-			m_Player = m_PlayerDataMap[title].player;
-			if (m_Player == null)
-			{
-				PlayerData playerData = m_PlayerDataMap[title].data;
+			m_PlayerData = m_PlayerDataMap[title];
+		}
 
-				Debug.LogError("PlayerData \"" + playerData.title + "\" 의 Asset Path가 잘못되었습니다.\n" +
-					"Asset Path: " + playerData.assetPath);
-			}
+		private void SpawnPlayer()
+		{
+			m_Player = GetBuilder(m_PlayerData.title)
+				.SetAutoInit(true)
+				.SetActive(true)
+				.Spawn();
 		}
 
 		public void AddXp(float xp)

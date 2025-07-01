@@ -278,12 +278,6 @@ MonoBehaviour:
       <current>k__BackingField: 0
     <DashRechargeTime>k__BackingField: 0
   m_AttackPatternCount: 0
-  m_HealTimer:
-    m_Interval: 0
-    m_Time: 0
-  m_AttackTimer:
-    m_Interval: 0
-    m_Time: 0
   m_IsAttacking: 0
   m_CanComboAttack: 0
   m_AttackSpot: {fileID: 6226699525835725757}
@@ -475,7 +469,7 @@ Transform:
   m_GameObject: {fileID: 2513284610266840398}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.13333334, y: 1.4666666, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

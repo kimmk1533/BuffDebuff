@@ -136,9 +136,6 @@ namespace BuffDebuff
 		protected override void Update()
 		{
 			base.Update();
-
-			if (CanAttack())
-				Attack();
 		}
 
 		private void ResetInput()
@@ -560,19 +557,20 @@ namespace BuffDebuff
 		}
 		#endregion
 
-		protected override bool CanAttack()
+		protected virtual bool CanAttack()
 		{
-			return base.CanAttack() &&
-				target != null &&
+			return target != null &&
 				m_TargetFinder.state == EnemyTargetFinder.E_TargetFinderState.Chasing &&
 				m_Controller.collisions.isair == false;
 		}
 		public override void Attack()
 		{
+			if (CanAttack() == false)
+				return;
+
 			base.Attack();
 		}
-
-		protected void CreateProjectile()
+		protected override void CreateProjectile()
 		{
 			Vector3 position = m_AttackSpot.position;
 

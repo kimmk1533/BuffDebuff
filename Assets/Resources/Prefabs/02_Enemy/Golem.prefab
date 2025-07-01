@@ -91,7 +91,7 @@ MonoBehaviour:
     <AntiHealScale>k__BackingField: 1
     <Armor>k__BackingField: 0
     <AttackPower>k__BackingField: 0
-    <AttackSpeed>k__BackingField: 0
+    <AttackSpeed>k__BackingField: 1
     <AttackSize>k__BackingField: 0
     <ShotSpeed>k__BackingField: 1
     <AttackRange>k__BackingField: 0
@@ -106,12 +106,6 @@ MonoBehaviour:
       <current>k__BackingField: 0
     <XpScale>k__BackingField: 1
   m_AttackPatternCount: 0
-  m_HealTimer:
-    m_Interval: 0
-    m_Time: 0
-  m_AttackTimer:
-    m_Interval: 0
-    m_Time: 0
   m_TargetFinder: {fileID: 507329789419361960}
   m_MoveDirTimer:
     m_Interval: 0
@@ -372,6 +366,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abaf00150a4011445934b0a382ae5a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   m_Target: {fileID: 0}
   m_Finder: {fileID: 0}
   m_ForgetTargetTimer:

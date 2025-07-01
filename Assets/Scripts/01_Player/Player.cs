@@ -8,6 +8,7 @@ namespace BuffDebuff
 	[RequireComponent(typeof(PlayerController2D), typeof(BoxCollider2D))]
 	public class Player : Character<Player, PlayerStat, PlayerController2D, PlayerAnimator>, IDamageGiver, IDamageTaker
 	{
+		#region 기본 템플릿
 		#region 변수
 		[Header("===== 플레이어 전용 변수 ====="), Space(10)]
 		private Vector2 m_DirectionalInput;
@@ -60,6 +61,69 @@ namespace BuffDebuff
 		private static InputManager M_Input => InputManager.Instance;
 		#endregion
 
+		#region 이벤트
+
+		#region 이벤트 함수
+		// Buff Event
+		public void OnBuffJump()
+		{
+			//foreach (var item in m_BuffList.Values)
+			//{
+			//	(item as IOnBuffJump)?.OnBuffJump(this);
+			//}
+		}
+		private void OnBuffDash()
+		{
+			//foreach (var item in m_BuffList.Values)
+			//{
+			//	(item as IOnBuffDash)?.OnBuffDash(this);
+			//}
+		}
+
+		// Anim Event
+		public override void AnimEvent_AttackStart()
+		{
+			base.AnimEvent_AttackStart();
+
+			m_IsSimulating = false;
+			m_Velocity.x = System.MathF.Sign(m_Velocity.x) * float.Epsilon;
+		}
+		public override void AnimEvent_Attacking()
+		{
+			base.AnimEvent_Attacking();
+
+			CreateProjectile();
+		}
+		public override void AnimEvent_AttackEnd()
+		{
+			base.AnimEvent_AttackEnd();
+
+			m_IsSimulating = true;
+			m_IsAttacking = false;
+			m_AttackPatternIndex = 0;
+		}
+		public void AnimEvent_AirAttackStart()
+		{
+			m_IsSimulating = false;
+
+			m_Velocity = Vector2.zero;
+		}
+		public void AnimEvent_AirAttackEnd()
+		{
+			m_IsSimulating = true;
+			m_IsAttacking = false;
+		}
+		public void AnimEvent_StartCombo()
+		{
+			m_CanComboAttack = true;
+		}
+		public void AnimEvent_EndCombo()
+		{
+			m_CanComboAttack = false;
+		}
+		#endregion
+		#endregion
+
 		#region 초기화 & 마무리화 함수
 		public override void InitializePoolItem()
 		{
@@ -107,11 +171,6 @@ namespace BuffDebuff
 			Vector2 directionalInput = new Vector2(M_Input.GetAxisRaw("PlayerMoveHorizontal"), M_Input.GetAxisRaw("PlayerMoveVertical"));
 			SetDirectionalInput(directionalInput);
 
-			if (M_Input.GetKeyDown(E_InputType.PlayerAttack))
-			{
-				if (CanAttack() == true)
-					Attack();
-			}
 			if (M_Input.GetKeyDown(E_InputType.PlayerDash))
 			{
 				Dash();
@@ -130,6 +189,7 @@ namespace BuffDebuff
 
 			DashTimer();
 		}
+		#endregion
 		#endregion
 
 		public void AddXp(float xp)
@@ -260,16 +320,7 @@ namespace BuffDebuff
 		}
 
 		// Attack Func
-		protected override bool CanAttack()
-		{
-			return base.CanAttack() && (m_IsAttacking ? m_CanComboAttack : true);
-		}
-		public override void Attack()
-		{
-			m_IsAttacking = true;
-			m_Animator.Anim_Attack(m_AttackPatternIndex++);
-		}
-		private void CreateProjectile()
+		protected override void CreateProjectile()
 		{
 			Vector3 position = m_AttackSpot.position;
 
@@ -336,7 +387,6 @@ namespace BuffDebuff
 			Debug.LogError("Game Over!");
 		}
 
-
 		// Timer Func
 		private void DashTimer()
 		{
@@ -354,64 +404,6 @@ namespace BuffDebuff
 				++newDashCount.current;
 				m_Stat.DashCount = newDashCount;
 			}
-		}
-
-		// Buff Event
-		public void OnBuffJump()
-		{
-			//foreach (var item in m_BuffList.Values)
-			//{
-			//	(item as IOnBuffJump)?.OnBuffJump(this);
-			//}
-		}
-		private void OnBuffDash()
-		{
-			//foreach (var item in m_BuffList.Values)
-			//{
-			//	(item as IOnBuffDash)?.OnBuffDash(this);
-			//}
-		}
-
-		// Anim Event
-		public override void AnimEvent_AttackStart()
-		{
-			base.AnimEvent_AttackStart();
-
-			m_IsSimulating = false;
-			m_Velocity.x = System.MathF.Sign(m_Velocity.x) * float.Epsilon;
-		}
-		public override void AnimEvent_Attacking()
-		{
-			base.AnimEvent_Attacking();
-
-			CreateProjectile();
-		}
-		public override void AnimEvent_AttackEnd()
-		{
-			base.AnimEvent_AttackEnd();
-
-			m_IsSimulating = true;
-			m_IsAttacking = false;
-			m_AttackPatternIndex = 0;
-		}
-		public void AnimEvent_AirAttackStart()
-		{
-			m_IsSimulating = false;
-
-			m_Velocity = Vector2.zero;
-		}
-		public void AnimEvent_AirAttackEnd()
-		{
-			m_IsSimulating = true;
-			m_IsAttacking = false;
-		}
-		public void AnimEvent_StartCombo()
-		{
-			m_CanComboAttack = true;
-		}
-		public void AnimEvent_EndCombo()
-		{
-			m_CanComboAttack = false;
 		}
 	}
 }
