@@ -357,6 +357,26 @@ PrefabInstance:
       propertyPath: 'serializationData.PrefabModificationsReferencedUnityObjects.Array.data[1]'
       value: 
       objectReference: {fileID: 522567492}
+    - target: {fileID: 7619147777779338615, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 7619147777779338615, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
+    - target: {fileID: 7619147777779338615, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
+      propertyPath: m_PathFinder.m_ExceptionWeight
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7619147777779338615, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
+      propertyPath: m_PathFinder.m_AirExceptionValue
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7619147777779338615, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
+      propertyPath: m_PathFinder.m_MaxExceptionWeight
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7619147777779338615, guid: 61848e317d8d79e49af82964dff81f69, type: 3}
+      propertyPath: m_PathFinder.m_GroundExceptionValue
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

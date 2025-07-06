@@ -61,7 +61,7 @@ namespace BuffDebuff
 			stat.Avoidability = data.avoidability;
 
 			// 이동 속도
-			stat.MoveSpeed = data.moveSpeed;
+			stat.MovementSpeed = data.moveSpeed;
 
 			// 시야 거리
 			stat.Sight = data.sight;

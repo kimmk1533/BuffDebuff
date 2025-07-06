@@ -205,7 +205,7 @@ namespace BuffDebuff
 				transform.localScale = scale;
 			}
 
-			m_Velocity.x = moveDir * m_Stat.MoveSpeed;
+			m_Velocity.x = moveDir * m_Stat.MovementSpeed;
 
 			if (m_Inputs[(int)E_EnemyKeyInput.Up] == true)
 			{
@@ -264,9 +264,9 @@ namespace BuffDebuff
 				if (currentRoom.pathFindingMap.IsEmpty(start.x, start.y - 1) == false &&
 					currentRoom.pathFindingMap.IsEmpty(end.x, end.y - 1) == false)
 				{
-					Vector2Int offset_int = new Vector2Int((int)offset.x, (int)offset.y);
+					Vector2Int offsetInt = new Vector2Int((int)-offset.x, (int)-offset.y);
 
-					PathFinding_FindPath(start, end, -offset_int);
+					PathFinding_FindPath(start, end, offsetInt);
 				}
 			}
 
@@ -342,8 +342,10 @@ namespace BuffDebuff
 			int width = Mathf.CeilToInt(bounds.size.x);
 			int height = Mathf.CeilToInt(bounds.size.y);
 			short maxJumpHeight = (short)((short)m_Controller.maxJumpHeight - 1);
+			float timeToJumpApex = m_Controller.timeToJumpApex;
+			float movementSpeed = m_Stat.MovementSpeed;
 
-			m_PathFinding_Path = currentRoom.pathFindingMap.FindPath(start, end, width, height, maxJumpHeight);
+			m_PathFinding_Path = currentRoom.pathFindingMap.FindPath(start, end, width, height, maxJumpHeight, timeToJumpApex, movementSpeed);
 
 			if (m_PathFinding_Path == null
 				|| m_PathFinding_Path.Count <= 1)

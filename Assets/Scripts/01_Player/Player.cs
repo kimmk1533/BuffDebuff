@@ -240,7 +240,7 @@ namespace BuffDebuff
 		}
 		protected override void CalculateVelocity()
 		{
-			float targetVelocityX = m_DirectionalInput.x * m_Stat.MoveSpeed;
+			float targetVelocityX = m_DirectionalInput.x * m_Stat.MovementSpeed;
 
 			m_Velocity.x = Mathf.SmoothDamp(m_Velocity.x, targetVelocityX, ref m_VelocityXSmoothing, (m_Controller.collisions.grounded) ? m_AccelerationTimeGrounded : m_AccelerationTimeAirborne);
 			m_Velocity.y += m_Controller.gravity * Time.deltaTime;

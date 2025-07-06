@@ -30,7 +30,7 @@ MonoBehaviour:
   m_CriticalRate: 0
   m_CriticalDamageScale: 2
   m_Avoidability: 0
-  m_MoveSpeed: 6
+  m_MoveSpeed: 3
   m_Sight: 5
   m_Xp: 10
   m_XpScale: 1

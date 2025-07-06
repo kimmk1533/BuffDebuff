@@ -68,7 +68,7 @@ namespace BuffDebuff
 		[field: Title("이동")]
 		// 이동 속도
 		[field: SerializeField]
-		public float MoveSpeed { get; set; }
+		public float MovementSpeed { get; set; }
 
 		[field: Title("시야")]
 		// 시야 거리
@@ -123,7 +123,7 @@ namespace BuffDebuff
 			Avoidability = 0.0f;
 
 			// 이동 속도
-			MoveSpeed = 0.0f;
+			MovementSpeed = 0.0f;
 
 			// 시야 거리
 			Sight = 0.0f;
@@ -171,7 +171,7 @@ namespace BuffDebuff
 			Avoidability = other.Avoidability;
 
 			// 이동 속도
-			MoveSpeed = other.MoveSpeed;
+			MovementSpeed = other.MovementSpeed;
 
 			// 시야 거리
 			Sight = other.Sight;
@@ -222,7 +222,7 @@ namespace BuffDebuff
 			stat.Avoidability = this.Avoidability;
 
 			// 이동 속도
-			stat.MoveSpeed = this.MoveSpeed;
+			stat.MovementSpeed = this.MovementSpeed;
 
 			// 시야 거리
 			stat.Sight = this.Sight;

@@ -91,6 +91,7 @@ namespace BuffDebuff
 			}
 			m_ForgetTargetTimer.interval = 3.0f;
 			m_ForgetTargetTimer.Clear();
+			m_ForgetTargetTimer.Pause();
 			#endregion
 		}
 		public virtual void Finallize()

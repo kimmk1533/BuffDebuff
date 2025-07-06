@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 
 namespace BuffDebuff
 {
-	public class PathFindingMap : MonoBehaviour
+	public class PathFindingMap : SerializedMonoBehaviour
 	{
 		public const int c_tileSize = 16;
 		public const int c_halfSize = c_tileSize / 2;
@@ -38,14 +38,30 @@ namespace BuffDebuff
 		[SerializeField]
 		private PathFinderFast m_PathFinder;
 
-		[SerializeField, RuntimeReadOnly(true)]
-		private bool m_Debug;
 		[SerializeField]
+		private bool m_Debug;
+
+		[SerializeField, ShowIf("@m_Debug == true")]
+		private Vector2Int m_DebugStartPos;
+		[SerializeField, ShowIf("@m_Debug == true")]
+		private Vector2Int m_DebugEndPos;
+		[SerializeField, ShowIf("@m_Debug == true"), Min(1)]
+		private int m_DebugCharacterWidth = 1;
+		[SerializeField, ShowIf("@m_Debug == true"), Min(1)]
+		private int m_DebugCharacterHeight = 1;
+		[SerializeField, ShowIf("@m_Debug == true")]
+		private short m_DebugMaxJumpHeight = 6;
+		[SerializeField, ShowIf("@m_Debug == true")]
+		private float m_DebugTimeToJumpApex = 0.4f;
+		[SerializeField, ShowIf("@m_Debug == true")]
+		private float m_DebugMovementSpeed = 3f;
+
+		[SerializeField, ShowIf("@m_Debug == true")]
 		private bool m_Debug_ShowTile;
-		[SerializeField, RuntimeReadOnly(true)]
+		[SerializeField, ShowIf("@m_Debug == true")]
 		private Transform m_Debug_TileParent;
 		private SpriteRenderer[,] m_Debug_TileRenderers;
-		[SerializeField, RuntimeReadOnly(true)]
+		[SerializeField, ShowIf("@m_Debug == true")]
 		private SpriteRenderer m_Debug_TilePrefab;
 		#endregion
 
@@ -114,10 +130,10 @@ namespace BuffDebuff
 			m_PathFinder.UseFiltering = true;
 			m_PathFinder.DebugProgress = false;
 			m_PathFinder.DebugFoundPath = false;
-			m_PathFinder.TestValue1 = 2;
-			m_PathFinder.TestValue2 = 8;
-			m_PathFinder.TestValue3 = 1;
-			m_PathFinder.TestValue4 = 7;
+			m_PathFinder.exceptionWeight = 2;
+			m_PathFinder.maxExceptionWeight = 8;
+			m_PathFinder.groundExceptionValue = 1;
+			m_PathFinder.airExceptionValue = 7;
 		}
 
 		public bool CheckTile(int x, int y, E_TileType type)
@@ -278,9 +294,14 @@ namespace BuffDebuff
 			//AutoTile(type, x, y + 1, 1, 8, 4, 4, 4, 4);
 		}
 
-		public List<Vector2Int> FindPath(Vector2Int start, Vector2Int end, int characterWidth, int characterHeight, short maxCharacterJumpHeight)
+		public List<Vector2Int> FindPath(Vector2Int start, Vector2Int end, int characterWidth, int characterHeight, short maxCharacterJumpHeight, float timeToJumpApex, float characterMovementSpeed)
 		{
-			List<Vector2Int> result = m_PathFinder.FindPath(start, end, characterWidth, characterHeight, maxCharacterJumpHeight);
+			// y 1칸 움직이는데 걸리는 시간
+			float yMovementTime = timeToJumpApex / maxCharacterJumpHeight;
+			//// x 1칸 움직이는데 걸리는 시간
+			//float xMovementTime = characterMovementSpeed * yMovementTime;
+
+			List<Vector2Int> result = m_PathFinder.FindPath(start, end, characterWidth, characterHeight, maxCharacterJumpHeight, characterMovementSpeed, yMovementTime);
 
 			return result;
 		}
@@ -293,6 +314,48 @@ namespace BuffDebuff
 				return;
 
 			m_Debug_TileParent.gameObject.SetActive(m_Debug_ShowTile);
+		}
+		private void OnDrawGizmosSelected()
+		{
+			if (m_Debug == false)
+				return;
+
+			Vector2 offset = Vector2.one * 0.5f;
+			Color color = Gizmos.color;
+
+			List<Vector2Int> pathList = new List<Vector2Int>();
+			List<Vector2Int> findingPathList = FindPath(m_DebugStartPos, m_DebugEndPos, m_DebugCharacterWidth, m_DebugCharacterHeight, m_DebugMaxJumpHeight, m_DebugTimeToJumpApex, m_DebugMovementSpeed);
+
+			if (findingPathList == null)
+				findingPathList = new List<Vector2Int>();
+
+			pathList.Add(m_DebugStartPos);
+			pathList.AddRange(findingPathList);
+			pathList.Add(m_DebugEndPos);
+
+			for (int i = 0; i < pathList.Count - 1; ++i)
+			{
+				Vector2Int path1 = pathList[i];
+				Vector2Int path2 = pathList[i + 1];
+
+				Gizmos.color = Color.white;
+				Gizmos.DrawLine(path1 + offset, path2 + offset);
+
+				if (i != pathList.Count - 2)
+				{
+					Gizmos.color = Color.green;
+					Gizmos.DrawSphere(path2 + offset, 0.25f);
+				}
+			}
+			Gizmos.color = Color.white;
+			Gizmos.DrawLine(pathList[pathList.Count - 1] + offset, m_DebugEndPos + offset);
+
+			Gizmos.color = Color.red;
+			Gizmos.DrawSphere(m_DebugStartPos + offset, 0.5f);
+			Gizmos.color = Color.blue;
+			Gizmos.DrawSphere(m_DebugEndPos + offset, 0.5f);
+
+			Gizmos.color = color;
 		}
 	}
 }

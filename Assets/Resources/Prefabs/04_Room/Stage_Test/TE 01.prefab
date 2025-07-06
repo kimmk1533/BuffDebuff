@@ -1028,15 +1028,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8da6262238d232b4e803b2377a957e7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   m_Width: 0
   m_Height: 0
   m_PathFinder:
     m_Formula: 4
     m_UseFiltering: 1
-    m_TestValue1: 6
-    m_TestValue2: 8
-    m_TestValue3: 1
-    m_TestValue4: 7
+    m_ExceptionWeight: 6
+    m_MaxExceptionWeight: 8
+    m_GroundExceptionValue: 1
+    m_AirExceptionValue: 7
   m_Debug: 0
   m_Debug_ShowTile: 0
   m_Debug_TileParent: {fileID: 6685137173297824169}
@@ -1140,7 +1149,7 @@ MonoBehaviour:
     - Name: m_EnemySpawnInfoQueue
       Entry: 7
       Data: 1|System.Collections.Generic.PriorityQueue`2[[System.Single, mscorlib],[BuffDebuff.EnemySpawnInfo,
-        Assembly-CSharp]], Assembly-CSharp
+        Assembly-CSharp]], Assembly-CSharp-firstpass
     - Name: _nodes
       Entry: 7
       Data: 2|System.ValueTuple`2[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,

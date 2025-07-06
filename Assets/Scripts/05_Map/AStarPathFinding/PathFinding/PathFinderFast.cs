@@ -98,13 +98,13 @@ namespace Algorithms
 		private byte m_OpenNodeValue = 1;
 		private byte m_CloseNodeValue = 2;
 		[SerializeField]
-		private int m_TestValue1 = 6;
+		private int m_ExceptionWeight = 6;
 		[SerializeField]
-		private int m_TestValue2 = 8;
+		private int m_MaxExceptionWeight = 8;
 		[SerializeField]
-		private int m_TestValue3 = 1;
+		private int m_GroundExceptionValue = 1;
 		[SerializeField]
-		private int m_TestValue4 = 7;
+		private int m_AirExceptionValue = 7;
 
 		// 호출 사이에 다시 생성되는 것을 피하기 위해 지역 변수를 멤버 변수로 바꿈
 		private int m_H = 0;
@@ -124,38 +124,6 @@ namespace Algorithms
 		private int m_NewG = 0;
 
 		private PathFindingMap m_Map = null;
-		#endregion
-
-		#region 생성자
-		public PathFinderFast(byte[,] grid, PathFindingMap map)
-		{
-			if (map == null)
-				throw new Exception("Map can`t be null");
-			if (grid == null)
-				throw new Exception("Grid can`t be null");
-
-			m_Map = map;
-			m_Grid = grid;
-			m_GridX = (ushort)(m_Grid.GetUpperBound(1) + 1);
-			m_GridY = (ushort)(m_Grid.GetUpperBound(0) + 1);
-			m_GridXLog2 = (ushort)Math.Log(m_GridX, 2);
-
-			if (Math.Log(m_GridX, 2) != (int)Math.Log(m_GridX, 2) ||
-				Math.Log(m_GridY, 2) != (int)Math.Log(m_GridY, 2))
-				throw new Exception("Invalid Grid, size in X and Y must be power of 2");
-
-			if (m_Nodes == null || m_Nodes.Length != (m_GridX * m_GridY))
-			{
-				m_Nodes = new List<PathFinderNodeFast>[m_GridX * m_GridY];
-				m_TouchedLocations = new Stack<int>(m_GridX * m_GridY);
-				m_Close = new List<Vector2Int>(m_GridX * m_GridY);
-			}
-
-			for (var i = 0; i < m_Nodes.Length; ++i)
-				m_Nodes[i] = new List<PathFinderNodeFast>(1);
-
-			m_Open = new PriorityQueueB<Location>(new ComparePFNodeMatrix(m_Nodes));
-		}
 		#endregion
 
 		#region 프로퍼티
@@ -225,25 +193,57 @@ namespace Algorithms
 			get { return m_DebugFoundPath; }
 			set { m_DebugFoundPath = value; }
 		}
-		public int TestValue1
+		public int exceptionWeight
 		{
-			get { return m_TestValue1; }
-			set { m_TestValue1 = value; }
+			get { return m_ExceptionWeight; }
+			set { m_ExceptionWeight = value; }
 		}
-		public int TestValue2
+		public int maxExceptionWeight
 		{
-			get { return m_TestValue2; }
-			set { m_TestValue2 = value; }
+			get { return m_MaxExceptionWeight; }
+			set { m_MaxExceptionWeight = value; }
 		}
-		public int TestValue3
+		public int groundExceptionValue
 		{
-			get { return m_TestValue3; }
-			set { m_TestValue3 = value; }
+			get { return m_GroundExceptionValue; }
+			set { m_GroundExceptionValue = value; }
 		}
-		public int TestValue4
+		public int airExceptionValue
 		{
-			get { return m_TestValue4; }
-			set { m_TestValue4 = value; }
+			get { return m_AirExceptionValue; }
+			set { m_AirExceptionValue = value; }
+		}
+		#endregion
+
+		#region 생성자
+		public PathFinderFast(byte[,] grid, PathFindingMap map)
+		{
+			if (map == null)
+				throw new Exception("Map can`t be null");
+			if (grid == null)
+				throw new Exception("Grid can`t be null");
+
+			m_Map = map;
+			m_Grid = grid;
+			m_GridX = (ushort)(m_Grid.GetUpperBound(1) + 1);
+			m_GridY = (ushort)(m_Grid.GetUpperBound(0) + 1);
+			m_GridXLog2 = (ushort)Math.Log(m_GridX, 2);
+
+			if (Math.Log(m_GridX, 2) != (int)Math.Log(m_GridX, 2) ||
+				Math.Log(m_GridY, 2) != (int)Math.Log(m_GridY, 2))
+				throw new Exception("Invalid Grid, size in X and Y must be power of 2");
+
+			if (m_Nodes == null || m_Nodes.Length != (m_GridX * m_GridY))
+			{
+				m_Nodes = new List<PathFinderNodeFast>[m_GridX * m_GridY];
+				m_TouchedLocations = new Stack<int>(m_GridX * m_GridY);
+				m_Close = new List<Vector2Int>(m_GridX * m_GridY);
+			}
+
+			for (var i = 0; i < m_Nodes.Length; ++i)
+				m_Nodes[i] = new List<PathFinderNodeFast>(1);
+
+			m_Open = new PriorityQueueB<Location>(new ComparePFNodeMatrix(m_Nodes));
 		}
 		#endregion
 
@@ -283,7 +283,7 @@ namespace Algorithms
 		{
 			m_Stop = true;
 		}
-		public List<Vector2Int> FindPath(Vector2Int start, Vector2Int end, int characterWidth, int characterHeight, short maxCharacterJumpHeight)
+		public List<Vector2Int> FindPath(Vector2Int start, Vector2Int end, int characterWidth, int characterHeight, short maxCharacterJumpHeight, float charcterMovementSpeed, float yMovementTime)
 		{
 			//Monitor.Enter(_lockObject);
 
@@ -474,6 +474,51 @@ namespace Algorithms
 						#endregion
 
 						#region 예외처리
+						// 점프를 뛰었고, 지상에 착지한 경우
+						if (jumpLength > 0 &&
+							onGround == true)
+						{
+							PathFinderNodeFast parentNode = m_Nodes[m_Location.xy][m_Location.z];
+
+							// x기준 총 움직인 칸 수
+							int xDiff = 0;
+
+							while (true)
+							{
+								InfiniteLoopDetector.Run();
+
+								int parentXY = (parentNode.PY << m_GridXLog2) + parentNode.PX;
+								int parentZ = parentNode.PZ;
+
+								if (m_Location.xy == parentXY &&
+									m_Location.z == parentZ)
+									break;
+
+								if (parentNode.PX != m_Nodes[parentXY][parentZ].PX)
+									++xDiff;
+
+								parentNode = m_Nodes[parentXY][parentZ];
+
+								if (parentNode.JumpLength == 0 ||
+									parentNode.JumpLength == (short)(maxCharacterJumpHeight * 2))
+									break;
+							}
+
+							if (parentNode.JumpLength == 0)
+							{
+								// y기준 움직인 칸 수
+								int yDiff = jumpLength >> 1;
+								// y기준 총 움직인 시간
+								float timeY = yDiff * yMovementTime;
+
+								// x기준 움직일 수 있는 칸 수
+								int xMoveable = Mathf.RoundToInt(charcterMovementSpeed * timeY);
+
+								if (xDiff > xMoveable)
+									continue;
+							}
+						}
+
 						// x축으로 움직였을 경우
 						if (m_LocationX != m_NewLocationX)
 						{
@@ -484,13 +529,13 @@ namespace Algorithms
 							// x축으로 너무 빠르게 이동한 경우 예외처리
 							// 착지한 경우
 							if (newJumpLength == 0 &&
-								jumpLength + 1 >= maxCharacterJumpHeight * 2 + m_TestValue1 &&
-								(jumpLength + 1 - (maxCharacterJumpHeight * 2 + m_TestValue1)) % m_TestValue2 <= m_TestValue3)
+								jumpLength + 1 >= maxCharacterJumpHeight * 2 + m_ExceptionWeight &&
+								(jumpLength + 1 - (maxCharacterJumpHeight * 2 + m_ExceptionWeight)) % m_MaxExceptionWeight <= m_GroundExceptionValue)
 								continue;
 
 							// 공중인 경우
-							if (newJumpLength >= maxCharacterJumpHeight * 2 + m_TestValue1 &&
-								(newJumpLength - (maxCharacterJumpHeight * 2 + m_TestValue1)) % m_TestValue2 != m_TestValue4)
+							if (newJumpLength >= maxCharacterJumpHeight * 2 + m_ExceptionWeight &&
+								(newJumpLength - (maxCharacterJumpHeight * 2 + m_ExceptionWeight)) % m_MaxExceptionWeight != m_AirExceptionValue)
 								continue;
 						}
 
@@ -518,7 +563,7 @@ namespace Algorithms
 
 								if (couldMoveSideways == false &&
 									m_Nodes[m_NewLocation][j].JumpLength % 2 == 0 &&
-									m_Nodes[m_NewLocation][j].JumpLength < maxCharacterJumpHeight * 2 + m_TestValue1)
+									m_Nodes[m_NewLocation][j].JumpLength < maxCharacterJumpHeight * 2 + m_ExceptionWeight)
 									couldMoveSideways = true;
 							}
 
@@ -526,7 +571,7 @@ namespace Algorithms
 							// The current node has smaller cost than the previous? then skip this node
 							if (lowestG <= m_NewG &&
 								lowestJump <= newJumpLength &&
-								(newJumpLength % 2 != 0 || newJumpLength >= maxCharacterJumpHeight * 2 + m_TestValue1 || couldMoveSideways))
+								(newJumpLength % 2 != 0 || newJumpLength >= maxCharacterJumpHeight * 2 + m_ExceptionWeight || couldMoveSideways))
 								continue;
 						}
 
