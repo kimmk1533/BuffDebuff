@@ -10,7 +10,7 @@ namespace BuffDebuff
 	public class PathFindingMap : SerializedMonoBehaviour
 	{
 		public const int c_tileSize = 16;
-		public const int c_halfSize = c_tileSize / 2;
+		public const int c_halfSize = c_tileSize >> 1;
 
 		#region Enum
 		public enum E_TileType : byte
@@ -51,6 +51,8 @@ namespace BuffDebuff
 		private int m_DebugCharacterHeight = 1;
 		[SerializeField, ShowIf("@m_Debug == true")]
 		private short m_DebugMaxJumpHeight = 6;
+		[SerializeField, ShowIf("@m_Debug == true")]
+		private float m_DebugGravity = -75f;
 		[SerializeField, ShowIf("@m_Debug == true")]
 		private float m_DebugTimeToJumpApex = 0.4f;
 		[SerializeField, ShowIf("@m_Debug == true")]
@@ -294,14 +296,14 @@ namespace BuffDebuff
 			//AutoTile(type, x, y + 1, 1, 8, 4, 4, 4, 4);
 		}
 
-		public List<Vector2Int> FindPath(Vector2Int start, Vector2Int end, int characterWidth, int characterHeight, short maxCharacterJumpHeight, float timeToJumpApex, float characterMovementSpeed)
+		public List<Vector2Int> FindPath(Vector2Int start, Vector2Int end, int characterWidth, int characterHeight, short maxJumpHeight, float gravity, float timeToJumpApex, float movementSpeed)
 		{
+			// x 1칸 움직이는데 걸리는 시간
+			float xMovementTime = 1f / movementSpeed;
 			// y 1칸 움직이는데 걸리는 시간
-			float yMovementTime = timeToJumpApex / maxCharacterJumpHeight;
-			//// x 1칸 움직이는데 걸리는 시간
-			//float xMovementTime = characterMovementSpeed * yMovementTime;
+			float yMovementTime = timeToJumpApex / maxJumpHeight;
 
-			List<Vector2Int> result = m_PathFinder.FindPath(start, end, characterWidth, characterHeight, maxCharacterJumpHeight, characterMovementSpeed, yMovementTime);
+			List<Vector2Int> result = m_PathFinder.FindPath(start, end, characterWidth, characterHeight, maxJumpHeight, gravity, timeToJumpApex, movementSpeed, xMovementTime, yMovementTime);
 
 			return result;
 		}
@@ -324,7 +326,7 @@ namespace BuffDebuff
 			Color color = Gizmos.color;
 
 			List<Vector2Int> pathList = new List<Vector2Int>();
-			List<Vector2Int> findingPathList = FindPath(m_DebugStartPos, m_DebugEndPos, m_DebugCharacterWidth, m_DebugCharacterHeight, m_DebugMaxJumpHeight, m_DebugTimeToJumpApex, m_DebugMovementSpeed);
+			List<Vector2Int> findingPathList = FindPath(m_DebugStartPos, m_DebugEndPos, m_DebugCharacterWidth, m_DebugCharacterHeight, m_DebugMaxJumpHeight, m_DebugGravity, m_DebugTimeToJumpApex, m_DebugMovementSpeed);
 
 			if (findingPathList == null)
 				findingPathList = new List<Vector2Int>();

@@ -283,7 +283,7 @@ namespace Algorithms
 		{
 			m_Stop = true;
 		}
-		public List<Vector2Int> FindPath(Vector2Int start, Vector2Int end, int characterWidth, int characterHeight, short maxCharacterJumpHeight, float charcterMovementSpeed, float yMovementTime)
+		public List<Vector2Int> FindPath(Vector2Int start, Vector2Int end, int characterWidth, int characterHeight, short maxJumpHeight, float gravity, float timeToJumpApex, float movementSpeed, float xMovementTime, float yMovementTime)
 		{
 			//Monitor.Enter(_lockObject);
 
@@ -317,7 +317,7 @@ namespace Algorithms
 						break;
 				}
 
-				if (inSolidTile == true)
+				if (inSolidTile == true || movementSpeed == 0f)
 					return null;
 
 				m_Found = false;
@@ -354,7 +354,7 @@ namespace Algorithms
 				if (startsOnGround)
 					firstNode.JumpLength = 0;
 				else
-					firstNode.JumpLength = (short)(maxCharacterJumpHeight * 2);
+					firstNode.JumpLength = (short)(maxJumpHeight * 2);
 
 				m_Nodes[m_Location.xy].Add(firstNode);
 				m_TouchedLocations.Push(m_Location.xy);
@@ -408,7 +408,7 @@ namespace Algorithms
 
 							if (m_Map.IsGround(m_NewLocationX + w, m_NewLocationY - 1))
 								onGround = true;
-							else if (m_Map.IsBlock(m_NewLocationX + w, m_NewLocationY + characterHeight))
+							if (m_Map.IsBlock(m_NewLocationX + w, m_NewLocationY + characterHeight))
 								atCeiling = true;
 						}
 						if (continueFlag)
@@ -440,16 +440,16 @@ namespace Algorithms
 						{
 							// x축 이동을 한 경우
 							if (m_NewLocationX != m_LocationX)
-								newJumpLength = (short)Mathf.Max(maxCharacterJumpHeight * 2 + 1, jumpLength + 1);
+								newJumpLength = (short)Mathf.Max(maxJumpHeight * 2 + 1, jumpLength + 1);
 							// y축 이동을 한 경우
 							else
-								newJumpLength = (short)Mathf.Max(maxCharacterJumpHeight * 2, jumpLength + 2);
+								newJumpLength = (short)Mathf.Max(maxJumpHeight * 2, jumpLength + 2);
 						}
 						// 위로 움직인 경우
 						else if (m_NewLocationY > m_LocationY)
 						{
 							// 첫 번째 점프
-							if (jumpLength < 2 && maxCharacterJumpHeight > 2) // 첫 번째 점프는 항상 한 칸 위가 아닌 두 칸 위로 올라가고, 선택적으로 좌우로 한 칸 움직일 수 있음
+							if (jumpLength < 2 && maxJumpHeight > 2) // 첫 번째 점프는 항상 한 칸 위가 아닌 두 칸 위로 올라가고, 선택적으로 좌우로 한 칸 움직일 수 있음
 								newJumpLength = 3;
 							// 점프 값이 짝수인 경우 (x축 이동이 가능한 경우)
 							else if (jumpLength % 2 == 0)
@@ -463,10 +463,10 @@ namespace Algorithms
 						{
 							// 점프 값이 짝수인 경우 (x축 이동이 가능한 경우)
 							if (jumpLength % 2 == 0)
-								newJumpLength = (short)Mathf.Max(maxCharacterJumpHeight * 2, jumpLength + 2);
+								newJumpLength = (short)Mathf.Max(maxJumpHeight * 2, jumpLength + 2);
 							// 점프 값이 홀수인 경우 (x축 이동이 불가능한 경우)
 							else
-								newJumpLength = (short)Mathf.Max(maxCharacterJumpHeight * 2, jumpLength + 1);
+								newJumpLength = (short)Mathf.Max(maxJumpHeight * 2, jumpLength + 1);
 						}
 						// 공중에서 좌우로 움직인 경우
 						else if (!onGround && m_LocationX != m_NewLocationX)
@@ -474,14 +474,39 @@ namespace Algorithms
 						#endregion
 
 						#region 예외처리
-						// 점프를 뛰었고, 지상에 착지한 경우
-						if (jumpLength > 0 &&
-							onGround == true)
+						// x축으로 움직였을 경우
+						if (m_LocationX != m_NewLocationX)
+						{
+							// 기존에 이미 x축으로 움직인 경우
+							if (jumpLength >= 0 && jumpLength % 2 != 0)
+								continue;
+
+							// x축으로 너무 빠르게 이동한 경우 예외처리
+							// 착지한 경우
+							if (newJumpLength == 0 &&
+								jumpLength + 1 >= maxJumpHeight * 2 + m_ExceptionWeight &&
+								(jumpLength + 1 - (maxJumpHeight * 2 + m_ExceptionWeight)) % m_MaxExceptionWeight <= m_GroundExceptionValue)
+								continue;
+
+							// 공중인 경우
+							if (newJumpLength >= maxJumpHeight * 2 + m_ExceptionWeight &&
+								(newJumpLength - (maxJumpHeight * 2 + m_ExceptionWeight)) % m_MaxExceptionWeight != m_AirExceptionValue)
+								continue;
+						}
+
+						// 만약 떨어지는 중이고, 자식 노드가 위에 있다면 해당 노드 무시
+						if (jumpLength >= maxJumpHeight * 2 && m_NewLocationY > m_LocationY)
+							continue;
+
+						if (jumpLength > 0 && // 점프 중이고
+							newJumpLength == 0) // 지상에 착지했고
 						{
 							PathFinderNodeFast parentNode = m_Nodes[m_Location.xy][m_Location.z];
 
-							// x기준 총 움직인 칸 수
-							int xDiff = 0;
+							// x기준 총 움직인 거리
+							float xMovement = m_LocationX == m_NewLocationX ? 0f : 1f;
+							// y기준 움직인 거리
+							float yMovement = m_LocationY == m_NewLocationY ? 0f : 1f;
 
 							while (true)
 							{
@@ -495,56 +520,29 @@ namespace Algorithms
 									break;
 
 								if (parentNode.PX != m_Nodes[parentXY][parentZ].PX)
-									++xDiff;
+									++xMovement;
+								if (parentNode.PY != m_Nodes[parentXY][parentZ].PY)
+									++yMovement;
+
+								if ((startsOnGround && m_Nodes[parentXY][parentZ].JumpLength == 0) ||
+									(!startsOnGround && m_Nodes[parentXY][parentZ].JumpLength == (short)(maxJumpHeight * 2)))
+									break;
 
 								parentNode = m_Nodes[parentXY][parentZ];
-
-								if (parentNode.JumpLength == 0 ||
-									parentNode.JumpLength == (short)(maxCharacterJumpHeight * 2))
-									break;
 							}
 
-							if (parentNode.JumpLength == 0)
-							{
-								// y기준 움직인 칸 수
-								int yDiff = jumpLength >> 1;
-								// y기준 총 움직인 시간
-								float timeY = yDiff * yMovementTime;
+							float jumpSpeed = Mathf.Sqrt(2f * Mathf.Abs(gravity) * yMovement);
+							float airTime = (2f * jumpSpeed) / Mathf.Abs(gravity);
+							float maxJumpDistance = movementSpeed * airTime;
 
-								// x기준 움직일 수 있는 칸 수
-								int xMoveable = Mathf.RoundToInt(charcterMovementSpeed * timeY);
+							float distance = Mathf.Abs(parentNode.PX - m_LocationX);
 
-								if (xDiff > xMoveable)
-									continue;
-							}
-						}
-
-						// x축으로 움직였을 경우
-						if (m_LocationX != m_NewLocationX)
-						{
-							// 기존에 이미 x축으로 움직인 경우
-							if (jumpLength >= 0 && jumpLength % 2 != 0)
-								continue;
-
-							// x축으로 너무 빠르게 이동한 경우 예외처리
-							// 착지한 경우
-							if (newJumpLength == 0 &&
-								jumpLength + 1 >= maxCharacterJumpHeight * 2 + m_ExceptionWeight &&
-								(jumpLength + 1 - (maxCharacterJumpHeight * 2 + m_ExceptionWeight)) % m_MaxExceptionWeight <= m_GroundExceptionValue)
-								continue;
-
-							// 공중인 경우
-							if (newJumpLength >= maxCharacterJumpHeight * 2 + m_ExceptionWeight &&
-								(newJumpLength - (maxCharacterJumpHeight * 2 + m_ExceptionWeight)) % m_MaxExceptionWeight != m_AirExceptionValue)
+							if (distance > maxJumpDistance)
 								continue;
 						}
-
-						// 만약 떨어지는 중이고, 자식 노드가 위에 있다면 해당 노드 무시
-						if (jumpLength >= maxCharacterJumpHeight * 2 && m_NewLocationY > m_LocationY)
-							continue;
 						#endregion
 
-						m_NewG = m_Nodes[m_Location.xy][m_Location.z].G + m_Grid[m_NewLocationY, m_NewLocationX] + newJumpLength / 4;
+						m_NewG = m_Nodes[m_Location.xy][m_Location.z].G + m_Grid[m_NewLocationY, m_NewLocationX] + (newJumpLength >> 2);
 
 						// 해당 노드 위치에 이미 방문한 적이 있는 경우
 						if (m_Nodes[m_NewLocation].Count > 0)
@@ -563,15 +561,14 @@ namespace Algorithms
 
 								if (couldMoveSideways == false &&
 									m_Nodes[m_NewLocation][j].JumpLength % 2 == 0 &&
-									m_Nodes[m_NewLocation][j].JumpLength < maxCharacterJumpHeight * 2 + m_ExceptionWeight)
+									m_Nodes[m_NewLocation][j].JumpLength < maxJumpHeight * 2 + m_ExceptionWeight)
 									couldMoveSideways = true;
 							}
 
 							// 현재 노드의 비용이 이전 것보다 작다면? 해당 노드 스킵
-							// The current node has smaller cost than the previous? then skip this node
 							if (lowestG <= m_NewG &&
 								lowestJump <= newJumpLength &&
-								(newJumpLength % 2 != 0 || newJumpLength >= maxCharacterJumpHeight * 2 + m_ExceptionWeight || couldMoveSideways))
+								(newJumpLength % 2 != 0 || newJumpLength >= maxJumpHeight * 2 + m_ExceptionWeight || couldMoveSideways))
 								continue;
 						}
 

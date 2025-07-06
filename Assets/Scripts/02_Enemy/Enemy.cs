@@ -342,10 +342,11 @@ namespace BuffDebuff
 			int width = Mathf.CeilToInt(bounds.size.x);
 			int height = Mathf.CeilToInt(bounds.size.y);
 			short maxJumpHeight = (short)((short)m_Controller.maxJumpHeight - 1);
+			float gravity = m_Controller.gravity;
 			float timeToJumpApex = m_Controller.timeToJumpApex;
 			float movementSpeed = m_Stat.MovementSpeed;
 
-			m_PathFinding_Path = currentRoom.pathFindingMap.FindPath(start, end, width, height, maxJumpHeight, timeToJumpApex, movementSpeed);
+			m_PathFinding_Path = currentRoom.pathFindingMap.FindPath(start, end, width, height, maxJumpHeight, gravity, timeToJumpApex, movementSpeed);
 
 			if (m_PathFinding_Path == null
 				|| m_PathFinding_Path.Count <= 1)
