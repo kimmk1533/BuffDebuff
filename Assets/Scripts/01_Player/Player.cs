@@ -57,11 +57,86 @@ namespace BuffDebuff
 		#region 매니저
 		private static PlayerManager M_Player => PlayerManager.Instance;
 		private static ProjectileManager M_Projectile => ProjectileManager.Instance;
-		private static BuffInventory M_BuffInventory => BuffInventory.Instance;
+		private static BuffManager M_Buff => BuffManager.Instance;
 		private static InputManager M_Input => InputManager.Instance;
 		#endregion
 
 		#region 이벤트
+		#endregion
+
+		#region 초기화 & 마무리화 함수
+		/// <summary>
+		/// 초기화 함수
+		/// </summary>
+		public override void InitializePoolItem()
+		{
+			base.InitializePoolItem();
+
+			m_IsAttacking = false;
+			m_CanComboAttack = false;
+
+			if (m_AttackSpot == null)
+				m_AttackSpot = transform.FindInChildren("AttackSpot");
+
+			// 타이머 초기화
+			if (m_DashTimer == null)
+			{
+				m_DashTimer = new UtilClass.Timer()
+				{
+					autoClear = true,
+				};
+			}
+			m_DashTimer.interval = m_Stat.DashRechargeTime;
+			m_DashTimer.Clear();
+		}
+		/// <summary>
+		/// 마무리화 함수
+		/// </summary>
+		public override void FinallizePoolItem()
+		{
+			base.FinallizePoolItem();
+
+			if (m_DashTimer != null)
+				m_DashTimer.Clear();
+		}
+		#endregion
+
+		#region 유니티 콜백 함수
+		protected override void Update()
+		{
+			// 테스트
+			if (Input.GetKeyDown(KeyCode.F))
+			{
+				M_Buff.inventory.AddBuff("전방향 대쉬");
+			}
+			if (Input.GetKeyDown(KeyCode.E))
+			{
+				M_Buff.inventory.RemoveBuff("전방향 대쉬");
+			}
+
+			Vector2 directionalInput = new Vector2(M_Input.GetAxisRaw("PlayerMoveHorizontal"), M_Input.GetAxisRaw("PlayerMoveVertical"));
+			SetDirectionalInput(directionalInput);
+
+			if (M_Input.GetKeyDown(E_InputType.PlayerDash))
+			{
+				Dash();
+			}
+
+			if (M_Input.GetKeyDown(E_InputType.PlayerJump))
+			{
+				JumpInputDown();
+			}
+			if (M_Input.GetKeyUp(E_InputType.PlayerJump))
+			{
+				JumpInputUp();
+			}
+
+			base.Update();
+
+			DashTimer();
+		}
+		#endregion
+		#endregion
 
 		#region 이벤트 함수
 		// Buff Event
@@ -121,75 +196,6 @@ namespace BuffDebuff
 		{
 			m_CanComboAttack = false;
 		}
-		#endregion
-		#endregion
-
-		#region 초기화 & 마무리화 함수
-		public override void InitializePoolItem()
-		{
-			base.InitializePoolItem();
-
-			m_IsAttacking = false;
-			m_CanComboAttack = false;
-
-			if (m_AttackSpot == null)
-				m_AttackSpot = transform.FindInChildren("AttackSpot");
-
-			// 타이머 초기화
-			if (m_DashTimer == null)
-			{
-				m_DashTimer = new UtilClass.Timer()
-				{
-					autoClear = true,
-				};
-			}
-			m_DashTimer.interval = m_Stat.DashRechargeTime;
-			m_DashTimer.Clear();
-		}
-		public override void FinallizePoolItem()
-		{
-			base.FinallizePoolItem();
-
-			if (m_DashTimer != null)
-				m_DashTimer.Clear();
-		}
-		#endregion
-
-		#region 유니티 콜백 함수
-		protected override void Update()
-		{
-			// 테스트
-			if (Input.GetKeyDown(KeyCode.F))
-			{
-				BuffInventory.Instance.AddBuff("전방향 대쉬");
-			}
-			if (Input.GetKeyDown(KeyCode.E))
-			{
-				BuffInventory.Instance.RemoveBuff("전방향 대쉬");
-			}
-
-			Vector2 directionalInput = new Vector2(M_Input.GetAxisRaw("PlayerMoveHorizontal"), M_Input.GetAxisRaw("PlayerMoveVertical"));
-			SetDirectionalInput(directionalInput);
-
-			if (M_Input.GetKeyDown(E_InputType.PlayerDash))
-			{
-				Dash();
-			}
-
-			if (M_Input.GetKeyDown(E_InputType.PlayerJump))
-			{
-				JumpInputDown();
-			}
-			if (M_Input.GetKeyUp(E_InputType.PlayerJump))
-			{
-				JumpInputUp();
-			}
-
-			base.Update();
-
-			DashTimer();
-		}
-		#endregion
 		#endregion
 
 		public void AddXp(float xp)
@@ -307,7 +313,7 @@ namespace BuffDebuff
 
 			Vector2 dir = UtilClass.GetMouseWorldPosition3D() - transform.position;
 
-			if (M_BuffInventory.HasBuff("전방향 대쉬") == true)
+			if (M_Buff.inventory.HasBuff("전방향 대쉬") == true)
 			{
 				// 마우스 대쉬
 				m_Velocity = dir.normalized * m_Stat.DashSpeed;

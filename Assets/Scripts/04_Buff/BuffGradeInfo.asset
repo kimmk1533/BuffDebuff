@@ -1295,13 +1295,13 @@ MonoBehaviour:
       Data: 0
     - Name: m_MinLevelPercent
       Entry: 4
-      Data: 100
+      Data: 43.88165
     - Name: m_MaxLevelPercent
       Entry: 4
       Data: 0
     - Name: m_CurrentLevelPercent
       Entry: 4
-      Data: 100
+      Data: 43.88165
     - Name: m_MinLevel
       Entry: 3
       Data: 1
@@ -2556,13 +2556,13 @@ MonoBehaviour:
       Data: 1
     - Name: m_MinLevelPercent
       Entry: 4
-      Data: 84.6325
+      Data: 37.1381378
     - Name: m_MaxLevelPercent
       Entry: 4
       Data: 0
     - Name: m_CurrentLevelPercent
       Entry: 4
-      Data: 84.6325
+      Data: 37.1381378
     - Name: m_MinLevel
       Entry: 3
       Data: 1
@@ -3817,13 +3817,13 @@ MonoBehaviour:
       Data: 2
     - Name: m_MinLevelPercent
       Entry: 4
-      Data: 43.2531929
+      Data: 18.9802132
     - Name: m_MaxLevelPercent
       Entry: 4
       Data: 0
     - Name: m_CurrentLevelPercent
       Entry: 4
-      Data: 43.2531929
+      Data: 18.9802132
     - Name: m_MinLevel
       Entry: 3
       Data: 1
@@ -7603,7 +7603,7 @@ MonoBehaviour:
       Data: 0
     - Name: m_MaxLevelPercent
       Entry: 4
-      Data: 43.2531929
+      Data: 33.82176
     - Name: m_CurrentLevelPercent
       Entry: 4
       Data: 0
@@ -8864,7 +8864,7 @@ MonoBehaviour:
       Data: 0
     - Name: m_MaxLevelPercent
       Entry: 4
-      Data: 84.6325
+      Data: 66.17824
     - Name: m_CurrentLevelPercent
       Entry: 4
       Data: 0

@@ -155,7 +155,7 @@ namespace BuffDebuff
 				.Spawn();
 
 			buffUI.SetBuffData(buffData);
-			buffUI.SetType(BuffUI.E_Type.BuffCombine);
+			buffUI.SetState(BuffUI.E_BuffUIState.BuffCombine);
 
 			return true;
 		}

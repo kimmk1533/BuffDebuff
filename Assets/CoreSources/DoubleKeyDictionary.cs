@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System.Linq;
 using UnityEngine;
 
@@ -8,13 +9,14 @@ using UnityEngine;
 public class DoubleKeyDictionary<TKey1, TKey2, TValue> : IEnumerable<KeyValuePair<TKey1, TValue>>
 {
 	#region 변수	
-	[SerializeField]
+	[OdinSerialize]
 	[DictionaryDrawerSettings(KeyLabel = "key1", ValueLabel = "value")]
 	private Dictionary<TKey1, TValue> m_Key1Dictionary = null;
 
-	[SerializeField]
+	[OdinSerialize]
 	[DictionaryDrawerSettings(KeyLabel = "key2", ValueLabel = "key1")]
 	private Dictionary<TKey2, TKey1> m_ForwardKey2Dictionary = null;
+	[OdinSerialize, HideInInspector]
 	private Dictionary<TKey1, TKey2> m_ReverseKey2Dictionary = null;
 	#endregion
 

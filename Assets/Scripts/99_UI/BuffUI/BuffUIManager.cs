@@ -57,6 +57,8 @@ namespace BuffDebuff
 		public BuffPanel rewardsPanel => m_BuffPanelMap["Buff Rewards"];
 		public BuffPanel inventoryPanel => m_BuffPanelMap["Buff Inventory"];
 		public BuffPanel combinePanel => m_BuffPanelMap["Buff Combine"];
+
+		protected BuffInventory buffInventory => M_Buff.inventory;
 		#endregion
 
 		#region 이벤트
@@ -76,7 +78,7 @@ namespace BuffDebuff
 
 			foreach (var item in m_BuffUIMap)
 			{
-				item.Value.SetType(BuffUI.E_Type.BuffCombineInventory);
+				item.Value.SetState(BuffUI.E_BuffUIState.BuffCombineInventory);
 			}
 		}
 		private void OnCombinePanelDisabled()
@@ -89,7 +91,7 @@ namespace BuffDebuff
 
 			foreach (var item in m_BuffUIMap)
 			{
-				item.Value.SetType(BuffUI.E_Type.BuffInventory);
+				item.Value.SetState(BuffUI.E_BuffUIState.BuffInventory);
 			}
 		}
 		#endregion
@@ -97,7 +99,6 @@ namespace BuffDebuff
 
 		#region 매니저
 		private static BuffManager M_Buff => BuffManager.Instance;
-		private static BuffInventory M_BuffInventory => BuffInventory.Instance;
 		private static RoomManager M_Room => RoomManager.Instance;
 		#endregion
 
@@ -148,9 +149,6 @@ namespace BuffDebuff
 		{
 			base.Initialize();
 
-			if (m_BuffUIMap == null)
-				m_BuffUIMap = new SortedList<int, BuffUI>();
-
 			M_Room.onRoomClear += OnRoomCleared;
 		}
 		/// <summary>
@@ -182,6 +180,7 @@ namespace BuffDebuff
 					scrollRect = panel.GetComponentInChildren<ScrollRect>()
 				});
 			}
+			combinePanel.scrollRect = inventoryPanel.scrollRect;
 
 			m_BuffCombinePanel.Initialize();
 
@@ -270,14 +269,14 @@ namespace BuffDebuff
 					.Spawn();
 
 				buffUI.SetBuffData(buffData);
-				buffUI.SetType(BuffUI.E_Type.BuffRewards);
+				buffUI.SetState(BuffUI.E_BuffUIState.BuffRewards);
 			}
 		}
 
 		public void AddBuff(BuffData buffData)
 		{
 			BuffUI buffUI;
-			if (M_BuffInventory.HasBuff(buffData) == true)
+			if (M_Buff.inventory.HasBuff(buffData) == true)
 			{
 				buffUI = m_BuffUIMap[buffData.code];
 
@@ -297,11 +296,11 @@ namespace BuffDebuff
 
 			buffUI.SetBuffData(buffData);
 			if (combinePanel.active == true)
-				buffUI.SetType(BuffUI.E_Type.BuffCombineInventory);
+				buffUI.SetState(BuffUI.E_BuffUIState.BuffCombineInventory);
 			else
-				buffUI.SetType(BuffUI.E_Type.BuffInventory);
+				buffUI.SetState(BuffUI.E_BuffUIState.BuffInventory);
 
-			M_BuffInventory.AddBuff(buffData);
+			M_Buff.inventory.AddBuff(buffData);
 			m_BuffUIMap.Add(buffData.code, buffUI);
 
 			SortBuffInventory();
@@ -324,7 +323,7 @@ namespace BuffDebuff
 			{
 				Despawn(buffUI);
 
-				M_BuffInventory.RemoveBuff(buffData);
+				M_Buff.inventory.RemoveBuff(buffData);
 				m_BuffUIMap.Remove(buffData.code);
 			}
 		}
@@ -342,11 +341,10 @@ namespace BuffDebuff
 		{
 			inventoryPanel.content.DetachChildren();
 
-			BuffUI buffUI;
-			int count = m_BuffUIMap.Count;
-			for (int i = 0; i < count; ++i)
+			foreach (var item in m_BuffUIMap)
 			{
-				buffUI = m_BuffUIMap.Values[i];
+				BuffUI buffUI = item.Value;
+
 				buffUI.transform.SetParent(inventoryPanel.content);
 				buffUI.transform.localPosition = Vector3.zero;
 			}

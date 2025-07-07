@@ -8,23 +8,41 @@ using BuffTypeGrade = System.Tuple<BuffDebuff.Enum.E_BuffType, BuffDebuff.Enum.E
 
 namespace BuffDebuff
 {
-	public sealed class BuffManager : SerializedSingleton<BuffManager>
+	[RequireComponent(typeof(BuffInventory))]
+	public class BuffManager : SerializedSingleton<BuffManager>
 	{
+		#region 기본 템플릿
 		#region 변수
 		[Space(10)]
-		[SerializeField]
+		[SerializeField, InlineEditor]
 		private BuffGradeInfo m_BuffGradeInfo = null;
 
 		// < 코드, 명칭, 버프 >
 		private DoubleKeyDictionary<int, string, BuffData> m_BuffDataMap = null;
 		// < 타입, 등급, 코드 >
 		private Dictionary<BuffTypeGrade, List<int>> m_BuffTypeGradeMap = null;
+
+		private BuffInventory m_Inventory = null;
+		#endregion
+
+		#region 프로퍼티
+		public BuffInventory inventory => m_Inventory;
+		#endregion
+
+		#region 이벤트
+
+		#region 이벤트 함수
+		#endregion
 		#endregion
 
 		#region 매니저
 		private static PlayerManager M_Player => PlayerManager.Instance;
 		#endregion
 
+		#region 초기화 & 마무리화 함수
+		/// <summary>
+		/// 초기화 함수 (Init Scene 진입 시, 즉 게임 실행 시 호출)
+		/// </summary>
 		public override void Initialize()
 		{
 			base.Initialize();
@@ -41,14 +59,23 @@ namespace BuffDebuff
 			if (m_BuffTypeGradeMap == null)
 				m_BuffTypeGradeMap = new Dictionary<BuffTypeGrade, List<int>>();
 
+			this.NullCheckGetComponent<BuffInventory>(ref m_Inventory);
+
 			LoadAllBuffData();
 		}
+		/// <summary>
+		/// 마무리화 함수 (게임 종료 시 호출)
+		/// </summary>
 		public override void Finallize()
 		{
 			base.Finallize();
 
+
 		}
 
+		/// <summary>
+		/// 메인 초기화 함수 (본인 Main Scene 진입 시 호출)
+		/// </summary>
 		public override void InitializeMain()
 		{
 			base.InitializeMain();
@@ -67,12 +94,25 @@ namespace BuffDebuff
 
 				m_BuffTypeGradeMap[buffTypeGrade].Add(buffData.code);
 			}
+
+			// 버프 인벤토리 초기화
+			m_Inventory.Initialize();
 		}
+		/// <summary>
+		/// 메인 마무리화 함수 (본인 Main Scene 나갈 시 호출)
+		/// </summary>
 		public override void FinallizeMain()
 		{
 			base.FinallizeMain();
 
+			// 버프 인벤토리 마무리화
+			m_Inventory.Finallize();
 		}
+		#endregion
+
+		#region 유니티 콜백 함수
+		#endregion
+		#endregion
 
 		private void LoadAllBuffData()
 		{

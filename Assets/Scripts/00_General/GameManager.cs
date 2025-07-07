@@ -25,7 +25,6 @@ namespace BuffDebuff
 		#region 매니저
 		// System Managers
 		private static InputManager M_Input => InputManager.Instance;
-		private static BuffInventory M_BuffInventory => BuffInventory.Instance;
 
 		// Game Managers
 		private static PlayerManager M_Player => PlayerManager.Instance;
@@ -54,8 +53,6 @@ namespace BuffDebuff
 			// 인풋 매니저 초기화
 			M_Input.Initialize();
 			M_Input.InitializeMain();
-			// 버프 인벤토리 초기화
-			M_BuffInventory.Initialize();
 
 			// 플레이어 매니저 초기화
 			M_Player.Initialize();
@@ -84,28 +81,26 @@ namespace BuffDebuff
 			base.FinallizeMain();
 			base.Finallize();
 
-			// 버프 UI 매니저 마무리
+			// 버프 UI 매니저 마무리화
 			M_BuffUI.Finallize();
 
-			// 스테이지 매니저 마무리
+			// 스테이지 매니저 마무리화
 			M_Stage.Finallize();
-			// 워프 매니저 마무리
+			// 워프 매니저 마무리화
 			M_Warp.Finallize();
-			// 방 매니저 마무리
+			// 방 매니저 마무리화
 			M_Room.Finallize();
 
-			// 버프 매니저 마무리
+			// 버프 매니저 마무리화
 			M_Buff.Finallize();
-			// 투사체 매니저 마무리
+			// 투사체 매니저 마무리화
 			M_Projectile.Finallize();
-			// 적 매니저 마무리
+			// 적 매니저 마무리화
 			M_Enemy.Finallize();
-			// 플레이어 매니저 마무리
+			// 플레이어 매니저 마무리화
 			M_Player.Finallize();
 
-			// 버프 인벤토리 마무리
-			M_BuffInventory.Finallize();
-			// 인풋 매니저 마무리
+			// 인풋 매니저 마무리화
 			M_Input.FinallizeMain();
 			M_Input.Finallize();
 		}
@@ -130,9 +125,6 @@ namespace BuffDebuff
 		/// </summary>
 		public void InitializeOnGameScene()
 		{
-			// 버프 인벤토리 초기화
-			M_BuffInventory.InitializeMain();
-
 			// 플레이어 매니저 초기화
 			M_Player.InitializeMain();
 			// 적 매니저 초기화
@@ -160,27 +152,24 @@ namespace BuffDebuff
 		/// </summary>
 		public void FinallizeOnGameScene()
 		{
-			// 버프 UI 매니저 마무리
+			// 버프 UI 매니저 마무리화
 			M_BuffUI.FinallizeMain();
 
-			// 스테이지 매니저 마무리
+			// 스테이지 매니저 마무리화
 			M_Stage.FinallizeMain();
-			// 워프 매니저 마무리
+			// 워프 매니저 마무리화
 			M_Warp.FinallizeMain();
-			// 방 매니저 마무리
+			// 방 매니저 마무리화
 			M_Room.FinallizeMain();
 
-			// 버프 매니저 마무리
+			// 버프 매니저 마무리화
 			M_Buff.FinallizeMain();
-			// 투사체 매니저 마무리
+			// 투사체 매니저 마무리화
 			M_Projectile.FinallizeMain();
-			// 적 매니저 마무리
+			// 적 매니저 마무리화
 			M_Enemy.FinallizeMain();
-			// 플레이어 매니저 마무리
+			// 플레이어 매니저 마무리화
 			M_Player.FinallizeMain();
-
-			// 버프 인벤토리 마무리
-			M_BuffInventory.FinallizeMain();
 
 			m_IsInGame = false;
 		}

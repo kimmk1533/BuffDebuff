@@ -644,7 +644,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 348969213}
-  - component: {fileID: 348969212}
+  - component: {fileID: 348969214}
   m_Layer: 0
   m_Name: 02_Enemy Manager
   m_TagString: Untagged
@@ -652,47 +652,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &348969212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 348969211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2480db42d2e313249b3f9011295db982, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  m_IsInitScene: 1
-  m_DontDestroyOnLoad: 1
-  m_CommonPath: Prefabs/02_Enemy
-  m_Origins:
-  - <key>k__BackingField: Enemy
-    <additionalPath>k__BackingField: 
-    <useFlag>k__BackingField: 1
-    <poolSize>k__BackingField: 2
-    <origin>k__BackingField: {fileID: 7020269254422586606, guid: fcef39ccf1b775c49864f310ab473fab, type: 3}
-  - <key>k__BackingField: Golem
-    <additionalPath>k__BackingField: 
-    <useFlag>k__BackingField: 1
-    <poolSize>k__BackingField: 2
-    <origin>k__BackingField: {fileID: 6865925214248059699, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
-  - <key>k__BackingField: DemonSlime
-    <additionalPath>k__BackingField: 
-    <useFlag>k__BackingField: 1
-    <poolSize>k__BackingField: 2
-    <origin>k__BackingField: {fileID: 4529260222612960499, guid: ac68222ac112edb4e94aeaf7d2d6eab9, type: 3}
-  m_Debug_SpawnEnemyType: 1
 --- !u!4 &348969213
 Transform:
   m_ObjectHideFlags: 0
@@ -708,6 +667,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &348969214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 348969211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5718334833458a49864bfcc13f6bda5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  m_IsInitScene: 1
+  m_DontDestroyOnLoad: 1
+  m_CommonPath: Prefabs/02_Enemy
+  m_Origins:
+  - <key>k__BackingField: Golem
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 10
+    <origin>k__BackingField: {fileID: 6865925214248059699, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
+  m_Debug_SpawnEnemyType: 1
 --- !u!1001 &473743337
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1157,61 +1147,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Type: 1
---- !u!1 &871976436
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 871976438}
-  - component: {fileID: 871976437}
-  m_Layer: 0
-  m_Name: 00_Buff Inventory
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &871976437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 871976436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6daba60a76121bb4591d73446049dfe8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  m_IsInitScene: 1
-  m_DontDestroyOnLoad: 1
---- !u!4 &871976438
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 871976436}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &919458050 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 507329788138445555, guid: c74ec1d2bc5454e46bc7fe063918adf8, type: 3}
@@ -1596,7 +1531,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1335781044}
-  - component: {fileID: 1335781043}
+  - component: {fileID: 1335781045}
   m_Layer: 0
   m_Name: 03_Projectile Manager
   m_TagString: Untagged
@@ -1604,7 +1539,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1335781043
+--- !u!4 &1335781044
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1335781042}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1335781045
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1613,7 +1563,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1335781042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58a5a97081288974a8dc306f15ff8fc0, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b4c37fd4663d1b4a8654446a7746a39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
@@ -1637,23 +1587,8 @@ MonoBehaviour:
   - <key>k__BackingField: Fire Bite
     <additionalPath>k__BackingField: 
     <useFlag>k__BackingField: 1
-    <poolSize>k__BackingField: 10
+    <poolSize>k__BackingField: 5
     <origin>k__BackingField: {fileID: 5596585782795772992, guid: fcff28eb027a6714bab56a9b1ecf1126, type: 3}
---- !u!4 &1335781044
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1335781042}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1348693468
 GameObject:
   m_ObjectHideFlags: 0
@@ -2592,7 +2527,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2022746457}
-  - component: {fileID: 2022746456}
+  - component: {fileID: 2022746459}
+  - component: {fileID: 2022746460}
   m_Layer: 0
   m_Name: 04_Buff Manager
   m_TagString: Untagged
@@ -2600,30 +2536,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2022746456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2022746455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8216867bd5ab7624c94fc1d9aca2bbc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  m_IsInitScene: 1
-  m_DontDestroyOnLoad: 1
-  m_BuffGradeInfo: {fileID: 11400000, guid: 985925bec61a5264aa5a9efeb9923b8a, type: 2}
 --- !u!4 &2022746457
 Transform:
   m_ObjectHideFlags: 0
@@ -2639,6 +2551,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2022746459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022746455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad35493faf6881247b85cd1d98e60a0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  m_IsInitScene: 1
+  m_DontDestroyOnLoad: 1
+  m_BuffGradeInfo: {fileID: 11400000, guid: 985925bec61a5264aa5a9efeb9923b8a, type: 2}
+--- !u!114 &2022746460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022746455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60dc114b3bf761341a6f4707273849c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: m_BuffInventory
+      Entry: 6
+      Data: 
 --- !u!1 &2081558330
 GameObject:
   m_ObjectHideFlags: 0
@@ -2734,7 +2694,6 @@ SceneRoots:
   - {fileID: 1565069158}
   - {fileID: 1770362268}
   - {fileID: 1874430851}
-  - {fileID: 871976438}
   - {fileID: 2081558331}
   - {fileID: 1730698491}
   - {fileID: 348969213}

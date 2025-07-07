@@ -6,18 +6,9 @@ using UnityEngine.UI;
 
 namespace BuffDebuff
 {
-	public class BuffUI : ObjectPoolItem<BuffUI>
+	public partial class BuffUI : ObjectPoolItem<BuffUI>
 	{
-		public enum E_Type
-		{
-			None = -1,
-
-			BuffRewards,
-			BuffInventory,
-			BuffCombine,
-			BuffCombineInventory,
-		}
-
+		#region 기본 템플릿
 		#region 변수
 		private Buff m_Buff = null;
 
@@ -62,6 +53,16 @@ namespace BuffDebuff
 		}
 		#endregion
 
+		#region 매니저
+		#endregion
+
+		#region 이벤트
+		#endregion
+
+		#region 초기화 & 마무리화 함수
+		/// <summary>
+		/// 초기화 함수
+		/// </summary>
 		public override void InitializePoolItem()
 		{
 			base.InitializePoolItem();
@@ -89,6 +90,9 @@ namespace BuffDebuff
 
 			m_Button.onClick.AddListener(OnClicked);
 		}
+		/// <summary>
+		/// 마무리화 함수
+		/// </summary>
 		public override void FinallizePoolItem()
 		{
 			base.FinallizePoolItem();
@@ -97,6 +101,41 @@ namespace BuffDebuff
 			m_Buff = null;
 
 			m_Button.onClick.RemoveAllListeners();
+		}
+
+		#region 유니티 콜백 함수
+
+		#endregion
+		#endregion
+
+		#region 유니티 콜백 함수
+		#endregion
+		#endregion
+
+		#region 이벤트 함수
+		private void OnClicked()
+		{
+			m_BuffUIState?.OnClicked(this);
+		}
+		#endregion
+
+		public void SetState(E_BuffUIState state)
+		{
+			switch (state)
+			{
+				case E_BuffUIState.BuffRewards:
+					m_BuffUIState = new RewardState();
+					break;
+				case E_BuffUIState.BuffInventory:
+					m_BuffUIState = new InventoryState();
+					break;
+				case E_BuffUIState.BuffCombine:
+					m_BuffUIState = new CombineState();
+					break;
+				case E_BuffUIState.BuffCombineInventory:
+					m_BuffUIState = new CombineInventoryState();
+					break;
+			}
 		}
 
 		public void SetBuffData(BuffData buffData)
@@ -118,82 +157,6 @@ namespace BuffDebuff
 			m_SpriteImage.sprite = m_Buff.buffData.sprite;
 			m_BuffGradeText.text = m_Buff.buffData.buffGrade.ToString();
 			m_DescriptionText.text = m_Buff.buffData.description;
-		}
-
-		private void OnClicked()
-		{
-			m_BuffUIState?.OnClicked(this);
-		}
-
-		public void SetType(E_Type type)
-		{
-			switch (type)
-			{
-				case E_Type.BuffRewards:
-					m_BuffUIState = new RewardState();
-					break;
-				case E_Type.BuffInventory:
-					m_BuffUIState = new InventoryState();
-					break;
-				case E_Type.BuffCombine:
-					m_BuffUIState = new CombineState();
-					break;
-				case E_Type.BuffCombineInventory:
-					m_BuffUIState = new CombineInventoryState();
-					break;
-			}
-		}
-
-		private interface IBuffUIState
-		{
-			public abstract void OnClicked(BuffUI buffUI);
-		}
-		private class RewardState : IBuffUIState
-		{
-			private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
-
-			public void OnClicked(BuffUI buffUI)
-			{
-				M_BuffUI.AddBuff(buffUI.buffData);
-				M_BuffUI.rewardsPanel.active = false;
-			}
-		}
-		private class InventoryState : IBuffUIState
-		{
-			private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
-
-			public void OnClicked(BuffUI buffUI)
-			{
-				Debug.Log(buffUI.buffData.title + ": " + buffUI.buffCount.ToString());
-			}
-		}
-		private class CombineState : IBuffUIState
-		{
-			private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
-
-			public void OnClicked(BuffUI buffUI)
-			{
-				BuffData buffData = buffUI.buffData;
-
-				if (M_BuffUI.RemoveCombineBuff(buffData) == false)
-					return;
-
-				M_BuffUI.AddBuff(buffData);
-			}
-		}
-		private class CombineInventoryState : IBuffUIState
-		{
-			private static BuffUIManager M_BuffUI => BuffUIManager.Instance;
-
-			public void OnClicked(BuffUI buffUI)
-			{
-				BuffData buffData = buffUI.buffData;
-
-				if (M_BuffUI.AddCombineBuff(buffData) == false)
-					return;
-
-				M_BuffUI.RemoveBuff(buffData);
-			}
 		}
 	}
 }

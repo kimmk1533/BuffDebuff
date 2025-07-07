@@ -194,7 +194,7 @@ namespace BuffDebuff
 			SetDoorActive(true, E_DirectionLayer.Top);
 			SetDoorActive(true, E_DirectionLayer.Bottom);
 
-			// 타일맵 딕셔너리 마무리
+			// 타일맵 딕셔너리 마무리화
 			if (m_TilemapMap_Direction != null)
 			{
 				foreach (var item in m_TilemapMap_Direction)
@@ -204,15 +204,15 @@ namespace BuffDebuff
 				m_TilemapMap_Direction.Clear();
 			}
 
-			// 주변 방 딕셔너리 마무리
+			// 주변 방 딕셔너리 마무리화
 			if (m_NearRoomMap != null)
 				m_NearRoomMap.Clear();
 
-			// 워프포인트 리스트 마무리
+			// 워프포인트 리스트 마무리화
 			if (m_WarpPointList != null)
 				m_WarpPointList.Clear();
 
-			// 워프포인트 딕셔너리 마무리
+			// 워프포인트 딕셔너리 마무리화
 			if (m_WarpPointMap != null)
 			{
 				foreach (var item in m_WarpPointMap)
@@ -225,7 +225,7 @@ namespace BuffDebuff
 				}
 			}
 
-			// 워프포인트 갯수 딕셔너리 마무리
+			// 워프포인트 갯수 딕셔너리 마무리화
 			if (m_WarpPointCountMap != null)
 			{
 				for (E_Direction direction = E_Direction.None + 1; direction < E_Direction.Max; ++direction)

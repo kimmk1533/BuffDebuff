@@ -605,32 +605,29 @@ public static class ExtensionMethods
 
 	public static void NullCheckGetComponent<T>(this Component com, ref T obj) where T : Component
 	{
-		if (obj == null)
-		{
-			obj = com.GetComponent<T>();
+		if (obj != null)
+			return;
 
-			if (obj == null)
-				Debug.LogError("없는 컴포넌트를 GetComponent함");
-		}
+		obj = com.GetComponent<T>();
+		if (obj == null)
+			Debug.LogError("없는 컴포넌트를 GetComponent함");
 	}
 	public static void NullCheckGetComponentInParent<T>(this Component com, ref T obj) where T : Component
 	{
-		if (obj == null)
-		{
-			obj = com.GetComponentInParent<T>();
+		if (obj != null)
+			return;
 
-			if (obj == null)
-				Debug.LogError("없는 컴포넌트를 GetComponentInParent함");
-		}
+		obj = com.GetComponentInParent<T>();
+		if (obj == null)
+			Debug.LogError("없는 컴포넌트를 GetComponentInParent함");
 	}
 	public static void NullCheckGetComponentInChilderen<T>(this Component com, ref T obj) where T : Component
 	{
-		if (obj == null)
-		{
-			obj = com.GetComponentInChildren<T>();
+		if (obj != null)
+			return;
 
-			if (obj == null)
-				Debug.LogError("없는 컴포넌트를 GetComponentInChildren함");
-		}
+		obj = com.GetComponentInChildren<T>();
+		if (obj == null)
+			Debug.LogError("없는 컴포넌트를 GetComponentInChildren함");
 	}
 }
