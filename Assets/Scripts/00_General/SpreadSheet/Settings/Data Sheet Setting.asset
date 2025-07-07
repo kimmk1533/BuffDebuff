@@ -35,7 +35,7 @@ MonoBehaviour:
       column: 67
       row: 1
     endCell:
-      column: 89
+      column: 88
       row: 3
     offsetCell:
       column: 32
@@ -48,7 +48,7 @@ MonoBehaviour:
       row: 1
     endCell:
       column: 71
-      row: 3
+      row: 4
     offsetCell:
       column: 32
       row: 2
@@ -64,4 +64,4 @@ MonoBehaviour:
     offsetCell:
       column: 32
       row: 2
-    enabled: 1
+    enabled: 0

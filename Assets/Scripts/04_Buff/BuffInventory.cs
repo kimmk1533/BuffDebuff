@@ -201,9 +201,7 @@ namespace BuffDebuff
 				return true;
 			}
 
-			m_BuffAddedEventMap.TryAdd(buffData.code, newAction);
-
-			return true;
+			return m_BuffAddedEventMap.TryAdd(buffData.code, newAction);
 		}
 		public bool AddOnBuffRemovedEvent(string title, System.Action<Buff> newAction)
 		{
@@ -228,9 +226,7 @@ namespace BuffDebuff
 				return true;
 			}
 
-			m_BuffAddedEventMap.TryAdd(buffData.code, newAction);
-
-			return true;
+			return m_BuffAddedEventMap.TryAdd(buffData.code, newAction);
 		}
 
 		public bool RemoveOnBuffAddedEvent(string title, System.Action<Buff> newAction)

@@ -16,24 +16,24 @@ namespace BuffDebuff
 		public new IProjectileBuilder SetRotation(Quaternion rotation);
 		public new IProjectileBuilder SetLocalRotation(Quaternion localRotation);
 		public new IProjectileBuilder SetScale(Vector3 scale);
-		public IProjectileBuilder SetMoveSpeed(float moveSpeed);
+		public IProjectileBuilder SetMovementSpeed(float movementSpeed);
 		public IProjectileBuilder SetLifeTime(float lifeTime);
-		public IProjectileBuilder SetMoveType(ProjectileMove projectileMove);
+		public IProjectileBuilder SetMover(ProjectileMover projectileMover);
 
 		public new Projectile Spawn(bool autoReset = true);
 		public new T Spawn<T>(bool autoReset = true) where T : Projectile;
 	}
 	public class ProjectileBuilder : ObjectPool<Projectile>.ItemBuilder, IProjectileBuilder
 	{
-		private ItemProperty<float> m_MoveSpeed;
+		private ItemProperty<float> m_MovementSpeed;
 		private ItemProperty<float> m_LifeTime;
-		private ItemProperty<ProjectileMove> m_MoveType;
+		private ItemProperty<ProjectileMover> m_Mover;
 
 		public ProjectileBuilder(ObjectPool<Projectile> pool) : base(pool)
 		{
-			m_MoveSpeed = new ItemProperty<float>();
+			m_MovementSpeed = new ItemProperty<float>();
 			m_LifeTime = new ItemProperty<float>();
-			m_MoveType = new ItemProperty<ProjectileMove>();
+			m_Mover = new ItemProperty<ProjectileMover>();
 		}
 
 		public new IProjectileBuilder SetName(string name) => base.SetName(name) as IProjectileBuilder;
@@ -46,10 +46,10 @@ namespace BuffDebuff
 		public new IProjectileBuilder SetLocalRotation(Quaternion localRotation) => base.SetLocalRotation(localRotation) as IProjectileBuilder;
 		public new IProjectileBuilder SetScale(Vector3 scale) => base.SetScale(scale) as IProjectileBuilder;
 
-		public IProjectileBuilder SetMoveSpeed(float moveSpeed)
+		public IProjectileBuilder SetMovementSpeed(float movementSpeed)
 		{
-			m_MoveSpeed.isUse = true;
-			m_MoveSpeed.value = moveSpeed;
+			m_MovementSpeed.isUse = true;
+			m_MovementSpeed.value = movementSpeed;
 
 			return this;
 		}
@@ -60,10 +60,10 @@ namespace BuffDebuff
 
 			return this;
 		}
-		public IProjectileBuilder SetMoveType(ProjectileMove projectileMove)
+		public IProjectileBuilder SetMover(ProjectileMover projectileMover)
 		{
-			m_MoveType.isUse = true;
-			m_MoveType.value = projectileMove;
+			m_Mover.isUse = true;
+			m_Mover.value = projectileMover;
 
 			return this;
 		}
@@ -72,12 +72,12 @@ namespace BuffDebuff
 		{
 			Projectile projectile = base.Spawn(false);
 
-			if (m_MoveSpeed.isUse == true)
-				projectile.SetMoveSpeed(m_MoveSpeed.value);
+			if (m_MovementSpeed.isUse == true)
+				projectile.movementSpeed = m_MovementSpeed.value;
 			if (m_LifeTime.isUse == true)
-				projectile.SetLifeTime(m_LifeTime.value);
-			if (m_MoveType.isUse == true)
-				projectile.SetMovingStrategy(m_MoveType.value);
+				projectile.lifeTime = m_LifeTime.value;
+			if (m_Mover.isUse == true)
+				projectile.mover = m_Mover.value;
 
 			if (autoReset)
 				Reset();
@@ -89,9 +89,9 @@ namespace BuffDebuff
 		{
 			base.Reset();
 
-			m_MoveSpeed.Reset();
+			m_MovementSpeed.Reset();
 			m_LifeTime.Reset();
-			m_MoveType.Reset();
+			m_Mover.Reset();
 		}
 	}
 }

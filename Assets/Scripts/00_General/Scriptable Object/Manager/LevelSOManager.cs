@@ -75,7 +75,7 @@ namespace BuffDebuff
 				LevelData data = ScriptableObject.CreateInstance<LevelData>();
 				data.Initialize(currentLevel, nextLevel, requiredXp);
 
-				CreateScriptableObject(data, "Level " + currentLevelStr);
+				CreateScriptableObject(data, "Level " + currentLevelStr, true);
 			}
 
 			AssetDatabase.SaveAssets();

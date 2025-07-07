@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using DataDictionary = DoubleKeyDictionary<int, string, (BuffDebuff.Projectile projectile, BuffDebuff.ProjectileData data)>;
+using DataDictionary = DoubleKeyDictionary<int, string, BuffDebuff.ProjectileData>;
 
 namespace BuffDebuff
 {
@@ -87,26 +87,41 @@ namespace BuffDebuff
 		private void LoadAllProjectileData()
 		{
 			string path = ProjectileSOManager.resourcesPath;
-			ProjectileData[] ProjectileDatas = Resources.LoadAll<ProjectileData>(path);
+			ProjectileData[] projectileDatas = Resources.LoadAll<ProjectileData>(path);
 
-			for (int i = 0; i < ProjectileDatas.Length; ++i)
+			for (int i = 0; i < projectileDatas.Length; ++i)
 			{
-				ProjectileData ProjectileData = ProjectileDatas[i];
+				ProjectileData projectileData = projectileDatas[i];
 
-				if (m_ProjectileDataMap.ContainsKey1(ProjectileData.code) == true)
+				if (m_ProjectileDataMap.ContainsKey1(projectileData.code) == true)
 					continue;
 
 				// 투사체 원본 로드
-				Projectile origin = Resources.Load<Projectile>(ProjectileData.assetPath);
+				Projectile origin = Resources.Load<Projectile>(projectileData.assetPath);
 
 				// 딕셔너리에 추가
-				m_ProjectileDataMap.Add(ProjectileData.code, ProjectileData.title, (origin, ProjectileData));
+				m_ProjectileDataMap.Add(projectileData.code, projectileData.title, projectileData);
 			}
 		}
 
 		public new IProjectileBuilder GetBuilder(string key)
 		{
 			return base.GetBuilder(key) as IProjectileBuilder;
+		}
+
+		public float GetMovementSpeed(string key)
+		{
+			if (m_ProjectileDataMap.TryGetValue(key, out ProjectileData projectileData) == false)
+				return 0f;
+
+			return projectileData.movementSpeed;
+		}
+		public float GetLifeTime(string key)
+		{
+			if (m_ProjectileDataMap.TryGetValue(key, out ProjectileData projectileData) == false)
+				return 0f;
+
+			return projectileData.lifeTime;
 		}
 	}
 }

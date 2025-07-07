@@ -17,9 +17,9 @@ namespace BuffDebuff
 		[SerializeField, ChildComponent("Renderer")]
 		private ProjectileAnimator m_Animator;
 
-		private ProjectileMove m_Mover;
+		private ProjectileMover m_Mover;
 		[SerializeField, ReadOnly]
-		private float m_MoveSpeed;
+		private float m_MovementSpeed;
 
 		[SerializeField, ReadOnly]
 		private Vector2 m_Velocity;
@@ -29,7 +29,21 @@ namespace BuffDebuff
 		#endregion
 
 		#region 프로퍼티
-		public float moveSpeed => m_MoveSpeed;
+		public float movementSpeed
+		{
+			get => m_MovementSpeed;
+			set => m_MovementSpeed = value;
+		}
+		public float lifeTime
+		{
+			get => m_DespawnTimer.interval + m_Animator.deathAnimationDelay;
+			set => m_DespawnTimer.interval = value - m_Animator.deathAnimationDelay;
+		}
+		public ProjectileMover mover
+		{
+			get => m_Mover;
+			set => m_Mover = value;
+		}
 
 		#region 인덱서
 		public CollisionChecker2D.Trigger this[int layer] => m_CollisionChecker2D[layer];
@@ -101,19 +115,6 @@ namespace BuffDebuff
 
 			// Move
 			m_Controller.Move(m_Velocity * Time.deltaTime);
-		}
-
-		public void SetMoveSpeed(float moveSpeed)
-		{
-			m_MoveSpeed = moveSpeed;
-		}
-		public void SetLifeTime(float lifeTime)
-		{
-			m_DespawnTimer.interval = lifeTime - m_Animator.deathAnimationDelay;
-		}
-		public void SetMovingStrategy(ProjectileMove projectileMove)
-		{
-			m_Mover = projectileMove;
 		}
 	}
 }

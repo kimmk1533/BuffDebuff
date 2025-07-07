@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuffDebuff
 {
-	public class CircularMove : ProjectileMove
+	public class CircularMover : ProjectileMover
 	{
 		[SerializeField]
 		protected GameObject m_Target;
@@ -15,7 +15,7 @@ namespace BuffDebuff
 		protected Quaternion m_InitRotation;
 		private bool m_IsFirst;
 
-		public CircularMove(GameObject target, float angularAcceleration, float randomAngle = 0f)
+		public CircularMover(GameObject target, float angularAcceleration, float randomAngle = 0f)
 		{
 			m_Target = target;
 			m_AngularSpeed = 0f;
@@ -67,9 +67,9 @@ namespace BuffDebuff
 
 			float distanceToTarget = target.magnitude;
 
-			float speed = projectile.moveSpeed;
+			float speed = projectile.movementSpeed;
 
-			if (projectile.moveSpeed * Time.deltaTime > distanceToTarget)
+			if (projectile.movementSpeed * Time.deltaTime > distanceToTarget)
 				speed = distanceToTarget;
 
 			return dir.normalized * speed;

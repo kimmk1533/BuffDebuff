@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\uC7AC\uC0DD"
   m_EditorClassIdentifier: 
   m_AssetPath: 
-  m_Code: 132002
+  m_Code: 102002
   m_Title: "\uC7AC\uC0DD"
   m_BuffType: 0
   m_BuffEffectType: 2
@@ -22,6 +22,6 @@ MonoBehaviour:
   m_BuffWeapon: 0
   m_BuffInvokeCondition: 3
   m_BuffValue: 5
-  m_BuffTime: 0
+  m_BuffValueType: 1
   m_Description: "\uC77C\uC815 \uC2DC\uAC04\uB9C8\uB2E4 \uCCB4\uB825 \uD68C\uBCF5"
   m_Sprite: {fileID: 0}

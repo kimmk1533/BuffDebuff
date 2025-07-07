@@ -7,9 +7,9 @@ namespace BuffDebuff
 	[System.Serializable]
 	public struct StatValue<T>
 	{
-		[field:SerializeField]
+		[field: SerializeField]
 		public T max { get; set; }
-		[field:SerializeField]
+		[field: SerializeField]
 		public T current { get; set; }
 
 		public StatValue(T max)

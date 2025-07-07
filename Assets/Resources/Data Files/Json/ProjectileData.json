@@ -3,7 +3,14 @@
     "Asset Path": "Prefabs/03_Projectile/Projectile",
     "Code": "30001",
     "Title": "Projectile",
-    "Moving Speed": "5",
+    "Movement Speed": "5",
     "Life Time": "1"
+  },
+  {
+    "Asset Path": "Prefabs/03_Projectile/Fire Bite",
+    "Code": "30002",
+    "Title": "Fire Bite",
+    "Movement Speed": "3",
+    "Life Time": "3"
   }
 ]

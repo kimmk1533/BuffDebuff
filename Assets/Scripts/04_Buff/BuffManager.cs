@@ -62,6 +62,9 @@ namespace BuffDebuff
 			this.NullCheckGetComponent<BuffInventory>(ref m_Inventory);
 
 			LoadAllBuffData();
+
+			// 버프 인벤토리 초기화
+			m_Inventory.Initialize();
 		}
 		/// <summary>
 		/// 마무리화 함수 (게임 종료 시 호출)
@@ -70,7 +73,8 @@ namespace BuffDebuff
 		{
 			base.Finallize();
 
-
+			// 버프 인벤토리 마무리화
+			m_Inventory.Finallize();
 		}
 
 		/// <summary>
@@ -94,9 +98,6 @@ namespace BuffDebuff
 
 				m_BuffTypeGradeMap[buffTypeGrade].Add(buffData.code);
 			}
-
-			// 버프 인벤토리 초기화
-			m_Inventory.Initialize();
 		}
 		/// <summary>
 		/// 메인 마무리화 함수 (본인 Main Scene 나갈 시 호출)
@@ -104,9 +105,6 @@ namespace BuffDebuff
 		public override void FinallizeMain()
 		{
 			base.FinallizeMain();
-
-			// 버프 인벤토리 마무리화
-			m_Inventory.Finallize();
 		}
 		#endregion
 

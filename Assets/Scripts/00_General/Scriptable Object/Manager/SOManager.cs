@@ -18,15 +18,19 @@ namespace BuffDebuff
 		public static string savePath => Path.Combine(defaultSavePath, dataFolder);
 
 		// 스크립터블 오브젝트 생성
-		protected virtual void CreateScriptableObject(SOData data, string fileName)
+		protected virtual void CreateScriptableObject(SOData data, string fileName, bool deleteExistingFile = false)
 		{
 			// Data 폴더 생성
 			if (Directory.Exists(dataPath) == false)
 				Directory.CreateDirectory(dataPath);
 
-			string save = Path.Combine(savePath, fileName + ".asset");
+			string filePath = Path.Combine(SOManager<T>.savePath, fileName + ".asset");
 
-			AssetDatabase.CreateAsset(data, save);
+			if (File.Exists(filePath) == true &&
+				deleteExistingFile == true)
+				File.Delete(filePath);
+
+			AssetDatabase.CreateAsset(data, filePath);
 		}
 
 		/// <summary>

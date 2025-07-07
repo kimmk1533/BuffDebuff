@@ -18,7 +18,7 @@ namespace BuffDebuff
 
 		#region 프로퍼티
 		// 이동 속도
-		public float moveSpeed => m_MoveSpeed;
+		public float movementSpeed => m_MoveSpeed;
 		// 생존 시간
 		public float lifeTime => m_LifeTime;
 		#endregion

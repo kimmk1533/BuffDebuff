@@ -19,13 +19,13 @@ namespace BuffDebuff
 		[SerializeField, ReadOnly]
 		private int m_MaxStack;
 		[SerializeField, ReadOnly]
-		private E_BuffWeapon m_BuffWeapon;
+		private E_BuffWeaponType m_BuffWeapon;
 		[SerializeField, ReadOnly]
 		private E_BuffInvokeCondition m_BuffInvokeCondition;
 		[SerializeField, ReadOnly]
 		private float m_BuffValue;
 		[SerializeField, ReadOnly]
-		private float m_BuffTime;
+		private E_BuffValueType m_BuffValueType;
 		[SerializeField, ReadOnly, TextArea]
 		private string m_Description;
 		[SerializeField, ReadOnly]
@@ -37,15 +37,15 @@ namespace BuffDebuff
 		public E_BuffEffectType buffEffectType => m_BuffEffectType;
 		public E_BuffGrade buffGrade => m_BuffGrade;
 		public int maxStack => m_MaxStack;
-		public E_BuffWeapon buffWeapon => m_BuffWeapon;
+		public E_BuffWeaponType buffWeapon => m_BuffWeapon;
 		public E_BuffInvokeCondition buffInvokeCondition => m_BuffInvokeCondition;
 		public float buffValue => m_BuffValue;
-		public float buffTime => m_BuffTime;
+		public E_BuffValueType buffValueType => m_BuffValueType;
 		public string description => m_Description;
 		public Sprite sprite => m_Sprite;
 		#endregion
 
-		public void Initialize(string _title, int _code, E_BuffType _buffType, E_BuffEffectType _buffEffectType, E_BuffGrade _buffGrade, int _maxStack, E_BuffWeapon _buffWeapon, E_BuffInvokeCondition _buffInvokeCondition, float _value, float _time, string _description, Sprite _sprite)
+		public void Initialize(string _title, int _code, E_BuffType _buffType, E_BuffEffectType _buffEffectType, E_BuffGrade _buffGrade, int _maxStack, E_BuffWeaponType _buffWeapon, E_BuffInvokeCondition _buffInvokeCondition, float _value, E_BuffValueType _valueType, string _description, Sprite _sprite)
 		{
 			m_Title = _title;
 			m_Code = _code;
@@ -56,7 +56,7 @@ namespace BuffDebuff
 			m_BuffWeapon = _buffWeapon;
 			m_BuffInvokeCondition = _buffInvokeCondition;
 			m_BuffValue = _value;
-			m_BuffTime = _time;
+			m_BuffValueType = _valueType;
 			m_Description = _description;
 			m_Sprite = _sprite;
 		}

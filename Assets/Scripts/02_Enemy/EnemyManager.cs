@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using DataDictionary = DoubleKeyDictionary<int, string, (BuffDebuff.Enemy enemy, BuffDebuff.EnemyData data)>;
+using DataDictionary = DoubleKeyDictionary<int, string, BuffDebuff.EnemyData>;
 
 namespace BuffDebuff
 {
@@ -113,7 +113,7 @@ namespace BuffDebuff
 				};
 
 				// 딕셔너리에 추가
-				m_EnemyDataMap.Add(enemyData.code, enemyData.title, (origin, enemyData));
+				m_EnemyDataMap.Add(enemyData.code, enemyData.title, enemyData);
 			}
 		}
 

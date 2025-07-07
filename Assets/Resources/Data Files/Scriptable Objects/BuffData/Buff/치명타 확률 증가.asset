@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\uCE58\uBA85\uD0C0 \uD655\uB960 \uC99D\uAC00"
   m_EditorClassIdentifier: 
   m_AssetPath: 
-  m_Code: 112011
+  m_Code: 102011
   m_Title: "\uCE58\uBA85\uD0C0 \uD655\uB960 \uC99D\uAC00"
   m_BuffType: 0
   m_BuffEffectType: 0
@@ -21,7 +21,7 @@ MonoBehaviour:
   m_MaxStack: 10
   m_BuffWeapon: 0
   m_BuffInvokeCondition: 0
-  m_BuffValue: 10
-  m_BuffTime: 0
+  m_BuffValue: 0.1
+  m_BuffValueType: 1
   m_Description: "\uCE58\uBA85\uD0C0 \uD655\uB960 \uC99D\uAC00"
   m_Sprite: {fileID: 0}

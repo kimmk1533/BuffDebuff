@@ -35,21 +35,8 @@ namespace BuffDebuff
 			set
 			{
 				m_Stat.AttackSpeed = value;
-				m_Animator.Anim_SetAttackSpeed(value);
-			}
-		}
-		public int maxLevel
-		{
-			get
-			{
-				return m_Stat.Level.max;
-			}
-		}
-		public int currentLevel
-		{
-			get
-			{
-				return m_Stat.Level.current;
+				m_TimerController.GetTimer("Attack", 0).interval = 1f / value;
+				m_Animator.Anim_SetAttackSpeed(1f / value);
 			}
 		}
 		#endregion
@@ -330,19 +317,23 @@ namespace BuffDebuff
 		{
 			Vector3 position = m_AttackSpot.position;
 
+			string projectileKey = "Fire Bite";
 			Vector2 mousePos = UtilClass.GetMouseWorldPosition2D();
 			float angle = position.GetAngle(mousePos);
 			Quaternion quaternion = Quaternion.AngleAxis(angle, Vector3.forward);
+			float movementSpeed = m_Stat.ShotSpeed * M_Projectile.GetMovementSpeed(projectileKey);
+			float lifeTime = m_Stat.AttackRange * M_Projectile.GetLifeTime(projectileKey);
+			ProjectileMover projectileMover = new StraightMover();
 
-			Projectile projectile = M_Projectile.GetBuilder("Fire Bite")
+			Projectile projectile = M_Projectile.GetBuilder(projectileKey)
 				.SetActive(true)
 				.SetAutoInit(true)
 				.SetParent(null)
 				.SetPosition(position)
 				.SetRotation(quaternion)
-				.SetMoveSpeed(m_Stat.ShotSpeed)
-				.SetLifeTime(m_Stat.AttackRange)
-				.SetMoveType(new StraightMove())
+				.SetMovementSpeed(movementSpeed)
+				.SetLifeTime(lifeTime)
+				.SetMover(projectileMover)
 				.Spawn();
 
 			projectile["Enemy"].onEnter2D += (Collider2D collider) =>

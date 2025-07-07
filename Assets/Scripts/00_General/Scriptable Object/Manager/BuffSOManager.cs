@@ -59,6 +59,19 @@ namespace BuffDebuff
 					// 명칭 불러오기
 					string title = row[1] as string;
 					#endregion
+
+					#region 사용 여부
+					string isUseStr = row[11] as string;
+					if (bool.TryParse(isUseStr, out bool isUse) == false)
+					{
+						Debug.LogError(title + " 사용 여부 전환 오류! | 사용 여부: " + isUseStr);
+						return;
+					}
+
+					if (isUse == false)
+						continue;
+					#endregion
+
 					#region 코드
 					// 코드 불러오기
 					string codeStr = row[0] as string;
@@ -73,10 +86,9 @@ namespace BuffDebuff
 					#region 효과 종류
 					// 효과 종류 불러오기
 					string effectTypeKorStr = row[2] as string;
-					string effectTypeStr = BuffEnumUtil.ToString(effectTypeKorStr);
 
 					// 자료형 파싱
-					if (System.Enum.TryParse(effectTypeStr, out E_BuffEffectType effectType) == false)
+					if (BuffEnumUtil.TryParseKorStr(effectTypeKorStr, out E_BuffEffectType effectType) == false)
 					{
 						Debug.LogError(title + " 버프 효과 종류 전환 오류! | 버프 효과 종류: " + effectTypeKorStr);
 						return;
@@ -107,10 +119,9 @@ namespace BuffDebuff
 					#region 적용 무기
 					// 적용되는 무기 불러오기
 					string weaponKorStr = row[5] as string;
-					string weaponStr = BuffEnumUtil.ToString(weaponKorStr);
 
 					// 자료형 파싱
-					if (System.Enum.TryParse(weaponStr, out E_BuffWeapon weapon) == false)
+					if (BuffEnumUtil.TryParseKorStr(weaponKorStr, out E_BuffWeaponType weapon) == false)
 					{
 						Debug.LogError(title + " 버프 적용 무기 전환 오류! | 버프 적용 무기: " + weaponKorStr);
 						return;
@@ -119,10 +130,9 @@ namespace BuffDebuff
 					#region 발동 조건
 					// 발동 조건 불러오기
 					string conditionKorStr = row[6] as string;
-					string conditionStr = BuffEnumUtil.ToString(conditionKorStr);
 
 					// 자료형 파싱
-					if (System.Enum.TryParse(conditionStr, out E_BuffInvokeCondition condition) == false)
+					if (BuffEnumUtil.TryParseKorStr(conditionKorStr, out E_BuffInvokeCondition condition) == false)
 					{
 						Debug.LogError(title + " 버프 발동 조건 전환 오류! | 버프 등급: " + conditionKorStr);
 						return;
@@ -140,15 +150,14 @@ namespace BuffDebuff
 						return;
 					}
 					#endregion
-					#region 버프 시간
-					// 버프 시간 불러오기
-					string buffTimeStr = row[8] as string;
+					#region 버프 값 적용 방식
+					// 버프 값 적용 방식 불러오기
+					string buffValueTypeKorStr = row[8] as string;
 
 					// 자료형 파싱
-					if (float.TryParse(buffTimeStr, out float buffTime) == false &&
-						buffTimeStr != "-")
+					if (BuffEnumUtil.TryParseKorStr(buffValueTypeKorStr, out E_BuffValueType buffValueType) == false)
 					{
-						Debug.LogError(title + " 버프 시간 전환 오류! | 버프 시간: " + buffTimeStr);
+						Debug.LogError(title + " 버프 값 적용 방식 전환 오류! | 버프 값 적용 방식: " + buffValueTypeKorStr);
 						return;
 					}
 					#endregion
@@ -160,7 +169,7 @@ namespace BuffDebuff
 					#endregion
 
 					BuffData buffData = ScriptableObject.CreateInstance<BuffData>();
-					buffData.Initialize(title, code, buffType, effectType, grade, maxStack, weapon, condition, buffValue, buffTime, description, null);
+					buffData.Initialize(title, code, buffType, effectType, grade, maxStack, weapon, condition, buffValue, buffValueType, description, null);
 
 					CreateScriptableObject(buffData, title);
 
@@ -374,7 +383,7 @@ namespace BuffDebuff
 		//}
 
 		// 스크립터블 오브젝트 생성
-		protected override void CreateScriptableObject(SOData data, string fileName)
+		protected override void CreateScriptableObject(SOData data, string fileName, bool deleteExistingFile = false)
 		{
 			BuffData buffData = data as BuffData;
 
@@ -383,13 +392,17 @@ namespace BuffDebuff
 				Directory.CreateDirectory(dataPath);
 
 			// Buff/Debuff 폴더 생성
-			string path = Path.Combine(dataPath, buffData.buffType.ToString());
-			if (Directory.Exists(path) == false)
-				Directory.CreateDirectory(path);
+			string directoryPath = Path.Combine(dataPath, buffData.buffType.ToString());
+			if (Directory.Exists(directoryPath) == false)
+				Directory.CreateDirectory(directoryPath);
 
-			string save = Path.Combine(savePath, buffData.buffType.ToString(), fileName + ".asset");
+			string filePath = Path.Combine(savePath, buffData.buffType.ToString(), fileName + ".asset");
 
-			AssetDatabase.CreateAsset(data, save);
+			if (File.Exists(filePath) == true &&
+				deleteExistingFile == true)
+				File.Delete(filePath);
+
+			AssetDatabase.CreateAsset(data, filePath);
 		}
 		private void CreateBuffCase(StringBuilder sb, [System.Runtime.CompilerServices.CallerFilePath] string path = "")
 		{

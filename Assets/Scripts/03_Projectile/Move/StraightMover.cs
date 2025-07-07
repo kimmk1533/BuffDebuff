@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace BuffDebuff
 {
-	public class StraightMove : ProjectileMove
+	public class StraightMover : ProjectileMover
 	{
 		public override Vector2 CalculateVelocity(Projectile projectile)
 		{
 			Vector2 dir = projectile.transform.rotation * Vector2.right;
 
-			return dir.normalized * projectile.moveSpeed;
+			return dir.normalized * projectile.movementSpeed;
 		}
 	}
 }

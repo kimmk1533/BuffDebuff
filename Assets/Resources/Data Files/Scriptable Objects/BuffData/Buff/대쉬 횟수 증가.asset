@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\uB300\uC26C \uD69F\uC218 \uC99D\uAC00"
   m_EditorClassIdentifier: 
   m_AssetPath: 
-  m_Code: 113018
+  m_Code: 103018
   m_Title: "\uB300\uC26C \uD69F\uC218 \uC99D\uAC00"
   m_BuffType: 0
   m_BuffEffectType: 0
@@ -22,6 +22,6 @@ MonoBehaviour:
   m_BuffWeapon: 0
   m_BuffInvokeCondition: 0
   m_BuffValue: 1
-  m_BuffTime: 0
+  m_BuffValueType: 1
   m_Description: "\uCD5C\uB300 \uB300\uC26C \uD69F\uC218 \uC99D\uAC00"
   m_Sprite: {fileID: 0}

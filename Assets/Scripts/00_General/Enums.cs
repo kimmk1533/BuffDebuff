@@ -85,7 +85,7 @@ namespace BuffDebuff.Enum
 		Max
 	}
 	// 적용되는 무기
-	public enum E_BuffWeapon : byte
+	public enum E_BuffWeaponType : byte
 	{
 		// 모두
 		All,
@@ -130,109 +130,171 @@ namespace BuffDebuff.Enum
 
 		Max
 	}
+	// 버프 값 적용 방식
+	public enum E_BuffValueType : byte
+	{
+		// 사용안함
+		None,
+		// 합연산
+		Plus,
+		// 곱연산
+		Multiply,
+
+		Max
+	}
 
 	public static class BuffEnumUtil
 	{
-		public static string ToString(string korStr)
+		public static bool TryParseKorStr<TEnum>(string korStr, out TEnum result) where TEnum : struct, System.Enum
+		{
+			string enumStr = ToString(korStr);
+
+			return System.Enum.TryParse<TEnum>(enumStr, out result);
+		}
+		private static string ToString(string korStr)
 		{
 			// 한글 -> 영어 전환
 			switch (korStr)
 			{
+				#region Buff Type
+				case "버프":
+					return "Buff";
+				case "디버프":
+					return "Debuff";
+				case "양면버프":
+					return "BothBuff";
+				#endregion
+
+				#region Buff Effect Type
 				case "스탯형":
-					korStr = "Stat";
-					break;
+					return "Stat";
 				case "무기형":
-					korStr = "Weapon";
-					break;
+					return "Weapon";
 				case "전투형":
-					korStr = "Combat";
-					break;
+					return "Combat";
+				#endregion
 
+				#region Buff Weapon Type
 				case "공통":
-					korStr = "All";
-					break;
+					return "All";
 				case "근거리 무기":
-					korStr = "Melee";
-					break;
+					return "Melee";
 				case "원거리 무기":
-					korStr = "Ranged";
-					break;
+					return "Ranged";
+				#endregion
 
+				#region Buff Invoke Condition
 				case "버프를 얻을 때":
-					korStr = "Added";
-					break;
+					return "Added";
 				case "버프를 잃을 때":
-					korStr = "Removed";
-					break;
+					return "Removed";
 				case "매 프레임마다":
-					korStr = "Update";
-					break;
+					return "Update";
 				case "일정 시간마다":
-					korStr = "Timer";
-					break;
+					return "Timer";
 				case "점프 시":
-					korStr = "Jump";
-					break;
+					return "Jump";
 				case "대쉬 시":
-					korStr = "Dash";
-					break;
+					return "Dash";
 				case "타격 시":
-					korStr = "GiveDamage";
-					break;
+					return "GiveDamage";
 				case "피격 시":
-					korStr = "TakeDamage";
-					break;
+					return "TakeDamage";
 				case "공격 시작 시":
-					korStr = "AttackStart";
-					break;
+					return "AttackStart";
 				case "공격 시":
-					korStr = "Attack";
-					break;
+					return "Attack";
 				case "공격 종료 시":
-					korStr = "AttackEnd";
-					break;
+					return "AttackEnd";
 				case "적 처치 시":
-					korStr = "KillEnemy";
-					break;
+					return "KillEnemy";
 				case "사망 시":
-					korStr = "Death";
-					break;
+					return "Death";
 				case "스테이지를 넘어갈 시":
-					korStr = "NextStage";
-					break;
+					return "NextStage";
+				#endregion
+
+				#region Buff Value Type
+				case "사용 안함":
+					return "None";
+				case "합연산":
+					return "Plus";
+				case "곱연산":
+					return "Multiply";
+					#endregion
 			}
 
-			return korStr;
+			return string.Empty;
 		}
 
-		public static string ToKorString<T>(T value) where T : struct, System.Enum
+		public static string ToKorString<TEnum>(TEnum value) where TEnum : System.Enum
 		{
-			string str = value.ToString();
-
-			if (E_BuffType.TryParse(str, out E_BuffType buffType))
+			switch (typeof(TEnum).Name)
 			{
-				switch (buffType)
-				{
-					case E_BuffType.Buff:
-						return "버프";
-					case E_BuffType.Debuff:
-						return "디버프";
-				}
-			}
-			else if (E_BuffEffectType.TryParse(str, out E_BuffEffectType buffEffectType))
-			{
-				switch (buffEffectType)
-				{
-					case E_BuffEffectType.Stat:
-						return "스탯형";
-					case E_BuffEffectType.Weapon:
-						return "무기형";
-					case E_BuffEffectType.Combat:
-						return "전투형";
-				}
+				#region Buff Type
+				case "E_BuffType":
+					if (System.Enum.TryParse<E_BuffType>(value.ToString(), out E_BuffType buffType) == false)
+						break;
+
+					return ToKorString_BuffType(buffType);
+				#endregion
+				#region Buff Effect Type
+				case "E_BuffEffectType":
+					if (System.Enum.TryParse<E_BuffEffectType>(value.ToString(), out E_BuffEffectType buffEffectType) == false)
+						break;
+
+					return ToKorString_BuffEffectType(buffEffectType);
+				#endregion
+				#region Buff Value Type
+				case "E_BuffValueType":
+					if (System.Enum.TryParse<E_BuffValueType>(value.ToString(), out E_BuffValueType buffValueType) == false)
+						break;
+
+					return ToKorString_BuffValueType(buffValueType);
+					#endregion
 			}
 
-			return str;
+			return string.Empty;
+		}
+		private static string ToKorString_BuffType(E_BuffType buffType)
+		{
+			switch (buffType)
+			{
+				case E_BuffType.Buff:
+					return "버프";
+				case E_BuffType.Debuff:
+					return "디버프";
+			}
+
+			return string.Empty;
+		}
+		private static string ToKorString_BuffEffectType(E_BuffEffectType buffEffectType)
+		{
+			switch (buffEffectType)
+			{
+				case E_BuffEffectType.Stat:
+					return "스탯형";
+				case E_BuffEffectType.Weapon:
+					return "무기형";
+				case E_BuffEffectType.Combat:
+					return "전투형";
+			}
+
+			return string.Empty;
+		}
+		private static string ToKorString_BuffValueType(E_BuffValueType buffValueType)
+		{
+			switch (buffValueType)
+			{
+				case E_BuffValueType.None:
+					return "사용 안함";
+				case E_BuffValueType.Plus:
+					return "합연산";
+				case E_BuffValueType.Multiply:
+					return "곱연산";
+			}
+
+			return string.Empty;
 		}
 	}
 	#endregion

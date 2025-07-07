@@ -577,19 +577,23 @@ namespace BuffDebuff
 		{
 			Vector3 position = m_AttackSpot.position;
 
+			string projectileKey = "Projectile";
 			Vector3 targetPos = targetCollider.bounds.center;
 			float angle = position.GetAngle(targetPos);
 			Quaternion quaternion = Quaternion.AngleAxis(angle, Vector3.forward);
+			float movementSpeed = m_Stat.ShotSpeed * M_Projectile.GetMovementSpeed(projectileKey);
+			float lifeTime = m_Stat.AttackRange * M_Projectile.GetLifeTime(projectileKey);
+			ProjectileMover projectileMover = new StraightMover();
 
-			Projectile projectile = M_Projectile.GetBuilder("Projectile")
+			Projectile projectile = M_Projectile.GetBuilder(projectileKey)
 				.SetActive(true)
 				.SetAutoInit(true)
 				.SetParent(null)
 				.SetPosition(position)
 				.SetRotation(quaternion)
-				.SetMoveSpeed(m_Stat.ShotSpeed)
-				.SetLifeTime(m_Stat.AttackRange)
-				.SetMoveType(new StraightMove())
+				.SetMovementSpeed(movementSpeed)
+				.SetLifeTime(lifeTime)
+				.SetMover(projectileMover)
 				.Spawn();
 
 			projectile["Player"].onEnter2D += (Collider2D collider) =>

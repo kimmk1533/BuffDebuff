@@ -9,7 +9,7 @@ namespace BuffDebuff
 		public Vector2 CalculateVelocity(Projectile projectile);
 	}
 
-	public abstract class ProjectileMove : IMovingStrategy
+	public abstract class ProjectileMover : IMovingStrategy
 	{
 		#region 변수
 		#endregion

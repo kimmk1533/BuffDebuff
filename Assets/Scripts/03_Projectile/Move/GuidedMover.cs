@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace BuffDebuff
 {
-	public class GuidedMove : ProjectileMove
+	public class GuidedMover : ProjectileMover
 	{
 		[SerializeField]
 		protected GameObject m_Target;
 
-		public GuidedMove(GameObject target)
+		public GuidedMover(GameObject target)
 		{
 			m_Target = target;
 		}
@@ -30,9 +30,9 @@ namespace BuffDebuff
 
 			Vector2 dir = angleAxis * Vector2.up;
 
-			float speed = projectile.moveSpeed;
+			float speed = projectile.movementSpeed;
 
-			if (projectile.moveSpeed * Time.deltaTime > distanceToTarget)
+			if (projectile.movementSpeed * Time.deltaTime > distanceToTarget)
 				speed = distanceToTarget;
 
 			return dir.normalized * speed;

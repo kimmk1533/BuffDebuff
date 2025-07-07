@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\uACF5\uACA9 \uD69F\uC218 \uC99D\uAC00"
   m_EditorClassIdentifier: 
   m_AssetPath: 
-  m_Code: 113010
+  m_Code: 103010
   m_Title: "\uACF5\uACA9 \uD69F\uC218 \uC99D\uAC00"
   m_BuffType: 0
   m_BuffEffectType: 0
@@ -22,7 +22,7 @@ MonoBehaviour:
   m_BuffWeapon: 0
   m_BuffInvokeCondition: 6
   m_BuffValue: 1
-  m_BuffTime: 0
+  m_BuffValueType: 1
   m_Description: "\uD0C0\uACA9 \uC2DC \uAC19\uC740 \uB300\uC0C1\uC5D0\uAC8C\uB9CC
     \uCD94\uAC00 \uD0C0\uACA9(\uB2E4\uB2E8 \uD788\uD2B8\uAC00 \uC0DD\uAE40)"
   m_Sprite: {fileID: 0}

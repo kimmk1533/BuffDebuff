@@ -280,6 +280,10 @@ namespace BuffDebuff
 			{
 				buffUI = m_BuffUIMap[buffData.code];
 
+				if (buffUI.buffCount >= buffData.maxStack)
+					return;
+
+				M_Buff.inventory.AddBuff(buffData);
 				++buffUI.buffCount;
 
 				return;

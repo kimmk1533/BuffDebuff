@@ -24,7 +24,7 @@ MonoBehaviour:
   m_AttackPower: 20
   m_AttackSpeed: 1
   m_AttackSize: 1
-  m_ShotSpeed: 5
+  m_ShotSpeed: 1
   m_AttackRange: 1
   m_MultiHitCount: 1
   m_CriticalRate: 0
