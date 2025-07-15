@@ -108,15 +108,16 @@ namespace BuffDebuff
 		{
 			if (m_Target == null)
 				return;
-			if (m_TargetFinderState != E_TargetFinderState.ReSearching)
-				return;
 
 			ResearchTarget();
 		}
 
 		protected virtual void ResearchTarget()
-		{
-			m_ForgetTargetTimer.Update();
+        {
+            if (m_TargetFinderState != E_TargetFinderState.ReSearching)
+                return;
+
+            m_ForgetTargetTimer.Update();
 			if (m_ForgetTargetTimer.TimeCheck())
 			{
 				onTargetLost2D?.Invoke(m_Target);

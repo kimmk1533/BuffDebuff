@@ -1,0 +1,1139 @@
+fileFormatVersion: 2
+guid: 8802ba0494d97864a936eeda575b4a79
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3035332727044675229
+    second: LightCast_96_0
+  - first:
+      213: -2654603554066692212
+    second: LightCast_96_1
+  - first:
+      213: -6983973593612313454
+    second: LightCast_96_2
+  - first:
+      213: 7643223167750920818
+    second: LightCast_96_3
+  - first:
+      213: -8370370296859393633
+    second: LightCast_96_4
+  - first:
+      213: 7249577538776952534
+    second: LightCast_96_5
+  - first:
+      213: -3380982598548007985
+    second: LightCast_96_6
+  - first:
+      213: 6858504101728216874
+    second: LightCast_96_7
+  - first:
+      213: 2786797631863309632
+    second: LightCast_96_8
+  - first:
+      213: -3339025687676237180
+    second: LightCast_96_9
+  - first:
+      213: 4125400258291017243
+    second: LightCast_96_10
+  - first:
+      213: -787423287293123109
+    second: LightCast_96_11
+  - first:
+      213: 8662748266798308141
+    second: LightCast_96_12
+  - first:
+      213: -5760700307236585567
+    second: LightCast_96_13
+  - first:
+      213: -4602417389325817002
+    second: LightCast_96_14
+  - first:
+      213: 8234654568626072925
+    second: LightCast_96_15
+  - first:
+      213: -9154444608506409428
+    second: LightCast_96_16
+  - first:
+      213: 4231506754965517993
+    second: LightCast_96_17
+  - first:
+      213: 6522279860348887819
+    second: LightCast_96_18
+  - first:
+      213: -4281177171412130103
+    second: LightCast_96_19
+  - first:
+      213: -4626995641264059307
+    second: LightCast_96_20
+  - first:
+      213: 8781269982432858031
+    second: LightCast_96_21
+  - first:
+      213: 7930159999282421239
+    second: LightCast_96_22
+  - first:
+      213: 7788698424175972036
+    second: LightCast_96_23
+  - first:
+      213: -1004180544719947988
+    second: LightCast_96_24
+  - first:
+      213: 1823531985009343863
+    second: LightCast_96_25
+  - first:
+      213: 5807560178752923157
+    second: LightCast_96_26
+  - first:
+      213: -1460979205400789488
+    second: LightCast_96_27
+  - first:
+      213: 7481929211786005434
+    second: LightCast_96_28
+  - first:
+      213: 1164962311364113361
+    second: LightCast_96_29
+  - first:
+      213: -3503708023259628672
+    second: LightCast_96_30
+  - first:
+      213: 3073857887728001604
+    second: LightCast_96_31
+  - first:
+      213: -958665921468242594
+    second: LightCast_96_32
+  - first:
+      213: 3577350897757483174
+    second: LightCast_96_33
+  - first:
+      213: 1069490931185972032
+    second: LightCast_96_34
+  - first:
+      213: 4751783726418446861
+    second: LightCast_96_35
+  - first:
+      213: -5453525463356665750
+    second: LightCast_96_36
+  - first:
+      213: 8163361613313901494
+    second: LightCast_96_37
+  - first:
+      213: 6744784289100655901
+    second: LightCast_96_38
+  - first:
+      213: -7060399592840655785
+    second: LightCast_96_39
+  - first:
+      213: 6315265213837008770
+    second: LightCast_96_40
+  - first:
+      213: 7431625683843786030
+    second: LightCast_96_41
+  - first:
+      213: 1598827992816108470
+    second: LightCast_96_42
+  - first:
+      213: 3864321986300382863
+    second: LightCast_96_43
+  - first:
+      213: 8488186101230565685
+    second: LightCast_96_44
+  - first:
+      213: -453872156030634069
+    second: LightCast_96_45
+  - first:
+      213: 8964685854437785533
+    second: LightCast_96_46
+  - first:
+      213: -5358641547306614452
+    second: LightCast_96_47
+  - first:
+      213: 4407708173047287286
+    second: LightCast_96_48
+  - first:
+      213: -5632514625620564767
+    second: LightCast_96_49
+  - first:
+      213: 716247195816384125
+    second: LightCast_96_50
+  - first:
+      213: -4371191150737108563
+    second: LightCast_96_51
+  - first:
+      213: -4204179474024309108
+    second: LightCast_96_52
+  - first:
+      213: 6469655666661482551
+    second: LightCast_96_53
+  - first:
+      213: -470925395953528248
+    second: LightCast_96_54
+  - first:
+      213: -5526350844752156231
+    second: LightCast_96_55
+  - first:
+      213: -28464920113165473
+    second: LightCast_96_56
+  - first:
+      213: -4930182975689331581
+    second: LightCast_96_57
+  - first:
+      213: -1579962630540352917
+    second: LightCast_96_58
+  - first:
+      213: 946475568459308737
+    second: LightCast_96_59
+  - first:
+      213: -8822548728840074827
+    second: LightCast_96_60
+  - first:
+      213: -362197418840270702
+    second: LightCast_96_61
+  - first:
+      213: 5888754789394757488
+    second: LightCast_96_62
+  - first:
+      213: -3940349804535616113
+    second: LightCast_96_63
+  - first:
+      213: 7069152803243862692
+    second: LightCast_96_64
+  - first:
+      213: -1688703677130614738
+    second: LightCast_96_65
+  - first:
+      213: -244297332942815262
+    second: LightCast_96_66
+  - first:
+      213: -54080154798172912
+    second: LightCast_96_67
+  - first:
+      213: -152070316885661347
+    second: LightCast_96_68
+  - first:
+      213: 8893305984422296169
+    second: LightCast_96_69
+  - first:
+      213: -3510320645070837938
+    second: LightCast_96_70
+  - first:
+      213: 8587102997241250910
+    second: LightCast_96_71
+  - first:
+      213: -7669317738419405913
+    second: LightCast_96_72
+  - first:
+      213: -838160796637020068
+    second: LightCast_96_73
+  - first:
+      213: 6248677744984539995
+    second: LightCast_96_74
+  - first:
+      213: 6366085324085804293
+    second: LightCast_96_75
+  - first:
+      213: 7509486488366851150
+    second: LightCast_96_76
+  - first:
+      213: 7528207880060510189
+    second: LightCast_96_77
+  - first:
+      213: -8724045947347239546
+    second: LightCast_96_78
+  - first:
+      213: -3493962470621747823
+    second: LightCast_96_79
+  - first:
+      213: -8140763144618960840
+    second: LightCast_96_80
+  - first:
+      213: 2828205903132380953
+    second: LightCast_96_81
+  - first:
+      213: -3385535916532007238
+    second: LightCast_96_82
+  - first:
+      213: -1981537774000845433
+    second: LightCast_96_83
+  - first:
+      213: -6043606017252580446
+    second: LightCast_96_84
+  - first:
+      213: -9073401745605746955
+    second: LightCast_96_85
+  - first:
+      213: -7707702059284939066
+    second: LightCast_96_86
+  - first:
+      213: -5990599148217630415
+    second: LightCast_96_87
+  - first:
+      213: 6182719770053674500
+    second: LightCast_96_88
+  - first:
+      213: -6246683810027933124
+    second: LightCast_96_89
+  - first:
+      213: -8439232551593676862
+    second: LightCast_96_90
+  - first:
+      213: -1803342196549712815
+    second: LightCast_96_91
+  - first:
+      213: 2838921455114540461
+    second: LightCast_96_92
+  - first:
+      213: 1889481648724795726
+    second: LightCast_96_93
+  - first:
+      213: -4030945223370211659
+    second: LightCast_96_94
+  - first:
+      213: -260345320919320382
+    second: LightCast_96_95
+  - first:
+      213: 8837063277149691724
+    second: LightCast_96_96
+  - first:
+      213: 3306976027599450572
+    second: LightCast_96_97
+  - first:
+      213: -8028669056416668940
+    second: LightCast_96_98
+  - first:
+      213: 3806040108112344481
+    second: LightCast_96_99
+  - first:
+      213: 9159116337686022330
+    second: LightCast_96_100
+  - first:
+      213: -5426309242549754265
+    second: LightCast_96_101
+  - first:
+      213: -5446772282994587784
+    second: LightCast_96_102
+  - first:
+      213: -2090726278844427624
+    second: LightCast_96_103
+  - first:
+      213: -3246521490519302799
+    second: LightCast_96_104
+  - first:
+      213: -3208948715910000976
+    second: LightCast_96_105
+  - first:
+      213: 833240121221989090
+    second: LightCast_96_106
+  - first:
+      213: -3538815522122779161
+    second: LightCast_96_107
+  - first:
+      213: 6472711380530800417
+    second: LightCast_96_108
+  - first:
+      213: -2793852400896328883
+    second: LightCast_96_109
+  - first:
+      213: 1873649749018437568
+    second: LightCast_96_110
+  - first:
+      213: -3919797188954131287
+    second: LightCast_96_111
+  - first:
+      213: -2878187225875427620
+    second: LightCast_96_112
+  - first:
+      213: 137006433596100480
+    second: LightCast_96_113
+  - first:
+      213: 6408004016600165496
+    second: LightCast_96_114
+  - first:
+      213: 6508294249832322674
+    second: LightCast_96_115
+  - first:
+      213: -4086896707901220058
+    second: LightCast_96_116
+  - first:
+      213: -872049648698584092
+    second: LightCast_96_117
+  - first:
+      213: -2757617190559737788
+    second: LightCast_96_118
+  - first:
+      213: -1618520049840514615
+    second: LightCast_96_119
+  - first:
+      213: 1714213487803310594
+    second: LightCast_96_120
+  - first:
+      213: 8623868840880817678
+    second: LightCast_96_121
+  - first:
+      213: -2378598955925294307
+    second: LightCast_96_122
+  - first:
+      213: 5470811096045003954
+    second: LightCast_96_123
+  - first:
+      213: 6187726876508936716
+    second: LightCast_96_124
+  - first:
+      213: -8401192626550994252
+    second: LightCast_96_125
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 96
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: LightCast_96x96_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbf65d07e7a8a2d4cade758449eee325
+      internalID: -59946689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_1
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8aa5cf2f0dc48f84cba30702414565fe
+      internalID: 1699027936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_2
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2066ad0e2e753646b994e9c08a2219d
+      internalID: 1369861161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_3
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a7e49f2faca0934aa356d95eeb07ee7
+      internalID: -1672672490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_4
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fbbea11558e2a8459e1d14b5961ae0c
+      internalID: 1520912861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_5
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 365dde0e01f1b134aae97f4b671ec073
+      internalID: 1680746619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_6
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1bf3a7ea47df2d47ae29ad17447d0f8
+      internalID: 9322098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_7
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a5057ea925045f458cd6f54a66bbdee
+      internalID: -177858342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_8
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a128fbe72109254cb60cccc716ac95b
+      internalID: 1970118678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_9
+      rect:
+        serializedVersion: 2
+        x: 864
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1a5488b441c85948a72f7d6195c0747
+      internalID: 871558575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_10
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83c1587b40df7c84d95e0c882e4e8183
+      internalID: 1854046111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_11
+      rect:
+        serializedVersion: 2
+        x: 1056
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d631818d78de464aaf12e5c6cbda788
+      internalID: 1172409348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_12
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e865954aa44ceff488d942051104c961
+      internalID: -676073755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_13
+      rect:
+        serializedVersion: 2
+        x: 1248
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47649dd1c231c784caaa8fcea40e2412
+      internalID: -1703743746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_14
+      rect:
+        serializedVersion: 2
+        x: 1344
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2054be41c14ebda40a5cc14e97e1562b
+      internalID: -116051089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_15
+      rect:
+        serializedVersion: 2
+        x: 1440
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c5a4e8ba234eb14f9fd0413ac9d8a47
+      internalID: 992875653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_16
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d1a5e52b0dfab8408e2bf7dd1f497fc
+      internalID: 434530618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_17
+      rect:
+        serializedVersion: 2
+        x: 1632
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 592e91dd8600901469746055bc51436a
+      internalID: 334391260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_18
+      rect:
+        serializedVersion: 2
+        x: 1728
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd1cbf00b5d5d6e44a5f59438713398e
+      internalID: 746382398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_19
+      rect:
+        serializedVersion: 2
+        x: 1824
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e44dfac02ce7a0f4daec17357a3ca5fb
+      internalID: -1608064430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_20
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f13768c23d9bc97478221956afbc660c
+      internalID: 1647557857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_21
+      rect:
+        serializedVersion: 2
+        x: 2016
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e41d4fb79543f345b4f25fa95fefbf3
+      internalID: 1691516105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_22
+      rect:
+        serializedVersion: 2
+        x: 2112
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ed8ee5be34406a47a779837d38bd9c1
+      internalID: -1631731175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_23
+      rect:
+        serializedVersion: 2
+        x: 2208
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8ec304663d89804c84ed87869d6ccaa
+      internalID: 1251480197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_24
+      rect:
+        serializedVersion: 2
+        x: 2304
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7733a8970d9fba94894480dcf1eb3c60
+      internalID: 2047715908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_25
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 749658581d2914e44986cbf27a76fed5
+      internalID: -2116282759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_26
+      rect:
+        serializedVersion: 2
+        x: 2496
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49d64865653362e49ae50226ed1828d0
+      internalID: -164321927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightCast_96x96_27
+      rect:
+        serializedVersion: 2
+        x: 2592
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ac3368d3ea5ec14088c2734f2f69b60
+      internalID: -1664339247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 652808f2ba6a511409c191815f9f0502
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      LightCast_96x96_0: -59946689
+      LightCast_96x96_1: 1699027936
+      LightCast_96x96_10: 1854046111
+      LightCast_96x96_11: 1172409348
+      LightCast_96x96_12: -676073755
+      LightCast_96x96_13: -1703743746
+      LightCast_96x96_14: -116051089
+      LightCast_96x96_15: 992875653
+      LightCast_96x96_16: 434530618
+      LightCast_96x96_17: 334391260
+      LightCast_96x96_18: 746382398
+      LightCast_96x96_19: -1608064430
+      LightCast_96x96_2: 1369861161
+      LightCast_96x96_20: 1647557857
+      LightCast_96x96_21: 1691516105
+      LightCast_96x96_22: -1631731175
+      LightCast_96x96_23: 1251480197
+      LightCast_96x96_24: 2047715908
+      LightCast_96x96_25: -2116282759
+      LightCast_96x96_26: -164321927
+      LightCast_96x96_27: -1664339247
+      LightCast_96x96_3: -1672672490
+      LightCast_96x96_4: 1520912861
+      LightCast_96x96_5: 1680746619
+      LightCast_96x96_6: 9322098
+      LightCast_96x96_7: -177858342
+      LightCast_96x96_8: 1970118678
+      LightCast_96x96_9: 871558575
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
