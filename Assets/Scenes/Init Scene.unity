@@ -1589,6 +1589,11 @@ MonoBehaviour:
     <useFlag>k__BackingField: 1
     <poolSize>k__BackingField: 5
     <origin>k__BackingField: {fileID: 5596585782795772992, guid: fcff28eb027a6714bab56a9b1ecf1126, type: 3}
+  - <key>k__BackingField: Fire Breath
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 5
+    <origin>k__BackingField: {fileID: 5596585782795772992, guid: bbddfd4a962a055498f1ccfd7bdfb027, type: 3}
 --- !u!1 &1348693468
 GameObject:
   m_ObjectHideFlags: 0
@@ -1714,7 +1719,7 @@ MonoBehaviour:
       Data: 
   m_IsInitScene: 1
   m_DontDestroyOnLoad: 1
-  m_CommonPath: Prefabs/04_Room/Stage_Test
+  m_CommonPath: Prefabs/05_Room/Stage_Test
   m_Origins:
   - <key>k__BackingField: Room 0
     <additionalPath>k__BackingField: 

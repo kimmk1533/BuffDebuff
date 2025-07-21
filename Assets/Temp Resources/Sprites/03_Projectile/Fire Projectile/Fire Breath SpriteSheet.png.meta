@@ -1,55 +1,55 @@
 fileFormatVersion: 2
-guid: 428715ee3e75d514d810e153a37400f6
+guid: 5661281de98c51649990e8999007b341
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6002868060502288533
-    second: Fire Breath SpriteSheet_0
+      213: 4979830493526514798
+    second: Fire Breath SpriteSheet 2_0
   - first:
-      213: -6390881391808132153
-    second: Fire Breath SpriteSheet_1
+      213: -2240255516567966345
+    second: Fire Breath SpriteSheet 2_1
   - first:
-      213: -8986098660960786501
-    second: Fire Breath SpriteSheet_2
+      213: -6701959495036819594
+    second: Fire Breath SpriteSheet 2_2
   - first:
-      213: -2805094895207031047
-    second: Fire Breath SpriteSheet_3
+      213: -7617027221667812507
+    second: Fire Breath SpriteSheet 2_3
   - first:
-      213: -6282681361726466573
-    second: Fire Breath SpriteSheet_4
+      213: 3311537978669803763
+    second: Fire Breath SpriteSheet 2_4
   - first:
-      213: 6147253807520293234
-    second: Fire Breath SpriteSheet_5
+      213: -4022391291356617133
+    second: Fire Breath SpriteSheet 2_5
   - first:
-      213: -941311357887744526
-    second: Fire Breath SpriteSheet_6
+      213: 8723299213471008140
+    second: Fire Breath SpriteSheet 2_6
   - first:
-      213: -5241455939496316345
-    second: Fire Breath SpriteSheet_7
+      213: -34956606013410900
+    second: Fire Breath SpriteSheet 2_7
   - first:
-      213: 8039099757177047440
-    second: Fire Breath SpriteSheet_8
+      213: 720446836379090960
+    second: Fire Breath SpriteSheet 2_8
   - first:
-      213: -8200963404394815127
-    second: Fire Breath SpriteSheet_9
+      213: -2926758219386890624
+    second: Fire Breath SpriteSheet 2_9
   - first:
-      213: -3632439530999339949
-    second: Fire Breath SpriteSheet_10
+      213: 2213245395594951511
+    second: Fire Breath SpriteSheet 2_10
   - first:
-      213: -277370547081935397
-    second: Fire Breath SpriteSheet_11
+      213: 6100472495033522317
+    second: Fire Breath SpriteSheet 2_11
   - first:
-      213: 9138063210799203537
-    second: Fire Breath SpriteSheet_12
+      213: 1459890879378791869
+    second: Fire Breath SpriteSheet 2_12
   - first:
-      213: -2766164103109033119
-    second: Fire Breath SpriteSheet_13
+      213: -8072994143680863243
+    second: Fire Breath SpriteSheet 2_13
   - first:
-      213: 8829805586914637144
-    second: Fire Breath SpriteSheet_14
+      213: -4995196992077681257
+    second: Fire Breath SpriteSheet 2_14
   - first:
-      213: 6509326908196378161
-    second: Fire Breath SpriteSheet_15
+      213: -6565986786682123442
+    second: Fire Breath SpriteSheet 2_15
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -152,16 +152,16 @@ TextureImporter:
         y: 96
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.125, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b671934bd4781bca0800000000000000
-      internalID: -6002868060502288533
+      spriteID: 8d312a9597c971d4baa30cad45e6ee92
+      internalID: 1283940922
       vertices: []
       indices: 
       edges: []
@@ -174,16 +174,16 @@ TextureImporter:
         y: 96
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.125, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 7cb4f970c370f47a0800000000000000
-      internalID: -6390881391808132153
+      spriteID: b650c819d1408524b8a21036d610de3a
+      internalID: -556840160
       vertices: []
       indices: 
       edges: []
@@ -196,16 +196,16 @@ TextureImporter:
         y: 96
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.125, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bb7a1d4d0e6fa4380800000000000000
-      internalID: -8986098660960786501
+      spriteID: 865ebfe67e4886c4e8bb2c1f43d0b101
+      internalID: 291393725
       vertices: []
       indices: 
       edges: []
@@ -218,16 +218,16 @@ TextureImporter:
         y: 48
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.125, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9fe5ce90e0d4219d0800000000000000
-      internalID: -2805094895207031047
+      spriteID: 059ec9b28335d934393094ef724a35cc
+      internalID: 469707640
       vertices: []
       indices: 
       edges: []
@@ -240,16 +240,16 @@ TextureImporter:
         y: 48
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.125, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3f5935da69e6fc8a0800000000000000
-      internalID: -6282681361726466573
+      spriteID: 21c26661fcb8ae242ac4dd35db9b2dd6
+      internalID: -1358791974
       vertices: []
       indices: 
       edges: []
@@ -262,16 +262,16 @@ TextureImporter:
         y: 48
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.125, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2712a65b4ce6f4550800000000000000
-      internalID: 6147253807520293234
+      spriteID: 4c0d2beb2baf7254da6d31c0a1db0d75
+      internalID: 1891141725
       vertices: []
       indices: 
       edges: []
@@ -284,16 +284,16 @@ TextureImporter:
         y: 48
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.125, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2f57f0aae4acfe2f0800000000000000
-      internalID: -941311357887744526
+      spriteID: c95e0a1da664c3a4abd658b5f59966fb
+      internalID: 1139572923
       vertices: []
       indices: 
       edges: []
@@ -306,16 +306,16 @@ TextureImporter:
         y: 0
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.125, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 742f57ce79b9247b0800000000000000
-      internalID: -5241455939496316345
+      spriteID: 5d05c2f2ff63baf4db64ff5c5c340ac1
+      internalID: 1273686826
       vertices: []
       indices: 
       edges: []
@@ -328,16 +328,16 @@ TextureImporter:
         y: 0
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.125, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 099877cd2ae909f60800000000000000
-      internalID: 8039099757177047440
+      spriteID: 9face4cc661e2ab4a8942c2b115aa480
+      internalID: -461434088
       vertices: []
       indices: 
       edges: []
@@ -350,16 +350,16 @@ TextureImporter:
         y: 0
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.125, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 961a119fb33503e80800000000000000
-      internalID: -8200963404394815127
+      spriteID: 8352d0abe0ca9d542b5c1709636c011b
+      internalID: -494760886
       vertices: []
       indices: 
       edges: []
@@ -372,16 +372,16 @@ TextureImporter:
         y: 0
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.125, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 354a2b6fd7bf69dc0800000000000000
-      internalID: -3632439530999339949
+      spriteID: 811cbf22364479c4aa7e2ee1fd27f58e
+      internalID: -2049857938
       vertices: []
       indices: 
       edges: []
@@ -394,16 +394,16 @@ TextureImporter:
         y: 0
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.125, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bd5860ef4f4962cf0800000000000000
-      internalID: -277370547081935397
+      spriteID: 487d1f14565e329459bc45ab17c988d1
+      internalID: -821776487
       vertices: []
       indices: 
       edges: []
@@ -416,16 +416,16 @@ TextureImporter:
         y: 0
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.125, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 1d480ce131ce0de70800000000000000
-      internalID: 9138063210799203537
+      spriteID: f1d4c1a24103ebb4585e27ee11f1ff9d
+      internalID: -1408082729
       vertices: []
       indices: 
       edges: []
@@ -438,16 +438,16 @@ TextureImporter:
         y: 0
         width: 48
         height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.125, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 163cfbb676c9c99d0800000000000000
-      internalID: -2766164103109033119
+      spriteID: 5bd971e4a10743f4dbad9e5de10facae
+      internalID: -1205014924
       vertices: []
       indices: 
       edges: []
@@ -456,7 +456,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: c84f48f2dbdcbc94981e6e60aa8f4b23
+    spriteID: b63eec999c18f8a4c9457c256841739e
     internalID: 0
     vertices: []
     indices: 
@@ -466,20 +466,20 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Fire Breath SpriteSheet_0: -6002868060502288533
-      Fire Breath SpriteSheet_1: -6390881391808132153
-      Fire Breath SpriteSheet_10: -3632439530999339949
-      Fire Breath SpriteSheet_11: -277370547081935397
-      Fire Breath SpriteSheet_12: 9138063210799203537
-      Fire Breath SpriteSheet_13: -2766164103109033119
-      Fire Breath SpriteSheet_2: -8986098660960786501
-      Fire Breath SpriteSheet_3: -2805094895207031047
-      Fire Breath SpriteSheet_4: -6282681361726466573
-      Fire Breath SpriteSheet_5: 6147253807520293234
-      Fire Breath SpriteSheet_6: -941311357887744526
-      Fire Breath SpriteSheet_7: -5241455939496316345
-      Fire Breath SpriteSheet_8: 8039099757177047440
-      Fire Breath SpriteSheet_9: -8200963404394815127
+      Fire Breath SpriteSheet_0: 1283940922
+      Fire Breath SpriteSheet_1: -556840160
+      Fire Breath SpriteSheet_10: -2049857938
+      Fire Breath SpriteSheet_11: -821776487
+      Fire Breath SpriteSheet_12: -1408082729
+      Fire Breath SpriteSheet_13: -1205014924
+      Fire Breath SpriteSheet_2: 291393725
+      Fire Breath SpriteSheet_3: 469707640
+      Fire Breath SpriteSheet_4: -1358791974
+      Fire Breath SpriteSheet_5: 1891141725
+      Fire Breath SpriteSheet_6: 1139572923
+      Fire Breath SpriteSheet_7: 1273686826
+      Fire Breath SpriteSheet_8: -461434088
+      Fire Breath SpriteSheet_9: -494760886
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

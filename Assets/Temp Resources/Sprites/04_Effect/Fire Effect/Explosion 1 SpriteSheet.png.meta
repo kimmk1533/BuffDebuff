@@ -202,7 +202,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Explosion SpriteSheet_0
+      name: Explosion 1 SpriteSheet_0
       rect:
         serializedVersion: 2
         x: 64
@@ -215,16 +215,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5a9cfdac32252dd80800000000000000
-      internalID: -8227423255571478107
+      spriteID: 1e1f620f7730ea146907579245315ff8
+      internalID: 1929824800
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Explosion SpriteSheet_1
+      name: Explosion 1 SpriteSheet_1
       rect:
         serializedVersion: 2
         x: 128
@@ -237,16 +237,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a8259f113d4f572a0800000000000000
-      internalID: -6740212079913250166
+      spriteID: 04ef1f7055bf46e488af1bd43ed38f06
+      internalID: -488862938
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Explosion SpriteSheet_2
+      name: Explosion 1 SpriteSheet_2
       rect:
         serializedVersion: 2
         x: 192
@@ -259,16 +259,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f0edf444f75527d20800000000000000
-      internalID: 3274773884147064335
+      spriteID: 55e89ee4e8d8a494c9d4379fc6d40aef
+      internalID: 501562991
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Explosion SpriteSheet_3
+      name: Explosion 1 SpriteSheet_3
       rect:
         serializedVersion: 2
         x: 0
@@ -281,16 +281,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2750f3f583af18f00800000000000000
-      internalID: 1117449302587671922
+      spriteID: 86900469e50fecf419545bc27fd95cf2
+      internalID: -912919756
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Explosion SpriteSheet_4
+      name: Explosion 1 SpriteSheet_4
       rect:
         serializedVersion: 2
         x: 64
@@ -303,16 +303,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9763d89092b97ef50800000000000000
-      internalID: 6910662753779529337
+      spriteID: 7a0f43bdd9b66604b85586f5e37c018b
+      internalID: -1558201633
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Explosion SpriteSheet_5
+      name: Explosion 1 SpriteSheet_5
       rect:
         serializedVersion: 2
         x: 128
@@ -325,16 +325,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 15189605cecb86f70800000000000000
-      internalID: 9180795563542151505
+      spriteID: 68baf58597e3a5d47af51fd0e525f27f
+      internalID: 275581218
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Explosion SpriteSheet_6
+      name: Explosion 1 SpriteSheet_6
       rect:
         serializedVersion: 2
         x: 192
@@ -347,16 +347,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5674a773260132370800000000000000
-      internalID: 8296492952570185573
+      spriteID: d27de8f9af13f5a48a5565d630769be1
+      internalID: 66091568
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Explosion SpriteSheet_7
+      name: Explosion 1 SpriteSheet_7
       rect:
         serializedVersion: 2
         x: 0
@@ -369,16 +369,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0536670caddcd7fe0800000000000000
-      internalID: -1189568387140394160
+      spriteID: f09768c1f8ce1cc48aa6c47d3e2636f7
+      internalID: -781055353
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Explosion SpriteSheet_8
+      name: Explosion 1 SpriteSheet_8
       rect:
         serializedVersion: 2
         x: 64
@@ -391,16 +391,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 21d17218a98676dd0800000000000000
-      internalID: -2492908855925203694
+      spriteID: 62e85246c58bbbf499b3192555b8d8ee
+      internalID: 1862415778
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Explosion SpriteSheet_9
+      name: Explosion 1 SpriteSheet_9
       rect:
         serializedVersion: 2
         x: 128
@@ -413,16 +413,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 143388b8c9182a3b0800000000000000
-      internalID: -5502693285337484479
+      spriteID: 31923e6772e1efb40ae1a69423ce9478
+      internalID: 997790402
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Explosion SpriteSheet_10
+      name: Explosion 1 SpriteSheet_10
       rect:
         serializedVersion: 2
         x: 192
@@ -435,16 +435,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 23f0ee608d7452c80800000000000000
-      internalID: -8348187341106573518
+      spriteID: 2f250936fcc9fe2459c814e70b797df1
+      internalID: 905126004
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Explosion SpriteSheet_11
+      name: Explosion 1 SpriteSheet_11
       rect:
         serializedVersion: 2
         x: 0
@@ -457,16 +457,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 84f60ed986b58adb0800000000000000
-      internalID: -4780470499570323640
+      spriteID: 939e50b68339d7b4399101b6d8bee577
+      internalID: -2005827281
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Explosion SpriteSheet_12
+      name: Explosion 1 SpriteSheet_12
       rect:
         serializedVersion: 2
         x: 64
@@ -479,10 +479,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e75a1f592ed6a9e40800000000000000
-      internalID: 5663960301317498238
+      spriteID: 7b6c9b0a2bdcc1b47992d3a6e1dea151
+      internalID: -331442540
       vertices: []
       indices: 
       edges: []
@@ -501,19 +501,19 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Explosion SpriteSheet_0: -8227423255571478107
-      Explosion SpriteSheet_1: -6740212079913250166
-      Explosion SpriteSheet_10: -8348187341106573518
-      Explosion SpriteSheet_11: -4780470499570323640
-      Explosion SpriteSheet_12: 5663960301317498238
-      Explosion SpriteSheet_2: 3274773884147064335
-      Explosion SpriteSheet_3: 1117449302587671922
-      Explosion SpriteSheet_4: 6910662753779529337
-      Explosion SpriteSheet_5: 9180795563542151505
-      Explosion SpriteSheet_6: 8296492952570185573
-      Explosion SpriteSheet_7: -1189568387140394160
-      Explosion SpriteSheet_8: -2492908855925203694
-      Explosion SpriteSheet_9: -5502693285337484479
+      Explosion 1 SpriteSheet_0: 1929824800
+      Explosion 1 SpriteSheet_1: -488862938
+      Explosion 1 SpriteSheet_10: 905126004
+      Explosion 1 SpriteSheet_11: -2005827281
+      Explosion 1 SpriteSheet_12: -331442540
+      Explosion 1 SpriteSheet_2: 501562991
+      Explosion 1 SpriteSheet_3: -912919756
+      Explosion 1 SpriteSheet_4: -1558201633
+      Explosion 1 SpriteSheet_5: 275581218
+      Explosion 1 SpriteSheet_6: 66091568
+      Explosion 1 SpriteSheet_7: -781055353
+      Explosion 1 SpriteSheet_8: 1862415778
+      Explosion 1 SpriteSheet_9: 997790402
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
