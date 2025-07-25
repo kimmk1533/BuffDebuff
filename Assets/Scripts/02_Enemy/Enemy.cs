@@ -608,11 +608,11 @@ namespace BuffDebuff
 
 				GiveDamage(damageArg);
 
-				M_Projectile.Despawn(projectile);
+				projectile.Death();
 			};
 			projectile["Obstacle"].onEnter2D += (Collider2D collider) =>
 			{
-				M_Projectile.Despawn(projectile);
+				projectile.Death();
 			};
 		}
 		public virtual void GiveDamage(DamageArg<IDamageGiver, IDamageTaker> arg)

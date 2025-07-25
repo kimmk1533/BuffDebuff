@@ -214,17 +214,17 @@ public abstract class ObjectManager<TSelf, TItem> : SerializedSingleton<TSelf> w
 	[System.Serializable]
 	public struct OriginInfo : IEqualityComparer<OriginInfo>
 	{
-		[field: SerializeField, RuntimeReadOnly(true)]
+		[field: SerializeField, RuntimeReadOnly(true), PropertySpace(SpaceBefore = 5f)]
 		public string key { get; set; }
 		[field: SerializeField, RuntimeReadOnly(true)]
 		public string additionalPath { get; set; }
 
-		[field: Space]
+		[field: PropertySpace(2.5f)]
 		[field: SerializeField, RuntimeReadOnly(true)]
 		public bool useFlag { get; set; }
 		[field: SerializeField, RuntimeReadOnly(true), Min(1)]
 		public int poolSize { get; set; }
-		[field: SerializeField, RuntimeReadOnly(true)]
+		[field: SerializeField, RuntimeReadOnly(true), PropertySpace(SpaceAfter = 10f)]
 		public TItem origin { get; set; }
 
 		public static bool operator ==(OriginInfo x, OriginInfo y)

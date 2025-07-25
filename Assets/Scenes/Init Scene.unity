@@ -483,6 +483,108 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1208647502}
   m_SourcePrefab: {fileID: 100100000, guid: e8fd1b20c12719d4ea89e0ed5de3f9e9, type: 3}
+--- !u!1 &250022868
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 250022870}
+  - component: {fileID: 250022869}
+  m_Layer: 0
+  m_Name: 04_Effect Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &250022869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250022868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0e62b6621b2f7e4c91a1839fb7121d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  m_IsInitScene: 1
+  m_DontDestroyOnLoad: 1
+  m_CommonPath: Prefabs/04_Effect
+  m_Origins:
+  - <key>k__BackingField: Fire Breath Hit
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 5
+    <origin>k__BackingField: {fileID: -3869241996095162321, guid: 14a6bf893dbb7ab4d8e68d2df6e3cf01, type: 3}
+  - <key>k__BackingField: Fire Explosion 1
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 5
+    <origin>k__BackingField: {fileID: -8794113647461300922, guid: cc7ddd5b7df35cc4d900bc379a9f39e3, type: 3}
+  - <key>k__BackingField: Fire Explosion 2
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 5
+    <origin>k__BackingField: {fileID: -3869241996095162321, guid: 8c7c43005360b984f9473d4b2a4bbcf7, type: 3}
+  - <key>k__BackingField: Warped Hit 1
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 5
+    <origin>k__BackingField: {fileID: -3869241996095162321, guid: 5c3fefef8befa524a835628b0bce32ad, type: 3}
+  - <key>k__BackingField: Warped Hit 2
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 5
+    <origin>k__BackingField: {fileID: -3869241996095162321, guid: bc42f553d997f7b4da53fcb92c2d04c8, type: 3}
+  - <key>k__BackingField: Warped Hit 3
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 5
+    <origin>k__BackingField: {fileID: -3869241996095162321, guid: fdc46baa60e9a234fb3e3a4d736bc61b, type: 3}
+  - <key>k__BackingField: Warped Hit 4
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 5
+    <origin>k__BackingField: {fileID: -3869241996095162321, guid: 7569dcd6e0ce43b43a7d545997d891e2, type: 3}
+  - <key>k__BackingField: Warped Hit 5
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 5
+    <origin>k__BackingField: {fileID: -3869241996095162321, guid: d38c68f353d974c4ea2f80639ae4d51d, type: 3}
+  - <key>k__BackingField: Warped Hit 6
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 5
+    <origin>k__BackingField: {fileID: -3869241996095162321, guid: 7080befff9c29af42a920264979ddfb6, type: 3}
+--- !u!4 &250022870
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250022868}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &312092706
 GameObject:
   m_ObjectHideFlags: 0
@@ -1584,16 +1686,56 @@ MonoBehaviour:
     <useFlag>k__BackingField: 1
     <poolSize>k__BackingField: 5
     <origin>k__BackingField: {fileID: 5596585782795772992, guid: e8fd1b20c12719d4ea89e0ed5de3f9e9, type: 3}
+  - <key>k__BackingField: Fire Beam
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 5
+    <origin>k__BackingField: {fileID: 5596585782795772992, guid: 2d1a2de6f64575a468eb93358bfc1417, type: 3}
   - <key>k__BackingField: Fire Bite
     <additionalPath>k__BackingField: 
     <useFlag>k__BackingField: 1
     <poolSize>k__BackingField: 5
     <origin>k__BackingField: {fileID: 5596585782795772992, guid: fcff28eb027a6714bab56a9b1ecf1126, type: 3}
+  - <key>k__BackingField: Fire Bolt
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 5
+    <origin>k__BackingField: {fileID: 5596585782795772992, guid: 81fe422cc24450447b1f2b17cda800e9, type: 3}
   - <key>k__BackingField: Fire Breath
     <additionalPath>k__BackingField: 
     <useFlag>k__BackingField: 1
     <poolSize>k__BackingField: 5
     <origin>k__BackingField: {fileID: 5596585782795772992, guid: bbddfd4a962a055498f1ccfd7bdfb027, type: 3}
+  - <key>k__BackingField: Warped Bolt
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 10
+    <origin>k__BackingField: {fileID: 5596585782795772992, guid: 8ac431e12f979054c816e13e40ed7af1, type: 3}
+  - <key>k__BackingField: Warped Charged
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 10
+    <origin>k__BackingField: {fileID: 5596585782795772992, guid: 4eee2431da41ffa42970b778ee5f7fbd, type: 3}
+  - <key>k__BackingField: Warped Crossed
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 10
+    <origin>k__BackingField: {fileID: 5596585782795772992, guid: c2f3217890d0a8945ad2bf3f954552a7, type: 3}
+  - <key>k__BackingField: Warped Pulse
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 10
+    <origin>k__BackingField: {fileID: 5596585782795772992, guid: 8a0e7111e2cd642468c971b209fe3dd7, type: 3}
+  - <key>k__BackingField: Warped Spark
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 10
+    <origin>k__BackingField: {fileID: 5596585782795772992, guid: 10887650fc8f42a40b4b47f5679709a1, type: 3}
+  - <key>k__BackingField: Warped Waveform
+    <additionalPath>k__BackingField: 
+    <useFlag>k__BackingField: 1
+    <poolSize>k__BackingField: 10
+    <origin>k__BackingField: {fileID: 5596585782795772992, guid: d28b8e758ec7a2f45ae9f7592e57c012, type: 3}
 --- !u!1 &1348693468
 GameObject:
   m_ObjectHideFlags: 0
@@ -2535,7 +2677,7 @@ GameObject:
   - component: {fileID: 2022746459}
   - component: {fileID: 2022746460}
   m_Layer: 0
-  m_Name: 04_Buff Manager
+  m_Name: 00_Buff Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2759,11 +2901,12 @@ SceneRoots:
   - {fileID: 1565069158}
   - {fileID: 1770362268}
   - {fileID: 1874430851}
+  - {fileID: 2022746457}
   - {fileID: 2081558331}
   - {fileID: 1730698491}
   - {fileID: 348969213}
   - {fileID: 1335781044}
-  - {fileID: 2022746457}
+  - {fileID: 250022870}
   - {fileID: 2085240278}
   - {fileID: 1391079940}
   - {fileID: 2015794577}

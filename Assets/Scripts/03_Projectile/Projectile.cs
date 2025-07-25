@@ -90,7 +90,7 @@ namespace BuffDebuff
 
 			if (m_DespawnTimer.TimeCheck() == true)
 			{
-				m_Animator.Anim_Death();
+				Death();
 				return;
 			}
 
@@ -115,6 +115,10 @@ namespace BuffDebuff
 
 			// Move
 			m_Controller.Move(m_Velocity * Time.deltaTime);
+		}
+		public void Death()
+		{
+			m_Animator.Anim_Death();
 		}
 	}
 }
