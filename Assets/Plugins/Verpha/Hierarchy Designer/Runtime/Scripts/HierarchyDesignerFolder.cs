@@ -17,6 +17,10 @@ namespace HierarchyDesigner
         [Tooltip("Event(s) called just before the flatten event occurs.")] [SerializeField] private UnityEvent OnFlattenEvent;
         [Tooltip("Event(s) called just before the folder is destroyed.")] [SerializeField] private UnityEvent OnFolderDestroy;
 
+        #if UNITY_EDITOR
+        [SerializeField] private string notes;
+        #endif
+
         private Transform cachedTransform;
         #endregion
 

@@ -1,3 +1,8 @@
+| Version 1.8.0
+• (New) Added a Notes feature to the Hierarchy Designer Folders (Editor-Only section).
+• (New) Added a new preset: Summer Break.
+• (Other) Minor changes.
+
 | Version 1.7.1f
 • (Other) Updated to Unity version 2022.3.62f1
 • (Other) Minor changes.
